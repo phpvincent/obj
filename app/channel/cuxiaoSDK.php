@@ -54,10 +54,9 @@ class cuxiaoSDK{
            		break;
            }
 	}
-<<<<<<< HEAD
-=======
+
 	public function get_uphtml(){
 		
 	}
->>>>>>> 63f4836dd7bad6ef1e90ad5d67eb930e302acc06
+
 }
