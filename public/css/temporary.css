@@ -1,0 +1,125 @@
+.page5_1 .mj{
+    padding: 5px;
+    font-size: 13px;
+}
+.page5_1 .mj .zeng{
+    margin-bottom: 2px;
+}
+.page5_1 .mj .zeng span{
+    background: #f9760f;
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    text-align: center;
+    line-height: 18px;
+    color: #fff;
+    margin-right: 5px;
+    border-radius: 2px;
+}
+.page5_1 .mj .man span{
+    font-size: 12px;
+    color: #f9760f;
+    border: 1px solid #f9760f;
+    display: inline-block;
+    width: 34px;
+    height: 17px;
+    line-height: 15px;
+    text-align: center;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+/*yoyomall的样式*/
+.prom_tn{
+    width: 78%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+@media screen and (max-width: 738px) {
+    .prom_tn{width: 74%;}
+}
+@media screen and (max-width: 666px) {
+    .prom_tn{width: 58%;}
+}
+@media screen and (max-width: 413px) {
+    .prom_tn{width: 52%;}
+}
+@media screen and (max-width: 360px) {
+    .prom_tn{width: 46%;}
+}
+.limitedTxt  p font , .limitedTxt  p strong, .limitedTxt  p span{
+    color: #fff!important;
+}
+/*优惠码样式*/
+.yhmt .mui-checkbox input[type=checkbox]{top: 3px;}
+.yhmt .mui-checkbox input[type=checkbox]:before {font-size: 18px;}
+.yhmt .mui-checkbox input[type=checkbox]:before , .mui-checkbox input[type=checkbox]:checked:before{color: red;}
+.yhmt .mui-checkbox.mui-left input[type=checkbox]{left: 5px;}
+.yhmt .mui-checkbox.mui-left label{padding: 5px 5px 5px 25px;}
+.yhmt ul li #timer{font-size: 14px;float: right;color: red;padding-right: 5px;padding-left: 20px;position: relative;padding-top: 5px;font-weight: 600;background: url(https://d1lnephkr7mkjn.cloudfront.net/skin/image/time1.svg) no-repeat left 11px;background-size: 16px;}
+.yhmt ul li #timer span{width:20px;padding: 0 1px;float: none;display: inline-block;margin-right: 0px;color: #333;font-weight: 700;margin: 5px 3px 0 0;}
+.yhmt ul li #timer span.timerk{margin: 0px 0px 0;color: red;}
+.yhmt ul li #timer img{width: 16px;display: inline-block;position: absolute;left: 0;top:11px}
+
+
+/*Dirham3字体样式*/
+.Malaysia2 .D3-flag{font-size:23px;}
+@media screen and (max-width: 414px) {
+    .Malaysia2 .D3-flag{font-size:16px;}
+}
+
+/*20180522 Thai2模板CSS*/
+/*Thai2 文字靠左*/
+.Thai2 .new-profile{text-align:left;}
+
+
+/*20180523 台湾模板  购买按钮CSS*/ 
+.new-style{padding: 0!important;height:47px!important;}
+.new-style .l-width,.r-width{border:0!important;border-radius: 0!important;}
+.new-style .l-width{width:25% !important;}
+.new-style .l-width:nth-child(2){background:#f2f2f2 !important;padding:0!important;}
+.new-style .l-width img{width:100% !important;margin:4px !important;max-width:55px;float:none;}
+.new-style .r-width{width:50% !important; margin:0!important;background: linear-gradient(to right,#e6370e,#e60e0f);}
+.new-style .r-width .r-buy{float:none !important;vertical-align: top;line-height:58px;}    
+
+@media screen and (max-width: 640px){
+	.new-style .l-width img{margin:-1px !important;max-width:50px;}
+	.new-style .r-width .r-buy{line-height:47px;font-size:18px;}
+	.new-style .r-width {height: 47px!important;}
+}
+
+/*Thai 模板样式*/
+.Thai .T-s-price{font-size:28px!important;}
+.Thai .T-o-price{font-size:20px!important;}
+
+@media screen and (max-width: 360px){
+	.Thai .T-s-price{font-size:26px!important;}
+	.Thai .T-o-price{font-size:18px!important;}
+}
+/*20180627*/
+#payworks-form .glee-cardno , #ipaylinks-form .glee-cardno{
+    width: 68%;
+    display: inline;
+    border-radius: 8px;
+    margin-right: 2%;
+    margin-bottom: 10px;
+}
+#payworks-form .glee-cvv , #ipaylinks-form .glee-cvv {
+    width: 28%;
+    display: inline;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+#payworks , #ipaylinks{padding:10px;}
+
+#payworks-form .glee-month , #payworks-form .glee-year , #ipaylinks-form .glee-month , #ipaylinks-form .glee-year{border-radius:8px;} 
+
+/*Tukey2 css*/
+.Turkey2 .Tu2-flag{font-size:28px;}
+
+@media screen and (max-width: 656px){
+	.Turkey2 .Tu2-flag{font-size:17px;}  
+	
+}

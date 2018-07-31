@@ -1,0 +1,129 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family:"微软雅黑";
+	font-size: 14px;
+	color: #333333;
+	max-width:640px;
+}
+
+ul{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+img{
+	width:100%;
+}
+
+.lrm10{
+	margin: 0px 10px;
+}
+
+.lrm15{
+	margin: 0px 15px;
+}
+
+.tbm10{
+	margin: 10px 0px;
+}
+
+.tbm15{
+	margin: 15px 0px;
+}
+
+.lrp10{
+	padding-left:10px;
+	padding-right:10px;
+}
+
+.lrp15{
+	padding-left:15px;
+	padding-right:15px;
+}
+
+.tbp10{
+	padding: 10px 0px;
+}
+
+.tbp15{
+	padding: 15px 0px;
+}
+
+.clear{
+	clear: both;
+}
+
+.i-line{
+	border-bottom: 1px solid #BBBBBB;
+}
+
+.num-tag{
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	width: 15px;
+	height: 15px;
+	background: red;
+	color: white;
+	border-radius: 50%;
+	font-size: 9px;
+	text-align: center;
+	line-height: 15px;
+}
+
+.prompt{
+	line-height:27px;
+	color:#f00;
+	padding:20px 15px;
+}
+
+.price{
+	color: red;
+}
+
+/*文本常用颜色样式*/
+.red{
+	color: red;
+}
+
+.blue{
+	color: blue;
+}
+
+.white{
+	color: white;
+}
+
+.black{
+	color: black;
+}
+
+.orange{
+	color:orangered;
+}
+
+.green{
+	color:darkgreen;
+}
+
+.blueviolet{
+	color:blueviolet
+}
+
+.red-shad{
+	background: -webkit-linear-gradient(#ff1717, #d20000);
+	background: -o-linear-gradient(#ff1717, #d20000);
+	background: -moz-linear-gradient(#ff1717, #d20000);
+	background: linear-gradient(#ff1717, #d20000);
+}
+ 
+.orange-shad{
+	background:-webkit-linear-gradient(#ff8040, #FF6A1E);
+	background:-o-linear-gradient(#ff8040, #FF6A1E);
+	background:-moz-linear-gradient(#ff8040, #FF6A1E);
+	background:linear-gradient(#ff8040, #FF6A1E);
+}
+
+
