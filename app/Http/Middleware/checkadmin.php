@@ -20,7 +20,7 @@ class checkadmin
         if(!$msg){
             return redirect('index/index');
         }
-        if($url!='52.14.183.239'){
+        if($url!='52.14.183.239'||$url!='13.229.201.49'){
             return redirect('index/index');
         }
         $ip=$request->getClientIp();
