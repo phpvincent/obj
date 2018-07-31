@@ -1,0 +1,43 @@
+.timebox{
+    	margin: 0px;
+    	padding: 0px;
+    	overflow: hidden;
+    line-height: 42px;
+    background: #f7f7f7;
+    padding: 0px;
+    border-top: 1px dashed #ddd;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    color: #333333;
+    }
+     .text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    float: left;
+    padding: 0 10px;
+    background: #ff5500;
+    text-align: center;
+    height: 42px;
+	}
+	#timer {
+    font-size: 16px;
+    float: right;
+	}
+	#timer span {
+		display: inline-block;
+    width: 26px;
+    height: 26px;
+    background: #ff5500;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 3px;
+    margin: 0 3px;
+    line-height: 26px;
+    text-align: center;
+	}
+	.boxtime font{
+		float:right;
+		    margin-right: -3px;
+		    font-size: 16px;
+	}

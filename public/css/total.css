@@ -1,0 +1,116 @@
+.slider{display:none}/*用于获取更加体验*/
+.focus{}
+.focus span{width:6px;height:6px;margin-right:3px;border-radius:50%;background:#666;font-size:0; display:inline-block;}
+.focus span.current{background:#bf1413}
+
+
+
+.pro_info{ width:100%; padding:10px; background:#f5f5f5; float:left}
+.pro_info .limgbox{ width:20%; float:left}
+.pro_info .limgbox img{ border:1px solid #ddd}
+.pro_info .ctxtbox{ width:60%;float:left;padding: 0px 0 0 2%;}
+.pro_info .ctxtbox h1{ font-size:14px; line-height:18px; padding:0 0 4px 0}
+.pro_info .ctxtbox h2{ font-size:12px; line-height:16px; color:#a0a0a0; font-weight:normal;}
+.pro_info .ctxtbox h3{ font-size:16px; line-height:18px;}
+.pro_info .rpricebox{  width:20%; float:right; text-align:right; color:#e4393c}
+.pro_info #btn button{ margin:0px;width:auto;padding:2px 6px !important;margin-left:5px;margin-top:10px;}
+
+.pro_color{ width:100%; float:left; padding:4px 10px 6px 0px;}
+.pro_color dl dt{ font-size:14px; padding-left:10px; padding-bottom:6px; font-weight:bold; color:#000;}
+.pro_color dl dd{width:100%; float:left; margin:0; padding:0}
+.pro_color dl dd span{ padding:4px 14px; margin-left:10px; display:inline-block; margin-bottom:10px; border:1px solid #e7e7e7}
+.pro_color dl dd span.imgbox{ padding:2px; width:70px;}
+.pro_color dl dd span.imgbox img{ display:block}
+.pro_color dl dd span.current{border:1px solid #bf1413; color:#bf1413}
+
+
+#gift{ width:100%; float:left; padding:4px 10px 6px 0px;}
+#gift dl dt{ font-size:14px; padding-left:10px; padding-bottom:6px; font-weight:bold; color:#000;}
+#gift dl dd{width:100%; float:left; margin:0; padding:0}
+#gift dl dd span{ padding:4px 14px; margin-left:10px; display:inline-block; margin-bottom:10px; border:1px solid #e7e7e7}
+#gift dl dd span.imgbox{ padding:2px; width:70px;}
+#gift dl dd span.imgbox img{ display:block}
+#gift dl dd span.current2{border:1px solid #bf1413; color:#bf1413}
+#gift h1{ font-size:18px; line-height:18px; padding:0 0 4px 0}
+
+.secure{ width:100%; padding:10px 10px 10px 10px; }
+.secure img{ width:58%}
+
+.paymentbox{ width:100%; padding:10px; float:left; margin-top:0px;}
+.paymentbox ul{ border:1px solid #ddd; width:100%; float:left;border-bottom:0}
+.paymentbox ul li{ width:100%; float:left; line-height:30px; border-bottom:1px solid #ddd}
+.paymentbox ul li label{ float:left; width:auto;line-height:30px; text-align:left}
+.paymentbox ul li span{ width:60px; float:left; margin-right:10px; margin-top:10px;}
+.paymentbox ul li input{ margin-top:6px;}
+
+.btndiv{ padding:20px 10px;}
+.btnstyle01{ width:100%; height:44px; font-weight:bold; padding:0; line-height:44px; background:#f7b500; color:#000; border:0px; font-size:16px; text-align:center; border-radius:5px; box-shadow:0px 3px 0px #a97c00;}
+
+.newfooter{ width:100%; float:left; text-align:center; font-size:12px; margin-top:10px; background:#f5f5f5; line-height:16px; padding:12px 0}
+
+.qty_total{ text-align:right;width:100%; float:left; padding:0 10px 28px 10px}
+.qty_total ul li{ width:100%; float:left; padding-bottom:4px;}
+.qty_total ul li strong{ color:#e4393c}
+.qty_total .shuliang_right{ margin-top:10px; margin-bottom:6px;}
+.shuliang_lable{ line-height:36px;}
+
+.pay_image{ width:100%; padding:20px 0 0 0px; text-align:center; float:left}
+.pay_image .sico{ width:50px; height:50px; display: inline-block; border-radius:50%;background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);}
+.pay_image .sico i{ color:#fff; text-align:center; line-height:50px; font-size:50px;}
+.pay_success{ width:100%; float:left}
+.title {
+    background-color: rgb(255, 255, 255);
+    max-width: 640px;
+    min-width: 320px;
+    margin-top: 2px;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 5px;
+}
+.title h3 {
+    font-weight: normal;
+    font-size: 18px;
+    color: #FFF;
+    height: 40px;
+    padding-left: 2%;
+    background: #F00;
+    line-height: 40px;
+}
+.title ul {
+    margin: 0px auto;
+    width: 100%;
+    height: auto;
+}
+.title ul li {
+    margin-left: 1.5%;
+    margin-right: 0.5%;
+}
+.title ul li {
+    width: 47.2%;
+    float: left;
+    border: 1px solid rgb(222, 222, 222);
+    margin: 3px 1%;
+}
+.title ul li img {
+    height: 337px;
+}
+.title ul li h4 {
+    width: 100%;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: normal;
+    color: rgb(102, 102, 102);
+    height: 18px;
+}
+.title ul li span {
+    width: 100%;
+    color: #F00;
+    font-size: 13px;
+    font-weight: bold;
+}
+.title ul li span del {
+    color: rgb(153, 153, 153);
+    font-size: 10px;
+    font-weight: normal;
+}
