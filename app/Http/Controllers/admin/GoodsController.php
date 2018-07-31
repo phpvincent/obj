@@ -9,6 +9,10 @@ use DB;
 use Log;
 use App\goods;
 use App\url;
+<<<<<<< HEAD
+=======
+use App\channel\cuxiaoSDK;
+>>>>>>> 63f4836dd7bad6ef1e90ad5d67eb930e302acc06
 class GoodsController extends Controller
 {
    public function index(){
@@ -115,6 +119,16 @@ class GoodsController extends Controller
    		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }
+<<<<<<< HEAD
+=======
+   public function chgoods(Request $request){
+   	 	$id=$request->input('id');
+   	 	$goods=goods::where('goods_id',$id)->first();
+   	 	$cxSDK=new cuxiaoSDK($goods);
+   	 	$cuxiao_html=$cxSDK->get_uphtml();
+   	 	return view('admin.goods.update')->with(compact('goods','cuxiao_html'));
+   }
+>>>>>>> 63f4836dd7bad6ef1e90ad5d67eb930e302acc06
 }
 /*	$dataResult = array();      //todo:导出数据（自行设置） 
 

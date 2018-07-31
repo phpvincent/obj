@@ -38,6 +38,10 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/goods/delgoods','admin\GoodsController@delgoods');
 	Route::get('/admin/goods/online','admin\GoodsController@online');
 	Route::get('/admin/goods/close','admin\GoodsController@close');
+<<<<<<< HEAD
+=======
+	Route::get('/admin/goods/chgoods','admin\GoodsController@chgoods');
+>>>>>>> 63f4836dd7bad6ef1e90ad5d67eb930e302acc06
 	Route::any('/admin/goods/outgoods','admin\GoodsController@outgoods');
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
