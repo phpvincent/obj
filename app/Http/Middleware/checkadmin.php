@@ -15,7 +15,9 @@ class checkadmin
      */
     public function handle($request, Closure $next)
     {   
-        $url=$_SERVER['SERVER_NAME'];
+	    $url=$_SERVER['SERVER_NAME'];
+	    if($url=='localhost'){
+		   return $next($request);}
         $msg=preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $url);
         if(!$msg){
             return redirect('index/index');
