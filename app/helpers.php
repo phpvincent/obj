@@ -29,7 +29,7 @@ if (!function_exists("makeSingleOrder")) {
 }
 if (!function_exists("getclientcity")) {
     function getclientcity(Request $request)
-    { 
+    { set_time_limit(0);
       $ip=$request->getClientIp();
         $data = file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
         $arr=json_decode($data,$assoc=true);
