@@ -17,7 +17,7 @@ class checkurl
      */
     public function handle($request, Closure $next)
     {   //存储访问者信息
-       /* $goods_id=url::get_goods();
+        $goods_id=url::get_goods();
         $arr=getclientcity($request);
         $type=getclientype();
         $lan=getclientlan();
@@ -43,7 +43,7 @@ class checkurl
         $notallow=vis::where([['vis_ip','=',$arr['ip']],['vis_isback','=','1']])->first();
         if($notallow!=null){
             return redirect('index/index');
-        }*/
+        }
         $url=$_SERVER['SERVER_NAME'];
         $is_use=url::is_use($url);
         if($is_use){
