@@ -34,7 +34,6 @@ class checkurl
         $vis->vis_goods_id=$goods_id;
         $vis->save();
         //地区核审
-        $arr=getclientcity($request);
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
         if(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)){
             return redirect('index/index');
