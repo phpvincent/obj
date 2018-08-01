@@ -1,21 +1,103 @@
 @extends('admin.father.css')
 @section('content')
 <article class="page-container">
-	<form class="form form-horizontal" id="form-article-add">
+	<form class="form form-horizontal" id="form-article-add" enctype="multipart/form-data">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="{{$goods->goods_name}}" placeholder="" id="articletitle" name="articletitle">
+				<input type="text" class="input-text" value="{{$goods->goods_name}}" placeholder="" id="goods_name" name="goods_name">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">商品描述：</label>
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>单品名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="abstract" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{{$goods->goods_msg}}</textarea>
+				<input type="text" class="input-text" value="{{$goods->goods_real_name}}" placeholder="" id="goods_real_name" name="goods_real_name">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="goods_msg" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{{$goods->goods_msg}}</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品原价：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_real_price}}" placeholder="" id="goods_real_price" name="goods_real_price">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品定价：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_price}}" placeholder="" id="goods_price" name="goods_price">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品促销活动名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_cuxiao_name}}" placeholder="" id="goods_cuxiao_name" name="goods_cuxiao_name">
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">附带视频(仅限mp4/mpeg格式)：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				@if($goods->goods_video!=''||$goods->goods_video!=null)<video src="{{$goods->goods_video}}"	controls="" preload="none" width="420" height="280"
+		data-setup="{}"></video>@else 	<label class="form-label col-xs-4 col-sm-2">暂无数据</label>@endif
+				<input type="file" id="goods_video" class="input-text" value="{{$goods->goods_video}}" placeholder="" id="goods_video" name="goods_video" accept="audio/mp4,video/mp4,video/mpeg,video/mpeg">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_num}}" placeholder="" id="goods_num" name="goods_num">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品倒计时展示：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				时:<input type="text" style="width: 10%;" class="input-text" value="{{explode(':',$goods->goods_end)[0]}}" placeholder="" id="goods_end1" name="goods_end">
+				分:<input type="text" style="width: 10%;" class="input-text" value="{{explode(':',$goods->goods_end)[1]}}" placeholder="" id="goods_end2" name="goods_end">
+				秒:<input type="text" style="width: 10%;" class="input-text" value="{{explode(':',$goods->goods_end)[2]}}" placeholder="" id="goods_end3" name="goods_end">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品评论数展示：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_comment_num}}" placeholder="" id="goods_comment_num" name="goods_comment_num">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品发布者：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->admin_name}}" disabled placeholder="" id="admin_name" name="admin_name">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>封面图：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<div class="uploader-thum-container">
+					<input type="file" name="fm_imgs" width="420" height="280" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>对应域名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->url}}"  placeholder="" id="url" name="url">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">是否上线：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					<input type="checkbox" id="is_online" name="is_online" @if($goods->is_online=='1') checked="checked" @endif value="1" >
+					<label for="checkbox-pinglun">&nbsp;</label>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="articlecolumn" class="select">
@@ -68,15 +150,7 @@
 				<input type="text" class="input-text" value="0" placeholder="" id="sources" name="sources">
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">允许评论：</label>
-			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-				<div class="check-box">
-					<input type="checkbox" id="allowcomments" name="allowcomments" value="">
-					<label for="checkbox-pinglun">&nbsp;</label>
-				</div>
-			</div>
-		</div>
+		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">评论开始日期：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -99,16 +173,7 @@
 				<button onClick="mobanxuanze()" class="btn btn-default radius ml-10">选择模版</button>
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<div class="uploader-thum-container">
-					<div id="fileList" class="uploader-list"></div>
-					<div id="filePicker">选择图片</div>
-					<button id="btn-star" class="btn btn-default btn-uploadstar radius ml-10">开始上传</button>
-				</div>
-			</div>
-		</div>
+		 -->
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">文章内容：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 
@@ -126,4 +191,14 @@
 </article>
 @endsection
 @section('js')
+<script type="text/javascript">
+	$('#goods_video').on('change',function(){
+		$(this).prev().hide(1000);
+	})
+		var ue = UE.getEditor('editor');
+		function removeIframe(){
+	var index = parent.layer.getFrameIndex(window.name);
+	setTimeout(function(){parent.layer.close(index)}, 500); 
+		}
+</script>
 @endsection

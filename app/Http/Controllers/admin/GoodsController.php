@@ -120,6 +120,9 @@ class GoodsController extends Controller
    public function chgoods(Request $request){
    	 	$id=$request->input('id');
    	 	$goods=goods::where('goods_id',$id)->first();
+   	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
+   	 	$goods['is_online']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_type;
+   	 	$goods['url']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_url;
    	 	$cxSDK=new cuxiaoSDK($goods);
    	 	$cuxiao_html=$cxSDK->get_uphtml();
    	 	return view('admin.goods.update')->with(compact('goods','cuxiao_html'));
