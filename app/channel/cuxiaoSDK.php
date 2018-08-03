@@ -56,7 +56,65 @@ class cuxiaoSDK{
 	}
 
 	public function get_uphtml(){
-		
+		$goods=$this->goods;
+		switch ($goods->goods_cuxiao_type) {
+			case '0':
+				$html='<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="articlecolumn" class="select">
+						<option value="0">全部栏目</option>
+						<option value="1">新闻资讯</option>
+						<option value="11">├行业动态</option>
+						<option value="12">├行业资讯</option>
+						<option value="13">├行业新闻</option>
+					</select>
+					</span> </div>
+			</div>';
+			return $html;
+				break;
+			case '1':
+				$html='<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="articlecolumn" class="select">
+						<option value="0">全部栏目</option>
+						<option value="1">新闻资讯</option>
+						<option value="11">├行业动态</option>
+						<option value="12">├行业资讯</option>
+						<option value="13">├行业新闻</option>
+					</select>
+					</span> </div>
+			</div>';
+			return $html;
+			default:
+				# code...
+				break;
+		}
+	}
+	public static function getcuxiaohtml($id){
+		switch ($id) {
+			case '0':
+				$html='';
+				return $html;
+				break;
+			case '1':
+				$html='';
+				return $html;
+				break;
+			case '2':
+				$html='';
+				return $html;
+				break;
+			case '3':
+				$html='';
+				return $html;
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 	}
 
 }

@@ -40,6 +40,8 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/goods/close','admin\GoodsController@close');
 	Route::get('/admin/goods/chgoods','admin\GoodsController@chgoods');
 	Route::any('/admin/goods/outgoods','admin\GoodsController@outgoods');
+	Route::post('/admin/goods/post_update','admin\GoodsController@post_update');
+	Route::get('/admin/goods/getcuxiaohtml','admin\GoodsController@getcuxiaohtml');
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
 	Route::post('/admin/order/get_table','admin\OrderController@get_table');

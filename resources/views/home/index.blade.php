@@ -53,7 +53,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-         fbq('init', '228229668029014'); 
+         fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
         fbq('track', 'ViewContent');//查看内容
         fbq('track', 'InitiateCheckout');//发起结账
@@ -61,7 +61,7 @@
         </script>
         <noscript>
          <img height="1" width="1" 
-        src="https://www.facebook.com/tr?id=228229668029014&ev=PageView
+        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
@@ -165,17 +165,15 @@
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" preload="none" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-            	<a id="videoPoster" href="https://d1lnephkr7mkjn.cloudfront.net/ueditor/image/20180116/1516098558902709.png" style="height:360px"> 11</a>
+            	<a id="videoPoster" href="{{$goods->goods_video}}" style="height:360px"> 11</a>
 			</p>
             @endif
-			@foreach($des_img as $v)
-			<p><img src="{{$v->des_url}}" style="" title="{{$goods->goods_name}}"/></p>
-			@endforeach
+            <p>{!!$goods->goods_des_html!!}</p>
+			
         </div>
         <div class="detail-block" id="detial-params">
-            @foreach($par_img as $v)
-            <p><img src="{{$v->par_url}}" style="" title="{{$goods->goods_name}}"/></p>
-            @endforeach
+            <p>{!!$goods->goods_type_html!!}</p>
+           
         </div>
         <div class="clear">
         </div>

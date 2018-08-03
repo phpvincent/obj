@@ -127,6 +127,74 @@ class GoodsController extends Controller
    	 	$cuxiao_html=$cxSDK->get_uphtml();
    	 	return view('admin.goods.update')->with(compact('goods','cuxiao_html'));
    }
+   public function post_update(Request $request){
+   		$data=$request->all();
+   		$goods=goods::where('goods_id',$data['goods_id'])->first();
+   		$goods->goods_name=$data['goods_name'];
+   		$goods->goods_real_name=$data['goods_real_name'];
+   		$goods->goods_msg=$data['goods_msg'];
+   		$goods->goods_real_price=$data['goods_real_price'];
+   		$goods->goods_price=$data['goods_price'];
+   		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
+
+   		if($request->hasFile('goods_video')){
+   			@unlink($goods->goods_video);
+   			$file=$request->file('goods_video');
+   			$name=$file->getClientOriginalName();//得到图片名；
+		         $ext=$file->getClientOriginalExtension();//得到图片后缀；
+		         $fileName=md5(uniqid($name));
+		         $newfilename=$request->input('goods_id')."_".$fileName.'.'.$ext;//生成新的的文件名
+		         $filedir="upload/fm_video/";
+		         $msg=$file->move($filedir,$newfilename);
+		    $goods->goods_video=$filedir.$newfilename;
+   		}
+   		
+   		$goods->goods_num=$data['goods_num'];
+   		$goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
+   		$goods->goods_comment_num=$data['goods_comment_num'];
+   		$goods->goods_des_html=$data['editor1'];
+   		$goods->goods_type_html=$data['editor2'];
+   		if($request->hasFile('fm_imgs')){
+   			$old_img=\App\img::where('img_goods_id',$data['goods_id'])->get();
+   			foreach($old_img as $val){
+   				@unlink($val->img_url);
+   			}
+   			$old_img=\App\img::where('img_goods_id',$data['goods_id'])->delete();
+		    foreach($request->file('fm_imgs') as $pic) {
+		        //$file->move(base_path().'/public/uploads/', $file->getClientOriginalName());
+		        $name=$pic->getClientOriginalName();//得到图片名；
+		         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
+		         $fileName=md5(uniqid($name));
+		         $newImagesName=$request->input('goods_id')."_".$fileName.'.'.$ext;//生成新的的文件名
+		         $filedir="upload/fm_imgs/";
+		         $msg=$pic->move($filedir,$newImagesName);
+		         //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
+		         /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
+		         /*if(!$msg){
+			   	    	return response()->json(['err'=>0,'str'=>'图片上传失败']);
+		         }*/
+		         $nimg=new \App\img;
+		         $nimg->img_url=$filedir.$newImagesName;
+		         $nimg->img_goods_id=$data['goods_id'];
+		         $nimg->save();
+		    }
+		}
+   		$url=\App\url::where('url_goods_id',$data['goods_id'])->first();
+   		$url->url_url=$data['url'];
+   		$url->url_type=isset($data['is_online']) ? $data['is_online'] : '0';
+   		/*$goods->save();
+   		$url->save()*/;
+   		if($goods->save()&&$url->save())
+         {
+		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
+         }else{
+		   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
+         }
+   }
+   public function getcuxiaohtml(Request $request){
+   	 $sdk=cuxiaoSDK::getcuxiaohtml($request->input('id'));
+   	 return $sdk;
+   }
 }
 /*	$dataResult = array();      //todo:导出数据（自行设置） 
 

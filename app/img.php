@@ -8,4 +8,5 @@ class img extends Model
 {
     protected $table = 'img';
     protected $primaryKey ='img_id';
+    public $timestamps=false;
 }
