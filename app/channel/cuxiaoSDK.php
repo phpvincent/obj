@@ -109,16 +109,29 @@ class cuxiaoSDK{
 				return $html;
 				break;
 			case '3':
-				$html='
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>套餐配置：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				件数:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_id}}" placeholder="" id="cuxiao_num" name="cuxiao_num">
-				价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="goods_end2">
-				赠品:<select name="articlecolumn" class="select">
-					<option value="0">全部栏目</option>
-					<option value="1">新闻资讯</option>
-				</select>
-			</div>';
+				$html='';
+				foreach($cuxiao as $key){
+					$html.='
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>套餐配置：</label>';
+					$data=explode(',', $key->cuxiao_config);
+				$html.='
+				<div class="formControls col-xs-8 col-sm-9">
+					件数:<input type="text" style="width: 10%;" class="input-text" value="'.$data[1].'" placeholder="" id="cuxiao_num" name="cuxiao_num">
+					价格:<input type="text" style="width: 10%;" class="input-text" value="'.$data[0].'" placeholder="" id="goods_end2" name="goods_end2">';
+					if($key->cuxiao_special_id){
+						$special=\App\special::where('special_id',$key->cuxiao_special_id)->first();
+						$price=\App\price::where('price_id',$special->special_price_id)->first();
+						$html.='赠品:<select name="articlecolumn" class="select">';
+						foreach(\App\price::get() as $v){
+									$html.='<option value="0"';if($v->price_id==$special->special_price_id){ $html.='selected="selected" style="float:right;"';}$html.=' >'.$v->price_name.'</option>';
+						}
+
+						$html.='</select>';
+					}
+					
+					$html.='
+				</div>';
+				}
 				return $html;
 				break;
 			
