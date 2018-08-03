@@ -53,7 +53,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-         fbq('init', '{{$goods->goods_pix}}'); 
+         fbq('init', '1711248918912074'); 
         fbq('track', 'PageView');
         fbq('track', 'ViewContent');//查看内容
         fbq('track', 'InitiateCheckout');//发起结账
@@ -61,7 +61,7 @@
         </script>
         <noscript>
          <img height="1" width="1" 
-        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
+        src="https://www.facebook.com/tr?id=1711248918912074&ev=PageView
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->

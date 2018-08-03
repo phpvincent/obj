@@ -192,7 +192,7 @@ class GoodsController extends Controller
          }
    }
    public function getcuxiaohtml(Request $request){
-   	 $sdk=cuxiaoSDK::getcuxiaohtml($request->input('id'));
+   	 $sdk=cuxiaoSDK::getcuxiaohtml($request->input('id'),$request->input('goods_id'));
    	 return $sdk;
    }
 }

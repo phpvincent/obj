@@ -170,7 +170,7 @@
 		$.ajax({
 					url:"{{url('admin/goods/getcuxiaohtml')}}",
 					type:'get',
-					data:{'id':now},
+					data:{'id':now,'goods_id':"{{$goods->goods_id}}"},
 					datatype:'json',
 					success:function(msg){
 			          $('#cuxiaohtml').html(msg);

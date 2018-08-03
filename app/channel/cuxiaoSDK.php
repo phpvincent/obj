@@ -92,7 +92,9 @@ class cuxiaoSDK{
 				break;
 		}
 	}
-	public static function getcuxiaohtml($id){
+	public static function getcuxiaohtml($id,$goods_id){
+		$goods=\App\goods::where('goods_id',$goods_id)->first();
+		$cuxiao=\App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
 		switch ($id) {
 			case '0':
 				$html='';
@@ -107,7 +109,16 @@ class cuxiaoSDK{
 				return $html;
 				break;
 			case '3':
-				$html='';
+				$html='
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>套餐配置：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				件数:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_id}}" placeholder="" id="cuxiao_num" name="cuxiao_num">
+				价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="goods_end2">
+				赠品:<select name="articlecolumn" class="select">
+					<option value="0">全部栏目</option>
+					<option value="1">新闻资讯</option>
+				</select>
+			</div>';
 				return $html;
 				break;
 			
