@@ -44,11 +44,11 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>促销类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="articlecolumn" id="goods_cuxiao_type" class="select">
-					<option value="0" @if($goods->goods_cuxiao_type='0') selected="selected" @endif>单件销售</option>
-					<option value="1" @if($goods->goods_cuxiao_type='1') selected="selected"  @endif>买几送几</option>
-					<option value="2" @if($goods->goods_cuxiao_type='2') selected="selected"  @endif>满件优惠</option>
-					<option value="3" @if($goods->goods_cuxiao_type='3') selected="selected"  @endif>自定义套餐</option>
+				<select name="goods_cuxiao_type" id="goods_cuxiao_type" class="select">
+					<option value="0" @if($goods->goods_cuxiao_type=='0') selected="selected" @endif>单件销售</option>
+					<option value="1" @if($goods->goods_cuxiao_type=='1') selected="selected"  @endif>买几送几</option>
+					<option value="2" @if($goods->goods_cuxiao_type=='2') selected="selected"  @endif>满件优惠</option>
+					<option value="3" @if($goods->goods_cuxiao_type=='3') selected="selected"  @endif>自定义套餐</option>
 				</select>
 				</span> </div>
 		</div>
@@ -115,6 +115,12 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">商品像素：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_pix}}" placeholder="" id="goods_pix" name="goods_pix">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">是否上线：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="check-box">
@@ -137,9 +143,9 @@
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
-				<button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
-				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+				<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
+				<!-- <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
+				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button> -->
 			</div>
 		</div>
 		
@@ -177,6 +183,7 @@
 					}
 				})
 	}
+	
 	//表单验证
 	$("#form-goods-update").validate({
 		rules:{

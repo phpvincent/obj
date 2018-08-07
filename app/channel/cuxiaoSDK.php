@@ -3,6 +3,7 @@ namespace App\channel;
 use App\goods;
 use App\cuxiao;
 use App\special;
+use Illuminate\Http\Request;
 class cuxiaoSDK{
 	public $goods;
 	public $cuxiao;
@@ -13,6 +14,7 @@ class cuxiaoSDK{
        $this->cuxiaos=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->get();
 	}
 	public function getdiv(){
+		//获取购物车页面div
 		    $type=$this->goods->goods_cuxiao_type;
 		    $goods=$this->goods;
 		    $cuxiao=$this->cuxiao;
@@ -21,6 +23,9 @@ class cuxiaoSDK{
 		    switch ($type) {
 		    	case '0':
 		    		return view('ajax.ajaxreturn')->with(compact('goods','cuxiao'));
+		    		break;
+		    	case '2':
+		    		return view('ajax.ajaxreturn2')->with(compact('goods','cuxiao','special'));
 		    		break;
 		    	case '3':
 		    	    return view('ajax.ajaxreturn3')->with(compact('goods','cuxiaos','special'));
@@ -36,9 +41,35 @@ class cuxiaoSDK{
 		$goods=$this->goods;
            switch ($type) {
            	case '0':
-           		$price=$num*$goods->real_price;
+           		$price=$num*$goods->goods_price;
            		return $price;
            		break;
+           	case '2':
+           		$cuxiao=$this->cuxiao;
+           		$arr=explode(',', $cuxiao->cuxiao_config);
+           		$price=$goods->goods_price;
+           		$end_price=$price*$num;
+           		$jjp=0;
+           		if($num<$arr[0]){
+           			return $num*$price;
+           		}
+           		$jp=$price*($arr[0]-1);
+           		for ($i=0; $i <count($arr)/2; $i++) { 
+           			if($num>=($arr[$i*2])){
+						if($num<($arr[$i*2+2])){
+							$jjp+=($num-(($arr[$i*2])-1))*($price-(($arr[$i*2+1])));
+							break;
+						}else if($num>=($arr[$i*2+2])){
+							$jjp+=(($arr[$i*2+2])-($arr[$i*2]))*($price-($arr[$i*2+1]));
+						}else{
+							$jjp+=($num-($arr[$i*2])+1)*($price-($arr[$i*2+1]));
+						}
+					}
+           		}
+           		$end_price=$jjp+$jp;
+           		return $end_price;
+           		break;
+
            	case '3':
            	     $cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->get();
            	     foreach($cuxiao as $v){
@@ -105,38 +136,143 @@ class cuxiaoSDK{
 				return $html;
 				break;
 			case '2':
-				$html='';
+				$cuxiao=\DB::table('cuxiao')
+				->select('cuxiao.*','special.*','price.*')
+				->leftjoin('special','cuxiao.cuxiao_special_id','=','special.special_id')
+				->leftjoin('price','special.special_price_id','=','price.price_id')
+				->where('cuxiao_goods_id',$goods_id)
+				->first();
+				$data=explode(',', $cuxiao->cuxiao_config);
+				$arr=[];
+				for ($i=0; $i <count($data)/2 ; $i++) { 
+					$arr[$i]['num']=$data[$i*2];
+					$arr[$i]['price']=$data[$i*2+1];
+				}
+				$cuxiao->cuxiao_config=$arr;
+				return view('admin.goods.channel2')->with(compact('cuxiao'));
 				return $html;
 				break;
 			case '3':
-				$html='';
-				foreach($cuxiao as $key){
-					$html.='
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>套餐配置：</label>';
-					$data=explode(',', $key->cuxiao_config);
-				$html.='
-				<div class="formControls col-xs-8 col-sm-9">
-					件数:<input type="text" style="width: 10%;" class="input-text" value="'.$data[1].'" placeholder="" id="cuxiao_num" name="cuxiao_num">
-					价格:<input type="text" style="width: 10%;" class="input-text" value="'.$data[0].'" placeholder="" id="goods_end2" name="goods_end2">';
-					if($key->cuxiao_special_id){
-						$special=\App\special::where('special_id',$key->cuxiao_special_id)->first();
-						$price=\App\price::where('price_id',$special->special_price_id)->first();
-						$html.='赠品:<select name="articlecolumn" class="select">';
-						foreach(\App\price::get() as $v){
-									$html.='<option value="0"';if($v->price_id==$special->special_price_id){ $html.='selected="selected" style="float:right;"';}$html.=' >'.$v->price_name.'</option>';
-						}
-
-						$html.='</select>';
-					}
-					
-					$html.='
-				</div>';
-				}
-				return $html;
+				$cuxiao=\DB::table('cuxiao')
+				->select('cuxiao.*','special.*','price.*')
+				->leftjoin('special','cuxiao.cuxiao_special_id','=','special.special_id')
+				->leftjoin('price','special.special_price_id','=','price.price_id')
+				->where('cuxiao_goods_id',$goods_id)
+				->get();
+				
+				return view('admin.goods.channel3')->with(compact('cuxiao'));
 				break;
 			
 			default:
-				# code...
+				
+				break;
+		}
+	}
+	public function saveupdate(Request $request){
+		$goods=\App\goods::where('goods_id',$request->input('goods_id'))->first();
+		$type=$request->input('goods_cuxiao_type');
+		switch($type){
+			case '0':
+				return true;
+				break;
+			case '1':
+				return true;
+				break;
+			case '2':
+					\DB::table('cuxiao')->where('cuxiao_goods_id',$goods->goods_id)->delete();
+					\DB::table('special')->where('special_goods_id',$goods->goods_id)->delete();
+			$data=$request->all();
+			$config="";
+				$numarr=[];
+				$pricearr=[];
+				foreach ($data['cuxiao_num'] as $key => $value) {
+					$numarr[]=$value;
+					$pricearr[]=$data['cuxiao_prize'][$key];
+					//$config.=$value.','.$data['cuxiao_prize'][$key];
+				}
+				if(isset($data['new_cuxiao'])&&$data['new_cuxiao']!=null){
+					foreach($data['new_cuxiao'] as $key => $v){
+						if($v['num']!=''&&$v['price']!=''&&$v['num']!=null&&$v['price']!=''){
+								$numarr[]=$v['num'];
+								$pricearr[]=$v['price'];
+						}
+					
+					}
+				}
+				
+				foreach($numarr as $k => $v){
+					$config.=$v.','.$pricearr[$k].',';
+				}
+				$config=rtrim($config,',');
+				$cuxiao=new \App\cuxiao();
+				$cuxiao->cuxiao_config=$config;
+				$cuxiao->cuxiao_goods_id=$goods->goods_id;
+				$cuxiao->cuxiao_msg=$data['cuxiao_msg'];
+				$cuxiao->cuxiao_type='2';
+				$msg=$cuxiao->save();
+				if(!$msg){
+						return false;
+					}
+				return true;
+				break;
+			case '3':
+					\DB::table('cuxiao')->where('cuxiao_goods_id',$goods->goods_id)->delete();
+					\DB::table('special')->where('special_goods_id',$goods->goods_id)->delete();
+				$data=$request->all();
+				foreach($data['cuxiao_num'] as $key => $val){
+					$cuxiao=\App\cuxiao::where('cuxiao_id',$key)->first();
+					$cuxiao=new \App\cuxiao();
+					$cuxiao->cuxiao_goods_id=$goods->goods_id;
+					$cuxiao->cuxiao_type='3';
+					$cuxiao->cuxiao_config=$val.','.$data['cuxiao_prize'][$key];
+					$cuxiao->cuxiao_msg=$data['cuxiao_msg'][$key];
+					if($data['cuxiao_special'][$key]!='0'){
+								$special=new \App\special();
+								$special->special_type='3';
+								$special->special_num=$val;
+								$special->special_goods_id=$request->input('goods_id');
+								$special->special_price_id=$data['cuxiao_special'][$key];
+								$special->special_price_num=1;
+								$msg=$special->save();
+								$cuxiao->cuxiao_special_id=$special->special_id;
+								if(!$msg){
+									return false;
+								}
+					}
+					$msg=$cuxiao->save();
+					if(!$msg){
+						return false;
+					}
+				}
+				if(isset($data['new_cuxiao'])&&$data['new_cuxiao']!=''&&$data['new_cuxiao']!=null){
+					$new_cuxiao=$data['new_cuxiao'];
+					foreach($new_cuxiao as $key => $val){
+						if($val['msg']!=''&&$val['msg']!=null&&$val['num']!=''&&$val['num']!=null&&$val['price']!=''&&$val['price']!=null){
+							$cuxiao=new \App\cuxiao();
+							$cuxiao->cuxiao_msg=$val['msg'];
+							$cuxiao->cuxiao_config=$val['num'].','.$val['price'];
+							$cuxiao->cuxiao_goods_id=$goods->goods_id;
+							$cuxiao_type='3';
+							if($val['free']!=0){
+								$special=new \App\special();
+								$special->special_type='3';
+								$special->special_num=$val['num'];
+								$special->special_goods_id=$request->input('goods_id');
+								$special->special_price_id=$val['free'];
+								$special->special_price_num=1;
+								$msg=$special->save();
+								$cuxiao->cuxiao_special_id=$msg->special_id;
+								if(!$msg){
+									return false;
+								}
+							}
+							$cuxiao->save();
+						}
+					}
+				}
+				return true;
+				break;
+			default:
 				break;
 		}
 	}

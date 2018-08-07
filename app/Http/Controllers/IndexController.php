@@ -58,26 +58,6 @@ class IndexController extends Controller
         //模板渲染
     	return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
     }
-    public function fb(Request $request){
-
-        $goods_id=url::get_goods();
-        $arr=getclientcity($request);
-        $type=getclientype();
-        $lan=getclientlan();
-        $vis=new vis;
-        $vis->vis_ip=$arr['ip'];
-        $vis->vis_country=$arr['country'];
-        $vis->vis_region=$arr['region'];
-        $vis->vis_city=$arr['city'];
-        $vis->vis_county=$arr['county'];
-        $vis->vis_isp=$arr['isp'];
-        $vis->vis_type=$type;
-        $vis->vis_lan=$lan;
-        $vis->vis_time=date('Y-m-d H:i:s',time());
-        $vis->vis_goods_id=$goods_id;
-        $vis->save();  
-        return view('view.fb');
-    }
     public function comment(Request $request){
     	//接收评论数据
     	$comment=new comment;
@@ -105,37 +85,6 @@ class IndexController extends Controller
     	 $cuxiaoSDK=new cuxiaoSDK($goods);
     	 $htmlstr=$cuxiaoSDK->getdiv();
     	 return $htmlstr;
-    }
-    public function savetestform(Request $request){
-        $ip=$request->getClientIp();
-        $order=new order();
-        $order->order_single_id='NR'.makeSingleOrder();
-        $order->order_ip=$ip;
-        $order->order_time=date('Y-m-d H:i:s',time());
-        $order_goods_id=url::get_goods();
-        if($order_goods_id==false){
-          return response('error',200);
-        }
-        $order->order_goods_id=$order_goods_id;
-        /*$goods=goods::where('goods_id',$order_goods_id)->first();*/
-        $url=url::where('url_goods_id',$order_goods_id)->first()->url_url;
-        $price=0;
-        $order->order_price=$price;
-        $order_num=0;
-        $order->order_num=$order_num;
-         $order->order_remark=$request->input('notes');
-        $order->order_name=$request->input('firstname');
-        $order->order_tel=$request->input('telephone');
-        /*$order->order_state=$request->input('state');*/
-        $order->order_city=$request->input('city');
-        $order->order_add=$request->input('address1');
-        $order->order_email=$request->input('email');
-        $msg=$order->save();
-        if($msg){
-                    return response()->json(['err'=>1,'str'=>'展示成功']);
-        }else{
-                    return response()->json(['err'=>0,'str'=>'展示失败']);
-        }
     }
     public function saveform(Request $request){
     	$ip=$request->getClientIp();

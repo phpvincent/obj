@@ -53,7 +53,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-         fbq('init', '1711248918912074'); 
+         fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
         fbq('track', 'ViewContent');//查看内容
         fbq('track', 'InitiateCheckout');//发起结账
@@ -61,7 +61,7 @@
         </script>
         <noscript>
          <img height="1" width="1" 
-        src="https://www.facebook.com/tr?id=1711248918912074&ev=PageView
+        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
@@ -146,8 +146,6 @@
 	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
     </div>
         <ul class="detail-bars">
-            
-            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)
             <li>
                 <span href="#detial-context" class="scrollBar" scroll-y="0">
                   商品介紹                </span>
@@ -161,47 +159,31 @@
                                             評價 ({{$goods->goods_comment_num}}+)
                 </span>
             </li>
-            @else
-             <li style="width: 50%;">
-                <span href="#detial-context" class="scrollBar" scroll-y="0">
-                  商品介紹                </span>
-            </li>
-            <li style="width: 50%;float: right;">
-                <span href="#detial-params" class="scrollBar" scroll-y="50">
-                   商品規格                </span>
-            </li>
-            
-            @endif
         </ul>
         <div class="clear">
         </div>
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" preload="none" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-            	<a id="videoPoster" href="{{$goods->goods_video}}" style="height:360px"> 11</a>
+            	<a id="videoPoster" href="https://d1lnephkr7mkjn.cloudfront.net/ueditor/image/20180116/1516098558902709.png" style="height:360px"> 11</a>
 			</p>
             @endif
-            <p>@if(count($des_img)>0) @foreach($des_img as $key)<img src="{{$key->des_url}}">@endforeach
-               {!!$goods->goods_des_html!!}
-               @endif
-			</p>
+			@foreach($des_img as $v)
+			<p><img src="{{$v->des_url}}" style="" title="{{$goods->goods_name}}"/></p>
+			@endforeach
         </div>
         <div class="detail-block" id="detial-params">
-            <p>@if(count($par_img)>0)@foreach($par_img as $key)<img src="{{$key->des_url}}">@endforeach
-                
-               {!!$goods->goods_type_html!!}
-               @endif
-           </p>
-           
+            @foreach($par_img as $v)
+            <p><img src="{{$v->par_url}}" style="" title="{{$goods->goods_name}}"/></p>
+            @endforeach
         </div>
         <div class="clear">
         </div>
-        <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)
-
+        <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
                         <h4>
                 最新評價            </h4>
                             <div id="mq">
-                    <div id="mq1">        
+                    <div id="mq1">
                     	@foreach($comment as $v)
                                                 <div class="appr-title mqc">
                             <span style="color:red">
@@ -222,16 +204,15 @@
                                 @if(!empty($v->com_img))<p><img src="{{$v->com_img}}" title="客户图片" alt="客户图片"/>
 								@endif</p>                            </p>
                         </div>
-                        @endforeach 
+                        @endforeach
                                             </div>
                     <div id="mq2">
 
-                    </div> 
+                    </div>
                 </div>
-               @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    我要評價     @else 給我們留言   @endif        </a>
+                    我要評價                </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->

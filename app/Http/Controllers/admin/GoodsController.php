@@ -136,7 +136,8 @@ class GoodsController extends Controller
    		$goods->goods_real_price=$data['goods_real_price'];
    		$goods->goods_price=$data['goods_price'];
    		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
-
+         $goods->goods_pix=$data['goods_pix'];
+         
    		if($request->hasFile('goods_video')){
    			@unlink($goods->goods_video);
    			$file=$request->file('goods_video');
@@ -152,8 +153,8 @@ class GoodsController extends Controller
    		$goods->goods_num=$data['goods_num'];
    		$goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
    		$goods->goods_comment_num=$data['goods_comment_num'];
-   		$goods->goods_des_html=$data['editor1'];
-   		$goods->goods_type_html=$data['editor2'];
+   		$goods->goods_des_html=isset($data['editor1'])?$data['editor1']:"";
+   		$goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
    		if($request->hasFile('fm_imgs')){
    			$old_img=\App\img::where('img_goods_id',$data['goods_id'])->get();
    			foreach($old_img as $val){
@@ -182,9 +183,12 @@ class GoodsController extends Controller
    		$url=\App\url::where('url_goods_id',$data['goods_id'])->first();
    		$url->url_url=$data['url'];
    		$url->url_type=isset($data['is_online']) ? $data['is_online'] : '0';
-   		/*$goods->save();
-   		$url->save()*/;
-   		if($goods->save()&&$url->save())
+         $sdk=new cuxiaoSDK($goods);
+         $msg1=$sdk->saveupdate($request);
+         $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
+   		$msg2=$goods->save();
+   		$msg3=$url->save();
+   		if($msg1&&$msg2&&$msg3)
          {
 		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
          }else{

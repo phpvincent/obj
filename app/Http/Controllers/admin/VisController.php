@@ -23,7 +23,7 @@ class VisController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('vis')
 	        ->count();
-	        if(strtotime(explode(';',$search)[0])>100&&strtotime(explode(';',$search)[1])>100){
+	      if(strtotime(@explode(';',$search)[0])>100&&strtotime(@explode(';',$search)[1])>100){
 	        	$timesearch=$search;
 	        	$search='';
 	        	$newlen=$len;
@@ -41,6 +41,7 @@ class VisController extends Controller
 			        ->orWhere([['vis.vis_isp','like',"%$search%"],['vis.vis_isback','=','1']])
 			        ->orWhere([['vis.vis_region','like',"%$search%"],['vis.vis_isback','=','1']])
 			        ->orWhere([['vis.vis_type','like',"%$search%"],['vis.vis_isback','=','1']])
+			        ->orWhere([['vis.vis_url','like',"%$search%"],['vis.vis_isback','=','1']])
 			        ->count();
 			        $data=DB::table('vis')
 			        ->select('vis.*','goods.goods_name')
@@ -54,6 +55,7 @@ class VisController extends Controller
 			        ->orWhere([['vis.vis_isp','like',"%$search%"],['vis.vis_isback','=','1']])
 			        ->orWhere([['vis.vis_region','like',"%$search%"],['vis.vis_isback','=','1']])
 			        ->orWhere([['vis.vis_type','like',"%$search%"],['vis.vis_isback','=','1']])
+			        ->orWhere([['vis.vis_url','like',"%$search%"],['vis.vis_isback','=','1']])
 			        ->orderBy($order,$dsc)
 			        ->offset($start)
 			        ->limit($len)
@@ -92,6 +94,7 @@ class VisController extends Controller
 	        ->orWhere('vis.vis_isp','like',"%$search%")
 	        ->orWhere('vis.vis_region','like',"%$search%")
 	        ->orWhere('vis.vis_type','like',"%$search%")
+	        ->orWhere('vis.vis_url','like',"%$search%")
 	        ->count();
 	        $data=DB::table('vis')
 	        ->select('vis.*','goods.goods_name')
@@ -105,6 +108,7 @@ class VisController extends Controller
 	        ->orWhere('vis.vis_isp','like',"%$search%")
 	        ->orWhere('vis.vis_region','like',"%$search%")
 	        ->orWhere('vis.vis_type','like',"%$search%")
+	        ->orWhere('vis.vis_url','like',"%$search%")
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)

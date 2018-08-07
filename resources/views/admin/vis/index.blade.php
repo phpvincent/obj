@@ -35,6 +35,7 @@
 				<th width="40">访问时间</th>
 				<th width="40">语言</th>
 				<th width="60">访问单品</th>
+				<th width="60">访问url</th>
 				<th width="30">是否屏蔽</th>
 				<th width="60">操作</th>
 			</tr>
@@ -97,6 +98,7 @@
 		{'data':'goods_name'},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
+		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
 		{'defaultContent':""},
@@ -113,9 +115,11 @@
 				var isroot='<span class="label label-default radius">已屏蔽</span>';
 				info+='<a title="解除屏蔽" href="javascript:;"  onclick="back_vis(\''+data.vis_id+'\')" class="ml-5" style="text-decoration:none"><i style="size:20px;" class="Hui-iconfont">&#xe605;</i></a>';
 			}
+			var url='<a href="http://'+data.vis_url+'" style="margin:0px auto;" target="view_window" >'+data.vis_url+'</a>';
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(12)').html(info);
-			$(row).find('td:eq(11)').html(isroot);
+			$(row).find('td:eq(13)').html(info);
+			$(row).find('td:eq(12)').html(isroot);
+			$(row).find('td:eq(11)').html(url);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/

@@ -17,6 +17,7 @@ class checkurl
      */
     public function handle($request, Closure $next)
     {   //存储访问者信息
+
         $goods_id=url::get_goods();
         $arr=getclientcity($request);
         $type=getclientype();
@@ -32,7 +33,11 @@ class checkurl
         $vis->vis_lan=$lan;
         $vis->vis_time=date('Y-m-d H:i:s',time());
         $vis->vis_goods_id=$goods_id;
-        $vis->save();
+        $vis->vis_url=$_SERVER['SERVER_NAME'];
+        $vis->save();  
+         if($goods_id=='4'){
+            return redirect('index/fb');
+        }                       
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
         if(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)){
@@ -50,5 +55,7 @@ class checkurl
         }else{
           return redirect('index/index');
         }
+        return $next($request);
     }
 }
+
