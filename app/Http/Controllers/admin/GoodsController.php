@@ -78,6 +78,70 @@ class GoodsController extends Controller
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }
+   public function addgoods(Request $request){
+      return view('admin.goods.addgoods');
+   }
+   public function post_add(Request $request){
+        $data=$request->all();
+     $goods=new \App\goods();
+      $goods->goods_name=$data['goods_name'];
+         $goods->goods_real_name=$data['goods_real_name'];
+         $goods->goods_msg=$data['goods_msg'];
+         $goods->goods_real_price=$data['goods_real_price'];
+         $goods->goods_price=$data['goods_price'];
+         $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
+         $goods->goods_pix=$data['goods_pix'];
+         $goods->goods_admin_id=$data['admin_id'];
+         if($request->hasFile('goods_video')){
+               $file=$request->file('goods_video');
+               $name=$file->getClientOriginalName();//得到图片名；
+               $ext=$file->getClientOriginalExtension();//得到图片后缀；
+               $fileName=md5(uniqid($name));
+               $newfilename='first'."_".$fileName.'.'.$ext;//生成新的的文件名
+               $filedir="upload/fm_video/";
+               $msg=$file->move($filedir,$newfilename);
+               $goods->goods_video=$filedir.$newfilename;
+         }
+         $goods->goods_num=$data['goods_num'];
+         $goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
+         $goods->goods_comment_num=$data['goods_comment_num'];
+         $goods->goods_des_html=isset($data['editor1'])?$data['editor1']:"";
+         $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
+         if(!$request->hasFile('fm_imgs')){
+                              return response()->json(['err'=>0,'str'=>'封面图为空！']);
+         }
+        $msg2=$goods->save();
+        $goods_id=$goods->goods_id;
+          foreach($request->file('fm_imgs') as $pic) {
+              //$file->move(base_path().'/public/uploads/', $file->getClientOriginalName());
+              $name=$pic->getClientOriginalName();//得到图片名；
+               $ext=$pic->getClientOriginalExtension();//得到图片后缀；
+               $fileName=md5(uniqid($name));
+               $newImagesName='first'."_".$fileName.'.'.$ext;//生成新的的文件名
+               $filedir="upload/fm_imgs/";
+               $msg=$pic->move($filedir,$newImagesName);
+               //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
+               /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
+               /*if(!$msg){
+                     return response()->json(['err'=>0,'str'=>'图片上传失败']);
+               }*/
+               $nimg=new \App\img;
+               $nimg->img_url=$filedir.$newImagesName;
+               $nimg->img_goods_id=$goods_id;
+               $nimg->save();
+          }
+         $sdk=new cuxiaoSDK($goods);
+         $msg1=$sdk->saveadd($request,$goods_id);
+         $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
+         $goods->save();
+         if($msg1&&$msg2)
+         {
+                  return response()->json(['err'=>1,'str'=>'添加成功！']);
+         }else{
+                  return response()->json(['err'=>0,'str'=>'添加失败！']);
+         }
+      
+   }
    public function delgoods(Request $request){
          $goods=goods::where('goods_id',$request->input('id'))->first();
          $goods->is_del='1';
@@ -88,7 +152,7 @@ class GoodsController extends Controller
          }
    }
    public function online(Request $request){
-         $url=url::where('url_goods_id',$request->input('id'))->first();
+         $url=url::where('url_id',$request->input('id'))->first();
          $url->url_type='1';
          if($url->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'启动成功']);
@@ -97,7 +161,7 @@ class GoodsController extends Controller
          }
    }
    public function close(Request $request){
-         $url=url::where('url_goods_id',$request->input('id'))->first();
+         $url=url::where('url_id',$request->input('id'))->first();
          $url->url_type='0';
          if($url->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'下线成功']);
@@ -121,11 +185,15 @@ class GoodsController extends Controller
    	 	$id=$request->input('id');
    	 	$goods=goods::where('goods_id',$id)->first();
    	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
-   	 	$goods['is_online']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_type;
-   	 	$goods['url']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_url;
-   	 	$cxSDK=new cuxiaoSDK($goods);
-   	 	$cuxiao_html=$cxSDK->get_uphtml();
-   	 	return view('admin.goods.update')->with(compact('goods','cuxiao_html'));
+   	 	/*$goods['is_online']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_type;
+         $url=\App\url::where('url_goods_id',$goods['goods_id'])->first();
+   	 	$goods['url']=$url->url_url;
+         if($id==$url->url_goods_id){
+              $goods['is_zz']=0;
+         }elseif($id==$url->url_zz_goods_id){
+              $goods['is_zz']=1;
+         }*/
+   	 	return view('admin.goods.update')->with(compact('goods'));
    }
    public function post_update(Request $request){
    		$data=$request->all();
@@ -180,15 +248,15 @@ class GoodsController extends Controller
 		         $nimg->save();
 		    }
 		}
-   		$url=\App\url::where('url_goods_id',$data['goods_id'])->first();
+   		/*$url=\App\url::where('url_goods_id',$data['goods_id'])->first();
    		$url->url_url=$data['url'];
-   		$url->url_type=isset($data['is_online']) ? $data['is_online'] : '0';
+   		$url->url_type=isset($data['is_online']) ? $data['is_online'] : '0';*/
          $sdk=new cuxiaoSDK($goods);
          $msg1=$sdk->saveupdate($request);
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
    		$msg2=$goods->save();
-   		$msg3=$url->save();
-   		if($msg1&&$msg2&&$msg3)
+   		/*$msg3=$url->save();*/
+   		if($msg1&&$msg2)
          {
 		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
          }else{

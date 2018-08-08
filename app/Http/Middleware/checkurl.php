@@ -17,11 +17,57 @@ class checkurl
      */
     public function handle($request, Closure $next)
     {   //存储访问者信息
-
-        $goods_id=url::get_goods();
+        $is_zz=false;
         $arr=getclientcity($request);
         $type=getclientype();
-        $lan=getclientlan();
+        $lan=getclientlan(); 
+        $level=url::getlevel();
+        $for=url::getzzfor();
+        switch ($level) {
+            case '0':
+               $is_zz=false;
+                break;
+            case '1':
+                if('美国'==$arr['region']||'美国'==$arr['country']||'美国'==$arr['city']){
+                    if($arr['isp']=='脸书'||$arr['isp']=='facebook'){
+                      $is_zz=true;
+                    }
+                  }
+                break;
+            case '2':
+                if($arr['isp']=='脸书'){
+                      $is_zz=true;
+                    }
+                break;
+            case '3':
+                if($arr['country']!='台湾'||$arr['region']!='台湾'){
+                     $is_zz=true;
+                }
+                break;
+            case '4':
+                $is_zz=true;
+            break;
+            default:
+               
+                break;
+        }
+        $goods_id=url::get_id();
+        if($is_zz){
+            switch ($for) {
+                case '0':
+                   $goods_id=url::get_zz_id();
+                    break;
+                case '1':
+                    return redirect('index/fb');
+                    break;
+                case '2':
+                    return back();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
         $vis=new vis;
         $vis->vis_ip=$arr['ip'];
         $vis->vis_country=$arr['country'];
@@ -41,19 +87,23 @@ class checkurl
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
         if(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)){
-            return redirect('index/index');
+            return redirect('index/fb');
         }
         //ip核审
         $notallow=vis::where([['vis_ip','=',$arr['ip']],['vis_isback','=','1']])->first();
         if($notallow!=null){
-            return redirect('index/index');
+            return redirect('index/fb');
         }
         $url=$_SERVER['SERVER_NAME'];
+        if(\App\url::where('url_url',$url)->first()->url_goods_id==null&&\App\url::where('url_url',$url)->first()->url_zz_goods_id==null){
+            return redirect('index/fb');
+        }
+        //未上线域名不允许访问
         $is_use=url::is_use($url);
         if($is_use){
           return $next($request);
         }else{
-          return redirect('index/index');
+          return redirect('index/fb');
         }
         return $next($request);
     }

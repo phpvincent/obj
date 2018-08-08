@@ -8,7 +8,9 @@
 		<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
 		<button type="submit" class="btn btn-success" id="seavis2" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a href="javascript:;" onclick="location.href='/admin/url/goods_url'" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 域名绑定</a>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a href="javascript:;" onclick="location.href='/admin/url/goods_url'" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 域名绑定</a>&nbsp;&nbsp;&nbsp;
+		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	
 	<table class="table table-border table-bordered table-bg" id="goods_index_table">
 		<thead>
@@ -91,13 +93,13 @@
 		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
+			var info='<a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.url_type==0){
 				var isroot='<span class="label label-default radius">×</span>';
-				info+='<a title="启用" href="javascript:;" onclick="goods_online(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe601;</i></a>';
+				
 			}else{
 				var isroot='<span class="label label-success radius">√</span>';
-				info+='<a title="下线" href="javascript:;" onclick="goods_close(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e4;</i></a>';
+				
 			}
 			var checkbox='<input type="checkbox" name="" value="">';
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
@@ -155,7 +157,7 @@ function del_goods(id){
                 
         	}
 	}
-function goods_edit(id){
+function goods_online(id){
 		var msg =confirm("确定要启用此商品吗？");
 		if(msg){
         		layer.msg('启用中');
@@ -211,6 +213,9 @@ var msg =confirm("确定要下线此商品吗？");
 }
 $('#outgoods').on('click',function(){
 	location.href='{{url("admin/goods/outgoods")}}';
+})
+$('#addgoods').on('click',function(){
+	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
 })
 function goods_update(title,url,type,w,h){
 	layer_show(title,url,w,h);

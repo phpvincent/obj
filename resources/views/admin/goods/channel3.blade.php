@@ -2,6 +2,7 @@
 	<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; " id="pzhtml">
 		<input type="button" class="btn btn-default" value="增加配置项" id="addpz" style="margin-left:18%;" />
 		<label class="form-label col-xs-4 col-sm-2"> </label>
+		@if($cuxiao!=null)
 		@foreach($cuxiao as $key)
 		<br/>
 					促销名:<input type="text" style="width: 10%;" class="input-text" value="{{$key->cuxiao_msg}}" placeholder="" id="cuxiao_msg" name="cuxiao_msg[{{$key->cuxiao_id}}]">
@@ -15,6 +16,9 @@
 						</select>
 		<br/>
 		@endforeach
+		@else
+		<br/>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao[0][msg]">件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao[0][num]">价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao[0][price]">	赠品:<select name="new_cuxiao[][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><br/>
+		@endif
 	</div>
 
 
@@ -29,7 +33,7 @@
 						$(this).next().attr('disabled','true');
 					}
 				})
-	var index=0;
+	var index=1;
 				$("#addpz").on("click",function(){
 					var html='<br/>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao['+index+'][msg]">件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]">	赠品:<select name="new_cuxiao['+index+'][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><br/>';
 					$("#pzhtml").append(html);
