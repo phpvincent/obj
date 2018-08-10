@@ -20,6 +20,7 @@ Route::middleware('checkurl')->group(function(){
 
 	Route::get('/send','home\IndexController@send');
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
+	Route::any('/visfrom','home\IndexController@visfrom');
 	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');

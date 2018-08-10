@@ -196,4 +196,11 @@ class IndexController extends Controller
     public function channelindex(){
         return view('view.index');
     }
+    public function visfrom(Request $request){
+    $id=$request->input('id');
+    $from=$request->input('from');
+    $vis=\App\vis::where('vis_id',$id)->first();
+    $vis->vis_from=$from;
+    $vis->save();
+   }
 }

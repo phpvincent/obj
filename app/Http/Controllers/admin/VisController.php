@@ -194,4 +194,5 @@ class VisController extends Controller
    		}
         out_excil($data,$zdname,'访问记录表',$filename);
    }
+   
 }

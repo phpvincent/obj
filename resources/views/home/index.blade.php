@@ -475,17 +475,33 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         }
     })(jQuery);
 </script>
-<!-- <script>
-    document.getElementById('btnOnline').onclick=function(){
-        try {
-            fbq('track', 'AddToCart');
-            mkq('track', 'AddToCart');
-        } catch(e) {}
-        setTimeout(function(){
-            openZoosUrl('bchatwin');
-        },500);
-    }
-</script> -->
+<script>
+    $(function(){
+       
+         function getReferrer() {
+            var referrer = '';
+            try {
+                referrer = window.top.document.referrer;
+            } catch(e) {
+                if(window.parent) {
+                    try {
+                        referrer = window.parent.document.referrer;
+                    } catch(e2) {
+                        referrer = '';
+                    }
+                }
+            }
+            if(referrer === '') {
+                referrer = document.referrer;
+            } 
+
+            return referrer;
+        } 
+        var from =getReferrer();
+        $.ajax({url:"{{url('/visfrom')}}"+"?id="+{{$vis_id}}+"&from="+from,async:false});
+    })
+  
+</script>
 <script type="text/javascript" charset="utf-8">
     $2(function() {
         //$2("img").lazyload({effect: "fadeIn"});

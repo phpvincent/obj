@@ -91,6 +91,7 @@ class checkurl
         $vis->vis_goods_id=$goods_id;
         $vis->vis_url=$_SERVER['SERVER_NAME'];
         $vis->save();  
+        view()->share('vis_id',$vis->vis_id);
          if($goods_id=='4'){
             return redirect('index/fb');
         }                       
