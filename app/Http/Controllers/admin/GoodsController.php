@@ -197,7 +197,7 @@ class GoodsController extends Controller
 	        ->where('goods.is_del','0')
 			->orderBy('goods.goods_up_time','desc')
 			->get()->toArray();
-   		$filename='商品信息'.date('Y-m-d h:i:s',time()).'.xls';
+   		$filename='商品信息'.date('Y-m-d H:i:s',time()).'.xls';
    		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }
