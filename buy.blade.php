@@ -92,7 +92,7 @@ jQuery(function(){
 </script>
 <div class="mui-content">
 <form class="mui-content" id="save" onsubmit="return false;" method="post" action="/saveform">
-    <input type="hidden" name="cuxiao_id" value="">
+    <input type="hidden" name="cuxiao_id" @if($goods->goods_cuxiao_type=='2') value="{{\App\cuxiao::where('cuxiao_goods_id',$goods->id)->first()->cuxiao_id}}" @endif >{{$goods->goods_cuxiao_type}}
 <input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
 <input type="hidden" id="from" name="from" value=""/>
 {{ csrf_field()}}

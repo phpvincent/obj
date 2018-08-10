@@ -53,6 +53,10 @@ class UrlController extends Controller
         return view('admin.url.url_add');
       }elseif($request->isMethod('post')){
         $data=$request->all();
+        $isalive=url::where('url_url',$data['url_url'])->first();
+          if($isalive!=null){
+                 return response()->json(['err'=>0,'str'=>'添加失败！该域名已存在！']);
+          }
         $url=new url;
         $url->url_url=$data['url_url'];
         $url->url_zz_level=$data['url_level'];
@@ -79,10 +83,17 @@ class UrlController extends Controller
    }
    public function ajaxup(Request $request){
    	    $msg=$request->all();
+        if(isset($msg['url_goods_id'])&&$msg['url_goods_id']=='null'){
+          unset($msg['url_goods_id']);
+        }
+        if(isset($msg['url_zz_goods_id'])&&$msg['url_zz_goods_id']=='null'){
+          unset($msg['url_zz_goods_id']);
+        }
    	    $url=url::where('url_id',$msg['url_id'])->first();
    	    if($url==null){
    	    	$url=new url();
    	    	$url->url_goods_id=$msg['id'];
+
    	    	$url->url_url=$msg['url_url'];
    	    	$url->url_type=$msg['url_type'];
    	    	$msg=$url->save();
@@ -92,11 +103,53 @@ class UrlController extends Controller
    	    		return json_encode(false);
    	    	}
    	    }else{
-          if($msg['url_goods_id']==$msg['url_zz_goods_id']){
-                  return response()->json(['err'=>0,'str'=>'添加失败！遮罩单品不得与正常单品相同！']);
+          $isalive=url::where('url_url',$msg['url_url'])->first();
+          if($isalive!=null&&$isalive->url_id!=$url->url_id){
+                 return response()->json(['err'=>0,'str'=>'更改失败！该域名已存在！']);
           }
-          $url->url_goods_id=$msg['url_goods_id'];
-   	    	$url->url_zz_goods_id=$msg['url_zz_goods_id'];
+          if(isset($msg['url_goods_id'])&&isset($msg['url_zz_goods_id'])&&($msg['url_goods_id']==$msg['url_zz_goods_id'])){
+              if($msg['url_goods_id']==null&&$msg['url_zz_goods_id']==null){
+
+              }else{
+               
+                 return response()->json(['err'=>0,'str'=>'添加失败！遮罩单品不得与正常单品相同！']);
+              }
+                 
+          }
+          if(!isset($msg['url_goods_id'])){
+            $oldid=$url->url_goods_id;
+            if($oldid!=null){
+              $xxgoods=\App\goods::where('goods_id',$oldid)->first();
+              $xxgoods->bd_type='0';
+              $xxgoods->save();
+            }
+          }
+          if(!isset($msg['url_zz_goods_id'])){
+            $oldids=$url->url_zz_goods_id;
+            if($oldids!=null){
+              $xxgoodss=\App\goods::where('goods_id',$oldids)->first();
+              $xxgoodss->bd_type='0';
+              $xxgoodss->save();
+            }
+          }
+          if(isset($msg['url_goods_id'])){
+            $bd_type=\App\goods::where('goods_id',$msg['url_goods_id'])->first();
+            if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_goods_id!=$msg['url_goods_id']){
+                    return response()->json(['err'=>0,'str'=>'更改失败！被选中正常单品已处于绑定状态']);
+            }
+            $bd_type->bd_type='1';
+            $bd_type->save();
+          }
+          if(isset($msg['url_zz_goods_id'])){
+             $bd_type=\App\goods::where('goods_id',$msg['url_zz_goods_id'])->first();
+            if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_zz_goods_id!=$msg['url_zz_goods_id']){
+                    return response()->json(['err'=>0,'str'=>'更改失败！被选中遮罩单品已处于绑定状态']);
+            }
+            $bd_type->bd_type='2';
+            $bd_type->save();
+          }
+          $url->url_goods_id=isset($msg['url_goods_id'])?$msg['url_goods_id']:null;
+   	    	$url->url_zz_goods_id=isset($msg['url_zz_goods_id'])?$msg['url_zz_goods_id']:null;
    	    	$url->url_url=$msg['url_url'];
           $url->url_type=$msg['url_type'];
           $url->url_zz_level=$msg['url_zz_level'];

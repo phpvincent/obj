@@ -10,7 +10,7 @@
 		border:1px dashed #ccc !important;
 	}
 </style>
-<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">第1件</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（NT$<span id="realprice">{{$goods->goods_price}}</span>，已選{{$cuxiao->cuxiao_msg}}僅剩{{$goods->goods_num}}件）</span><span class="addcart-specs-status"></span></div>
+<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">第1件</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（NT$<span id="realprice">{{$goods->goods_price}}</span>，已選【{{$cuxiao->cuxiao_msg}}】僅剩{{$goods->goods_num}}件）</span><span class="addcart-specs-status"></span></div>
 <div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>
 <div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含贈 <font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>NT${{$goods->goods_price}}</font></span></div></div>
 <script type="text/javascript">

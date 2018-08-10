@@ -16,7 +16,17 @@ class checkurl
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {   //存储访问者信息
+    {   //判断是否有此域名存在
+        $url=$_SERVER['SERVER_NAME'];
+         $is_use=url::is_use($url);
+        if($is_use){
+          /*return $next($request);*/
+        }else{
+          return redirect('index/fb');
+        }
+        if(\App\url::where('url_url',$url)->first()->url_goods_id==null&&\App\url::where('url_url',$url)->first()->url_zz_goods_id==null){
+            return redirect('index/fb');
+        }
         $is_zz=false;
         $arr=getclientcity($request);
         $type=getclientype();
@@ -99,12 +109,7 @@ class checkurl
             return redirect('index/fb');
         }
         //未上线域名不允许访问
-        $is_use=url::is_use($url);
-        if($is_use){
-          return $next($request);
-        }else{
-          return redirect('index/fb');
-        }
+       
         return $next($request);
     }
 }

@@ -53,7 +53,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-         fbq('init', '1711248918912074'); 
+         fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
         fbq('track', 'ViewContent');//查看内容
         fbq('track', 'InitiateCheckout');//发起结账
@@ -61,7 +61,7 @@
         </script>
         <noscript>
          <img height="1" width="1" 
-        src="https://www.facebook.com/tr?id=1711248918912074&ev=PageView
+        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
@@ -182,13 +182,14 @@
 			</p>
             @endif
             <p>@if(count($des_img)>0) @foreach($des_img as $key)<img src="{{$key->des_url}}">@endforeach
+                @else
                {!!$goods->goods_des_html!!}
                @endif
 			</p>
         </div>
         <div class="detail-block" id="detial-params">
             <p>@if(count($par_img)>0)@foreach($par_img as $key)<img src="{{$key->des_url}}">@endforeach
-                
+                @else
                {!!$goods->goods_type_html!!}
                @endif
            </p>

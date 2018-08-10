@@ -28,7 +28,7 @@
 				<option value="1" @if($url!=null && $url->url_zz_level==1)selected='selected'@endif>屏蔽美国fb人员</option>
 				<option value="2" @if($url!=null && $url->url_zz_level==2)selected='selected'@endif>屏蔽所有fb人员</option>
 				<option value="3" @if($url!=null && $url->url_zz_level==3)selected='selected'@endif>屏蔽除台湾外所有人员</option>
-				<option value="3" @if($url!=null && $url->url_zz_level==4)selected='selected'@endif>屏蔽所有人员</option>
+				<option value="4" @if($url!=null && $url->url_zz_level==4)selected='selected'@endif>屏蔽所有人员</option>
 				</select>
 				</span>
 			 </div>
@@ -47,17 +47,18 @@
 	<br>
 	<div class="row cl" style="border: 1px solid #ccc;width: 80%;margin:0px auto;">
 		<label class="form-label col-xs-4 col-sm-3">正常单品：</label>
-		  <div class ="radio-box"> 
-		    @foreach(\App\goods::get() as $key => $v)
+		  <div class ="radio-box">  <label class="" style="color:red;"><input type="radio" value="null" name="url_goods_id" id="url_goods_id" class="valid" />无</label>
+		    @foreach(\App\goods::where('is_del','0')->get() as $key => $v)
 		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
 		    @endforeach
+
 		  </div> 
   	</div>
   	<br>
   	<div class="row cl" style="border: 1px solid #ccc;width: 80%;margin:0px auto;">
   		<label class="form-label col-xs-4 col-sm-3">遮罩单品：</label>
-  		<div class =“radio-box”> 
-	 	@foreach(\App\goods::get() as $key => $v)
+  		<div class =“radio-box”>  <label class="" style="color:red;"><input type="radio" value="null" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" />无</label>
+	 	@foreach(\App\goods::where('is_del','0')->get() as $key => $v)
 	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
 	  	@endforeach
 		</div> 

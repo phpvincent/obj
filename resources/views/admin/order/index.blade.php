@@ -60,7 +60,7 @@
 		"order": [[ 7, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [2,3,4,5,7,10],
+		   "targets": [2,3,4,5,6,7,10],
 		   "orderable": false
 		}],
 		"processing": true,

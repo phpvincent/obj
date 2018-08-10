@@ -60,7 +60,7 @@ class IndexController extends Controller
     }
     public function fb(Request $request){
 
-        $goods_id=url::get_goods($request);
+        $goods_id='4';
         $arr=getclientcity($request);
         $type=getclientype();
         $lan=getclientlan();

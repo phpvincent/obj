@@ -18,6 +18,7 @@
 					<option value="1" >屏蔽美国地区fb人员</option>
 					<option value="2" >屏蔽所有fb人员</option>
 					<option value="3" >屏蔽所有非台湾地区人员</option>
+					<option value="4" >屏蔽所有人员</option>
 				</select>
 			</span>
 			 </div>

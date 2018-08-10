@@ -75,6 +75,13 @@ class GoodsController extends Controller
                    return response()->json($arr);
                }
            }
+           foreach($data as $key => $v){
+            $url=\App\url::where('url_zz_goods_id',$v->goods_id)->first();
+            if($url!=null){
+               $data[$key]->url_type=$url->url_type;
+               $data[$key]->url_url=$url->url_url;
+            }
+           }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }
@@ -92,6 +99,7 @@ class GoodsController extends Controller
          $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_admin_id=$data['admin_id'];
+         $goods->goods_up_time=date('Y-m-d h:i:s',time());
          if($request->hasFile('goods_video')){
                $file=$request->file('goods_video');
                $name=$file->getClientOriginalName();//得到图片名；
@@ -145,6 +153,16 @@ class GoodsController extends Controller
    public function delgoods(Request $request){
          $goods=goods::where('goods_id',$request->input('id'))->first();
          $goods->is_del='1';
+         $url_pt=\App\url::where('url_goods_id',$goods->goods_id)->get();
+         foreach($url_pt as $key => $v){
+            $v->url_goods_id=null;
+            $v->save();
+         }
+         $zz_url=\App\url::where('url_zz_goods_id',$goods->goods_id)->get();
+         foreach($zz_url as $key => $v){
+            $v->url_zz_goods_id=null;
+            $v->save();
+         }
          if($goods->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'删除成功']);
          }else{
@@ -152,7 +170,10 @@ class GoodsController extends Controller
          }
    }
    public function online(Request $request){
-         $url=url::where('url_id',$request->input('id'))->first();
+         $url=url::where('url_url',$request->input('id'))->first();
+         if($url==null){
+               return response()->json(['err'=>0,'str'=>'启动失败,需先绑定域名']);
+         }
          $url->url_type='1';
          if($url->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'启动成功']);
@@ -161,7 +182,7 @@ class GoodsController extends Controller
          }
    }
    public function close(Request $request){
-         $url=url::where('url_id',$request->input('id'))->first();
+         $url=url::where('url_url',$request->input('id'))->first();
          $url->url_type='0';
          if($url->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'下线成功']);

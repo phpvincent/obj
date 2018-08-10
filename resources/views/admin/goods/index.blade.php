@@ -15,18 +15,19 @@
 	<table class="table table-border table-bordered table-bg" id="goods_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="11">单品列表</th>
+				<th scope="col" colspan="12">单品列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="40">ID</th>
-				<th width="100">单品名</th>
+				<th width="110">单品名</th>
 				<th width="110">单品小标题</th>
-				<th width="20">单品价格</th>
-				<th width="150">绑定域名</th>
+				<th width="70">单品价格</th>
+				<th width="100">绑定域名</th>
 				<th width="130">促销信息</th>
-				<th width="20">是否启用</th>
-				<th width="80">发布时间</th>
+				<th width="40">是否启用</th>
+				<th width="80">绑定类型</th>
+				<th width="100">发布时间</th>
 				<th width="80">发布人</th>
 				<th width="100">操作</th>
 			</tr>
@@ -60,7 +61,7 @@
 		"order": [[ 1, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,2,3,5,6,7,8],
+		   "targets": [0,2,3,5,6,7,8,10,11],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -80,8 +81,9 @@
 		{'data':'goods_name'},
 		{'data':'goods_msg'},
 		{'data':'goods_price'},
-		{'data':'url_url'},
+		{'defaultContent':"","className":"td-manager"},
 		{'data':'goods_cuxiao_name'},
+		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'goods_up_time'},
 		{'data':'admin_name'},
@@ -94,17 +96,32 @@
 		],
 		"createdRow":function(row,data,dataIndex){
 			var info='<a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
-			if(data.url_type==0){
+			if(data.url_type==0||data.url_type==null){
 				var isroot='<span class="label label-default radius">×</span>';
+				if(data.url_url!=null){
+					info+='<a title="启用" href="javascript:;" onclick="goods_online(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="启用"><i class="Hui-iconfont">&#xe601;</i></span></a>'
+				}else{
+					info+='<a title="域名绑定" href="{{url("admin/url/goods_url")}}"  class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="域名绑定"><i class="Hui-iconfont">&#xe601;</i></span></a>'
+				}
 				
 			}else{
 				var isroot='<span class="label label-success radius">√</span>';
-				
+				info+='<a title="停止" href="javascript:;" onclick="goods_close(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="停止"><i class="Hui-iconfont">&#xe6e4;</i></span></a>'
 			}
+			if(data.bd_type==1){
+				var bd_type='<span style="color:green;">正常单品</span>';
+			}else if(data.bd_type==0){
+				var bd_type='<span style="color:red;">未绑定</span>';
+			}else if(data.bd_type==2){
+				var bd_type='<span style="color:brown;">遮罩单品</span>';
+			}
+			var url='<a href="http://'+data.url_url+'" target="_blank" >'+data.url_url+'</a>';
 			var checkbox='<input type="checkbox" name="" value="">';
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(10)').html(info);
+			$(row).find('td:eq(11)').html(info);
 			$(row).find('td:eq(7)').html(isroot);
+			$(row).find('td:eq(5)').html(url);
+			$(row).find('td:eq(8)').html(bd_type);
 			$(row).find('td:eq(0)').html(checkbox);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";

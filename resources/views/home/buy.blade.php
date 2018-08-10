@@ -49,7 +49,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-         fbq('init', '1711248918912074'); 
+         fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
         fbq('track', 'InitiateCheckout');//发起结账
         fbq('track', 'Lead');//潜在客户,填写表单
@@ -57,7 +57,7 @@
         </script>
         <noscript>
          <img height="1" width="1" 
-        src="https://www.facebook.com/tr?id=1711248918912074&ev=PageView
+        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
@@ -92,7 +92,7 @@ jQuery(function(){
 </script>
 <div class="mui-content">
 <form class="mui-content" id="save" onsubmit="return false;" method="post" action="/saveform">
-    <input type="hidden" name="cuxiao_id" value="">
+    <input type="hidden" name="cuxiao_id" @if($goods->goods_cuxiao_type=='2') value="{{\App\cuxiao::where('cuxiao_goods_id',$goods->goods_id)->first()->cuxiao_id}}" @endif >
 <input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
 <input type="hidden" id="from" name="from" value=""/>
 {{ csrf_field()}}
