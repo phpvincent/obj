@@ -21,7 +21,7 @@
 	<table class="table table-border table-bordered table-bg" id="vis_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="14">访问记录</th>
+				<th scope="col" colspan="15">访问记录</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
@@ -33,6 +33,7 @@
 				<th width="30">网络来源</th>
 				<th width="40">设备类型</th>
 				<th width="40">访问时间</th>
+				<th width="40">停留时间</th>
 				<th width="40">语言</th>
 				<th width="60">访问单品</th>
 				<th width="60">访问url</th>
@@ -69,7 +70,7 @@
 		"order": [[ 8, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [1,2,3,4,5,7,9,10,11,12],
+		   "targets": [1,2,3,4,5,7,9,10,11,12,13,14],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -94,6 +95,7 @@
 		{'data':'vis_isp'},
 		{'data':'vis_type'},
 		{'data':'vis_time'},
+		{'defaultContent':"","className":"td-manager"},
 		{'data':'vis_lan'},
 		{'data':'goods_name'},
 		{'defaultContent':"","className":"td-manager"},
@@ -107,7 +109,7 @@
 		],
 		
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="删除" href="javascript:;" onclick="del_vis(\''+data.vis_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
+			var info='<a title="删除" href="javascript:;" onclick="del_vis(\''+data.vis_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a><a title="时间记录" href="javascript:;" onclick="time_vis(\'时间记录\',\'{{url("admin/vis/stime")}}?id='+data.vis_id+'\',\'2\',\'750\',\'251\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe681;</i></a>';
 			if(data.vis_isback==0||data.vis_isback==''){
 				var isroot='<span class="label label-success radius">未屏蔽</span>';
 				info+='<a title="屏蔽" href="javascript:;"  onclick="pb_vis(\''+data.vis_id+'\')" class="ml-5" style="text-decoration:none"><i style="size:20px;" class="Hui-iconfont">&#xe60e;</i></a>';
@@ -116,10 +118,16 @@
 				info+='<a title="解除屏蔽" href="javascript:;"  onclick="back_vis(\''+data.vis_id+'\')" class="ml-5" style="text-decoration:none"><i style="size:20px;" class="Hui-iconfont">&#xe605;</i></a>';
 			}
 			var url='<a href="http://'+data.vis_url+'" style="margin:0px auto;" target="view_window" >'+data.vis_url+'</a>';
+			if(data.vis_staytime!=null){
+				var st=data.vis_staytime+'秒';
+			}else{
+				var st="非常规退出，无法获取";
+			}
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(13)').html(info);
-			$(row).find('td:eq(12)').html(isroot);
-			$(row).find('td:eq(11)').html(url);
+			$(row).find('td:eq(9)').html(st);
+			$(row).find('td:eq(14)').html(info);
+			$(row).find('td:eq(13)').html(isroot);
+			$(row).find('td:eq(12)').html(url);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/
@@ -241,6 +249,9 @@ $('#outvis').on('click',function(){
 	location.href='{{url("admin/vis/outvis")}}';
 })
 function goods_getaddr(title,url,type,w,h){
+	layer_show(title,url,w,h);
+}
+function time_vis(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 </script>

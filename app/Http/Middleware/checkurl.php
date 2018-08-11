@@ -6,6 +6,7 @@ use Closure;
 use App\url;
 use App\vis;
 use DB;
+use Illuminate\Support\Facades\Cookie;
 class checkurl
 {
     /**
@@ -77,21 +78,25 @@ class checkurl
                     break;
             }
         }
-        
-        $vis=new vis;
-        $vis->vis_ip=$arr['ip'];
-        $vis->vis_country=$arr['country'];
-        $vis->vis_region=$arr['region'];
-        $vis->vis_city=$arr['city'];
-        $vis->vis_county=$arr['county'];
-        $vis->vis_isp=$arr['isp'];
-        $vis->vis_type=$type;
-        $vis->vis_lan=$lan;
-        $vis->vis_time=date('Y-m-d H:i:s',time());
-        $vis->vis_goods_id=$goods_id;
-        $vis->vis_url=$_SERVER['SERVER_NAME'];
-        $vis->save();  
-        view()->share('vis_id',$vis->vis_id);
+        if(!isset($_COOKIE['isr_vis'])){
+             $vis=new vis;
+            $vis->vis_ip=$arr['ip'];
+            $vis->vis_country=$arr['country'];
+            $vis->vis_region=$arr['region'];
+            $vis->vis_city=$arr['city'];
+            $vis->vis_county=$arr['county'];
+            $vis->vis_isp=$arr['isp'];
+            $vis->vis_type=$type;
+            $vis->vis_lan=$lan;
+            $vis->vis_time=date('Y-m-d H:i:s',time());
+            $vis->vis_goods_id=$goods_id;
+            $vis->vis_url=$_SERVER['SERVER_NAME'];
+            $vis->save();  
+            setcookie('isr_vis',$vis->vis_id,time()+600);
+        }else{
+            $vis=\App\vis::where('vis_id',$_COOKIE['isr_vis'])->first();
+        }
+          view()->share('vis_id',$vis->vis_id);
          if($goods_id=='4'){
             return redirect('index/fb');
         }                       

@@ -394,6 +394,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                 <td class="table_cell">
                                     <input type="text" placeholder="手機" class="input01" name="phone"
                                     maxlength="20">
+                                    <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
@@ -476,8 +477,41 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     })(jQuery);
 </script>
 <script>
-    $(function(){
-       
+$(function(){
+        //获取用户浏览记录
+        var tjSecond = 0;
+        var tjRandom = 0;
+        window.setInterval(function () {
+            tjSecond ++;
+                
+        }, 1000);
+    // 随机数
+    tjRandom = (new Date()).valueOf();
+    window.onload = function () {
+        var tjArr = localStorage.getItem("jsArr") ? localStorage.getItem("jsArr") : '[]';
+        var dataArr = {
+            'tjRd' : tjRandom,
+            'url' : location.href,
+            'refer' : getReferrer()
+        };
+        tjArr = eval('(' + tjArr + ')');
+        tjArr.push(dataArr);
+        var tjArr1= JSON.stringify(tjArr);
+        localStorage.setItem("jsArr", tjArr1);
+    }
+    // 用户继续访问根据上面提供的key值补充数据
+    window.onbeforeunload = function() {
+        var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
+        var tjI = tjArrRd.length - 1;
+        if(tjArrRd[tjI].tjRd == tjRandom){
+            tjArrRd[tjI].time = tjSecond;
+            tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
+            tjArrRd[tjI].timeOut = Date.parse(new Date());
+            var tjArr1= JSON.stringify(tjArrRd);
+            localStorage.setItem("jsArr", tjArr1);
+            $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
+        }
+    };
          function getReferrer() {
             var referrer = '';
             try {
@@ -513,6 +547,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
             } catch(e) {}
 
             var action = $2("#payForm").attr('action');
+           /* var tjArr = localStorage.getItem("jsArr");
+            var tjI = tjArrRd.length - 1;*/
+            var btime=getNowDate();
+            $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
             location.href=action;
         });
 /*
@@ -552,7 +590,37 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                 $2(this).text("★");
             });
         });
-
+        function getNowDate() {
+         var date = new Date();
+         var sign1 = "-";
+         var sign2 = ":";
+         var year = date.getFullYear() // 年
+         var month = date.getMonth() + 1; // 月
+         var day  = date.getDate(); // 日
+         var hour = date.getHours(); // 时
+         var minutes = date.getMinutes(); // 分
+         var seconds = date.getSeconds() //秒
+         var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+         var week = weekArr[date.getDay()];
+         // 给一位数数据前面加 “0”
+         if (month >= 1 && month <= 9) {
+          month = "0" + month;
+         }
+         if (day >= 0 && day <= 9) {
+          day = "0" + day;
+         }
+         if (hour >= 0 && hour <= 9) {
+          hour = "0" + hour;
+         }
+         if (minutes >= 0 && minutes <= 9) {
+          minutes = "0" + minutes;
+         }
+         if (seconds >= 0 && seconds <= 9) {
+          seconds = "0" + seconds;
+         }
+         var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds;
+         return currentdate;
+        }
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {

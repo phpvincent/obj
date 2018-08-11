@@ -78,7 +78,7 @@
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333"></a>
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
     <h1 class="mui-title">確認訂單</h1>
 </header>
 <script>
@@ -367,72 +367,46 @@ jQuery(function(){
     form.tipmsg.r="訂單提交中...";
 
 
-jQuery('input[name=pay_type]').change(function(){
-    var id = jQuery('input[name=pay_type]:checked').val() || 0;
-    //stripe是ajax支付
-    if(id == 10 || id == 11 || id==13)
-    {
-        _data = '';
-        form.config({
-            ajaxPost:true,
-            callback:function(data){
-                _data = data;
-                if( id==10 || id==13)
-                {
-                    var token = data.stripeToken || '';
-                    jQuery("#pay").show();
-                    jQuery("#applepay").hide();
-                    jQuery.post('/stripe/callback?stripeToken='+token,data,function(html){
-                            var res = jQuery.parseJSON(html);
-                            if(res.status=='ok')
-                            {
-                                location.href = res.url;
-                            }
-                            else
-                            {
-                                $2.toast(res.errormsg);
-                                jQuery("#pay").removeAttr('disabled');
-                            }
-                    });
-                }
-                if( id==11 )
-                {
-                    jQuery('input[type=text]').change(function(){
-                            jQuery("#pay").show();
-                            jQuery("#applepay").hide();
-                    });
-                    jQuery('input[type=text]').focus(function(){
-                            jQuery("#pay").show();
-                            jQuery("#applepay").hide();
-                    });
-                    jQuery('input[type=text]').blur(function(){
-                            jQuery("#pay").show();
-                            jQuery("#applepay").hide();
-                    });
-                    jQuery('.mui-btn').click(function(){
-                            jQuery("#pay").show();
-                            jQuery("#applepay").hide();
-                    });
-                    jQuery("#pay").hide();
-                    jQuery("#applepay").show();
-                    _data = data;
-                }
-            },
-        });
-    }
-    //其他的正常请求
-    else
-    {
-        jQuery("#pay").show();
-        jQuery("#applepay").hide();
-        form.config({
-            ajaxPost:false
-        });
-    }
-});
+
 $('#pay').bind('click',function(){
+    var btime=getNowDate();
+            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
    $('#save').submit();
 })
+   window.onbeforeunload = function() {
+            $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
+   }
+    function getNowDate() {
+         var date = new Date();
+         var sign1 = "-";
+         var sign2 = ":";
+         var year = date.getFullYear() // 年
+         var month = date.getMonth() + 1; // 月
+         var day  = date.getDate(); // 日
+         var hour = date.getHours(); // 时
+         var minutes = date.getMinutes(); // 分
+         var seconds = date.getSeconds() //秒
+         var weekArr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+         var week = weekArr[date.getDay()];
+         // 给一位数数据前面加 “0”
+         if (month >= 1 && month <= 9) {
+          month = "0" + month;
+         }
+         if (day >= 0 && day <= 9) {
+          day = "0" + day;
+         }
+         if (hour >= 0 && hour <= 9) {
+          hour = "0" + hour;
+         }
+         if (minutes >= 0 && minutes <= 9) {
+          minutes = "0" + minutes;
+         }
+         if (seconds >= 0 && seconds <= 9) {
+          seconds = "0" + seconds;
+         }
+         var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds;
+         return currentdate;
+        }
 </script>
 
 </body>

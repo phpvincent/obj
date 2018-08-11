@@ -10,7 +10,7 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333"></a>
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
         <h1 class="mui-title">確認訂單</h1>
 </header>
     <div class="mui-content">

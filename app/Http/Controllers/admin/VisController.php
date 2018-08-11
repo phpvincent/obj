@@ -194,5 +194,9 @@ class VisController extends Controller
    		}
         out_excil($data,$zdname,'访问记录表',$filename);
    }
-   
+   public function stime(Request $request){
+   	$id=$request->input('id');
+   	$vis=vis::where('vis_id',$id)->first();
+   	return view('admin.vis.stime')->with(compact('vis'));
+   }
 }

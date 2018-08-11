@@ -21,21 +21,6 @@ class IndexController extends Controller
     	//获取该域名对应商品id
         
     	$goods_id=url::get_goods($request);
-       /* $arr=getclientcity($request);
-        $type=getclientype();
-        $lan=getclientlan();
-        $vis=new vis;
-        $vis->vis_ip=$arr['ip'];
-        $vis->vis_country=$arr['country'];
-        $vis->vis_region=$arr['region'];
-        $vis->vis_city=$arr['city'];
-        $vis->vis_county=$arr['county'];
-        $vis->vis_isp=$arr['isp'];
-        $vis->vis_type=$type;
-        $vis->vis_lan=$lan;
-        $vis->vis_time=date('Y-m-d H:i:s',time());
-        $vis->vis_goods_id=$goods_id;
-        $vis->save();*/
     	$imgs=img::where('img_goods_id',$goods_id)->get(['img_url']);
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
@@ -90,6 +75,10 @@ class IndexController extends Controller
     	$comment->com_isuser='1';
     	$comment->com_isshow='0';
     	$ans=$comment->save();
+        $vis_id=$request->input('vis_id');
+        $vis=\App\vis::where('vis_id',$vis_id)->first();
+        $vis->vis_comtime=date('Y-m-d H:i:s',time());
+        $vis->save();
     	return response()->json(array('status'=> $ans), 200);
     }
     public function pay(Request $request){
@@ -201,6 +190,34 @@ class IndexController extends Controller
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
     $vis->vis_from=$from;
+    $vis->save();
+   }
+   public function settime(Request $request){
+        $data=json_decode($request->input('data'));
+        $id=$request->input('id');
+        $vis=\App\vis::where('vis_id',$id)->first();
+        
+        $time=time()-strtotime(($vis->vis_time));
+        if($vis->vis_staytime==null){
+                    $vis->vis_staytime=$time;
+        }else{
+            $vis->vis_staytime=$time;
+        }
+        $vis->save();
+   }
+   public function setbuy(Request $request){
+    $id=$request->input('id');
+    $vis=\App\vis::where('vis_id',$id)->first();
+    $time=$request->input('date');
+ /*   $data=date('Y-m-d H:i:s',$time);*/
+    $vis->vis_staytime=time()-strtotime(($vis->vis_time));
+    $vis->vis_buytime=$time;
+    $vis->save();
+   }
+   public function setorder(Request $request){
+    $date=$request->input('date');
+    $vis=\App\vis::where('vis_id',$request->input('id'))->first();
+    $vis->vis_ordertime=$date;
     $vis->save();
    }
 }

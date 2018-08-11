@@ -12,19 +12,24 @@
 */
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
-	Route::any('/order/save_testcom','home\IndexController@savetestform');
 Route::middleware('checkurl')->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
 	Route::post('/comment','home\IndexController@comment');
-
 	Route::get('/send','home\IndexController@send');
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
-	Route::any('/visfrom','home\IndexController@visfrom');
+	Route::get('/visfrom','home\IndexController@visfrom');
+
 	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');
 	Route::match(['get', 'post'], '/saveform','home\IndexController@saveform');
+});
+Route::middleware([])->group(function(){
+	Route::any('/order/save_testcom','home\IndexController@savetestform');
+	Route::get('/visfrom/settime','home\IndexController@settime');
+	Route::get('/visfrom/setbuy','home\IndexController@setbuy');
+	Route::get('/visfrom/setorder','home\IndexController@setorder');
 });
 //后台相关路由
 Route::match(['get','post'],'/admin/login','admin\ManagerController@login')->name('login')->middleware('checkadmin');
@@ -84,4 +89,5 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/vis/prea','admin\VisController@prea');
 	Route::get('/admin/vis/chvis','admin\VisController@chvis');
 	Route::any('/admin/vis/outvis','admin\VisController@outvis');
+	Route::get('/admin/vis/stime','admin\VisController@stime');
 });
