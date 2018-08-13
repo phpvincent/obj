@@ -52,6 +52,16 @@
 				</select>
 				</span> </div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>单品类型：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="goods_type" id="goods_type" class="select">
+					@foreach($type as $val)
+					<option value="{{$val->goods_type_id}}" @if($goods->goods_type==$val->goods_type_id) selected="selected" @endif>{{$val->goods_type_name}}</option>
+					@endforeach
+				</select>
+				</span> </div>
+		</div>
 		<div class="row cl"	id="cuxiaohtml">
 			<!-- <div class="formControls col-xs-8 col-sm-9" >
 			</div> -->

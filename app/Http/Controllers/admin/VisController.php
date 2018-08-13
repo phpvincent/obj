@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\vis;
 use DB;
+use Illuminate\Support\Facades\Auth;
 class VisController extends Controller
 {
     public function index(){
@@ -176,12 +177,12 @@ class VisController extends Controller
 	   	}
     }
    public function outvis(){
-   		$data=vis::select('vis.vis_id','vis.vis_ip','vis.vis_country','vis.vis_region','vis.vis_city','vis.vis_county','vis.vis_isp','vis.vis_type','vis.vis_time','vis.vis_lan','vis.vis_isback','goods.goods_name')
+   		$data=vis::select('vis.vis_id','vis.vis_ip','vis.vis_country','vis.vis_region','vis.vis_city','vis.vis_county','vis.vis_isp','vis.vis_type','vis.vis_time','vis.vis_lan','vis.vis_isback','goods.goods_name','vis.vis_url','vis_from','vis_buytime','vis_ordertime','vis_staytime','vis_comtime')
 			   ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
 				->orderBy('vis.vis_time','desc')
 				->get()->toArray();
    		$filename='访问记录'.date('Y-m-d h:i:s',time()).'.xls';
-   		$zdname=['记录id','访问者ip','访问者国家','访问者省份/州','访问者城市/地区','访问者县区/镇','访问者网络源','访问者设备类型','访问时间','访问者语言','是否封禁该ip','单品名'];
+   		$zdname=['记录id','访问者ip','访问者国家','访问者省份/州','访问者城市/地区','访问者县区/镇','访问者网络源','访问者设备类型','访问时间','访问者语言','是否封禁该ip','单品名','访问域名','访问来源','购买时间','下单时间','停留时间','评论时间'];
    		foreach($data as $k => $v){
    			if($v['vis_isback']=='0'){
    				$data[$k]['vis_isback']='没有封禁';
@@ -198,5 +199,177 @@ class VisController extends Controller
    	$id=$request->input('id');
    	$vis=vis::where('vis_id',$id)->first();
    	return view('admin.vis.stime')->with(compact('vis'));
+   }
+   public function statistic(Request $request){
+   	if($request->isMethod('get')){
+   		if(Auth::user()->is_root!='1'){
+   			$goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
+   		}else{
+   			$goods=\App\goods::get();
+   		}
+   		return view('admin.vis.statistic')->with(compact('goods'));
+   	}elseif($request->isMethod('post')){
+   		if($request->has('id')){
+   			$id=$request->input('id');
+   		}else{
+   			$id=0;
+   		}
+   		
+
+   		if($id!=0){
+   			//$vis=\App\vis::where('vis_goods_id',$id)->get();
+   				for ($i=0; $i <7 ; $i++) { 
+   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+   				$count=$count[0]->counts;
+	   			$data1['name']='购买转化';
+	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null and vis.vis_goods_id=$id");
+	   			if($count==0){
+	   				$data1['data'][$i]=0;
+	   			}else{
+	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
+	   			}
+	   			
+	   		}	
+	   		for ($i=0; $i <7 ; $i++) { 
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+	   			$count=$count[0]->counts;
+	   			$data2['name']='下单转化';
+	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null and vis.vis_goods_id=$id");
+	   			if($count==0){
+	   				$data2['data'][$i]=0;
+	   			}else{
+	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
+	   			}
+
+	   			
+	   		}
+	   		for ($i=0; $i <7 ; $i++) { 
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+	   			$count=$count[0]->counts;
+	   			$data3['name']='评论转化';
+	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null and vis.vis_goods_id=$id");
+	   			if($count==0){
+	   				$data3['data'][$i]=0;
+	   			}else{
+	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
+	   			}
+	   			
+	   		}
+	   		$data[]=$data1;
+	   		$data[]=$data2;
+	   		$data[]=$data3;
+	   		 return response()->json($data);
+   		}else{
+   			//$count=DB::select("select count(*) from vis where DateDiff(dd,vis_time,getdate())={$i}");
+   			for ($i=0; $i <7 ; $i++) { 
+   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+   				$count=$count[0]->counts;
+	   			$data1['name']='购买转化';
+	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null");
+	   			if($count==0){
+	   				$data1['data'][$i]=0;
+	   			}else{
+	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
+	   			}
+	   			
+	   		}	
+	   		for ($i=0; $i <7 ; $i++) { 
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+	   			$count=$count[0]->counts;
+	   			$data2['name']='下单转化';
+	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null");
+	   			if($count==0){
+	   				$data2['data'][$i]=0;
+	   			}else{
+	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
+	   			}
+
+	   			
+	   		}
+	   		for ($i=0; $i <7 ; $i++) { 
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+	   			$count=$count[0]->counts;
+	   			$data3['name']='评论转化';
+	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null");
+	   			if($count==0){
+	   				$data3['data'][$i]=0;
+	   			}else{
+	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
+	   			}
+	   			
+	   		}
+	   		$data[]=$data1;
+	   		$data[]=$data2;
+	   		$data[]=$data3;
+	   		 return response()->json($data);
+   		}
+   		
+   	}
+   }
+   public function statistic_b(Request $request){
+	   	$id=$request->input('id');
+	   	if($id==0){
+	   		//$counts=DB::select("select count(*) as counts from vis where 0>=DateDiff(vis.vis_time,now())>-7");
+	   		$ordercount=DB::select("select count(*) as ordercount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_ordertime is not null");
+	   		$buycount=DB::select("select count(*) as buycount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_buytime is not null and vis.vis_comtime is null and vis.vis_ordertime is null");
+	   		$comcount=DB::select("select count(*) as comcount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_comtime is not null");
+	   		$llcount=DB::select("select count(*) as llcount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_comtime is null and vis.vis_ordertime is null and vis.vis_buytime is null");
+	   		$order[]='点击购买并下单者';
+	   		$order[]=$ordercount[0]->ordercount;
+	   		$buy[]='仅点击购买者';
+	   		$buy[]=$buycount[0]->buycount;
+	   		$com[]='评论者';
+	   		$com[]=$comcount[0]->comcount;
+	   		$ii[]='仅浏览者';
+	   		$ii[]=$llcount[0]->llcount;
+	   		$arr=[];
+	   		$arr[]=$order;
+	   		$arr[]=$buy;
+	   		$arr[]=$ii;
+	   		$arr[]=$com;
+	   		 return response()->json($arr);
+	   	}else{
+	   		//$counts=DB::select("select count(*) as counts from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis_goods_id=$id");
+	   		$ordercount=DB::select("select count(*) as ordercount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_ordertime is not null and vis_goods_id=$id");
+	   		$buycount=DB::select("select count(*) as buycount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_buytime is not null and vis_goods_id=$id and vis.vis_comtime is null and vis.vis_ordertime is null");
+	   		$comcount=DB::select("select count(*) as comcount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_comtime is not null and vis_goods_id=$id");
+	   		$llcount=DB::select("select count(*) as llcount from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis.vis_comtime is null and vis.vis_ordertime is null and vis.vis_buytime is null and vis_goods_id=$id");
+	   		$order[]='点击购买并下单者';
+	   		$order[]=$ordercount[0]->ordercount;
+	   		$buy[]='仅点击购买者';
+	   		$buy[]=$buycount[0]->buycount;
+	   		$com[]='评论者';
+	   		$com[]=$comcount[0]->comcount;
+	   		$ii[]='仅浏览者';
+	   		$ii[]=$llcount[0]->llcount;
+	   		$arr=[];
+	   		$arr[]=$order;
+	   		$arr[]=$buy;
+	   		$arr[]=$ii;
+	   		$arr[]=$com;
+	   		 return response()->json($arr);
+	   	}
+   }
+   public function ll(Request $request){
+   	if($request->isMethod('get')){
+   		if(Auth::user()->is_root!='1'){
+   			$goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
+   		}else{
+   			$goods=\App\goods::get();
+   		}
+   		return view('admin.vis.ll')->with(compact('goods'));
+   	}else{
+
+   	}
+   }
+   public function get_ajaxtable(Request $request){
+   	 $id=$request->input('id');	
+   	 $arr=[];
+   	 if($id==0){
+   	 	$counts=DB::select("select count(*) as counts from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis_goods_id=$id");
+   	 	$counts=$counts[0]->counts;
+
+   	 }
+   	 return view('admin.vis.ajaxtable')->with(compact('arr'));
    }
 }

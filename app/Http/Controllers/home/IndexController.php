@@ -138,7 +138,15 @@ class IndexController extends Controller
     	}
     	$order->order_goods_id=$order_goods_id;
     	$goods=goods::where('goods_id',$order_goods_id)->first();
-    	$url=url::where('url_goods_id',$goods->goods_id)->first()->url_url;
+    	$urls=url::where('url_goods_id',$goods->goods_id)->first();
+        if($urls==null){
+            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+        }else{
+            $url=$urls->url_url;
+        }
+        if($url==null){
+            return false;
+        }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
     	//判断金额合法性

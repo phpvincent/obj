@@ -644,6 +644,7 @@ $(function(){
             data.content = $2("textarea[name='content']").val();
             data._token = $2("input[name='_token']").val();
             data.goods_id = $2("input[name='goods_id']").val();
+            data.vis_id=$2("input[name='vis_id']").val();
             var url = $2("#apprForm").attr("action");
 
             jQuery.post(url,data,function(html){

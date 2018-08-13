@@ -14,7 +14,8 @@ class GoodsController extends Controller
 {
    public function index(){
    	  $counts=goods::count();
-   	  return view('admin.goods.index')->with('counts',$counts);
+        $type=\App\goods_type::get();
+   	  return view('admin.goods.index')->with(compact('counts','type'));
    }
    public function get_table(Request $request){
    	$info=$request->all();
@@ -33,25 +34,36 @@ class GoodsController extends Controller
             $newlen=$len;
             $len=$counts;
            }
+         
+           $json=json_decode($search,true);
+           if(isset($json['goods_type'])&&$json['goods_type']>0){
+            $where=['goods.goods_type','=',(Int)$json['goods_type']];
+            $search=null;
+           }else if(isset($json['goods_type'])&&$json['goods_type']==0){
+            $where=['goods.goods_type','>',0];
+            $search=null;
+           }else{
+            $where=['goods.goods_type','>',0];
+           }
 	        $newcount=DB::table('goods')
 	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where])
 	        ->count();
 	        $data=DB::table('goods')
 	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where])
+	        ->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where])
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
@@ -86,7 +98,8 @@ class GoodsController extends Controller
 	        return response()->json($arr);
    }
    public function addgoods(Request $request){
-      return view('admin.goods.addgoods');
+      $type=\App\goods_type::get();
+      return view('admin.goods.addgoods')->with(compact('type'));
    }
    public function post_add(Request $request){
         $data=$request->all();
@@ -100,6 +113,7 @@ class GoodsController extends Controller
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_admin_id=$data['admin_id'];
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
+         $ggoods->goods_type=$data['goods_type'];
          if($request->hasFile('goods_video')){
                $file=$request->file('goods_video');
                $name=$file->getClientOriginalName();//得到图片名；
@@ -191,14 +205,14 @@ class GoodsController extends Controller
          }
    }
    public function outgoods(Request $request){
-   		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time')
+   		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time','goods_pix')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
 	        ->where('goods.is_del','0')
 			->orderBy('goods.goods_up_time','desc')
 			->get()->toArray();
    		$filename='商品信息'.date('Y-m-d H:i:s',time()).'.xls';
-   		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间'];
+   		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间','商品像素'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }
 
@@ -206,6 +220,7 @@ class GoodsController extends Controller
    	 	$id=$request->input('id');
    	 	$goods=goods::where('goods_id',$id)->first();
    	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
+         $type=\App\goods_type::get();
    	 	/*$goods['is_online']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_type;
          $url=\App\url::where('url_goods_id',$goods['goods_id'])->first();
    	 	$goods['url']=$url->url_url;
@@ -214,7 +229,7 @@ class GoodsController extends Controller
          }elseif($id==$url->url_zz_goods_id){
               $goods['is_zz']=1;
          }*/
-   	 	return view('admin.goods.update')->with(compact('goods'));
+   	 	return view('admin.goods.update')->with(compact('goods','type'));
    }
    public function post_update(Request $request){
    		$data=$request->all();
@@ -226,7 +241,7 @@ class GoodsController extends Controller
    		$goods->goods_price=$data['goods_price'];
    		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
          $goods->goods_pix=$data['goods_pix'];
-         
+         $goods->goods_type=$data['goods_type'];
    		if($request->hasFile('goods_video')){
    			@unlink($goods->goods_video);
    			$file=$request->file('goods_video');
