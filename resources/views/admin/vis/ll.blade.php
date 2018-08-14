@@ -19,6 +19,8 @@
 <div id="ajaxtable">
 	
 </div>
+<br>
+<hr>
 <div id="highchart"></div>
 @endsection
 @section('js')

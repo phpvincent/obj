@@ -17,6 +17,7 @@
 		</div>
 </div>
 <div id="container"></div>
+<hr>
 <div id="container-b"></div>
 @endsection
 @section('js')

@@ -1,0 +1,2102 @@
+-- reset code --*/
+body{
+	padding:0;
+	margin:0;
+	background:#FFF;
+}
+body a{
+    transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+}
+input[type="button"],input[type="submit"]{
+	transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+}
+h1,h2,h3,h4,h5,h6{
+	margin:0;	
+	padding:0;
+}	
+p{
+	margin:0;
+	padding:0;
+}
+ul{
+	margin:0;
+	padding:0;
+}
+label{
+	margin:0;
+}
+button{
+	transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+}
+img {
+	transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+}
+/*-- /reset code --*/
+body {
+	font-family: 'Raleway', sans-serif;
+	color:#999;
+}
+/*-- navigation --*/
+nav.navbar.navbar-default.navbar-fixed-top {
+    background-color: #16263f;
+    border-color: #e7e7e7;
+	height:50px;
+}
+.navbar-nav>li {
+    float: left;
+    width: 185px;
+    text-align: center;
+	position:relative;
+}
+.navbar-nav>li:nth-child(1):after, .navbar-nav>li:nth-child(2):after, .navbar-nav>li:nth-child(3):after, .navbar-nav>li:nth-child(4):after, .navbar-nav>li:nth-child(5):after {
+	position: relative;
+    content: '-';
+    font-size: 20px;
+    font-weight: bold;
+    right: -90px;
+    top: -25px;
+}
+.navbar-nav>li>a {
+    padding:0px 15px;
+	overflow:hidden;
+	position:relative;
+	font-size:17px;
+	font-weight:200;
+	color:#fff;
+	margin-top:14px;
+	font-family: 'Open Sans', sans-serif;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color:transparent;
+}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #fff;
+    background-color:transparent;
+}
+.tlinks{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+/* Effect  */
+.cl-effect-5 li a {
+	overflow: hidden;
+	text-transform:uppercase;
+}
+.cl-effect-5 li a span {
+	position: relative;
+	display: inline-block;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+	transition: transform 0.3s;
+}
+.cl-effect-5 li a span::before {
+	position: absolute;
+	top: 100%;
+	content: attr(data-hover);
+	font-weight: 700;
+	-webkit-transform: translate3d(0,0,0);
+	-moz-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+.cl-effect-5 li.active a span,
+.cl-effect-5 li a:active span,
+.cl-effect-5 li a:hover span,
+.cl-effect-5 li a:focus span {
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	transform: translateY(-100%);
+}
+/* /Effect */
+span.line1 {
+    position: absolute;
+    top: -2px;
+    font-size: 17px;
+    color: #fff;
+}  
+
+/*-- /navigation --*/
+/*-- banner section --*/
+section.banner-w3ls {
+	position:relative;
+}
+section.banner-w3ls .header { 
+	height:920px;
+	margin:0 auto;
+	padding:0;
+}
+.bgfader{
+	position: absolute;
+	z-index: -2;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+.bgfader-overlay{
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.bgfader > .image{
+	display: none;
+}
+
+.bgfader, .bgfader > .image{
+	width: 100%;
+	height: 100%;
+	background-position: center;
+	background-attachment:fixed;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	background-size: cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+.logo-agileits {
+	position: absolute;
+    z-index: 999;
+    width: 100%;
+    text-align: center;
+    top: 47%;
+}
+a.logo-w3ls {
+    display: inline-block;
+	text-decoration:none;
+	width: 640px;
+    height: 100px;
+    background-color: rgba(0,0,0,0.7);
+}
+a.logo-w3ls h1 {
+	font-size: 50px;
+    text-align: center;
+    font-weight: normal;
+    letter-spacing: 50px;
+    margin: 24px 0 0 45px;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+}
+/*-- /banner section --*/
+/*-- about section --*/
+section.about-agileits .about-agileinfo h2 {
+	font-size:40px;
+	font-weight:normal;
+	padding-bottom:20px;
+	color:#23a7f1;
+	text-transform:uppercase;
+	font-family: 'Open Sans', sans-serif;
+}
+section.about-agileits .about-agileinfo p {
+	font-size:16px;
+	font-weight:normal;
+	line-height:30px;
+	padding-bottom:20px;
+}
+section.about-agileits .about-agileinfo {
+    padding: 78px 20px;
+}
+.cover-slider__wrap {
+	position: relative;
+	width:100%;
+	height:500px;
+	margin:0 auto;
+	padding:0;
+	box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+}
+.cover-slider {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+.cover-slider__slide {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 100%;
+	padding: 0;
+	margin: 0;
+	background-size: cover;
+	background-position: center;
+	list-style: none;
+	z-index: 0;
+	opacity:1;
+}
+.cover-slider__slide.active {
+	-webkit-animation-duration: 2500ms;
+          animation-duration: 2500ms;
+	-webkit-animation-name: slidein;
+          animation-name: slidein;
+	-webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+.cover-slider__slide.inactive {
+	-webkit-animation-duration: 2500ms;
+          animation-duration: 2500ms;
+	-webkit-animation-name: slideout;
+          animation-name: slideout;
+	-webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+@-webkit-keyframes slidein {
+  from {
+    left: 0;
+    right: 100%;
+  }
+  to {
+    left: 0;
+    right: 0;
+  }
+}
+@keyframes slidein {
+  from {
+    left: 0;
+    right: 100%;
+  }
+  to {
+    left: 0;
+    right: 0;
+  }
+}
+@-webkit-keyframes slideout {
+  from {
+    left: 0;
+    right: 0;
+  }
+  to {
+    left: 100%;
+    right: 0;
+  }
+}
+@keyframes slideout {
+  from {
+    left: 0;
+    right: 0;
+  }
+  to {
+    left: 100%;
+    right: 0;
+  }
+}
+
+/*-- about section --*/
+/*-- address section --*/
+
+section.address-agileits h3 {
+	font-size:25px;
+	font-weight:normal;
+	color:#fff;
+	padding-bottom:15px;
+	font-family: 'Open Sans', sans-serif;
+}
+section.address-agileits p {
+	font-size:16px;
+	font-weight:normal;
+	color:#fff;
+	padding-bottom:10px;
+}
+section.address-agileits p a {
+	color:#fff;
+	text-decoration:none;
+}
+.hi-icon a {
+	display:block; 
+	width:100%; 
+	height:100%;  
+	position:absolute; 
+	top:0px; 
+	z-index:100 
+}
+.hi-icon-wrap {
+	text-align: center;
+	margin: 0 auto;
+	padding:0;
+}
+.hi-icon {
+	display: inline-block;
+	font-size: 0px;
+	cursor: pointer;
+	margin:0px;
+	width: 90px;
+	height: 90px;
+	border-radius: 50%;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	color: #fff;
+}
+.hi-icon:after {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	content: '';
+	-webkit-box-sizing: content-box; 
+	-moz-box-sizing: content-box; 
+	box-sizing: content-box;
+}
+.hi-icon:before  {
+	speak: none;
+	font-size: 48px;
+	line-height: 90px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	display: block;
+	-webkit-font-smoothing: antialiased;
+}
+.hi-icon-effect-1 .hi-icon {
+	background: rgba(255,255,255,0.1);
+	-webkit-transition: background 0.2s, color 0.2s;
+	-moz-transition: background 0.2s, color 0.2s;
+	transition: background 0.2s, color 0.2s;
+}
+.hi-icon-effect-1 .hi-icon:after {
+	top: -7px;
+	left: -7px;
+	padding: 7px;
+	box-shadow: 0 0 0 4px #fff;
+	-webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+	-webkit-transform: scale(.8);
+	-moz-transition: -moz-transform 0.2s, opacity 0.2s;
+	-moz-transform: scale(.8);
+	-ms-transform: scale(.8);
+	transition: transform 0.2s, opacity 0.2s;
+	transform: scale(.8);
+	opacity: 0;
+}
+.hi-icon-effect-1b .hi-icon:after {
+	-webkit-transform: scale(1.2);
+	-moz-transform: scale(1.2);
+	-ms-transform: scale(1.2);
+	transform: scale(1.2);
+}
+.hi-icon-effect-1b .hi-icon:hover:after {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+}
+.addr-w3-agile:hover .hi-icon-effect-1b .hi-icon {
+	background: rgba(255,255,255,1);
+	color: #16263f;
+} 
+.addr-w3-agile:hover .hi-icon:after {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+} 
+/*-- /address section --*/
+/*-- services section --*/
+section.service-wthree {
+	padding:100px 0;
+}
+section.service-wthree h3.text-center {
+	font-size:40px;
+	font-weight:normal;
+	color:#23a7f1;
+	padding-bottom:20px;
+	text-transform:uppercase;
+	font-family: 'Open Sans', sans-serif;
+}
+section.service-wthree p.text-center {
+	font-size:16px;
+	font-weight:normal;
+	padding-bottom:40px;
+}
+section.service-wthree h5.text-center {
+    font-size: 22px;
+    font-weight: normal;
+    color:#23a7f1;
+    padding-bottom: 20px;
+    text-transform:capitalize;
+	font-family: 'Open Sans', sans-serif;
+}
+section.service-wthree p.serv-p2 {
+    font-size: 14px;
+	text-align:center;
+    font-weight: normal;
+    line-height: 30px;
+	padding-bottom:30px;
+}
+.ch-grid {
+	margin:0 0 0 0;
+	padding: 0;
+	list-style: none;
+	display: block;
+	text-align: center;
+	width: 100%;
+}
+
+.ch-grid:after,
+.ch-item:before {
+	content: '';
+    display: table;
+}
+
+.ch-grid:after {
+	clear: both;
+}
+
+.ch-grid li {
+	width: 220px;
+	height: 220px;
+	display: inline-block;
+	margin: 20px;
+}
+/*-- /services section --*/ 
+/*-- testimonial section --*/
+
+section.testimonial h3.text-center {
+	font-size:40px;
+	font-weight:normal;
+	color:#fff;
+	text-transform:uppercase;
+	padding-bottom:80px;
+	font-family: 'Open Sans', sans-serif;
+}
+section.testimonial p {
+	font-size:16px;
+	font-weight:normal;
+	color:#fff;
+	letter-spacing:1px;
+	line-height:40px;
+}
+section.testimonial p i.fa {
+	font-size:30px;
+	color:#fff;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev {
+    width: 30px;
+    height: 30px;
+    line-height: 20px;
+    font-size: 30px;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
+    margin-left: -13px;
+}
+.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
+    margin-right: -13px;
+}
+.carousel-control.left {
+	background: #000;
+    width: 50px;
+    height: 50px;
+    margin-left: -70px;
+    margin-top: 55px;
+}
+.carousel-control.right {
+    background: #000;
+    width: 50px;
+    height: 50px;
+    margin-right: -70px;
+    margin-top: 55px;
+}
+.carousel-indicators {
+    bottom: -45px;
+}	
+section.testimonial img.img-circle.img-responsive {
+    width: 200px;
+	margin:0 auto;
+}
+section.testimonial p i.fa.fa-quote-left {
+	margin-right:20px;
+}
+section.testimonial p i.fa.fa-quote-right {
+	margin-left:20px;
+}
+/*-- /testimonial section --*/
+/*-- portfolio section --*/
+
+section.portfolio-wthree h3.text-center {
+	font-size:40px;
+	font-weight:normal;
+	color:#fff;
+	text-transform:uppercase;
+	padding-bottom:20px;
+	font-family: 'Open Sans', sans-serif;
+}
+section.portfolio-wthree p.text-center {
+	font-size:16px;
+	font-weight:normal;
+	padding-bottom:40px;
+	color:#fff;
+}
+.tabs {
+    position: relative;
+    margin: 0px auto;
+    width: 100%;
+}
+.tabs input {
+	position: absolute;
+	z-index: 1000;
+	left: 0px;
+	top: 0px;
+	opacity: 0;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+	cursor: pointer;
+}
+.tabs input#tab-2{
+	top: 40px;
+}
+.tabs input#tab-3{
+	top: 80px;
+}
+.tabs input#tab-4{
+	top: 120px;
+}
+.tabs label {
+	background: #16263f;
+	font-size: 15px;
+	font-weight:normal;
+	line-height:55px;
+	height:55px;
+	position: relative;
+	padding:0;
+	display: block;
+	width:150px;
+	color: #fff;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	font-weight: normal;
+	text-align: center;
+	cursor:pointer;
+	float: left;
+	clear: both;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+    border-radius: 3px 0 0 3px;
+    box-shadow: 0px 2px 2px rgba(0,0,0,0.1);
+}
+.tabs label:after {
+    content: '';
+	background: #fff;
+	position: absolute;
+	right: -2px;
+	top: 0;
+	width: 2px;
+	height: 100%;
+}
+.tabs input:hover + label {
+	background: #1e3f73;
+}
+.tabs label:first-of-type {
+    z-index: 4;
+}
+.tab-label-2 {
+    z-index: 3;
+}
+.tab-label-3 {
+    z-index: 2;
+}
+.tab-label-4 {
+    z-index: 1;
+}
+.tabs input:checked + label {
+    background:#1e3f73;
+    z-index: 7;
+	color:#fff;
+}
+.tabs input:checked:hover + label {
+	background: #1e3f73;
+	color:#fff;
+	cursor:default;
+}
+.clear-shadow {
+	clear: both;
+}
+.content {
+	background:rgba(161, 188, 205, 0.51);
+    position: relative;
+    width: auto;
+    margin: -220px 0 0 155px;
+    height: 507px;
+    z-index: 5;
+    overflow: hidden;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+.content div {
+    position: absolute;
+	top: 0;
+	padding: 10px 20px;
+	z-index: 1;
+    opacity: 0;
+    -webkit-transition: all linear 0.5s;
+    -moz-transition: all linear 0.5s;
+    -o-transition: all linear 0.5s;
+    -ms-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+}
+.content div{
+	-webkit-transform: translateY(-450px);
+	-moz-transform: translateY(-450px);
+	-o-transform: translateY(-450px);
+	-ms-transform: translateY(-450px);
+	transform: translateY(-450px);
+}
+.tabs input.tab-selector-1:checked ~ .content .content-1,
+.tabs input.tab-selector-2:checked ~ .content .content-2,
+.tabs input.tab-selector-3:checked ~ .content .content-3,
+.tabs input.tab-selector-4:checked ~ .content .content-4 {
+    -webkit-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	-o-transform: translateY(0px);
+	-ms-transform: translateY(0px);
+	transform: translateY(0px);
+    z-index: 100;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+    -webkit-transition: all ease-out 0.3s 0.3s;
+    -moz-transition: all ease-out 0.3s 0.3s;
+    -o-transition: all ease-out 0.3s 0.3s;
+    -ms-transition: all ease-out 0.3s 0.3s;
+    transition: all ease-out 0.3s 0.3s;
+}
+/*-- /portfolio section --*/
+/*-- events section --*/
+section.event-agileinfo {
+	padding:100px 0;
+	background:#23a7f1;
+}
+section.event-agileinfo h3.text-center {
+	font-size:40px;
+	font-weight:normal;
+	color:#fff;
+	text-transform:uppercase;
+	padding-bottom:20px;
+	font-family: 'Open Sans', sans-serif;
+}
+section.event-agileinfo p.text-center {
+	font-size:16px;
+	font-weight:normal;
+	padding-bottom:40px;
+	color:#fff;
+}
+section.event-agileinfo a.event-w3l {
+	display:block;
+	text-decoration:none;
+	padding: 10px 0;
+}
+section.event-agileinfo a.event-w3l h4 {
+	font-size: 25px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+}
+section.event-agileinfo p.event-agile1 {
+	font-size:20px;
+	font-weight:normal;
+	color:#fff;
+	font-family: 'Open Sans', sans-serif;
+}
+section.event-agileinfo p.event-w3-agile1, section.event-agileinfo p.event-w3-agile2 {
+	font-size:16px;
+	font-weight:normal;
+	color:#fff;
+	line-height:40px;
+}
+section.event-agileinfo p.event-w3-agile1 {
+	margin-left:20px;
+	text-align:left;
+}
+section.event-agileinfo p.event-w3-agile2 {
+	text-align:right;
+	margin-right:20px;
+}
+section.event-agileinfo .event-w3ls1 {
+	text-align:right;
+	position:relative;
+	margin-right: 25px;
+}
+section.event-agileinfo .event-w3ls1:after {
+	position:absolute;
+	content:'';
+	width:20px;
+	height:65px;
+	background:#fff;
+	right:-47px;
+	top:10px
+}
+section.event-agileinfo .event-w3ls2 {
+	text-align:left;
+	position:relative;
+	margin-left: 25px;
+}
+section.event-agileinfo .event-w3ls2:after {
+	position:absolute;
+	content:'';
+	width:20px;
+	height:65px;
+	background:#fff;
+	left:-47px;
+	top:10px
+}
+section.event-agileinfo .event-w3-agileits {
+    padding: 50px 0;
+}
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #31708f;
+}
+h4.modal-title {
+    text-align: center;
+    font-size: 35px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #fff;
+}
+.modal-body p{
+	font-size:16px;
+	font-weight:normal;
+	color:#999;
+	line-height:35px;
+	padding-bottom:10px;
+}
+.modal-header .close {
+    margin-top: 0px;
+    font-size: 75px;
+    font-weight: 300;
+    line-height: 30px;
+    color: #fff;
+    z-index: 9999;
+    opacity: 1;
+    cursor: pointer;
+}
+.modal-footer button.btn.btn-default {
+	background-color:#fff;
+	color:#000;
+	border-color:#000;
+}
+.modal-footer button.btn.btn-default:hover {
+	background-color:#23a7f1;
+	color:#fff;
+}
+/*-- /events section --*/
+/*-- works section --*/
+section.work-agileinfo {
+	padding:100px 0;
+}
+section.work-agileinfo h3.text-center {
+	font-size:40px;
+	font-weight:normal;
+	color:#23a7f1;
+	text-transform:uppercase;
+	padding-bottom:20px;
+	font-family: 'Open Sans', sans-serif;
+}
+section.work-agileinfo p.text-center {
+	font-size:16px;
+	font-weight:normal;
+	padding-bottom:40px;
+}
+section.work-agileinfo a.work-agile {
+	display:block;
+	text-decoration:none;
+	padding:20px 0 15px;
+}
+section.work-agileinfo h5.text-center {
+	font-size:20px;
+	font-weight:normal;
+	color:#23a7f1;
+	text-transform:uppercase;
+	font-family: 'Open Sans', sans-serif;
+}
+section.work-agileinfo p.work-w3l {
+	font-size:14px;
+	font-weight:normal;
+	line-height:30px;
+	text-align:center;
+}
+.grid {
+	position: relative;
+	clear: both;
+	margin: 0 auto;
+	padding:0;
+	list-style: none;
+	text-align: center;
+}
+/* Common style */
+.grid figure {
+	position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    background: #3085a3;
+    text-align: center;
+    cursor: pointer;
+}
+.grid figure img {
+	position: relative;
+	display: block;
+	height:auto;
+	max-width: 100%;
+	opacity: 0.8;
+}
+.grid figure figcaption {
+	padding: 2em;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 1.25em;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+.grid figure figcaption,
+.grid figure figcaption > a {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+/* Anchor will cover the whole item by default */
+/* For some effects it will show as a button */
+.grid figure figcaption > a {
+	z-index: 1000;
+	text-indent: 200%;
+	white-space: nowrap;
+	font-size: 0;
+	opacity: 0;
+}
+.grid figure h4 {
+	word-spacing: -0.15em;
+	font-weight: 300;
+}
+.grid figure h4,
+.grid figure p {
+	margin: 0;
+}
+.grid figure p {
+	letter-spacing: 1px;
+	font-size: 68.5%;
+}
+figure.effect-moses {
+	background: -webkit-linear-gradient(-45deg, #EC65B7 0%,#05E0D8 100%);
+	background: linear-gradient(-45deg, #EC65B7 0%,#05E0D8 100%);
+}
+figure.effect-moses img {
+	opacity: 0.85;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
+}
+figure.effect-moses h4,
+figure.effect-moses p {
+	width: 50%;
+	height: 50%;
+	border: 2px solid #fff;
+}
+figure.effect-moses h4 {
+	line-height:53px;
+	width: 50%;
+	font-size:17px;
+	font-weight:normal;
+	font-family: 'Open Sans', sans-serif;
+	height: 50%;
+	text-align: center;
+	-webkit-transition: -webkit-transform 0.35s;
+	transition: transform 0.35s;
+	-webkit-transform: translate3d(10px,10px,0);
+	transform: translate3d(10px,10px,0);
+}
+figure.effect-moses p {
+	float: right;
+    padding: 20px 0;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: center;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(-50%,-50%,0);
+    transform: translate3d(-50%,-50%,0);
+}
+figure.effect-moses:hover h4 {
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+figure.effect-moses:hover p {
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+figure.effect-moses:hover img {
+	opacity: 0.6;
+}
+/*-- /works section --*/
+/*-- contact section --*/
+
+section.contact-w3l h3.text-center {
+	font-size:40px;
+	font-weight:normal;
+	color:#fff;
+	text-transform:uppercase;
+	padding-bottom:20px;
+	font-family: 'Open Sans', sans-serif;
+}
+section.contact-w3l p.text-center {
+	font-size:16px;
+	font-weight:normal;
+	padding-bottom:40px;
+	color:#fff;
+}
+input#name,input#phone,input#email,textarea#message {
+	font-size: 17px;
+    font-weight: normal;
+    color: #fff;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.43);
+    outline: none;
+	margin-bottom:30px;
+}
+input#name:focus,input#phone:focus,input#email:focus,textarea#message:focus {
+	background-color: rgba(0, 0, 0, 1);
+    border: 1px solid #fff;
+	color:#fff;	
+}
+input#name,input#phone,input#email {
+	height:50px;
+}
+section.contact-w3l label {
+	font-size:18px;
+	font-weight:normal;
+	color:#fff;
+	text-transform:uppercase;
+	padding-bottom:10px;
+}
+section.contact-w3l button.btn.btn-primary {
+    width: 30%;
+    margin: 0 auto;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: normal;
+    color: #fff;
+    display: block;
+    background-color: #23a7f1;
+    border-color: #23a7f1;
+    outline: none;
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+}
+section.contact-w3l button.btn.btn-primary:hover {
+	color: #fff;
+    background-color:#000e25;
+	border-color:#000e25;
+}
+/*-- /contact section --*/
+/*-- footer --*/
+.footer {
+	padding:50px 0;
+	background-color:#000;
+}
+.footer p.text-center {
+	font-size:16px;
+	font-weight:normal;
+	color:#fff;
+	line-height:30px;
+	padding:0 10px;
+}
+.footer p.text-center a {
+	color:#23a7f1;
+	text-decoration:none;
+}
+.footer p.text-center a:hover {
+	color:#1d54a9;
+}
+/*-- /footer --*/
+/*-- back to top --*/
+.cd-top {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	position: fixed;
+	bottom: 40px;
+	right: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+	/* image replacement properties */
+	overflow: hidden;
+	text-indent: 100%;
+	white-space: nowrap;
+	background: rgba(0, 0, 0, 0) url(../images/up-arrow.svg) no-repeat center 50%;
+	background-size:70%;
+	border:1px solid #fff;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: opacity .3s 0s, visibility 0s .3s;
+	-moz-transition: opacity .3s 0s, visibility 0s .3s;
+	transition: opacity .3s 0s, visibility 0s .3s;
+}
+.cd-top.cd-is-visible, .cd-top.cd-fade-out, .no-touch .cd-top:hover {
+	-webkit-transition: opacity .3s 0s, visibility 0s 0s;
+	-moz-transition: opacity .3s 0s, visibility 0s 0s;
+	transition: opacity .3s 0s, visibility 0s 0s;
+}
+.cd-top.cd-is-visible {
+	/* the button becomes visible */
+	visibility: visible;
+	opacity: 1;
+}
+.cd-top.cd-fade-out {
+	/* if the user keeps scrolling down, the button is out of focus and becomes less visible */
+	opacity: .5;
+	z-index: 999;
+}
+.cd-top:hover {
+	background-color: #000;
+	opacity: 1;
+}
+@media only screen and (min-width: 768px) {
+	.cd-top {
+    right: 20px;
+    bottom: 20px;
+}
+}
+@media only screen and (min-width: 1024px) {
+	.cd-top {
+    height: 50px;
+    width: 50px;
+    right: 30px;
+    bottom: 30px;
+}
+}
+/*-- /back to top --*/
+
+/*-- responsive design --*/
+@media (max-width:1600px) {
+	section.banner-w3ls .header {
+    height: 790px;
+}
+section.address-agileits p {
+	padding-bottom:7px;
+}
+}
+
+@media (max-width:1280px) {
+.carousel-control.left {
+    margin-left: -40px;
+}
+.carousel-control.right {
+    margin-right: -40px;
+}
+}
+
+@media (max-width:1080px) {
+.navbar-nav>li {
+	width:155px;	
+}
+section.banner-w3ls .header {
+    height: 750px;
+}
+section.about-agileits .about-agileinfo {
+    padding: 48px 20px;
+}
+section.address-agileits h3 {
+    font-size: 20px;
+}
+section.address-agileits .addr-w3l {
+    margin-left: 15px;
+}
+section.address-agileits p {
+    font-size: 14px;
+}
+section.about-agileits .about-agileinfo p {
+    font-size: 14px;
+}
+section.about-agileits .about-agileinfo h2 {
+    font-size: 35px;
+}
+section.address-agileits,section.testimonial {
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+.logo-agileits {
+	top:44%;
+}
+section.service-wthree,section.portfolio-wthree,section.event-agileinfo,section.contact-w3l {
+    padding: 50px 0;
+}
+section.service-wthree h3.text-center,section.portfolio-wthree h3.text-center,section.event-agileinfo h3.text-center,section.work-agileinfo h3.text-center,section.contact-w3l h3.text-center {
+    font-size: 35px;
+}
+section.service-wthree p.text-center,section.portfolio-wthree p.text-center,section.event-agileinfo p.text-center,section.work-agileinfo p.text-center,section.contact-w3l p.text-center {
+    font-size: 14px;
+	padding-bottom: 30px;
+}
+.ch-grid li {
+	margin:0 auto;
+}
+section.service-wthree h5.text-center {
+    font-size: 20px;
+	padding:15px 0;
+}
+section.testimonial {
+    padding: 50px 0;
+}
+section.testimonial h3.text-center {
+    font-size: 35px;
+	padding-bottom: 40px;
+}
+section.testimonial p {
+    font-size: 14px;
+}
+section.testimonial img.img-circle.img-responsive {
+    width: 150px;
+    margin: 0 auto;
+}
+.col-lg-8.col-md-8.col-sm-8.test-agile1 {
+    width: 80%;
+}
+.col-lg-4.col-md-4.col-sm-4.test-agile2 {
+    width: 20%;
+}
+.carousel-control.left {
+	margin-left: -40px;
+    margin-top: 40px;
+}
+.carousel-control.right {
+	margin-right: -40px;
+    margin-top: 40px;
+}
+a.lightninBox {
+	width:225px;
+}
+.content {
+	height:405px;
+}
+section.event-agileinfo a.event-w3l h4 {
+    font-size: 20px;
+}
+section.event-agileinfo .event-w3ls1:after {
+	height: 58px;
+}
+section.event-agileinfo p.event-w3-agile1, section.event-agileinfo p.event-w3-agile2 {
+    font-size: 14px;
+	line-height: 30px;
+}
+section.event-agileinfo .event-w3-agileits {
+    padding: 30px 0;
+}
+figure.effect-moses h4 {
+	padding-top: 60px;
+    font-size: 25px;
+	line-height:0;
+}
+figure.effect-moses p {
+	padding: 50px 0 0;
+    font-size: 20px;
+}
+section.work-agileinfo p.work-w3l {
+	padding-bottom:40px;
+}
+section.work-agileinfo {
+	padding:50px 0 0;
+}
+section.contact-w3l label {
+    font-size: 15px;
+}
+section.contact-w3l button.btn.btn-primary {
+	font-size:18px;
+}
+.footer p.text-center {
+    font-size: 14px;
+}
+.footer {
+    padding: 30px 0;
+}
+.modal-body p {
+    font-size: 14px;
+}
+h4.modal-title {
+	font-size:30px;
+}
+}
+
+@media (max-width:1024px) {
+.navbar-nav>li:nth-child(1):after, .navbar-nav>li:nth-child(2):after, .navbar-nav>li:nth-child(3):after, .navbar-nav>li:nth-child(4):after, .navbar-nav>li:nth-child(5):after {
+	right: -78px;
+}
+section.banner-w3ls .header {
+    height: 675px;
+}
+.carousel-control.left {
+    margin-left: -25px;
+    margin-top: 40px;
+}
+.carousel-control.right {
+    margin-right: -25px;
+    margin-top: 40px;
+}
+section.about-agileits .about-agileinfo h2 {
+    font-size: 30px;
+}
+section.service-wthree h3.text-center, section.portfolio-wthree h3.text-center, section.event-agileinfo h3.text-center, section.work-agileinfo h3.text-center, section.contact-w3l h3.text-center {
+    font-size: 30px;
+}
+}
+
+@media (max-width: 991px) {
+.navbar-nav>li {
+    width: 120px;
+}
+.navbar-nav>li:nth-child(1):after, .navbar-nav>li:nth-child(2):after, .navbar-nav>li:nth-child(3):after, .navbar-nav>li:nth-child(4):after, .navbar-nav>li:nth-child(5):after {
+    right: -60px;
+}
+section.about-agileits .about-agileinfo {
+    padding: 20px 0px;
+    text-align: center;
+}
+section.about-agileits .about-agileinfo h2 {
+    font-size: 30px;
+	padding-bottom:15px;
+}
+section.about-agileits .about-agileinfo p {
+	padding-bottom:10px;
+}
+.col-lg-4.col-md-4.addr-agileinfo1,.col-lg-4.col-md-4.addr-agileinfo2,.col-lg-4.col-md-4.addr-agileinfo3 {
+    width: 33.3%;
+	float:left;
+}
+section.address-agileits .container,section.testimonial .container {
+	width:auto;
+}
+.carousel-control.left {
+    margin-left: 15px;
+    margin-top: -60px;
+}
+.carousel-control.right {
+    margin-right: 15px;
+    margin-top: -60px;
+}
+section.banner-w3ls .header {
+    height: 600px;
+}
+a.lightninBox {
+    width: 240px;
+}
+.content {
+    height: 635px;
+}
+section.event-agileinfo a.event-w3l h4 {
+    font-size: 17px;
+}
+figure.effect-moses h4 {
+    padding-top: 40px;
+    font-size: 22px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 30px 0 0;
+    font-size: 19px;
+}
+section.work-agileinfo a.work-agile {
+	padding: 20px 0 10px;
+}
+.modal-body img.img-responsive {
+	padding-bottom:20px;
+}
+}
+
+@media (max-width:900px) {
+section.address-agileits .addr-w3l {
+    margin-left: 1px;
+}
+section.address-agileits h3 {
+    font-size: 20px;
+    width: 135%;
+}
+.hi-icon {
+	width: 60px;
+    height: 60px;
+}
+.hi-icon:before {
+	font-size: 35px;
+    line-height: 60px;
+}
+section.address-agileits h3 {
+    font-size: 18px;
+    width: 112%;
+}
+}
+
+@media (max-width: 768px) {
+section.banner-w3ls .header {
+    height: 500px;
+}
+.bgfader, .bgfader > .image {
+	background-attachment:inherit;
+}
+section.address-agileits h3 {
+    font-size: 18px;
+    width: 130%;
+}
+}
+
+@media (max-width: 767px) {
+.navbar-nav>li {
+    width: 100%;
+}
+.navbar-nav>li:nth-child(1):after, .navbar-nav>li:nth-child(2):after, .navbar-nav>li:nth-child(3):after, .navbar-nav>li:nth-child(4):after, .navbar-nav>li:nth-child(5):after {
+	display:none;
+}
+.navbar-nav>li>a {
+	margin:12px 0;
+}
+ul.nav.navbar-nav.cl-effect-5 {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+nav.navbar.navbar-default.navbar-fixed-top {
+    background-color: rgba(22, 38, 63, 0.51);
+    border-color: #e7e7e7;
+    height: 50px;
+}
+.navbar-toggle {
+    position: relative;
+    float: none;
+    padding: 9px 10px;
+    background-color: transparent;
+    background-image: none;
+    border: 3px solid #0096e6!important;
+    border-radius: 4px;
+    margin: 7px auto 0;
+    display: block;
+}
+.navbar-toggle:focus,.navbar-toggle:hover {
+	 background-color:#0096e6!important;
+} 
+.navbar-default .navbar-toggle .icon-bar {
+    background-color:#0096e6!important;
+}
+.navbar-toggle:focus .icon-bar,.navbar-toggle:hover .icon-bar {
+	background-color:#fff!important;
+}
+}
+
+@media (max-width: 736px) {
+section.banner-w3ls .header {
+    height: 353px;
+}
+.cover-slider__wrap {
+	height:300px;
+}
+section.address-agileits h3 {
+    font-size: 18px;
+    width: 100%;
+}
+.col-lg-4.col-md-4.addr-agileinfo1, .col-lg-4.col-md-4.addr-agileinfo2, .col-lg-4.col-md-4.addr-agileinfo3 {
+    width: 50%;
+    float: left;
+}
+.col-lg-4.col-md-4.addr-agileinfo3 { 
+	padding-top:30px;
+}
+section.address-agileits {
+    padding: 50px 0;
+}
+.col-lg-8.col-md-8.col-sm-8.test-agile1 {
+    width: 100%;
+}
+.col-lg-4.col-md-4.col-sm-4.test-agile2 {
+    width: 100%;
+}
+.carousel-control.left {
+    margin-left: 15px;
+    margin-top: 206px;
+}
+.carousel-control.right {
+    margin-right: 15px;
+    margin-top: 206px;
+}
+a.logo-w3ls h1 {
+    font-size: 35px;
+	letter-spacing: 30px;
+	margin: 20px 0 0 37px;
+}
+a.logo-w3ls {
+	width: 430px;
+    height: 80px;
+}
+a.lightninBox {
+    width: 225px;
+}
+.content {
+    height: 601px;
+}
+.col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    width: 35%;
+	float:left;
+}
+.col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    width: 65%;
+    float: left;
+}
+.modal-header .close {
+    margin-top: 15px;
+}
+figure.effect-moses h4 {
+    padding-top: 38px;
+    font-size: 20px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 30px 0 0;
+    font-size: 16px;
+}
+}
+
+@media (max-width: 667px) {
+section.banner-w3ls .header {
+    height: 312px;
+}
+a.lightninBox {
+    width: 190px;
+}
+.content {
+    height: 520px;
+}
+section.event-agileinfo .event-w3ls1:after {
+	width:7px;
+	height:73px;
+	right: -23px;
+}
+section.event-agileinfo .event-w3ls1 {
+	margin-right:0;
+}
+section.event-agileinfo p.event-w3-agile1 {
+    margin-left: 10px;
+}
+section.event-agileinfo .event-w3ls2 {
+	margin-left:0;
+}
+section.event-agileinfo p.event-w3-agile2 {
+	margin-right: 10px;
+}
+section.event-agileinfo .event-w3ls2:after {
+	width:7px;
+	height:73px;
+	left: -23px;
+}
+figure.effect-moses h4 {
+    padding-top: 32px;
+    font-size: 20px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 23px 0 0;
+    font-size: 16px;
+}
+}
+
+@media (max-width:640px) {
+section.about-agileits .about-agileinfo h2 {
+    font-size: 25px;
+    padding-bottom: 10px;
+}
+section.testimonial p {
+	padding-bottom:25px;	
+}
+.tabs label {
+	float:none;
+	display:inline-block;
+	width: 145px;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	-ms-border-radius:5px;
+}
+.content {
+	margin:10px 0 0 0;
+}
+.tabs label:after {
+	display:none;
+}
+.content div {
+	padding:10px;
+}
+a.lightninBox {
+    width: 178px;
+	margin:5px;
+}
+.content {
+    height: 325px;
+}
+.col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    width: 40%;
+    float: left;
+}
+.col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    width: 60%;
+    float: left;
+}
+figure.effect-moses p {
+    padding: 20px 0 0;
+    font-size: 16px;
+}
+section.service-wthree h3.text-center, section.portfolio-wthree h3.text-center, section.event-agileinfo h3.text-center, section.work-agileinfo h3.text-center, section.contact-w3l h3.text-center {
+    font-size: 25px;
+	padding-bottom: 10px;
+}
+section.testimonial h3.text-center {
+    font-size: 25px;
+    padding-bottom: 25px;
+}
+}
+
+@media (max-width: 600px) {
+section.banner-w3ls .header {
+    height: 365px;
+}
+.tabs label {
+	width: 135px;
+}
+a.lightninBox {
+    width: 165px;
+    margin: 5px;
+}
+.content {
+    height: 300px;
+}
+.grid figure figcaption {
+	padding:1em;
+}
+}
+
+@media (max-width: 568px) {
+section.banner-w3ls .header {
+    height: 258px;
+}
+.navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
+    max-height: 206px;
+}
+.cover-slider__wrap {
+    height: 230px;
+}
+section.address-agileits .addr-w3l {
+    margin-left: 0px;
+}
+.col-lg-4.col-md-4.addr-agileinfo1, .col-lg-4.col-md-4.addr-agileinfo2, .col-lg-4.col-md-4.addr-agileinfo3 {
+    width: 100%;
+    float: left;
+}
+.col-lg-4.col-md-4.addr-agileinfo2,.col-lg-4.col-md-4.addr-agileinfo3 {
+    padding-top: 30px;
+}
+a.logo-w3ls {
+    width: 310px;
+    height: 65px;
+}
+a.logo-w3ls h1 {
+    font-size: 30px;
+    letter-spacing: 18px;
+    margin: 16px 0 0 17px;
+}
+.logo-agileits {
+    top: 47%;
+}
+.col-xs-4.addr-agileits1 {
+    width: 50%;
+    float: left;
+}
+.col-xs-8.addr-agileits2 {
+    width: 50%;
+    float: left;
+}
+section.address-agileits .addr-w3l {
+    margin-left: -60px;
+}
+.tabs label {
+    width: 127px;
+}
+a.lightninBox {
+    width: 154px;
+    margin: 5px;
+}
+.content {
+    height: 285px;
+}
+.col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    width: 45%;
+    float: left;
+}
+.col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    width: 55%;
+    float: left;
+}
+figure.effect-moses p {
+    padding: 24px 0 0;
+    font-size: 16px;
+}
+}
+
+@media (max-width:480px) {
+.logo-agileits {
+    top: 45%;
+}
+.navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
+    max-height: 275px;
+}
+.carousel-control.left {
+    margin-left: 15px;
+    margin-top: 293px;
+}
+.carousel-control.right {
+    margin-right: 15px;
+    margin-top: 293px;
+}
+.tabs label {
+    width: 105px;
+    font-size: 13px;
+    height: 40px;
+    line-height: 15px;
+    padding-top: 13px!important;
+}
+a.lightninBox {
+    width: 125px;
+    margin: 5px;
+}
+.content {
+    height: 245px;
+}
+.col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    width: 100%;
+    float: left;
+}
+.col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    width: 100%;
+    float: left;
+}
+section.event-agileinfo .event-w3ls1 {
+    text-align: center;
+    position: relative;
+    margin-right:auto;
+	padding-bottom:20px;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+	margin:0 auto 0;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-8.col-md-8.col-sm-8.event-wthree2 { 
+	margin:0 auto 0;	
+}
+section.event-agileinfo .event-w3ls1:after {
+    width: 127px;
+    height: 2px;
+    right: 0;
+    top: 76px;
+    left: 143px;
+}
+section.service-wthree p.text-center, section.portfolio-wthree p.text-center, section.event-agileinfo p.text-center, section.work-agileinfo p.text-center, section.contact-w3l p.text-center {
+    font-size: 14px;
+    padding-bottom: 20px;
+    line-height: 30px;
+}
+section.event-agileinfo a.event-w3l h4 {
+    font-size: 20px;
+}
+section.event-agileinfo p.event-w3-agile1 {
+    margin-left: auto;
+    text-align: center;
+}
+section.event-agileinfo .event-w3ls2 {
+    margin-left: auto;
+    text-align: center;
+}
+section.event-agileinfo .event-w3ls2:after {
+    width: 127px;
+    height: 2px;
+    right: 0;
+    top: 76px;
+    left: 143px;
+}
+section.event-agileinfo p.event-w3-agile2 {
+    margin-right: auto;
+    text-align: center;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    margin: -180px auto 0;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    margin: 80px auto 0;
+}
+.col-lg-3.col-md-6.col-sm-6.col-xs-6.work-wthree {
+    width: 100%;
+    float: left;
+}
+section.testimonial p {
+    padding-bottom: 0px;
+}
+.col-lg-8.col-md-8.col-sm-8.test-agile1 {
+	height:300px;
+}
+figure.effect-moses h4 {
+    padding-top: 63px;
+    font-size: 25px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 52px 0 0;
+    font-size: 20px;
+}
+section.contact-w3l button.btn.btn-primary {
+    font-size: 16px;
+	width:50%;
+	height:45px;
+}
+}
+
+@media (max-width: 414px) {
+section.address-agileits .addr-w3l {
+    margin-left: -40px;
+}
+.col-lg-8.col-md-8.col-sm-8.test-agile1 {
+	height:340px;
+}
+.carousel-control.left {
+    margin-left: 15px;
+    margin-top: 340px;
+}
+.carousel-control.right {
+    margin-right: 15px;
+    margin-top: 340px;
+}
+.tabs label {
+    width: 89px;
+    font-size: 13px;
+    vertical-align: middle;
+    height: 55px;
+    line-height: 15px;
+    padding-top: 16px!important;
+}
+.tabs label {
+    width: 89px;
+    font-size: 13px;
+    vertical-align: middle;
+    height: 48px;
+    text-transform: capitalize;
+    line-height: 15px;
+    padding-top: 16px!important;
+}
+a.lightninBox {
+    width: 161px;
+    margin: 5px;
+}
+.content {
+    height: 425px;
+}
+section.event-agileinfo a.event-w3l h4 {
+    font-size: 17px;
+    font-weight: 300;
+}
+section.event-agileinfo p.event-agile1 {
+    font-size: 18px;
+    font-weight: 300;
+}
+section.event-agileinfo a.event-w3l {
+	padding:0 0 5px;
+}
+section.event-agileinfo .event-w3ls1:after,section.event-agileinfo .event-w3ls2:after {
+    width: 172px;
+    height: 2px;
+    right: 0;
+    top: 52px;
+    left: 83px;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    margin: -185px auto 0;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    margin: 60px auto 0;
+}
+figure.effect-moses h4 {
+    padding-top: 51px;
+    font-size: 25px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 40px 0 0;
+    font-size: 20px;
+}
+section.service-wthree, section.portfolio-wthree, section.event-agileinfo, section.contact-w3l {
+	padding:30px 0;
+}
+section.work-agileinfo {
+    padding: 30px 0 0;
+}
+}
+
+@media (max-width:384px) {
+.cover-slider__wrap {
+    height: 175px;
+}
+.tabs label {
+    width: 81px;
+}
+a.lightninBox {
+    width: 308px;
+    margin: 5px;
+}
+.content {
+    height: 1497px;
+}
+section.event-agileinfo .event-w3ls1:after, section.event-agileinfo .event-w3ls2:after {
+    width: 176px;
+    height: 2px;
+    right: 0;
+    top: 57px;
+    left: 67px;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    margin: -215px auto 0;
+}
+figure.effect-moses h4 {
+    padding-top: 46px;
+    font-size: 22px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 36px 0 0;
+    font-size: 17px;
+}
+.col-lg-8.col-md-8.col-sm-8.test-agile1 {
+    height: 375px;
+}
+}
+
+@media (max-width:375px) {
+.col-lg-8.col-md-8.col-sm-8.test-agile1 {
+    height: 375px;
+}
+.carousel-control.left {
+    margin-left: 15px;
+    margin-top: 380px;
+}
+.carousel-control.right {
+    margin-right: 15px;
+    margin-top: 380px;
+}
+.tabs label {
+    width: 79px;
+}
+a.lightninBox {
+    width: 299px;
+    margin: 5px;
+}
+.content {
+    height: 1460px;
+}
+figure.effect-moses h4 {
+    padding-top: 44px;
+    font-size: 22px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 34px 0 0;
+    font-size: 17px;
+}
+}
+
+@media (max-width: 320px) {
+a.logo-w3ls {
+    width: 200px;
+    height: 50px;
+}
+a.logo-w3ls h1 {
+    font-size: 25px;
+    letter-spacing: 7px;
+    margin: 11px 0 0 8px;
+}
+.logo-agileits {
+    top: 47%;
+}
+section.banner-w3ls .header {
+    height: 200px;
+}
+.cover-slider__wrap {
+    height: 145px;
+}
+section.about-agileits .about-agileinfo p {
+    font-size: 13px;
+}
+section.address-agileits .addr-w3l {
+    margin-left: 10px;
+}
+.col-xs-4.addr-agileits1 {
+    width: 30%;
+    float: left;
+}
+.col-xs-8.addr-agileits2 {
+    width: 70%;
+    float: left;
+}
+section.address-agileits p {
+    font-size: 13px;
+}
+section.service-wthree p.text-center, section.portfolio-wthree p.text-center, section.event-agileinfo p.text-center, section.work-agileinfo p.text-center, section.contact-w3l p.text-center {
+    font-size: 13px;
+    padding-bottom: 20px;
+    line-height: 30px;
+}
+section.service-wthree p.serv-p2 {
+    font-size: 13px;
+    text-align: center;
+    font-weight: normal;
+    line-height: 30px;
+    padding-bottom: 30px;
+}
+section.testimonial p {
+    font-size: 13px;
+	line-height:35px;
+}
+
+section.testimonial p i.fa {
+    font-size: 25px;
+}
+section.testimonial p i.fa.fa-quote-left {
+	margin-right: 15px;
+}
+section.testimonial p i.fa.fa-quote-right {
+	margin-left:15px;
+}
+.carousel-control.left,.carousel-control.right {
+	width:40px;
+	height:40px;
+}
+section.about-agileits .about-agileinfo h2 {
+    font-size: 23px;
+    padding-bottom: 10px;
+}
+section.service-wthree h3.text-center, section.portfolio-wthree h3.text-center, section.event-agileinfo h3.text-center, section.work-agileinfo h3.text-center, section.contact-w3l h3.text-center {
+    font-size: 22px;
+    padding-bottom: 10px;
+}
+section.service-wthree h5.text-center {
+    font-size: 19px;
+    padding: 10px 0;
+}
+section.testimonial h3.text-center {
+    font-size: 22px;
+    padding-bottom: 20px;
+}
+.tabs label {
+    width: 65px;
+	font-size: 11px;
+    vertical-align: middle;
+    height: 40px;
+    text-transform: capitalize;
+    line-height: 15px;
+    padding-top: 13px!important;
+}
+a.lightninBox {
+    width: 243px;
+    margin: 5px;
+}
+.content {
+    height: 1205px;
+}
+section.event-agileinfo a.event-w3l h4 {
+    font-size: 16px;
+    font-weight: 300;
+}
+section.event-agileinfo p.event-agile1 {
+    font-size: 16px;
+    font-weight: 300;
+}
+section.event-agileinfo .event-w3ls1:after, section.event-agileinfo .event-w3ls2:after {
+    width: 170px;
+    height: 2px;
+    right: 0;
+    top: 51px;
+    left: 37px;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-4.col-md-4.col-sm-4.event-wthree1 {
+    margin: -240px auto 0;
+}
+section.event-agileinfo .event-w3-agileits .col-lg-8.col-md-8.col-sm-8.event-wthree2 {
+    margin: 45px auto 0;
+}
+section.event-agileinfo .event-w3-agileits {
+    padding: 30px 0 20px;
+}
+figure.effect-moses h4 {
+    padding-top: 34px;
+    font-size: 18px;
+    line-height: 0;
+}
+figure.effect-moses p {
+    padding: 23px 0 0;
+    font-size: 17px;
+}
+section.event-agileinfo p.event-w3-agile1, section.event-agileinfo p.event-w3-agile2 {
+    font-size: 13px;
+    line-height: 30px;
+}
+section.work-agileinfo h5.text-center {
+    font-size: 18px;
+}
+section.work-agileinfo a.work-agile {
+    padding: 20px 0 10px;
+}
+section.work-agileinfo p.work-w3l {
+    font-size: 13px;
+}
+section.contact-w3l label {
+    font-size: 13px;
+}
+input#name, input#phone, input#email {
+    height: 40px;
+	margin-bottom:15px;
+}
+input#name, input#phone, input#email, textarea#message {
+    font-size: 14px;
+}
+section.contact-w3l button.btn.btn-primary {
+    font-size: 14px;
+    width: 100%;
+    height: 40px;
+}
+.footer p.text-center {
+    font-size: 13px;
+}
+}
+
+
+
+
+
+
+
+/*-- /responsive design --

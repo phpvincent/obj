@@ -60,6 +60,7 @@ class IndexController extends Controller
         $vis->vis_lan=$lan;
         $vis->vis_time=date('Y-m-d H:i:s',time());
         $vis->vis_goods_id=$goods_id;
+        $vis->vis_url=$_SERVER['SERVER_NAME'];
         $vis->save();  
         return view('view.fb');
     }
@@ -198,6 +199,7 @@ class IndexController extends Controller
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
     $vis->vis_from=$from;
+    $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
     $vis->save();
    }
    public function settime(Request $request){

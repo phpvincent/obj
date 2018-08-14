@@ -158,6 +158,20 @@ if (!function_exists('out_excil')){
       //exit( $str ); 
 
       }
-   
-   
+   if (!function_exists('turn_pic')){
+      function turn_pic($dir){ 
+        /*php 给图片加灰色透明效果*/
+        $imfile = $dir;//原图 
+        $origim = imagecreatefromjpeg($imfile);//从 JPEG 文件或 URL 新建一图像 
+        $w=imagesx($origim);//原图宽度 
+        $h=imagesy($origim);//原图高度 
+        $newimg = imagecreatetruecolor($w, $h);//返回一个图像标识符，代表了一幅大小为    x_size 和 y_size 的黑色图像。imagecreatetruecolor//      
+        $color=imagecolorallocatealpha($newimg,0,0,0,75);//为一幅图像分配颜色 + alpha; 和 imagecolorallocate() 相同，但多了一个额外的透明度参数 alpha，其值从 0 到 127。0 表示完全不透明，127 表示完全透明。  
+        imagecolortransparent($newimg,$color);//将某个颜色定义为透明色 
+        imagefill($newimg,0,0,$color);//区域填充;resource $image , int $x , int $y , int $color  
+        imagecopy($origim,$newimg, 0,0, 0, 0,$w, $h);//拷贝图像的一部分;将 src_im 图像中坐标从 src_x，src_y 开始，宽度为 src_w，高度为 src_h 的一部分拷贝到 dst_im 图像中坐标为 dst_x 和 dst_y 的位置上。 
+        imagejpeg($origim, 'business/images/2.jpg');//输出图象到浏览器或文件。;resource $image [, string $filename [, int $quality ]] 
+      }
+    }
+
 }
