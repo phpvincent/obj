@@ -366,10 +366,71 @@ class VisController extends Controller
    	 $id=$request->input('id');	
    	 $arr=[];
    	 if($id==0){
-   	 	$counts=DB::select("select count(*) as counts from vis where 0>= DateDiff(vis.vis_time,now())>-7 and vis_goods_id=$id");
-   	 	$counts=$counts[0]->counts;
-
+   	 	$allcount=[];
+   	 	$yxcount=[];
+   	 	for ($i=0; $i <7 ; $i++) { 
+   	 	   $counts=DB::select("select count(*) as counts from vis where  DateDiff(vis.vis_time,now())=-$i");
+   	 	   $allcount[]=$counts[0]->counts;
+   	 		$yxcounts=DB::select("select count(*) as yxcounts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_staytime >= 3");
+   	 		$yxcount[]=$yxcounts[0]->yxcounts;
+   	 	}
+   	 }else{
+   	 	$allcount=[];
+   	 	$yxcount=[];
+   	 	for ($i=0; $i <7 ; $i++) { 
+   	 	   $counts=DB::select("select count(*) as counts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_goods_id=$id");
+   	 	   $allcount[]=$counts[0]->counts;
+   	 		$yxcounts=DB::select("select count(*) as yxcounts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_staytime >= 3 and vis_goods_id=$id");
+   	 		$yxcount[]=$yxcounts[0]->yxcounts;
+   	 	}
    	 }
-   	 return view('admin.vis.ajaxtable')->with(compact('arr'));
+   	 return view('admin.vis.ajaxtable')->with(compact('allcount','yxcount'));
+   }
+   public function get_zxtu(Request $request){
+   	$id=$request->input('id');
+   	if($id!=0){
+   			//$vis=\App\vis::where('vis_goods_id',$id)->get();
+   				for ($i=0; $i <7 ; $i++) { 
+   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+   				$count=$count[0]->counts;
+	   			$data1['name']='浏览人数';
+	   			$data1['data'][$i]=$count;
+	   		}	
+	   		for ($i=0; $i <7 ; $i++) { 
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_staytime >=3 and vis.vis_goods_id=$id");
+	   			$count=$count[0]->counts;
+	   			$data2['name']='有效浏览';
+	   			$data2['data'][$i]=$count;	
+	   		}
+	   	
+	   		$data[]=$data1;
+	   		$data[]=$data2;
+	   		$msg['data']=$data;
+	   		$allcc=DB::select("select count(*) as counts from vis where 0>=DateDiff(vis.vis_time,now())>-7 and vis.vis_goods_id=$id");
+	   		$msg['max']=$allcc[0]->counts;
+	   		 return response()->json($msg);
+   		}else{
+   			//$vis=\App\vis::where('vis_goods_id',$id)->get();
+   			for ($i=0; $i <7 ; $i++) { 
+   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+   				$count=$count[0]->counts;
+	   			$data1['name']='浏览人数';
+	   			$data1['data'][$i]=$count;
+	   		}	
+	   		for ($i=0; $i <7 ; $i++) { 
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_staytime >=3");
+	   			$count=$count[0]->counts;
+	   			$data2['name']='有效浏览';
+	   			$data2['data'][$i]=$count;	
+	   		}
+	   		$data[]=$data1;
+	   		$data[]=$data2;
+	   		$msg['data']=$data;
+	   		$allcc=DB::select("select count(*) as counts from vis where 0>=DateDiff(vis.vis_time,now())>-7");
+	   		$msg['max']=$allcc[0]->counts;
+	   		 return response()->json($msg);
+   		}
+   		
+   	
    }
 }

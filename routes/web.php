@@ -93,6 +93,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/vis/statistic','admin\VisController@statistic');
 	Route::post('/admin/vis/statistic_b','admin\VisController@statistic_b');
 	Route::get('/admin/vis/ll','admin\VisController@ll');
-	Route::get('/admin/vis/get_ajaxtable','admin\VisController@get_ajaxtable');
+	Route::post('/admin/vis/get_ajaxtable','admin\VisController@get_ajaxtable');
+	Route::post('/admin/vis/get_zxtu','admin\VisController@get_zxtu');
 	
 });

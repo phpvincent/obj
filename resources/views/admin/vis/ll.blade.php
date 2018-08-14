@@ -19,11 +19,18 @@
 <div id="ajaxtable">
 	
 </div>
+<div id="highchart"></div>
 @endsection
 @section('js')
 <script type="text/javascript">
 	$(function(){
 		get_ajaxtable(0);
+		get_zxtu(0);
+	})
+	$('#goods_name').on('change',function(){
+		var val=$(this).val();
+		get_ajaxtable(val);
+		get_zxtu(val);
 	})
 	function get_ajaxtable(id){
 		$.ajax({
@@ -35,6 +42,65 @@
 							$('#ajaxtable').html(msg);
 						}
 				})
+	}
+	$('#hart').on('click',function(){
+		$('#select-box').show(300);
+	})
+	function get_zxtu(id){
+			$.ajax({
+						url:"{{url('admin/vis/get_zxtu')}}",
+						type:'post',
+						data:{"id":id,"_token":"{{csrf_token()}}"},
+						datatype:'json',
+						success:function(msg){
+				           var data=msg['data'];
+				           /*console.log(eval('('+msg[0]['data']+')'));*/
+				           
+				           for (var i = data.length - 1; i >= 0; i--) {
+				           	var result=[];
+				           	for(var s in data[i]['data']){
+				           		result.push(data[i]['data'][s])
+				           	}
+				           	data[i]['data']=result;
+				           	
+				           }
+				           Highcharts.chart('highchart', {
+					        title: {
+					            text: '七天内浏览记录',
+					            x: -20 //center
+					        },
+					        subtitle: {
+					            text: 'Source: phpvincent',
+					            x: -20
+					        },
+					        xAxis: {
+					            categories: ['今日', '一天前', '两天前', '三天前', '四天前', '五天前','六天前', '七天前']
+					        },
+					        yAxis: {
+					            title: {
+					                text: '人数'
+					            },
+					            plotLines: [{
+					                value: 0,
+					                width: 1,
+					                color: '#000'
+					            }],
+					            max:msg['max'],
+					            min:0,
+					        },
+					        tooltip: {
+					            valueSuffix: ''
+					        },
+					        legend: {
+					            layout: 'vertical',
+					            align: 'right',
+					            verticalAlign: 'middle',
+					            borderWidth: 0
+					        },
+					        series: data,
+					    });
+					},
+			})
 	}
 </script>
 @endsection

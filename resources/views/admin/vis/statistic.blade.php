@@ -96,7 +96,7 @@
 						data:{"id":id,"_token":"{{csrf_token()}}"},
 						datatype:'json',
 						success:function(msg){
-							console.log(msg);
+			/*				console.log(msg);*/
 							var chart = {
 					       plotBackgroundColor: null,
 					       plotBorderWidth: null,
