@@ -29,6 +29,7 @@ Route::middleware([])->group(function(){
 	Route::get('/visfrom/settime','home\IndexController@settime');
 	Route::get('/visfrom/setbuy','home\IndexController@setbuy');
 	Route::get('/visfrom/setorder','home\IndexController@setorder');
+	Route::post('/business/form','home\IndexController@busform');
 });
 //后台相关路由
 Route::match(['get','post'],'/admin/login','admin\ManagerController@login')->name('login')->middleware('checkadmin');

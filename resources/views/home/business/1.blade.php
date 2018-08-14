@@ -389,7 +389,7 @@
 						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis libero ut dolor facilisis, eget auctor lacus congue. Curabitur ex nisl, vestibulum vitae consequat eu, tristique et enim. Suspendisse potenti. Quisque at est at nisl vulputate aliquam in quis augue. Sed a pulvinar ipsum. Praesent eget scelerisque arcu. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 test-agile2">
-						<img src="business/images/test-img1.jpg" class="img-circle img-responsive" alt="">
+						<img src="business/images/group1.jpg" class="img-circle img-responsive" alt="">
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -625,7 +625,8 @@
 	<div class="container">
 		<h3 class="text-center">Our Contacts</h3>
 		<p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<form action="#" method="post" name="sentMessage" id="contactForm" novalidate>
+		<form action="{{url('business/form')}}" method="post" name="sentMessage" id="contactForm" novalidate>
+			{{csrf_field()}}
             <div class="col-lg-4 col-md-4 col-sm-4">    
 				<div class="control-group form-group">
                     <div class="controls">

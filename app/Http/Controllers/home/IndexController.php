@@ -230,4 +230,7 @@ class IndexController extends Controller
     $vis->vis_ordertime=$date;
     $vis->save();
    }
+   public function busform(Request $request){
+    $data=$request->all();
+   }
 }
