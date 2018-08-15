@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function index(){
+    	echo ini_get('post_max_size').'-'.ini_get('upload_max_filesize');die;
     	echo phpinfo();die;
     	$counts=admin::count();
     	return view('admin.admin.index')->with(compact('counts'));
