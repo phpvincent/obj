@@ -75,7 +75,11 @@
 		background-image: url({{$v->business_img_url}});
 	}
 	.ch-info .ch-info-back{{$key+1}} { 
+		@if(isset($imgs['special'][0]))
 		background-image: url({{$imgs['special'][$key]['business_img_url']}});
+		@else
+		background-image: url({{$v->business_img_url}});
+		@endif
 	}
 @endforeach
 	
