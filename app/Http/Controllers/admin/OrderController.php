@@ -10,8 +10,24 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
    public function index(){
-     $counts=order::count();
-   	 return view('admin.order.index')->with('counts',$counts);
+         $admin_id=Auth::user()->admin_id;
+     if(Auth::user()->is_root!='1'){
+      $admins=[];
+      $garr=[];
+      $goodsarr=\App\goods::where("goods_admin_id",'=',$admin_id)->get(['goods_id'])->toArray();
+      foreach($goodsarr as $key => $v){
+        $garr[]=$v['goods_id'];
+      }
+      $counts=DB::table('order')
+      ->whereIn('order_goods_id',$garr)
+      ->count();
+     return view('admin.order.index')->with(compact('counts','admins'));
+     }else{
+      $admins=\App\admin::get(); 
+      $counts=order::count();
+     return view('admin.order.index')->with(compact('counts','admins'));
+     }
+    
    }
    public function get_table(Request $request){
       		$info=$request->all();
@@ -24,41 +40,125 @@ class OrderController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('order')
 	        ->count();
-            if(strtotime(explode(';',$search)[0])>100&&strtotime(explode(';',$search)[1])>100){
+            if(@strtotime(explode(';',$search)[0])>100&&@strtotime(explode(';',$search)[1])>100){
             $timesearch=$search;
             $search='';
             $newlen=$len;
             $len=$counts;
            }
-	        $newcount=DB::table('order')
-	        ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
-	        ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-	        ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
-	        ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
-	        ->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']])
-	        ->count();
-	        $data=DB::table('order')
-	        ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
-	        ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-	        ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
-	        ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
-	        ->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']])
-	        ->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']])
-	        ->orderBy($order,$dsc)
-	        ->offset($start)
-	        ->limit($len)
-	        ->get();
+           
+         //获取自己名下的单
+           $admin_id=Auth::user()->admin_id;
+           if(Auth::user()->is_root!='1'){
+
+            $garr=[];
+            $goodsarr=\App\goods::where("goods_admin_id",'=',$admin_id)->get(['goods_id'])->toArray();
+            foreach($goodsarr as $key => $v){
+              $garr[]=$v['goods_id'];
+            }
+            $counts=DB::table('order')
+            ->whereIn('order_goods_id',$garr)
+            ->count();
+             $newcount=DB::table('order')
+            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+            ->where(function($query)use($search){
+                $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+            })
+            ->where(function($query)use($garr){
+              $query->whereIn('order_goods_id',$garr);
+            })
+            ->count();
+            $data=DB::table('order')
+            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+            ->where(function($query)use($search){
+                $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+            })
+            ->where(function($query)use($garr){
+              $query->whereIn('order_goods_id',$garr);
+            })
+            ->orderBy($order,$dsc)
+            ->offset($start)
+            ->limit($len)
+            ->get();
+           }else{
+            //获取账户名
+           $goods_search=$request->has('goods_search')?$request->input('goods_search'):0;
+            /*$wheresql=['order_goods_id','>',0];*/
+            $newcount=DB::table('order')
+            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+            ->where(function($query)use($search){
+                $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+            })
+            ->where(function($query)use($goods_search){
+              if($goods_search!=0){
+                $garr=[];
+              $goodsarr=\App\goods::where("goods_admin_id",'=',$goods_search)->get(['goods_id'])->toArray();
+              foreach($goodsarr as $key => $v){
+                $garr[]=$v['goods_id'];
+              }
+                $query->whereIn('order_goods_id',$garr);
+              }
+            })
+            ->count();
+            $data=DB::table('order')
+            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+           ->where(function($query)use($search){
+                $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+            })
+           ->where(function($query)use($goods_search){
+            if($goods_search!=0){
+              $garr=[];
+              $goodsarr=\App\goods::where("goods_admin_id",'=',$goods_search)->get(['goods_id'])->toArray();
+              foreach($goodsarr as $key => $v){
+                $garr[]=$v['goods_id'];
+              }
+              $query->whereIn('order_goods_id',$garr);
+            }
+           })
+            ->orderBy($order,$dsc)
+            ->offset($start)
+            ->limit($len)
+            ->get();
+           }
+	        
+        
+           //按照时间区间查找数据
             if(isset($timesearch)){
                if((strtotime(explode(';',$timesearch)[0])>100&&strtotime(explode(';',$timesearch)[1])>100)||strtotime($timesearch)>100){
                $newcount=0;
@@ -126,13 +226,8 @@ class OrderController extends Controller
    public function getaddr(Request $request){
    	     $id=$request->input('id');
    	     $order=order::where('order_id',$id)->first();
-   	     $html="<h1><span style='color:#f88;'>收货人</span>：".($order->order_name==''?"没有填写":$order->order_name)."</h3>";
-   	     $html.="<h4><span style='color:#f88;'>收货电话</span>：".($order->order_tel==''?"没有填写":$order->order_tel)."</h4>";
-   	     $html.="<h4><span style='color:#f88;'>邮箱</span>：".($order->order_email==''?"没有填写":$order->order_email)."</h4>";
-   	     $html.="<h4><span style='color:#f88;'>城市</span>：".($order->order_state==''?"没有填写":$order->order_state)."&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#f88;'>地区</span>:".($order->order_city==''?"没有填写":$order->order_city)."</h4>";
-   	     $html.="<h4><span style='color:#f88;'>详细信息</span>：".($order->order_add==''?"没有填写":$order->order_add)."</h4>";
-   	     $html.="<h6><span style='color:#f88;'>买家留言</span>：".($order->order_remark==''?"没有填写":$order->order_remark)."</h6>";
-   	     return $html;
+         return view('admin.order.addr')->with(compact('order'));
+   	     
    }
    public function outorder(){
       $data=order::select('order.order_id','order.order_single_id','order.order_ip','goods.goods_real_name','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send')

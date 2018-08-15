@@ -95,5 +95,8 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/vis/ll','admin\VisController@ll');
 	Route::post('/admin/vis/get_ajaxtable','admin\VisController@get_ajaxtable');
 	Route::post('/admin/vis/get_zxtu','admin\VisController@get_zxtu');
+	//管理员账户相关
+	Route::get('/admin/admin/index','admin\AdminController@index');
+	Route::any('/admin/admin/addadmin','admin\AdminController@addadmin');
 	
 });
