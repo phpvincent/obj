@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function index(){
+    	echo phpinfo();die;
     	$counts=admin::count();
     	return view('admin.admin.index')->with(compact('counts'));
     }
