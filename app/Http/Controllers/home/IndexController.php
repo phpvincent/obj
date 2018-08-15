@@ -230,7 +230,15 @@ class IndexController extends Controller
     $vis->vis_ordertime=$date;
     $vis->save();
    }
+   //企业站提交表单
    public function busform(Request $request){
     $data=$request->all();
+    $business_form=new \App\business_form;
+    $business_form->business_form_url=$_SERVER['SERVER_NAME'];
+    $business_form->business_form_email=$data['email'];
+    $business_form->business_form_msg=$data['message'];
+    $business_form->business_form_phone=$data['phone'];
+    $business_form->business_form_username=$data['name'];
+    $business_form->save();
    }
 }

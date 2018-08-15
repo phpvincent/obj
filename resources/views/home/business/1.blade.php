@@ -25,18 +25,6 @@
 	background-image: url("{{$v->business_img_url}}");
 	}
 	@endforeach
-	
-	section.address-agileits {
-	padding:100px 0;
-	background:url({{$imgs['bg']->first()->business_img_url}}) no-repeat;
-	background-position:center;
-	background-attachment:fixed;
-	background-size:100% 100%; 
-	-webkit-background-size:100% 100%;
-	-moz-background-size:100% 100%;
-	-o-background-size:100% 100%;
-	-ms-background-size:100% 100%;
-	}
 	section.testimonial {
 	padding:100px 0;
 	background:url({{$imgs['bg']->last()->business_img_url}}) no-repeat;
@@ -48,9 +36,21 @@
 	-o-background-size:100% 100%;
 	-ms-background-size:100% 100%;
 	}
+	section.address-agileits {
+	padding:100px 0;
+	background:url({{$imgs['bg']->first()->business_img_url}}) no-repeat;
+	background-position:center;
+	background-attachment:fixed;
+	background-size:100% 100%; 
+	-webkit-background-size:100% 100%;
+	-moz-background-size:100% 100%;
+	-o-background-size:100% 100%;
+	-ms-background-size:100% 100%;
+	}
+	
 	section.contact-w3l {
 	padding:100px 0;
-	background:url({{$imgs['bg']->last()->business_img_url}}) no-repeat;
+	background:url({{$imgs['bg']->toArray()[1]['business_img_url']}}) no-repeat;
 	background-position:center;
 	background-attachment:fixed;
 	background-size:cover;
@@ -75,39 +75,10 @@
 		background-image: url({{$v->business_img_url}});
 	}
 	.ch-info .ch-info-back{{$key+1}} { 
-		background-image: url({{$v->business_img_url}});
+		background-image: url({{$imgs['special'][$key]['business_img_url']}});
 	}
 @endforeach
-	.ch-img-2 { 
-		background-image: url(business/images/serv-img2.jpg);
-	}
-	.ch-info .ch-info-back2 { 
-		background-image: url(business/images/serv-img2-2.jpg);
-	}
-	.ch-img-3 { 
-		background-image: url(business/images/serv-img3.jpg);
-	}
-	.ch-info .ch-info-back3 { 
-		background-image: url(business/images/serv-img3-3.jpg);
-	}
-	.ch-img-4 { 
-		background-image: url(business/images/serv-img4.jpg);
-	}
-	.ch-info .ch-info-back4 { 
-		background-image: url(business/images/serv-img4-4.jpg);
-	}
-	.ch-img-5 { 
-		background-image: url(business/images/serv-img5.jpg);
-	}
-	.ch-info .ch-info-back5 { 
-		background-image: url(business/images/serv-img5-5.jpg);
-	}
-	.ch-img-6 { 
-		background-image: url(business/images/serv-img6.jpg);
-	}
-	.ch-info .ch-info-back6 { 
-		background-image: url(business/images/serv-img6-6.jpg);
-	}
+	
 </style>
 <script src="business/js/modernizr.js"></script>
 <!-- /js files -->
@@ -384,6 +355,7 @@
 			</ol>
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
+				
 				<div class="item active">
 					<div class="col-lg-8 col-md-8 col-sm-8 test-agile1">
 						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis libero ut dolor facilisis, eget auctor lacus congue. Curabitur ex nisl, vestibulum vitae consequat eu, tristique et enim. Suspendisse potenti. Quisque at est at nisl vulputate aliquam in quis augue. Sed a pulvinar ipsum. Praesent eget scelerisque arcu. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
@@ -393,6 +365,7 @@
 					</div>
 					<div class="clearfix"></div>
 				</div>
+				
 				<div class="item">
 					<div class="col-lg-8 col-md-8 col-sm-8 test-agile1">
 						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Quisque at est at nisl vulputate aliquam in quis augue. Aliquam vitae fermentum metus. Aenean placerat elit nibh, et malesuada felis dignissim tristique. Sed a pulvinar ipsum. Praesent eget scelerisque arcu.  Vestibulum eleifend lacus ut dignissim placerat. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
@@ -625,8 +598,7 @@
 	<div class="container">
 		<h3 class="text-center">Our Contacts</h3>
 		<p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<form action="{{url('business/form')}}" method="post" name="sentMessage" id="contactForm" novalidate>
-			{{csrf_field()}}
+		<form action="" method="post" name="sentMessage" id="contactForm" novalidate>
             <div class="col-lg-4 col-md-4 col-sm-4">    
 				<div class="control-group form-group">
                     <div class="controls">
@@ -693,8 +665,77 @@
 <!-- js for work section -->
 <script src="business/js/jquery.viewbox.min.js"></script>
 <script>
+
 	$(function(){
-			
+			 $("input,textarea").jqBootstrapValidation({
+	        preventSubmit: true,
+	        submitError: function($form, event, errors) {
+	            // something to have when submit produces an error ?
+	            // Not decided if I need it yet
+	        },
+	        submitSuccess: function($form, event) {
+	            event.preventDefault(); // prevent default submit behaviour
+	            // get values from FORM
+	            var name = $("input#name").val();
+	            var phone = $("input#phone").val();
+	            var email = $("input#email").val();
+	            var message = $("textarea#message").val();
+	            var firstName = name; // For Success/Failure Message
+	            // Check for white space in name for Success/Fail message
+	            if (firstName.indexOf(' ') >= 0) {
+	                firstName = name.split(' ').slice(0, -1).join(' ');
+	            }
+	            $.ajax({
+	                url: "{{url('business/form')}}",
+	                type: "POST",
+	                data: {
+	                    name: name,
+	                    phone: phone,
+	                    email: email,
+	                    message: message,
+	                    _token:"{{csrf_token()}}"
+	                },
+	                cache: false,
+	                success: function() {
+	                    // Success message
+	                    $('#success').html("<div class='alert alert-success'>");
+	                    $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+	                        .append("</button>");
+	                    $('#success > .alert-success')
+	                        .append("<strong>Your message has been sent. </strong>");
+	                    $('#success > .alert-success')
+	                        .append('</div>');
+
+	                    //clear all fields
+	                    $('#contactForm').trigger("reset");
+	                },
+	                error: function() {
+	                    // Fail message
+	                    $('#success').html("<div class='alert alert-danger'>");
+	                    $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+	                        .append("</button>");
+	                    $('#success > .alert-danger').append("<strong>Sorry " + firstName + " it seems that my mail server is not responding...</strong> Could you please email me directly to <a href='mailto:me@example.com?Subject=Message_Me from myprogrammingblog.com;>me@example.com</a> ? Sorry for the inconvenience!");
+	                    $('#success > .alert-danger').append('</div>');
+	                    //clear all fields
+	                    $('#contactForm').trigger("reset");
+	                },
+	            })
+	        },
+	        filter: function() {
+	            return $(this).is(":visible");
+	        },
+	    });
+
+	    $("a[data-toggle=\"tab\"]").click(function(e) {
+	        e.preventDefault();
+	        $(this).tab("show");
+	    });
+	});
+
+
+	/*When clicking on Full hide fail/success boxes */
+	$('#name').focus(function() {
+	    $('#success').html('');
 		/*$('.thumbnail').viewbox();
 		$('.thumbnail-2').viewbox();
 			

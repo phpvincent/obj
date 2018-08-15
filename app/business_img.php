@@ -16,7 +16,8 @@ class business_img extends Model
     	$bg=self::where([['business_img_type','=','bg'],['business_web_id','=',$id]])->orderBy('business_img_order','desc')->get();
     	$goods=self::where([['business_img_type','=','goods'],['business_web_id','=',$id]])->orderBy('business_img_order','desc')->get();
     	$about=self::where([['business_img_type','=','about'],['business_web_id','=',$id]])->orderBy('business_img_order','desc')->get();
-    	$arr=compact('fm','bg','goods','about');
+    	$special=self::where([['business_img_type','=','special'],['business_web_id','=',$id]])->orderBy('business_img_order','desc')->get()->toArray();
+    	$arr=compact('fm','bg','goods','about','special');
     	return $arr;
     }
 }
