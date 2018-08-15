@@ -32,13 +32,13 @@ if (!function_exists("getclientcity")) {
     { set_time_limit(0);
       $ip=$request->getClientIp();
         $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
-        if($data==null||$data==undifined||$data==''){
+        if($data==null||$data==false||$data==''){
         $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);          
         }
-        if($data==null||$data==undifined||$data==''){
+        if($data==null||$data==false||$data==''){
         $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);          
         }
-        if($data==null||$data==undifined||$data==''){
+        if($data==null||$data==false||$data==''){
         $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);          
         }
         $arr=json_decode($data,$assoc=true);
