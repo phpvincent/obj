@@ -106,9 +106,18 @@ class checkurl
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
         if($area[0]!=null){
             foreach($area as $key => $v){
-                if(strpos($v,$arr['region'])!==false||strpos($v,$arr['country'])!==false||strpos($v,$arr['city'])!==false||strpos($v,$arr['area'])!==false){
-                    return redirect('index/fb');dd($arr,$area);
+                if($arr['region']!=''&&strpos($arr['region'],$v)!==false){
+                                        return redirect('index/fb');
                 }
+                if($arr['country']!=''&&strpos($arr['country'],$v)!==false){
+                                        return redirect('index/fb');
+                }
+                if($arr['area']!=''&&strpos($arr['area'],$v)!==false){
+                                        return redirect('index/fb');
+                }
+                /*if(strpos($arr['region'],$v)!==false||strpos($arr['country'],$v)!==false||strpos($arr['city'],$v)!==false||strpos($arr['area'],$v)!==false){
+                    return redirect('index/fb');
+                }*/
             }
         }
         /*if($area[0]!=null&&(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)||in_array($arr['region']."省", $area)||in_array($arr['country'].'国',$area)||in_array($arr['city'].'市',$area))){
