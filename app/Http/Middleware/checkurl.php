@@ -100,10 +100,10 @@ class checkurl
           view()->share('vis_id',$vis->vis_id);
          if($goods_id=='4'){
             return redirect('index/fb');
-        }                       
+        }                  
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
-        if(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)){
+        if($area[0]!=null&&(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area))){
             return redirect('index/fb');
         }
         //ip核审
@@ -111,10 +111,7 @@ class checkurl
         if($notallow!=null){
             return redirect('index/fb');
         }
-        $url=$_SERVER['SERVER_NAME'];
-        if(\App\url::where('url_url',$url)->first()->url_goods_id==null&&\App\url::where('url_url',$url)->first()->url_zz_goods_id==null){
-            return redirect('index/fb');
-        }
+     
         //未上线域名不允许访问
        
         return $next($request);
