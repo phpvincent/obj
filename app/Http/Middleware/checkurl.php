@@ -103,7 +103,7 @@ class checkurl
             return redirect('index/fb');
         }                  
         //地区核审
-        $area=explode(';', DB::table('pb')->first()->pb_ziduan);
+        $area=explode(';', DB::table('pb')->first()->pb_ziduan);dd($arr,$area);
         if($area[0]!=null){
             foreach($area as $key => $v){
                 if(strpos($v,$arr['region'])!==false||strpos($v,$arr['country'])!==false||strpos($v,$arr['city'])!==false||strpos($v,$arr['area'])!==false){
