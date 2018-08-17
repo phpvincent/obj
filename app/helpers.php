@@ -31,18 +31,62 @@ if (!function_exists("getclientcity")) {
     function getclientcity(Request $request)
     { set_time_limit(0);
       $ip=$request->getClientIp();
-        $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
-        if($data==null||$data==false||$data==''){
+      if($ip!='127.0.0.1'){
+         $data = @file_get_contents('https://api.ip.sb/geoip/'.$ip);
+         $arr['isp']=json_decode($data,true)['organization'];
+      }else{
+         $data=true;
+         $arr['isp']='本机地址';
+      }     
+      if(strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+         $arr['isp']='脸书';
+      }
+      $area=@file_get_contents('https://freeapi.ipip.net/'.$ip);
+      $area=json_decode($area,true);
+      $arr['ip']=$request->getClientIp();
+      $arr['region']=isset($area[1])?$area[1]:'XX';
+      $arr['country']=isset($area[0])?$area[0]:'XX';
+      $arr['city']=isset($area[2])?$area[2]:'XX';
+      $arr['county']=isset($area[3])?$area[3]:'XX';
+     if($data==false||$area==false){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);
+        $wip=\App\vis::first()['vis_ip'];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-FORWARDED-FOR:8.8.8.8', "CLIENT-IP:".$wip));  //构造IP
+        curl_setopt($ch, CURLOPT_REFERER, "http://taobao.com.cn/");   //构造来路
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //curl_setopt($ch, CURLOPT_HEADER, 1);
+        $data = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if($httpCode == 502) {
+         $data = @file_get_contents('https://api.ip.sb/geoip/'.$ip);
+         $arr['country']=isset(json_decode($data,true)['country'])?json_decode($data,true)['country']:'XX';
+         $arr['region']=isset(json_decode($data,true)['region'])?json_decode($data,true)['region']:'XX';
+         $arr['city']=isset(json_decode($data,true)['city'])?json_decode($data,true)['city']:'XX';
+         $arr['county']=isset(json_decode($data,true)['county'])?json_decode($data,true)['county']:'XX';
+         $arr['isp']=isset(json_decode($data,true)['organization'])?json_decode($data,true)['organization']:'XX';
+         $arr['ip']=$request->getClientIp();
+         if(strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+           $arr['isp']='脸书';
+         }
+         return $arr;
+        }
+          curl_close($ch);
+          $arr=json_decode($data,true);
+          return $arr['data'];
+     }else{
+        return $arr;
+     }
+    return $arr;
+        
+      /*  if($data==null||$data==false||$data==''){
         $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);          
         }
         if($data==null||$data==false||$data==''){
         $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);          
-        }
-        if($data==null||$data==false||$data==''){
-        $data = @file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);          
-        }
-        $arr=json_decode($data,$assoc=true);
-        return $arr['data'];
+        }*/
+        /*$arr=json_decode($data,$assoc=true);*/
+       /* return $arr['data'];*/
   }
 }
 if (!function_exists("getclientype")) {

@@ -25,13 +25,13 @@
 <!-- End Facebook Pixel Code -->
         <link href="/css/JS5.css" rel="stylesheet" type="text/css">
         <script src="/js/jquery.min.js"></script>
-        <script src="/js/mui.min.js" type="text/javascript"></script>
+     <!--    <script src="/js/mui.min.js" type="text/javascript"></script>
         <script src="/js/base.js" id="baseScript" path="http://oatsbasf.3cshoper.com"></script>
         <script src="/js/mui.lazyload.js"></script>
         <script src="/js/shop5.js"></script>
         <script src="/js/ytc.js" async=""></script>
         <script src="/js/bat.js" async=""></script>
-        <script async="" src="/js/analytics.js"></script>
+        <script async="" src="/js/analytics.js"></script> -->
 
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>

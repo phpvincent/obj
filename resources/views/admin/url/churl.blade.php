@@ -48,19 +48,30 @@
 	<div class="row cl" style="border: 1px solid #ccc;width: 80%;margin:0px auto;">
 		<label class="form-label col-xs-4 col-sm-3">正常单品：</label>
 		  <div class ="radio-box">  <label class="" style="color:red;"><input type="radio" value="null" name="url_goods_id" id="url_goods_id" class="valid" />无</label>
-		    @foreach(\App\goods::where('is_del','0')->get() as $key => $v)
+		  	@if(Auth::user()->is_root=='1')
+		  	@foreach(\App\goods::where('is_del','0')->get() as $key => $v)
+		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
+	  		@endforeach
+		  	@else
+		    @foreach(\App\goods::where([['is_del','0'],['goods_admin_id','=',Auth::user()->admin_id]])->get() as $key => $v)
 		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
 		    @endforeach
-
+		    @endif
 		  </div> 
   	</div>
   	<br>
   	<div class="row cl" style="border: 1px solid #ccc;width: 80%;margin:0px auto;">
   		<label class="form-label col-xs-4 col-sm-3">遮罩单品：</label>
   		<div class =“radio-box”>  <label class="" style="color:red;"><input type="radio" value="null" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" />无</label>
+  		@if(Auth::user()->is_root=='1')
 	 	@foreach(\App\goods::where('is_del','0')->get() as $key => $v)
 	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
+	    @endforeach
+	    @else
+		@foreach(\App\goods::where([['is_del','0'],['goods_admin_id','=',Auth::user()->admin_id]])->get() as $key => $v)
+	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
 	  	@endforeach
+	  	@endif
 		</div> 
   	</div>
 	{{csrf_field()}}

@@ -40,7 +40,7 @@ class checkurl
                 break;
             case '1':
                 if('美国'==$arr['region']||'美国'==$arr['country']||'美国'==$arr['city']){
-                    if($arr['isp']=='脸书'||$arr['isp']=='facebook'){
+                    if($arr['isp']=='脸书'||$arr['isp']=='facebook'||$arr['isp']=='Facebook'){
                       $is_zz=true;
                     }
                   }

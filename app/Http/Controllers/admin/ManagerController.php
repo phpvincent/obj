@@ -28,6 +28,11 @@ class ManagerController extends Controller
 	          $ip=$request->getClientIp();   
 	          $time=date('Y-m-d H:i:s',time());
 	          $admin=\App\admin::where('admin_name',$request->input('username'))->first();
+	          if($admin->admin_use!='1'){
+	          	return redirect('admin/login')
+	       		->withErrors(["loginError"=>"此账户无法使用!请联系管理员!"])
+	       		->withInput();
+	          }
 	          if($admin->admin_ip!=null){
 	          	$cookie1=Cookie::forever('l_ip',$admin->admin_ip);
 	          	$cookie2=Cookie::forever('l_time',$admin->admin_time);

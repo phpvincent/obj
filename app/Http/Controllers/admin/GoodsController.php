@@ -13,7 +13,11 @@ use App\channel\cuxiaoSDK;
 class GoodsController extends Controller
 {
    public function index(){
-   	  $counts=goods::count();
+      if(Auth::user()->is_root=='1'){
+         $counts=goods::count();
+       }else{
+        $counts=goods::where('goods_admin_id',Auth::user()->admin_id)->count();
+       }
         $type=\App\goods_type::get();
    	  return view('admin.goods.index')->with(compact('counts','type'));
    }
@@ -34,36 +38,51 @@ class GoodsController extends Controller
             $newlen=$len;
             $len=$counts;
            }
-         
            $json=json_decode($search,true);
            if(isset($json['goods_type'])&&$json['goods_type']>0){
             $where=['goods.goods_type','=',(Int)$json['goods_type']];
             $search=null;
            }else if(isset($json['goods_type'])&&$json['goods_type']==0){
-            $where=['goods.goods_type','>',0];
+            $where=['goods.goods_id','>',0];
             $search=null;
            }else{
-            $where=['goods.goods_type','>',0];
+            $where=['goods.goods_id','>',0];
            }
 	        $newcount=DB::table('goods')
 	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where])
+          ->where(function($query)use($where,$search){
+             $query->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+             $query->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+             $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where]);
+             $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where]);
+             $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+          })
+	       
+          ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $query->where('goods.goods_admin_id',Auth::user()->admin_id);
+            }
+          })
 	        ->count();
 	        $data=DB::table('goods')
 	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where])
-	        ->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where])
+          ->where(function($query)use($where,$search){
+            $query->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+            $query->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+            $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where]);
+            $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where]);
+            $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+          })
+	        
+          ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $query->where('goods.goods_admin_id',Auth::user()->admin_id);
+            }
+          })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
@@ -113,7 +132,7 @@ class GoodsController extends Controller
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_admin_id=$data['admin_id'];
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
-         $ggoods->goods_type=$data['goods_type'];
+         $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          if($request->hasFile('goods_video')){
                $file=$request->file('goods_video');
                $name=$file->getClientOriginalName();//得到图片名；
