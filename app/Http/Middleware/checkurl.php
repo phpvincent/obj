@@ -105,7 +105,7 @@ class checkurl
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
         if($area[0]!=null){
-            foreach($area as $key => $v){
+            foreach($area as $key => $v){dd($arr['region']);
                 if($arr['region']!=''&&strpos($arr['region'],$v)!==false){
                                         return redirect('index/fb');
                 }
