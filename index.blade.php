@@ -466,6 +466,18 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         },500);
     }
 </script> -->
+<script type="text/javascript">
+     $("#btnPay").on('click',function() {
+        alert('?');
+            try {
+                fbq('track', 'AddToCart');
+                mkq('track', 'AddToCart');
+            } catch(e) {}
+
+            var action = $("#payForm").attr('action');
+            location.href=action;
+        });
+</script>
 <script type="text/javascript" charset="utf-8">
     $2(function() {
         //$2("img").lazyload({effect: "fadeIn"});

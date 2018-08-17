@@ -15,20 +15,20 @@
         <link href="/css/base.css" rel="stylesheet">
         <link href="/css/component.css" rel="stylesheet">
         <link href="/css/detail.css" rel="stylesheet">
-        <link href="/css/new.css?v=6" rel="stylesheet">
-        <link href="/css/shop.css" rel="stylesheet">
-        <link href="/css/total.css" rel="stylesheet">
-        <link href="/css/temporary.css" rel="stylesheet">
+     <!--    <link href="/css/new.css?v=6" rel="stylesheet">
+        <link href="/css/shop.css" rel="stylesheet"> -->
+       <!--  <link href="/css/total.css" rel="stylesheet">
+        <link href="/css/temporary.css" rel="stylesheet"> -->
         <link href="/css/obj.css" rel="stylesheet">
         <link href="/css/timer.css" rel="stylesheet">
 <!-- Facebook Pixel Code -->
 <!-- End Facebook Pixel Code -->
         <link href="/css/JS5.css" rel="stylesheet" type="text/css">
         <script src="/js/jquery.min.js"></script>
-     <!--    <script src="/js/mui.min.js" type="text/javascript"></script>
+        <script src="/js/mui.min.js" type="text/javascript"></script>
         <script src="/js/base.js" id="baseScript" path="http://oatsbasf.3cshoper.com"></script>
-        <script src="/js/mui.lazyload.js"></script>
-        <script src="/js/shop5.js"></script>
+        <!-- <script src="/js/mui.lazyload.js"></script> -->
+        <!-- <script src="/js/shop5.js"></script>
         <script src="/js/ytc.js" async=""></script>
         <script src="/js/bat.js" async=""></script>
         <script async="" src="/js/analytics.js"></script> -->
