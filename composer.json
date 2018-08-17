@@ -21,6 +21,7 @@
     "autoload": {
         "files":[
             "app/channel/cuxiaoSDK.php",
+            "app/channel/IpLocation.php",
             "app/helpers.php"
         ],
         "classmap": [

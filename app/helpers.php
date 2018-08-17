@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Http\Request;
+use App\channel\IpLocation;
+
 if (!function_exists("makeSingleOrder")) {
     function makeSingleOrder()
     {
@@ -29,18 +31,37 @@ if (!function_exists("makeSingleOrder")) {
 }
 if (!function_exists("getclientcity")) {
     function getclientcity(Request $request)
-    { set_time_limit(0);
+    { 
+      set_time_limit(0);
       $ip=$request->getClientIp();
+        $IpLocation=new IpLocation();
+        $ip = $IpLocation->getlocation($ip);
+        if($ip!=null&&$ip!=false&&$ip!=[]&&$ip!=''){
+          $iplo['ip']=$ip['ip'];
+          $iplo['country']=$ip['country'];
+          $iplo['city']=$ip['city'];
+          $iplo['region']=$ip['province'];
+          $iplo['county']=$ip['city'];
+          $iplo['isp']=$ip['area'];
+          if(strpos($iplo['isp'],"facebook")!==false||strpos($iplo['isp'],"Facebook")!==false||strpos($iplo['isp'],"脸书")!==false){
+             $iplo['isp']='脸书';
+          }
+          return $iplo;
+        }
+        //根据接口获取
       if($ip!='127.0.0.1'){
+        //获取网络来源
          $data = @file_get_contents('https://api.ip.sb/geoip/'.$ip);
          $arr['isp']=json_decode($data,true)['organization'];
       }else{
          $data=true;
          $arr['isp']='本机地址';
       }     
+        //判断是否是脸书人员
       if(strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
          $arr['isp']='脸书';
       }
+      //获取地区信息
       $area=@file_get_contents('https://freeapi.ipip.net/'.$ip);
       $area=json_decode($area,true);
       $arr['ip']=$request->getClientIp();

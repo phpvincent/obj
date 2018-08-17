@@ -18,6 +18,7 @@ class checkurl
      */
     public function handle($request, Closure $next)
     {   //判断是否有此域名存在
+
         $url=$_SERVER['SERVER_NAME'];
          $is_use=url::is_use($url);
         if($is_use){
@@ -39,14 +40,14 @@ class checkurl
                $is_zz=false;
                 break;
             case '1':
-                if('美国'==$arr['region']||'美国'==$arr['country']||'美国'==$arr['city']){
-                    if($arr['isp']=='脸书'||$arr['isp']=='facebook'||$arr['isp']=='Facebook'){
+                if(strpos($arr['region'],"美国")!==false||strpos($arr['country'],"美国")!==false||strpos($arr['city'],"美国")!==false||strpos($arr['region'],"USA")!==false||strpos($arr['country'],"USA")!==false||strpos($arr['city'],"USA")!==false){
+                    if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
                       $is_zz=true;
                     }
                   }
                 break;
             case '2':
-                if($arr['isp']=='脸书'){
+                if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
                       $is_zz=true;
                     }
                 break;
@@ -103,7 +104,7 @@ class checkurl
         }                  
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
-        if($area[0]!=null&&(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area))){
+        if($area[0]!=null&&(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)||in_array($arr['region'], $area."省")||in_array($arr['country'],$area.'国')||in_array($arr['city'],$area.'市'))){
             return redirect('index/fb');
         }
         //ip核审
