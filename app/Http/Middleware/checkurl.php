@@ -106,13 +106,16 @@ class checkurl
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
         if($area[0]!=null){
             foreach($area as $key => $v){
-                if($arr['region']!=''&&strpos($arr['region'],$v)!==false){
+                if($v==''||$v==null){
+                    break;
+                }
+                if($arr['region']!=''&&$arr['region']!=null&&strpos($arr['region'],$v)!==false){
                                         return redirect('index/fb');
                 }
-                if($arr['country']!=''&&strpos($arr['country'],$v)!==false){
+                if($arr['country']!=''&&$arr['country']!=null&&strpos($arr['country'],$v)!==false){
                                         return redirect('index/fb');
                 }
-                if($arr['area']!=''&&strpos($arr['area'],$v)!==false){
+                if($arr['area']!=''&&$arr['area']!=null&&strpos($arr['area'],$v)!==false){
                                         return redirect('index/fb');
                 }
                 /*if(strpos($arr['region'],$v)!==false||strpos($arr['country'],$v)!==false||strpos($arr['city'],$v)!==false||strpos($arr['area'],$v)!==false){
