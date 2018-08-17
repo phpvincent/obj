@@ -42,6 +42,7 @@ if (!function_exists("getclientcity")) {
           $iplo['city']=$ip['city'];
           $iplo['region']=$ip['province'];
           $iplo['county']=$ip['city'];
+          $iplo['area']=$ip['area'];
           $iplo['isp']=$ip['area'];
           if(strpos($iplo['isp'],"facebook")!==false||strpos($iplo['isp'],"Facebook")!==false||strpos($iplo['isp'],"脸书")!==false){
              $iplo['isp']='脸书';
@@ -69,6 +70,7 @@ if (!function_exists("getclientcity")) {
       $arr['country']=isset($area[0])?$area[0]:'XX';
       $arr['city']=isset($area[2])?$area[2]:'XX';
       $arr['county']=isset($area[3])?$area[3]:'XX';
+      $arr['area']=isset($area[0])?$area[0]:'XX';
      if($data==false||$area==false){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);
@@ -82,6 +84,7 @@ if (!function_exists("getclientcity")) {
         if($httpCode == 502) {
          $data = @file_get_contents('https://api.ip.sb/geoip/'.$ip);
          $arr['country']=isset(json_decode($data,true)['country'])?json_decode($data,true)['country']:'XX';
+         $arr['area']=isset(json_decode($data,true)['continent_code'])?json_decode($data,true)['continent_code']:'XX';
          $arr['region']=isset(json_decode($data,true)['region'])?json_decode($data,true)['region']:'XX';
          $arr['city']=isset(json_decode($data,true)['city'])?json_decode($data,true)['city']:'XX';
          $arr['county']=isset(json_decode($data,true)['county'])?json_decode($data,true)['county']:'XX';
