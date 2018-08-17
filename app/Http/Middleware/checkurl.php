@@ -104,9 +104,16 @@ class checkurl
         }                  
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
-        if($area[0]!=null&&(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)||in_array($arr['region']."省", $area)||in_array($arr['country'].'国',$area)||in_array($arr['city'].'市',$area))){
-            return redirect('index/fb');
+        if($area[0]!=null){
+            foreach($area as $key => $v){
+                if(strpos($v,$arr['region'])!==false||strpos($v,$arr['country'])!==false||strpos($v,$arr['city'])!==false||strpos($v,$arr['area'])!==false){
+                    return redirect('index/fb');
+                }
+            }
         }
+        /*if($area[0]!=null&&(in_array($arr['region'], $area)||in_array($arr['country'],$area)||in_array($arr['city'],$area)||in_array($arr['region']."省", $area)||in_array($arr['country'].'国',$area)||in_array($arr['city'].'市',$area))){
+            return redirect('index/fb');
+        }*/
         //ip核审
         $notallow=vis::where([['vis_ip','=',$arr['ip']],['vis_isback','=','1']])->first();
         if($notallow!=null){
