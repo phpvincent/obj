@@ -38,6 +38,7 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
+       
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <script>
         jQuery(function(){setFrom();});

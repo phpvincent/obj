@@ -97,6 +97,14 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/vis/get_zxtu','admin\VisController@get_zxtu');
 	//管理员账户相关
 	Route::get('/admin/admin/index','admin\AdminController@index');
+	Route::post('/admin/admin/get_table','admin\AdminController@get_table');
 	Route::any('/admin/admin/addadmin','admin\AdminController@addadmin');
+	Route::get('/admin/admin/deladmin','admin\AdminController@deladmin');
+	Route::get('/admin/admin/ch_root','admin\AdminController@ch_root');
+	Route::get('/admin/admin/cl_root','admin\AdminController@cl_root');
+	Route::get('/admin/admin/unuse','admin\AdminController@unuse');
+	Route::get('/admin/admin/opuse','admin\AdminController@opuse');
+	Route::any('/admin/admin/upadmin','admin\AdminController@upadmin');
+	Route::any('/admin/admin/addrole','admin\AdminController@addrole');
 	
 });
