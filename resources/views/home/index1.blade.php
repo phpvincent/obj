@@ -126,7 +126,7 @@
 <div class="clear"></div>
 <div class="detail-profile">
     <!-- 商品小标题 -->
-    {!! $goods->goods_msg !!}
+  
     </div>
        
         <div class="clear">
@@ -188,12 +188,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
        
      
       
-    <span class="purchase" data-id="19288071" id="btncall" style="width: 100%;">
-        <a href="javascript:void(0);">
-            <img src="/images/service.png">
-            <span>給我們留言</span>
-        </a>
-    </span>
+ 
     <!-- <span class="service"  id="btnOnline" data-id="19288071">
         <img src="/images/service.png" style="">
         <a href="javascript:void(0);">
