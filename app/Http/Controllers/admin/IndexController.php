@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     public function index(Request $request){
     	$data=getclientcity($request);
-    	$hcoun=\App\order::where('order_type','0')->count();
+    	$hcoun=\App\order::where([['order_type','0'],['is_del','0']])->count();
     	view()->share('hcoun',$hcoun);
     	return view('admin.father.app')->with(compact('data'));
     }

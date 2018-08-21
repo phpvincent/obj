@@ -80,12 +80,12 @@ class AdminController extends Controller
 	        foreach($data as $key => $v){
 	        	$goodsids=DB::table('goods')->where('goods_admin_id',$v->admin_id)->get(['goods_id'])->toArray();
 		    	$newids='';
-		    	foreach($goodsids as $key => $val){
+		    	foreach($goodsids as $k => $val){
 		    		$newids.=$val->goods_id.',';
 		    	}
 		    	$newids=rtrim($newids,',');
 		    	if($newids==null){
-		    		$data[$key]->day_sale=0;
+		    		$data[$k]->day_sale=0;
 		    	}else{
 		    			        	$day_sale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)"); 
 		    			        	if($day_sale[0]->day_sale==null){
