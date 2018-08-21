@@ -1,5 +1,5 @@
-@extends('admin.father.css')
-@section('content')
+
+
 <div class="formControls col-xs-8 col-sm-9">
 	@foreach($allrule as $key => $v)
 		@if($v->rule_level=='0')
@@ -32,43 +32,11 @@
 				
 		@endif
 	@endforeach
-				<!-- <dl class="permission-list">
-					<dt>
-						<label>
-							<input type="checkbox" value="" name="user-Character-0" id="user-Character-1">
-							用户中心</label>
-					</dt>
-					<dd>
-						<dl class="cl permission-list2">
-							<dt>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0" id="user-Character-1-0">
-									用户管理</label>
-							</dt>
-							<dd>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-0">
-									添加</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-1">
-									修改</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-2">
-									删除</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-3">
-									查看</label>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-4">
-									审核</label>
-							</dd>
-						</dl>
-					</dd>
-				</dl> -->
+				
 			</div>
 		</form>
-@endsection
-@section('js')
+
+
 <script type="text/javascript">
 	$(function(){
 	$(".permission-list dt input:checkbox").click(function(){
@@ -92,4 +60,3 @@
 	});
 });
 </script>
-@endsection
