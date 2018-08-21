@@ -37,7 +37,7 @@
 						<ul class="dropDown-menu menu radius box-shadow">
 							<li><a href="javascript:;" onclick="layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);"><i class="Hui-iconfont">&#xe616;</i> 单品</a></li>
 							<li><a href="javascript:;" onclick="layer_show('添加域名','{{url("admin/url/url_add")}}',500,400);"><i class="Hui-iconfont">&#xe613;</i> 域名</a></li>
-							<li><a href="javascript:;" onclick="product_add('添加角色','product-add.html')"><i class="Hui-iconfont">&#xe620;</i> 角色</a></li>
+							<li><a href="javascript:;" onclick="layer_show('添加角色','{{url("admin/admin/addrole")}}',300,200);"><i class="Hui-iconfont">&#xe62b;</i> 角色</a></li>
 							<li><a href="javascript:;" onclick="member_add('添加用户','{{url("admin/admin/addadmin")}}',500,400);"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
 					</ul>
 				</li>
@@ -130,44 +130,10 @@ $(function(){
 });
 /*个人信息*/
 function myselfinfo(){
-	layer.open({
-		type: 1,
-		area: ['300px','200px'],
-		fix: false, //不固定
-		maxmin: true,
-		shade:0.4,
-		title: '查看信息',
-		content: '<div>管理员信息</div>'
-	});
+		layer_show('个人信息','/admin/admin/layershow',500,300);
 }
 
-/*资讯-添加*/
-function article_add(title,url){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
-	layer.full(index);
-}
-/*图片-添加*/
-function picture_add(title,url){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
-	layer.full(index);
-}
-/*产品-添加*/
-function product_add(title,url){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
-	layer.full(index);
-}
+
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);

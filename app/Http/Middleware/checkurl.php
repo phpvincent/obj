@@ -52,7 +52,7 @@ class checkurl
                     }
                 break;
             case '3':
-                if($arr['country']!='台湾'||$arr['region']!='台湾'){
+                if($arr['country']!='台湾省'&&$arr['region']!='台湾省'&&$arr['country']!='台湾'&&$arr['region']!='台湾'){
                      $is_zz=true;
                 }
                 break;

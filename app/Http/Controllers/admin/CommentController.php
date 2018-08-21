@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\comment;
 use App\goods;
 use DB;
+use Illuminate\Support\Facades\Auth;
+
 class CommentController extends Controller
 {
    public function index(){
@@ -27,10 +29,20 @@ class CommentController extends Controller
 	        ->count();
 	        $newcount=DB::table('goods')
 	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where(function($query){
+	        	if(Auth::user()->is_root!='1'){
+	        		$query->where('goods_admin_id',Auth::user()->admin_id);
+	        	}
+	        })
 	        ->count();
 	        $data=DB::table('goods')
 	        ->select('goods.*')
 	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where(function($query){
+	        	if(Auth::user()->is_root!='1'){
+	        		$query->where('goods_admin_id',Auth::user()->admin_id);
+	        	}
+	        })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)

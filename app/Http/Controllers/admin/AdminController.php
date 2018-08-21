@@ -20,6 +20,10 @@ class AdminController extends Controller
     		return view('admin.admin.addadmin')->with(compact('roles'));
     	}elseif($request->isMethod('post')){
     		$data=$request->all();
+    		$isuse=\App\admin::where('admin_name',$data['admin_name'])->first();
+    		if($isuse!=null){
+	                    return response()->json(['err'=>0,'str'=>'添加失败,账户名已被使用!']);
+    		}
     		$admin=new admin();
     		$admin->admin_name=$data['admin_name'];
     		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
@@ -74,16 +78,30 @@ class AdminController extends Controller
 	        ->limit($len)
 	        ->get();
 	        foreach($data as $key => $v){
-	        	$day_sale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=1 and order.order_admin_id=$v->admin_id");
+	        	$goodsids=DB::table('goods')->where('goods_admin_id',$v->admin_id)->get(['goods_id'])->toArray();
+		    	$newids='';
+		    	foreach($goodsids as $key => $val){
+		    		$newids.=$val->goods_id.',';
+		    	}
+		    	$newids=rtrim($newids,',');
+		    	if($newids==null){
+		    		$data[$key]->day_sale=0;
+		    	}else{
+		    			        	$day_sale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)"); 
+		    			        	if($day_sale[0]->day_sale==null){
+										$day_sale[0]->day_sale=0;
+										}  
+									$data[$key]->day_sale=$day_sale[0]->day_sale;
+		    	}
 /*                $day_sale=DB::table('order')->where([['order.order_admin_id',$v->admin_id],["DateDiff(order.order_time,now())",'0']])->sum('order.order_price');
-*/              if($day_sale[0]->day_sale==null){
-					$day_sale[0]->day_sale=0;
-				}  
-				$data[$key]->day_sale=$day_sale[0]->day_sale;
+*/           	
                 $goods_num=DB::table('goods')->where([['goods.goods_admin_id',$v->admin_id],['goods.is_del','0']])->count();
                 $data[$key]->goods_num=$goods_num;
                 $orders_num=DB::table('order')->where('order.order_admin_id',$v->admin_id)->count();
                 $data[$key]->orders_num=$orders_num;
+                if($v->is_root=='1'){
+                	$data[$key]->role_name="超级管理员";
+                }
 	        }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
@@ -173,5 +191,57 @@ class AdminController extends Controller
 			   	    	return response()->json(['err'=>0,'str'=>'添加失败']);
 		   	}
     	}
+    }
+    public function chrole(Request $request){
+    	if($request->isMethod('get')){
+    		return view('admin.admin.chrole');
+    	}else if($request->isMethod('post')){
+    		$id=$request->input('id');
+    		$rules=DB::table('role')
+    		->select('role.*','rule.*')
+    		->leftjoin('role_rule','role.role_id','role_rule.roleid')
+    		->leftjoin('rule','role_rule.ruleid','rule.rule_id')
+    		->where('role_rule.roleid',$id)
+    		->get();
+    		$useid=[];
+    		foreach ($rules as $key => $value) {
+    			$useid[]=$value->rule_id;
+    		}
+    		
+    		$allrule=\App\rule::get();
+
+    		return view('admin.admin.ajaxrole')->with(compact('rules','allrule','useid'));
+    	}
+    }
+    public function checkbox(Request $request){
+    	$data=$request->all();
+    	$id=$request->input('role_id');
+    	\App\role_rule::where('roleid',$id)->delete();
+    	foreach($data['rules'] as $v){
+    		$role_rule=new \App\role_rule;
+    		$role_rule->roleid=$id;
+    		$role_rule->ruleid=$v;
+    		$role_rule->save();
+    	}
+	   	    	return response()->json(['err'=>1,'str'=>'分配成功']);
+    }
+    public function layershow(){
+    	$admin=\App\admin::where('admin_id',Auth::user()->admin_id)->first();
+    	$admin->admin_role_id=\App\role::where('role_id',$admin->admin_role_id)->first()['role_name'];
+    	$admin_goods_count=\App\goods::where('goods_admin_id',$admin['admin_id'])->count();
+    	$id=Auth::user()->admin_id;
+    	$goodsids=DB::table('goods')->where('goods_admin_id',$id)->get(['goods_id'])->toArray();
+    	$newids='';
+    	foreach($goodsids as $key => $v){
+    		$newids.=$v->goods_id.',';
+    	}
+    	$newids=rtrim($newids,',');
+    	$daysale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)");
+    	if($daysale[0]->day_sale==null){
+    		$daysale=0;
+    	}else{
+    		$daysale=$daysale[0]->day_sale;
+    	}
+    	return view('admin.admin.layershow')->with(compact('admin','admin_goods_count','daysale'));
     }
 }

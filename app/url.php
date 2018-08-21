@@ -43,7 +43,7 @@ class url extends Model
                     }
                 break;
             case '3':
-                if($arr['country']!='台湾'||$arr['region']!='台湾'){
+                if($arr['country']!='台湾省'&&$arr['region']!='台湾省'&&$arr['country']!='台湾'&&$arr['region']!='台湾'){
                     $goods_id=$url->url_zz_goods_id;
                 }else{
                     $goods_id=$url->url_goods_id;

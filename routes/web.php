@@ -106,5 +106,8 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/admin/opuse','admin\AdminController@opuse');
 	Route::any('/admin/admin/upadmin','admin\AdminController@upadmin');
 	Route::any('/admin/admin/addrole','admin\AdminController@addrole');
+	Route::any('/admin/admin/chrole','admin\AdminController@chrole');
+	Route::post('/admin/admin/checkbox','admin\AdminController@checkbox');
+	Route::get('/admin/admin/layershow','admin\AdminController@layershow');
 	
 });

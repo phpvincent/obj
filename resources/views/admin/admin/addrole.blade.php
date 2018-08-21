@@ -17,6 +17,7 @@
 				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button> -->
 			</div>
 		</div>
+		
 	</form>
 </article>
 @endsection
