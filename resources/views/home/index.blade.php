@@ -278,7 +278,7 @@
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
         </tr>
         <tr class="first odd">
-            <td style="width: 20%;height: 80px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
                
                

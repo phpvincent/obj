@@ -292,7 +292,7 @@ jQuery(function(){
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
             溫馨提示：支持貨到付款+免郵費+七天無理由退換貨！收到商品後有任何疑問請聯繫我們在線客服，或發郵件至
-        <a href="mailto:service@buymall.tw" style="color:#F8770E">service@buymall.tw</a>.
+        <a href="hyfhdcjn@gmail.com" style="color:#F8770E">service@buymall.tw</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>
