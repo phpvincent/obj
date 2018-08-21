@@ -278,13 +278,17 @@
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
         </tr>
         <tr class="first odd">
+            <td style="width: 20%;height: 80px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
+               
+               
                 <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
 
                     換貨審核—退款/換貨；</p>
                 <p>退換貨請註明：訂單號、姓名、電話。</p>
-
+                
             </td>
+
         </tr>
                 <tr class="first odd">
           
