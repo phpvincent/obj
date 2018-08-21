@@ -41,7 +41,20 @@ class IndexController extends Controller
         $parsed = date_parse($timer);
         $goods->goods_end=$parsed['hour'] * 3600+$parsed['minute'] * 60+$parsed['second'];
         //模板渲染
-    	return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+        $blade_type=$goods->goods_blade_type;
+        switch ($blade_type) {
+            case '0':
+            return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+                break;
+            case '1':
+            return view('home.index1')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    	
     }
     public function fb(Request $request){
 
