@@ -55,6 +55,9 @@ class checkurl
                 if($arr['country']!='台湾省'&&$arr['region']!='台湾省'&&$arr['country']!='台湾'&&$arr['region']!='台湾'){
                      $is_zz=true;
                 }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
                 break;
             case '4':
                 $is_zz=true;

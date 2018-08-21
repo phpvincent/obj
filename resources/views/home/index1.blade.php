@@ -186,9 +186,6 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
             <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
        
-     
-      
- 
     <!-- <span class="service"  id="btnOnline" data-id="19288071">
         <img src="/images/service.png" style="">
         <a href="javascript:void(0);">
