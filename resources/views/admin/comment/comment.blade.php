@@ -1,6 +1,6 @@
 @extends('admin.father.css')
 @section('content')
-<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a href="javascript:;" onclick="location.href='/admin/goods/index';" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 单品管理</a></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+<div class="cl pd-5 bg-1 bk-gray mt-20">@if(Auth::user()->is_root=='1') <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a href="javascript:;" onclick="location.href='/admin/goods/index';" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> @endif单品管理</a></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-bg" id="comment_user_table">
 		<thead>
 			<tr>
