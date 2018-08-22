@@ -234,6 +234,12 @@ class OrderController extends Controller
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+           ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $goods=\App\goods::get_ownid(Auth::user()->admin_id);
+              $query->whereIn('goods_admin_id', $goods);
+            }
+           })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
            foreach($data as $k => $v){

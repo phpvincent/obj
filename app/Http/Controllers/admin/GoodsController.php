@@ -131,6 +131,8 @@ class GoodsController extends Controller
          $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_admin_id=$data['admin_id'];
+         $goods->goods_buy_url=$data['goods_buy_url'];
+         $goods->goods_buy_msg=$data['goods_buy_msg'];
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
                $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
@@ -225,30 +227,28 @@ class GoodsController extends Controller
          }
    }
    public function outgoods(Request $request){
-   		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time','goods_pix')
+    //下载Excel
+   		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time','goods_pix','goods_buy_url')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
 	        ->where('goods.is_del','0')
+          ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $query->where('goods_admin_id',Auth::user()->admin_id);
+            }
+          })
 			->orderBy('goods.goods_up_time','desc')
 			->get()->toArray();
    		$filename='商品信息'.date('Y-m-d H:i:s',time()).'.xls';
-   		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间','商品像素'];
+   		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间','商品像素','商品采购url'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }
-
    public function chgoods(Request $request){
+    //修改单品模板
    	 	$id=$request->input('id');
    	 	$goods=goods::where('goods_id',$id)->first();
    	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
          $type=\App\goods_type::get();
-   	 	/*$goods['is_online']=\App\url::where('url_goods_id',$goods['goods_id'])->first()->url_type;
-         $url=\App\url::where('url_goods_id',$goods['goods_id'])->first();
-   	 	$goods['url']=$url->url_url;
-         if($id==$url->url_goods_id){
-              $goods['is_zz']=0;
-         }elseif($id==$url->url_zz_goods_id){
-              $goods['is_zz']=1;
-         }*/
    	 	return view('admin.goods.update')->with(compact('goods','type'));
    }
    public function post_update(Request $request){
@@ -325,41 +325,3 @@ class GoodsController extends Controller
    	 return $sdk;
    }
 }
-/*	$dataResult = array();      //todo:导出数据（自行设置） 
-
-$headTitle = "XX保险公司 优惠券赠送记录"; 
-
-$title = "优惠券记录"; 
-
-$headtitle= "<tr style='height:50px;border-style:none;><th border=\"0\" style='height:60px;width:270px;font-size:22px;' colspan='11' >{$headTitle}</th></tr>"; 
-
-$titlename = "<tr> 
-
-               <th style='width:70px;' >合作商户</th> 
-
-               <th style='width:70px;' >会员卡号</th> 
-
-               <th style='width:70px;'>车主姓名</th> 
-
-               <th style='width:150px;'>手机号</th> 
-
-               <th style='width:70px;'>车牌号</th> 
-
-               <th style='width:100px;'>优惠券类型</th> 
-
-               <th style='width:70px;'>优惠券名称</th> 
-
-               <th style='width:70px;'>优惠券面值</th> 
-
-               <th style='width:70px;'>优惠券数量</th> 
-
-               <th style='width:70px;'>赠送时间</th> 
-
-               <th style='width:90px;'>截至有效期</th> 
-
-           </tr>"; 
-
-           $filename = $title.".xls"; 
-
-       $this->excelData($dataResult,$titlename,$headtitle,$filename); */
-

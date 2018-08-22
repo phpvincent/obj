@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\goods;
 use App\url;
 use DB;
+use Illuminate\Support\Facades\Auth;
 class UrlController extends Controller
 {
     public function goods_url(){
@@ -27,10 +28,20 @@ class UrlController extends Controller
 	        $newcount=DB::table('url')
 	        ->select('url.*')
           ->where('url.url_url','like',"%$search%")
+          ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $query->where('url_admin_id',Auth::user()->admin_id);
+            }
+          })
 	        ->count();
 	        $data=DB::table('url')
 	         ->select('url.*')
           ->where('url.url_url','like',"%$search%")
+          ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $query->where('url_admin_id',Auth::user()->admin_id);
+            }
+          })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
@@ -61,6 +72,7 @@ class UrlController extends Controller
         $url->url_url=$data['url_url'];
         $url->url_zz_level=$data['url_level'];
         $url->url_zz_for=$data['url_for'];
+        $url->url_admin_id=Auth::user()->admin_id;
         if(isset($data['is_online'])&&$data['is_online']!=null){
           $url->url_type='1';
         }else{
@@ -93,7 +105,7 @@ class UrlController extends Controller
    	    if($url==null){
    	    	$url=new url();
    	    	$url->url_goods_id=$msg['id'];
-
+          $url->url_admin_id=Auth::user()->admin_id;
    	    	$url->url_url=$msg['url_url'];
    	    	$url->url_type=$msg['url_type'];
    	    	$msg=$url->save();
@@ -154,6 +166,7 @@ class UrlController extends Controller
           $url->url_type=$msg['url_type'];
           $url->url_zz_level=$msg['url_zz_level'];
    	    	$url->url_zz_for=$msg['url_zz_for'];
+          $url->url_admin_id=Auth::user()->admin_id;
    	    	$msg=$url->save();
    	    	if($msg)
          {

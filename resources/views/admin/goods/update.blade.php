@@ -151,6 +151,7 @@
 				</div>
 			</div>
 		</div> -->
+
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 
@@ -161,6 +162,18 @@
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品规格：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 
 				<script id="editor2" type="text/plain" name='editor2' style="width:100%;height:400px;">{!!$goods->goods_type_html!!}</script> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">单品采购备注：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$goods->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
 			</div>
 		</div>
 		<div class="row cl">
@@ -256,6 +269,12 @@
 				required:true,
 			},
 			commentdatemax:{
+				required:true,
+			},
+			goods_buy_msg:{
+				required:true,
+			},
+			goods_buy_url:{
 				required:true,
 			},
 
