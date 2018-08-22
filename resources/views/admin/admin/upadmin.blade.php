@@ -20,6 +20,7 @@
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属角色：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="role_id" id="role_id" class="select">
+					<option value="0">超级管理员</option>
 					@foreach(\App\role::get() as $key => $v)
 						<option value="{{$v->role_id}}" @if($v->role_id==$admin->admin_role_id) selected="selected" @endif>{{$v->role_name}}</option>
 					@endforeach
@@ -45,10 +46,7 @@
 				required:true,
 				rangelength:[4,15]
 			},
-			password:{
-				required:true,
-				rangelength:[6,15]
-			},
+			
 			role_id:{
 				required:true,
 			}

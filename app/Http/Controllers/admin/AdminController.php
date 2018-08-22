@@ -85,7 +85,7 @@ class AdminController extends Controller
 		    	}
 		    	$newids=rtrim($newids,',');
 		    	if($newids==null){
-		    		$data[$k]->day_sale=0;
+		    		$data[$key]->day_sale=0;
 		    	}else{
 		    			        	$day_sale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)"); 
 		    			        	if($day_sale[0]->day_sale==null){
@@ -168,8 +168,16 @@ class AdminController extends Controller
     		$id=$request->input('admin_id');
     		$admin=\App\admin::where('admin_id',$id)->first();
     		$admin->admin_name=$data['admin_name'];
-    		$admin->admin_role_id=$data['role_id'];
-    		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
+    		if($data['role_id']==0){
+    			$admin->is_root='1';
+
+    		}else{
+    			$admin->admin_role_id=$data['role_id'];
+
+    		}
+    		if($data['password']!=''&&$data['password']!=null){
+    			$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
+    		}
     		$msg=$admin->save();
     		if($msg){
 	   	    	return response()->json(['err'=>1,'str'=>'更改成功']);
@@ -225,6 +233,7 @@ class AdminController extends Controller
     	}
 	   	    	return response()->json(['err'=>1,'str'=>'分配成功']);
     }
+    //个人信息弹窗
     public function layershow(){
     	$admin=\App\admin::where('admin_id',Auth::user()->admin_id)->first();
     	$admin->admin_role_id=\App\role::where('role_id',$admin->admin_role_id)->first()['role_name'];
@@ -236,12 +245,17 @@ class AdminController extends Controller
     		$newids.=$v->goods_id.',';
     	}
     	$newids=rtrim($newids,',');
-    	$daysale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)");
-    	if($daysale[0]->day_sale==null){
-    		$daysale=0;
+    	if($newids!=''&&$newids!=null){
+    	    	$daysale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)");
+    	    	if($daysale[0]->day_sale==null){
+		    		$daysale=0;
+		    	}else{
+		    		$daysale=$daysale[0]->day_sale;
+		    	}
     	}else{
-    		$daysale=$daysale[0]->day_sale;
+    		$daysale=0;
     	}
+    	
     	return view('admin.admin.layershow')->with(compact('admin','admin_goods_count','daysale'));
     }
 }

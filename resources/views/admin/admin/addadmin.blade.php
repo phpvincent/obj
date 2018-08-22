@@ -69,7 +69,12 @@
 					datatype:'json',
 					success:function(msg){
 			         if(msg['err']==1){
-			           	 layer.msg(msg.str);
+						layer.msg('添加成功!',{time:2*1000},function() {
+						//回调
+							index = parent.layer.getFrameIndex(window.name);
+							setTimeout("parent.layer.close(index);",2000);
+                        	window.parent.location.reload();
+						});
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{
