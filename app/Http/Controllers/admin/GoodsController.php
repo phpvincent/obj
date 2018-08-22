@@ -132,6 +132,7 @@ class GoodsController extends Controller
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_admin_id=$data['admin_id'];
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
+               $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          if($request->hasFile('goods_video')){
                $file=$request->file('goods_video');
@@ -259,6 +260,7 @@ class GoodsController extends Controller
    		$goods->goods_real_price=$data['goods_real_price'];
    		$goods->goods_price=$data['goods_price'];
    		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
+      $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_type=$data['goods_type'];
    		if($request->hasFile('goods_video')){

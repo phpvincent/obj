@@ -53,6 +53,15 @@
 				</span> </div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板类型：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="goods_blade_type" id="goods_blade_type" class="select">
+					<option value="0" @if($goods->goods_blade_type=='0') selected="selected" @endif>0--正常模板</option>
+					<option value="1" @if($goods->goods_blade_type=='1') selected="selected"  @endif>1--展示模板</option>
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>单品类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="goods_type" id="goods_type" class="select">
