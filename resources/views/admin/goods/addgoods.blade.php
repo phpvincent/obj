@@ -57,6 +57,7 @@
 				<select name="goods_blade_type" id="goods_blade_type" class="select">
 					<option value="0" >0--正常模板</option>
 					<option value="1">1--展示模板</option>
+					<option value="2">2--无倒计时模板</option>
 				</select>
 				</span> </div>
 		</div>

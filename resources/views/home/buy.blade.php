@@ -160,19 +160,20 @@ jQuery(function(){
 </div>
 <!--product info end-->
 <!--size begin-->  
+<div id="goods_config_div">
 @foreach($goods_config_arr as $key => $val)
   <div calss="radiobox">
-    <dl class="addcart-specs-content"><dt data-id="52414" data-sort="50">{{$val[0]->goods_config_msg}}</dt><dd>
+    <dl class="addcart-specs-content"><dt>{{$val[0]->goods_config_msg}}</dt><dd>
         @foreach($val as $k => $v)
-
         <input type="radio"  class="radio" name="goods_config[{{$v->goods_config_id}}][]" value="{{$v->config_val_id}}" @if($loop->first) checked="checked" @endif>
             <span @if($loop->first) class='ischeck' @else class="uncheck" @endif >&nbsp;&nbsp;{{$v->config_val_msg}}&nbsp;&nbsp;</span>&nbsp;
       <!--   <input type="radio" class="radio"  name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;02#淺棕色&nbsp;&nbsp;</span>&nbsp;
         <input type="radio"  class="radio" name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;03#深棕色&nbsp;&nbsp;</span>&nbsp; -->
         @endforeach
     </dl>
-</div>
+    </div>
   @endforeach
+</div>
 <div id="addcart">
     <!-- <div class="addcart-group-buttons" style="display: block;"><div class="addcart-float-buttons-block" data-id="7022"><button type="button" class="addcart-float-buttons-block-button">限時特惠 加$300再得兩件[點擊購買]</button></div></div> -->
 </div>
@@ -185,6 +186,18 @@ jQuery(function(){
 
 <script type="text/javascript">
     $(function(){
+            /*var confignum=$('#goods_config_div').length;
+            var newclone=$('#goods_config_div').clone();
+            var input_name=newclone.find('input').attr('name');
+            var clone_name=parseInt(input_name.replace(/[^0-9]/ig,""));alert(clone_name);
+            alert(input_name);
+            $('#goods_config_div').after(newclone);*/
+            $('.radio').each(function(){
+                $(this).on('click',function(){
+                     $(this).parent().parent().find('span').attr('class','uncheck');
+                       $(this).next().attr("class",'ischeck');  
+                })
+            })
         $.ajax({
                 url:"{{url('/gethtml')}}",
                 type:'post',
@@ -385,12 +398,7 @@ jQuery(function(){
             }
        });
     });
-   $('.radio').each(function(){
-        $(this).on('click',function(){
-             $(this).parent().parent().find('span').attr('class','uncheck');
-               $(this).next().attr("class",'ischeck');  
-        })
-   })
+   
     
 /*$('.radiobox').children().find('input').on('click',function(){alert('?');
             $(this).parent().parent().find('span').attr('class','uncheck')
@@ -399,9 +407,9 @@ jQuery(function(){
     })*/
 });
 </script>
-<script src="/js/Validform.min.js">
+<script src="/js/Validform.min.js"></script>
     
-</script>
+
 <script>
     var form=jQuery("form").Validform({
         tiptype:function(msg){

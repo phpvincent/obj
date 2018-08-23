@@ -196,6 +196,12 @@ class IndexController extends Controller
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
     	$msg=$order->save();
+        
+        if($request->has('goods_config')){
+         $order_id=$order->order_id;
+         $order_config=new \App\order_config;
+         
+        }
     	if(!$msg){
     		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url]);
     	}else{

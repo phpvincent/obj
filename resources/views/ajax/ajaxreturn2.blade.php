@@ -32,6 +32,7 @@
 		$('.addcart-footer-number-total').children('font:first').html(num-1);
 		$('.addcart-footer-number-total').children('font:first').html(num-1);
 		num=num-1;
+		var confignum=$('.radiobox').length;console.log(confignum);
 		var price=parseInt({{$goods->goods_price}});
 		var end_price=price*num;
 		if(num<config_arr[0]){
@@ -43,11 +44,6 @@
 			var jjp=0;
 			var len=config_arr.length;
 			for(var i = 0; i < config_arr.length/2; i++){
-					/*if((i*2+2)<=(config_arr.length-1)&&num>parseInt(config_arr[i*2])&&num<=parseInt(config_arr[i*2+2])){console.log(num>parseInt(config_arr[i*2])&&num<=parseInt(config_arr[i*2+2]))
-						jjp+=(parseInt(config_arr[i*2+2])-parseInt(config_arr[i*2]))*parseInt(config_arr[i*2+1]);
-					}else if((i*2+2)>(config_arr.length-1)){
-						jjp+=(price-parseInt(config_arr[i*2+1]))*(num-parseInt(config_arr[i*2])+1);console.log(jp+';'+parseInt(config_arr[i*2]))
-					}*/
 					if(num>=parseInt(config_arr[i*2])){
 						if(num<parseInt(config_arr[i*2+2])){
 							jjp+=(num-(parseInt(config_arr[i*2])-1))*(price-(parseInt(config_arr[i*2+1])));
@@ -59,26 +55,11 @@
 						}
 					}
 				}
-			/*	if(num>=parseInt(config_arr[i*2])){
-					end_price=price*(parseInt(config_arr[i*2])-1)+(price-parseInt(config_arr[i*2+1]))*(num-parseInt(config_arr[0])+1);
-				}*/
-			 end_price=jp+jjp;console.log(end_price);
+			 end_price=jp+jjp;
 			$('#realprice').html(end_price);
 			pricehtml.html("NT$"+end_price+".00");
 		}
 			
-		/*if(num-1<=1){
-			num=num-1;
-			$('#realprice').html(price);
-			pricehtml.html("NT$"+price+".00");
-		}else{
-			num=num-1;
-			for (var i = 0; i <= config_arr.length; i--) {
-				
-			}
-			$('#realprice').html(price+(price*(num-1)/2));
-			pricehtml.html("NT$"+((num-1)*price/2+price)+".00");
-		}*/
 	})
 	$('#addcart-quantity-inc').bind('click',function(){
 		var num=parseInt($(this).prev().val());
@@ -91,6 +72,7 @@
 		$('.addcart-footer-number-total').children('font:first').html(num+1);
 	    $('.addcart-footer-number-total').children('font:first').html(num+1);
 	    num=num+1;
+	    var confignum=$('.radiobox').length;console.log(confignum);
 	var price=parseInt({{$goods->goods_price}});
 		var end_price=price*num;
 		if(num<config_arr[0]){
@@ -122,7 +104,7 @@
 					end_price=price*(parseInt(config_arr[i*2])-1)+(price-parseInt(config_arr[i*2+1]))*(num-parseInt(config_arr[0])+1);
 				}*/
 				
-			 end_price=jp+jjp;console.log(end_price);
+			 end_price=jp+jjp;
 			$('#realprice').html(end_price);
 			pricehtml.html("NT$"+end_price+".00");
 		}

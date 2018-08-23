@@ -58,6 +58,7 @@
 				<select name="goods_blade_type" id="goods_blade_type" class="select">
 					<option value="0" @if($goods->goods_blade_type=='0') selected="selected" @endif>0--正常模板</option>
 					<option value="1" @if($goods->goods_blade_type=='1') selected="selected"  @endif>1--展示模板</option>
+					<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>
 				</select>
 				</span> </div>
 		</div>
