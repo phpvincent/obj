@@ -57,7 +57,7 @@ class IndexController extends Controller
     	
     }
     public function fb(Request $request){
-
+        //屏蔽站点
         $goods_id='4';
         $arr=getclientcity($request);
         $type=getclientype();
@@ -96,11 +96,22 @@ class IndexController extends Controller
     	return response()->json(array('status'=> $ans), 200);
     }
     public function pay(Request $request){
+        //下单界面
     	$goods_id=url::get_goods($request);
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
-    	return view('home.buy')->with(compact('goods','img','cuxiao'));
+        $goods_config=\DB::table('goods_config')
+        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id')
+        ->leftjoin('config_val','goods_config.goods_config_id','config_val.config_type_id')
+        ->where('goods_config.goods_primary_id',$goods_id)
+        ->get();
+       
+        $goods_config_arr=[];
+        foreach($goods_config as $k => $v){
+            $goods_config_arr[$v->goods_config_id][]=$v;
+        } /*dd($goods_config_arr);*/
+    	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr'));
     }
     public function gethtml(Request $request){
     	 $goods_id=$request->input('id');

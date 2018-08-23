@@ -29,7 +29,56 @@
         <script src="/js/ytc.js" async=""></script>
         <script src="/js/bat.js" async=""></script>
         <script async="" src="/js/analytics.js"></script>
-
+        <style type="text/css">
+            .uncheck{
+                border:1px dashed #ccc;
+            }
+            .ischeck{
+                border:1px solid red;
+            }
+            .radio{
+                display: inline-block;
+                position: relative;
+                line-height: 18px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+            .radio input{
+                display: none;
+            }
+            .radio .radio-bg{
+                display: inline-block;
+                height: 18px;
+                width: 18px;
+                margin-right: 5px;
+                padding: 0;
+                background-color: #45bcb8;
+                border-radius: 100%;
+                vertical-align: top;
+                box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1) inset, 0 1px 4px rgba(0, 0, 0, 0.1) inset, 1px -1px 2px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            .radio .radio-on{
+                display: none;
+            }
+            .radio input:checked + span.radio-on{
+                width: 10px;
+                height: 10px;
+                position: absolute;
+                border-radius: 100%;
+                background: #FFFFFF;
+                top: 4px;
+                left: 4px;
+                box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3), 0 0 1px rgba(255, 255, 255, 0.4) inset;
+                background-image: linear-gradient(#ffffff 0, #e7e7e7 100%);
+                transform: scale(0, 0);
+                transition: all 0.2s ease;
+                transform: scale(1, 1);
+                display: inline-block;
+            }
+        
+        </style>
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
@@ -96,19 +145,33 @@ jQuery(function(){
 <input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
 <input type="hidden" id="from" name="from" value=""/>
 {{ csrf_field()}}
+
 <!--product info begin-->
 <div class="pro_info">
     <div class="ctxthead">
         <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>
         <div class="rpricebox">NT$<span id="price">{{$goods->goods_price}}</span></div>
     </div>
+
     <div class="ctxtbox">
         <h1>{{$goods->goods_name}}</h1>
         <h2><span style="color: rgb(255, 0, 0);"><strong>【{{$goods->goods_cuxiao_name}}】</strong></span>{{$goods->goods_msg}}</h2>
             </div>
 </div>
 <!--product info end-->
-<!--size begin-->
+<!--size begin-->  
+@foreach($goods_config_arr as $key => $val)
+  <div calss="radiobox">
+    <dl class="addcart-specs-content"><dt data-id="52414" data-sort="50">{{$val[0]->goods_config_msg}}</dt><dd>
+        @foreach($val as $k => $v)
+        <input type="radio"  class="radio" name="goods_config[{{$v->goods_config_id}}][]" value="{{$v->config_val_id}}" @if($loop->first) checked="checked" @endif><span @if($loop->first) class='ischeck' @else class="uncheck" @endif >&nbsp;&nbsp;{{$v->config_val_msg}}&nbsp;&nbsp;</span>&nbsp;
+      <!--   <input type="radio" class="radio"  name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;02#淺棕色&nbsp;&nbsp;</span>&nbsp;
+        <input type="radio"  class="radio" name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;03#深棕色&nbsp;&nbsp;</span>&nbsp; -->
+        @endforeach
+    
+    </dl>
+</div>
+  @endforeach
 <div id="addcart">
     <!-- <div class="addcart-group-buttons" style="display: block;"><div class="addcart-float-buttons-block" data-id="7022"><button type="button" class="addcart-float-buttons-block-button">限時特惠 加$300再得兩件[點擊購買]</button></div></div> -->
 </div>
@@ -292,7 +355,7 @@ jQuery(function(){
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
             溫馨提示：支持貨到付款+免郵費+七天無理由退換貨！收到商品後有任何疑問請聯繫我們在線客服，或發郵件至
-        <a href="mailto:service@buymall.tw" style="color:#F8770E">service@buymall.tw</a>.
+        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>
@@ -321,17 +384,23 @@ jQuery(function(){
             }
        });
     });
-
-//    var form=jQuery("form").Validform({
-//		tiptype:function(msg){
-//			$2.toast(msg);
-//		},
-//		tipSweep:true
-//    });
-//    form.tipmsg.r="訂單提交中...";
+   $('.radio').each(function(){
+        $(this).on('click',function(){
+             $(this).parent().parent().find('span').attr('class','uncheck');
+               $(this).next().attr("class",'ischeck');  
+        })
+   })
+    
+/*$('.radiobox').children().find('input').on('click',function(){alert('?');
+            $(this).parent().parent().find('span').attr('class','uncheck')
+           // $('#radiobox').find('span').each().attr('class','uncheck')
+             $(this).next().attr("class",'ischeck');  
+    })*/
 });
 </script>
-<script src="/js/Validform.min.js"></script>
+<script src="/js/Validform.min.js">
+    
+</script>
 <script>
     var form=jQuery("form").Validform({
         tiptype:function(msg){
@@ -370,6 +439,7 @@ jQuery(function(){
 
 $('#pay').bind('click',function(){
     var btime=getNowDate();
+            //记录购买事件
             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
    $('#save').submit();
 })

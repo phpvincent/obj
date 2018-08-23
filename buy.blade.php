@@ -96,6 +96,7 @@ jQuery(function(){
 <input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
 <input type="hidden" id="from" name="from" value=""/>
 {{ csrf_field()}}
+<div class="addcart-specs-body"><dl class="addcart-specs-content"><dt data-id="52414" data-sort="50">顏色</dt><dd><span data-id="200169" data-def="true" class="">01#自然黑</span><span data-id="200170" class="">02#淺棕色</span><span data-id="200171" class="active">03#深棕色</span></dd></dl></div>
 <!--product info begin-->
 <div class="pro_info">
     <div class="ctxthead">
