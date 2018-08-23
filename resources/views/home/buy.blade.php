@@ -164,11 +164,12 @@ jQuery(function(){
   <div calss="radiobox">
     <dl class="addcart-specs-content"><dt data-id="52414" data-sort="50">{{$val[0]->goods_config_msg}}</dt><dd>
         @foreach($val as $k => $v)
-        <input type="radio"  class="radio" name="goods_config[{{$v->goods_config_id}}][]" value="{{$v->config_val_id}}" @if($loop->first) checked="checked" @endif><span @if($loop->first) class='ischeck' @else class="uncheck" @endif >&nbsp;&nbsp;{{$v->config_val_msg}}&nbsp;&nbsp;</span>&nbsp;
+
+        <input type="radio"  class="radio" name="goods_config[{{$v->goods_config_id}}][]" value="{{$v->config_val_id}}" @if($loop->first) checked="checked" @endif>
+            <span @if($loop->first) class='ischeck' @else class="uncheck" @endif >&nbsp;&nbsp;{{$v->config_val_msg}}&nbsp;&nbsp;</span>&nbsp;
       <!--   <input type="radio" class="radio"  name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;02#淺棕色&nbsp;&nbsp;</span>&nbsp;
         <input type="radio"  class="radio" name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;03#深棕色&nbsp;&nbsp;</span>&nbsp; -->
         @endforeach
-    
     </dl>
 </div>
   @endforeach

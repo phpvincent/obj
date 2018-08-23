@@ -49,7 +49,9 @@ class IndexController extends Controller
             case '1':
             return view('home.index1')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
                 break;
-            
+            case '2':
+            return view('home.index2')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+                break;
             default:
                 # code...
                 break;
