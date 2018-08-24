@@ -117,7 +117,7 @@ class CommentController extends Controller
 	        return response()->json($arr);
    }
    public function usecomment(Request $request){
-   	$comment=comment::where('com_id',$request->input('id'))->first();dd($comment);
+   	$comment=comment::where('com_id',$request->input('id'))->first();
    	 if($comment==null){
    	 	return "数据错误！";
    	 }
