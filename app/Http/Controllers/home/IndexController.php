@@ -43,7 +43,7 @@ class IndexController extends Controller
         $parsed = date_parse($timer);
         $goods->goods_end=$parsed['hour'] * 3600+$parsed['minute'] * 60+$parsed['second'];
         //模板渲染
-        $blade_type=$goods->goods_blade_type;
+        $blade_type=$goods->goods_blade_type;dd($comment);
         switch ($blade_type) {
             case '0':
             return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
