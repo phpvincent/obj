@@ -212,7 +212,7 @@ class CommentController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('comment')
-	        ->where('com_isuser','1')
+	        ->where([['com_isuser','1'],['com_goods_id',$id]])
 	        ->count();
 	        $newcount=DB::table('goods')
 	        ->select('comment.*','goods.goods_real_name')
