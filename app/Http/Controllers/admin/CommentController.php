@@ -117,7 +117,7 @@ class CommentController extends Controller
 	        return response()->json($arr);
    }
    public function usecomment(Request $request){
-   	$comment=comment::where('com_id',$request->input('id'))->first();
+   	$comment=comment::where('com_id',$request->input('id'))->first();dd($comment);
    	 if($comment==null){
    	 	return "数据错误！";
    	 }
@@ -126,9 +126,9 @@ class CommentController extends Controller
    public function usercomment(Request $request){
    	$comment=comment::where('com_goods_id',$request->input('id'))->get();
    	$id=$request->input('id');
-   	 if($comment->isEmpty()){
+   	 /*if($comment->isEmpty()){
    	 	return "数据错误！";
-   	 }
+   	 }*/
    	 return view('admin.comment.usercomment')->with(compact('comment','id'));
    }
    public function newcomment(Request $request){
