@@ -220,9 +220,12 @@
                         </div>
                         <div class="mqc">
                             <p>
-                                <p>{{$v->com_msg}}</p>
-                                @if(!empty($v->com_img))<p><img src="{{$v->com_img}}" title="客户图片" alt="客户图片"/>
-                                @endif</p>                            </p>
+                                <p>{{$v->com_msg}}</p><p>
+                                @if(!empty($v->com_img))
+                                    @foreach($v->com_img as $kk => $val)
+                                <img src="{{$val->com_url}}" title="客户图片" alt="客户图片"/>  
+                                    @endforeach
+                                @endif                         </p> </p>
                         </div>
                         @endforeach 
                                             </div>
