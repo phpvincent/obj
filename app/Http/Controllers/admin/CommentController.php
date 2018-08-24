@@ -52,6 +52,7 @@ class CommentController extends Controller
                 $oncount=\App\comment::where([['com_goods_id','=',$v->goods_id],['com_isshow','=','1']])->count();
                 $data[$key]->usecount=$usecount;
                 $data[$key]->oncount=$oncount;
+               
 	        }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
@@ -110,9 +111,14 @@ class CommentController extends Controller
 	        ->offset($start)
 	        ->limit($len)
 	        ->get();
-	        /*foreach($data as $key => $v){
-                $data[$key]->com_time=strtotime('Y-m-d H:i:s',$v->com_time);
-	        }*/
+	        foreach($data as $key => $v){
+                 $imgs=\App\com_img::where('com_primary_id',$v->com_id)->get();
+                if(count($imgs)>0){
+                	$data[$key]->com_img=$imgs->first()->com_url;
+                }else{
+                	$data[$key]->com_img=null;
+                }
+	        }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }
@@ -137,7 +143,12 @@ class CommentController extends Controller
    public function save_com(Request $request){
    	if($request->input('id')!==null){
    		$comment=comment::where('com_id',$request->input('id'))->first();
-   		@unlink($comment->com_img);
+   			@unlink($comment->com_img);
+   		$imgs=\App\com_img::where('com_primary_id',$request->input('id'))->get();
+   		foreach($imgs as $k => $v){
+   			@unlink($v->com_url);
+   		}
+   		\App\com_img::where('com_primary_id',$request->input('id'))->delete();
    		$comment->com_name=$request->input('com_name');
    		$comment->com_phone=$request->input('com_phone');
    		$comment->com_order=$request->input('com_order');
@@ -146,27 +157,32 @@ class CommentController extends Controller
    		$comment->com_isshow=$request->input('com_isshow');
    		$comment->com_time=date('Y-m-d H:i:s',time());
    		$comment->com_isuser='0';
+   		$msg=$comment->save();
    		if($request->file('com_img')!=null){
-	   		 $pic=$request->file('com_img');
-	         $name=$pic->getClientOriginalName();//得到图片名；
-	         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
-	         $fileName=md5(uniqid($name));
-	         $newImagesName=$request->input('id')."_".$fileName.'.'.$ext;//生成新的的文件名
-	         $filedir="upload/commment_img/";
-	         $msg=$pic->move($filedir,$newImagesName);
-	         //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
-	         /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
-	         if(!$msg){
-		   	    	return response()->json(['err'=>0,'str'=>'图片上传失败']);
-	         }
-	         $comment->com_img='/'.$filedir.$newImagesName;
-   		}
-   		if($comment->save())
-         {
-		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
-         }else{
-		   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
-         }
+   			 foreach($request->file('com_img') as $pic) {
+		         $name=$pic->getClientOriginalName();//得到图片名；
+		         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
+		         $fileName=md5(uniqid($name));
+		         $newImagesName=$request->input('id')."_".$fileName.'.'.$ext;//生成新的的文件名
+		         $filedir="upload/commment_img/";
+		         $msg=$pic->move($filedir,$newImagesName);
+		         //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
+		         /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
+		         if(!$msg){
+			   	    	return response()->json(['err'=>0,'str'=>'图片上传失败']);
+		         }
+		         $new_comimg=new \App\com_img();
+		         $new_comimg->com_url='/'.$filedir.$newImagesName;
+		         $new_comimg->com_primary_id=$comment->com_id;
+		         $new_comimg->save();
+		   		 }
+ 		    }
+ 		 		if($msg)
+		         {
+				   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
+		         }else{
+				   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
+		         }
    	}else{
    		$comment=new comment;
    		$comment->com_name=$request->input('com_name');
@@ -178,27 +194,32 @@ class CommentController extends Controller
    		$comment->com_goods_id=$request->input('goods_id');
    		$comment->com_time=date('Y-m-d H:i:s',time());
    		$comment->com_isuser='0';
+   			$msg=$comment->save();
    		if($request->file('com_img')!=null){
-	   		 $pic=$request->file('com_img');
-	         $name=$pic->getClientOriginalName();//得到图片名；
-	         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
-	         $fileName=md5(uniqid($name));
-	         $newImagesName=$request->input('id')."_".$fileName.'.'.$ext;//生成新的的文件名
-	         $filedir="upload/commment_img/";
-	         $msg=$pic->move($filedir,$newImagesName);
-	         //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
-	         /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
-	         if(!$msg){
-		   	    	return response()->json(['err'=>0,'str'=>'图片上传失败']);
-	         }
-	         $comment->com_img='/'.$filedir.$newImagesName;
-   		}
-   		if($comment->save())
-         {
-		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
-         }else{
-		   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
-         }
+   			 foreach($request->file('com_img') as $pic) {
+		         $name=$pic->getClientOriginalName();//得到图片名；
+		         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
+		         $fileName=md5(uniqid($name));
+		         $newImagesName=$request->input('id')."_".$fileName.'.'.$ext;//生成新的的文件名
+		         $filedir="upload/commment_img/";
+		         $msg=$pic->move($filedir,$newImagesName);
+		         //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
+		         /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
+		         if(!$msg){
+			   	    	return response()->json(['err'=>0,'str'=>'图片上传失败']);
+		         }
+		         $new_comimg=new \App\com_img();
+		         $new_comimg->com_url='/'.$filedir.$newImagesName;
+		         $new_comimg->com_primary_id=$comment->com_id;
+		         $new_comimg->save();
+		   		 }
+ 		    }
+ 		 		if($msg)
+		         {
+				   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
+		         }else{
+				   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
+		         }
    	}
    }
     public function getusers(Request $request){

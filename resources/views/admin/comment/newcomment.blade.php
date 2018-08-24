@@ -57,7 +57,7 @@
 			<div class="formControls col-xs-8 col-sm-9">
 				<div class="uploader-thum-container">
 					<div id="fileList" class="uploader-list"></div>
-					<input type="file" name="com_img" class="webuploader-element-invisible valid" multiple="multiple" accept="image/*">
+					<input type="file" name="com_img[]" class="webuploader-element-invisible valid" multiple="multiple" accept="image/*">
 				</div>
 			</div>
 		</div>

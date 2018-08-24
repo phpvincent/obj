@@ -31,6 +31,8 @@ class IndexController extends Controller
               $usename.=mb_substr($key->com_name,2);
             }
             $comment[$v]->com_name=$usename;
+            $imgs=\App\com_img::where('com_primary_id',$key->com_id)->get();
+            $comment[$v]->com_img=$imgs;
         }
         //dd($comment);
     	$des_img=des::where('des_goods_id',$goods_id)->get();
