@@ -200,7 +200,14 @@ class IndexController extends Controller
         if($request->has('goods_config')){
          $order_id=$order->order_id;
          $order_config=new \App\order_config;
-         
+         $ostr='';
+         foreach($request->input('goods_config') as $v){
+            $ostr.=$v[0].',';
+         }
+         $ostr= rtrim($ostr,',');
+         $order_config->order_config=$ostr;
+         $order_config->order_primary_id=$order_id;
+         $order_config->save();
         }
     	if(!$msg){
     		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url]);

@@ -1,6 +1,11 @@
 @extends('admin.father.css')
 @section('content')
 <article class="page-container">
+	<div class="config" style="display: none;" id="configclo">
+					属性名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
+				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+				
+				</div>
 	<form class="form form-horizontal" id="form-goods-update" enctype="multipart/form-data" action="{{url('admin/goods/post_update')}}">
 		{{csrf_field()}}
 		<input type="hidden" name="goods_id" value="{{$goods->goods_id}}">
@@ -76,6 +81,45 @@
 			<!-- <div class="formControls col-xs-8 col-sm-9" >
 			</div> -->
 		</div>
+		@if(\App\goods_config::where('goods_primary_id',$goods->goods_id)->count()<=0)
+		<div class="row cl" style="margin-left: 2%">
+			<label class="form-label col-xs-4 col-sm-2"> </label>
+			<input type="button" class="btn btn-default" value="添加商品附带属性" id="addcon" isalive='off'/>
+		</div>
+		<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">
+			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
+				<div class="config">
+				属性名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
+				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+				
+				</div>
+
+		</div>
+		@else
+		<div class="row cl" style="margin-left: 2%">
+			<label class="form-label col-xs-4 col-sm-2"> </label>
+			<input type="button" class="btn btn-default" value="移除商品附带属性" id="addcon" isalive='on'/>
+		</div>
+		<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;" id="conhtml">
+			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
+			@foreach($goods_config as $v)
+				<div class="config">
+				属性名:<input type="text" style="width: 10%;" class="input-text" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[]">
+				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色）:<input type="text" style="width: 30%;" class="input-text" value="{{$v->config_msg}}" placeholder="" id="goods_config" name="goods_config[]">
+				</div>
+			@endforeach
+		</div>
+		
+		@endif
+		<!-- <div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">
+			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
+			@foreach($goods_config as $v)
+				<div class="config">
+				属性名:<input type="text" style="width: 10%;" class="input-text" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[]">
+				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="{{$v->config_msg}}" placeholder="" id="goods_config" name="goods_config[]">
+				</div>
+			@endforeach
+		</div> -->
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">附带视频(仅限mp4/mpeg格式)：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -272,12 +316,6 @@
 			commentdatemax:{
 				required:true,
 			},
-			goods_buy_msg:{
-				required:true,
-			},
-			goods_buy_url:{
-				required:true,
-			},
 
 		},
 		onkeyup:false,
@@ -324,5 +362,32 @@
 				$(this).parent().parent().parent().prev().show(400);
 			}
 		})
+		$('#addcon').on('click',function(){
+		var isalive=$(this).attr('isalive');
+			if(isalive!='on'){
+				$('#conhtml').show(300);
+				$(this).val('移除商品附加属性');
+				$(this).attr('isalive','on');
+			}else{
+				$('#conhtml').hide(300);
+				while($('.config').length>1){
+					$('.config').last().remove();
+				}
+				$(this).val('添加商品附加属性');
+				$(this).attr('isalive','off');
+			}
+		})
+	$('#addconfig').on('click',function(){
+			//var configdiv=$(this).next().next().next('div').clone();
+			var configdiv=$('#configclo').clone();
+			configdiv.show(200);
+			$('#conhtml').append(configdiv);
+		})
+	
+	$("#rmconfig").on('click',function(){
+		if($('.config').length>1){
+			$('.config').last().remove();
+		}
+	})
 </script>
 @endsection

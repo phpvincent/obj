@@ -161,6 +161,7 @@ jQuery(function(){
 <!--product info end-->
 <!--size begin-->  
 <div id="goods_config_div">
+    <span style="font-size: 3px;color:red;">額外規格也可以在留言中通知我們，我們將以留言為準！</span>
 @foreach($goods_config_arr as $key => $val)
   <div calss="radiobox">
     <dl class="addcart-specs-content"><dt>{{$val[0]->goods_config_msg}}</dt><dd>

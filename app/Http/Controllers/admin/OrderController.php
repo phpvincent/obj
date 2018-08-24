@@ -156,7 +156,22 @@ class OrderController extends Controller
             ->limit($len)
             ->get();
            }
-	        
+	        foreach($data as $k => $v){
+            $order_config=\App\order_config::where('order_primary_id',$v->order_id)->first();
+            if($order_config!=null){
+                $orderarr=explode(',',$order_config['order_config']);
+                $config_msg='';
+                foreach($orderarr as $key => $val){
+                  $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                  $config_msg.=$conmsg['config_val_msg'].'-';
+                }
+                $config_msg=rtrim($config_msg,'-');
+                $data[$k]->config_msg=$config_msg;
+              }else{
+                $data[$k]->config_msg="暂无属性信息";
+              }
+          
+          }
         
            //按照时间区间查找数据
             if(isset($timesearch)){
@@ -164,11 +179,7 @@ class OrderController extends Controller
                $newcount=0;
                $dataarr=[];
                /*$msg=[];*/
-               foreach($data as $k=> $v){/*dd(explode(';',$timesearch),$v->order_time);dd(strtotime($v->order_time),strtotime(explode(';',$timesearch)[1]),strtotime(explode(';',$timesearch)[0]));*/
-            /* $msg[$k]['name']=$v->vis_ip;
-               $msg[$k]['end']=(strtotime($v->order_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->order_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->order_time)==strtotime($timesearch);
-               $msg[$k]['time']=(strtotime($v->order_time));
-               $msg[$k]['aes']=strtotime(explode(';',$timesearch)[0]).'-'.strtotime(explode(';',$timesearch)[1]);*/
+               foreach($data as $k=> $v){
                   if((strtotime($v->order_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->order_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->order_time)==strtotime($timesearch)){
                      $newcount+=1;
                      $dataarr[]=$v;

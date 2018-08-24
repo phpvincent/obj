@@ -19,6 +19,7 @@ class GoodsController extends Controller
         $counts=goods::where('goods_admin_id',Auth::user()->admin_id)->count();
        }
         $type=\App\goods_type::get();
+
    	  return view('admin.goods.index')->with(compact('counts','type'));
    }
    public function get_table(Request $request){
@@ -131,10 +132,10 @@ class GoodsController extends Controller
          $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_admin_id=$data['admin_id'];
-         $goods->goods_buy_url=$data['goods_buy_url'];
-         $goods->goods_buy_msg=$data['goods_buy_msg'];
+         $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
+         $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
-               $goods->goods_blade_type=$data['goods_blade_type'];
+         $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          if($request->hasFile('goods_video')){
                $file=$request->file('goods_video');
@@ -178,6 +179,26 @@ class GoodsController extends Controller
          $msg1=$sdk->saveadd($request,$goods_id);
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
          $goods->save();
+         //增加商品扩展属性
+         if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
+            foreach($data['goods_config_name'] as $k => $v){
+              $gf=new \App\goods_config();
+              $gf->goods_primary_id=$goods->goods_id;
+              $gf->goods_config_msg=$v;
+              $gf->save();
+               $msgarr=explode(';', $data['goods_config'][$k]);
+                foreach($msgarr as $kk => $vv){
+                  if($vv!=null && $vv!=''){
+                     $fm=new \App\config_val();
+                     $fm->config_type_id=$gf->goods_config_id;
+                     $fm->config_val_msg=$vv;
+                     $fm->config_goods_id=$goods->goods_id;
+                     $fm->config_val_img=isset($vv['config_val_msg'])?$vv['config_val_msg']:null;
+                     $fm->save();
+                  }
+                }              
+            }
+         }
          if($msg1&&$msg2)
          {
                   return response()->json(['err'=>1,'str'=>'添加成功！']);
@@ -249,7 +270,21 @@ class GoodsController extends Controller
    	 	$goods=goods::where('goods_id',$id)->first();
    	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
          $type=\App\goods_type::get();
-   	 	return view('admin.goods.update')->with(compact('goods','type'));
+     
+        $goods_config=\App\goods_config::where('goods_primary_id',$id)->get();
+        if($goods_config!=null){
+          foreach($goods_config as $k => $v){
+            $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->get()->toArray();
+            $str='';
+            foreach($arr as $val){
+              $str.=$val['config_val_msg'].';';
+            }
+            $str=rtrim($str,';');
+            $goods_config[$k]->config_msg=$str;
+          }
+        }
+        
+   	 	return view('admin.goods.update')->with(compact('goods','type','goods_config'));
    }
    public function post_update(Request $request){
    		$data=$request->all();
@@ -261,6 +296,8 @@ class GoodsController extends Controller
    		$goods->goods_price=$data['goods_price'];
    		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
       $goods->goods_blade_type=$data['goods_blade_type'];
+      $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
+      $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_type=$data['goods_type'];
    		if($request->hasFile('goods_video')){
@@ -311,8 +348,31 @@ class GoodsController extends Controller
          $sdk=new cuxiaoSDK($goods);
          $msg1=$sdk->saveupdate($request);
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
-   		$msg2=$goods->save();
+   		   $msg2=$goods->save();
    		/*$msg3=$url->save();*/
+        if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
+          //删除原有附加属性
+          \App\goods_config::where('goods_primary_id',$goods->goods_id)->delete();
+          \App\config_val::where('config_goods_id',$goods->goods_id)->delete();
+          //添加现有附加属性
+              foreach($data['goods_config_name'] as $k => $v){
+              $gf=new \App\goods_config();
+              $gf->goods_primary_id=$goods->goods_id;
+              $gf->goods_config_msg=$v;
+              $gf->save();
+               $msgarr=explode(';', $data['goods_config'][$k]);
+                foreach($msgarr as $kk => $vv){
+                  if($vv!=null && $vv!=''){
+                     $fm=new \App\config_val();
+                     $fm->config_type_id=$gf->goods_config_id;
+                     $fm->config_val_msg=$vv;
+                     $fm->config_goods_id=$goods->goods_id;
+                     $fm->config_val_img=isset($vv['config_val_msg'])?$vv['config_val_msg']:null;
+                     $fm->save();
+                  }
+                }              
+            }
+           }
    		if($msg1&&$msg2)
          {
 		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
