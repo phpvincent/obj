@@ -223,7 +223,7 @@
                                 <p>{{$v->com_msg}}</p><p>
                                 @if(!empty($v->com_img))
                                     @foreach($v->com_img as $kk => $val)
-                                <img src="{{$val->com_url}}" title="客户图片" alt="客户图片"/>  
+                                <img src="{{$val['com_url']}}" title="客户图片" alt="客户图片"/>  
                                     @endforeach
 								@endif                         </p> </p>
                         </div>
