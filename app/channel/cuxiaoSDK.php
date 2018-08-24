@@ -56,10 +56,10 @@ class cuxiaoSDK{
            		$jp=$price*($arr[0]-1);
            		for ($i=0; $i <count($arr)/2; $i++) { 
            			if($num>=($arr[$i*2])){
-						if($num<($arr[$i*2+2])){
+						if(isset($arr[$i*2+2])&&$num<($arr[$i*2+2])){
 							$jjp+=($num-(($arr[$i*2])-1))*($price-(($arr[$i*2+1])));
 							break;
-						}else if($num>=($arr[$i*2+2])){
+						}else if(isset($arr[$i*2+2])&&$num>=($arr[$i*2+2])){
 							$jjp+=(($arr[$i*2+2])-($arr[$i*2]))*($price-($arr[$i*2+1]));
 						}else{
 							$jjp+=($num-($arr[$i*2])+1)*($price-($arr[$i*2+1]));
