@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class UrlController extends Controller
 {
     public function goods_url(){
+    
     	$counts=goods::count();
     	return view('admin.url.goods_url')->with('counts',$counts);
     }
