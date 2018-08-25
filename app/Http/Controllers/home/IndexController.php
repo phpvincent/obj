@@ -31,9 +31,9 @@ class IndexController extends Controller
               $usename.=mb_substr($key->com_name,2);
             }
             $comment[$v]->com_name=$usename;
-            $imgs=\App\com_img::where('com_primary_id',$key->com_id)->get();
-            if(count($imgs)>0){
-                 $comment[$v]->com_img=$imgs;
+            $com_imgs=\App\com_img::where('com_primary_id',$key->com_id)->get();
+            if(count($com_imgs)>0){
+                 $comment[$v]->com_img=$com_imgs;
              }else{
                 $comment[$v]->com_img=null;
              }

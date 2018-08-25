@@ -102,9 +102,9 @@
         <div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav cl-effect-5">
 				<li class="active"><a href="#homesles" class="page-scroll"><span data-hover="Home">Home</span></a></li>
-				<li><a href="#about" class="page-scroll"><span data-hover="About">About</span></a></li>
-				<li><a href="#service" class="page-scroll"><span data-hover="Services">Services</span></a></li>
-				<li><a href="#group" class="page-scroll"><span data-hover="group">group</span></a></li>
+				<li><a href="#about" class="page-scroll"><span data-hover="Culture">Culture</span></a></li>
+				<li><a href="#service" class="page-scroll"><span data-hover="Technology">Technology</span></a></li>
+				<li><a href="#group" class="page-scroll"><span data-hover="About">About</span></a></li>
 				<li><a href="#EVENTS" class="page-scroll"><span data-hover="EVENTS">EVENTS</span></a></li>
 				<li><a href="#contact" class="page-scroll"><span data-hover="Contact">Contact</span></a></li>
 			</ul>
@@ -126,9 +126,8 @@
 	<div class="container">
 		<div class="col-md-5 col-md-push-7 about-agile2">
 			<div class="about-agileinfo">
-				<h2>About Us</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam facilisis semper felis, id suscipit arcu venenatis nec. Etiam non ligula ac massa bibendum molestie. Nam sit amet augue nulla. </p>
-				<p>Quisque pulvinar consectetur erat non ornare. Nulla facilisi. Phasellus condimentum turpis vel elit mollis tempus. Nulla at luctus ante. Nullam et nulla interdum, blandit quam et, vehicula nibh.</p>
+				<h2>Company culture: </h2>
+				<p>The company values people first and foremost in the management and motivation of employees. It has established a powerful and scientific disposition system where all staff are able to communicate and feedback at any level. The human-based policy making and management leads to a professional team, in which all talents are warm-hearted, thoughtful, passionate, assertive, and innovative.</p>
 			</div>
 		</div>
 		<div class="col-md-7 col-md-pull-5 about-agile1">
@@ -160,8 +159,7 @@
 				<div class="col-xs-8 addr-agileits2">
 					<div class="addr-w3l">
 						<h3>Phone Number</h3>
-						<p>+12 345 6789</p>
-						<p>+10 101 1010</p>
+						<p>+18155955705</p>
 					</div>	
 				</div>	
 				<div class="clearfix"></div>
@@ -177,8 +175,8 @@
 				<div class="col-xs-8 addr-agileits2">
 					<div class="addr-w3l">
 						<h3>Address</h3>
-						<p>27 Jack Street,</p>
-						<p>Chicago, USA</p>
+						<p>No. 27, old street Middle Road</p>
+						<p>Tunxi District, Huangshan City, Anhui</p>
 					</div>	
 				</div>
 				<div class="clearfix"></div>
@@ -194,8 +192,8 @@
 				<div class="col-xs-8 addr-agileits2">
 					<div class="addr-w3l">
 						<h3>Email Us</h3>
-						<p><a href="mailto:support@company.com">mail@example.com</a></p>
-						<p><a href="mailto:support@company.com">mail@example.com</a></p>
+						<p><a href="mailto:support@company.com">google@gmail.com</a></p>
+						
 					</div>	
 				</div>
 				<div class="clearfix"></div>
@@ -211,7 +209,7 @@
 				<div class="col-xs-8 addr-agileits2">
 					<div class="addr-w3l">
 						<h3>Facebook</h3>
-						<p><a href="mailto:support@company.com">mail@example.com</a></p>
+						<p><a href="mailto:support@company.com">afacebook.com</a></p>
 					</div>	
 				</div>
 				<div class="clearfix"></div>
@@ -225,8 +223,8 @@
 <!-- services section -->
 <section class="service-wthree" id="service">
 	<div class="container">
-		<h3 class="text-center">Our Services</h3>
-		<p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		<h3 class="text-center">Technology</h3>
+		<p class="text-center">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui. </p>
 		<div class="col-lg-4 col-md-4 col-sm-6">
 			<ul class="ch-grid">
 				<li>
@@ -243,8 +241,8 @@
 					</div>
 				</li>
 			</ul>
-			<h5 class="text-center">Lorem ipsum dolor</h5>
-			<p class="serv-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque congue augue at posuere.</p>	
+			<h5 class="text-center">Zhengzhou</h5>
+			<p class="serv-p2">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui.</p>	
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-6">
 			<ul class="ch-grid">
@@ -262,8 +260,8 @@
 					</div>
 				</li>
 			</ul>
-			<h5 class="text-center">adipiscing elit</h5>
-			<p class="serv-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque congue augue at posuere.</p>	
+			<h5 class="text-center">Guangzhou</h5>
+			<p class="serv-p2">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui.</p>	
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-6">
 			<ul class="ch-grid">
@@ -281,8 +279,8 @@
 					</div>
 				</li>
 			</ul>
-			<h5 class="text-center">congue augue at</h5>
-			<p class="serv-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque congue augue at posuere.</p>	
+			<h5 class="text-center">Shanghai</h5>
+			<p class="serv-p2">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui.</p>	
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-6">
 			<ul class="ch-grid">
@@ -300,8 +298,8 @@
 					</div>
 				</li>
 			</ul>
-			<h5 class="text-center">Nulla ex arcu</h5>
-			<p class="serv-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque congue augue at posuere.</p>	
+			<h5 class="text-center">Beijing</h5>
+			<p class="serv-p2">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui.</p>	
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-6">
 			<ul class="ch-grid">
@@ -319,8 +317,8 @@
 					</div>
 				</li>
 			</ul>
-			<h5 class="text-center">pharetra quam</h5>
-			<p class="serv-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque congue augue at posuere.</p>	
+			<h5 class="text-center">Anhui</h5>
+			<p class="serv-p2">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui.</p>	
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-6">
 			<ul class="ch-grid">
@@ -339,7 +337,7 @@
 				</li>
 			</ul>
 			<h5 class="text-center">eu molestie arcu</h5>
-			<p class="serv-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque congue augue at posuere.</p>	
+			<p class="serv-p2">We have established 6 R&D centers and manufacture bases in Zhengzhou Province and Anhui.</p>	
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -348,31 +346,31 @@
 <!-- testimonial section -->
 <section class="testimonial">
 	<div class="container">
-		<h3 class="text-center" id="group">Our Clients Word</h3>
+		<h3 class="text-center" id="group">About us</h3>
 		<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2000" data-pause="hover">
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
 				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 				<li data-target="#myCarousel" data-slide-to="1"></li>
 				<li data-target="#myCarousel" data-slide-to="2"></li>
-				<li data-target="#myCarousel" data-slide-to="3"></li>
+				<!-- <li data-target="#myCarousel" data-slide-to="3"></li> -->
 			</ol>
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
 				
 				<div class="item active">
 					<div class="col-lg-8 col-md-8 col-sm-8 test-agile1">
-						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis libero ut dolor facilisis, eget auctor lacus congue. Curabitur ex nisl, vestibulum vitae consequat eu, tristique et enim. Suspendisse potenti. Quisque at est at nisl vulputate aliquam in quis augue. Sed a pulvinar ipsum. Praesent eget scelerisque arcu. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
+						<p><i class="fa fa-quote-left" aria-hidden="true"></i>At the end of 2017, the Group's total assets and net assets reached to RMB 77.099 billion and RMB 21.03 billion respectively. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 test-agile2">
-						<img src="business/images/group1.jpg" class="img-circle img-responsive" alt="">
+						<img style="width: 150px;height: 142px;" src="business/images/group1.jpg" class="img-circle img-responsive" alt="">
 					</div>
 					<div class="clearfix"></div>
 				</div>
 				
 				<div class="item">
 					<div class="col-lg-8 col-md-8 col-sm-8 test-agile1">
-						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Quisque at est at nisl vulputate aliquam in quis augue. Aliquam vitae fermentum metus. Aenean placerat elit nibh, et malesuada felis dignissim tristique. Sed a pulvinar ipsum. Praesent eget scelerisque arcu.  Vestibulum eleifend lacus ut dignissim placerat. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
+						<p><i class="fa fa-quote-left" aria-hidden="true"></i>The annual operating income is RMB 38.301 billion, and the total export import volume is USD 3.773 billion, with the total profit of USD 1.721 billion, and the net profit of USD900 million.<i class="fa fa-quote-right" aria-hidden="true"></i></p>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 test-agile2">
 						<img src="business/images/test-img2.jpg" class="img-circle img-responsive" alt="">
@@ -381,14 +379,14 @@
 				</div>
 				<div class="item">
 					<div class="col-lg-8 col-md-8 col-sm-8 test-agile1">
-						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Sed a pulvinar ipsum. Pellentesque interdum, nisl nec vehicula dapibus, lacus eros sagittis metus, ut tincidunt dui tortor vitae dui. Praesent eget scelerisque arcu. Vestibulum eleifend lacus ut dignissim placerat. Quisque at est at nisl vulputate aliquam in quis augue. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
+						<p><i class="fa fa-quote-left" aria-hidden="true"></i>The Group's total assets and the owner's equity both ranked the fifth, while the operating income, the total profit, and the net profit ranked sixth.<i class="fa fa-quote-right" aria-hidden="true"></i></p>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 test-agile2">
 						<img src="business/images/test-img3.jpg" class="img-circle img-responsive" alt="">
 					</div>
 					<div class="clearfix"></div>
 				</div>
-				<div class="item">
+				<!-- <div class="item">
 					<div class="col-lg-8 col-md-8 col-sm-8 test-agile1">
 						<p><i class="fa fa-quote-left" aria-hidden="true"></i> Vivamus lacinia scelerisque egestas. Aliquam sapien erat, convallis faucibus posuere eget, elementum a metus. Vestibulum eleifend lacus ut dignissim placerat. Quisque at est at nisl vulputate aliquam in quis augue. Sed a pulvinar ipsum. Pellentesque interdum, nisl nec vehicula dapibus. <i class="fa fa-quote-right" aria-hidden="true"></i></p>
 					</div>
@@ -396,7 +394,7 @@
 						<img src="business/images/test-img4.jpg" class="img-circle img-responsive" alt="">
 					</div>
 					<div class="clearfix"></div>
-				</div>
+				</div> -->
 			</div>
 			<!-- Left and right controls -->
 			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -472,38 +470,38 @@
 <!-- events section -->
 <section class="event-agileinfo" id="EVENTS">
 	<div class="container">
-		<h3 class="text-center">Our Events</h3>
-		<p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		<h3 class="text-center">Development Path: </h3>
+		<p class="text-center">Huangshan Yi Dai Zong Shi TCM Co., Ltd. was established in Year 1965 with registered capital of RMB10 million. It is mainly in two industries: Commercial Trading and Medical Devices. </p>
 		<div class="col-lg-4 col-md-4 col-sm-4 event-wthree1">
 			<div class="event-w3ls1">
-				   <a href="#" class="event-w3l" data-toggle="modal" data-target="#largeModal"><h4>Lorem ipsum dolor</h4></a>
-				<p class="event-agile1">2016-2017</p>
+				   <a href="#" class="event-w3l" data-toggle="modal" data-target="#largeModal"><h4>Part one:</h4></a>
+				<p class="event-agile1">1965</p>
 			</div>	
 		</div>
 		<div class="col-lg-8 col-md-8 col-sm-8 event-wthree2">
-			<p class="event-w3-agile1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec libero neque, varius nec eleifend in, egestas eget lectus. Integer non tempus ante, non blandit lectus. </p>
+			<p class="event-w3-agile1">Huangshan Yi Dai Zong Shi TCM Co., Ltd. was established in Year 1965 with registered capital of RMB10 million. It is mainly in two industries: Commercial Trading and Medical Devices.</p>
 		</div>
 		<div class="clearfix"></div>
 		<div class="event-w3-agileits">
 			<div class="col-lg-8 col-md-8 col-sm-8 event-wthree2">
-				<p class="event-w3-agile2">Nulla dui ligula, sollicitudin non bibendum non, mattis eget lectus. Aliquam quis blandit odio. Aenean semper erat luctus enim suscipit dictum. Suspendisse vestibulum cursus egestas.</p>
+				<p class="event-w3-agile2">Huangshan Yi Dai Zong Shi TCM Co., Ltd. has 19 second-tier subsidiary corporations, including 13 corporations in Commercial Trading and 6 in medical Medical Devices, with more than 15,000 employees. </p>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-4 event-wthree1">
 				<div class="event-w3ls2">
-					<a href="#" class="event-w3l" data-toggle="modal" data-target="#largeModal"><h4>adipiscing elit</h4></a>
-					<p class="event-agile1">2017-2018</p>
+					<a href="#" class="event-w3l" data-toggle="modal" data-target="#largeModal"><h4>Part two:</h4></a>
+					<p class="event-agile1">1965-2017</p>
 				</div>	
 			</div>
 			<div class="clearfix"></div>
 		</div>	
 		<div class="col-lg-4 col-md-4 col-sm-4 event-wthree1">
 			<div class="event-w3ls1">
-				<a href="#" class="event-w3l" data-toggle="modal" data-target="#largeModal"><h4>vestibulum cursus</h4></a>
-				<p class="event-agile1">2018-2019</p>
+				<a href="#" class="event-w3l" data-toggle="modal" data-target="#largeModal"><h4>Part three:</h4></a>
+				<p class="event-agile1">2017- ~</p>
 			</div>	
 		</div>
 		<div class="col-lg-8 col-md-8 col-sm-8 event-wthree2">
-			<p class="event-w3-agile1"> Aenean semper erat luctus enim suscipit dictum. Suspendisse vestibulum cursus egestas. Proin rutrum maximus massa mollis pharetra. Nam elit neque, sodales sed varius sit amet.</p>
+			<p class="event-w3-agile1"> The corporations in Commercial Trading have established business cooperations with more than 200 countries and regions in the world. The import and export commodities have reached to more than 20 categories, almost achieved full coverage. They rank as top 500 foreign trade companies in China in Year 2017.  </p>
 		</div>
 		<div class="clearfix"></div>
 		<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
@@ -601,7 +599,7 @@
 <section class="contact-w3l" id="contact">
 	<div class="container">
 		<h3 class="text-center">Our Contacts</h3>
-		<p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		<p class="text-center">Please contact us.</p>
 		<form action="" method="post" name="sentMessage" id="contactForm" novalidate>
             <div class="col-lg-4 col-md-4 col-sm-4">    
 				<div class="control-group form-group">
@@ -649,7 +647,7 @@
 <!-- /contact section -->
 <!-- footer -->
 <div class="footer">
-	<p class="text-center">Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.phpvincent.top/" target="_blank" title="tellus">tellus</a> - Collect from <a href="http://www.cssmoban.com/" title="blade" target="_blank">blade</a></p>
+	<p class="text-center">Copyright &copy; 2016.Company name All rights reserved.</p>
 </div>
 <!-- /footer -->
 <!-- back to top -->
