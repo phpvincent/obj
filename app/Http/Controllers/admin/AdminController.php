@@ -84,6 +84,7 @@ class AdminController extends Controller
 	        ->limit($len)
 	        ->get();
 	        foreach($data as $key => $v){
+                $data[$key]->admin_group=\App\admin_group::where('admin_group_id',$v->admin_group)->first()['admin_group_name'];
 	        	$goodsids=DB::table('goods')->where('goods_admin_id',$v->admin_id)->get(['goods_id'])->toArray();
 		    	$newids='';
 		    	foreach($goodsids as $k => $val){

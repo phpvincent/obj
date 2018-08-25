@@ -13,7 +13,7 @@
 	<table class="table table-border table-bordered table-bg" id="admin_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="12">账户列表</th>
+				<th scope="col" colspan="13">账户列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
@@ -26,6 +26,7 @@
 				<th width="70">下单数</th>
 				<th width="70">今日销售额</th>
 				<th width="70">是否超管</th>
+				<th width="70">所属分组</th>
 				<th width="70">是否启用</th>
 				<th width="70">操作</th>
 			</tr>
@@ -48,7 +49,7 @@
 		"order": [[ 1, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,2,3,5,6,7,8,10,11],
+		   "targets": [0,2,3,5,6,7,8,10,11,12],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -72,6 +73,7 @@
 		{'data':'goods_num'},
 		{'data':'orders_num'},
 		{'data':'day_sale'},
+		{'data':'admin_group'},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
@@ -101,8 +103,8 @@
 			}
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
 			$(row).find('td:eq(9)').html(isroot);
-			$(row).find('td:eq(10)').html(bd_type);
-			$(row).find('td:eq(11)').html(info);
+			$(row).find('td:eq(11)').html(bd_type);
+			$(row).find('td:eq(12)').html(info);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/
