@@ -103,7 +103,7 @@
 			<ul class="nav navbar-nav cl-effect-5">
 				<li class="active"><a href="#homesles" class="page-scroll"><span data-hover="Home">Home</span></a></li>
 				<li><a href="#about" class="page-scroll"><span data-hover="Culture">Culture</span></a></li>
-				<li><a href="#service" class="page-scroll"><span data-hover="Technology">Technology</span></a></li>
+				<li><a href="#service" class="page-scroll"><span data-hover="Technique">Technique</span></a></li>
 				<li><a href="#group" class="page-scroll"><span data-hover="About">About</span></a></li>
 				<li><a href="#EVENTS" class="page-scroll"><span data-hover="EVENTS">EVENTS</span></a></li>
 				<li><a href="#contact" class="page-scroll"><span data-hover="Contact">Contact</span></a></li>
