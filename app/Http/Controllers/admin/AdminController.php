@@ -27,6 +27,7 @@ class AdminController extends Controller
     		$admin=new admin();
     		$admin->admin_name=$data['admin_name'];
     		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
+            $admin->admin_group=$data['admin_group_id'];
     		if($data['admin_role_id']==0){
     			$admin->is_root='1';
     			$admin->admin_role_id='1';
@@ -54,7 +55,12 @@ class AdminController extends Controller
 	        $start=$info['start'];
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
-	        $counts=DB::table('goods')
+	        $counts=DB::table('admin')
+            ->where(function($query){
+                if(Auth::user()->is_root!='1'){
+                    $query->whereIn('admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+                }
+            })
 	        ->count();
 	        $newcount=DB::table('admin')
 	        ->select('admin.*','role.role_name'	)
@@ -168,6 +174,7 @@ class AdminController extends Controller
     		$id=$request->input('admin_id');
     		$admin=\App\admin::where('admin_id',$id)->first();
     		$admin->admin_name=$data['admin_name'];
+            $admin->admin_group=$data['admin_group_id'];
     		if($data['role_id']==0){
     			$admin->is_root='1';
 
@@ -257,5 +264,20 @@ class AdminController extends Controller
     	}
     	
     	return view('admin.admin.layershow')->with(compact('admin','admin_goods_count','daysale'));
+    }
+    public function addgroup(Request $request){
+        if($request->isMethod('get')){
+            $group=\App\admin_group::get();
+            return view('admin.admin.addgroup')->with(compact('group'));
+        }elseif($request->isMethod('post')){
+            $group=new \App\admin_group();
+            $group->admin_group_name=$request->input('admin_group_name');
+            $msg=$group->save();
+            if($msg){
+                return response()->json(['err'=>1,'str'=>'添加成功']);
+            }else{
+                        return response()->json(['err'=>0,'str'=>'添加失败']);
+            }
+        }
     }
 }

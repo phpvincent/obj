@@ -13,11 +13,13 @@ class goods extends Model
     	return $this->hasMany('App\comment','com_goods_id','goods_id');
     }
     public static function get_ownid($admin_id){
-    	$arr=self::where('goods_admin_id',$admin_id)->get(['goods_id'])->toArray();
+        $admin_ids=\App\admin::get_group_ids($admin_id);
+    	$arr=self::whereIn('goods_admin_id',$admin_ids)->get(['goods_id'])->toArray();
     	$ids=[];
     	foreach($arr as $v => $k){
     		$ids[]=$k['goods_id'];
     	}
     	return $ids;
     }
+
 }

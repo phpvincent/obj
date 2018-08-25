@@ -12,12 +12,8 @@ class OrderController extends Controller
    public function index(){
          $admin_id=Auth::user()->admin_id;
      if(Auth::user()->is_root!='1'){
-      $admins=[];
-      $garr=[];
-      $goodsarr=\App\goods::where("goods_admin_id",'=',$admin_id)->get(['goods_id'])->toArray();
-      foreach($goodsarr as $key => $v){
-        $garr[]=$v['goods_id'];
-      }
+      $admins=\App\admin::get_group($admin_id);
+      $garr=order::get_group_order($admin_id);
       $counts=DB::table('order')
       ->whereIn('order_goods_id',$garr)
       ->count();
@@ -46,16 +42,10 @@ class OrderController extends Controller
             $newlen=$len;
             $len=$counts;
            }
-           
          //获取自己名下的单
            $admin_id=Auth::user()->admin_id;
            if(Auth::user()->is_root!='1'){
-
-            $garr=[];
-            $goodsarr=\App\goods::where("goods_admin_id",'=',$admin_id)->get(['goods_id'])->toArray();
-            foreach($goodsarr as $key => $v){
-              $garr[]=$v['goods_id'];
-            }
+            $garr=\App\goods::get_ownid($admin_id);
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
             ->count();
@@ -193,12 +183,14 @@ class OrderController extends Controller
 	        return response()->json($arr);
    }
    public function orderinfo(Request $request){
+    //获取订单信息
       $id=$request->input('id');
       $msg=order::where('order_id',$id)->first();
       $html=$msg->order_return;
       return $html;
    }
    public function heshen(Request $request){
+    //获取订单核审页面
       $id=$request->input('id');
       $order=order::where('order_id',$id)->first();
       $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();

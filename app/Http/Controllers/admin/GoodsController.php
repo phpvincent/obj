@@ -32,6 +32,11 @@ class GoodsController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('goods')
+          ->where(function($query){
+            if(Auth::user()->is_root!='1'){
+              $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+            }
+          })
 	        ->count();
 	         if(strtotime(explode(';',$search)[0])>100&&strtotime(explode(';',$search)[1])>100){
             $timesearch=$search;
@@ -63,7 +68,8 @@ class GoodsController extends Controller
 	       
           ->where(function($query){
             if(Auth::user()->is_root!='1'){
-              $query->where('goods.goods_admin_id',Auth::user()->admin_id);
+              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+              $query->whereIn('goods.goods_admin_id',$ids);
             }
           })
 	        ->count();
@@ -80,8 +86,9 @@ class GoodsController extends Controller
           })
 	        
           ->where(function($query){
-            if(Auth::user()->is_root!='1'){
-              $query->where('goods.goods_admin_id',Auth::user()->admin_id);
+           if(Auth::user()->is_root!='1'){
+              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+              $query->whereIn('goods.goods_admin_id',$ids);
             }
           })
 	        ->orderBy($order,$dsc)
@@ -122,10 +129,15 @@ class GoodsController extends Controller
       return view('admin.goods.addgoods')->with(compact('type'));
    }
    public function post_add(Request $request){
+    //修改单品
         $data=$request->all();
      $goods=new \App\goods();
       $goods->goods_name=$data['goods_name'];
          $goods->goods_real_name=$data['goods_real_name'];
+         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
+         if($isset!=null){
+                  return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
+         }
          $goods->goods_msg=$data['goods_msg'];
          $goods->goods_real_price=$data['goods_real_price'];
          $goods->goods_price=$data['goods_price'];
@@ -208,6 +220,7 @@ class GoodsController extends Controller
       
    }
    public function delgoods(Request $request){
+    //删除单品
          $goods=goods::where('goods_id',$request->input('id'))->first();
          $goods->is_del='1';
          $url_pt=\App\url::where('url_goods_id',$goods->goods_id)->get();
@@ -255,7 +268,8 @@ class GoodsController extends Controller
 	        ->where('goods.is_del','0')
           ->where(function($query){
             if(Auth::user()->is_root!='1'){
-              $query->where('goods_admin_id',Auth::user()->admin_id);
+              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+              $query->whereIn('goods.goods_admin_id',$ids);
             }
           })
 			->orderBy('goods.goods_up_time','desc')
@@ -289,6 +303,10 @@ class GoodsController extends Controller
    public function post_update(Request $request){
    		$data=$request->all();
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
+      $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
+         if($isset!=null&&$isset['goods_id']!=$data['goods_id']){
+                  return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
+         }
    		$goods->goods_name=$data['goods_name'];
    		$goods->goods_real_name=$data['goods_real_name'];
    		$goods->goods_msg=$data['goods_msg'];

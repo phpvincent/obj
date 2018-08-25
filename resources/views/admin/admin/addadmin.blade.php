@@ -15,6 +15,16 @@
 				</span> </div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属分组：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="admin_group_id" id="admin_group_id" class="select">
+					@foreach(\App\admin_group::get() as $v)
+					<option value="{{$v->admin_group_id}}">{{$v->admin_group_name}}</option>
+					@endforeach
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>用户名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="admin_name" name="admin_name">

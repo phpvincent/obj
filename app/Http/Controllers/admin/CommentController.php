@@ -26,12 +26,17 @@ class CommentController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('goods')
+	        ->where(function($query){
+	        	if(Auth::user()->is_root!='1'){
+	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+	        	}
+	        })
 	        ->count();
 	        $newcount=DB::table('goods')
 	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
-	        		$query->where('goods_admin_id',Auth::user()->admin_id);
+	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
 	        	}
 	        })
 	        ->count();
@@ -40,7 +45,7 @@ class CommentController extends Controller
 	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
-	        		$query->where('goods_admin_id',Auth::user()->admin_id);
+	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
 	        	}
 	        })
 	        ->orderBy($order,$dsc)
@@ -92,7 +97,7 @@ class CommentController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('comment')
-	        ->where('com_isshow','1')
+	        ->where([['com_isshow','1'],['com_goods_id',$id]])
 	        ->count();
 	        $newcount=DB::table('goods')
 	        ->select('comment.*','goods.goods_real_name')

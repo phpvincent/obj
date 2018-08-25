@@ -2,8 +2,11 @@
 @section('content')
 <div class="page-container">
 		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a href="javascript:;" id="addrole"  class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 增加角色</a>&nbsp;&nbsp;&nbsp;
-		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 权限分配</button>
-		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addadmin" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加账户</button></span>
+		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name="" onclick="location.href='{{url('/admin/admin/chrole')}}'"><i class="Hui-iconfont">&#xe640;</i> 权限分配</button>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addadmin" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加账户</button>
+		<button type="button" class="btn btn-primary radius" style="border-radius: 8%;" id="addgroup" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加分组</button>
+		
+		</span>
 		 <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
 	
@@ -112,7 +115,10 @@
 		}
 	dataTable=$('#admin_index_table').DataTable($.tablesetting);
 		$('#addadmin').on('click',function(){
-				layer_show('添加账户',"{{url('admin/admin/addadmin')}}",500,500);
+				layer_show('添加账户',"{{url('admin/admin/addadmin')}}",500,300);
+		});
+		$('#addgroup').on('click',function(){
+				layer_show('添加分组',"{{url('admin/admin/addgroup')}}",500,200);
 		});
 		function del_admin(admin_id){
 				var msg =confirm("确定要删除此账户？");

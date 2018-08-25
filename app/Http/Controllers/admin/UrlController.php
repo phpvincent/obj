@@ -29,8 +29,9 @@ class UrlController extends Controller
 	        ->select('url.*')
           ->where('url.url_url','like',"%$search%")
           ->where(function($query){
-            if(Auth::user()->is_root!='1'){
-              $query->where('url_admin_id',Auth::user()->admin_id);
+             if(Auth::user()->is_root!='1'){
+              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+              $query->whereIn('url.url_admin_id',$ids);
             }
           })
 	        ->count();
@@ -38,8 +39,9 @@ class UrlController extends Controller
 	         ->select('url.*')
           ->where('url.url_url','like',"%$search%")
           ->where(function($query){
-            if(Auth::user()->is_root!='1'){
-              $query->where('url_admin_id',Auth::user()->admin_id);
+             if(Auth::user()->is_root!='1'){
+              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+              $query->whereIn('url.url_admin_id',$ids);
             }
           })
 	        ->orderBy($order,$dsc)
@@ -60,6 +62,7 @@ class UrlController extends Controller
 	        return response()->json($arr);
     }
     public function url_add(Request $request){
+      //添加域名
       if($request->isMethod('get')){
         return view('admin.url.url_add');
       }elseif($request->isMethod('post')){
@@ -94,6 +97,7 @@ class UrlController extends Controller
    		return view('admin.url.churl')->with(compact('goods','url'));
    }
    public function ajaxup(Request $request){
+      //修改域名配置信息
    	    $msg=$request->all();
         if(isset($msg['url_goods_id'])&&$msg['url_goods_id']=='null'){
           unset($msg['url_goods_id']);

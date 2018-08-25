@@ -99,6 +99,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/admin/index','admin\AdminController@index');
 	Route::post('/admin/admin/get_table','admin\AdminController@get_table');
 	Route::any('/admin/admin/addadmin','admin\AdminController@addadmin');
+	Route::any('/admin/admin/addgroup','admin\AdminController@addgroup');
 	Route::get('/admin/admin/deladmin','admin\AdminController@deladmin');
 	Route::get('/admin/admin/ch_root','admin\AdminController@ch_root');
 	Route::get('/admin/admin/cl_root','admin\AdminController@cl_root');

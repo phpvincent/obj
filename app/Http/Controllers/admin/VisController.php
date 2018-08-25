@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class VisController extends Controller
 {
     public function index(){
-    	$counts=vis::count();
+    	$counts=DB::table('vis')
+	         ->where(function($query){
+	        	if(Auth::user()->is_root!='1'){
+	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        	}
+	        })
+	        ->count();
     	return view('admin.vis.index')->with('counts',$counts);
     }
     public function getindex(Request $request){
@@ -23,6 +29,11 @@ class VisController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('vis')
+	         ->where(function($query){
+	        	if(Auth::user()->is_root!='1'){
+	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        	}
+	        })
 	        ->count();
 	      if(strtotime(@explode(';',$search)[0])>100&&strtotime(@explode(';',$search)[1])>100){
 	        	$timesearch=$search;
@@ -33,30 +44,45 @@ class VisController extends Controller
 	        if(isset($info['ispb'])&&$info['ispb']=='1'){
 	        	    $newcount=DB::table('vis')
 			        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
-			        ->where([['goods.goods_name','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_ip','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_city','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_country','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_county','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_lan','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_isp','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_region','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_type','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_url','like',"%$search%"],['vis.vis_isback','=','1']])
+			         ->where(function($query)use($search){
+			         $query->where('goods.goods_name','like',"%$search%");
+				        $query->orWhere('vis.vis_ip','like',"%$search%");
+				        $query->orWhere('vis.vis_city','like',"%$search%");
+				        $query->orWhere('vis.vis_country','like',"%$search%");
+				        $query->orWhere('vis.vis_county','like',"%$search%");
+				        $query->orWhere('vis.vis_lan','like',"%$search%");
+				        $query->orWhere('vis.vis_isp','like',"%$search%");
+				        $query->orWhere('vis.vis_region','like',"%$search%");
+				        $query->orWhere('vis.vis_type','like',"%$search%");
+				        $query->orWhere('vis.vis_url','like',"%$search%");
+			        })
+			         ->where(function($query){
+	        		if(Auth::user()->is_root!='1'){
+	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        			}
+	        		})
 			        ->count();
 			        $data=DB::table('vis')
 			        ->select('vis.*','goods.goods_name')
 			        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
-			        ->where([['goods.goods_name','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_ip','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_city','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_country','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_county','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_lan','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_isp','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_region','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_type','like',"%$search%"],['vis.vis_isback','=','1']])
-			        ->orWhere([['vis.vis_url','like',"%$search%"],['vis.vis_isback','=','1']])
+			       ->where(function($query)use($search){
+			        	 $query->where('goods.goods_name','like',"%$search%");
+				        $query->orWhere('vis.vis_ip','like',"%$search%");
+				        $query->orWhere('vis.vis_city','like',"%$search%");
+				        $query->orWhere('vis.vis_country','like',"%$search%");
+				        $query->orWhere('vis.vis_county','like',"%$search%");
+				        $query->orWhere('vis.vis_lan','like',"%$search%");
+				        $query->orWhere('vis.vis_isp','like',"%$search%");
+				        $query->orWhere('vis.vis_region','like',"%$search%");
+				        $query->orWhere('vis.vis_type','like',"%$search%");
+				        $query->orWhere('vis.vis_url','like',"%$search%");
+			        })
+	       
+			         ->where(function($query){
+	        		if(Auth::user()->is_root!='1'){
+	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        			}
+	        		})
 			        ->orderBy($order,$dsc)
 			        ->offset($start)
 			        ->limit($len)
@@ -86,30 +112,44 @@ class VisController extends Controller
 	        }
 	        $newcount=DB::table('vis')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
-	        ->where('goods.goods_name','like',"%$search%")
-	        ->orWhere('vis.vis_ip','like',"%$search%")
-	        ->orWhere('vis.vis_city','like',"%$search%")
-	        ->orWhere('vis.vis_country','like',"%$search%")
-	        ->orWhere('vis.vis_county','like',"%$search%")
-	        ->orWhere('vis.vis_lan','like',"%$search%")
-	        ->orWhere('vis.vis_isp','like',"%$search%")
-	        ->orWhere('vis.vis_region','like',"%$search%")
-	        ->orWhere('vis.vis_type','like',"%$search%")
-	        ->orWhere('vis.vis_url','like',"%$search%")
+	        ->where(function($query)use($search){
+	        		 $query->where('goods.goods_name','like',"%$search%");
+				        $query->orWhere('vis.vis_ip','like',"%$search%");
+				        $query->orWhere('vis.vis_city','like',"%$search%");
+				        $query->orWhere('vis.vis_country','like',"%$search%");
+				        $query->orWhere('vis.vis_county','like',"%$search%");
+				        $query->orWhere('vis.vis_lan','like',"%$search%");
+				        $query->orWhere('vis.vis_isp','like',"%$search%");
+				        $query->orWhere('vis.vis_region','like',"%$search%");
+				        $query->orWhere('vis.vis_type','like',"%$search%");
+				        $query->orWhere('vis.vis_url','like',"%$search%");
+	        })
+	        ->where(function($query){
+	        		if(Auth::user()->is_root!='1'){
+	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        			}
+	        })
 	        ->count();
 	        $data=DB::table('vis')
 	        ->select('vis.*','goods.goods_name')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
-	        ->where('goods.goods_name','like',"%$search%")
-	        ->orWhere('vis.vis_ip','like',"%$search%")
-	        ->orWhere('vis.vis_city','like',"%$search%")
-	        ->orWhere('vis.vis_country','like',"%$search%")
-	        ->orWhere('vis.vis_county','like',"%$search%")
-	        ->orWhere('vis.vis_lan','like',"%$search%")
-	        ->orWhere('vis.vis_isp','like',"%$search%")
-	        ->orWhere('vis.vis_region','like',"%$search%")
-	        ->orWhere('vis.vis_type','like',"%$search%")
-	        ->orWhere('vis.vis_url','like',"%$search%")
+	        ->where(function($query)use($search){
+	        	 	 $query->where('goods.goods_name','like',"%$search%");
+				        $query->orWhere('vis.vis_ip','like',"%$search%");
+				        $query->orWhere('vis.vis_city','like',"%$search%");
+				        $query->orWhere('vis.vis_country','like',"%$search%");
+				        $query->orWhere('vis.vis_county','like',"%$search%");
+				        $query->orWhere('vis.vis_lan','like',"%$search%");
+				        $query->orWhere('vis.vis_isp','like',"%$search%");
+				        $query->orWhere('vis.vis_region','like',"%$search%");
+				        $query->orWhere('vis.vis_type','like',"%$search%");
+				        $query->orWhere('vis.vis_url','like',"%$search%");
+	        })
+	        ->where(function($query){
+	        		if(Auth::user()->is_root!='1'){
+	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        			}
+	        })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
@@ -169,7 +209,12 @@ class VisController extends Controller
     	return view('admin.vis.prea')->with('msg',$msg);
     }
     public function chvis(Request $request){
-       $msg=DB::table('pb')->where('pb_id',1)->update(['pb_ziduan'=>$request->input('msg')]);
+    	if(substr($request->input('msg'),-1)==';'){
+    		$inmsg=rtrim($request->input('msg'),';');
+    	}else{
+    		$inmsg=$request->input('msg');
+    	}
+       $msg=DB::table('pb')->where('pb_id',1)->update(['pb_ziduan'=>$inmsg]);
         if($msg){
 	   	    	return response()->json(['err'=>1,'str'=>'修改成功']);
 	   	}else{
@@ -177,8 +222,14 @@ class VisController extends Controller
 	   	}
     }
    public function outvis(){
+   	//数据导出
    		$data=vis::select('vis.vis_id','vis.vis_ip','vis.vis_country','vis.vis_region','vis.vis_city','vis.vis_county','vis.vis_isp','vis.vis_type','vis.vis_time','vis.vis_lan','vis.vis_isback','goods.goods_name','vis.vis_url','vis_from','vis_buytime','vis_ordertime','vis_staytime','vis_comtime')
 			   ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
+			   ->where(function($query){
+			   	if(Auth::user()->is_root!='1'){
+	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+	        			}
+			   })
 				->orderBy('vis.vis_time','desc')
 				->get()->toArray();
    		$filename='访问记录'.date('Y-m-d h:i:s',time()).'.xls';
@@ -214,8 +265,6 @@ class VisController extends Controller
    		}else{
    			$id=0;
    		}
-   		
-
    		if($id!=0){
    			//$vis=\App\vis::where('vis_goods_id',$id)->get();
    				for ($i=0; $i <7 ; $i++) { 
