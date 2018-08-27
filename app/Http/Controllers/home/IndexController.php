@@ -120,6 +120,7 @@ class IndexController extends Controller
         foreach($goods_config as $k => $v){
             $goods_config_arr[$v->goods_config_id][]=$v;
         } /*dd($goods_config_arr);*/
+        $goods_config_arr=json_encode($goods_config_arr);
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr'));
     }
     public function gethtml(Request $request){
