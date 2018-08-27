@@ -162,18 +162,7 @@ jQuery(function(){
 <!--size begin-->  
 <div id="goods_config_div">
     <span style="font-size: 3px;color:red;">額外規格也可以在留言中通知我們，我們將以留言為準！</span>
-@foreach($goods_config_arr as $key => $val)
-  <div calss="radiobox">
-    <dl class="addcart-specs-content"><dt>{{$val[0]->goods_config_msg}}</dt><dd>
-        @foreach($val as $k => $v)
-        <input type="radio"  class="radio" name="goods_config[{{$v->goods_config_id}}][]" value="{{$v->config_val_id}}" @if($loop->first) checked="checked" @endif>
-            <span @if($loop->first) class='ischeck' @else class="uncheck" @endif >&nbsp;&nbsp;{{$v->config_val_msg}}&nbsp;&nbsp;</span>&nbsp;
-      <!--   <input type="radio" class="radio"  name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;02#淺棕色&nbsp;&nbsp;</span>&nbsp;
-        <input type="radio"  class="radio" name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;03#深棕色&nbsp;&nbsp;</span>&nbsp; -->
-        @endforeach
-    </dl>
-    </div>
-  @endforeach
+
 </div>
 <div id="addcart">
     <!-- <div class="addcart-group-buttons" style="display: block;"><div class="addcart-float-buttons-block" data-id="7022"><button type="button" class="addcart-float-buttons-block-button">限時特惠 加$300再得兩件[點擊購買]</button></div></div> -->
@@ -187,6 +176,8 @@ jQuery(function(){
 
 <script type="text/javascript">
     $(function(){
+        var a ={!!$goods_config_arr!!};
+        console.log(a);
             /*var confignum=$('#goods_config_div').length;
             var newclone=$('#goods_config_div').clone();
             var input_name=newclone.find('input').attr('name');
