@@ -155,7 +155,7 @@ jQuery(function(){
 
     <div class="ctxtbox">
         <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>【{{$goods->goods_cuxiao_name}}】</strong></span>{{$goods->goods_msg}}</h2>
+        <h2><span style="color: rgb(255, 0, 0);"><strong>【{{$goods->goods_cuxiao_name}}】</strong></span>{!!$goods->goods_msg!!}</h2>
             </div>
 </div>
 <!--product info end-->
