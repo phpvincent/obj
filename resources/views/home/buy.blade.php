@@ -165,7 +165,7 @@ jQuery(function(){
 
 </div>
 <div id="addcart">
-    <!-- <div class="addcart-group-buttons" style="display: block;"><div class="addcart-float-buttons-block" data-id="7022"><button type="button" class="addcart-float-buttons-block-button">限時特惠 加$300再得兩件[點擊購買]</button></div></div> -->
+   
 </div>
 
 <!-- <script src="/js/buy.js"></script> -->
