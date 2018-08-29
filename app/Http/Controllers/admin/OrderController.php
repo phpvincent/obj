@@ -23,7 +23,9 @@ class OrderController extends Controller
      return view('admin.order.index')->with(compact('counts','admins'));
      }else{
       $admins=\App\admin::get(); 
-      $counts=order::count();
+      $counts=order::where(function($query){
+        $query->where('is_del','0');
+      })->count();
      return view('admin.order.index')->with(compact('counts','admins'));
      }
     
