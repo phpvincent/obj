@@ -120,7 +120,7 @@ class IndexController extends Controller
         foreach($goods_config as $k => $v){
             $goods_config_arr[$v->goods_config_id][]=$v;
         } /*dd($goods_config_arr);*/
-       /* $goods_config_arr=(string )json_encode($goods_config_arr);*/
+        $goods_config_arr=(string)json_encode($goods_config_arr);
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr'));
     }
     public function gethtml(Request $request){
@@ -216,13 +216,12 @@ class IndexController extends Controller
          // }
         foreach($attribute as $k=>$v){
            $ostr=$attribute[$k]['color'].','.$attribute[$k]['spec'];
-           
            // $ostr= rtrim($ostr,',');
+
            $order_config->order_config=$ostr;
            $order_config->order_primary_id=$order_id;
            $order_config->save();
         }
-
 
 
          
