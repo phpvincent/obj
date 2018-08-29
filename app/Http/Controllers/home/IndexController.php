@@ -211,13 +211,23 @@ class IndexController extends Controller
          $order_id=$order->order_id;
          $order_config=new \App\order_config;
          $ostr='';
-         foreach($request->input('goods_config') as $v){
-            $ostr.=$v[0].',';
-         }
-         $ostr= rtrim($ostr,',');
-         $order_config->order_config=$ostr;
-         $order_config->order_primary_id=$order_id;
-         $order_config->save();
+         $attribute=$request->input('goods_config');
+
+         // foreach($request->input('goods_config') as $v){
+         //    $ostr.=$v[0].',';
+         // }
+        foreach($attribute as $k=>$v){
+           $ostr=$attribute[$k]['color'].','.$attribute[$k]['spec'];
+           
+           // $ostr= rtrim($ostr,',');
+           $order_config->order_config=$ostr;
+           $order_config->order_primary_id=$order_id;
+           $order_config->save();
+        }
+
+
+
+         
         }
     	if(!$msg){
     		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
