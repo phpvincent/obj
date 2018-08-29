@@ -451,6 +451,7 @@ jQuery(function(){
 $('#pay').bind('click',function(){
     var btime=getNowDate();
             //记录购买事件
+             fbq('track', 'InitiateCheckout');
             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
    $('#save').submit();
 })

@@ -15,12 +15,17 @@ class OrderController extends Controller
       $admins=\App\admin::get_group($admin_id);
       $garr=order::get_group_order($admin_id);
       $counts=DB::table('order')
+      ->where(function($query){
+        $query->where('is_del','0');
+      })
       ->whereIn('order_goods_id',$garr)
       ->count();
      return view('admin.order.index')->with(compact('counts','admins'));
      }else{
       $admins=\App\admin::get(); 
-      $counts=order::count();
+      $counts=order::where(function($query){
+        $query->where('is_del','0');
+      })->count();
      return view('admin.order.index')->with(compact('counts','admins'));
      }
     
@@ -35,6 +40,9 @@ class OrderController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('order')
+          ->where(function($query){
+            $query->where('is_del','0');
+          })
 	        ->count();
             if(@strtotime(explode(';',$search)[0])>100&&@strtotime(explode(';',$search)[1])>100){
             $timesearch=$search;
@@ -48,6 +56,9 @@ class OrderController extends Controller
             $garr=\App\goods::get_ownid($admin_id);
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
+            ->where(function($query){
+              $query->where('is_del','0');
+            })
             ->count();
              $newcount=DB::table('order')
             ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
@@ -107,14 +118,10 @@ class OrderController extends Controller
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($goods_search){
-              if($goods_search!=0){
-                $garr=[];
-              $goodsarr=\App\goods::where("goods_admin_id",'=',$goods_search)->get(['goods_id'])->toArray();
-              foreach($goodsarr as $key => $v){
-                $garr[]=$v['goods_id'];
-              }
+                if($goods_search!=0){
+                   $garr=order::get_group_order($goods_search);
                 $query->whereIn('order_goods_id',$garr);
-              }
+                }
             })
             ->count();
             $data=DB::table('order')

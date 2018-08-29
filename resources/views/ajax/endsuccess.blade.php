@@ -10,6 +10,26 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
+     <!-- Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '{{$goods->goods_pix}}'); 
+        fbq('track', 'PageView');
+        fbq('track', 'Purchase', {value:'{{$goods->goods_price}}', currency:'TWD'});//购买
+        </script>
+        <noscript>
+         <img height="1" width="1" 
+        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
+        &noscript=1"/>
+        </noscript>
+        <!-- End Facebook Pixel Code -->
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
         <h1 class="mui-title">確認訂單</h1>
 </header>
