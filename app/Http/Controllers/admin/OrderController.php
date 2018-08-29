@@ -16,7 +16,7 @@ class OrderController extends Controller
       $garr=order::get_group_order($admin_id);
       $counts=DB::table('order')
       ->where(function($query){
-        $query->where('is_del','0')
+        $query->where('is_del','0');
       })
       ->whereIn('order_goods_id',$garr)
       ->count();
@@ -39,7 +39,7 @@ class OrderController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('order')
           ->where(function($query){
-            $query->where('is_del','0')
+            $query->where('is_del','0');
           })
 	        ->count();
             if(@strtotime(explode(';',$search)[0])>100&&@strtotime(explode(';',$search)[1])>100){
@@ -55,7 +55,7 @@ class OrderController extends Controller
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
             ->where(function($query){
-              $query->where('is_del','0')
+              $query->where('is_del','0');
             })
             ->count();
              $newcount=DB::table('order')
