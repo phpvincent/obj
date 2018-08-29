@@ -167,12 +167,14 @@ class IndexController extends Controller
     	$order->order_single_id='NR'.makeSingleOrder();
     	$order->order_ip=$ip;
     	$order->order_time=date('Y-m-d H:i:s',time());
-    	$order_goods_id=url::get_goods($request);
+        $order_goods_id=url::get_goods($request);
+        
     	if($order_goods_id==false){
           return response('error',200);
     	}
     	$order->order_goods_id=$order_goods_id;
-    	$goods=goods::where('goods_id',$order_goods_id)->first();
+        $goods=goods::where('goods_id',$order_goods_id)->first();
+        // dd($goods);
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){
             $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
@@ -218,9 +220,9 @@ class IndexController extends Controller
          $order_config->save();
         }
     	if(!$msg){
-    		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url]);
+    		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     	}else{
-    		return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url]);
+    		return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     	}
     }
     public function send(){
