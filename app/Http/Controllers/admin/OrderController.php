@@ -116,12 +116,8 @@ class OrderController extends Controller
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($goods_search){
-              if($goods_search!=0){
-                $garr=[];
-              $goodsarr=\App\goods::where("goods_admin_id",'=',$goods_search)->get(['goods_id'])->toArray();
-              foreach($goodsarr as $key => $v){
-                $garr[]=$v['goods_id'];
-              }
+              
+                $garr=order::get_group_order($goods_search);
                 $query->whereIn('order_goods_id',$garr);
               }
             })
