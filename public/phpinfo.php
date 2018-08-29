@@ -3,4 +3,6 @@
 
 ?><?php
  phpinfo();
+?><?php
+ phpinfo();
 ?>
