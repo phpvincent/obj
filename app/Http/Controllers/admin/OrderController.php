@@ -119,7 +119,7 @@ class OrderController extends Controller
               
                 $garr=order::get_group_order($goods_search);
                 $query->whereIn('order_goods_id',$garr);
-              }
+              
             })
             ->count();
             $data=DB::table('order')
