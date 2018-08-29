@@ -116,10 +116,10 @@ class OrderController extends Controller
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($goods_search){
-                dd($goods_search);
-                $garr=order::get_group_order($goods_search);
+                if($goods_search!=0){
+                   $garr=order::get_group_order($goods_search);
                 $query->whereIn('order_goods_id',$garr);
-              
+                }
             })
             ->count();
             $data=DB::table('order')
