@@ -56,7 +56,7 @@
         'https://connect.facebook.net/en_US/fbevents.js');
          fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
-        fbq('track', 'ViewContent');//查看内容
+         fbq('track', 'AddToCart');
         fbq('track', 'InitiateCheckout');//发起结账
         fbq('track', 'Lead');//潜在客户,填写表单等动作
         </script>

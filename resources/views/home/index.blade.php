@@ -56,7 +56,7 @@
         'https://connect.facebook.net/en_US/fbevents.js');
          fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
-        fbq('track', 'ViewContent');//查看内容
+         fbq('track', 'AddToCart');
         fbq('track', 'InitiateCheckout');//发起结账
         fbq('track', 'Lead');//潜在客户,填写表单等动作
         </script>
@@ -486,6 +486,9 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+    $('#btnPay').on('click',function(){
+        try{fbq('track', 'AddToCart');}catch(e){};
+    })
         //获取用户浏览记录
         var tjSecond = 0;
         var tjRandom = 0;
@@ -550,8 +553,8 @@ $(function(){
         //点击购买
         $2("#btnPay").click(function() {
             try {
-                fbq('track', 'AddToCart');
-                mkq('track', 'AddToCart');
+                
+               
             } catch(e) {}
 
             var action = $2("#payForm").attr('action');
