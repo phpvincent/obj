@@ -117,7 +117,7 @@ class OrderController extends Controller
             })
             ->where(function($query)use($goods_search){
               
-                $garr=order::get_group_order($goods_search);
+                $garr=order::get_group_order($goods_search);dd($garr);
                 $query->whereIn('order_goods_id',$garr);
               
             })
