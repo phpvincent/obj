@@ -102,7 +102,6 @@
         fbq('track', 'PageView');
         fbq('track', 'InitiateCheckout');//发起结账
         fbq('track', 'Lead');//潜在客户,填写表单
-        fbq('track', 'Purchase', {value:'{{$goods->goods_price}}', currency:'TWD'});//购买
         </script>
         <noscript>
          <img height="1" width="1" 
