@@ -98,7 +98,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-         fbq('init', '{{$goods->goods_pix}}'); 
+        fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
         fbq('track', 'InitiateCheckout');//发起结账
         fbq('track', 'Lead');//潜在客户,填写表单

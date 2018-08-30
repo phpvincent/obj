@@ -19,6 +19,7 @@ Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/send','home\IndexController@send');
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
 	Route::get('/visfrom','home\IndexController@visfrom');
+	Route::get('/orderSuccess','home\IndexController@orderSuccess');
 	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');

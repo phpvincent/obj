@@ -120,7 +120,7 @@ class IndexController extends Controller
         foreach($goods_config as $k => $v){
             $goods_config_arr[$v->goods_config_id][]=$v;
         } /*dd($goods_config_arr);*/
-        $goods_config_arr=(string)json_encode($goods_config_arr);
+        // $goods_config_arr=(string)json_encode($goods_config_arr);
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr'));
     }
     public function gethtml(Request $request){
@@ -213,26 +213,38 @@ class IndexController extends Controller
          $ostr='';
          $attribute=$request->input('goods_config');
 
-         // foreach($request->input('goods_config') as $v){
-         //    $ostr.=$v[0].',';
-         // }
-        foreach($attribute as $k=>$v){
-           $ostr=$attribute[$k]['color'].','.$attribute[$k]['spec'];
-           // $ostr= rtrim($ostr,',');
-
+         foreach($request->input('goods_config') as $v){
+            $ostr.=$v[0].',';
+         }
+           $ostr= rtrim($ostr,',');
            $order_config->order_config=$ostr;
            $order_config->order_primary_id=$order_id;
            $order_config->save();
-        }
+        // foreach($attribute as $k=>$v){
+        //    $ostr=$attribute[$k]['color'].','.$attribute[$k]['spec'];
+        //    // $ostr= rtrim($ostr,',');
+
+        //    $order_config->order_config=$ostr;
+        //    $order_config->order_primary_id=$order_id;
+        //    $order_config->save();
+        // }
 
 
-         
         }
     	if(!$msg){
     		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     	}else{
     		return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     	}
+    }
+    public function orderSuccess(Request $request){
+        $order=\App\order::where('order_id',$request->input('order_id'))->first();
+        $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
+        if(!$order){
+            return view('ajax.endfail')->with(['order'=>$order,'goods'=>$goods]);
+        }else{
+            return view('ajax.endsuccess')->with(['order'=>$order,'goods'=>$goods]);
+        }
     }
     public function send(){
         return view('home.send');
