@@ -114,6 +114,7 @@ class IndexController extends Controller
         ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id')
         ->leftjoin('config_val','goods_config.goods_config_id','config_val.config_type_id')
         ->where('goods_config.goods_primary_id',$goods_id)
+        ->orderBy('config_val.config_val_id','asc')
         ->get();
        
         $goods_config_arr=[];
