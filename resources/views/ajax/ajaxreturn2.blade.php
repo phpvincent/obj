@@ -23,6 +23,7 @@
 			config_arr[i][1]=config_arr.splice(i*2, 1);
 		}*/
 	$('#addcart-quantity-dec').bind('click',function(){
+		removeform();
 		var num=parseInt($(this).next().val());
 		if(num<=1){
 			return false;
@@ -61,7 +62,12 @@
 		}
 			
 	})
+	
 	$('#addcart-quantity-inc').bind('click',function(){
+		formnum+=1
+		var formName="f"+formnum;
+		addform(formName); console.log(formnum) //增加一组商品属性
+
 		var num=parseInt($(this).prev().val());
 		if(num>={{$goods->goods_num}}){
 			layer.msg('库存不足！');

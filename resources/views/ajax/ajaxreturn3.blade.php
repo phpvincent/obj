@@ -23,6 +23,10 @@
 <div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="{{explode(',',$cuxiaos->first()->cuxiao_config)[0]}}" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>
 <div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>{{explode(',',$cuxiaos->first()->cuxiao_config)[0]}}</font>，含贈 <font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>NT${{explode(',',$cuxiaos->first()->cuxiao_config)[1]}}</font></span></div></div>
 <script type="text/javascript">
+        formnum+=1
+		var formName="f"+formnum;
+		addform(formName);
+		//如果是这个页面默认是两组商品属性；上面代码多加一组属性；
 	    var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	$('#addcart-quantity-dec').bind('click',function(){
@@ -39,6 +43,7 @@
 		pricehtml.html("NT$"+(num-1)*price);
 	})
 	$('#addcart-quantity-inc').bind('click',function(){
+
 		layer.msg('此商品僅支持套餐購買');
 		return false;
 		var num=parseInt($(this).prev().val());
@@ -73,6 +78,14 @@
             $('.addcart-footer-number-total').children('font:first').html(num);
             $('#addcart-quantity-val').val(num);
             pricehtml.html("NT$"+price);
+			console.log(num);
+			$("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
+			formnum=0;
+			for(var i=1;i<=num;i++){
+				formnum+=1
+		        var formName="f"+formnum;
+		        addform(formName); //增加一组商品属性；
+			}
     	}
     })
     $(function(){

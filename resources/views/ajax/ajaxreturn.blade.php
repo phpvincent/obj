@@ -5,6 +5,7 @@
 	    var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
 	$('#addcart-quantity-dec').bind('click',function(){
+		removeform(); // 删除一组商品属性
 		var num=parseInt($(this).next().val());
 		if(num<=1){
 			return false;
@@ -16,6 +17,9 @@
 		pricehtml.html("NT$"+(num-1)*price+'.00');
 	})
 	$('#addcart-quantity-inc').bind('click',function(){
+		formnum+=1
+		var formName="f"+formnum;
+		addform(formName); //增加一组商品属性；
 		var num=parseInt($(this).prev().val());
 		if(num>={{$goods->goods_num}}){
 			layer.msg('库存不足！');

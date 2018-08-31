@@ -29,6 +29,10 @@
         <script src="/js/ytc.js" async=""></script>
         <script src="/js/bat.js" async=""></script>
         <script async="" src="/js/analytics.js"></script>
+        <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="/layer/layer.js"></script>
+
+
         <style type="text/css">
             .uncheck{
                 border:1px dashed #ccc;
@@ -85,24 +89,37 @@
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
-        <script>
-        jQuery(function(){setFrom();});
-        </script>
+        <!--地区实现三级联动的脚本-->
+        <!--引入不同地区的脚本文件，默认引入台湾的文件，其它地区的文件，在自定义block中设置-->
+        <script src="/js/diqu/jquery.twzipcode3.js"></script>
+        <script src="/js/Validform.min.js"></script>
+        <script src="/js/Validform.min.js"></script>
+        <link href="/css/addcart.css" rel="stylesheet">
+
+
+         <!-- <script src="/js/addcart.js"></script> -->
+         <!--gleepay-->
+        <script type="text/javascript" src="/js/broser.js"></script>
+
+        
+
+
         <!-- Facebook Pixel Code -->
-        <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window,document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '{{$goods->goods_pix}}'); 
-        fbq('track', 'PageView');
-        fbq('track', 'InitiateCheckout');//发起结账
-        fbq('track', 'Lead');//潜在客户,填写表单
-        </script>
+      <script>
+        // !function(f,b,e,v,n,t,s)
+        // {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        // n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        // if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        // n.queue=[];t=b.createElement(e);t.async=!0;
+        // t.src=v;s=b.getElementsByTagName(e)[0];
+        // s.parentNode.insertBefore(t,s)}(window,document,'script',
+        // 'https://connect.facebook.net/en_US/fbevents.js');
+        //  fbq('init', '{{$goods->goods_pix}}'); 
+        // fbq('track', 'PageView');
+        // fbq('track', 'InitiateCheckout');//发起结账
+        // fbq('track', 'Lead');//潜在客户,填写表单
+        // fbq('track', 'Purchase', {value:'{{$goods->goods_price}}', currency:'TWD'});//购买
+        // </script>  
         <noscript>
          <img height="1" width="1" 
         src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
@@ -117,33 +134,16 @@
 
 </head>
 <body style="">
-<link href="/css/addcart.css" rel="stylesheet">
 
-<script src="/js/Validform.min.js"></script>
-<!-- <script src="/js/addcart.js"></script> -->
-<!--gleepay-->
-<script type="text/javascript" src="/js/broser.js"></script>
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
     <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
     <h1 class="mui-title">確認訂單</h1>
 </header>
-<script>
-    $(document).scroll(function () {
-        $("#navigationBox").css('top', $(document).scrollTop());
-    });
-</script><script>
-jQuery(function(){
-    jQuery("#coll_id").val(getQueryString('coll_id'));
-});
-</script>
+
 <div class="mui-content">
-<form class="mui-content" id="save" onsubmit="return false;" method="post" action="/saveform">
-    <input type="hidden" name="cuxiao_id" @if($goods->goods_cuxiao_type=='2') value="{{\App\cuxiao::where('cuxiao_goods_id',$goods->goods_id)->first()->cuxiao_id}}" @endif >
-<input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
-<input type="hidden" id="from" name="from" value=""/>
-{{ csrf_field()}}
+
 
 <!--product info begin-->
 <div class="pro_info">
@@ -161,58 +161,20 @@ jQuery(function(){
 <!--size begin-->  
 <div id="goods_config_div">
     <span style="font-size: 3px;color:red;">額外規格也可以在留言中通知我們，我們將以留言為準！</span>
-    @foreach($goods_config_arr as $key => $val)
-   <div calss="radiobox">
-     <dl class="addcart-specs-content"><dt>{{$val[0]->goods_config_msg}}</dt><dd>
-         @foreach($val as $k => $v)
-         <input type="radio"  class="radio" name="goods_config[{{$v->goods_config_id}}][]" value="{{$v->config_val_id}}" @if($loop->first) checked="checked" @endif>
-             <span @if($loop->first) class='ischeck' @else class="uncheck" @endif >&nbsp;&nbsp;{{$v->config_val_msg}}&nbsp;&nbsp;</span>&nbsp;
-       <!--   <input type="radio" class="radio"  name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;02#淺棕色&nbsp;&nbsp;</span>&nbsp;
-         <input type="radio"  class="radio" name="goods_config[]" ><span class="uncheck">&nbsp;&nbsp;03#深棕色&nbsp;&nbsp;</span>&nbsp; -->
-         @endforeach
-     </dl>
-     </div>
-   @endforeach
+
 </div>
 <div id="addcart">
    
 </div>
+<form class="mui-content" id="save" onsubmit="return false;" method="post" action="/saveform">
+    <input type="hidden" name="cuxiao_id" @if($goods->goods_cuxiao_type=='2') value="{{\App\cuxiao::where('cuxiao_goods_id',$goods->goods_id)->first()->cuxiao_id}}" @endif >
+<input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
+<input type="hidden" id="from" name="from" value=""/>
+{{ csrf_field()}}
 
 <!-- <script src="/js/buy.js"></script> -->
 
 <!--iframe id="storage" src="http://feilm.top/index/storage?url=http://tw.5ittbat.com" height="0px" frameborder="0"></iframe-->
-<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/layer/layer.js"></script>
-
-<script type="text/javascript">
-    $(function(){
-      
-            /*var confignum=$('#goods_config_div').length;
-            var newclone=$('#goods_config_div').clone();
-            var input_name=newclone.find('input').attr('name');
-            var clone_name=parseInt(input_name.replace(/[^0-9]/ig,""));alert(clone_name);
-            alert(input_name);
-            $('#goods_config_div').after(newclone);*/
-            $('.radio').each(function(){
-                $(this).on('click',function(){
-                     $(this).parent().parent().find('span').attr('class','uncheck');
-                       $(this).next().attr("class",'ischeck');  
-                })
-            })
-        $.ajax({
-                url:"{{url('/gethtml')}}",
-                type:'post',
-                data:{'id':{{$goods->goods_id}},'_token':"{{csrf_token()}}"},
-                datatype:'html',
-                success:function(msg){
-                 $('#addcart').html(msg);
-                    // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
-                }
-            })
-    })
-</script>
-
-
 
 <div id="loading" style="display: none;">
     <center>Submiting</center>
@@ -267,85 +229,17 @@ jQuery(function(){
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="選填，填寫收件人電子郵件" class="mui-input-clear">
     </div>
-<script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="選填，填寫收件人電子郵件" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
-        html2 += "<label>Email:</label>";
-
-        html2 += '<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" class="mui-input-clear">';
-
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
-
-        });
-
-    });
-
-</script>    <div class="mui-input-row" style=" height:66px">
+    <div class="mui-input-row" style=" height:66px">
         <label>留言:</label>
         <textarea name="notes" placeholder="選填，如備用電話、產品規格或配送時間等"></textarea>
     </div>
-<!--地区实现三级联动的脚本-->
-<!--引入不同地区的脚本文件，默认引入台湾的文件，其它地区的文件，在自定义block中设置-->
-<script src="/js/diqu/jquery.twzipcode3.js"></script>
-<script type="text/javascript">
-    jQuery(document).ready(function(e) {
-        jQuery('#twzipcode').twzipcode();
-        jQuery('input[name="zipcode"]').attr('style','display:none;');
-        jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
-        jQuery('#twzipcode').find("[name='state']").change(function(){
-            var county = jQuery(this).val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
 
-        jQuery('#twzipcode').find("[name='city']").change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            district = jQuery(this).val();
-
-
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
-
-        jQuery('.gw_address_message_info').change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            //alert(district);
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all ').val(message_info);
-        });
-
-    });
-</script></div>
+</div>
 <!--table end-->
 <!--paypal begin-->
 <div class="paymentbox">
 	<ul>
-        <script>
-    jQuery(function(){
-        jQuery("#pay_1").click();                                        
-    });
-    </script>
+
             <li>
        	  <div class="mui-input-row mui-radio mui-left cash-on-delivery">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
@@ -380,38 +274,49 @@ jQuery(function(){
 <input type="hidden" name="currency_id" value="1"/>
 <input type="hidden" name="amount" value="0"/>
 </form>
-
-<script>
-jQuery(function(){
-
-    try{fbq('track', "AddPaymentInfo");}
-    catch(e){}
-    jQuery('input').one('click',function(){
-       jQuery('form').removeAttr('onsubmit');
-    });
-    jQuery("#select_ship").change(function(){
-       jQuery.each(jQuery(this).find('option'),function(){
-            var that = jQuery(this);
-            if(that.attr('value')==jQuery("#select_ship").val())
-            {
-                price = that.data('price');
-                jQuery("#ship_price").html(price);
-            }
-       });
-    });
-   
-    
-/*$('.radiobox').children().find('input').on('click',function(){alert('?');
-            $(this).parent().parent().find('span').attr('class','uncheck')
-           // $('#radiobox').find('span').each().attr('class','uncheck')
-             $(this).next().attr("class",'ischeck');  
-    })*/
-});
-</script>
-<script src="/js/Validform.min.js"></script>
     
 
 <script>
+var formnum=1; //商品属性组数计数；
+var a={!!$goods_config_arr!!}
+console.log(a) 
+
+        var addform=function(e){
+            console.log('开始addform')
+        var addhtml='';
+        var color25="";
+        
+
+        $.each(a,function(i,val){
+        // console.log(i,val);      
+            var colorBut=''
+            $.each(val,function(j,item){
+                if(j===0){
+                    colorBut= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" checked="checked"><span class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
+                }else{
+                    colorBut+= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'"><span class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
+                }
+               
+            })
+            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
+    })
+
+    console.log('form',e);
+    addhtml='<form id="'+e+'">'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+    $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
+     }
+     addform("f1");                                          //默认一组商品的所有属性fromid为f1；
+     //删除一组商品属性的form；
+     var removeform= function(){
+         if($("#goods_config_div").children("form").length > 1){
+            $("#goods_config_div").children("form:last-child").remove();
+            formnum--
+            console.log(formnum)
+         }else {return  }
+     }
+
+    console.log( $("#f1").serializeArray());
+
     var form=jQuery("form").Validform({
         tiptype:function(msg){
             $2.toast(msg);
@@ -448,11 +353,50 @@ jQuery(function(){
 
 
 $('#pay').bind('click',function(){
-    var btime=getNowDate();
-            //记录购买事件
-             fbq('track', 'InitiateCheckout');
-            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
-   $('#save').submit();
+    //整理表单数据；
+    var dataArr=$("form#f1").serializeArray();
+    var dataObj={};
+    var datasObj={};
+    var fromArr=$("#goods_config_div").children("form").serializeArray();
+
+    $.each(dataArr,function(i,val){
+        dataObj[val.name]=[];
+    })
+    // console.log(dataObj);
+    $.each(fromArr,function(j,item){
+        $.each(dataObj,function(k,tol){
+          if(item.name==k){
+              tol.push(item.value)
+          }
+        })
+   })
+
+    console.log(dataObj);
+    var fromArr2=$("form#save").serializeArray();
+    $.each(fromArr2,function(i,val){
+        datasObj[val.name]=val.value;
+    })
+    datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
+    datasObj.goodsAtt=dataObj;                             //商品属性；
+    console.log('zuihou',datasObj);
+
+    // $.ajax({
+    //    type: "POST",    
+    //    url: www.baidu.com,
+    //    data: $('#formId').serialize(),
+    //    success: function (data) {
+           
+    //    },
+    //    error: function(data) {
+           
+    //    }
+    // }) ;
+       
+//     var btime=getNowDate();
+//             //记录购买事件
+//              fbq('track', 'InitiateCheckout');
+//             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
+//    $('#save').submit();
 })
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
@@ -489,6 +433,148 @@ $('#pay').bind('click',function(){
          return currentdate;
         }
 </script>
+
+<script>
+    $(document).scroll(function () {
+        $("#navigationBox").css('top', $(document).scrollTop());
+    });
+</script><script>
+jQuery(function(){
+    jQuery("#coll_id").val(getQueryString('coll_id'));
+});
+</script>
+
+    <script>
+    jQuery(function(){
+        jQuery("#pay_1").click();                                        
+    });
+    </script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(e) {
+        jQuery('#twzipcode').twzipcode();
+        jQuery('input[name="zipcode"]').attr('style','display:none;');
+        jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
+        jQuery('#twzipcode').find("[name='state']").change(function(){
+            var county = jQuery(this).val();
+            var district = jQuery('#twzipcode').find("[name='city']").val();
+            var message_info = county + " " +  district;
+            jQuery('#gw_address_message_all').val(message_info);
+        });
+
+        jQuery('#twzipcode').find("[name='city']").change(function(){
+            var county = jQuery('#twzipcode').find("[name='state']").val();
+            district = jQuery(this).val();
+
+
+            var message_info = county + " " +  district;
+            jQuery('#gw_address_message_all').val(message_info);
+        });
+
+        jQuery('.gw_address_message_info').change(function(){
+            var county = jQuery('#twzipcode').find("[name='state']").val();
+            var district = jQuery('#twzipcode').find("[name='city']").val();
+            //alert(district);
+            var message_info = county + " " +  district;
+            jQuery('#gw_address_message_all ').val(message_info);
+        });
+
+    });
+</script>
+
+<script>
+    jQuery(function(){
+        var html1 ='';
+//        html +='<div class="mui-input-row need_email">';
+        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
+        html1 +='<input type="text" placeholder="選填，填寫收件人電子郵件" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+        var html2 = '';
+        html2 += "<label>Email:</label>";
+
+        html2 += '<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" class="mui-input-clear">';
+
+        var payty =  jQuery('input[name=pay_type]:checked').val();
+        if(payty==7||payty==2){
+            jQuery('.need_email').children().remove();
+            jQuery('.need_email').append(html1);
+        }else{
+            jQuery('.need_email').children().remove();
+            jQuery('.need_email').append(html2);
+        }
+        jQuery('input[name=pay_type]').click(function(){
+            if(jQuery(this).val()==7 || jQuery(this).val()==2){
+                jQuery('.need_email').children().remove();
+                jQuery('.need_email').append(html1);
+            }else{
+                jQuery('.need_email').children().remove();
+                jQuery('.need_email').append(html2);
+            }
+
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(function(){
+      
+            /*var confignum=$('#goods_config_div').length;
+            var newclone=$('#goods_config_div').clone();
+            var input_name=newclone.find('input').attr('name');
+            var clone_name=parseInt(input_name.replace(/[^0-9]/ig,""));alert(clone_name);
+            alert(input_name);
+            $('#goods_config_div').after(newclone);*/
+            $('.radio').each(function(){
+                $(this).on('click',function(){
+                     $(this).parent().parent().find('span').attr('class','uncheck');
+                       $(this).next().attr("class",'ischeck');  
+                })
+            })
+        $.ajax({
+                url:"{{url('/gethtml')}}",
+                type:'post',
+                data:{'id':{{$goods->goods_id}},'_token':"{{csrf_token()}}"},
+                datatype:'html',
+                success:function(msg){
+                 $('#addcart').html(msg);
+                    // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
+                }
+            })
+    })
+</script>
+
+<script>
+jQuery(function(){
+
+    try{fbq('track', "AddPaymentInfo");}
+    catch(e){}
+    jQuery('input').one('click',function(){
+       jQuery('form').removeAttr('onsubmit');
+    });
+    jQuery("#select_ship").change(function(){
+       jQuery.each(jQuery(this).find('option'),function(){
+            var that = jQuery(this);
+            if(that.attr('value')==jQuery("#select_ship").val())
+            {
+                price = that.data('price');
+                jQuery("#ship_price").html(price);
+            }
+       });
+    });
+   
+    
+/*$('.radiobox').children().find('input').on('click',function(){alert('?');
+            $(this).parent().parent().find('span').attr('class','uncheck')
+           // $('#radiobox').find('span').each().attr('class','uncheck')
+             $(this).next().attr("class",'ischeck');  
+    })*/
+});
+</script>
+        <script>
+        jQuery(function(){setFrom();});
+        </script>
+
 
 </body>
 </html>
