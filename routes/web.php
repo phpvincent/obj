@@ -24,6 +24,7 @@ Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');
 	Route::match(['get', 'post'], '/saveform','home\IndexController@saveform');
+	Route::match(['get', 'post'], '/endsuccess','home\IndexController@endsuccess');
 });
 Route::middleware([])->group(function(){
 	Route::any('/order/save_testcom','home\IndexController@savetestform');

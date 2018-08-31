@@ -56,9 +56,6 @@
         'https://connect.facebook.net/en_US/fbevents.js');
          fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
-         fbq('track', 'AddToCart');
-        fbq('track', 'InitiateCheckout');//发起结账
-        fbq('track', 'Lead');//潜在客户,填写表单等动作
         </script>
         <noscript>
          <img height="1" width="1" 
@@ -383,6 +380,11 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
+    $(function(){
+         $('#btnPay').on('click',function(){
+                try{fbq('track', 'AddToCart');}catch(e){};
+            })
+    })
     $2(function() {
         $2("#btncall").bind(_ONCLICK,
         function() {
@@ -393,8 +395,7 @@ $(function(){
         //点击购买
         $2("#btnPay").click(function() {
             try {
-                fbq('track', 'AddToCart');
-                mkq('track', 'AddToCart');
+              
             } catch(e) {}
 
             var action = $2("#payForm").attr('action');

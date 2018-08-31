@@ -168,9 +168,8 @@ class IndexController extends Controller
     	$order->order_ip=$ip;
     	$order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
-        
     	if($order_goods_id==false){
-          return response('error',200);
+          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
@@ -188,13 +187,13 @@ class IndexController extends Controller
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
     	//判断金额合法性
     	if($price==false||$price<=0){
-    		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url]);
+          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
     	$order->order_price=$price;
     	$order_num=$request->input('specNumber');
     	//判断商品数合法性
     	if($order_num<=0){
-    		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url]);
+          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
     	$order->order_num=$order_num;
     	$order->order_cuxiao_id=$request->input('cuxiao_id');
@@ -206,38 +205,60 @@ class IndexController extends Controller
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
     	$msg=$order->save();
-        
-        if($request->has('goods_config')){
+        if($request->has('goodsAtt')){
          $order_id=$order->order_id;
-         $order_config=new \App\order_config;
-         $ostr='';
-         $attribute=$request->input('goods_config');
-
-         foreach($request->input('goods_config') as $v){
-            $ostr.=$v[0].',';
+          $arrs=[];
+         foreach($request->input('goodsAtt') as $val){
+             $ostr='';
+             foreach($val as $key=> $v){
+                if(isset($arrs[$key])){
+                      $arrs[$key].=$v.',';
+                  }else{
+                    $arrs[$key]=$v.',';
+                  }
+              
+             }
+            /* $ostr= rtrim($ostr,',');
+             $order_config->order_config=$ostr;
+             $order_config->order_primary_id=$order_id;
+             $order_config->save();*/
          }
-           $ostr= rtrim($ostr,',');
-           $order_config->order_config=$ostr;
-           $order_config->order_primary_id=$order_id;
-           $order_config->save();
-        // foreach($attribute as $k=>$v){
-        //    $ostr=$attribute[$k]['color'].','.$attribute[$k]['spec'];
-        //    // $ostr= rtrim($ostr,',');
-
-        //    $order_config->order_config=$ostr;
-        //    $order_config->order_primary_id=$order_id;
-        //    $order_config->save();
-        // }
-
-
+        }
+        foreach($arrs as $k => $v){
+            $arrs[$k]=rtrim($v,',');
+              $order_config=new \App\order_config;
+              $order_config->order_config=$arrs[$k];
+             $order_config->order_primary_id=$order_id;
+             $order_config->save();
         }
     	if(!$msg){
-    		return view('ajax.endfail')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}else{
-    		return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            $goods_id=$goods->goods_id;
+            $order_id=$order->order_id;
+        return response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
+    		//return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     	}
     }
-    public function orderSuccess(Request $request){
+    public function endsuccess(Request $request){
+        $data=$request->all();
+        if($request->has('type')&&$request->input('type')=='0'){
+            return view('ajax.endfail');
+        }
+        $goods=\App\goods::where("goods_id",$request->goods_id)->first();
+        $order=\App\order::where("order_id",$request->order_id)->first();
+        $urls=url::where('url_goods_id',$goods->goods_id)->first();
+        if($urls==null){
+            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+        }else{
+            $url=$urls->url_url;
+        }
+        if($url==null){
+            return false;
+        }
+            return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+    }
+   /* public function orderSuccess(Request $request){
         $order=\App\order::where('order_id',$request->input('order_id'))->first();
         $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
         if(!$order){
@@ -245,7 +266,7 @@ class IndexController extends Controller
         }else{
             return view('ajax.endsuccess')->with(['order'=>$order,'goods'=>$goods]);
         }
-    }
+    }*/
     public function send(){
         return view('home.send');
     }

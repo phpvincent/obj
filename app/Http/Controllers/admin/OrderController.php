@@ -153,23 +153,29 @@ class OrderController extends Controller
             ->limit($len)
             ->get();
            }
+           //商品附带规格信息
 	        foreach($data as $k => $v){
-            $order_config=\App\order_config::where('order_primary_id',$v->order_id)->first();
-            if($order_config!=null){
-                $orderarr=explode(',',$order_config['order_config']);
+            $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
+            if($order_config->count()>0){ 
                 $config_msg='';
-                foreach($orderarr as $key => $val){
-                  $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                  $config_msg.=$conmsg['config_val_msg'].'-';
+                $i=0;
+                foreach($order_config  as  $va){
+                  $i++;
+                  $config_msg.="第".$i."件：";
+                  $orderarr=explode(',',$va['order_config']);
+                  foreach($orderarr as $key => $val){
+                    $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                    $config_msg.=$conmsg['config_val_msg'].'-';
+                  }
+                  $config_msg=rtrim($config_msg,'-');
+                  $config_msg.='<br/>';
                 }
-                $config_msg=rtrim($config_msg,'-');
-                $data[$k]->config_msg=$config_msg;
+                  $config_msg=rtrim($config_msg,'<br/>');
+                  $data[$k]->config_msg=$config_msg;
               }else{
                 $data[$k]->config_msg="暂无属性信息";
               }
-          
           }
-        
            //按照时间区间查找数据
             if(isset($timesearch)){
                if((strtotime(explode(';',$timesearch)[0])>100&&strtotime(explode(';',$timesearch)[1])>100)||strtotime($timesearch)>100){

@@ -56,9 +56,6 @@
         'https://connect.facebook.net/en_US/fbevents.js');
          fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
-         fbq('track', 'AddToCart');
-        fbq('track', 'InitiateCheckout');//发起结账
-        fbq('track', 'Lead');//潜在客户,填写表单等动作
         </script>
         <noscript>
          <img height="1" width="1" 
@@ -179,7 +176,7 @@
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" preload="none" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-            	<a id="videoPoster" href="{{$goods->goods_video}}" style="height:360px"> 11</a>
+            	<a id="videoPoster" href="{{$goods->goods_video}}" style="height:360px"></a>
 			</p>
             @endif
             <p>@if(count($des_img)>0) @foreach($des_img as $key)<img src="{{$key->des_url}}">@endforeach

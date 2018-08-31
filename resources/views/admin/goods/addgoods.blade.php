@@ -1,7 +1,7 @@
 @extends('admin.father.css')
 @section('content')
 <article class="page-container">
-				<div class="config" style="display: none;" id="configclo">
+				<div class="config" style="display: none;border:1px solid #000;" id="configclo">
 					属性名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
 				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
 				

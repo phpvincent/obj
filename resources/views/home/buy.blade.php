@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -106,20 +105,17 @@
 
         <!-- Facebook Pixel Code -->
       <script>
-        // !function(f,b,e,v,n,t,s)
-        // {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        // n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        // if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        // n.queue=[];t=b.createElement(e);t.async=!0;
-        // t.src=v;s=b.getElementsByTagName(e)[0];
-        // s.parentNode.insertBefore(t,s)}(window,document,'script',
-        // 'https://connect.facebook.net/en_US/fbevents.js');
-        //  fbq('init', '{{$goods->goods_pix}}'); 
-        // fbq('track', 'PageView');
-        // fbq('track', 'InitiateCheckout');//发起结账
-        // fbq('track', 'Lead');//潜在客户,填写表单
-        // fbq('track', 'Purchase', {value:'{{$goods->goods_price}}', currency:'TWD'});//购买
-        // </script>  
+         !function(f,b,e,v,n,t,s)
+         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+         n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+         if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+         n.queue=[];t=b.createElement(e);t.async=!0;
+         t.src=v;s=b.getElementsByTagName(e)[0];
+         s.parentNode.insertBefore(t,s)}(window,document,'script',
+         'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '{{$goods->goods_pix}}'); 
+         fbq('track', 'PageView');
+         </script>  
         <noscript>
          <img height="1" width="1" 
         src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
@@ -166,7 +162,7 @@
 <div id="addcart">
    
 </div>
-<form class="mui-content" id="save" onsubmit="return false;" method="post" action="/saveform">
+<form class="mui-content" id="save" >
     <input type="hidden" name="cuxiao_id" @if($goods->goods_cuxiao_type=='2') value="{{\App\cuxiao::where('cuxiao_goods_id',$goods->goods_id)->first()->cuxiao_id}}" @endif >
 <input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
 <input type="hidden" id="from" name="from" value=""/>
@@ -238,10 +234,10 @@
 <!--table end-->
 <!--paypal begin-->
 <div class="paymentbox">
-	<ul>
+    <ul>
 
             <li>
-       	  <div class="mui-input-row mui-radio mui-left cash-on-delivery">
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
                 貨到付款            </label>
@@ -257,7 +253,7 @@
     
 <!--button begin-->
 <div class="btndiv">
-	<button id="pay" type="button" class="btnstyle01">提交訂單</button>
+    <button id="pay" type="button" class="btnstyle01">提交訂單</button>
 </div>
 <!--button end-->
 <!--footer begin-->
@@ -277,6 +273,12 @@
     
 
 <script>
+    var  addClickEven= function (){
+         $("#goods_config_div input.radio").on('click',function(){
+         $(this).parent().parent().find('span').attr('class','uncheck');
+         $(this).next().attr("class",'ischeck');  
+          })
+     }
 var formnum=1; //商品属性组数计数；
 var a={!!$goods_config_arr!!}
 console.log(a) 
@@ -304,6 +306,7 @@ console.log(a)
     console.log('form',e);
     addhtml='<form id="'+e+'">'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
     $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
+    addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
      }
      addform("f1");                                          //默认一组商品的所有属性fromid为f1；
      //删除一组商品属性的form；
@@ -330,16 +333,16 @@ console.log(a)
                 alert('Incomplete data,Form validation error!');
                 return false;
             }*/
-            	var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
-				if(vname.test(jQuery("input[name='firstname']").val())){
-					/*layer.msg("請填寫您的真實姓名");
-					return false;*/
-				}
-				if(_checkBlackName(jQuery("input[name='firstname']").val())){
-					layer.msg("無效的名字");
-					return false;
-				}
-			            if(jQuery("select[name='state6']").val()==""){
+                var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
+                if(vname.test(jQuery("input[name='firstname']").val())){
+                    /*layer.msg("請填寫您的真實姓名");
+                    return false;*/
+                }
+                if(_checkBlackName(jQuery("input[name='firstname']").val())){
+                    layer.msg("無效的名字");
+                    return false;
+                }
+                        if(jQuery("select[name='state6']").val()==""){
                 alert('請選取縣市');
                 return false;
             }
@@ -353,6 +356,9 @@ console.log(a)
 
 
 $('#pay').bind('click',function(){
+    var btime=getNowDate();
+     try{fbq('track', 'InitiateCheckout')}catch(e){};
+            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
     var dataObj={};
@@ -379,24 +385,38 @@ $('#pay').bind('click',function(){
     datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
     datasObj.goodsAtt=dataObj;                             //商品属性；
     console.log('zuihou',datasObj);
-
-    // $.ajax({
-    //    type: "POST",    
-    //    url: www.baidu.com,
-    //    data: $('#formId').serialize(),
-    //    success: function (data) {
+    /*$('#save').submit();*/
+    if(datasObj.address1==null||datasObj.address1==''){
+        layer.msg('詳細地址不能為空！');
+        return false;
+    }
+    if(datasObj.city==null||datasObj.city==''){
+        layer.msg('請選擇地區信息！');
+        return false;
+    }
+    if(datasObj.firstname==null||datasObj.firstname==''){
+        layer.msg('請填寫收貨人姓名');
+        return false;
+    }
+    if(datasObj.telephone==null||datasObj.telephone==''){
+        layer.msg('請填寫收貨人手機號碼');
+        return false;
+    }
+    $.ajax({
+       type: "POST",    
+       url: "/saveform",
+       data:datasObj,
+       success: function (data) {
+           location.href=data.url;
+       },
+       error: function(data) {
            
-    //    },
-    //    error: function(data) {
-           
-    //    }
-    // }) ;
+       }
+    }) ;
        
-//     var btime=getNowDate();
-//             //记录购买事件
-//              fbq('track', 'InitiateCheckout');
-//             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
-//    $('#save').submit();
+    
+            //记录购买事件
+            
 })
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
@@ -518,19 +538,6 @@ jQuery(function(){
 
 <script type="text/javascript">
     $(function(){
-      
-            /*var confignum=$('#goods_config_div').length;
-            var newclone=$('#goods_config_div').clone();
-            var input_name=newclone.find('input').attr('name');
-            var clone_name=parseInt(input_name.replace(/[^0-9]/ig,""));alert(clone_name);
-            alert(input_name);
-            $('#goods_config_div').after(newclone);*/
-            $('.radio').each(function(){
-                $(this).on('click',function(){
-                     $(this).parent().parent().find('span').attr('class','uncheck');
-                       $(this).next().attr("class",'ischeck');  
-                })
-            })
         $.ajax({
                 url:"{{url('/gethtml')}}",
                 type:'post',

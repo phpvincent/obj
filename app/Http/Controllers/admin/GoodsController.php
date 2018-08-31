@@ -196,6 +196,9 @@ class GoodsController extends Controller
             foreach($data['goods_config_name'] as $k => $v){
               $gf=new \App\goods_config();
               $gf->goods_primary_id=$goods->goods_id;
+              if($v==null||$v==''){
+                break;
+              }
               $gf->goods_config_msg=$v;
               $gf->save();
                $msgarr=explode(';', $data['goods_config'][$k]);
@@ -377,6 +380,9 @@ class GoodsController extends Controller
               $gf=new \App\goods_config();
               $gf->goods_primary_id=$goods->goods_id;
               $gf->goods_config_msg=$v;
+               if($v==null||$v==''){
+                break;
+              }
               $gf->save();
                $msgarr=explode(';', $data['goods_config'][$k]);
                 foreach($msgarr as $kk => $vv){

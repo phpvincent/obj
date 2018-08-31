@@ -17,10 +17,7 @@
     <div class="pay_image" ><span class="sico" ><i class="mui-icon mui-icon-closeempty" style="background-color: red; border-radius: 50%;"></i></span></div>
     <div class="pay_success">
             <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#f00">訂單提交失败！</h2>
-                            <!-- <div style="padding:15px;">
-                您的訂單編號:<font color="red">{{$order->order_single_id}}</font><br>
-                應支付：<font color="red">HK$ {{$order->order_price}}</font>
-                            </div> -->
+                           
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
 請您返回重新提交订单！            </div>
@@ -31,7 +28,7 @@
 </div>
 <script language="javascript">
     function goHome(){
-        var u = 'http://{{$url}}/pay';
+       
     location.href=u;
         //window.location.href=u;
     }
