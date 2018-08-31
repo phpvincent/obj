@@ -291,7 +291,7 @@ class GoodsController extends Controller
         $goods_config=\App\goods_config::where('goods_primary_id',$id)->get();
         if($goods_config!=null){
           foreach($goods_config as $k => $v){
-            $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->get()->toArray();
+            $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->orderBy('config_val_id','asc')->get()->toArray();
             $str='';
             foreach($arr as $val){
               $str.=$val['config_val_msg'].';';
