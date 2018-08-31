@@ -402,6 +402,7 @@ $('#pay').bind('click',function(){
         layer.msg('請填寫收貨人手機號碼');
         return false;
     }
+    layer.msg("訂單提交中，請稍等");
     $.ajax({
        type: "POST",    
        url: "/saveform",
