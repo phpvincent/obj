@@ -223,14 +223,15 @@ class IndexController extends Controller
              $order_config->order_primary_id=$order_id;
              $order_config->save();*/
          }
+             foreach($arrs as $k => $v){
+                $arrs[$k]=rtrim($v,',');
+                  $order_config=new \App\order_config;
+                  $order_config->order_config=$arrs[$k];
+                 $order_config->order_primary_id=$order_id;
+                 $order_config->save();
+            }
         }
-        foreach($arrs as $k => $v){
-            $arrs[$k]=rtrim($v,',');
-              $order_config=new \App\order_config;
-              $order_config->order_config=$arrs[$k];
-             $order_config->order_primary_id=$order_id;
-             $order_config->save();
-        }
+        
     	if(!$msg){
           return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}else{
