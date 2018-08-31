@@ -34,12 +34,14 @@
 			<nav class="nav navbar-nav">
 				<ul class="cl">
 					<li class="dropDown dropDown_hover"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
+						@if(Auth::user()->is_root=='1')
 						<ul class="dropDown-menu menu radius box-shadow">
 							<li><a href="javascript:;" onclick="layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);"><i class="Hui-iconfont">&#xe616;</i> 单品</a></li>
 							<li><a href="javascript:;" onclick="layer_show('添加域名','{{url("admin/url/url_add")}}',500,400);"><i class="Hui-iconfont">&#xe613;</i> 域名</a></li>
 							<li><a href="javascript:;" onclick="layer_show('添加角色','{{url("admin/admin/addrole")}}',300,200);"><i class="Hui-iconfont">&#xe62b;</i> 角色</a></li>
 							<li><a href="javascript:;" onclick="member_add('添加用户','{{url("admin/admin/addadmin")}}',500,400);"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
 					</ul>
+					@endif
 				</li>
 			</ul>
 		</nav>
