@@ -798,14 +798,14 @@ $(function(){
 </script>
 <script>
             $(function(){
-            /*$('#detial-context p a').each(function(index,ele){
+            $('#detial-context p a').each(function(index,ele){
                 var con_a = $(this).attr('href');
                 if(con_a.length>0){
                     if(con_a.indexOf("http://") ==-1){
                         $(this).attr('href','http://'+con_a);
                     }
                 }
-            });*/
+            });
 
         });
 </script>
