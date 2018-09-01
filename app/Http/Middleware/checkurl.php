@@ -24,7 +24,6 @@ class checkurl
         if($is_use){
           /*return $next($request);*/
         }else{
-            dd($url);
           return redirect('index/fb');
         }
         if(\App\url::where('url_url',$url)->first()->url_goods_id==null&&\App\url::where('url_url',$url)->first()->url_zz_goods_id==null){
