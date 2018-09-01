@@ -548,7 +548,7 @@ $(function(){
             })
     })
     $2(function() {
-        //$2("img").lazyload({effect: "fadeIn"});
+        $2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {
             try {
