@@ -135,16 +135,16 @@
             </p>
             @endif
             <p>
-                @else
+               
                {!!$goods->goods_des_html!!}
-               @endif
+              
             </p>
         </div>
         <div class="detail-block" id="detial-params">
             <p>
-                @else
+               
                {!!$goods->goods_type_html!!}
-               @endif
+              
            </p>
            
         </div>
