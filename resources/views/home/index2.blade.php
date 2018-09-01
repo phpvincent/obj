@@ -88,7 +88,7 @@
     jQuery("#payForm").attr('action', u);
     });
     </script>
-<form id="payForm" action="/pay" method="GET">
+
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content">
         <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
@@ -176,17 +176,17 @@
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" preload="none" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-                <a id="videoPoster" href="{{$goods->goods_video}}" style="height:360px"> 11</a>
+              
             </p>
             @endif
-            <p>@if(count($des_img)>0) @foreach($des_img as $key)<img src="{{$key->des_url}}">@endforeach
+            <p>
                 @else
                {!!$goods->goods_des_html!!}
                @endif
             </p>
         </div>
         <div class="detail-block" id="detial-params">
-            <p>@if(count($par_img)>0)@foreach($par_img as $key)<img src="{{$key->des_url}}">@endforeach
+            <p>
                 @else
                {!!$goods->goods_type_html!!}
                @endif
@@ -356,7 +356,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     document.getElementById("LINE").onclick=function(){
         window.location="https://line.me/R/ti/p/%40ajw0872j";
     }
-</script> --></form>
+</script> -->
 <div style="display:none; position:fixed;z-index:199998; width:100%;text-align:center; height:100%;background: rgba(0, 0, 0, 0.58); padding:0px; bottom:0px; margin:0px;max-width: 640px; " id="imgbg">
     <img style="width:80%; margin:0 auto; vertical-align:middle" id="bigimg">
 </div>
@@ -555,7 +555,7 @@ $(function(){
                 
             } catch(e) {}
 
-            var action = $2("#payForm").attr('action');
+            var action = '/pay';
            /* var tjArr = localStorage.getItem("jsArr");
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
