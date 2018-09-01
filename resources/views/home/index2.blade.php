@@ -548,7 +548,7 @@ $(function(){
             })
     })
     $2(function() {
-        $2("img").lazyload({effect: "fadeIn"});
+        //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {
             try {
@@ -799,14 +799,14 @@ $(function(){
 </script>
 <script>
             $(function(){
-            $('#detial-context p a').each(function(index,ele){
+           /* $('#detial-context p a').each(function(index,ele){
                 var con_a = $(this).attr('href');
                 if(con_a.length>0){
                     if(con_a.indexOf("http://") ==-1){
                         $(this).attr('href','http://'+con_a);
                     }
                 }
-            });
+            });*/
 
         });
 </script>
