@@ -21,7 +21,7 @@ class IndexController extends Controller
     	//获取该域名对应商品id
         
     	$goods_id=url::get_goods($request);
-    	$imgs=img::where('img_goods_id',$goods_id)->get(['img_url'])->orderBy('img_id','asc');
+    	$imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
         foreach($comment as $v=> $key){
