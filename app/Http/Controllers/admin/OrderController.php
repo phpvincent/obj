@@ -246,7 +246,7 @@ class OrderController extends Controller
    	     
    }
    public function outorder(){
-      $data=order::select('order.order_id','order.order_single_id','order.order_ip','goods.goods_real_name','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send')
+      $data=order::select('order.order_id','order.order_single_id','order.order_ip','goods.goods_real_name','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_price','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -257,12 +257,17 @@ class OrderController extends Controller
             }
            })
            ->where(function($query){
-            $query->where('is_del','0');
+            $query->where('order.is_del','0');
+           })
+           ->where(function($query){
+            $query->where('order.order_type','1');
            })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
-           $exdata=[];
+          
            foreach($data as $k => $v){
+            $exdata[$k]['order_time']=$v['order_time'];
+            $exdata[$k]['goods_real_name']=$v['goods_real_name'];
             //尺寸信息
              $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
             if($order_config->count()>0){ 
@@ -284,42 +289,50 @@ class OrderController extends Controller
               }else{
                 $exdata[$k]['config_msg']="暂无属性信息";
               }
+              $exdata[$k]['order_num']=$v['order_num'];
+              $exdata[$k]['payof']='TWD';
+              $exdata[$k]['goods_price']=$v['goods_price'];
+              $exdata[$k]['order_price']=$v['order_price'];
+              $exdata[$k]['name']=$v['order_name'];
+              $exdata[$k]['tel']=$v['order_tel'];
+              $exdata[$k]['area']=$v['order_state'].$v['order_city'].'('.$v['order_add'].')';
+              $exdata[$k]['remark']=$v['order_remark'];
             switch ($v['order_type']) {
                case '0':
-                 $exdata[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
+                 $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
                   break;
                case '1':
-                 $exdata[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
+                 $data[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
                  break;
                case '2':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
                  break;
                case '3':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
                  break;
                case '4':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
                  break;
                case '5':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
                  break;
                case '6':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
                  break;
                case '7':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
                  break;
                case '8':
-                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
+                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
                  break;
                default:
-                  $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
+                  $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
                   break;
             }
            }
          $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
-         $zdname=['下单时间','产品名称','型号/尺寸','颜色','数量','币种','销售单价','总金额','客户名字','客户电话','邮寄地址','备注'];
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-        out_excil($data,$zdname,'单品信息记录表',$filename);
+         $zdname=['下单时间','产品名称','型号/尺寸/颜色','数量','币种','销售单价','总金额','客户名字','客户电话','邮寄地址','备注'];
+        out_excil($exdata,$zdname,'訂單信息记录表',$filename);
    }
 }
