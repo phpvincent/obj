@@ -554,17 +554,13 @@ jQuery(function(){
 <script>
     var isuse =true;
 jQuery(function(){
-   
-       $('#save input').on('focus',function(){
+       $('#save input').on('keyup',function(){
              if(isuse){
                  try{fbq('track', "AddPaymentInfo");}
                  catch(e){}
                  isuse=false;
-                 console.log('1');
              }
         }) 
-       
-    
     jQuery('input').one('click',function(){
        jQuery('form').removeAttr('onsubmit');
     });
