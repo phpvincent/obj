@@ -256,6 +256,9 @@ class OrderController extends Controller
               $query->whereIn('goods_admin_id', $goods);
             }
            })
+           ->where(function($query){
+            $query->where('is_del','0');
+           })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
            foreach($data as $k => $v){
