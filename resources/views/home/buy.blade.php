@@ -553,9 +553,11 @@ jQuery(function(){
 
 <script>
 jQuery(function(){
-
-    try{fbq('track', "AddPaymentInfo");}
-    catch(e){}
+    $('#save input').on('focus',function(){
+         try{fbq('track', "AddPaymentInfo");}
+         catch(e){}
+    })
+   
     jQuery('input').one('click',function(){
        jQuery('form').removeAttr('onsubmit');
     });
