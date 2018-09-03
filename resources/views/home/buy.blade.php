@@ -272,7 +272,7 @@
     
 
 <script>
-        var issubmit=true;
+    var issubmit=true;
     var  addClickEven= function (){
          $("#goods_config_div input.radio").on('click',function(){
          $(this).parent().parent().find('span').attr('class','uncheck');
@@ -286,8 +286,6 @@ var a={!!$goods_config_arr!!}
             console.log('开始addform')
         var addhtml='';
         var color25="";
-        
-
         $.each(a,function(i,val){
         // console.log(i,val);      
             var colorBut=''
