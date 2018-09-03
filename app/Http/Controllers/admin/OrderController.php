@@ -106,7 +106,7 @@ class OrderController extends Controller
             $newcount=DB::table('order')
             ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+            ->leftjoin('cuxiao','order.order_goods_id','=','cuxiao.cuxiao_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
@@ -127,7 +127,7 @@ class OrderController extends Controller
             $data=DB::table('order')
             ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+            ->leftjoin('cuxiao','order.order_goods_id','=','cuxiao.cuxiao_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
            ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
