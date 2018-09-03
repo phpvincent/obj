@@ -559,11 +559,11 @@ jQuery(function(){
              if(isuse){
                  try{fbq('track', "AddPaymentInfo");}
                  catch(e){}
-                 suse=false;
+                 isuse=false;
                  console.log('1');
              }
         }) 
-       i
+       
     
     jQuery('input').one('click',function(){
        jQuery('form').removeAttr('onsubmit');
