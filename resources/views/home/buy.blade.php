@@ -274,14 +274,15 @@
 <script>
     var issubmit=true;
     var  addClickEven= function (){
-         $("#goods_config_div input.radio").on('click',function(){
-         $(this).parent().parent().find('span').attr('class','uncheck');
+         $("#goods_config_div").on('click',"input.radio",function(){
+            $(this).parent().parent().find('label[for]').length ?  $(this).parent().parent().find('label[for]').attr('class','uncheck') : $(this).parent().parent().find('span').attr('class','uncheck');
          $(this).next().attr("class",'ischeck');  
           })
-     }
-var formnum=1; //商品属性组数计数；
-var a={!!$goods_config_arr!!}
-
+        }
+         addClickEven(); 
+    var formnum=1; //商品属性组数计数；
+    var a={!!$goods_config_arr!!}
+        console.log(a);
         var addform=function(e){
             console.log('开始addform')
         var addhtml='';
@@ -290,19 +291,27 @@ var a={!!$goods_config_arr!!}
         // console.log(i,val);      
             var colorBut=''
             $.each(val,function(j,item){
+             if(item.config_val_img){     //如果是展示图片的话显示这一组HTML；
+                if(j===0){
+                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="width: 30%;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt=""></label>&nbsp;</label>';
+                }else{
+                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="width: 30%;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt=""></label>&nbsp;</label>';
+                }        
+              }else{
                 if(j===0){
                     colorBut= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" checked="checked"><span class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
                 }else{
                     colorBut+= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'"><span class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
                 }
+              }
                
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
-    })
-    addhtml='<form id="'+e+'">'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
-    $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
-    addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
-     }
+         })
+         addhtml='<form id="'+e+'">'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
+         // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
+          }
      addform("f1");                                          //默认一组商品的所有属性fromid为f1；
      //删除一组商品属性的form；
      var removeform= function(){
