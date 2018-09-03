@@ -552,12 +552,16 @@ jQuery(function(){
 </script>
 
 <script>
+    var isuse =true;
 jQuery(function(){
-    $('#save input').on('focus',function(){
-         try{fbq('track', "AddPaymentInfo");}
-         catch(e){}
-    })
-   
+    if(isuse){
+       $('#save input').on('focus',function(){
+             try{fbq('track', "AddPaymentInfo");}
+             catch(e){}
+        }) 
+       isuse=false;
+       console.log('1');
+    }
     jQuery('input').one('click',function(){
        jQuery('form').removeAttr('onsubmit');
     });
