@@ -261,41 +261,64 @@ class OrderController extends Controller
            })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
+           $exdata=[];
            foreach($data as $k => $v){
+            //尺寸信息
+             $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
+            if($order_config->count()>0){ 
+                $config_msg='';
+                $i=0;
+                foreach($order_config  as  $va){
+                  $i++;
+                  $config_msg.="第".$i."件：";
+                  $orderarr=explode(',',$va['order_config']);
+                  foreach($orderarr as $key => $val){
+                    $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                    $config_msg.=$conmsg['config_val_msg'].'-';
+                  }
+                  $config_msg=rtrim($config_msg,'-');
+                  $config_msg.='<br/>';
+                }
+                  $config_msg=rtrim($config_msg,'<br/>');
+                  $exdata[$k]['config_msg']=$config_msg;
+              }else{
+                $exdata[$k]['config_msg']="暂无属性信息";
+              }
             switch ($v['order_type']) {
                case '0':
-                 $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
+                 $exdata[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
                   break;
                case '1':
-                 $data[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
+                 $exdata[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
                  break;
                case '2':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
                  break;
                case '3':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
                  break;
                case '4':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
                  break;
                case '5':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
                  break;
                case '6':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
                  break;
                case '7':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
                  break;
                case '8':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
+                 $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
                  break;
                default:
-                  $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
+                  $exdata[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
                   break;
             }
            }
          $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
+         $zdname=['下单时间','产品名称','型号/尺寸','颜色','数量','币种','销售单价','总金额','客户名字','客户电话','邮寄地址','备注'];
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }

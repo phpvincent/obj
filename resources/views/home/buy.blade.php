@@ -272,6 +272,7 @@
     
 
 <script>
+        var issubmit=true;
     var  addClickEven= function (){
          $("#goods_config_div input.radio").on('click',function(){
          $(this).parent().parent().find('span').attr('class','uncheck');
@@ -280,7 +281,6 @@
      }
 var formnum=1; //商品属性组数计数；
 var a={!!$goods_config_arr!!}
-console.log(a) 
 
         var addform=function(e){
             console.log('开始addform')
@@ -301,8 +301,6 @@ console.log(a)
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
     })
-
-    console.log('form',e);
     addhtml='<form id="'+e+'">'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
     $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
     addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
@@ -313,12 +311,8 @@ console.log(a)
          if($("#goods_config_div").children("form").length > 1){
             $("#goods_config_div").children("form:last-child").remove();
             formnum--
-            console.log(formnum)
          }else {return  }
      }
-
-    console.log( $("#f1").serializeArray());
-
     var form=jQuery("form").Validform({
         tiptype:function(msg){
             $2.toast(msg);
@@ -402,18 +396,25 @@ $('#pay').bind('click',function(){
         return false;
     }
     layer.msg("訂單提交中，請稍等");
-    $.ajax({
-       type: "POST",    
-       url: "/saveform",
-       data:datasObj,
-       success: function (data) {
-           location.href=data.url;
-       },
-       error: function(data) {
-           
-       }
-    }) ;
-       
+
+    if(issubmit){
+        issubmit=false;
+        $.ajax({
+           type: "POST",    
+           url: "/saveform",
+           data:datasObj,
+           success: function (data) {
+               location.href=data.url;
+           },
+           error: function(data) {
+               
+           }
+        }) ; 
+        
+    }else{
+        layer.msg('訂單已提交，不要重複提交');
+    }
+   
     
             //记录购买事件
             
