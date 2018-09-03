@@ -554,9 +554,8 @@ jQuery(function(){
 <script>
     var isuse =true;
 jQuery(function(){
-       $('#save input').on('keyup',function(){
+       $('#save input').on('input',function(){
              if(isuse){
-                console.log('1');
                  try{fbq('track', "AddPaymentInfo");}
                  catch(e){}
                  isuse=false;
