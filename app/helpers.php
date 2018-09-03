@@ -169,7 +169,8 @@ if (!function_exists("curl_get_send")) {
 }
 if (!function_exists('out_excil')){
       function out_excil($datas,$titlename,$title,$filename){ 
-    $title="<tr style='height:50px;border-style:none;><th border=\"0\" style='height:60px;width:270px;font-size:22px;' colspan='11' >{$title}</th></tr>";
+
+    $title="<tr style='height:50px;border-style:none;><th border=\"0\" style='height:60px;width:270px;font-size:22px;' colspan='".count($titlename)."' >{$title}</th></tr>";
     $endname="<tr>";
     foreach($titlename as $v){
       $endname.="<th style='width:70px;' >".$v."</th>";
