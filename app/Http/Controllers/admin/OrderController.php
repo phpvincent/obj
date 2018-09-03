@@ -245,7 +245,7 @@ class OrderController extends Controller
          return view('admin.order.addr')->with(compact('order'));
    	     
    }
-   public function outorder(){
+   public function outorder(Request $request){
       $data=order::select('order.order_id','order.order_single_id','order.order_ip','goods.goods_real_name','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_price','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
@@ -262,9 +262,14 @@ class OrderController extends Controller
            ->where(function($query){
             $query->where('order.order_type','1');
            })
+           ->where(function($query)use($request){
+              if($request->has('min')&&$request->has('max')){
+                $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
+              }
+           })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
-          
+          $exdata=[];
            foreach($data as $k => $v){
             $exdata[$k]['order_time']=$v['order_time'];
             $exdata[$k]['goods_real_name']=$v['goods_real_name'];

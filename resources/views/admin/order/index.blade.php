@@ -195,7 +195,17 @@ function goods_edit(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 $('#outorder').on('click',function(){
-	location.href='{{url("admin/order/outorder")}}';
+	var mintime=$('#datemin').val();
+	var maxtime=$('#datemax').val();
+	if(mintime==''&&maxtime==''){
+		layer.msg('请稍等');
+     location.href='{{url("admin/order/outorder")}}';
+	}else if(mintime==''||maxtime==''){
+		layer.msg('请选择正确日期区间');
+	}else{
+		layer.msg('请稍等');
+		location.href='{{url("admin/order/outorder")}}?min='+mintime+'&max='+maxtime;
+	}
 })
 function goods_getaddr(title,url,type,w,h){
 	layer_show(title,url,w,h);
