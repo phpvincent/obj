@@ -273,6 +273,8 @@
 
 <script>
     var issubmit=true;
+    var formnum=1; //商品属性组数计数；
+    var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
     var  addClickEven= function (){
          $("#goods_config_div").on('click',"input.radio",function(){
             $(this).parent().parent().find('label[for]').length ?  $(this).parent().parent().find('label[for]').attr('class','uncheck') : $(this).parent().parent().find('span').attr('class','uncheck');
@@ -280,7 +282,10 @@
           })
         }
          addClickEven(); 
-    var formnum=1; //商品属性组数计数；
+   
+    if( cuxiao_num !=null && typeof(cuxiao_num) !='undefinde' && cuxiao_num !=''){
+        formnum=Number(cuxiao_num);  //如果有默认数量；
+    }
     var a={!!$goods_config_arr!!}
         console.log(a);
         var addform=function(e){

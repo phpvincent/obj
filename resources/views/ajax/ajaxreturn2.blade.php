@@ -63,17 +63,21 @@
 			
 	})
 	
-	$('#addcart-quantity-inc').bind('click',function(){
-		formnum+=1
+	function zhengjia(){
+		
+		formnum+=1;
 		var formName="f"+formnum;
 		addform(formName); console.log(formnum) //增加一组商品属性
 
-		var num=parseInt($(this).prev().val());
+		// var num=parseInt($(this).prev().val());
+		var num = Number($('#addcart-quantity-val').val())
+		console.log(num)
 		if(num>={{$goods->goods_num}}){
 			layer.msg('库存不足！');
 			return false;
 		}
-		$(this).prev().val(num+1);
+		// $(this).prev().val(num+1);
+		$('#addcart-quantity-val').val(num+1);
 		$('.addcart-specs-title-name').html("第"+(num+1)+"件");
 		$('.addcart-footer-number-total').children('font:first').html(num+1);
 	    $('.addcart-footer-number-total').children('font:first').html(num+1);
@@ -125,7 +129,22 @@
 			$('#realprice').html(price+(price*(num-1)/2));
 			pricehtml.html("NT$"+((num-1)*price/2+price)+".00");
 		}*/
-	})
+	}
+
+	var shuliang = formnum;
+	if(shuliang>={{$goods->goods_num}}){
+		shuliang = {{$goods->goods_num}}
+		for(var i=1; i<shuliang;i++){
+			zhengjia();
+		}
+	}else{
+		for(var i=1; i<shuliang;i++){
+			zhengjia();
+		}
+	}
+	$('#addcart-quantity-inc').bind('click',function(){
+		zhengjia();
+	});
 
    
         
