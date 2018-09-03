@@ -156,7 +156,6 @@
 <!--product info end-->
 <!--size begin-->  
 <div id="goods_config_div">
-    <span style="font-size: 3px;color:red;">額外規格也可以在留言中通知我們，我們將以留言為準！</span>
 
 </div>
 <div id="addcart">
