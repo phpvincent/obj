@@ -371,9 +371,7 @@ class GoodsController extends Controller
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
    		   $msg2=$goods->save();
    		/*$msg3=$url->save();*/
-       \App\goods_config::where('goods_primary_id',$goods->goods_id)->delete();
-          \App\config_val::where('config_goods_id',$goods->goods_id)->delete();
-        if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
+       /* if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
           //删除原有附加属性
           \App\goods_config::where('goods_primary_id',$goods->goods_id)->delete();
           \App\config_val::where('config_goods_id',$goods->goods_id)->delete();
@@ -398,7 +396,7 @@ class GoodsController extends Controller
                   }
                 }              
             }
-           }
+           }*/
    		if($msg1&&$msg2)
          {
 		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
