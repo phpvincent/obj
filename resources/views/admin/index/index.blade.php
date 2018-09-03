@@ -21,9 +21,9 @@
 		<tbody>
 			<tr class="text-c">
 				<td>所有</td>
-				<td>{{\App\order::count()}}</td>
-				<td>{{\App\goods::count()}}</td>
-				<td>{{\App\admin::count()}}</td>
+				<td>{{\App\order::where('is_del','0')->count()}}</td>
+				<td>{{\App\goods::where('is_del','0')->count()}}</td>
+				<td>{{\App\admin::where('admin_use','1')->count()}}</td>
 				<td>{{\App\url::count()}}</td>
 				<td>{{\App\vis::count()}}</td>
 			</tr>
