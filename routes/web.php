@@ -112,7 +112,4 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/admin/chrole','admin\AdminController@chrole');
 	Route::post('/admin/admin/checkbox','admin\AdminController@checkbox');
 	Route::get('/admin/admin/layershow','admin\AdminController@layershow');
-	Route::get('/admin/phpinfo',function(){
-		phpinfo();
-	});
 });
