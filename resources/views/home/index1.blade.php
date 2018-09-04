@@ -115,23 +115,38 @@
 <script type="text/javascript" src="/js/video.js"></script>
         <!--把商品描述部分内容抽象到detail_content中-->
         <div class="clear"></div>
-
-<div class="clear"></div>
-
-
-  
-<div class="clear"></div>
-<div class="detail-profile">
-    <!-- 商品小标题 -->
-  
+<div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
+    <div class="dc-price" style="background:#fff;">
+        <span class="s-price" style="font-size:24px">
+            NT${{$goods->goods_price}}        </span>
+        <span class="o-price" style="font-size:12px">
+            NT${{$goods->goods_real_price}}        </span>
     </div>
-       
+            <span class="flag" style="font-size: 12px;">免運費</span>
+                <span class="flag" style="font-size: 12px;">貨到付款</span>
+                <span class="flag" style="font-size: 12px;background:#000;">7天鑑賞期</span>
+        </div>
+<div class="clear"></div>
+<div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
+        <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(//dixonys.com/mobile/images/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
+    </div>
+
+    <div class="timebox">
+        <div class="text">倒數：<span>{{$goods->goods_num}}組</span></div>
+        <div class="boxtime">
+            <div class="time" id="timer"><span id="h" class="colon"></span>時<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
+            <font>距結束：</font>
+        </div>
+    </div>
+<div class="clear"></div>
+
+        
         <div class="clear">
         </div>
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" preload="none" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-               
+                
             </p>
             @endif
             <p>
@@ -150,11 +165,116 @@
         </div>
         <div class="clear">
         </div>
-       
+        <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)
+
+                        <h4>
+                最新評價            </h4>
+                            <div id="mq">
+                    <div id="mq1">        
+                        @foreach($comment as $v)
+                                                <div class="appr-title mqc">
+                            <span style="color:red">
+                                *******{{substr($v->com_phone,-4)}}                             </span>
+                            <span style="color:red; margin:0px 3px">
+                                {{$v->com_name}}                            </span>
+                            <span>
+                                滿意度：
+                                <font color="red">
+                                    @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
+                            </span>
+                            <span style="margin-left:3px; font-size:12px">
+                                {{$v->com_time}}                            </span>
+                        </div>
+                        <div class="mqc">
+                            <p>
+                                <p>{{$v->com_msg}}</p><p>
+                                @if(!empty($v->com_img))
+                                    @foreach($v->com_img as $kk => $val)
+                                <img src="{{$val->com_url}}" title="客户图片" alt="客户图片"/>  
+                                    @endforeach
+                                @endif                         </p> </p>
+                        </div>
+                        @endforeach 
+                                            </div>
+                    <div id="mq2">
+
+                    </div> 
+                </div>
+               @endif
+                        <div class="go-appraise" style=" background:#fff; border:none;">
+                <a id="btnAppr" style=" color:#fff; width:300px;">
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    我要評價     @else 給我們留言   @endif        </a>
+            </div>
+                    </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
         <div class="clear">
         </div>
-        
+        <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
+                            <table class="data-table">
+    <tbody>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用戶須知</th>
+        </tr>
+        <tr class="first odd">
+            <td colspan="2">
+                <p>本產品的實際使用效果根據個人情況決定，不保證每位用戶都能享受到所宣傳的效果。若有疑問請諮詢在線客服或通過電子郵箱(
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        )聯絡我們，本公司享有最終解釋權。</p>
+            </td></tr>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·如何申請退換貨</th>
+        </tr>
+        <tr class="first odd">
+            <td colspan="2">
+                <p>1.由於個人原因產生的退換貨：至收到商品之日起7天內，在不影響二次銷
+                    售的情況下請聯繫我們的在線客服或發郵件至
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        ，售後
+
+                    客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
+
+                    需自行承擔。</p>
+                <p>
+                    2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
+
+                    發送郵件至
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        ，客服會在收到郵件後的1-3個工作日內受
+
+                    理您的請求，退換貨所產生的運費由我方承擔。
+                </p>
+            </td></tr>
+                <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
+        </tr>
+        <tr class="first odd">
+            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <td colspan="2">
+               
+               
+                <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
+
+                    換貨審核—退款/換貨；</p>
+                <p>退換貨請註明：訂單號、姓名、電話。</p>
+                
+            </td>
+
+        </tr>
+                <tr class="first odd">
+          
+            
+        </tr>
+            </tbody>
+</table>
+<style>
+    .footer2{
+        display:none;
+    }
+</style>           <div class="Product_assurance" style="padding:0px; text-align:center; margin-bottom:15px;font-size: 14px; background:#3d69a6; color:#fff; height:40px; line-height:40px; ">
+               <a href="javascript:;" style="color:#fff">Product Assurance</a>
+           </div>
+        </div>
+        <div class="clear"></div>
        <!--  <div style="padding:0px;padding-bottom: 40px;">
             <div class="shipping" style="width:100%; background:white;">
                 <img src="https://d1lnephkr7mkjn.cloudfront.net/skin/default/images/shipping.jpg" width="100%">
@@ -182,7 +302,19 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     </div> -->
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
             <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
-       
+        <span class="query" id="track_online" onclick="location.href='/send'" style="width: 30%;">
+      <img src="/images/filter-2.png" style="">
+      <a href="javascript:void(0);">
+        <span style="line-height:14px;">訂單<br>查詢</span>
+      </a>
+    </span>
+      
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: 68%;">
+        <a href="javascript:void(0);">
+            <img src="/images/buy2.png">
+            <span>立即購買</span>
+        </a>
+    </span>
     <!-- <span class="service"  id="btnOnline" data-id="19288071">
         <img src="/images/service.png" style="">
         <a href="javascript:void(0);">
@@ -321,6 +453,9 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+    $('#btnPay').on('click',function(){
+        try{fbq('track', 'AddToCart');}catch(e){};
+    })
         //获取用户浏览记录
         var tjSecond = 0;
         var tjRandom = 0;
@@ -380,25 +515,16 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
-    $(function(){
-         $('#btnPay').on('click',function(){
-                try{fbq('track', 'AddToCart');}catch(e){};
-            })
-    })
     $2(function() {
-        $2("#btncall").bind(_ONCLICK,
-        function() {
-            $2("#apprbg").show();
-            $2("#apprDialog").show();
-        });
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {
             try {
-              
+                
+               
             } catch(e) {}
 
-            var action = '/pay';
+            var action ='/pay';
            /* var tjArr = localStorage.getItem("jsArr");
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
