@@ -16,6 +16,20 @@
 		    <input type="radio" id="radio-pb" class='radio-pb' name="ispb" value="1">
 		    <label for="radio-2">已屏蔽</label>
   </div>
+  <div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getvis" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i>过滤</a></div><br/>
+	<div style="display: none" id="select-admin">
+		<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">账户名：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="admin_vis" id="admin_vis" class="select">
+						<option value="0">所有</option>
+						<option value="1">点击购买者</option>
+						<option value="2">下单者</option>
+						<option value="3">发表评论者</option>
+					</select>
+					</span> </div>
+			</div>
+	</div>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_add('添加管理员','admin-add.html','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> --></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-bg" id="vis_index_table">
@@ -82,6 +96,7 @@
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 			ispb:function(){return $('input[name="ispb"]:checked').val()},
+			chvis:function(){return $('#admin_vis').val()},
 		},
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
 		},
@@ -144,11 +159,19 @@ $('#seavis').on('click',function(){
 	}
 	dataTable.search(mintime+';'+maxtime).draw();
 })
+$('#getvis').on('click',function(){
+	$('#select-admin').show(300);
+})
 $('.radio-pb').on('click',function(){
 /*dataTable.destroy();*/
 /* dataTable =$('#vis_index_table').DataTable($.tablesetting);
 		dataTable.ajax.url( "{{url('admin/vis/getindex')}}?ispb="+$('input[name="ispb"]:checked').val()).load();*/
 	dataTable.draw();
+})
+$('#admin_vis').on('change',function(){
+	dataTable.ajax.reload();
+	var args = dataTable.ajax.params();
+           console.log("额外传到后台的参数值extra_search为："+args.goods_search);
 })
 function del_vis(id){
 		var msg =confirm("确定要删除此访问记录吗？");
