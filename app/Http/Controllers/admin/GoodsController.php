@@ -91,6 +91,9 @@ class GoodsController extends Controller
               $query->whereIn('goods.goods_admin_id',$ids);
             }
           })
+          ->where(function($query){
+            $query->where('goods_id','<>','4');
+          })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
@@ -409,3 +412,4 @@ class GoodsController extends Controller
    	 return $sdk;
    }
 }
+  
