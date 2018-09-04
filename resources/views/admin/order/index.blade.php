@@ -95,7 +95,7 @@
 		{"data":'order_single_id'},
 		{"data":'order_ip'},
 		{'data':'goods_real_name'},
-		{'data':'cuxiao_msg'},
+		{'data':'order_cuxiao_id'},
 		{'data':'config_msg'},
 		{'data':'order_price'},
 		{'defaultContent':"","className":"td-manager"},

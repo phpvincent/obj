@@ -61,16 +61,15 @@ class OrderController extends Controller
             })
             ->count();
              $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('cuxiao','order.order_goods_id','=','cuxiao.cuxiao_goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -79,16 +78,15 @@ class OrderController extends Controller
             })
             ->count();
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('cuxiao','order.order_goods_id','=','cuxiao.cuxiao_goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -104,16 +102,15 @@ class OrderController extends Controller
            $goods_search=$request->has('goods_search')?$request->input('goods_search'):0;
             /*$wheresql=['order_goods_id','>',0];*/
             $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('cuxiao','order.order_goods_id','=','cuxiao.cuxiao_goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -125,16 +122,15 @@ class OrderController extends Controller
             })
             ->count();
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','cuxiao.cuxiao_msg','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('cuxiao','order.order_goods_id','=','cuxiao.cuxiao_goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
            ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['cuxiao.cuxiao_msg','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })

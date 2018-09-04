@@ -202,7 +202,7 @@ class IndexController extends Controller
           return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
     	$order->order_num=$order_num;
-    	$order->order_cuxiao_id=$request->input('cuxiao_id');
+    	$order->order_cuxiao_id=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first()->cuxiao_msg;
         $order->order_remark=$request->input('notes');
         $order->order_name=$request->input('firstname');
         $order->order_tel=$request->input('telephone');
