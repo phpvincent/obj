@@ -114,5 +114,5 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/admin/layershow','admin\AdminController@layershow');
 	Route::get('/admin/phpinfo',function(){
 		phpinfo();
-	})
+	});
 });
