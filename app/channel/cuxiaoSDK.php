@@ -299,7 +299,7 @@ class cuxiaoSDK{
 				$cuxiao->cuxiao_msg=$data['cuxiao_msg'];
 				$cuxiao->cuxiao_type='2';
 				$msg=$cuxiao->save();
-				\App\order::where('order_goods_id',$goods->goods_id)->update(['order_cuxiao_id'=>$cuxiao->cuxiao_id]);
+				//\App\order::where('order_goods_id',$goods->goods_id)->update(['order_cuxiao_id'=>$cuxiao->cuxiao_id]);
 				if(!$msg){
 						return false;
 					}
@@ -360,7 +360,7 @@ class cuxiaoSDK{
 								}
 							}
 							$cuxiao->save();
-							\App\order::where('order_goods_id',$goods->goods_id)->update(['order_cuxiao_id'=>$cuxiao->cuxiao_id]);
+							//\App\order::where('order_goods_id',$goods->goods_id)->update(['order_cuxiao_id'=>$cuxiao->cuxiao_id]);
 						}
 					}
 				}
