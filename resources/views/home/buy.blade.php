@@ -361,9 +361,7 @@
 
 
 $('#pay').bind('click',function(){
-    var btime=getNowDate();
-     try{fbq('track', 'InitiateCheckout')}catch(e){};
-            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
+     
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
     var dataObj={};
@@ -416,10 +414,15 @@ $('#pay').bind('click',function(){
            url: "/saveform",
            data:datasObj,
            success: function (data) {
-               location.href=data.url;
-           },
+            var btime=getNowDate();
+                    try{fbq('track', 'InitiateCheckout')}catch(e){};
+                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                            location.href=data.url;
+                       },
+          
+                    
            error: function(data) {
-               
+               layer.msg('訂單提交失敗，請檢查網絡情況');
            }
         }) ; 
         
