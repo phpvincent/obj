@@ -113,6 +113,7 @@ class IndexController extends Controller
         if(count($cuxiao)>0&&$cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){
             $cuxiao_num=explode(',',$cuxiao->cuxiao_config)[0];
         }else{
+            dd($cuxiao->cuxiao_type);
             $cuxiao_num='null';
         }
         $goods_config=\DB::table('goods_config')
