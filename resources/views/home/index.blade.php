@@ -45,6 +45,7 @@
         </script>
 
         <!-- Facebook Pixel Code -->
+        @if($goods->goods_pix!=null&&$goods->goods_pix!='')
         <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -62,7 +63,13 @@
         src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
         &noscript=1"/>
         </noscript>
+        @endif
         <!-- End Facebook Pixel Code -->
+         <!-- YaHoo Pixel Code -->
+        @if($goods->goods_yahoo_pix!=null&&$goods->goods_yahoo_pix!='')
+        <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'{{$goods->goods_yahoo_pix}}'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+        @endif
+        <!-- End YaHoo Pixel Code -->
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -175,7 +182,7 @@
         </div>
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
-            <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" preload="none" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
+            <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
             	
 			</p>
             @endif

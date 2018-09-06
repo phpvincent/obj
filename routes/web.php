@@ -9,7 +9,7 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+*/	
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 Route::middleware(['checkbus','checkurl'])->group(function(){
@@ -113,6 +113,4 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/admin/chrole','admin\AdminController@chrole');
 	Route::post('/admin/admin/checkbox','admin\AdminController@checkbox');
 	Route::get('/admin/admin/layershow','admin\AdminController@layershow');
-
-	
 });

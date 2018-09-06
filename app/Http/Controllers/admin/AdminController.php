@@ -87,8 +87,10 @@ class AdminController extends Controller
                 $data[$key]->admin_group=\App\admin_group::where('admin_group_id',$v->admin_group)->first()['admin_group_name'];
 	        	$goodsids=DB::table('goods')->where('goods_admin_id',$v->admin_id)->get(['goods_id'])->toArray();
 		    	$newids='';
+                $goodsidarr=[];
 		    	foreach($goodsids as $k => $val){
 		    		$newids.=$val->goods_id.',';
+                    $goodsidarr[]=$val->goods_id;
 		    	}
 		    	$newids=rtrim($newids,',');
 		    	if($newids==null){
@@ -104,7 +106,7 @@ class AdminController extends Controller
 */           	
                 $goods_num=DB::table('goods')->where([['goods.goods_admin_id',$v->admin_id],['goods.is_del','0']])->count();
                 $data[$key]->goods_num=$goods_num;
-                $orders_num=DB::table('order')->where('order.order_admin_id',$v->admin_id)->count();
+                $orders_num=DB::table('order')->whereIn('order.order_goods_id',$goodsidarr)->count();
                 $data[$key]->orders_num=$orders_num;
                 if($v->is_root=='1'){
                 	$data[$key]->role_name="超级管理员";

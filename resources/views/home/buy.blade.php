@@ -102,7 +102,7 @@
 
         
 
-
+        @if($goods->goods_pix!=null&&$goods->goods_pix!='')
         <!-- Facebook Pixel Code -->
       <script>
          !function(f,b,e,v,n,t,s)
@@ -122,11 +122,13 @@
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
-    <!--雅虎统计代码-->
-   <!--  <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'10042137'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
-<noscript>
-  <iframe src="//b.yjtag.jp/iframe?c=FYdC6J1" width="1" height="1" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-</noscript> -->
+        @endif
+          <!-- YaHoo Pixel Code -->
+        @if($goods->goods_yahoo_pix!=null&&$goods->goods_yahoo_pix!='')
+        <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'{{$goods->goods_yahoo_pix}}'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+        @endif
+        <!-- End YaHoo Pixel Code -->
+    
 
 </head>
 <body style="">
@@ -362,9 +364,7 @@
 
 
 $('#pay').bind('click',function(){
-    var btime=getNowDate();
-     try{fbq('track', 'InitiateCheckout')}catch(e){};
-            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});    
+     
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
     var dataObj={};
@@ -417,10 +417,15 @@ $('#pay').bind('click',function(){
            url: "/saveform",
            data:datasObj,
            success: function (data) {
-               location.href=data.url;
-           },
+            var btime=getNowDate();
+                    try{fbq('track', 'InitiateCheckout')}catch(e){};
+                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                            location.href=data.url;
+                       },
+          
+                    
            error: function(data) {
-               
+               layer.msg('訂單提交失敗，請檢查網絡情況');
            }
         }) ; 
         

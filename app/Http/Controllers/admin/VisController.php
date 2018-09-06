@@ -56,6 +56,23 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
 			        })
+			         ->where(function($query)use($request){
+			         	switch($request->input('chvis')){
+			         		case '0':
+			         			break;
+			         		case '1':
+			         		$query->where('vis.vis_buytime','>','0');
+			         			break;
+			         		case '2':
+			         		$query->where('vis.vis_ordertime','>','0');
+			         			break;
+			         		case '3':
+			         		$query->where('vis.vis_comtime','>','0');
+			         			break;
+			         		default:
+			         			break;
+			         	}
+			         })
 			         ->where(function($query){
 	        		if(Auth::user()->is_root!='1'){
 	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
@@ -77,7 +94,23 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
 			        })
-	       
+	       			->where(function($query)use($request){
+	       				switch($request->input('chvis')){
+	       					case '0':
+	       						break;
+	       					case '1':
+	       					$query->where('vis.vis_buytime','>','0');
+	       						break;
+	       					case '2':
+	       					$query->where('vis.vis_ordertime','>','0');
+	       						break;
+	       					case '3':
+	       					$query->where('vis.vis_comtime','>','0');
+	       						break;
+	       					default:
+	       						break;
+	       				}
+	       			})
 			         ->where(function($query){
 	        		if(Auth::user()->is_root!='1'){
 	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
@@ -124,6 +157,23 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
 	        })
+	        ->where(function($query)use($request){
+	        	switch($request->input('chvis')){
+	        		case '0':
+	        			break;
+	        		case '1':
+	        		$query->where('vis.vis_buytime','>','0');
+	        			break;
+	        		case '2':
+	        		$query->where('vis.vis_ordertime','>','0');
+	        			break;
+	        		case '3':
+	        		$query->where('vis.vis_comtime','>','0');
+	        			break;
+	        		default:
+	        			break;
+	        	}
+	        })
 	        ->where(function($query){
 	        		if(Auth::user()->is_root!='1'){
 	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
@@ -144,6 +194,23 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_region','like',"%$search%");
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
+	        })
+	        ->where(function($query)use($request){
+	        	switch($request->input('chvis')){
+	        		case '0':
+	        			break;
+	        		case '1':
+	        		$query->where('vis.vis_buytime','>','0');
+	        			break;
+	        		case '2':
+	        		$query->where('vis.vis_ordertime','>','0');
+	        			break;
+	        		case '3':
+	        		$query->where('vis.vis_comtime','>','0');
+	        			break;
+	        		default:
+	        			break;
+	        	}
 	        })
 	        ->where(function($query){
 	        		if(Auth::user()->is_root!='1'){
@@ -231,7 +298,7 @@ class VisController extends Controller
 	        			}
 			   })
 				->orderBy('vis.vis_time','desc')
-				->get()->toArray();
+				->limit(1500)->get()->toArray();
    		$filename='访问记录'.date('Y-m-d h:i:s',time()).'.xls';
    		$zdname=['记录id','访问者ip','访问者国家','访问者省份/州','访问者城市/地区','访问者县区/镇','访问者网络源','访问者设备类型','访问时间','访问者语言','是否封禁该ip','单品名','访问域名','访问来源','购买时间','下单时间','停留时间','评论时间'];
    		foreach($data as $k => $v){
