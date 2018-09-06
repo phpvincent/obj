@@ -347,7 +347,49 @@ class GoodsController extends Controller
    	 	return view('admin.goods.update')->with(compact('goods','type','goods_config'));
    }
    public function post_update(Request $request){
-   		$data=$request->all();
+       $data=$request->all();
+       $array_true = [];
+       $photo = \App\config_val::where('config_goods_id',$data['goods_id'])->pluck('config_val_img')->toArray();
+   		if(empty($photo) || in_array(null,$photo)){
+            if(!empty($data['goods_config_name'])){
+                foreach ($data['goods_config_name'] as $item)
+                {
+                    if(!empty($item['msg'])){
+                        foreach ($item['msg'] as $val)
+                        {
+                            if(!$val['config_imgs']){
+                                array_push($array_true,false);
+                            }else{
+                                array_push($array_true,true);
+                            }
+                        }
+                    }
+                }
+            }
+            if(in_array(true,$array_true) && in_array(false,$array_true)){
+                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+            }
+        }else{
+            if(!empty($data['goods_config_name'])){
+                foreach ($data['goods_config_name'] as $item)
+                {
+                    if(!empty($item['msg'])){
+                        foreach ($item['msg'] as $val)
+                        {
+                            if(!$val['config_imgs'] && !isset($val['id'])){
+                                array_push($array_true,false);
+                            }else{
+                                array_push($array_true,true);
+                            }
+                        }
+                    }
+                }
+            }
+            if(in_array(false,$array_true)){
+                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+            }
+        }
+
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
          if($isset!=null&&$isset['goods_id']!=$data['goods_id']){
