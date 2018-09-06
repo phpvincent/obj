@@ -42,7 +42,7 @@ class IndexController extends Controller
         //dd($comment);
     	$des_img=des::where('des_goods_id',$goods_id)->get();
     	$par_img=par::where('par_goods_id',$goods_id)->get();
-    	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->orderBy('cuxiao_id','desc')->first();
+    	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->orderBy('cuxiao_id','asc')->first();
     	//获取倒计时计算为秒数
         $timer=$goods->goods_end;
         $parsed = date_parse($timer);
