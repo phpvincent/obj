@@ -110,10 +110,11 @@ class IndexController extends Controller
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
-        if($cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){
+        if(count($cuxiao)>0&&$cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){
             $cuxiao_num=explode(',',$cuxiao->cuxiao_config)[0];
         }else{
-            $cuxiao_num=null;
+            dd($cuxiao->cuxiao_type);
+            $cuxiao_num='null';
         }
         $goods_config=\DB::table('goods_config')
         ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id')
@@ -202,7 +203,9 @@ class IndexController extends Controller
           return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
     	$order->order_num=$order_num;
-    	$order->order_cuxiao_id=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first()->cuxiao_msg;
+    	$cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
+    	$cuxiao_msg=count($cuxiao_msg)>0?$cuxiao_msg->cuxiao_msg:"暂无促销信息";
+    	$order->order_cuxiao_id=$cuxiao_msg;
         $order->order_remark=$request->input('notes');
         $order->order_name=$request->input('firstname');
         $order->order_tel=$request->input('telephone');

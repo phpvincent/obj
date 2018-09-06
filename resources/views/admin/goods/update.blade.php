@@ -1,11 +1,45 @@
 @extends('admin.father.css')
 @section('content')
 <article class="page-container">
-	<div class="config" style="display: none;" id="configclo">
-					属性名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
-				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
-				
-				</div>
+	{{--<div class="config" style="display: none;" id="configclo">--}}
+					{{--属性名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">--}}
+				{{--属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">--}}
+				{{----}}
+				{{--</div>--}}
+    {{--商品属性信息--}}
+    <div class="config" style="display: none;" attr="newConfig" id="configclo">
+        <div class="row" style="margin-left: 0px;">
+            属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name">
+			<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">
+		</div>
+        <div class="con-value">
+            <div class="row" style="height: 40px;" >
+                <div class="col-xs-4 col-sm-4" style="display: inline">
+                    <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
+                </div>
+                <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
+                    <div class="uploader-thum-container">
+                        <input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+                    </div>
+                </div>
+                <div style="display: inline;">
+                    <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--商品属性值--}}
+    <div class="row" style="height: 40px;display: none;"  attr="newConfig" id="configclo-value">
+        <div class="col-xs-4 col-sm-4" style="display: inline">
+            属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+        </div>
+        <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
+            <div class="uploader-thum-container">
+                <input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+            </div>
+        </div>
+    </div>
+
 	<form class="form form-horizontal" id="form-goods-update" enctype="multipart/form-data" action="{{url('admin/goods/post_update')}}">
 		{{csrf_field()}}
 		<input type="hidden" name="goods_id" value="{{$goods->goods_id}}">
@@ -85,42 +119,107 @@
 		<div class="row cl" style="margin-left: 2%">
 			<label class="form-label col-xs-4 col-sm-2"> </label>
 			<input type="button" class="btn btn-default" value="添加商品附带属性" id="addcon" isalive='off'/>
-		</div>
-		<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">
-			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
-				<div class="config">
-				属性名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
-				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
-				
-				</div>
+            <input type="button" class="btn btn-default" style="display: none" value="1" id="num1"/>
+        </div>
+		{{--<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">--}}
+			{{--<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>--}}
+				{{--<div class="config">--}}
+                    {{--<div>--}}
+                        {{--<lable>属性名:</lable> <input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">--}}
+                    {{--</div>--}}
+                    {{--<div>--}}
+                        {{--<lable>属性值:</lable> （请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">--}}
+                    {{--</div>--}}
+				{{--</div>--}}
 
-		</div>
+		{{--</div>--}}
+
+            <div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">
+                <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
+                <div class="config" id="configclo">
+                    <div class="row" style="margin-left: 0px;">
+                        属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
+                        <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="1" name="num">
+                    </div>
+                    <div class="con-value">
+                        <div class="row" style="height: 40px;" >
+                            <div class="col-xs-4 col-sm-4" style="display: inline">
+                                <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                            </div>
+                            <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
+                                <div class="uploader-thum-container">
+                                    <input type="file" name="goods_config_name[0][msg][0][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+                                </div>
+                            </div>
+                            <div style="display: inline;">
+                                <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		@else
+        {{--商品属性--}}
 		<div class="row cl" style="margin-left: 2%">
 			<label class="form-label col-xs-4 col-sm-2"> </label>
-			<input type="button" class="btn btn-default" value="移除商品附带属性" id="addcon" isalive='on'/>
+			{{--<input type="button" class="btn btn-default" value="移除商品附带属性" id="addcon" isalive='on'/>--}}
+			<input type="button" class="btn btn-default" style="display: none" value="{{count($goods_config)}}" id="num"/>
 		</div>
-		<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;" id="conhtml">
+		<div style="margin:0px auto;margin-bottom:100px;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;" id="conhtml">
 			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
-			@foreach($goods_config as $v)
+            @foreach($goods_config as $k=>$v)
 				<div class="config">
-				属性名:<input type="text" style="width: 10%;" class="input-text" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[]">
-				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色）:<input type="text" style="width: 30%;" class="input-text" value="{{$v->config_msg}}" placeholder="" id="goods_config" name="goods_config[]">
+                    <div class="row" style="margin-left: 0px;">
+                        <label for="goods_config_name">属性名:</label> <input type="text" style="width: 10%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
+                        <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="{{$v->goods_config_id}}" name="goods_config_name[{{$k}}][id]">
+                        <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="{{count($v->config_msg)}}" name="num">
+				    </div>
+                    <div id="con-value">
+                    @if(count($v->config_msg) > 0)
+                        @foreach($v->config_msg as $key=>$item)
+                        <div class="row" style="height: 40px;" >
+                            <div class="col-xs-4 col-sm-4" style="display: inline">
+                                <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="{{$item['config_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+								<input type="text" style="width: 60%;margin-top:10px;display: none " class="input-text" value="{{$item['config_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
+							</div>
+                            <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
+                                <div class="uploader-thum-container">
+                                    <input type="file" name="goods_config_name[{{$k}}][msg][{{$key}}][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+                                </div>
+							</div>
+							@if($key == 0)
+                            <div style="display: inline;">
+                                <span class="btn btn-primary addconfig-value" style="margin-top:10px; " title="添加" onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                            </div>
+							@endif
+                        </div>
+                        @endforeach
+                    @else
+                        <div id="con-value">
+                            <div class="row" style="height: 40px;" >
+                                <div class="col-xs-4 col-sm-4" style="display: inline">
+                                    <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
+                                </div>
+                                <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
+                                    <div class="uploader-thum-container">
+                                        <input type="file" name="config_imgs[]" onclick="uploadFile(this)" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+                                    </div>
+                                </div>
+                                <div style="display: inline;">
+                                    <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    @endif
+                    </div>
 				</div>
 			@endforeach
 		</div>
 		
 		@endif
-		<!-- <div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">
-			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
-			@foreach($goods_config as $v)
-				<div class="config">
-				属性名:<input type="text" style="width: 10%;" class="input-text" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[]">
-				属性值（请用英文分号 <font size="5">;</font> 隔开。例：黄色;白色;蓝色;）:<input type="text" style="width: 30%;" class="input-text" value="{{$v->config_msg}}" placeholder="" id="goods_config" name="goods_config[]">
-				</div>
-			@endforeach
-		</div> -->
-		<div class="row cl">
+
+        <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">附带视频(仅限mp4/mpeg格式)：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				@if($goods->goods_video!=''||$goods->goods_video!=null)<video src="/{{$goods->goods_video}}"	controls="" preload="none" width="420" height="280"
@@ -234,9 +333,9 @@
 @endsection
 @section('js')
 <script type="text/javascript">
-	
-			get_cuxiao_html($('#goods_cuxiao_type').val());
+    const a = 1;
 
+    get_cuxiao_html($('#goods_cuxiao_type').val());
 
 	(function(){
 	$('.skin-minimal input').iCheck({
@@ -246,13 +345,14 @@
 		});
 
 	});
+
 	$('#goods_cuxiao_type').on('change',function(){
 		var now=$(this).val();
 		get_cuxiao_html(now);
 	})
 	
 	function get_cuxiao_html(now){
-			          $('#cuxiaohtml').html('<div  style="margin:0px aito;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
+			          $('#cuxiaohtml').html('<div  style="margin:0px auto;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
 		$.ajax({
 					url:"{{url('admin/goods/getcuxiaohtml')}}",
 					type:'get',
@@ -263,7 +363,7 @@
 					}
 				})
 	}
-	
+
 	//表单验证
 	$("#form-goods-update").validate({
 		rules:{
@@ -345,12 +445,15 @@
 			/*parent.layer.close(index);*/
 		}
 	});
+
 	$('#goods_video').on('change',function(){
 		$(this).prev().hide(1000);
 	})
-		 UE.getEditor('editor1');
-		 UE.getEditor('editor2');
-		function removeIframe(){
+
+    //富文本编辑器
+    UE.getEditor('editor1');
+	UE.getEditor('editor2');
+	function removeIframe(){
 	var index = parent.layer.getFrameIndex(window.name);
 	setTimeout(function(){parent.layer.close(index)}, 500); 
 		}
@@ -362,6 +465,8 @@
 				$(this).parent().parent().parent().prev().show(400);
 			}
 		})
+
+		//删除属性名+属性值
 		$('#addcon').on('click',function(){
 		var isalive=$(this).attr('isalive');
 			if(isalive!='on'){
@@ -377,17 +482,62 @@
 				$(this).attr('isalive','off');
 			}
 		})
+
+	//新增属性名+属性值
 	$('#addconfig').on('click',function(){
-			//var configdiv=$(this).next().next().next('div').clone();
 			var configdiv=$('#configclo').clone();
+            //属性名键值
+            if($('#num').val() == undefined){
+                var a = $('#num1').val();
+            }else{
+                var a = $('#num').val();
+            }
+		    configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
+		    configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
+            configdiv.children('div:last').children('.row').children('.col-sm-4').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+		    configdiv.children('div:last').children('.row').children('.col-sm-3').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][config_imgs]');
+        	a++;
+            if($('#num').val() == undefined){
+                $('#num1').val(a)
+            }else{
+                $('#num').val(a)
+            }
 			configdiv.show(200);
 			$('#conhtml').append(configdiv);
 		})
-	
-	$("#rmconfig").on('click',function(){
-		if($('.config').length>1){
-			$('.config').last().remove();
-		}
-	})
+
+	//删除属性名+属性值
+    $("#rmconfig").on('click',function(){
+        if($('.config').length>1 && $('.config:last').attr('attr') == 'newConfig' ){
+            $('.config').last().remove();
+        }
+    })
+
+    // 新增属性
+    function addConfig(obj){
+        var configdiv=$('#configclo-value').clone();
+        //属性值键值
+        var k = $(obj).parent().parent().parent().prev().find('input:last').val();
+		//属性值名称
+		var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
+        configdiv.children('.col-sm-4').find('input').attr('name',msg+'['+k+']'+'[goods_config]');
+        configdiv.children('.col-sm-3').find('input').attr('name',msg+'['+k+']'+'[config_imgs]');
+        console.log(configdiv.children('.col-sm-3').find('input').attr('name'));
+        configdiv.show(200);
+        k++;
+        $(obj).parent().parent().parent().prev().find('input:last').val(k);
+        $(obj).parent().parent().parent().append(configdiv);
+    }
+
+    // 删除属性(控制原有数据不可删除)
+    function rmConfig(obj){
+        if($(obj).parent().parent().parent().children("div.row").length>1){
+            if($(obj).parent().parent().parent().children("div.row:last").attr('attr') == 'newConfig'){
+                $(obj).parent().parent().parent().children("div.row:last").remove();
+            }
+        }else{
+            layer.msg('如果想要删除，请通过虚线框内第一个减号进行删除');
+        }
+    }
 </script>
 @endsection

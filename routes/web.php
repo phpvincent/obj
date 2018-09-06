@@ -55,6 +55,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/goods/getcuxiaohtml','admin\GoodsController@getcuxiaohtml');
 	Route::get('/admin/goods/addgoods','admin\GoodsController@addgoods');
 	Route::post('/admin/goods/post_add','admin\GoodsController@post_add');
+
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
 	Route::post('/admin/order/get_table','admin\OrderController@get_table');
