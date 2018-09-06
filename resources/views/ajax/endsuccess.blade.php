@@ -10,7 +10,7 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
-        @if($goods->goods->goods_pix!=null&&$goods->goods_pix!='')    
+        @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
     <!-- Facebook Pixel Code -->
         <script>
         !function(f,b,e,v,n,t,s)

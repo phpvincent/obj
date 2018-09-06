@@ -45,7 +45,7 @@
         </script>
 
         <!-- Facebook Pixel Code -->
-        @if($goods->goods->goods_pix!=null&&$goods->goods_pix!='')
+        @if($goods->goods_pix!=null&&$goods->goods_pix!='')
         <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
