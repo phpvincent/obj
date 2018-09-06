@@ -277,7 +277,8 @@
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
     var  addClickEven= function (){
          $("#goods_config_div").on('click',"input.radio",function(){
-            $(this).parent().parent().find('label[for]').length ?  $(this).parent().parent().find('label[for]').attr('class','uncheck') : $(this).parent().parent().find('span').attr('class','uncheck');
+            $(this).parent().parent().find('label[for]').attr('class','uncheck') ;
+             $(this).parent().parent().find('span').attr('class','uncheck');
          $(this).next().attr("class",'ischeck');  
           })
         }

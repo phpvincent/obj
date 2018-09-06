@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\Storage;
 use Log;
 use App\goods;
 use App\url;
@@ -131,8 +132,27 @@ class GoodsController extends Controller
    public function post_add(Request $request){
     //修改单品
         $data=$request->all();
-     $goods=new \App\goods();
-      $goods->goods_name=$data['goods_name'];
+        $array_true = [];
+        if(!empty($data['goods_config_name'])){
+            foreach ($data['goods_config_name'] as $item)
+            {
+                if(!empty($item['msg'])){
+                    foreach ($item['msg'] as $val)
+                    {
+                        if(!$val['config_imgs']){
+                            array_push($array_true,false);
+                        }else{
+                            array_push($array_true,true);
+                        }
+                    }
+                }
+            }
+        }
+        if(in_array(true,$array_true) && in_array(false,$array_true)){
+            return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+        }
+        $goods=new \App\goods();
+         $goods->goods_name=$data['goods_name'];
          $goods->goods_real_name=$data['goods_real_name'];
          $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
          if($isset!=null){
@@ -192,28 +212,49 @@ class GoodsController extends Controller
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
          $goods->save();
          //增加商品扩展属性
-         if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
-            foreach($data['goods_config_name'] as $k => $v){
-              $gf=new \App\goods_config();
-              $gf->goods_primary_id=$goods->goods_id;
-              if($v==null||$v==''){
-                break;
-              }
-              $gf->goods_config_msg=$v;
-              $gf->save();
-               $msgarr=explode(';', $data['goods_config'][$k]);
-                foreach($msgarr as $kk => $vv){
-                  if($vv!=null && $vv!=''){
-                     $fm=new \App\config_val();
-                     $fm->config_type_id=$gf->goods_config_id;
-                     $fm->config_val_msg=$vv;
-                     $fm->config_goods_id=$goods->goods_id;
-                     $fm->config_val_img=isset($vv['config_val_msg'])?$vv['config_val_msg']:null;
-                     $fm->save();
-                  }
-                }              
-            }
-         }
+//         if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
+//            foreach($data['goods_config_name'] as $k => $v){
+//              $gf=new \App\goods_config();
+//              $gf->goods_primary_id=$goods->goods_id;
+//              if($v==null||$v==''){
+//                break;
+//              }
+//              $gf->goods_config_msg=$v;
+//              $gf->save();
+//               $msgarr=explode(';', $data['goods_config'][$k]);
+//                foreach($msgarr as $kk => $vv){
+//                  if($vv!=null && $vv!=''){
+//                     $fm=new \App\config_val();
+//                     $fm->config_type_id=$gf->goods_config_id;
+//                     $fm->config_val_msg=$vv;
+//                     $fm->config_goods_id=$goods->goods_id;
+//                     $fm->config_val_img=isset($vv['config_val_msg'])?$vv['config_val_msg']:null;
+//                     $fm->save();
+//                  }
+//                }
+//            }
+//         }
+           //新增或修改商品属性名和属性值
+           $goods_attr = $data['goods_config_name'];
+           if(!empty($goods_attr)){
+               foreach ($goods_attr as $item)
+               {
+                   if(isset($item['id'])){
+                       $goods_config = \App\goods_config::where('goods_config_id',$item['id'])->first();
+                   }else{
+                       $goods_config = new \App\goods_config();
+                   }
+                   $goods_config->goods_config_msg = $item['goods_config_name'];
+                   $goods_config->goods_config_type = 0;
+                   $goods_config->goods_primary_id = $goods_id;
+                   $goods_config->is_img = 0;
+                   $goods_config->save();
+                   $con_val = \App\config_val::createOrSave($item['msg'],$goods_config->goods_config_id,$goods_id);
+                   if($con_val === false){
+                       return response()->json(['err'=>0,'str'=>'保存失败！']);
+                   }
+               }
+           }
          if($msg1&&$msg2)
          {
                   return response()->json(['err'=>1,'str'=>'添加成功！']);
@@ -292,21 +333,20 @@ class GoodsController extends Controller
         if($goods_config!=null){
           foreach($goods_config as $k => $v){
             $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->orderBy('config_val_id','asc')->get()->toArray();
-            $str='';
-            foreach($arr as $val){
-              $str.=$val['config_val_msg'].';';
-            }
-            $str=rtrim($str,';');
-            $goods_config[$k]->config_msg=$str;
+//            $str=[];
+//            foreach($arr as $val){
+//                array_push($str,$arr);
+//                $str[$val['config_val_id']] = $val['config_val_msg'];
+//            }
+            $goods_config[$k]->config_msg=$arr;
           }
         }
-        
    	 	return view('admin.goods.update')->with(compact('goods','type','goods_config'));
    }
    public function post_update(Request $request){
    		$data=$request->all();
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
-      $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
+        $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
          if($isset!=null&&$isset['goods_id']!=$data['goods_id']){
                   return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
          }
@@ -316,11 +356,11 @@ class GoodsController extends Controller
    		$goods->goods_real_price=$data['goods_real_price'];
    		$goods->goods_price=$data['goods_price'];
    		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
-      $goods->goods_blade_type=$data['goods_blade_type'];
-      $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
-      $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
-         $goods->goods_pix=$data['goods_pix'];
-         $goods->goods_type=$data['goods_type'];
+        $goods->goods_blade_type=$data['goods_blade_type'];
+        $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
+        $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
+        $goods->goods_pix=$data['goods_pix'];
+        $goods->goods_type=$data['goods_type'];
    		if($request->hasFile('goods_video')){
    			@unlink($goods->goods_video);
    			$file=$request->file('goods_video');
@@ -369,8 +409,30 @@ class GoodsController extends Controller
          $sdk=new cuxiaoSDK($goods);
          $msg1=$sdk->saveupdate($request);
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
-   		   $msg2=$goods->save();
-   		/*$msg3=$url->save();*/
+         $msg2=$goods->save();
+
+         //新增或修改商品属性名和属性值
+       $goods_attr = $data['goods_config_name'];
+       if(!empty($goods_attr)){
+          foreach ($goods_attr as $item)
+          {
+              if(isset($item['id'])){
+                  $goods_config = \App\goods_config::where('goods_config_id',$item['id'])->first();
+              }else{
+                  $goods_config = new \App\goods_config();
+              }
+              $goods_config->goods_config_msg = $item['goods_config_name'];
+              $goods_config->goods_config_type = 0;
+              $goods_config->goods_primary_id = $data['goods_id'];
+              $goods_config->is_img = 0;
+              $goods_config->save();
+              $con_val = \App\config_val::createOrSave($item['msg'],$goods_config->goods_config_id,$data['goods_id']);
+              if($con_val === false){
+                  return response()->json(['err'=>0,'str'=>'保存失败！']);
+              }
+          }
+       }
+       /*$msg3=$url->save();*/
        /* if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
           //删除原有附加属性
           \App\goods_config::where('goods_primary_id',$goods->goods_id)->delete();
@@ -399,9 +461,9 @@ class GoodsController extends Controller
            }*/
    		if($msg1&&$msg2)
          {
-		   	    	return response()->json(['err'=>1,'str'=>'保存成功！']);
+		   	 return response()->json(['err'=>1,'str'=>'保存成功！']);
          }else{
-		   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
+		   	 return response()->json(['err'=>0,'str'=>'保存失败！']);
          }
    }
    public function getcuxiaohtml(Request $request){
