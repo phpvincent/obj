@@ -124,7 +124,7 @@
     </div>
             <span class="flag" style="font-size: 12px;">免運費</span>
                 <span class="flag" style="font-size: 12px;">貨到付款</span>
-                <span class="flag" style="font-size: 12px;background:#000;">7天鑑賞期</span>
+               
         </div>
 <div class="clear"></div>
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
