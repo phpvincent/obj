@@ -45,6 +45,7 @@
         </script>
 
         <!-- Facebook Pixel Code -->
+        @if($goods->goods->goods_pix!=null&&$goods->goods_pix!='')
         <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -62,6 +63,7 @@
         src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
         &noscript=1"/>
         </noscript>
+        @endif
         <!-- End Facebook Pixel Code -->
         <script>
         jQuery(function(){setFrom();});

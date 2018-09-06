@@ -43,7 +43,7 @@
         <script>
         jQuery(function(){setFrom();});
         </script>
-
+        @if($goods->goods->goods_pix!=null&&$goods->goods_pix!='')
         <!-- Facebook Pixel Code -->
         <script>
         !function(f,b,e,v,n,t,s)
@@ -63,6 +63,7 @@
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
+        @endif
         <script>
         jQuery(function(){setFrom();});
         </script>

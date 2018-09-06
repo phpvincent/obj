@@ -43,7 +43,7 @@
         <script>
         jQuery(function(){setFrom();});
         </script>
-
+        @if($goods->goods->goods_pix!=null&&$goods->goods_pix!='')
         <!-- Facebook Pixel Code -->
         <script>
         !function(f,b,e,v,n,t,s)
@@ -63,6 +63,7 @@
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
+        @endif
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -124,7 +125,6 @@
     </div>
             <span class="flag" style="font-size: 12px;">免運費</span>
                 <span class="flag" style="font-size: 12px;">貨到付款</span>
-               
         </div>
 <div class="clear"></div>
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">

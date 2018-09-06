@@ -10,7 +10,8 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
-     <!-- Facebook Pixel Code -->
+        @if($goods->goods->goods_pix!=null&&$goods->goods_pix!='')    
+    <!-- Facebook Pixel Code -->
         <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -30,6 +31,7 @@
         &noscript=1"/>
         </noscript>
         <!-- End Facebook Pixel Code -->
+        @endif
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
         <h1 class="mui-title">確認訂單</h1>
 </header>
