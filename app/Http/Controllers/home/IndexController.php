@@ -110,7 +110,7 @@ class IndexController extends Controller
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
-        if(count($cuxiao)>0&&$cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){
+        if($cuxiao!=null&&$cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){
             $cuxiao_num=explode(',',$cuxiao->cuxiao_config)[0];
         }else{
             $cuxiao_num='null';
@@ -203,7 +203,7 @@ class IndexController extends Controller
     	}
     	$order->order_num=$order_num;
     	$cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
-    	$cuxiao_msg=count($cuxiao_msg)>0?$cuxiao_msg->cuxiao_msg:"暂无促销信息";
+    	$cuxiao_msg=$cuxiao_msg!=null?$cuxiao_msg->cuxiao_msg:"暂无促销信息";
     	$order->order_cuxiao_id=$cuxiao_msg;
         $order->order_remark=$request->input('notes');
         $order->order_name=$request->input('firstname');
@@ -328,6 +328,7 @@ class IndexController extends Controller
     $date=$request->input('date');
     $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     $vis->vis_ordertime=$date;
+    $vis->vis_staytime=time()-strtotime(($vis->vis_time));
     $vis->save();
    }
    //企业站提交表单
