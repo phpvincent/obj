@@ -23,6 +23,11 @@ class GoodsController extends Controller
 
    	  return view('admin.goods.index')->with(compact('counts','type'));
    }
+
+    /** 商品信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function get_table(Request $request){
    	$info=$request->all();
         	$cm=$info['order'][0]['column'];

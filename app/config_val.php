@@ -35,8 +35,9 @@ class config_val extends Model
                 if($val['config_imgs']){
                     //之前存在数据，直接删除已存在的数据
                     if($config_val->config_val_img){
-                        if(!Storage::disk('public')->exists($config_val->config_val_img)){
-                            Storage::delete($config_val->config_val_img);
+                        $image = substr($config_val->config_val_img,6);
+                        if(Storage::disk('public')->exists($image)){
+                            Storage::disk('public')->delete($image);
                         }
                     }
                     //上传图片处理
@@ -69,7 +70,7 @@ class config_val extends Model
         }
 
         if($pic->isValid()) {
-            $newFileName = $pic -> getClientOriginalName();
+            $newFileName = md5(microtime()) . '.' .$pic -> getClientOriginalName();
             $ext=$pic->getClientOriginalExtension();//得到图片后缀；
             $newImagesName = $folder . '/' . $newFileName;
             Storage::disk('public')->put($newImagesName, file_get_contents($pic));
