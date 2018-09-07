@@ -9,4 +9,7 @@ class comment extends Model
     protected $table = 'comment';
     protected $primaryKey ='com_id';
     public $timestamps=false;
+    public static function get_fakercom(){
+    	
+    }
 }
