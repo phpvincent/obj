@@ -201,9 +201,15 @@
 			</div>
 		</div> -->
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">商品像素：</label>
+			<label class="form-label col-xs-4 col-sm-2">fb像素(没有则留空)：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="goods_pix" name="goods_pix">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">YaHoo像素(没有则留空)：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="goods_yahoo_pix" name="goods_yahoo_pix">
 			</div>
 		</div>
 	<!-- 	<div class="row cl">

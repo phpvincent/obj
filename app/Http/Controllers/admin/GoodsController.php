@@ -166,6 +166,7 @@ class GoodsController extends Controller
          $goods->goods_price=$data['goods_price'];
          $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
          $goods->goods_pix=$data['goods_pix'];
+         $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
          $goods->goods_admin_id=$data['admin_id'];
          $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
          $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
@@ -238,7 +239,7 @@ class GoodsController extends Controller
 //            }
 //         }
            //新增或修改商品属性名和属性值
-           $goods_attr = $data['goods_config_name'];
+           $goods_attr = isset($data['goods_config_name'])?$data['goods_config_name']:[];
            if(!empty($goods_attr)){
                foreach ($goods_attr as $item)
                {
@@ -405,6 +406,7 @@ class GoodsController extends Controller
         $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
         $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
         $goods->goods_pix=$data['goods_pix'];
+        $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
         $goods->goods_type=$data['goods_type'];
    		if($request->hasFile('goods_video')){
    			@unlink($goods->goods_video);
