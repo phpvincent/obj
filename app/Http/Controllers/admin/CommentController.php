@@ -143,7 +143,10 @@ class CommentController extends Controller
    	 return view('admin.comment.usercomment')->with(compact('comment','id'));
    }
    public function newcomment(Request $request){
-   	return view('admin.comment.newcomment')->with('id',$request->input('id'));
+   	$fname=\App\comment::get_fakercom();
+   	$fphone=\App\comment::get_phone(9);
+   	$id=$request->input('id');
+   	return view('admin.comment.newcomment')->with(compact('fname','fphone','id'));
    }
    public function save_com(Request $request){
    	if($request->input('id')!==null){

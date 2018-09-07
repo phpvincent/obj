@@ -194,7 +194,7 @@
                         @foreach($comment as $v)
                                                 <div class="appr-title mqc">
                             <span style="color:red">
-                                *******{{substr($v->com_phone,-4)}}                             </span>
+                                *****{{substr($v->com_phone,-4)}}                             </span>
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
