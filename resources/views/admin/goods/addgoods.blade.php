@@ -402,7 +402,6 @@
 			}
 		})
 
-	//=====================================
 	$('#addconfig').on('click',function(){
 			//var configdiv=$(this).next().next().next('div').clone();
 			var configdiv=$('#configclo').clone();
@@ -410,7 +409,7 @@
 			var a = $('#num').val();
         	a++;
 
-            configdiv.children('.row').find('input').attr('name','goods_config_name['+a+'][goods_config_name]');
+            configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
 			configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
 			configdiv.children('div:last').children('.row').children('.col-sm-4').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
 			configdiv.children('div:last').children('.row').children('.col-sm-3').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][config_imgs]');

@@ -339,8 +339,6 @@
 @endsection
 @section('js')
 <script type="text/javascript">
-    const a = 1;
-
     get_cuxiao_html($('#goods_cuxiao_type').val());
 
 	(function(){

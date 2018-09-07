@@ -44,7 +44,6 @@ class AdminController extends Controller
 	                    return response()->json(['err'=>0,'str'=>'添加失败']);
 	        }
     	}
-    	
     }
     public function get_table(Request $request){
     		$info=$request->all();

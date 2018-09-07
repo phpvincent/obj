@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Log;
 use App\goods;
@@ -23,6 +24,11 @@ class GoodsController extends Controller
 
    	  return view('admin.goods.index')->with(compact('counts','type'));
    }
+
+    /** 商品信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function get_table(Request $request){
    	$info=$request->all();
         	$cm=$info['order'][0]['column'];
@@ -132,13 +138,35 @@ class GoodsController extends Controller
       $type=\App\goods_type::get();
       return view('admin.goods.addgoods')->with(compact('type'));
    }
+
+    /** 新增商品
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function post_add(Request $request){
     //修改单品
         $data=$request->all();
+        $array_goods_config = [];
+        $array_config_val = [];
         $array_true = [];
+        if(isset($data['goods_config_name'])){
+            if(count($data['goods_config_name']) == 1){
+                foreach ($data['goods_config_name'] as $item)
+                {
+                    if(!$item['goods_config_name']){
+                        $data['goods_config_name'] = [];
+                    }
+                }
+            }
+        }else{
+            $data['goods_config_name'] = [];
+        }
         if(!empty($data['goods_config_name'])){
             foreach ($data['goods_config_name'] as $item)
             {
+                if(!trim($item['goods_config_name'])){
+                    array_push($array_goods_config,false);
+                }
                 if(!empty($item['msg'])){
                     foreach ($item['msg'] as $val)
                     {
@@ -147,14 +175,24 @@ class GoodsController extends Controller
                         }else{
                             array_push($array_true,true);
                         }
+                        if(!trim($val['goods_config'])){
+                            array_push($array_config_val,false);
+                        }
                     }
                 }
             }
         }
-        if(in_array(true,$array_true) && in_array(false,$array_true)){
+       if(in_array(true,$array_true) && in_array(false,$array_true)){
             return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
         }
-        $goods=new \App\goods();
+       if(!empty($array_config_val)){
+           return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+       }
+       if(!empty($array_goods_config)){
+           return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
+       }
+
+       $goods=new \App\goods();
          $goods->goods_name=$data['goods_name'];
          $goods->goods_real_name=$data['goods_real_name'];
          $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
@@ -347,14 +385,37 @@ class GoodsController extends Controller
         }
    	 	return view('admin.goods.update')->with(compact('goods','type','goods_config'));
    }
+
+    /** 修改商品
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function post_update(Request $request){
        $data=$request->all();
+       //字段验证（属性值，属性名，属性照片）
        $array_true = [];
+       $array_goods_config = [];
+       $array_config_val = [];
        $photo = \App\config_val::where('config_goods_id',$data['goods_id'])->pluck('config_val_img')->toArray();
+       if(isset($data['goods_config_name'])){
+           if(count($data['goods_config_name']) == 1){
+               foreach ($data['goods_config_name'] as $item)
+               {
+                   if(!$item['goods_config_name']){
+                       $data['goods_config_name'] = [];
+                   }
+               }
+           }
+       }else{
+           $data['goods_config_name'] = [];
+       }
    		if(empty($photo) || in_array(null,$photo)){
             if(!empty($data['goods_config_name'])){
                 foreach ($data['goods_config_name'] as $item)
                 {
+                    if(!trim($item['goods_config_name'])){
+                        array_push($array_goods_config,false);
+                    }
                     if(!empty($item['msg'])){
                         foreach ($item['msg'] as $val)
                         {
@@ -362,6 +423,9 @@ class GoodsController extends Controller
                                 array_push($array_true,false);
                             }else{
                                 array_push($array_true,true);
+                            }
+                            if(!trim($val['goods_config'])){
+                                array_push($array_config_val,false);
                             }
                         }
                     }
@@ -374,6 +438,9 @@ class GoodsController extends Controller
             if(!empty($data['goods_config_name'])){
                 foreach ($data['goods_config_name'] as $item)
                 {
+                    if(!trim($item['goods_config_name'])){
+                        array_push($array_goods_config,false);
+                    }
                     if(!empty($item['msg'])){
                         foreach ($item['msg'] as $val)
                         {
@@ -381,6 +448,9 @@ class GoodsController extends Controller
                                 array_push($array_true,false);
                             }else{
                                 array_push($array_true,true);
+                            }
+                            if(!trim($val['goods_config'])){
+                                array_push($array_config_val,false);
                             }
                         }
                     }
@@ -390,6 +460,12 @@ class GoodsController extends Controller
                 return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
             }
         }
+       if(!empty($array_config_val)){
+           return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+       }
+       if(!empty($array_goods_config)){
+           return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
+       }
 
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
@@ -517,5 +593,168 @@ class GoodsController extends Controller
    	 $sdk=cuxiaoSDK::getcuxiaohtml($request->input('id'),$request->input('goods_id'));
    	 return $sdk;
    }
+
+    /** 重置单品名
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function only_name(Request $request)
+    {
+        $id = $request->input('id');
+        return view('admin.goods.onlyname')->with(compact('id'));
+    }
+    /** 复制商品
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function copy_goods(Request $request)
+    {
+        $id = $request->input('id');
+        $good = \App\goods::where('goods_real_name',$request->input('goods_name'))->first();
+        if($good){
+            return response()->json(['err'=>0,'str'=>'单商品名已存在，请重新命名！']);
+        }
+        $goods = \App\goods::where('goods_id',$id)->first();
+        if(!$goods){
+            return response()->json(['err'=>0,'str'=>'请选择复制商品！']);
+        }
+        $goods = $goods->toArray();
+        unset($goods['goods_id']);
+        $goods['bd_type'] = 0;
+        $goods['goods_real_name'] = $request->input('goods_name');  //单品名称
+        $goods['goods_admin_id'] = Auth::user()->admin_id;     //复制人
+        $goods['goods_up_time'] = date('Y-m-d H:i:s',time());  // 操作时间
+        try {
+            DB::beginTransaction();   //开启事务
+            //处理视频操作
+            if($goods['goods_video']){
+                $image = substr($goods['goods_video'],6);
+                $ext = strrchr($goods['goods_video'], '.');
+                $newImages = '/fm_video/fz_fm_video'.md5(microtime()).rand(100000,1000000).$ext;
+                if(Storage::disk('public')->exists($image)){
+                    Storage::disk('public')->copy($image, $newImages);
+                    $goods['goods_video'] = 'upload'.$newImages;
+                }else{
+                    $goods['goods_video'] = '';
+                }
+            }
+
+            //复制新商品
+            $goods_id = \App\goods::insertGetId($goods);
+            if(!$goods_id){
+                throw new Exception('复制失败!');
+            }
+
+            //处理封面图片
+            $imgs = \App\img::where('img_goods_id',$id)->get();
+            if(!$imgs->isEmpty()){
+                $imgs = $imgs->toArray();
+                foreach ($imgs as $img)
+                {
+                    unset($img['img_id']);
+                    if($img['img_url']){
+                        $image = substr($img['img_url'],6);
+                        $ext = strrchr($img['img_url'], '.');
+                        $newImages = '/fm_imgs/fz_fm_'.md5(microtime()).rand(100000,1000000).$ext;
+                        if(Storage::disk('public')->exists($image)){
+                            Storage::disk('public')->copy($image, $newImages);
+                            $img['img_url'] = 'upload'.$newImages;
+                        }else{
+                            $img['img_url'] = '';
+                        }
+                    }
+                    $img['img_goods_id'] = $goods_id;
+                    $bool = \App\img::insert($img);
+                    if(!$bool){
+                        throw new Exception('复制失败!');
+                    };
+                }
+            }
+
+            //处理商品属性名 + 属性值
+            $goods_config = \App\goods_config::where('goods_primary_id', $id)->get();
+            if (!$goods_config->isEmpty()) {
+                $goods_config = $goods_config->toArray();
+                foreach ($goods_config as $item) {
+                    $config_type_id = $item['goods_config_id'];
+                    unset($item['goods_config_id']);
+                    $item['goods_primary_id'] = $goods_id;
+                    //复制新商品属性名
+                    $goods_config_id = \App\goods_config::insertGetId($item);
+                    if(!$goods_config_id){
+                        throw new Exception('复制失败!');
+                    }
+                    $config_type = \App\config_val::where('config_type_id', $config_type_id)->get();
+                    if (!$config_type->isEmpty()) {
+                        $config_type = $config_type->toArray();
+                        foreach ($config_type as $value) {
+                            unset($value['config_val_id']);
+                            $value['config_type_id'] = $goods_config_id;
+                            $value['config_goods_id'] = $goods_id;
+                            //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
+                            if($value['config_val_img']){
+                                $image = substr($value['config_val_img'],6);
+                                $ext = strrchr($value['config_val_img'], '.');
+                                $newImages = '/sx_imgs/fzgoods_'.md5(microtime()).rand(10000,100000).$ext;
+                                if(Storage::disk('public')->exists($image)){
+                                    Storage::disk('public')->copy($image, $newImages);
+                                    $value['config_val_img'] = 'upload'.$newImages;
+                                }else{
+                                    $value['config_val_img'] = '';
+                                }
+                            }
+                            //复制新商品属性值
+                            $bool = \App\config_val::insert($value);
+                            if(!$bool){
+                                throw new Exception('复制失败!');
+                            }
+                        }
+                    }
+                }
+            }
+
+            //处理商品获得促销
+            $cuxiao = \App\cuxiao::where('cuxiao_goods_id', $id)->get();
+            if ($cuxiao) {
+                if (!$cuxiao->isEmpty()) {
+                    $cuxiao = $cuxiao->toArray();
+                    foreach ($cuxiao as $item)
+                    {
+                        unset($item['cuxiao_id']);
+                        $item['cuxiao_goods_id'] = $goods_id;
+                        $special_id = $item['cuxiao_special_id'];
+                        if($special_id){
+                             $special = \App\special::where('special_id',$special_id)->first();
+                             if($special){
+                                 $special = $special->toArray();
+                                 $special['special_goods_id'] = $goods_id;
+                                 unset($special['special_id']);
+                                 $new_special_id = \App\special::insertGetId($special);
+                                 if(!$new_special_id){
+                                     throw new Exception('复制失败!');
+                                 }
+                                 $item['cuxiao_special_id'] = $new_special_id;
+                                 $cuxiao_id = \App\cuxiao::insertGetId($item);
+                                 if(!$cuxiao_id){
+                                     throw new Exception('复制失败!');
+                                 }
+                             }
+                        }else{
+                            $cuxiao_id = \App\cuxiao::insertGetId($item);
+                            if(!$cuxiao_id){
+                                throw new Exception('复制失败!');
+                            }
+                        }
+
+                    }
+                }
+            }
+            DB::commit();
+        } catch (Exception $e){
+            DB::rollback();
+            return response()->json(['err' => '0', 'msg' => $e->getMessage()]);
+        }
+        return response()->json(['err'=>1,'str'=>'操作成功！']);
+    }
 }
   
