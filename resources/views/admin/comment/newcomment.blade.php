@@ -8,19 +8,19 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>评论者：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="评论者" id="articletitle" name="com_name">
+				<input type="text" class="input-text" value="{{$fname}}" placeholder="评论者" id="articletitle" name="com_name">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>评论者联系方式：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="评论者联系方式" id="articletitle2" name="com_phone">
+				<input type="text" class="input-text" value="{{$fphone}}" placeholder="评论者联系方式" id="articletitle2" name="com_phone">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>排序值：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="输入1~100之间的数字,1最小,100最大" id="articlesort" name="com_order">
+				<input type="text" class="input-text" value="1" placeholder="输入1~100之间的数字,1最小,100最大" id="articlesort" name="com_order">
 			</div>
 		</div>
 		<div class="row cl">
