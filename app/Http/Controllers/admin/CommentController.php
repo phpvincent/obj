@@ -143,6 +143,7 @@ class CommentController extends Controller
    	 return view('admin.comment.usercomment')->with(compact('comment','id'));
    }
    public function newcomment(Request $request){
+   	
    	return view('admin.comment.newcomment')->with('id',$request->input('id'));
    }
    public function save_com(Request $request){
