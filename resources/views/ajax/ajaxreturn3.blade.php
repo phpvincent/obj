@@ -17,7 +17,7 @@
 <div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">第1件</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（NT$<span id="realprice">998</span>，已選 【<span id="sell_msg">{{$cuxiaos->first()->cuxiao_msg}}</span>】 僅剩{{$goods->goods_num}}件）</span><span class="addcart-specs-status"></span></div>
 @foreach($cuxiaos as $k=> $v)
 <div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022">
-	<button cuxiao_id='{{$v->cuxiao_id}}' @if($k==0) class='chose_cart'@else class='unchose_cart' @endif type="button" num='{{explode(",",$v->cuxiao_config)[0]}}' price='{{explode(",",$v->cuxiao_config)[1]}}' type_name='{{$v->cuxiao_msg}}' cuxiao_special_id='{{$v->cuxiao_special_id}}' >{{$v->cuxiao_msg}}[點擊購買]</button>
+	<button cuxiao_id='{{$v->cuxiao_id}}' @if($k==0) class='chose_cart'@else class='unchose_cart' @endif type="button" num='{{explode(",",$v->cuxiao_config)[0]}}' price='{{explode(",",$v->cuxiao_config)[1]}}' type_name='{{$v->cuxiao_msg}}' cuxiao_special_id='{{$v->cuxiao_special_id}}' >{{$v->cuxiao_msg}}</button>
 </div></div>
 @endforeach
 <div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="{{explode(',',$cuxiaos->first()->cuxiao_config)[0]}}" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>
