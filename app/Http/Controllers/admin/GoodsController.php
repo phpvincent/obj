@@ -239,7 +239,7 @@ class GoodsController extends Controller
 //            }
 //         }
            //新增或修改商品属性名和属性值
-           $goods_attr = $data['goods_config_name'];
+           $goods_attr = isset($data['goods_config_name'])?$data['goods_config_name']:[];
            if(!empty($goods_attr)){
                foreach ($goods_attr as $item)
                {
