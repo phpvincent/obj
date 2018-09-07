@@ -10,8 +10,8 @@ class cuxiaoSDK{
 	public $cuxiaos;
 	public function __construct(goods $goods){
        $this->goods=$goods;
-       $this->cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->first();
-       $this->cuxiaos=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->get();
+       $this->cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->orderBy('cuxiao_id','asc')->first();
+       $this->cuxiaos=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->orderBy('cuxiao_id','asc')->get();
 	}
 	public function getdiv(){
 		//获取购物车页面div
@@ -71,7 +71,7 @@ class cuxiaoSDK{
            		break;
 
            	case '3':
-           	     $cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->get();
+           	     $cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->orderBy('cuxiao_id','asc')->get();
            	     foreach($cuxiao as $v){
                      $msg=explode(',', $v->cuxiao_config);
                      if($num==$msg[0]){
