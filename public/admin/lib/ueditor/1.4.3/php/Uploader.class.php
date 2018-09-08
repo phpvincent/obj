@@ -284,6 +284,10 @@ class Uploader
             $format = preg_replace("/\{rand\:[\d]*\}/i", substr($randNum, 0, $matches[1]), $format);
         }
 
+        //多图上传重新拼接随机数
+        $randNum1 = rand(1000000,9999999);
+        $format .= $randNum1;
+
         $ext = $this->getFileExt();
         return $format . $ext;
     }
