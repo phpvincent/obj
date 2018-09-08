@@ -229,9 +229,9 @@ class VisController extends Controller
 		        			break;
 		        	}
 		        })
-		        ->where(function($query)use($info){
+		        ->where(function($query)use($request){
 	        	//ip是否屏蔽
-	        	if(isset($info['ispb'])&&$info['ispb']=='1'){
+	        	if(isset($request->input('ispb'))&&$request->input('ispb')=='1'){
 	        		$query->where('vis.vis_isback','1');
 	        	}
 	        	})
