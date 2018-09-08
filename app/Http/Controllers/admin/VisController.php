@@ -469,7 +469,12 @@ class VisController extends Controller
    public function ll(Request $request){
    	if($request->isMethod('get')){
    		if(Auth::user()->is_root!='1'){
-   			$goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
+   			$goods=\App\goods::
+   			where('goods_admin_id',Auth::user()->admin_id)
+   			->where(function($query){
+   				$query->where('is_del','0');
+   			})
+   			->get();
    		}else{
    			$goods=\App\goods::get();
    		}
