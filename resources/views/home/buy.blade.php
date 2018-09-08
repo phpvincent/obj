@@ -309,15 +309,16 @@
             console.log('开始addform')
         var addhtml='';
         var color25="";
+        var eNum=$("#goods_config_div form").length+1;
         $.each(a,function(i,val){
         // console.log(i,val);      
             var colorBut=''
             $.each(val,function(j,item){
              if(item.config_val_img){     //如果是展示图片的话显示这一组HTML；
                 if(j===0){
-                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="width: 30%;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt=""></label>&nbsp;</label>';
+                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="width: 30%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }else{
-                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="width: 30%;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt=""></label>&nbsp;</label>';
+                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="width: 30%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }        
               }else{
                 if(j===0){
@@ -330,7 +331,7 @@
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'">'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'"><div><strong>第'+eNum+'件</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
