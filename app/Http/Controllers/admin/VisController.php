@@ -195,6 +195,7 @@ class VisController extends Controller
     }
    public function outvis(Request $request){
    	//数据导出
+   	$search=$request->input('search');
    		$data=vis::select('vis.vis_id','vis.vis_ip','vis.vis_country','vis.vis_region','vis.vis_city','vis.vis_county','vis.vis_isp','vis.vis_type','vis.vis_time','vis.vis_lan','vis.vis_isback','goods.goods_name','vis.vis_url','vis_from','vis_buytime','vis_ordertime','vis_staytime','vis_comtime')
 			   ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
 			   ->where(function($query){
@@ -229,6 +230,19 @@ class VisController extends Controller
 		        			break;
 		        	}
 		        })
+		        ->where(function($query)use($search){
+	        	 	 $query->where('goods.goods_name','like',"%$search%");
+				        $query->orWhere('vis.vis_ip','like',"%$search%");
+				        $query->orWhere('vis.vis_city','like',"%$search%");
+				        $query->orWhere('vis.vis_country','like',"%$search%");
+				        $query->orWhere('vis.vis_county','like',"%$search%");
+				        $query->orWhere('vis.vis_lan','like',"%$search%");
+				        $query->orWhere('vis.vis_isp','like',"%$search%");
+				        $query->orWhere('vis.vis_region','like',"%$search%");
+				        $query->orWhere('vis.vis_type','like',"%$search%");
+				        $query->orWhere('vis.vis_url','like',"%$search%");
+				        $query->orWhere('goods.goods_real_name','like',"%$search%");
+	        	})
 		        ->where(function($query)use($request){
 	        	//ip是否屏蔽
 	        	if($request->has('ispb')&&$request->input('ispb')=='1'){

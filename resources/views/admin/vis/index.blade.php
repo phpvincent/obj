@@ -254,7 +254,7 @@ function back_vis(id){
         	}
 	}
 $('#outvis').on('click',function(){
-	location.href='{{url("admin/vis/outvis")}}'+'?mintime='+$('#datemin').val()+'&maxtime='+$('#datemax').val()+'&chvis='+$('#admin_vis').val()+'&ispb='+$('input[name="ispb"]:checked').val();
+	location.href='{{url("admin/vis/outvis")}}'+'?mintime='+$('#datemin').val()+'&maxtime='+$('#datemax').val()+'&chvis='+$('#admin_vis').val()+'&ispb='+$('input[name="ispb"]:checked').val()+'&search='+$('[type="search"]').val();
 })
 function goods_getaddr(title,url,type,w,h){
 	layer_show(title,url,w,h);
