@@ -229,6 +229,12 @@ class VisController extends Controller
 		        			break;
 		        	}
 		        })
+		        ->where(function($query)use($info){
+	        	//ip是否屏蔽
+	        	if(isset($info['ispb'])&&$info['ispb']=='1'){
+	        		$query->where('vis.vis_isback','1');
+	        	}
+	        	})
 				->orderBy('vis.vis_time','desc')
 				->limit(1500)->get()->toArray();
    		$filename='访问记录'.date('Y-m-d h:i:s',time()).'.xls';
