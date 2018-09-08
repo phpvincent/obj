@@ -35,114 +35,6 @@ class VisController extends Controller
 	        	}
 	        })
 	        ->count();
-	      if(strtotime(@explode(';',$search)[0])>100&&strtotime(@explode(';',$search)[1])>100){
-	        	$timesearch=$search;
-	        	$search='';
-	        	$newlen=$len;
-	        	$len=$counts;
-	        }
-	        if(isset($info['ispb'])&&$info['ispb']=='1'){
-	        	    $newcount=DB::table('vis')
-			        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
-			         ->where(function($query)use($search){
-			         $query->where('goods.goods_name','like',"%$search%");
-				        $query->orWhere('vis.vis_ip','like',"%$search%");
-				        $query->orWhere('vis.vis_city','like',"%$search%");
-				        $query->orWhere('vis.vis_country','like',"%$search%");
-				        $query->orWhere('vis.vis_county','like',"%$search%");
-				        $query->orWhere('vis.vis_lan','like',"%$search%");
-				        $query->orWhere('vis.vis_isp','like',"%$search%");
-				        $query->orWhere('vis.vis_region','like',"%$search%");
-				        $query->orWhere('vis.vis_type','like',"%$search%");
-				        $query->orWhere('vis.vis_url','like',"%$search%");
-			        })
-			         ->where(function($query)use($request){
-			         	switch($request->input('chvis')){
-			         		case '0':
-			         			break;
-			         		case '1':
-			         		$query->where('vis.vis_buytime','>','0');
-			         			break;
-			         		case '2':
-			         		$query->where('vis.vis_ordertime','>','0');
-			         			break;
-			         		case '3':
-			         		$query->where('vis.vis_comtime','>','0');
-			         			break;
-			         		default:
-			         			break;
-			         	}
-			         })
-			         ->where(function($query){
-	        		if(Auth::user()->is_root!='1'){
-	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
-	        			}
-	        		})
-			        ->count();
-			        $data=DB::table('vis')
-			        ->select('vis.*','goods.goods_name')
-			        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
-			       ->where(function($query)use($search){
-			        	 $query->where('goods.goods_name','like',"%$search%");
-				        $query->orWhere('vis.vis_ip','like',"%$search%");
-				        $query->orWhere('vis.vis_city','like',"%$search%");
-				        $query->orWhere('vis.vis_country','like',"%$search%");
-				        $query->orWhere('vis.vis_county','like',"%$search%");
-				        $query->orWhere('vis.vis_lan','like',"%$search%");
-				        $query->orWhere('vis.vis_isp','like',"%$search%");
-				        $query->orWhere('vis.vis_region','like',"%$search%");
-				        $query->orWhere('vis.vis_type','like',"%$search%");
-				        $query->orWhere('vis.vis_url','like',"%$search%");
-			        })
-	       			->where(function($query)use($request){
-	       				switch($request->input('chvis')){
-	       					case '0':
-	       						break;
-	       					case '1':
-	       					$query->where('vis.vis_buytime','>','0');
-	       						break;
-	       					case '2':
-	       					$query->where('vis.vis_ordertime','>','0');
-	       						break;
-	       					case '3':
-	       					$query->where('vis.vis_comtime','>','0');
-	       						break;
-	       					default:
-	       						break;
-	       				}
-	       			})
-			         ->where(function($query){
-	        		if(Auth::user()->is_root!='1'){
-	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
-	        			}
-	        		})
-			        ->orderBy($order,$dsc)
-			        ->offset($start)
-			        ->limit($len)
-			        ->get();
-			            if(isset($timesearch)){
-		        	if((strtotime(explode(';',$timesearch)[0])>100&&strtotime(explode(';',$timesearch)[1])>100)||strtotime($timesearch)>100){
-	 				$newcount=0;
-	 				$dataarr=[];
-	 				/*$msg=[];*/
-	 				foreach($data as $k=> $v){/*dd(explode(';',$timesearch),$v->vis_time);dd(strtotime($v->vis_time),strtotime(explode(';',$timesearch)[1]),strtotime(explode(';',$timesearch)[0]));*/
-	 			/*	$msg[$k]['name']=$v->vis_ip;
-	 				$msg[$k]['end']=(strtotime($v->vis_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->vis_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->vis_time)==strtotime($timesearch);
-	 				$msg[$k]['time']=(strtotime($v->vis_time));
-	 				$msg[$k]['aes']=strtotime(explode(';',$timesearch)[0]).'-'.strtotime(explode(';',$timesearch)[1]);*/
-	 					if((strtotime($v->vis_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->vis_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->vis_time)==strtotime($timesearch)){
-	 						$newcount+=1;
-	 						$dataarr[]=$v;
-		 					}
-		 				}
-		 				$arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>array_slice($dataarr,$start,$newlen)];
-			       		 return response()->json($arr);
-		 				}
-			        }
-		 			
-			        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
-			        return response()->json($arr);
-	        }
 	        $newcount=DB::table('vis')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
 	        ->where(function($query)use($search){
@@ -156,8 +48,25 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_region','like',"%$search%");
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
+				        $query->orWhere('goods.goods_real_name','like',"%$search%");
+	        })
+	        ->where(function($query)use($info){
+	        	//ip是否屏蔽
+	        	if(isset($info['ispb'])&&$info['ispb']=='1'){
+	        		$query->where('vis.vis_isback','1');
+	        	}
 	        })
 	        ->where(function($query)use($request){
+	        	if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+	        		$query->where('vis.vis_time','>',$request->input('mintime'));
+	        	}elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+	        		$query->where('vis.vis_time','<',$request->input('maxtime'));
+	        	}elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+	        		 $query->whereBetween('vis.vis_time',[$request->input('mintime'),$request->input('maxtime')]);
+	        	}
+	        })
+	        ->where(function($query)use($request){
+	        	//类型筛选
 	        	switch($request->input('chvis')){
 	        		case '0':
 	        			break;
@@ -194,6 +103,22 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_region','like',"%$search%");
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
+				        $query->orWhere('goods.goods_real_name','like',"%$search%");
+	        })
+	        ->where(function($query)use($info){
+	        	//ip是否屏蔽
+	        	if(isset($info['ispb'])&&$info['ispb']=='1'){
+	        		$query->where('vis.vis_isback','1');
+	        	}
+	        })
+	        ->where(function($query)use($request){
+	        	if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+	        		$query->where('vis.vis_time','>',$request->input('mintime'));
+	        	}elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+	        		$query->where('vis.vis_time','<',$request->input('maxtime'));
+	        	}elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+	        		 $query->whereBetween('vis.vis_time',[$request->input('mintime'),$request->input('maxtime')]);
+	        	}
 	        })
 	        ->where(function($query)use($request){
 	        	switch($request->input('chvis')){
@@ -221,26 +146,6 @@ class VisController extends Controller
 	        ->offset($start)
 	        ->limit($len)
 	        ->get();
-	        if(isset($timesearch)){
-		        	if((strtotime(explode(';',$timesearch)[0])>100&&strtotime(explode(';',$timesearch)[1])>100)||strtotime($timesearch)>100){
-	 				$newcount=0;
-	 				$dataarr=[];
-	 				/*$msg=[];*/
-	 				foreach($data as $k=> $v){/*dd(explode(';',$timesearch),$v->vis_time);dd(strtotime($v->vis_time),strtotime(explode(';',$timesearch)[1]),strtotime(explode(';',$timesearch)[0]));*/
-	 			/*	$msg[$k]['name']=$v->vis_ip;
-	 				$msg[$k]['end']=(strtotime($v->vis_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->vis_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->vis_time)==strtotime($timesearch);
-	 				$msg[$k]['time']=(strtotime($v->vis_time));
-	 				$msg[$k]['aes']=strtotime(explode(';',$timesearch)[0]).'-'.strtotime(explode(';',$timesearch)[1]);*/
-	 					if((strtotime($v->vis_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->vis_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->vis_time)==strtotime($timesearch)){
-	 						$newcount+=1;
-	 						$dataarr[]=$v;
-		 					}
-	 				}
-	 				$arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>array_slice($dataarr,$start,$newlen)];
-		       		 return response()->json($arr);
-	 				}
-	        }
- 			
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
     }
@@ -288,8 +193,9 @@ class VisController extends Controller
 		   	    	return response()->json(['err'=>0,'str'=>'修改失败']);
 	   	}
     }
-   public function outvis(){
+   public function outvis(Request $request){
    	//数据导出
+   	$search=$request->input('search');
    		$data=vis::select('vis.vis_id','vis.vis_ip','vis.vis_country','vis.vis_region','vis.vis_city','vis.vis_county','vis.vis_isp','vis.vis_type','vis.vis_time','vis.vis_lan','vis.vis_isback','goods.goods_name','vis.vis_url','vis_from','vis_buytime','vis_ordertime','vis_staytime','vis_comtime')
 			   ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
 			   ->where(function($query){
@@ -297,6 +203,52 @@ class VisController extends Controller
 	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
 	        			}
 			   })
+			   ->where(function($query)use($request){
+	        	if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+	        		$query->where('vis.vis_time','>',$request->input('mintime'));
+	        	}elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+	        		$query->where('vis.vis_time','<',$request->input('maxtime'));
+	        	}elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+	        		 $query->whereBetween('vis.vis_time',[$request->input('mintime'),$request->input('maxtime')]);
+	        	}
+	        	})
+				->where(function($query)use($request){
+		        	//类型筛选
+		        	switch($request->input('chvis')){
+		        		case '0':
+		        			break;
+		        		case '1':
+		        		$query->where('vis.vis_buytime','>','0');
+		        			break;
+		        		case '2':
+		        		$query->where('vis.vis_ordertime','>','0');
+		        			break;
+		        		case '3':
+		        		$query->where('vis.vis_comtime','>','0');
+		        			break;
+		        		default:
+		        			break;
+		        	}
+		        })
+		        ->where(function($query)use($search){
+	        	 	 $query->where('goods.goods_name','like',"%$search%");
+				        $query->orWhere('vis.vis_ip','like',"%$search%");
+				        $query->orWhere('vis.vis_city','like',"%$search%");
+				        $query->orWhere('vis.vis_country','like',"%$search%");
+				        $query->orWhere('vis.vis_county','like',"%$search%");
+				        $query->orWhere('vis.vis_lan','like',"%$search%");
+				        $query->orWhere('vis.vis_isp','like',"%$search%");
+				        $query->orWhere('vis.vis_region','like',"%$search%");
+				        $query->orWhere('vis.vis_type','like',"%$search%");
+				        $query->orWhere('vis.vis_url','like',"%$search%");
+				        $query->orWhere('goods.goods_real_name','like',"%$search%");
+	        	})
+		        ->where(function($query)use($request){
+	        	//ip是否屏蔽
+	        	if($request->has('ispb')&&$request->input('ispb')=='1'){
+	        		$query->where('vis.vis_isback','1');
+	        	}
+	        	})
 				->orderBy('vis.vis_time','desc')
 				->limit(1500)->get()->toArray();
    		$filename='访问记录'.date('Y-m-d h:i:s',time()).'.xls';
