@@ -231,7 +231,7 @@ class VisController extends Controller
 		        })
 		        ->where(function($query)use($request){
 	        	//ip是否屏蔽
-	        	if(isset($request->input('ispb'))&&$request->input('ispb')=='1'){
+	        	if($request->has('ispb')&&$request->input('ispb')=='1'){
 	        		$query->where('vis.vis_isback','1');
 	        	}
 	        	})
