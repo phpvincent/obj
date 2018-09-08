@@ -32,7 +32,7 @@ public static class PathFormatter
             {
                 digit = Convert.ToInt32(match.Groups[2].Value);
             }
-            var rand = new Random();
+            var rand = new Random(GetRandomSeed());
             return rand.Next((int)Math.Pow(10, digit), (int)Math.Pow(10, digit + 1)).ToString();
         }));
 
@@ -46,5 +46,12 @@ public static class PathFormatter
         pathFormat = pathFormat.Replace("{ss}", DateTime.Now.Second.ToString("D2"));
 
         return pathFormat + extension;
+    }
+     private static int GetRandomSeed()
+    {
+        byte[] bytes = new byte[4];
+        System.Security.Cryptography.RNGCryptoServiceProvider rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+        rng.GetBytes(bytes);
+        return BitConverter.ToInt32(bytes, 0);
     }
 }

@@ -21,6 +21,20 @@
 </div>
 <br>
 <hr>
+<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="hart" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 选择区域</a></div><br/>
+<div style="display: none" id="select-area">
+	<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">区域：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="goods_name" id="goods_name" class="select">
+					<option value="0">所有</option>
+					@foreach($goods as $val)
+					<option value="{{$val->goods_id}}" >{{$val->goods_name}}</option>
+					@endforeach
+				</select>
+				</span> </div>
+		</div>
+</div>
 <div id="highchart"></div>
 @endsection
 @section('js')

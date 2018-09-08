@@ -69,7 +69,7 @@ class Uploader
      * @return mixed
      */
     private function upFile()
-    {
+    {   
         $file = $this->file = $_FILES[$this->fileField];
         if (!$file) {
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_NOT_FOUND");
@@ -283,6 +283,10 @@ class Uploader
         if (preg_match("/\{rand\:([\d]*)\}/i", $format, $matches)) {
             $format = preg_replace("/\{rand\:[\d]*\}/i", substr($randNum, 0, $matches[1]), $format);
         }
+
+        //多图上传重新拼接随机数
+        $randNum1 = rand(1000000,9999999);
+        $format .= $randNum1;
 
         $ext = $this->getFileExt();
         return $format . $ext;

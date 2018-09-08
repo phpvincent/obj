@@ -503,7 +503,9 @@
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
                     if (json.state == 'SUCCESS') {
-                        _this.fileList.push(json);
+                        // _this.fileList.push(json);
+                        //修改多图上传顺序
+                        _this.imageList[$file.index()] = json;
                         $file.append('<span class="success"></span>');
                     } else {
                         $file.find('.error').text(json.state).show();
@@ -553,6 +555,10 @@
                 prefix = editor.getOpt('fileUrlPrefix');
             for (i = 0; i < this.fileList.length; i++) {
                 data = this.fileList[i];
+                //修改多图上传顺序
+                if(data==undefined){
+                    continue;
+                }
                 link = data.url;
                 list.push({
                     title: data.original || link.substr(link.lastIndexOf('/') + 1),
