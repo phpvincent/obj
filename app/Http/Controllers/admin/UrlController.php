@@ -29,6 +29,13 @@ class UrlController extends Controller
 	        $newcount=DB::table('url')
 	        ->select('url.*')
           ->where('url.url_url','like',"%$search%")
+          ->where(function($query)use($search){
+            $query->where('url.url_url','like',"%$search%");
+            $query->orWhere('url.url_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere('url.url_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
+          })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
               $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
@@ -39,6 +46,13 @@ class UrlController extends Controller
 	        $data=DB::table('url')
 	         ->select('url.*')
           ->where('url.url_url','like',"%$search%")
+          ->where(function($query)use($search){
+            $query->where('url.url_url','like',"%$search%");
+            $query->orWhere('url.url_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere('url.url_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
+          })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
               $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
@@ -53,10 +67,10 @@ class UrlController extends Controller
             $url_goods=\App\goods::where('goods_id',$v->url_goods_id)->first();
             $url_zz_goods=\App\goods::where('goods_id',$v->url_zz_goods_id)->first();
             if($url_goods!=null){
-              $data[$key]->url_goods_id=$url_goods->goods_name;
+              $data[$key]->url_goods_id=$url_goods->goods_real_name;
             }
             if($url_zz_goods!=null){
-              $data[$key]->url_zz_goods_id=$url_zz_goods->goods_name;
+              $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
             }
           }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
