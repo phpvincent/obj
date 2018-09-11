@@ -28,7 +28,6 @@ class UrlController extends Controller
 	        ->count();
 	        $newcount=DB::table('url')
 	        ->select('url.*')
-          ->where('url.url_url','like',"%$search%")
           ->where(function($query)use($search){
             $query->where('url.url_url','like',"%$search%");
             $query->orWhere('url.url_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
@@ -45,7 +44,6 @@ class UrlController extends Controller
 	        ->count();
 	        $data=DB::table('url')
 	         ->select('url.*')
-          ->where('url.url_url','like',"%$search%")
           ->where(function($query)use($search){
             $query->where('url.url_url','like',"%$search%");
             $query->orWhere('url.url_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
