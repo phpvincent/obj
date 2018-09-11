@@ -89,7 +89,7 @@
 		"columns": [
 		{'defaultContent':"","className":"td-manager"},
 		{"data":'goods_id'},
-		{'data':'goods_name'},
+		{'data':'goods_real_name'},
 		{'data':'goods_msg'},
 		{'data':'goods_price'},
 		{'defaultContent':"","className":"td-manager"},
