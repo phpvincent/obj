@@ -50,14 +50,14 @@
 		  <div class ="radio-box">  <label class="" style="color:red;"><input type="radio" value="null" name="url_goods_id" id="url_goods_id" class="valid" />无</label>
 		  	@if(Auth::user()->is_root=='1')
 		  	@foreach(\App\goods::where('is_del','0')->get() as $key => $v)
-		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
+		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_real_name}}</label>
 	  		@endforeach
 		  	@else
 		    @foreach(\App\goods::where('is_del','0')
 		      ->where(function($query){
 		        $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
 		      })->get() as $key => $v)
-		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
+		    <label class=""><input type="radio" value="{{$v->goods_id}}" name="url_goods_id" id="url_goods_id" class="valid" @if($url->url_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_real_name}}</label>
 		    @endforeach
 		    @endif
 		  </div> 
@@ -68,14 +68,14 @@
   		<div class =“radio-box”>  <label class="" style="color:red;"><input type="radio" value="null" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" />无</label>
   		@if(Auth::user()->is_root=='1')
 	 	@foreach(\App\goods::where('is_del','0')->get() as $key => $v)
-	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
+	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_real_name}}</label>
 	    @endforeach
 	    @else
 		@foreach(\App\goods::where('is_del','0')
 	      ->where(function($query){
 	        $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
 	      })->get() as $key => $v)
-	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_name}}</label>
+	    	<label class=""><input type="radio" value="{{$v->goods_id}}" name="url_zz_goods_id" id="url_zz_goods_id" class="valid" @if($url->url_zz_goods_id==$v->goods_id) checked="checked" @endif />{{$v->goods_real_name}}</label>
 	  	@endforeach
 	  	@endif
 		</div> 
