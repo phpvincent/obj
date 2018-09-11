@@ -295,6 +295,9 @@ class IndexController extends Controller
         return view('view.index');
     }
     public function visfrom(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $id=$request->input('id');
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
@@ -303,12 +306,15 @@ class IndexController extends Controller
     $vis->save();
    }
    public function settime(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
         $data=json_decode($request->input('data'));
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
         
         $time=time()-strtotime(($vis->vis_time));
-        if($vis->vis_staytime==null){
+        if($vis->vis_staytime==0){
                     $vis->vis_staytime=$time;
         }else{
             $vis->vis_staytime=$time;
@@ -316,6 +322,9 @@ class IndexController extends Controller
         $vis->save();
    }
    public function setbuy(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $id=$request->input('id');
     $vis=\App\vis::where('vis_id',$id)->first();
     $time=$request->input('date');
@@ -325,6 +334,9 @@ class IndexController extends Controller
     $vis->save();
    }
    public function setorder(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $date=$request->input('date');
     $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     $vis->vis_ordertime=$date;

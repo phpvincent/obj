@@ -333,7 +333,7 @@
 				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button> -->
 			</div>
 		</div>
-		
+		<input type="hidden" name="recheck" value="{{isset($_GET['recheck'])?$_GET['recheck']:0}}">
 	</form>
 </article>
 @endsection
