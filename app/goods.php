@@ -21,5 +21,19 @@ class goods extends Model
     	}
     	return $ids;
     }
-
+    public static function get_search_arr($search,$type=true){
+        //使用搜索条件获取单品组
+        $goods_ids=self::where('goods_name','like',"%$search%")->get(['goods_id'])->toArray();
+        $goods_real_ids=self::where('goods_real_name','like',"%$search%")->get(['goods_id'])->toArray();
+        $arr=array_merge($goods_ids,$goods_real_ids); 
+        $re_arr=[];
+            foreach($arr as $k => $v){
+                $re_arr[]=$v;
+            }
+        if($type){
+            return $re_arr;
+        }else{
+            return implode(',', $re_arr);
+        }
+    }
 }
