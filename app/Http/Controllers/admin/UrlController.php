@@ -30,10 +30,12 @@ class UrlController extends Controller
 	        ->select('url.*')
           ->where(function($query)use($search){
             $query->where('url.url_url','like',"%$search%");
-            $query->orWhere('url.url_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
-            $query->orWhere('url.url_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
-            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
-            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere(function($query)use($search){
+              $query->whereIn('url.url_goods_id',\App\goods::get_search_arr($search));
+            });
+            $query->orWhere(function($query)use($search){
+              $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
+            });
           })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
@@ -46,10 +48,12 @@ class UrlController extends Controller
 	         ->select('url.*')
           ->where(function($query)use($search){
             $query->where('url.url_url','like',"%$search%");
-            $query->orWhere('url.url_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
-            $query->orWhere('url.url_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
-            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_name','like',"%$search%")->first()['goods_id']);
-            $query->orWhere('url.url_zz_goods_id',\App\goods::where('goods_real_name','like',"%$search%")->first()['goods_id']);
+            $query->orWhere(function($query)use($search){
+              $query->whereIn('url.url_goods_id',\App\goods::get_search_arr($search));
+            });
+            $query->orWhere(function($query)use($search){
+              $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
+            });
           })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
