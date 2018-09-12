@@ -283,22 +283,12 @@ class GoodsController extends Controller
              if (!$request->hasFile('fm_imgs')) {
                  return response()->json(['err' => 0, 'str' => '封面图不能为空！']);
              }
-             $size = $request->file('fm_imgs')->getSize();
-             //这里可根据配置文件的设置，做得更灵活一点
-             if($size > 8*1024*1024){
-                 return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
-             }
          }
 
          //是否附带视频
          if($data['is_video'] == 1) {
             array_push($array,'video');
              if($request->hasFile('goods_video')){
-                 $size = $request->file('goods_video')->getSize();
-                 //这里可根据配置文件的设置，做得更灵活一点
-                 if($size > 8*1024*1024){
-                     return response()->json(['err' => 0, 'str' => '上传视频文件不能超过8M！']);
-                 }
                  $file=$request->file('goods_video');
                  $name=$file->getClientOriginalName();//得到图片名；
                  $ext=$file->getClientOriginalExtension();//得到图片后缀；
@@ -677,11 +667,6 @@ class GoodsController extends Controller
        if($data['broadcast_1'] == 1) {
            array_push($array, 'broadcast');
            if($request->hasFile('fm_imgs')) {
-               $size = $request->file('fm_imgs')->getSize();
-               //这里可根据配置文件的设置，做得更灵活一点
-               if($size > 8*1024*1024){
-                   return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
-               }
                foreach($old_img as $val){
                    @unlink($val->img_url);
                }
@@ -710,12 +695,6 @@ class GoodsController extends Controller
        if($data['is_video'] == 1) {
            array_push($array,'video');
            if($request->hasFile('goods_video')){
-               $size = $request->file('goods_video')->getSize();
-               //这里可根据配置文件的设置，做得更灵活一点
-               if($size > 8*1024*1024){
-                   return response()->json(['err' => 0, 'str' => '上传视频文件不能超过8M！']);
-               }
-
                if($goods->goods_video){
                    @unlink($goods->goods_video);
                }
