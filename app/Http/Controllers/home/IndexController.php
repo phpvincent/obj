@@ -19,7 +19,11 @@ class IndexController extends Controller
     public function index(Request $request){
 /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
-    	$goods_id=url::get_goods($request);
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+        }else{
+                $goods_id=url::get_goods($request); 
+        }
     	$imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
