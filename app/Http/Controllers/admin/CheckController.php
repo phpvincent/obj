@@ -24,11 +24,11 @@ class CheckController extends Controller
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('goods')
-          ->where(function($query){
+          /*->where(function($query){
             if(Auth::user()->is_root!='1'){
               $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
             }
-          })
+          })*/
           ->where(function($query){
             $query->where('goods_id','<>','4');
           })
@@ -47,12 +47,12 @@ class CheckController extends Controller
             $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0']]);
             $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0']]);
           })
-          ->where(function($query){
+          /*->where(function($query){
            if(Auth::user()->is_root!='1'){
               $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
               $query->whereIn('goods.goods_admin_id',$ids);
             }
-          })
+          })*/
           ->where(function($query){
             $query->where('goods_id','<>','4');
             $query->where('goods_heshen','<>','1');
