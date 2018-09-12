@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-                <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
+        <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
@@ -115,6 +115,7 @@
         <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
         <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
 <!--产品轮播-->
+@if(in_array('broadcast',$templets))
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
@@ -129,29 +130,49 @@
         <li class="bannerqli">圖片</li>
     </ul>
 </div>
+@endif
 <div class="divVideoc1"></div>
 <!--产品轮播-->
 <script type="text/javascript" src="/js/swiper-3.4.2.jquery.min.js" ></script>
 <script src='/js/client.js'></script>
 <script type="text/javascript" src="/js/video.js"></script>
         <!--把商品描述部分内容抽象到detail_content中-->
-        <div class="clear"></div>
+<div class="clear"></div>
+
+{{--价格栏位--}}
+@if(in_array('price',$templets))
 <div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
     <div class="dc-price" style="background:#fff;">
         <span class="s-price" style="font-size:24px">
             NT${{$goods->goods_price}}        </span>
+        @if(in_array('original',$templets))
         <span class="o-price" style="font-size:12px">
             NT${{$goods->goods_real_price}}        </span>
+        @endif
     </div>
-            <span class="flag" style="font-size: 12px;">免運費</span>
-                <span class="flag" style="font-size: 12px;">貨到付款</span>
-        		<span class="flag" style="font-size: 12px;background:#000;">7天鑑賞期</span>
-		</div>
-<div class="clear"></div>
-<div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-        <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(//dixonys.com/mobile/images/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
-    </div>
+    @if(in_array('free_freight',$templets))
+    <span class="flag" style="font-size: 12px;">免運費</span>
+    @endif
+    @if(in_array('cash_on_delivery',$templets))
+    <span class="flag" style="font-size: 12px;">貨到付款</span>
+    @endif
+    @if(in_array('seven_days',$templets))
+    <span class="flag" style="font-size: 12px;background:#000;">7天鑑賞期</span>
+    @endif
+</div>
+@endif
 
+<div class="clear"></div>
+
+{{--快递栏位--}}
+@if(in_array('express',$templets))
+<div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
+    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(//dixonys.com/mobile/images/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
+</div>
+@endif
+
+{{--抢购模块--}}
+@if(in_array('count_down',$templets))
     <div class="timebox">
         <div class="text">倒數：<span>{{$goods->goods_num}}組</span></div>
         <div class="boxtime">
@@ -159,41 +180,50 @@
             <font>距結束：</font>
         </div>
     </div>
+@endif
+
 <div class="clear"></div>
+
+{{--活动描述--}}
+@if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
 	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
-    </div>
-        <ul class="detail-bars">
-            
-            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)
-            <li>
-                <span href="#detial-context" class="scrollBar" scroll-y="0">
-                  商品介紹                </span>
-            </li>
-            <li>
-                <span href="#detial-params" class="scrollBar" scroll-y="50">
-                   商品規格                </span>
-            </li>
-            <li>
-                <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-                                            評價 ({{$goods->goods_comment_num}}+)
-                </span>
-            </li>
-            @else
-             <li style="width: 50%;">
-                <span href="#detial-context" class="scrollBar" scroll-y="0">
-                  商品介紹                </span>
-            </li>
-            <li style="width: 50%;float: right;">
-                <span href="#detial-params" class="scrollBar" scroll-y="50">
-                   商品規格                </span>
-            </li>
-            
-            @endif
-        </ul>
-        <div class="clear">
-        </div>
+</div>
+@endif
+
+<style>
+    .detail-bars li {
+        width: {{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '32%') }} !important;
+    }
+</style>
+{{--中部导航--}}
+@if(in_array('center_nav',$templets))
+<ul class="detail-bars">
+    @if(in_array('introduce',$templets))
+    <li>
+        <span href="#detial-context" class="scrollBar" scroll-y="0">
+          商品介紹                </span>
+    </li>
+    @endif
+    @if(in_array('specifications',$templets))
+    <li>
+        <span href="#detial-params" class="scrollBar" scroll-y="50">
+           商品規格                </span>
+    </li>
+    @endif
+    @if(in_array('evaluate',$templets))
+    <li style="width:{{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '') }};">
+        <span href="#detial-appraise" class="scrollBar" scroll-y="85">
+                                    評價 ({{$goods->goods_comment_num}}+)
+        </span>
+    </li>
+    @endif
+</ul>
+@endif
+
+        <div class="clear"></div>
+
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(!empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
@@ -216,8 +246,9 @@
         </div>
         <div class="clear">
         </div>
-        <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)
-
+        <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
+{{--            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
+            @if(in_array('commit',$templets))
                         <h4>
                 最新評價            </h4>
                             <div id="mq">
@@ -252,17 +283,21 @@
                     </div> 
                 </div>
                @endif
-                        <div class="go-appraise" style=" background:#fff; border:none;">
+            <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
                   @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    我要評價     @else 給我們留言   @endif        </a>
             </div>
-                    </div>
+        </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
         <div class="clear">
         </div>
         <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
-                            <table class="data-table">
+    <table class="data-table">
+
+    {{--用户帮助模块--}}
+    @if(in_array('user_help',$templets))
     <tbody>
+        @if(in_array('user_know',$templets))
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用戶須知</th>
         </tr>
@@ -272,6 +307,8 @@
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         )聯絡我們，本公司享有最終解釋權。</p>
             </td></tr>
+        @endif
+        @if(in_array('apply_goods',$templets))
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·如何申請退換貨</th>
         </tr>
@@ -295,7 +332,9 @@
                     理您的請求，退換貨所產生的運費由我方承擔。
                 </p>
             </td></tr>
-                <tr class="first odd">
+            @endif
+        @if(in_array('exchange_of_goods',$templets))
+        <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
         </tr>
         <tr> <td colspan="2">
@@ -317,11 +356,13 @@
             </td>
 
         </tr>
+        @endif
                 <tr class="first odd">
           
             
         </tr>
-            </tbody>
+    </tbody>
+    @endif
 </table>
 <style>
     .footer2{
@@ -358,27 +399,33 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </div>
     </div> -->
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
-            <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
-        <span class="query" id="track_online" onclick="location.href='/send'" style="width: 30%;">
+{{--底部导航--}}
+@if(in_array('order_nav',$templets))
+<div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
+    @if(in_array('order_select',$templets))
+    <span class="query" id="track_online" onclick="location.href='/send'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
         <span style="line-height:14px;">訂單<br>查詢</span>
       </a>
     </span>
-      
-	<span class="purchase" data-id="19288071" id="btnPay" style="width: 68%;">
+    @endif
+    @if(in_array('now_buy',$templets))
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}}">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
 			<span>立即購買</span>
 		</a>
 	</span>
+    @endif
 	<!-- <span class="service"  id="btnOnline" data-id="19288071">
 		<img src="/images/service.png" style="">
 		<a href="javascript:void(0);">
 			<span style="line-height:14px;">在線<br>客服</span>
 		</a>
 	</span> -->
-</div>	
+</div>
+@endif
 <!-- <script>
 	document.getElementById("LINE").onclick=function(){
 		window.location="https://line.me/R/ti/p/%40ajw0872j";
@@ -535,7 +582,8 @@ $(function(){
         localStorage.setItem("jsArr", tjArr1);
     }
     // 用户继续访问根据上面提供的key值补充数据
-    window.onbeforeunload = function() {
+    window.onblur = function() {
+        console.log('离开页面测试1')
         var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
         var tjI = tjArrRd.length - 1;
         if(tjArrRd[tjI].tjRd == tjRandom){
@@ -821,10 +869,10 @@ $(function(){
 </div>
 <!--商品介绍  商品参数处按钮的固定-->
 <script type="text/javascript" charset="utf-8">
-    var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
+    // var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
 </script>
 <script>
-            $(function(){
+        $(function(){
             $('#detial-context p a').each(function(index,ele){
                 var con_a = $(this).attr('href');
                 if(con_a.length>0){

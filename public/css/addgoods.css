@@ -1,0 +1,10 @@
+.clearfix{
+    overflow: hidden;
+    margin: 14px 0;
+}
+.form .row.cl {
+    margin: 0;
+    padding: 15px 0;
+    border-top: 1px dashed;
+    border-bottom: 0;
+}
