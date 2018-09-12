@@ -850,7 +850,9 @@ class GoodsController extends Controller
     //商品预览
     public function show(Request $request)
     {
+
       $goods_id=$request->input('id');
+      \Session::put('test_id',$goods_id);
       $imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
       $goods=goods::where('goods_id',$goods_id)->first();
       $comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();

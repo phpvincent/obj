@@ -19,7 +19,6 @@ class IndexController extends Controller
     public function index(Request $request){
 /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
-        
     	$goods_id=url::get_goods($request);
     	$imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
     	$goods=goods::where('goods_id',$goods_id)->first();
@@ -106,7 +105,12 @@ class IndexController extends Controller
     }
     public function pay(Request $request){
         //下单界面
-    	$goods_id=url::get_goods($request);
+        //判断是否为预览操作
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+        }else{
+           $goods_id=url::get_goods($request);
+        }
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();

@@ -17,8 +17,14 @@ class checkurl
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {   //判断是否有此域名存在
-
+    {
+    //判断是否为预览操作
+    $is_test=\Session::get('test_id',0);
+    if($is_test!=0){
+        view()->share('vis_id',0);
+        return $next($request);
+    }   
+    //判断是否有此域名存在
         $url=$_SERVER['SERVER_NAME'];
          $is_use=url::is_use($url);
         if($is_use){
