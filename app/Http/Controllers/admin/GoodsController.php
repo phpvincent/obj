@@ -359,7 +359,7 @@ class GoodsController extends Controller
            }
          if($msg1&&$msg2)
          {
-                  return response()->json(['err'=>1,'str'=>'添加成功！']);
+                  return response()->json(['err'=>1,'str'=>'添加成功，请通知管理员核审！']);
          }else{
                   return response()->json(['err'=>0,'str'=>'添加失败！']);
          }
@@ -675,7 +675,7 @@ class GoodsController extends Controller
 
    		if($msg1&&$msg2)
          {
-		   	 return response()->json(['err'=>1,'str'=>'保存成功！']);
+		   	 return response()->json(['err'=>1,'str'=>'保存成功！请留意核审时间！']);
          }else{
 		   	 return response()->json(['err'=>0,'str'=>'保存失败！']);
          }
