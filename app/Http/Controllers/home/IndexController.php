@@ -172,6 +172,12 @@ class IndexController extends Controller
         }
     }
     public function saveform(Request $request){
+        //判断是否为预览中的测试下单
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+            $order_id=0;
+            return  response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
+        }
     	$ip=$request->getClientIp();
     	$order=new order();
     	$order->order_single_id='NR'.makeSingleOrder();
@@ -259,10 +265,17 @@ class IndexController extends Controller
             return view('ajax.endfail');
         }
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
-        $order=\App\order::where("order_id",$request->order_id)->first();
+        if($request->order_id!=0){
+             $order=\App\order::where("order_id",$request->order_id)->first();
+        }else{
+            $order=new \App\order;
+            $order->order_price='test';
+            $order->order_single_id='NR000000000000000';
+        }
         $urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){
-            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+            $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
+            $url=isset($url['url_url'])?$url['url_url']:'#';
         }else{
             $url=$urls->url_url;
         }
