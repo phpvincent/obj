@@ -298,7 +298,11 @@ $('#addgoods').on('click',function(){
 	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
 })
 function goods_update(title,url,type,w,h){
-		var msg =confirm("确定要修改单品，修改后需要核审！");
+			@if(\App\goods_check::first()['goods_is_check']==0)
+				var msg =confirm("确定要修改此商品吗？将触发核审机制！");
+			@else
+				var msg =confirm("确定要修改此商品吗？");
+			@endif
 		if(msg){
 				layer_show(title,url,w,h);
 		}

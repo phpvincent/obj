@@ -426,7 +426,11 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
+			@if(\App\goods_check::first()['goods_is_check']==0)
+				var msg =confirm("确定要修改此商品吗？将触发核审机制！");
+			@else
 				var msg =confirm("确定要修改此商品吗？");
+			@endif
 				if(msg){
 									$(form).ajaxSubmit({
 							type: 'post',
