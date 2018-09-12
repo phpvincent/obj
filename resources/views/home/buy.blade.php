@@ -161,7 +161,7 @@
 <div class="pro_info">
     <div class="ctxthead">
         <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>
-        <div class="rpricebox">NT$<span id="price">{{$goods->goods_price}}</span></div>
+        <div class="rpricebox">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="price">{{$goods->goods_price}}</span></div>
     </div>
 
     <div class="ctxtbox">
