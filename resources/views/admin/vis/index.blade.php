@@ -147,17 +147,7 @@
 	}
  dataTable =$('#vis_index_table').DataTable($.tablesetting);
 $('#seavis').on('click',function(){
-	var mintime=$('#datemin').val();
-	var maxtime=$('#datemax').val();
-	if(mintime==''&&maxtime==''){
-      dataTable.search(this.value).draw();
-      return false;
-	}
-	if(mintime==''||maxtime==''){
-		layer.msg('时间区间错误！');
-		return false;
-	}
-	dataTable.search(mintime+';'+maxtime).draw();
+	dataTable.draw();
 })
 $('#getvis').on('click',function(){
 	$('#select-admin').show(300);
@@ -264,7 +254,7 @@ function back_vis(id){
         	}
 	}
 $('#outvis').on('click',function(){
-	location.href='{{url("admin/vis/outvis")}}';
+	location.href='{{url("admin/vis/outvis")}}'+'?mintime='+$('#datemin').val()+'&maxtime='+$('#datemax').val()+'&chvis='+$('#admin_vis').val()+'&ispb='+$('input[name="ispb"]:checked').val()+'&search='+$('[type="search"]').val();
 })
 function goods_getaddr(title,url,type,w,h){
 	layer_show(title,url,w,h);

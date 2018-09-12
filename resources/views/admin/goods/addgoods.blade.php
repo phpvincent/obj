@@ -66,6 +66,12 @@
 					<input type="text" class="input-text" value="" placeholder="" id="goods_price" name="goods_price">
 				</div>
 			</div>
+            <div class="clearfix">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" placeholder="" id="goods_num" name="goods_num" value="">
+                </div>
+            </div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -182,6 +188,18 @@
 		</div>
 		<div class="row cl">
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">评论内容：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						是 <input type="radio" id="commit_1" class="is_nav" name="commit_1"  value="1">
+						否 <input type="radio" id="commit_1" class="is_nav" name="commit_1" checked="checked" value="0">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">价格模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
@@ -214,12 +232,6 @@
 						否 <input type="radio" id="count_down_1" class="is_nav" name="count_down_1" checked="checked" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
-				</div>
-			</div>
-			<div class="clearfix" style="display: none;">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" placeholder="" id="goods_num" name="goods_num" value="999">
 				</div>
 			</div>
 			<div class="clearfix" style="display: none;">
@@ -463,6 +475,9 @@
         },
         commentdatemax:{
             required:true,
+        },
+        goods_num:{
+            required:true,
         }
     };
     $('#price_1').on('click',function(){
@@ -480,10 +495,6 @@
     $('#count_down_1').on('click',function(){
         var val=$(this).val();
         if(val==1){
-            $('#goods_num').rules('add', {
-                required:true,
-                digits : true
-            });
             $('#goods_end1').rules('add', {
                 required:true,
                 digits : true
@@ -497,10 +508,6 @@
                 digits : true
             });
         }else{
-            $('#goods_num').rules('add', {
-                required:false,
-                digits : false
-            });
             $('#goods_end1').rules('add', {
                 required:false,
                 digits : false
@@ -615,7 +622,7 @@
 				url: "{{url('admin/goods/post_add')}}",
 				success: function(data){
 					if(data.err==1){
-						layer.msg('添加成功!',{time:2*1000},function() {
+						layer.msg(data.str,{time:2*1000},function() {
 						//回调
 							index = parent.layer.getFrameIndex(window.name);
 							setTimeout("parent.layer.close(index);",2000);

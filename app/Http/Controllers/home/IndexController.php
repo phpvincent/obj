@@ -13,6 +13,7 @@ use App\par;
 use App\cuxiao;
 use App\order;
 use App\vis;
+use DB;
 use App\channel\cuxiaoSDK;
 class IndexController extends Controller
 {
@@ -23,7 +24,11 @@ class IndexController extends Controller
     public function index(Request $request){
 /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
-    	$goods_id=url::get_goods($request);
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+        }else{
+                $goods_id=url::get_goods($request); 
+        }
     	$imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
@@ -130,7 +135,12 @@ class IndexController extends Controller
     }
     public function pay(Request $request){
         //下单界面
-    	$goods_id=url::get_goods($request);
+        //判断是否为预览操作
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+        }else{
+           $goods_id=url::get_goods($request);
+        }
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
@@ -161,7 +171,7 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        $goods->goods_blade_type =1;
+        // $goods->goods_blade_type =1;
         /*if($goods->goods_blade_type == 1){
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
@@ -207,6 +217,12 @@ class IndexController extends Controller
         }
     }
     public function saveform(Request $request){
+        //判断是否为预览中的测试下单
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+            $order_id=0;
+            return  response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
+        }
     	$ip=$request->getClientIp();
     	$order=new order();
     	$order->order_single_id='NR'.makeSingleOrder();
@@ -294,10 +310,17 @@ class IndexController extends Controller
             return view('ajax.endfail');
         }
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
-        $order=\App\order::where("order_id",$request->order_id)->first();
+        if($request->order_id!=0){
+             $order=\App\order::where("order_id",$request->order_id)->first();
+        }else{
+            $order=new \App\order;
+            $order->order_price='test';
+            $order->order_single_id='NR000000000000000';
+        }
         $urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){
-            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+            $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
+            $url=isset($url['url_url'])?$url['url_url']:'#';
         }else{
             $url=$urls->url_url;
         }
@@ -334,6 +357,9 @@ class IndexController extends Controller
         return view('view.index');
     }
     public function visfrom(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $id=$request->input('id');
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
@@ -342,12 +368,15 @@ class IndexController extends Controller
     $vis->save();
    }
    public function settime(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
         $data=json_decode($request->input('data'));
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
         
         $time=time()-strtotime(($vis->vis_time));
-        if($vis->vis_staytime==null){
+        if($vis->vis_staytime==0){
                     $vis->vis_staytime=$time;
         }else{
             $vis->vis_staytime=$time;
@@ -355,6 +384,9 @@ class IndexController extends Controller
         $vis->save();
    }
    public function setbuy(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $id=$request->input('id');
     $vis=\App\vis::where('vis_id',$id)->first();
     $time=$request->input('date');
@@ -364,6 +396,9 @@ class IndexController extends Controller
     $vis->save();
    }
    public function setorder(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $date=$request->input('date');
     $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     $vis->vis_ordertime=$date;
@@ -380,5 +415,44 @@ class IndexController extends Controller
     $business_form->business_form_phone=$data['phone'];
     $business_form->business_form_username=$data['name'];
     $business_form->save();
+   }
+
+   //处理前台显示页面数据（2018-09-12）
+   public function datas(Request $request)
+   {
+        $goods = \App\goods::all();
+        $i = 0;
+        $templets = \App\templet_show::select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
+
+        foreach ($goods as $item)
+        {
+            //判断模板类型（无导航栏）
+            if($item->goods_blade_type == 1){
+                unset($templets[5]);
+                unset($templets[14]);
+                unset($templets[15]);
+                unset($templets[16]);
+            }
+
+            //判断模板类型(无倒计时)
+            if($item->goods_blade_type == 2){
+                unset($templets[3]);
+            }
+
+            if(!$item->goods_comment_num){
+                unset($templets[23]);
+            }
+
+            foreach ($templets as &$val)
+            {
+                $val['goods_id'] = $item->goods_id;
+            }
+
+            $bool = \App\goods_templet::insert($templets);
+            if(!$bool){
+                $i++;
+            }
+        }
+        return $i;
    }
 }

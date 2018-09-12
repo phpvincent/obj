@@ -310,8 +310,10 @@
         var addhtml='';
         var color25="";
         var eNum=$("#goods_config_div form").length+1;
+        var flag=false;
         $.each(a,function(i,val){
-        // console.log(i,val);      
+        // console.log(i,val);
+            if(val){flag=true};     
             var colorBut=''
             $.each(val,function(j,item){
              if(item.config_val_img){     //如果是展示图片的话显示这一组HTML；
@@ -332,7 +334,7 @@
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
          addhtml='<form id="'+e+'"><div><strong>第'+eNum+'件</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
-         $("#goods_config_div").append(addhtml);                  //插入一组商品的所有属性；
+         if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
      addform("f1");                                          //默认一组商品的所有属性fromid为f1；

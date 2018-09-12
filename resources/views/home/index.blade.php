@@ -120,7 +120,7 @@
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
         	@foreach($imgs as $key)
-                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
+                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" accpet="image/gif,image/png,image/jpeg,image/jpg,image/bmp" style="width: 100%;"  alt="" /></div>
             @endforeach
         </div>
         <div class="swiper-pagination"></div>
@@ -248,7 +248,7 @@
         </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
 {{--            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
-            @if(in_array('evaluate',$templets))
+            @if(in_array('commit',$templets))
                         <h4>
                 最新評價            </h4>
                             <div id="mq">
@@ -337,9 +337,7 @@
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
         </tr>
-        <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
-            <td colspan="2">
+        <tr> <td colspan="2">
                
                
                 <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
@@ -347,6 +345,14 @@
                     換貨審核—退款/換貨；</p>
                 <p>退換貨請註明：訂單號、姓名、電話。</p>
                 
+            </td>
+            
+        </tr>
+        <tr class="first odd">
+            
+            <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+           <td colspan="2">
+                <p>ZSSSHOP嚴選商城，秉承一貫的嚴謹態度,深入世界各地,嚴格把關所有商品的產地、工藝、原材料,甄選服飾、鞋包、居家、廚房、運動等各類商品,力求給你最優質的商品。</p>
             </td>
 
         </tr>

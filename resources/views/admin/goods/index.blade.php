@@ -23,10 +23,23 @@
 				</select>
 				</span> </div>
 		</div><br/>
+	<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">核审状态：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="check_type" id="check_type" class="select">
+					<option value="#">所有</option>
+					<option value="1">正常状态</option>
+					<option value="0">等待核审状态</option>
+					<option value="2">拒绝核审状态</option>
+					<option value="@">保护期内</option>
+					<option value="$">保护期已过</option>
+				</select>
+				</span> </div>
+		</div><br/>
 	<table class="table table-border table-bordered table-bg" id="goods_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="12">单品列表</th>
+				<th scope="col" colspan="14">单品列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
@@ -37,9 +50,11 @@
 				<th width="100">绑定域名</th>
 				<th width="130">促销信息</th>
 				<th width="40">是否启用</th>
-				<th width="80">绑定类型</th>
+				<th width="80">域名绑定类型</th>
 				<th width="100">发布时间</th>
 				<th width="80">发布人</th>
+				<th width="80">审核状态</th>
+				<th width="80">保护期剩余</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -81,6 +96,7 @@
 		"data":{
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
+			check_type:function(){return $('#check_type').val()},
 		},
 		"url": "{{url('admin/goods/get_table')}}",
 		"type": "POST",
@@ -89,7 +105,7 @@
 		"columns": [
 		{'defaultContent':"","className":"td-manager"},
 		{"data":'goods_id'},
-		{'data':'goods_name'},
+		{'data':'goods_real_name'},
 		{'data':'goods_msg'},
 		{'data':'goods_price'},
 		{'defaultContent':"","className":"td-manager"},
@@ -99,6 +115,8 @@
 		{'data':'goods_up_time'},
 		{'data':'admin_name'},
 		{'defaultContent':"","className":"td-manager"},
+		{'data':"less_time"},
+		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
 		{'defaultContent':""},
@@ -106,7 +124,7 @@
 		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="复制" href="javascript:;" onclick="goods_copy('+data.goods_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="复制"><i class="Hui-iconfont Hui-iconfont-copy"></i></span></a><a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			var info='<a title="预览" href="javascript:;" onclick="goods_show(\'商品预览\',\'{{url("admin/goods/show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="复制" href="javascript:;" onclick="goods_copy('+data.goods_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="复制"><i class="Hui-iconfont Hui-iconfont-copy"></i></span></a><a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.url_type==0||data.url_type==null){
 				var isroot='<span class="label label-default radius">×</span>';
 				if(data.url_url!=null){
@@ -129,7 +147,16 @@
 			var url='<a href="http://'+data.url_url+'" target="_blank" >'+data.url_url+'</a>';
 			var checkbox='<input type="checkbox" name="" value="">';
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(11)').html(info);
+			var check='';
+			if(data.goods_heshen==0){
+				check='<span style="color:brown;">等待审核</span>';
+			}else if(data.goods_heshen==1){
+				check='<span style="color:green;">审核通过,正常投放</span>';
+			}else if(data.goods_heshen==2){
+				check='<span style="color:red;">审核失败!</span>';
+			}
+			$(row).find('td:eq(11)').html(check);
+			$(row).find('td:eq(13)').html(info);
 			$(row).find('td:eq(7)').html(isroot);
 			$(row).find('td:eq(5)').html(url);
 			$(row).find('td:eq(8)').html(bd_type);
@@ -143,18 +170,11 @@
 	}
  dataTable =$('#goods_index_table').DataTable($.tablesetting);
  $('#seavis2').on('click',function(){
-	var mintime=$('#datemin').val();
-	var maxtime=$('#datemax').val();
-	if(mintime==''&&maxtime==''){
-      dataTable.search(this.value).draw();
-      return false;
-	}
-	if(mintime==''||maxtime==''){
-		layer.msg('时间区间错误！');
-		return false;
-	}
-	dataTable.search(mintime+';'+maxtime).draw();
+	$('#goods_index_table').dataTable().fnClearTable(); 
 })
+ $('#check_type').on('change',function(){
+	$('#goods_index_table').dataTable().fnClearTable(); 
+ })
 function del_goods(id){
 		var msg =confirm("确定要删除此商品吗？");
 		if(msg){
@@ -278,6 +298,16 @@ $('#addgoods').on('click',function(){
 	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
 })
 function goods_update(title,url,type,w,h){
+			@if(\App\goods_check::first()['goods_is_check']==0)
+				var msg =confirm("确定要修改此商品吗？将触发核审机制！");
+			@else
+				var msg =confirm("确定要修改此商品吗？");
+			@endif
+		if(msg){
+				layer_show(title,url,w,h);
+		}
+}
+function goods_show(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 $('#goods_type').on('change',function(){

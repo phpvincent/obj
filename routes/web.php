@@ -57,6 +57,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/goods/post_add','admin\GoodsController@post_add');
 	Route::post('/admin/goods/copy_goods','admin\GoodsController@copy_goods');
 	Route::get('/admin/goods/only_name','admin\GoodsController@only_name');
+	Route::get('/admin/goods/show','admin\GoodsController@show');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
@@ -115,4 +116,13 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/admin/chrole','admin\AdminController@chrole');
 	Route::post('/admin/admin/checkbox','admin\AdminController@checkbox');
 	Route::get('/admin/admin/layershow','admin\AdminController@layershow');
+	//核审相关
+	Route::get('/admin/check/index','admin\CheckController@index');
+	Route::get('/admin/check/go_check','admin\CheckController@go_check');
+	Route::get('/admin/check/no_check','admin\CheckController@no_check');
+	Route::get('/admin/check/re_check','admin\CheckController@re_check');
+	Route::post('/admin/check/getcheck','admin\CheckController@getcheck');
+	Route::any('/admin/check/set','admin\CheckController@set');
+
+
 });

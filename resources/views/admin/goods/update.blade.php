@@ -65,6 +65,12 @@
 				</div>
 			</div>
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" placeholder="" id="goods_num" name="goods_num" value="{{$goods->goods_num}}">
+				</div>
+			</div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
@@ -233,6 +239,19 @@
 				</div>
 			</div>
 		</div>
+		{{--评论内容--}}
+		<div class="row cl">
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">评论内容：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						是 <input type="radio" id="commit_1" class="is_nav" @if(in_array('commit',$goods_templet)) checked="checked" @endif  name="commit_1"  value="1">
+						否 <input type="radio" id="commit_1" class="is_nav" @if(!in_array('commit',$goods_templet)) checked="checked" @endif  name="commit_1" checked="checked" value="0">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+		</div>
 		{{--价格模块--}}
 		<div class="row cl">
 			<div class="clearfix">
@@ -269,12 +288,6 @@
 						否 <input type="radio" id="count_down_1" class="is_nav count_down_1" name="count_down_1"  @if(!in_array('count_down',$goods_templet)) checked="checked" @endif value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
-				</div>
-			</div>
-			<div class="clearfix" style="display: {{in_array('count_down',$goods_templet) ? 'block' : 'none'}};">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" placeholder="" id="goods_num" name="goods_num" value="{{$goods->goods_num}}">
 				</div>
 			</div>
 			<div class="clearfix" style="display: {{in_array('count_down',$goods_templet) ? 'block' : 'none'}};">
@@ -450,7 +463,7 @@
 				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button> -->
 			</div>
 		</div>
-		
+		<input type="hidden" name="recheck" value="{{isset($_GET['recheck'])?$_GET['recheck']:0}}">
 	</form>
 </article>
 @endsection
@@ -486,6 +499,10 @@
 	}
 	//2018-09-11 重写表单验证规则
     var rules={
+        goods_num:{
+        	required:true,
+        	digits : true
+    	},
         goods_name:{
             required:true,
         },
@@ -527,10 +544,6 @@
     //验证函数(倒计时)
     function count_down(){
         if($('input[name="count_down_1"]:checked').val()==1){
-            $('#goods_num').rules('add', {
-                required:true,
-                digits : true
-            });
             $('#goods_end1').rules('add', {
                 required:true,
                 digits : true
@@ -544,10 +557,6 @@
                 digits : true
             });
         }else{
-            $('#goods_num').rules('add', {
-                required:false,
-                digits : false
-            });
             $('#goods_end1').rules('add', {
                 required:false,
                 digits : false
@@ -649,18 +658,18 @@
         }
 	}
 
-	//视频
-	function video() {
-        if($('input[name="is_video"]:checked').val()==1){
-            $('#goods_video').rules('add', {
-                required:true
-            });
-        }else{
-            $('#goods_video').rules('add', {
-                required:false
-            });
-        }
-    }
+	// //视频
+    // function video() {
+    //     if($('input[name="is_video"]:checked').val()==1){
+    //         $('#goods_video').rules('add', {
+    //             required:true
+    //         });
+    //     }else{
+    //         $('#goods_video').rules('add', {
+    //             required:false
+    //         });
+    //     }
+    // }
 
 	//加载完成事件
 	$(function(){
@@ -681,7 +690,7 @@
 		//订单查询
         order_nav();
 		//视频
-        video();
+        // video();
 	});
 
 	//单击事件触发（价格）
@@ -724,10 +733,10 @@
         order_nav();
     });
 
-    //单击事件触发（视频）
-    $('.is_video').on('click',function(){
-        video();
-    });
+    // //单击事件触发（视频）
+    // $('.is_video').on('click',function(){
+    //     video();
+    // });
 
 	//表单验证
 	$("#form-goods-update").validate({
@@ -736,28 +745,36 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-            $(form).ajaxSubmit({
-				type: 'post',
-				url: "{{url('admin/goods/post_update')}}",
-				success: function(data){
-					if(data.err==1){
-						layer.msg('更改成功!',{time:2*1000},function() {
-						//回调
-							index = parent.layer.getFrameIndex(window.name);
-							setTimeout("parent.layer.close(index);",2000);
-                        	window.parent.location.reload();
-						});
-					}else{
-						layer.msg(data.str);
+			@if(\App\goods_check::first()['goods_is_check']==0)
+				var msg =confirm("确定要修改此商品吗？将触发核审机制！");
+			@else
+				var msg =confirm("确定要修改此商品吗？");
+			@endif
+				if(msg){
+									$(form).ajaxSubmit({
+							type: 'post',
+							url: "{{url('admin/goods/post_update')}}",
+							success: function(data){
+								if(data.err==1){
+									layer.msg(data.str,{time:2*1000},function() {
+									//回调
+										index = parent.layer.getFrameIndex(window.name);
+										setTimeout("parent.layer.close(index);",2000);
+			                        	window.parent.location.reload();
+									});
+								}else{
+									layer.msg(data.str);
+								}
+							},
+			                error: function(XmlHttpRequest, textStatus, errorThrown){
+								layer.msg('error!');
+							}});
+						var index = parent.layer.getFrameIndex(window.name);
+						//parent.$('.btn-refresh').click();
+						/*parent.layer.close(index);*/
 					}
-				},
-                error: function(XmlHttpRequest, textStatus, errorThrown){
-					layer.msg('error!');
-				}});
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			/*parent.layer.close(index);*/
-		}
+				}
+		
 	});
 
 	$('#goods_video').on('change',function(){
