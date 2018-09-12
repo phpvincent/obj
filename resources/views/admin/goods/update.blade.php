@@ -71,6 +71,18 @@
 				</div>
 			</div>
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="currency_type" id="currency_type" class="select">
+						@foreach($currency_type as $item)
+							<option value="{{$item->currency_type_id}}" {{$item->currency_type_id == $goods->goods_currency_id ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
+						@endforeach
+						{{--<option value="1">1--中东模板</option>--}}
+						{{--<option value="2">2--无倒计时模板</option>--}}
+					</select>
+					</span> </div>
+			</div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
@@ -293,9 +305,9 @@
 			<div class="clearfix" style="display: {{in_array('count_down',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品倒计时展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					时:<input type="text" style="width: 10%;" class="input-text" value="{{explode(':',$goods->goods_end)[0]}}" placeholder="" id="goods_end1" name="goods_end1">
-					分:<input type="text" style="width: 10%;" class="input-text" value="{{explode(':',$goods->goods_end)[1]}}" placeholder="" id="goods_end2" name="goods_end2">
-					秒:<input type="text" style="width: 10%;" class="input-text" value="{{explode(':',$goods->goods_end)[2]}}" placeholder="" id="goods_end3" name="goods_end3"><div style="border:2px dashed #ccc;">展示形式:<img src="/images/djs.png"></div>
+					时:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[0] : 0}}" placeholder="" id="goods_end1" name="goods_end1">
+					分:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[1] : 0}}" placeholder="" id="goods_end2" name="goods_end2">
+					秒:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[2] : 0}}" placeholder="" id="goods_end3" name="goods_end3"><div style="border:2px dashed #ccc;">展示形式:<img src="/images/djs.png"></div>
 				</div>
 			</div>
 		</div>

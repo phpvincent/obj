@@ -73,6 +73,18 @@
                 </div>
             </div>
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="currency_type" id="currency_type" class="select">
+						@foreach($currency_type as $item)
+						<option value="{{$item->currency_type_id}}" {{$item->currency_type_id == 1 ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
+						@endforeach
+						{{--<option value="1">1--中东模板</option>--}}
+						{{--<option value="2">2--无倒计时模板</option>--}}
+					</select>
+					</span> </div>
+			</div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
