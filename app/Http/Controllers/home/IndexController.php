@@ -161,6 +161,10 @@ class IndexController extends Controller
             $goods_config_arr[$v->goods_config_id][]=$v;
         } /*dd($goods_config_arr);*/
         $goods_config_arr=(string)json_encode($goods_config_arr);
+        $blade_type=$goods->goods_blade_type;
+        if($blade_type==1){
+            return view('home.buy2')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -172,7 +176,7 @@ class IndexController extends Controller
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
         // $goods->goods_blade_type =1;
-        /*if($goods->goods_blade_type == 1){
+        /*if($goods->goods_blade_type == 1){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$cuxiao->isEmpty()){
@@ -263,8 +267,8 @@ class IndexController extends Controller
         $order->order_remark=$request->input('notes');
         $order->order_name=$request->input('firstname');
         $order->order_tel=$request->input('telephone');
-        $order->order_state=$request->input('state');
-        $order->order_city=$request->input('city');
+        $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
+        $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
     	$msg=$order->save();
