@@ -225,7 +225,7 @@
         <div class="clear"></div>
 
         <div class="detail-block" id="detial-context" style="padding-top:10px">
-            @if(in_array('video',$templets))
+            @if(in_array('video',$templets) && !empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
 			</p>
             @endif

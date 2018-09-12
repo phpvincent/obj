@@ -168,6 +168,11 @@ class CommentController extends Controller
    		$msg=$comment->save();
    		if($request->file('com_img')!=null){
    			 foreach($request->file('com_img') as $pic) {
+                 $size = $pic->getSize();
+                 //这里可根据配置文件的设置，做得更灵活一点
+                 if($size > 8*1024*1024){
+                     return response()->json(['err' => 0, 'str' => '上传图片文件不能超过8M！']);
+                 }
 		         $name=$pic->getClientOriginalName();//得到图片名；
 		         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
 		         $fileName=md5(uniqid($name));
@@ -205,6 +210,11 @@ class CommentController extends Controller
    			$msg=$comment->save();
    		if($request->file('com_img')!=null){
    			 foreach($request->file('com_img') as $pic) {
+                 $size = $pic->getSize();
+                 //这里可根据配置文件的设置，做得更灵活一点
+                 if($size > 8*1024*1024){
+                     return response()->json(['err' => 0, 'str' => '上传图片文件不能超过8M！']);
+                 }
 		         $name=$pic->getClientOriginalName();//得到图片名；
 		         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
 		         $fileName=md5(uniqid($name));
