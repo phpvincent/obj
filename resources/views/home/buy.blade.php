@@ -452,7 +452,7 @@ $('#pay').bind('click',function(){
             //记录购买事件
             
 })
-   window.onbeforeunload = function() {
+   window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
     function getNowDate() {

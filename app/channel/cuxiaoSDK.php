@@ -28,7 +28,7 @@ class cuxiaoSDK{
 		    		return view('ajax.ajaxreturn2')->with(compact('goods','cuxiao','special'));
 		    		break;
 		    	case '3':
-		    	    return view('ajax.ajaxreturn3')->with(compact('goods','cuxiaos','special'));
+		    	    return view('ajax.ajaxreturn3')->with(compact('goods','cuxiao','special'));
 		    	    break;
 		    	default:
 		    		# code...

@@ -193,16 +193,75 @@ class GoodsController extends Controller
        }
 
        $goods=new \App\goods();
-         $goods->goods_name=$data['goods_name'];
-         $goods->goods_real_name=$data['goods_real_name'];
          $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
          if($isset!=null){
                   return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
          }
-         $goods->goods_msg=$data['goods_msg'];
+
+         $templets = []; //首页显示内容
+         $array = [];    //模块显示数组
+
+
+       //倒计时模块
+         if($data['count_down_1'] == 1){
+             if(!$request->has('goods_num') || !$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
+                 return response()->json(['err'=>0,'str'=>'库存或倒计时时间不能为空！']);
+             }
+             array_push($array,'count_down');
+             array_push($array,'goods_stock');
+             array_push($array,'remaining_time');
+             $goods->goods_num=$data['goods_num'];
+             $goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
+         }
+
+         //促销活动模块
+         if($data['promotion_1'] == 1){
+             if(!$request->has('goods_cuxiao_name') || !$request->has('goods_msg')){
+                 return response()->json(['err'=>0,'str'=>'促销活动名称或促销活动描述不能为空！']);
+             }
+             array_push($array,'description');
+             $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
+             $goods->goods_msg=$data['goods_msg'];
+         }
+
+         //封面图
+         if($data['broadcast_1'] == 1) {
+             array_push($array, 'broadcast');
+             if (!$request->hasFile('fm_imgs')) {
+                 return response()->json(['err' => 0, 'str' => '封面图为空！']);
+             }
+         }
+
+         //是否附带视频
+         if($data['is_video'] == 1) {
+            array_push($array,'video');
+             if($request->hasFile('goods_video')){
+                 $file=$request->file('goods_video');
+                 $name=$file->getClientOriginalName();//得到图片名；
+                 $ext=$file->getClientOriginalExtension();//得到图片后缀；
+                 $fileName=md5(uniqid($name));
+                 $newfilename='first'."_".$fileName.'.'.$ext;//生成新的的文件名
+                 $filedir="upload/fm_video/";
+                 $msg=$file->move($filedir,$newfilename);
+                 $goods->goods_video=$filedir.$newfilename;
+             }else{
+                 return response()->json(['err' => 0, 'str' => '附带视频不能为空！']);
+             }
+         }
+
+        //中部导航模块
+        if($data['center_nav_1'] == 1) {
+            array_push($array,'center_nav');
+            $array = array_merge($array,$data['center_nav']);
+            // 商品评论数根据是否显示商品来展示数量
+            if(in_array('evaluate',$data['center_nav'])){
+                $goods->goods_comment_num=$data['goods_comment_num'] ? $data['goods_comment_num'] : 0 ;
+            }
+        }
+         $goods->goods_name=$data['goods_name'];
+         $goods->goods_real_name=$data['goods_real_name'];
          $goods->goods_real_price=$data['goods_real_price'];
          $goods->goods_price=$data['goods_price'];
-         $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
          $goods->goods_admin_id=$data['admin_id'];
@@ -211,29 +270,41 @@ class GoodsController extends Controller
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
-         if($request->hasFile('goods_video')){
-               $file=$request->file('goods_video');
-               $name=$file->getClientOriginalName();//得到图片名；
-               $ext=$file->getClientOriginalExtension();//得到图片后缀；
-               $fileName=md5(uniqid($name));
-               $newfilename='first'."_".$fileName.'.'.$ext;//生成新的的文件名
-               $filedir="upload/fm_video/";
-               $msg=$file->move($filedir,$newfilename);
-               $goods->goods_video=$filedir.$newfilename;
-         }
-         $goods->goods_num=$data['goods_num'];
-         $goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
-         $goods->goods_comment_num=$data['goods_comment_num'];
-         $goods->goods_des_html=isset($data['editor1'])?$data['editor1']:"";
          $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
-         if(!$request->hasFile('fm_imgs')){
-                              return response()->json(['err'=>0,'str'=>'封面图为空！']);
+
+       //商品描述
+         if(isset($data['editor1'])){
+             $goods->goods_des_html=$data['editor1'];
+         }else{
+             return response()->json(['err' => 0, 'str' => '富文本商品描述不能为空！']);
          }
+//         $goods->goods_des_html=isset($data['editor1'])?$data['editor1']:"";
+
         $msg2=$goods->save();
         $goods_id=$goods->goods_id;
-          foreach($request->file('fm_imgs') as $pic) {
-              //$file->move(base_path().'/public/uploads/', $file->getClientOriginalName());
-              $name=$pic->getClientOriginalName();//得到图片名；
+
+       //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
+       if($data['price_1'] == 1){
+           array_push($array,'price');
+           $array = array_merge($array,$data['price']);
+       }
+
+       //2.用户帮助模块
+       if($data['uesr_help_1'] == 1) {
+           array_push($array,'user_help');
+           $array = array_merge($array,$data['user_help']);
+       }
+
+       //3.物流公司
+       if($data['express_1'] == 1) {
+           array_push($array,'express');
+       }
+
+       //4.轮播图模块
+       if($data['broadcast_1'] == 1) {
+           foreach($request->file('fm_imgs') as $pic) {
+               //$file->move(base_path().'/public/uploads/', $file->getClientOriginalName());
+               $name=$pic->getClientOriginalName();//得到图片名；
                $ext=$pic->getClientOriginalExtension();//得到图片后缀；
                $fileName=md5(uniqid($name));
                $newImagesName='first'."_".$fileName.'.'.$ext;//生成新的的文件名
@@ -248,55 +319,53 @@ class GoodsController extends Controller
                $nimg->img_url=$filedir.$newImagesName;
                $nimg->img_goods_id=$goods_id;
                $nimg->save();
-          }
+           }
+       }
+
+       //5.底部导航模块
+       if($data['order_nav_1'] == 1) {
+           array_push($array,'order_nav');
+           $array = array_merge($array,$data['order_nav']);
+       }
+
+       if(!empty($array)){
+           $datas = \App\templet_show::whereIn('templet_english_name',$array)->select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
+           foreach ($datas as &$val)
+           {
+               $val['goods_id'] = $goods_id;
+           }
+           $bool = \App\goods_templet::insert($datas);
+           if(!$bool){
+               return response()->json(['err'=>0,'str'=>'添加失败！']);
+           }
+       }
+
          $sdk=new cuxiaoSDK($goods);
          $msg1=$sdk->saveadd($request,$goods_id);
          $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
          $goods->save();
-         //增加商品扩展属性
-//         if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
-//            foreach($data['goods_config_name'] as $k => $v){
-//              $gf=new \App\goods_config();
-//              $gf->goods_primary_id=$goods->goods_id;
-//              if($v==null||$v==''){
-//                break;
-//              }
-//              $gf->goods_config_msg=$v;
-//              $gf->save();
-//               $msgarr=explode(';', $data['goods_config'][$k]);
-//                foreach($msgarr as $kk => $vv){
-//                  if($vv!=null && $vv!=''){
-//                     $fm=new \App\config_val();
-//                     $fm->config_type_id=$gf->goods_config_id;
-//                     $fm->config_val_msg=$vv;
-//                     $fm->config_goods_id=$goods->goods_id;
-//                     $fm->config_val_img=isset($vv['config_val_msg'])?$vv['config_val_msg']:null;
-//                     $fm->save();
-//                  }
-//                }
-//            }
-//         }
-           //新增或修改商品属性名和属性值
-           $goods_attr = isset($data['goods_config_name'])?$data['goods_config_name']:[];
-           if(!empty($goods_attr)){
-               foreach ($goods_attr as $item)
-               {
-                   if(isset($item['id'])){
-                       $goods_config = \App\goods_config::where('goods_config_id',$item['id'])->first();
-                   }else{
-                       $goods_config = new \App\goods_config();
-                   }
-                   $goods_config->goods_config_msg = $item['goods_config_name'];
-                   $goods_config->goods_config_type = 0;
-                   $goods_config->goods_primary_id = $goods_id;
-                   $goods_config->is_img = 0;
-                   $goods_config->save();
-                   $con_val = \App\config_val::createOrSave($item['msg'],$goods_config->goods_config_id,$goods_id);
-                   if($con_val === false){
-                       return response()->json(['err'=>0,'str'=>'保存失败！']);
-                   }
-               }
-           }
+
+         //新增或修改商品属性名和属性值
+         $goods_attr = isset($data['goods_config_name'])?$data['goods_config_name']:[];
+         if(!empty($goods_attr)){
+             foreach ($goods_attr as $item)
+             {
+                 if(isset($item['id'])){
+                     $goods_config = \App\goods_config::where('goods_config_id',$item['id'])->first();
+                 }else{
+                     $goods_config = new \App\goods_config();
+                 }
+                 $goods_config->goods_config_msg = $item['goods_config_name'];
+                 $goods_config->goods_config_type = 0;
+                 $goods_config->goods_primary_id = $goods_id;
+                 $goods_config->is_img = 0;
+                 $goods_config->save();
+                 $con_val = \App\config_val::createOrSave($item['msg'],$goods_config->goods_config_id,$goods_id);
+                 if($con_val === false){
+                     return response()->json(['err'=>0,'str'=>'保存失败！']);
+                 }
+             }
+         }
          if($msg1&&$msg2)
          {
                   return response()->json(['err'=>1,'str'=>'添加成功！']);
@@ -364,6 +433,11 @@ class GoodsController extends Controller
    		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间','商品像素','商品采购url'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }
+
+    /** 修改商品页
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
    public function chgoods(Request $request){
     //修改单品模板
    	 	$id=$request->input('id');
@@ -375,15 +449,17 @@ class GoodsController extends Controller
         if($goods_config!=null){
           foreach($goods_config as $k => $v){
             $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->orderBy('config_val_id','asc')->get()->toArray();
-//            $str=[];
-//            foreach($arr as $val){
-//                array_push($str,$arr);
-//                $str[$val['config_val_id']] = $val['config_val_msg'];
-//            }
             $goods_config[$k]->config_msg=$arr;
           }
         }
-   	 	return view('admin.goods.update')->with(compact('goods','type','goods_config'));
+
+        //返回前台用户权限显示
+        $goods_templet = \App\goods_templet::where('goods_id',$id)->pluck('templet_id')->toArray();
+        if(!empty($goods_templet)){
+            $goods_templet = \App\templet_show::whereIn('templet_show_id',$goods_templet)->pluck('templet_english_name')->toArray();
+        }
+
+   	 	return view('admin.goods.update')->with(compact('goods','type','goods_config','goods_templet'));
    }
 
     /** 修改商品
@@ -469,70 +545,165 @@ class GoodsController extends Controller
 
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
-         if($isset!=null&&$isset['goods_id']!=$data['goods_id']){
-                  return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
-         }
+        if($isset!=null&&$isset['goods_id']!=$data['goods_id']){
+                 return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
+        }
+
+       $array = [];
+       //倒计时模块
+       if($data['count_down_1'] == 1){
+           if(!$request->has('goods_num') || !$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
+               return response()->json(['err'=>0,'str'=>'库存或倒计时时间不能为空！']);
+           }
+           array_push($array,'count_down');
+           array_push($array,'goods_stock');
+           array_push($array,'remaining_time');
+           $goods->goods_num=$data['goods_num'];
+           $goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
+       }else{
+           $goods->goods_num=0;
+           $goods->goods_end='0:0:0';
+       }
+
+       //促销活动模块
+       if($data['promotion_1'] == 1){
+           if(!$request->has('goods_cuxiao_name') || !$request->has('goods_msg')){
+               return response()->json(['err'=>0,'str'=>'促销活动名称或促销活动描述不能为空！']);
+           }
+           array_push($array,'description');
+           $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
+           $goods->goods_msg=$data['goods_msg'];
+       }else{
+           $goods->goods_cuxiao_name='';
+           $goods->goods_msg='';
+       }
+
+       //封面图
+       $old_img=\App\img::where('img_goods_id',$data['goods_id'])->get();
+       if($data['broadcast_1'] == 1) {
+           array_push($array, 'broadcast');
+           if($request->hasFile('fm_imgs')) {
+               foreach($old_img as $val){
+                   @unlink($val->img_url);
+               }
+               $old_img=\App\img::where('img_goods_id',$data['goods_id'])->delete();
+               foreach ($request->file('fm_imgs') as $pic) {
+                   $name = $pic->getClientOriginalName();//得到图片名；
+                   $ext = $pic->getClientOriginalExtension();//得到图片后缀；
+                   $fileName = md5(uniqid($name));
+                   $newImagesName = 'first' . "_" . $fileName . '.' . $ext;//生成新的的文件名
+                   $filedir = "upload/fm_imgs/";
+                   $msg = $pic->move($filedir, $newImagesName);
+                   $nimg = new \App\img;
+                   $nimg->img_url = $filedir . $newImagesName;
+                   $nimg->img_goods_id = $data['goods_id'];
+                   $nimg->save();
+               }
+           }
+       }else{
+           foreach($old_img as $val){
+               @unlink($val->img_url);
+           }
+           $old_img=\App\img::where('img_goods_id',$data['goods_id'])->delete();
+       }
+
+       //是否附带视频
+       if($data['is_video'] == 1) {
+           array_push($array,'video');
+           if($request->hasFile('goods_video')){
+               if($goods->goods_video){
+                   @unlink($goods->goods_video);
+               }
+               $file=$request->file('goods_video');
+               $name=$file->getClientOriginalName();//得到图片名；
+               $ext=$file->getClientOriginalExtension();//得到图片后缀；
+               $fileName=md5(uniqid($name));
+               $newfilename=$request->input('goods_id')."_".$fileName.'.'.$ext;//生成新的的文件名
+               $filedir="upload/fm_video/";
+               $msg=$file->move($filedir,$newfilename);
+               $goods->goods_video=$filedir.$newfilename;
+           }
+       }else{
+           if($goods->goods_video){
+               @unlink($goods->goods_video);
+           }
+           $goods->goods_video='';
+       }
+
+       //中部导航模块
+       if($data['center_nav_1'] == 1) {
+           array_push($array,'center_nav');
+           $array = array_merge($array,$data['center_nav']);
+           // 商品评论数根据是否显示商品来展示数量
+           if(in_array('evaluate',$data['center_nav'])){
+               $goods->goods_comment_num=$data['goods_comment_num'] ? $data['goods_comment_num'] : 0 ;
+           }else{
+               $goods->goods_comment_num=0;
+           }
+       }else{
+           $goods->goods_comment_num=0;
+       }
    		$goods->goods_name=$data['goods_name'];
    		$goods->goods_real_name=$data['goods_real_name'];
-   		$goods->goods_msg=$data['goods_msg'];
    		$goods->goods_real_price=$data['goods_real_price'];
    		$goods->goods_price=$data['goods_price'];
-   		$goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
         $goods->goods_blade_type=$data['goods_blade_type'];
         $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
         $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
         $goods->goods_pix=$data['goods_pix'];
         $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
         $goods->goods_type=$data['goods_type'];
-   		if($request->hasFile('goods_video')){
-   			@unlink($goods->goods_video);
-   			$file=$request->file('goods_video');
-   			$name=$file->getClientOriginalName();//得到图片名；
-		         $ext=$file->getClientOriginalExtension();//得到图片后缀；
-		         $fileName=md5(uniqid($name));
-		         $newfilename=$request->input('goods_id')."_".$fileName.'.'.$ext;//生成新的的文件名
-		         $filedir="upload/fm_video/";
-		         $msg=$file->move($filedir,$newfilename);
-		    $goods->goods_video=$filedir.$newfilename;
-   		}
-   		
-   		$goods->goods_num=$data['goods_num'];
-   		$goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
-   		$goods->goods_comment_num=$data['goods_comment_num'];
-   		$goods->goods_des_html=isset($data['editor1'])?$data['editor1']:"";
-   		$goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
-   		if($request->hasFile('fm_imgs')){
-   			$old_img=\App\img::where('img_goods_id',$data['goods_id'])->get();
-   			foreach($old_img as $val){
-   				@unlink($val->img_url);
-   			}
-   			$old_img=\App\img::where('img_goods_id',$data['goods_id'])->delete();
-		    foreach($request->file('fm_imgs') as $pic) {
-		        //$file->move(base_path().'/public/uploads/', $file->getClientOriginalName());
-		        $name=$pic->getClientOriginalName();//得到图片名；
-		         $ext=$pic->getClientOriginalExtension();//得到图片后缀；
-		         $fileName=md5(uniqid($name));
-		         $newImagesName=$request->input('goods_id')."_".$fileName.'.'.$ext;//生成新的的文件名
-		         $filedir="upload/fm_imgs/";
-		         $msg=$pic->move($filedir,$newImagesName);
-		         //$bool=Storage::disk('article')->put($fileName,file_get_contents($pic->getRealPath()));
-		         /*$data['pic']='storage/Photo/article/'.$fileName;*///返回文件路径存贮在数据库
-		         /*if(!$msg){
-			   	    	return response()->json(['err'=>0,'str'=>'图片上传失败']);
-		         }*/
-		         $nimg=new \App\img;
-		         $nimg->img_url=$filedir.$newImagesName;
-		         $nimg->img_goods_id=$data['goods_id'];
-		         $nimg->save();
-		    }
-		}
-   		/*$url=\App\url::where('url_goods_id',$data['goods_id'])->first();
-   		$url->url_url=$data['url'];
-   		$url->url_type=isset($data['is_online']) ? $data['is_online'] : '0';*/
-         $sdk=new cuxiaoSDK($goods);
-         $msg1=$sdk->saveupdate($request);
-         $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
-         $msg2=$goods->save();
+        $goods->goods_up_time=date('Y-m-d h:i:s',time());
+        $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
+
+       //商品描述
+        if(isset($data['editor1'])){
+            $goods->goods_des_html=$data['editor1'];
+        }else{
+            return response()->json(['err' => 0, 'str' => '富文本商品描述不能为空！']);
+        }
+       $sdk=new cuxiaoSDK($goods);
+       $msg1=$sdk->saveupdate($request);
+       $goods->goods_cuxiao_type=$data['goods_cuxiao_type'];
+       $msg2=$goods->save();
+
+       //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
+       if($data['price_1'] == 1){
+           array_push($array,'price');
+           $array = array_merge($array,$data['price']);
+       }
+
+       //2.用户帮助模块
+       if($data['user_help_1'] == 1) {
+           array_push($array,'user_help');
+           $array = array_merge($array,$data['user_help']);
+       }
+
+       //3.物流公司
+       if($data['express_1'] == 1) {
+           array_push($array,'express');
+       }
+
+       //5.底部导航模块
+       if($data['order_nav_1'] == 1) {
+           array_push($array,'order_nav');
+           $array = array_merge($array,$data['order_nav']);
+       }
+
+       //删除之前的页面显示
+       \App\goods_templet::where('goods_id',$data['goods_id'])->delete();
+
+       //插入显示数据
+       if(!empty($array)) {
+           $datas = \App\templet_show::whereIn('templet_english_name', $array)->select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
+           foreach ($datas as &$val) {
+               $val['goods_id'] = $data['goods_id'];
+           }
+           $bool = \App\goods_templet::insert($datas);
+           if (!$bool) {
+               return response()->json(['err' => 0, 'str' => '修改失败！']);
+           }
+       }
 
          //新增或修改商品属性名和属性值
        $goods_attr = $data['goods_config_name'];
@@ -555,39 +726,13 @@ class GoodsController extends Controller
               }
           }
        }
-       /*$msg3=$url->save();*/
-       /* if($request->has('goods_config_name')&&$data['goods_config_name']!=null){
-          //删除原有附加属性
-          \App\goods_config::where('goods_primary_id',$goods->goods_id)->delete();
-          \App\config_val::where('config_goods_id',$goods->goods_id)->delete();
-          //添加现有附加属性
-              foreach($data['goods_config_name'] as $k => $v){
-              $gf=new \App\goods_config();
-              $gf->goods_primary_id=$goods->goods_id;
-              $gf->goods_config_msg=$v;
-               if($v==null||$v==''){
-                break;
-              }
-              $gf->save();
-               $msgarr=explode(';', $data['goods_config'][$k]);
-                foreach($msgarr as $kk => $vv){
-                  if($vv!=null && $vv!=''){
-                     $fm=new \App\config_val();
-                     $fm->config_type_id=$gf->goods_config_id;
-                     $fm->config_val_msg=$vv;
-                     $fm->config_goods_id=$goods->goods_id;
-                     $fm->config_val_img=isset($vv['config_val_msg'])?$vv['config_val_msg']:null;
-                     $fm->save();
-                  }
-                }              
-            }
-           }*/
-   		if($msg1&&$msg2)
-         {
-		   	 return response()->json(['err'=>1,'str'=>'保存成功！']);
-         }else{
-		   	 return response()->json(['err'=>0,'str'=>'保存失败！']);
-         }
+
+    if($msg1&&$msg2)
+     {
+         return response()->json(['err'=>1,'str'=>'保存成功！']);
+     }else{
+         return response()->json(['err'=>0,'str'=>'保存失败！']);
+     }
    }
    public function getcuxiaohtml(Request $request){
    	 $sdk=cuxiaoSDK::getcuxiaohtml($request->input('id'),$request->input('goods_id'));
@@ -603,6 +748,7 @@ class GoodsController extends Controller
         $id = $request->input('id');
         return view('admin.goods.onlyname')->with(compact('id'));
     }
+
     /** 复制商品
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -615,146 +761,166 @@ class GoodsController extends Controller
             return response()->json(['err'=>0,'str'=>'单商品名已存在，请重新命名！']);
         }
         $goods = \App\goods::where('goods_id',$id)->first();
+
+        //复制商品是否存在
         if(!$goods){
             return response()->json(['err'=>0,'str'=>'请选择复制商品！']);
         }
+
+        //审核状态为0 或者 2的商品不可复制
+        if($goods->goods_heshen == 0 || $goods->goods_heshen == 2){
+            return response()->json(['err'=>0,'str'=>'抱歉；当前商品核审状态不能复制！']);
+        }
+
         $goods = $goods->toArray();
         unset($goods['goods_id']);
         $goods['bd_type'] = 0;
         $goods['goods_real_name'] = $request->input('goods_name');  //单品名称
         $goods['goods_admin_id'] = Auth::user()->admin_id;     //复制人
         $goods['goods_up_time'] = date('Y-m-d H:i:s',time());  // 操作时间
-        try {
-            DB::beginTransaction();   //开启事务
-            //处理视频操作
-            if($goods['goods_video']){
-                $image = substr($goods['goods_video'],6);
-                $ext = strrchr($goods['goods_video'], '.');
-                $newImages = '/fm_video/fz_fm_video'.md5(microtime()).rand(100000,1000000).$ext;
-                if(Storage::disk('public')->exists($image)){
-                    Storage::disk('public')->copy($image, $newImages);
-                    $goods['goods_video'] = 'upload'.$newImages;
-                }else{
-                    $goods['goods_video'] = '';
-                }
-            }
+        $goods['goods_heshen'] = 0;
+        $goods['goods_check_time'] = date('Y-m-d H:i:s',time());
+        $goods['goods_check_num'] = 1;
 
-            //复制新商品
-            $goods_id = \App\goods::insertGetId($goods);
-            if(!$goods_id){
-                throw new Exception('复制失败!');
+        //处理视频操作
+        if($goods['goods_video']){
+            $image = substr($goods['goods_video'],6);
+            $ext = strrchr($goods['goods_video'], '.');
+            $newImages = '/fm_video/fz_fm_video'.md5(microtime()).rand(100000,1000000).$ext;
+            if(Storage::disk('public')->exists($image)){
+                Storage::disk('public')->copy($image, $newImages);
+                $goods['goods_video'] = 'upload'.$newImages;
+            }else{
+                $goods['goods_video'] = '';
             }
-
-            //处理封面图片
-            $imgs = \App\img::where('img_goods_id',$id)->get();
-            if(!$imgs->isEmpty()){
-                $imgs = $imgs->toArray();
-                foreach ($imgs as $img)
-                {
-                    unset($img['img_id']);
-                    if($img['img_url']){
-                        $image = substr($img['img_url'],6);
-                        $ext = strrchr($img['img_url'], '.');
-                        $newImages = '/fm_imgs/fz_fm_'.md5(microtime()).rand(100000,1000000).$ext;
-                        if(Storage::disk('public')->exists($image)){
-                            Storage::disk('public')->copy($image, $newImages);
-                            $img['img_url'] = 'upload'.$newImages;
-                        }else{
-                            $img['img_url'] = '';
-                        }
-                    }
-                    $img['img_goods_id'] = $goods_id;
-                    $bool = \App\img::insert($img);
-                    if(!$bool){
-                        throw new Exception('复制失败!');
-                    };
-                }
-            }
-
-            //处理商品属性名 + 属性值
-            $goods_config = \App\goods_config::where('goods_primary_id', $id)->get();
-            if (!$goods_config->isEmpty()) {
-                $goods_config = $goods_config->toArray();
-                foreach ($goods_config as $item) {
-                    $config_type_id = $item['goods_config_id'];
-                    unset($item['goods_config_id']);
-                    $item['goods_primary_id'] = $goods_id;
-                    //复制新商品属性名
-                    $goods_config_id = \App\goods_config::insertGetId($item);
-                    if(!$goods_config_id){
-                        throw new Exception('复制失败!');
-                    }
-                    $config_type = \App\config_val::where('config_type_id', $config_type_id)->get();
-                    if (!$config_type->isEmpty()) {
-                        $config_type = $config_type->toArray();
-                        foreach ($config_type as $value) {
-                            unset($value['config_val_id']);
-                            $value['config_type_id'] = $goods_config_id;
-                            $value['config_goods_id'] = $goods_id;
-                            //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
-                            if($value['config_val_img']){
-                                $image = substr($value['config_val_img'],6);
-                                $ext = strrchr($value['config_val_img'], '.');
-                                $newImages = '/sx_imgs/fzgoods_'.md5(microtime()).rand(10000,100000).$ext;
-                                if(Storage::disk('public')->exists($image)){
-                                    Storage::disk('public')->copy($image, $newImages);
-                                    $value['config_val_img'] = 'upload'.$newImages;
-                                }else{
-                                    $value['config_val_img'] = '';
-                                }
-                            }
-                            //复制新商品属性值
-                            $bool = \App\config_val::insert($value);
-                            if(!$bool){
-                                throw new Exception('复制失败!');
-                            }
-                        }
-                    }
-                }
-            }
-
-            //处理商品获得促销
-            $cuxiao = \App\cuxiao::where('cuxiao_goods_id', $id)->get();
-            if ($cuxiao) {
-                if (!$cuxiao->isEmpty()) {
-                    $cuxiao = $cuxiao->toArray();
-                    foreach ($cuxiao as $item)
-                    {
-                        unset($item['cuxiao_id']);
-                        $item['cuxiao_goods_id'] = $goods_id;
-                        $special_id = $item['cuxiao_special_id'];
-                        if($special_id){
-                             $special = \App\special::where('special_id',$special_id)->first();
-                             if($special){
-                                 $special = $special->toArray();
-                                 $special['special_goods_id'] = $goods_id;
-                                 unset($special['special_id']);
-                                 $new_special_id = \App\special::insertGetId($special);
-                                 if(!$new_special_id){
-                                     throw new Exception('复制失败!');
-                                 }
-                                 $item['cuxiao_special_id'] = $new_special_id;
-                                 $cuxiao_id = \App\cuxiao::insertGetId($item);
-                                 if(!$cuxiao_id){
-                                     throw new Exception('复制失败!');
-                                 }
-                             }
-                        }else{
-                            $cuxiao_id = \App\cuxiao::insertGetId($item);
-                            if(!$cuxiao_id){
-                                throw new Exception('复制失败!');
-                            }
-                        }
-
-                    }
-                }
-            }
-            DB::commit();
-        } catch (Exception $e){
-            DB::rollback();
-            return response()->json(['err' => '0', 'msg' => $e->getMessage()]);
         }
-        return response()->json(['err'=>1,'str'=>'操作成功！']);
+
+        //复制新商品
+        $goods_id = \App\goods::insertGetId($goods);
+        if(!$goods_id){
+            return response()->json(['err' => '0', 'msg' => '复制失败!']);
+        }
+
+        //处理封面图片
+        $imgs = \App\img::where('img_goods_id',$id)->get();
+        if(!$imgs->isEmpty()){
+            $imgs = $imgs->toArray();
+            foreach ($imgs as $img)
+            {
+                unset($img['img_id']);
+                if($img['img_url']){
+                    $image = substr($img['img_url'],6);
+                    $ext = strrchr($img['img_url'], '.');
+                    $newImages = '/fm_imgs/fz_fm_'.md5(microtime()).rand(100000,1000000).$ext;
+                    if(Storage::disk('public')->exists($image)){
+                        Storage::disk('public')->copy($image, $newImages);
+                        $img['img_url'] = 'upload'.$newImages;
+                    }else{
+                        $img['img_url'] = '';
+                    }
+                }
+                $img['img_goods_id'] = $goods_id;
+                $bool = \App\img::insert($img);
+                if(!$bool){
+                    return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                };
+            }
+        }
+
+        //处理商品属性名 + 属性值
+        $goods_config = \App\goods_config::where('goods_primary_id', $id)->get();
+        if (!$goods_config->isEmpty()) {
+            $goods_config = $goods_config->toArray();
+            foreach ($goods_config as $item) {
+                $config_type_id = $item['goods_config_id'];
+                unset($item['goods_config_id']);
+                $item['goods_primary_id'] = $goods_id;
+                //复制新商品属性名
+                $goods_config_id = \App\goods_config::insertGetId($item);
+                if(!$goods_config_id){
+                    return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                }
+                $config_type = \App\config_val::where('config_type_id', $config_type_id)->get();
+                if (!$config_type->isEmpty()) {
+                    $config_type = $config_type->toArray();
+                    foreach ($config_type as $value) {
+                        unset($value['config_val_id']);
+                        $value['config_type_id'] = $goods_config_id;
+                        $value['config_goods_id'] = $goods_id;
+                        //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
+                        if($value['config_val_img']){
+                            $image = substr($value['config_val_img'],6);
+                            $ext = strrchr($value['config_val_img'], '.');
+                            $newImages = '/sx_imgs/fzgoods_'.md5(microtime()).rand(10000,100000).$ext;
+                            if(Storage::disk('public')->exists($image)){
+                                Storage::disk('public')->copy($image, $newImages);
+                                $value['config_val_img'] = 'upload'.$newImages;
+                            }else{
+                                $value['config_val_img'] = '';
+                            }
+                        }
+                        //复制新商品属性值
+                        $bool = \App\config_val::insert($value);
+                        if(!$bool){
+                            return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                        }
+                    }
+                }
+            }
+        }
+
+        //处理商品获得促销
+        $cuxiao = \App\cuxiao::where('cuxiao_goods_id', $id)->get();
+        if ($cuxiao) {
+            if (!$cuxiao->isEmpty()) {
+                $cuxiao = $cuxiao->toArray();
+                foreach ($cuxiao as $item)
+                {
+                    unset($item['cuxiao_id']);
+                    $item['cuxiao_goods_id'] = $goods_id;
+                    $special_id = $item['cuxiao_special_id'];
+                    if($special_id){
+                         $special = \App\special::where('special_id',$special_id)->first();
+                         if($special){
+                             $special = $special->toArray();
+                             $special['special_goods_id'] = $goods_id;
+                             unset($special['special_id']);
+                             $new_special_id = \App\special::insertGetId($special);
+                             if(!$new_special_id){
+                                 return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                             }
+                             $item['cuxiao_special_id'] = $new_special_id;
+                             $cuxiao_id = \App\cuxiao::insertGetId($item);
+                             if(!$cuxiao_id){
+                                 return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                             }
+                         }
+                    }else{
+                        $cuxiao_id = \App\cuxiao::insertGetId($item);
+                        if(!$cuxiao_id){
+                            return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        //处理模块显示信息
+        $templet = \App\goods_templet::where('goods_id',$id)->select('templet_id')->get();
+        if(!$templet->isEmpty()){
+            $templet = $templet->toArray();
+            foreach ($templet as &$item)
+            {
+                $item['goods_id'] = $goods_id;
+            }
+            $bool = \App\goods_templet::insert($templet);
+            if(!$bool){
+                return response()->json(['err' => '0', 'msg' => '复制失败!']);
+            }
+        }
+
+        return response()->json(['err'=>1,'str'=>'复制成功！']);
     }
 }
   
