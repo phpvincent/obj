@@ -188,7 +188,8 @@ class GoodsController extends Controller
    }
    public function addgoods(Request $request){
       $type=\App\goods_type::get();
-      return view('admin.goods.addgoods')->with(compact('type'));
+      $currency_type = \App\currency_type::all();
+      return view('admin.goods.addgoods')->with(compact('type','currency_type'));
    }
 
     /** 新增商品
@@ -257,13 +258,12 @@ class GoodsController extends Controller
 
        //倒计时模块
          if($data['count_down_1'] == 1){
-             if(!$request->has('goods_num') || !$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
+             if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
                  return response()->json(['err'=>0,'str'=>'库存或倒计时时间不能为空！']);
              }
              array_push($array,'count_down');
              array_push($array,'goods_stock');
              array_push($array,'remaining_time');
-             $goods->goods_num=$data['goods_num'];
              $goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
          }
 
@@ -312,10 +312,12 @@ class GoodsController extends Controller
             }
         }
          $goods->goods_name=$data['goods_name'];
+         $goods->goods_currency_id=$data['currency_type'];
          $goods->goods_real_name=$data['goods_real_name'];
          $goods->goods_real_price=$data['goods_real_price'];
          $goods->goods_price=$data['goods_price'];
          $goods->goods_pix=$data['goods_pix'];
+         $goods->goods_num=$data['goods_num'];
          $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
          $goods->goods_admin_id=$data['admin_id'];
          $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
@@ -533,7 +535,9 @@ class GoodsController extends Controller
             $goods_templet = \App\templet_show::whereIn('templet_show_id',$goods_templet)->pluck('templet_english_name')->toArray();
         }
 
-   	 	return view('admin.goods.update')->with(compact('goods','type','goods_config','goods_templet'));
+       $currency_type = \App\currency_type::all();
+
+       return view('admin.goods.update')->with(compact('goods','type','goods_config','goods_templet','currency_type'));
    }
 
     /** 修改商品
@@ -629,13 +633,12 @@ class GoodsController extends Controller
        $array = [];
        //倒计时模块
        if($data['count_down_1'] == 1){
-           if(!$request->has('goods_num') || !$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
+           if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
                return response()->json(['err'=>0,'str'=>'库存或倒计时时间不能为空！']);
            }
            array_push($array,'count_down');
            array_push($array,'goods_stock');
            array_push($array,'remaining_time');
-           $goods->goods_num=$data['goods_num'];
            $goods->goods_end=$data['goods_end1'].':'.$data['goods_end2'].':'.$data['goods_end3'];
        }else{
            $goods->goods_num=0;
@@ -762,6 +765,8 @@ class GoodsController extends Controller
            }
 
            $goods->goods_name = $data['goods_name'];
+           $goods->goods_num=$data['goods_num'];
+           $goods->goods_currency_id=$data['currency_type'];
            $goods->goods_real_name = $data['goods_real_name'];
            $goods->goods_real_price = $data['goods_real_price'];
            $goods->goods_price = $data['goods_price'];
