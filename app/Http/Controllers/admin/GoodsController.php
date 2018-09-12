@@ -540,7 +540,16 @@ class GoodsController extends Controller
             //判断是否触发修改次数上限
             $maxcheck=\App\goods_check::first()['goods_check_max'];
             if($goods->goods_check_num>=$maxcheck){
-             return response()->json(['err'=>0,'str'=>'该单品今日已达到最高核审次数上限，无法再次修改！请联系管理员处理！']);
+              $old_time=$goods->goods_check_time;
+              $o_date=strtotime($old_time);
+              $o_date=date('Y-m-d',$o_date);
+              $n_date=date('Y-m-d');
+                if($o_date==$n_date){
+                return response()->json(['err'=>0,'str'=>'该单品今日已达到最高核审次数上限，无法再次修改！请联系管理员处理！']);
+              }else{
+                $goods->goods_check_time=date('Y-m-d H:i:s',time());
+                $goods->goods_check_num=1;
+              }
             }
             $goods->goods_heshen='0';
             $old_time=$goods->goods_check_time;
@@ -675,7 +684,7 @@ class GoodsController extends Controller
 
    		if($msg1&&$msg2)
          {
-		   	 return response()->json(['err'=>1,'str'=>'保存成功！请留意核审时间！']);
+		   	 return response()->json(['err'=>1,'str'=>'保存成功！请留意核审状态！']);
          }else{
 		   	 return response()->json(['err'=>0,'str'=>'保存失败！']);
          }

@@ -426,28 +426,32 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			$(form).ajaxSubmit({
-				type: 'post',
-				url: "{{url('admin/goods/post_update')}}",
-				success: function(data){
-					if(data.err==1){
-						layer.msg('更改成功!',{time:2*1000},function() {
-						//回调
-							index = parent.layer.getFrameIndex(window.name);
-							setTimeout("parent.layer.close(index);",2000);
-                        	window.parent.location.reload();
-						});
-					}else{
-						layer.msg(data.str);
+				var msg =confirm("确定要修改此商品吗？");
+				if(msg){
+									$(form).ajaxSubmit({
+							type: 'post',
+							url: "{{url('admin/goods/post_update')}}",
+							success: function(data){
+								if(data.err==1){
+									layer.msg(data.str,{time:2*1000},function() {
+									//回调
+										index = parent.layer.getFrameIndex(window.name);
+										setTimeout("parent.layer.close(index);",2000);
+			                        	window.parent.location.reload();
+									});
+								}else{
+									layer.msg(data.str);
+								}
+							},
+			                error: function(XmlHttpRequest, textStatus, errorThrown){
+								layer.msg('error!');
+							}});
+						var index = parent.layer.getFrameIndex(window.name);
+						//parent.$('.btn-refresh').click();
+						/*parent.layer.close(index);*/
 					}
-				},
-                error: function(XmlHttpRequest, textStatus, errorThrown){
-					layer.msg('error!');
-				}});
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			/*parent.layer.close(index);*/
-		}
+				}
+		
 	});
 
 	$('#goods_video').on('change',function(){

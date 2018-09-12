@@ -298,7 +298,10 @@ $('#addgoods').on('click',function(){
 	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
 })
 function goods_update(title,url,type,w,h){
-	layer_show(title,url,w,h);
+		var msg =confirm("确定要修改单品，修改后需要核审！");
+		if(msg){
+				layer_show(title,url,w,h);
+		}
 }
 function goods_show(title,url,type,w,h){
 	layer_show(title,url,w,h);
