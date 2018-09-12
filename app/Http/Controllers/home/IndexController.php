@@ -416,43 +416,4 @@ class IndexController extends Controller
     $business_form->business_form_username=$data['name'];
     $business_form->save();
    }
-
-   //处理前台显示页面数据（2018-09-12）
-   public function datas(Request $request)
-   {
-        $goods = \App\goods::all();
-        $i = 0;
-        $templets = \App\templet_show::select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
-
-        foreach ($goods as $item)
-        {
-            //判断模板类型（无导航栏）
-            if($item->goods_blade_type == 1){
-                unset($templets[5]);
-                unset($templets[14]);
-                unset($templets[15]);
-                unset($templets[16]);
-            }
-
-            //判断模板类型(无倒计时)
-            if($item->goods_blade_type == 2){
-                unset($templets[3]);
-            }
-
-            if(!$item->goods_comment_num){
-                unset($templets[23]);
-            }
-
-            foreach ($templets as &$val)
-            {
-                $val['goods_id'] = $item->goods_id;
-            }
-
-            $bool = \App\goods_templet::insert($templets);
-            if(!$bool){
-                $i++;
-            }
-        }
-        return $i;
-   }
 }
