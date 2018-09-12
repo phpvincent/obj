@@ -418,12 +418,16 @@ class GoodsController extends Controller
             if(Auth::user()->is_root!='1'){
                   $goods->goods_heshen='0';
                   $goods->goods_check_time=date('Y-m-d H:i:s',time());
-                  $goods->goods_check_num=1;
+                  $goods->goods_check_num=0;
            }else{
                 $goods->goods_heshen='1';
                 $goods->goods_check_time=date('Y-m-d H:i:s',time());
                 $goods->goods_check_num=0;
             }
+         }else{
+                  $goods->goods_heshen='0';
+                  $goods->goods_check_time=date('Y-m-d H:i:s',time());
+                  $goods->goods_check_num=0;
          }
          $goods->save();
 
@@ -783,6 +787,10 @@ class GoodsController extends Controller
                        }
                    }
                }
+           }else{
+                  $goods->goods_heshen='0';
+                  $goods->goods_check_time=date('Y-m-d H:i:s',time());
+                  $goods->goods_check_num=0;
            }
 
            $goods->goods_name = $data['goods_name'];
