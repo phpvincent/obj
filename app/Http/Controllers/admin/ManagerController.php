@@ -22,6 +22,7 @@ class ManagerController extends Controller
         	 if($validator->fails()){
 	         	return redirect('/admin/login')->withErrors($validator)->withInput();
 	         }
+
 	        $username=$request->input('username');
 	       	$password=$request->input('password');
 	       	if(Auth::guard('check')->attempt(['admin_name'=>$username,'password'=>$password])){

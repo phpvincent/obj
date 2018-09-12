@@ -13,14 +13,22 @@ use App\par;
 use App\cuxiao;
 use App\order;
 use App\vis;
+use DB;
 use App\channel\cuxiaoSDK;
 class IndexController extends Controller
 {
+    /** 前台首页
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request){
 /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
-        
-    	$goods_id=url::get_goods($request);
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+        }else{
+                $goods_id=url::get_goods($request); 
+        }
     	$imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
@@ -37,9 +45,7 @@ class IndexController extends Controller
              }else{
                 $comment[$v]->com_img=null;
              }
-           
         }
-        //dd($comment);
     	$des_img=des::where('des_goods_id',$goods_id)->get();
     	$par_img=par::where('par_goods_id',$goods_id)->get();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->orderBy('cuxiao_id','asc')->first();
@@ -47,17 +53,40 @@ class IndexController extends Controller
         $timer=$goods->goods_end;
         $parsed = date_parse($timer);
         $goods->goods_end=$parsed['hour'] * 3600+$parsed['minute'] * 60+$parsed['second'];
+
+        //获取页面显示内容
+        $goods_templet = \App\goods_templet::where('goods_id',$goods_id)->get();
+        $templets = [];
+        $center_nav = 0;  //中部导航显示个数
+        if(!$goods_templet->isEmpty()){
+            foreach ($goods_templet as $item)
+            {
+                if(isset($item->templet_has_show->templet_english_name)){
+                    if($item->templet_has_show->templet_english_name == 'introduce'){
+                        $center_nav++;
+                    }
+                    if($item->templet_has_show->templet_english_name == 'specifications'){
+                        $center_nav++;
+                    }
+                    if($item->templet_has_show->templet_english_name == 'evaluate'){
+                        $center_nav++;
+                    }
+                    array_push($templets,$item->templet_has_show->templet_english_name);
+                }
+            }
+        }
+
         //模板渲染
         $blade_type=$goods->goods_blade_type;
         switch ($blade_type) {
             case '0':
-            return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+            return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '1':
-            return view('home.index1')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+            return view('home.index1')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '2':
-            return view('home.index2')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao'));
+            return view('home.index2')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             default:
                 # code...
@@ -106,7 +135,12 @@ class IndexController extends Controller
     }
     public function pay(Request $request){
         //下单界面
-    	$goods_id=url::get_goods($request);
+        //判断是否为预览操作
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+        }else{
+           $goods_id=url::get_goods($request);
+        }
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
@@ -129,12 +163,27 @@ class IndexController extends Controller
         $goods_config_arr=(string)json_encode($goods_config_arr);
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
+
+    /** 前台活动模板
+     * @param Request $request
+     * @return cuxiaoSDK
+     */
     public function gethtml(Request $request){
-    	 $goods_id=$request->input('id');
-    	 $goods=goods::where('goods_id',$goods_id)->first();
-    	 $cuxiaoSDK=new cuxiaoSDK($goods);
-    	 $htmlstr=$cuxiaoSDK->getdiv();
-    	 return $htmlstr;
+        $goods_id=$request->input('id');
+        $goods=goods::where('goods_id',$goods_id)->first();
+        // $goods->goods_blade_type =1;
+        /*if($goods->goods_blade_type == 1){
+            $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
+            $special = \App\special::where('special_goods_id',$goods_id)->get();
+            if(!$cuxiao->isEmpty()){
+                return response()->json(['err'=>1,'str'=>'获取成功','cuxiao'=>$cuxiao,'goods'=>$goods,'special'=>$special]);
+            }else{
+                return response()->json(['err'=>0,'str'=>'获取失败']);
+            }
+        }*/
+        $cuxiaoSDK=new cuxiaoSDK($goods);
+        $htmlstr=$cuxiaoSDK->getdiv();
+        return $htmlstr;
     }
     public function savetestform(Request $request){
         $ip=$request->getClientIp();
@@ -168,6 +217,12 @@ class IndexController extends Controller
         }
     }
     public function saveform(Request $request){
+        //判断是否为预览中的测试下单
+        if(\Session::get('test_id',0)!=0){
+            $goods_id=\Session::get('test_id');
+            $order_id=0;
+            return  response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
+        }
     	$ip=$request->getClientIp();
     	$order=new order();
     	$order->order_single_id='NR'.makeSingleOrder();
@@ -255,10 +310,17 @@ class IndexController extends Controller
             return view('ajax.endfail');
         }
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
-        $order=\App\order::where("order_id",$request->order_id)->first();
+        if($request->order_id!=0){
+             $order=\App\order::where("order_id",$request->order_id)->first();
+        }else{
+            $order=new \App\order;
+            $order->order_price='test';
+            $order->order_single_id='NR000000000000000';
+        }
         $urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){
-            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+            $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
+            $url=isset($url['url_url'])?$url['url_url']:'#';
         }else{
             $url=$urls->url_url;
         }
@@ -295,6 +357,9 @@ class IndexController extends Controller
         return view('view.index');
     }
     public function visfrom(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $id=$request->input('id');
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
@@ -303,12 +368,15 @@ class IndexController extends Controller
     $vis->save();
    }
    public function settime(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
         $data=json_decode($request->input('data'));
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
         
         $time=time()-strtotime(($vis->vis_time));
-        if($vis->vis_staytime==null){
+        if($vis->vis_staytime==0){
                     $vis->vis_staytime=$time;
         }else{
             $vis->vis_staytime=$time;
@@ -316,6 +384,9 @@ class IndexController extends Controller
         $vis->save();
    }
    public function setbuy(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $id=$request->input('id');
     $vis=\App\vis::where('vis_id',$id)->first();
     $time=$request->input('date');
@@ -325,6 +396,9 @@ class IndexController extends Controller
     $vis->save();
    }
    public function setorder(Request $request){
+        if($request->input('id')==0){
+            return response('test',200);
+        }
     $date=$request->input('date');
     $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     $vis->vis_ordertime=$date;
@@ -341,5 +415,44 @@ class IndexController extends Controller
     $business_form->business_form_phone=$data['phone'];
     $business_form->business_form_username=$data['name'];
     $business_form->save();
+   }
+
+   //处理前台显示页面数据（2018-09-12）
+   public function datas(Request $request)
+   {
+        $goods = \App\goods::all();
+        $i = 0;
+        $templets = \App\templet_show::select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
+
+        foreach ($goods as $item)
+        {
+            //判断模板类型（无导航栏）
+            if($item->goods_blade_type == 1){
+                unset($templets[5]);
+                unset($templets[14]);
+                unset($templets[15]);
+                unset($templets[16]);
+            }
+
+            //判断模板类型(无倒计时)
+            if($item->goods_blade_type == 2){
+                unset($templets[3]);
+            }
+
+            if(!$item->goods_comment_num){
+                unset($templets[23]);
+            }
+
+            foreach ($templets as &$val)
+            {
+                $val['goods_id'] = $item->goods_id;
+            }
+
+            $bool = \App\goods_templet::insert($templets);
+            if(!$bool){
+                $i++;
+            }
+        }
+        return $i;
    }
 }
