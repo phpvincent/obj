@@ -673,16 +673,16 @@ class GoodsController extends Controller
        if($data['broadcast_1'] == 1) {
            array_push($array, 'broadcast');
            if($request->hasFile('fm_imgs')) {
-               $size = $request->file('fm_imgs')->getSize();
-               //这里可根据配置文件的设置，做得更灵活一点
-               if($size > 8*1024*1024){
-                   return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
-               }
                foreach($old_img as $val){
                    @unlink($val->img_url);
                }
                $old_img=\App\img::where('img_goods_id',$data['goods_id'])->delete();
                foreach ($request->file('fm_imgs') as $pic) {
+                   $size = filesize($pic);
+                   //这里可根据配置文件的设置，做得更灵活一点
+                   if($size > 8*1024*1024){
+                       return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
+                   }
                    $name = $pic->getClientOriginalName();//得到图片名；
                    $ext = $pic->getClientOriginalExtension();//得到图片后缀；
                    $fileName = md5(uniqid($name));
@@ -706,7 +706,8 @@ class GoodsController extends Controller
        if($data['is_video'] == 1) {
            array_push($array,'video');
            if($request->hasFile('goods_video')){
-               $size = $request->file('goods_video')->getSize();
+               $size = filesize($request->file('goods_video'));
+//               $size = $request->file('goods_video')->getSize();
                //这里可根据配置文件的设置，做得更灵活一点
                if($size > 8*1024*1024){
                    return response()->json(['err' => 0, 'str' => '上传视频文件不能超过8M！']);
