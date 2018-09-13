@@ -68,7 +68,7 @@
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
 			$(row).find('td:eq(5)').html(info);
 			$(row).find('td:eq(4)').html(isroot);
-			$(row).find('td:eq(2)').html(url);
+			$(row).find('td:eq(1)').html(url);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/
