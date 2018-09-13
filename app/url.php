@@ -9,8 +9,8 @@ class url extends Model
     protected $table = 'url';
     protected $primaryKey ='url_id';
     public static function is_use($url){
-    	$all_use=self::where('url_type',$url)->first();
-        if($all_use==null){dd($all_use);
+    	$all_use=self::where('url_url',$url)->first();
+        if($all_use==null){
             return false;
         }elseif($all_use['url_type']==0){
             //域名没有开启
