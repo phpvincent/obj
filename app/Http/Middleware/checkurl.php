@@ -68,7 +68,10 @@ class checkurl
                 break;
         }
         $goods_id=url::get_id();
-         //检测核审机制是否开启
+        if(!$goods_id){
+            return redirect('index/fb');
+        } 
+          //检测核审机制是否开启
         if(\App\goods_check::first()['goods_is_check']==0){
         //检测单品是否触发核审并已超过保护期
             $goods=\App\goods::where('goods_id',$goods_id)->first();

@@ -104,5 +104,10 @@ class url extends Model
         if($goods_id['url_goods_id']==null&&$goods_id['url_zz_goods_id']==null){
             return false;
         }
+        if($goods_id['url_goods_id']!=null&&$goods_id['url_goods_id']>0){
+            return $goods_id['url_goods_id'];
+        }else{
+            return $goods_id['url_zz_goods_id'];
+        }
     }
 }
