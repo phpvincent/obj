@@ -27,7 +27,7 @@ class checkurl
     //判断是否有此域名是否正在使用
         $url=$_SERVER['SERVER_NAME'];
          $is_use=url::is_use($url);
-        if(!$is_use){dd('?');
+        if(!$is_use){
          return redirect('index/fb');
         }
         $is_zz=false;
