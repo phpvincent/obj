@@ -68,7 +68,7 @@ class checkurl
                 break;
         }
         $goods_id=url::get_id();
-        if(!$goods_id){
+        if(!$goods_id){dd('?');
             return redirect('index/fb');
         } 
           //检测核审机制是否开启
