@@ -730,7 +730,7 @@ class GoodsController extends Controller
 
 
            //判断是否触发核审机制
-           if (\App\goods_check::first()['goods_is_check'] == 0) {
+           if (\App\goods_check::first()['goods_is_check'] == 0&&Auth::user()->is_root=='0') {
                $recheck = $request->has('recheck') ? $request->input('recheck') : 0;
                if ($request->input('recheck') != 1) {//核审人员修改单品不做记录
                    //判断是否触发修改次数上限
