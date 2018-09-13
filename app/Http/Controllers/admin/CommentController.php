@@ -210,12 +210,7 @@ class CommentController extends Controller
    			$msg=$comment->save();
    		if($request->file('com_img')!=null){
    			 foreach($request->file('com_img') as $pic) {
-//                 $size = $pic->getSize();
                  $size = filesize($pic);
-                 //这里可根据配置文件的设置，做得更灵活一点
-                 if($size > 8*1024*1024){
-                     return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
-                 }
                  //这里可根据配置文件的设置，做得更灵活一点
                  if($size > 8*1024*1024){
                      return response()->json(['err' => 0, 'str' => '上传图片文件不能超过8M！']);
