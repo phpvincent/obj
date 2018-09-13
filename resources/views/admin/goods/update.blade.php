@@ -258,7 +258,7 @@
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
 						是 <input type="radio" id="commit_1" class="is_nav" @if(in_array('commit',$goods_templet)) checked="checked" @endif  name="commit_1"  value="1">
-						否 <input type="radio" id="commit_1" class="is_nav" @if(!in_array('commit',$goods_templet)) checked="checked" @endif  name="commit_1" checked="checked" value="0">
+						否 <input type="radio" id="commit_1" class="is_nav" @if(!in_array('commit',$goods_templet)) checked="checked" @endif  name="commit_1" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
@@ -305,9 +305,9 @@
 			<div class="clearfix" style="display: {{in_array('count_down',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品倒计时展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					时:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[0] : 0}}" placeholder="" id="goods_end1" name="goods_end1">
-					分:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[1] : 0}}" placeholder="" id="goods_end2" name="goods_end2">
-					秒:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[2] : 0}}" placeholder="" id="goods_end3" name="goods_end3"><div style="border:2px dashed #ccc;">展示形式:<img src="/images/djs.png"></div>
+					时:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[0] : 24}}" placeholder="" id="goods_end1" name="goods_end1">
+					分:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[1] : 00}}" placeholder="" id="goods_end2" name="goods_end2">
+					秒:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[2] : 00}}" placeholder="" id="goods_end3" name="goods_end3"><div style="border:2px dashed #ccc;">展示形式:<img src="/images/djs.png"></div>
 				</div>
 			</div>
 		</div>

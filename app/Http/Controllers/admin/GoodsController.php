@@ -672,6 +672,11 @@ class GoodsController extends Controller
                }
                $old_img=\App\img::where('img_goods_id',$data['goods_id'])->delete();
                foreach ($request->file('fm_imgs') as $pic) {
+                   $size = filesize($pic);
+                   //这里可根据配置文件的设置，做得更灵活一点
+                   if($size > 8*1024*1024){
+                       return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
+                   }
                    $name = $pic->getClientOriginalName();//得到图片名；
                    $ext = $pic->getClientOriginalExtension();//得到图片后缀；
                    $fileName = md5(uniqid($name));
@@ -695,6 +700,11 @@ class GoodsController extends Controller
        if($data['is_video'] == 1) {
            array_push($array,'video');
            if($request->hasFile('goods_video')){
+               $size = filesize($request->file('goods_video'));
+               //这里可根据配置文件的设置，做得更灵活一点
+               if($size > 8*1024*1024){
+                   return response()->json(['err' => 0, 'str' => '上传视频文件不能超过8M！']);
+               }
                if($goods->goods_video){
                    @unlink($goods->goods_video);
                }
@@ -730,7 +740,7 @@ class GoodsController extends Controller
 
 
            //判断是否触发核审机制
-           if (\App\goods_check::first()['goods_is_check'] == 0) {
+           if (\App\goods_check::first()['goods_is_check'] == 0&&Auth::user()->is_root=='0') {
                $recheck = $request->has('recheck') ? $request->input('recheck') : 0;
                if ($request->input('recheck') != 1) {//核审人员修改单品不做记录
                    //判断是否触发修改次数上限
