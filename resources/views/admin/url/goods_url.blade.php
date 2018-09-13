@@ -43,7 +43,7 @@
 		},
 		"columns": [
 		{"data":'url_id'},
-		{"data":'url_url'},
+		{'defaultContent':"","className":"td-manager"},
 		{"data":'url_goods_id'},
 		{"data":'url_zz_goods_id'},
 		{'defaultContent':"","className":"td-manager"},
