@@ -25,6 +25,7 @@ class admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     		}
     	}
         if(\App\admin_group::where('admin_group_id',$group)->first()['admin_group_name']=='#全体人员#'){
+            //全体人员时取得所有人员的id
            $resu=self::get(['admin_id'])->toArray();
         }else{
            $resu=self::where('admin_group',$group)->get(['admin_id'])->toArray();
