@@ -12,7 +12,7 @@ class url extends Model
     	$all_use=self::where('url_type',$url)->first();
         if($all_use==null){
             return false;
-        }elseif($all_use['url_type']==0){dd('?');
+        }elseif($all_use['url_type']==0){
             //域名没有开启
             return false;
         }
