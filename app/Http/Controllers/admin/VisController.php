@@ -90,7 +90,7 @@ class VisController extends Controller
 	        })
 	        ->count();
 	        $data=DB::table('vis')
-	        ->select('vis.*','goods.goods_name')
+	        ->select('vis.*','goods.goods_real_name')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
 	        ->where(function($query)use($search){
 	        	 	 $query->where('goods.goods_name','like',"%$search%");

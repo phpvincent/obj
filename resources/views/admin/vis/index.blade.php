@@ -111,7 +111,7 @@
 		{'data':'vis_type'},
 		{'data':'vis_time'},
 		{'data':'vis_lan'},
-		{'data':'goods_name'},
+		{'data':'goods_real_name'},
 		{'data':'vis_from'},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
