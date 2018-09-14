@@ -25,13 +25,14 @@
 			</div>
 	</div>
 	
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_add('添加管理员','admin-add.html','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> --></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
 				<th scope="col" colspan="14">订单列表</th>
 			</tr>
 			<tr class="text-c">
+				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="40">ID</th>
 				<th width="80">订单号</th>
 				<th width="60">下单者ip</th>
@@ -74,10 +75,10 @@
 		"info":   true,	
 		"searching": true,
 		"ordering": true,
-		"order": [[ 8, "desc" ]],
+		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [2,3,4,5,7,10,12],
+		   "targets": [0,1,3,4,5,6,7,11,13],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -91,6 +92,7 @@
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
 		},
 		"columns": [
+		{'defaultContent':"","className":"td-manager"},
 		{"data":'order_id'},
 		{"data":'order_single_id'},
 		{"data":'order_ip'},
@@ -132,10 +134,11 @@
 			}else if(data.order_type==8){
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">拒签</span></a>';
 			}
-			var checkbox='<input type="checkbox" name="" value="">';
+			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
+			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(13)').html(info);
-			$(row).find('td:eq(7)').html(isroot);
+			$(row).find('td:eq(14)').html(info);
+			$(row).find('td:eq(8)').html(isroot);
 			/*$(row).find('td:eq(0)').html(checkbox);*/
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
@@ -207,6 +210,42 @@ $('#outorder').on('click',function(){
 		location.href='{{url("admin/order/outorder")}}?min='+mintime+'&max='+maxtime;
 	}
 })
+function pl_del(){
+	var msg =confirm("确定要批量删除这些订单吗？");
+	if(!msg){
+		return false;
+	}
+	var b=[];
+	var a=$('input[type="checkbox"]:checked');
+	if(a.length<=0){
+		layer.msg('无选中项');
+		return false;
+	}
+	for (var i = a.length - 1; i >= 0; i--) {
+		if(a[i].value!=null){
+					b.push(a[i].value);
+		}
+	}
+	layer.msg('删除中，请稍等!');
+	$.ajax({
+					url:"{{url('admin/order/delorder')}}",
+					type:'get',
+					data:{'id':b,'type':'all'},
+					datatype:'json',
+					success:function(msg){
+			           if(msg['err']==1){
+			           	 layer.msg(msg.str);
+               			 $('#order_index_table').dataTable().fnClearTable(); 
+			           }else if(msg['err']==0){
+			           	 layer.msg(msg.str);
+			           }else{
+			           	 layer.msg('删除失败！');
+			           }
+					}
+				})
+
+
+}
 function goods_getaddr(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }

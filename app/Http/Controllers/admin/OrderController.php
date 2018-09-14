@@ -227,6 +227,22 @@ class OrderController extends Controller
    	  }
    }
    public function delorder(Request $request){
+         if($request->has('type')&&$request->input('type')=='all'){
+          $ids=$request->input('id');
+          $err=null;
+           foreach($ids as $k => $v){
+            if($v==null){break;}
+            $msg=order::where('order_id',$v)->update(['is_del'=>'1']);
+            if(!$msg){
+              $err.=$v.',';
+            }
+           }
+           if($err!=null){
+            return response()->json(['err'=>0,'str'=>rtrim($err,',').'号订单删除失败']);
+           }else{
+            return response()->json(['err'=>1,'str'=>'删除成功']);
+           }
+         }
    	     $order=order::where('order_id',$request->input('id'))->first();
          $order->is_del='1';
          if($order->save()){
