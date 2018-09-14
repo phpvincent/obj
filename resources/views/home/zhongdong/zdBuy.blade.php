@@ -117,7 +117,7 @@
 
         @if($goods->goods_pix!=null&&$goods->goods_pix!='')
         <!-- Facebook Pixel Code -->
-      <!-- <script>
+      <script>
          !function(f,b,e,v,n,t,s)
          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -128,7 +128,7 @@
          'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '{{$goods->goods_pix}}'); 
          fbq('track', 'PageView');
-         </script>   -->
+         </script>  
         <noscript>
          <img height="1" width="1" 
         src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
@@ -749,7 +749,7 @@ jQuery(function(){
                         $(function(){
                             var specialHtml='';
                             $.each(msg.special,function(i,item){
-                                specialHtml+= '<div class="addcart-specs image-list"  mine_id=" '+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">Largess</span></div></div>'
+                                specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">Largess</span></div></div>'
                             });
                             $("#addcart").append(specialHtml);
                              var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（$<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, Preferential name 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div>'
@@ -773,11 +773,11 @@ jQuery(function(){
 		                           addform(formName); //增加一组商品属性；
 		                   	}
                             $('form').children('[name="cuxiao_id"]').val(msg.cuxiao[0].cuxiao_id); //隐藏域促销id
-                            // var cuxiao_special_id=msg.cuxiao[0].cuxiao_special_id;  //默认初始化赠品是否显示；
-                            //     $("[mine_id]").hide();
-                            // 	if(cuxiao_special_id>0){
-                            // 		$("[mine_id='"+cuxiao_special_id+"']").show();
-                            // 	}
+                            var cuxiao_special_id=msg.cuxiao[0].cuxiao_special_id;  //默认初始化赠品是否显示；
+                                $("[mine_id]").hide();
+                            	if(cuxiao_special_id>0){
+                            		$("[mine_id='"+cuxiao_special_id+"']").show();
+                            	}
 	                       var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		                   var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	                       $('#addcart-quantity-dec').bind('click',function(){
