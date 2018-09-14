@@ -87,7 +87,8 @@
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
 						<option value="0" @if($goods->goods_blade_type=='0') selected="selected" @endif>0--台湾模板</option>
-						<option value="1" @if($goods->goods_blade_type=='1') selected="selected"  @endif>1--中东模板</option>
+						<option value="1" @if($goods->goods_blade_type=='1') selected="selected" @endif>1--简体模板</option>
+						<option value="2" @if($goods->goods_blade_type=='2') selected="selected" @endif>2--中东模板</option>
 						{{--<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -276,17 +277,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('price',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show jian_templet" style="display: {{in_array('price',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="price">免运费</label>
-					<input type="checkbox" id="price" @if(in_array('free_freight',$goods_templet)) checked="checked" @endif name="price[]" value="free_freight">
+					<input type="checkbox" id="price" class="price" @if(in_array('free_freight',$goods_templet)) checked="checked" @endif name="price[]" value="free_freight">
 					<label for="price">货到付款</label>
-					<input type="checkbox" id="price" @if(in_array('cash_on_delivery',$goods_templet)) checked="checked" @endif name="price[]" value="cash_on_delivery">
+					<input type="checkbox" id="price" class="price" @if(in_array('cash_on_delivery',$goods_templet)) checked="checked" @endif name="price[]" value="cash_on_delivery">
 					<label for="price">七天鉴赏期</label>
-					<input type="checkbox" id="price" @if(in_array('seven_days',$goods_templet)) checked="checked" @endif name="price[]" value="seven_days">
+					<input type="checkbox" id="price" class="price" @if(in_array('seven_days',$goods_templet)) checked="checked" @endif name="price[]" value="seven_days">
                     <label for="price">商品原价</label>
-                    <input type="checkbox" id="price" @if(in_array('original',$goods_templet)) checked="checked" @endif name="price[]" value="original">
+                    <input type="checkbox" id="price" class="price" @if(in_array('original',$goods_templet)) checked="checked" @endif name="price[]" value="original">
                 </div>
 			</div>
 		</div>
@@ -302,7 +303,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('count_down',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show" style="display: {{in_array('count_down',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品倒计时展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					时:<input type="text" style="width: 10%;" class="input-text" value="{{$goods->goods_end ? explode(':',$goods->goods_end)[0] : 24}}" placeholder="" id="goods_end1" name="goods_end1">
@@ -323,13 +324,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('description',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show" style="display: {{in_array('description',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品促销活动名：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$goods->goods_cuxiao_name}}" placeholder="" id="goods_cuxiao_name" name="goods_cuxiao_name">
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('description',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix  templet_show" style="display: {{in_array('description',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<textarea name="goods_msg" cols="" rows="" id="goods_msg" class="textarea"  placeholder="说点什么..." datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{{$goods->goods_msg}}</textarea>
@@ -349,7 +350,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('center_nav',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show" style="display: {{in_array('center_nav',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="conter_nav">商品规格</label>
@@ -360,7 +361,7 @@
 					<input type="checkbox" id="conter_nav" class="pinglun"name="center_nav[]" @if(in_array('evaluate',$goods_templet)) checked="checked" @endif  value="evaluate">
 				</div>
 			</div>
-			<div class="clearfix" id="evaluate_show" style="display: {{in_array('evaluate',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show" id="evaluate_show" style="display: {{in_array('evaluate',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品评论数展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" placeholder="" id="goods_comment_num" name="goods_comment_num" value="{{$goods->goods_comment_num}}">
@@ -380,7 +381,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('user_help',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show" style="display: {{in_array('user_help',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择显示内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="uesr_help">用户须知</label>
@@ -404,7 +405,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('video',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show" style="display: {{in_array('video',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2">附带视频(仅限mp4/mpeg格式)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					@if($goods->goods_video!=''||$goods->goods_video!=null)<video src="/{{$goods->goods_video}}"	controls="" preload="none" width="420" height="280" data-setup="{}"></video>@else 	<label class="form-label col-xs-4 col-sm-2">暂无数据</label>@endif
@@ -424,7 +425,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('broadcast',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show jian_templet" style="display: {{in_array('broadcast',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>封面图：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<div class="uploader-thum-container">
@@ -445,13 +446,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: {{in_array('order_nav',$goods_templet) ? 'block' : 'none'}};">
+			<div class="clearfix templet_show jian_templet" style="display: {{in_array('order_nav',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择显示内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="order_nav">订单查询</label>
-					<input type="checkbox" @if(in_array('order_select',$goods_templet)) checked="checked"  @endif id="order_nav" name="order_nav[]" value="order_select">
+					<input type="checkbox" class="order_nav" @if(in_array('order_select',$goods_templet)) checked="checked"  @endif id="order_nav" name="order_nav[]" value="order_select">
 					<label for="order_nav">立即购买</label>
-					<input type="checkbox" @if(in_array('now_buy',$goods_templet)) checked="checked"  @endif  id="order_nav" name="order_nav[]" value="now_buy">
+					<input type="checkbox" class="order_nav" @if(in_array('now_buy',$goods_templet)) checked="checked"  @endif  id="order_nav" name="order_nav[]" value="now_buy">
 				</div>
 			</div>
 		</div>
@@ -477,6 +478,12 @@
 		</div>
 		<input type="hidden" name="recheck" value="{{isset($_GET['recheck'])?$_GET['recheck']:0}}">
 	</form>
+	<div class="img_templet_2"onclick="guanbi_img_templet()"></div>
+	<div class="img_templet" id="img_templet" > <div style="width: 100%;height: 100%;overflow-y:auto ;"onclick="img_templet()"><image style="width: 100%;" src="/images/templet.png"></div></image>  </div>
+	<div class="allselect public_css" onclick="allselect()">全选模板</div>
+	<div class="partselect public_css" onclick="partselect()">简选模板</div>
+	<div class="totop public_css" onclick="totop()"><i class="Hui-iconfont">&#xe699;</i></div>
+	<div class="tobottom public_css" onclick="tobottom()"><i class="Hui-iconfont">&#xe698;</i></div>
 </article>
 @endsection
 @section('js')
@@ -491,6 +498,87 @@
 		});
 
 	});
+	function guanbi_img_templet() {
+        $("#img_templet").attr("class","img_templet");
+		$(".img_templet_2").hide();
+    }
+	function img_templet() {
+		if($("#img_templet").attr("class")=="img_templet_1"){
+            $("#img_templet").attr("class","img_templet");
+            $(".img_templet_2").hide();
+		}else {
+            $("#img_templet").attr("class","img_templet_1");
+            $(".img_templet_2").show();
+		}
+    }
+
+	//页面底部
+	function tobottom(){
+        var Sheight = document.body.offsetHeight - document.documentElement.offsetHeight
+        document.documentElement.scrollTop = document.body.scrollTop =Sheight;
+    }
+
+	//页面置顶
+    function totop(){
+        document.documentElement.scrollTop = document.body.scrollTop =0;
+    }
+
+	//全选模板
+	function allselect()
+	{
+		layer.msg("已全部选中，请完善信息。");
+        for(var i=0; i<$('input[type="radio"][value="1"]').length;i++){
+            $('input[type="radio"][value="1"]')[i].checked = true
+		}
+        for(var i=0; i<$('input[type="checkbox"]').length;i++){
+            $('input[type="checkbox"]')[i].checked = true
+        }
+		$('.templet_show').show();
+		        //价格
+		        price();
+				//倒计时
+		        count_down()
+				//促销活动模块
+		        promotion();
+				//中间导航
+		        center_nav()
+				//轮播导航
+		        broadcast();
+				//评论数
+		        pinglun();
+				//用户帮助
+		        uesr_help();
+				//订单查询
+		        order_nav();
+	}
+
+	//简选模板
+    function partselect()
+    {
+        layer.msg("已更改为简选模板模式，请完善信息。");
+		//初始化，全部不选
+        for(var i=0; i<$('input[type="radio"][value="0"]').length;i++){
+            $('input[type="radio"][value="0"]')[i].checked = true
+        }
+        $('.templet_show').hide();
+
+        //价格模板
+        $('input[name="price_1"]')[0].checked = true;
+        $('input[name="price_1"]')[1].checked = false;
+		//轮播模块
+        $('input[name="broadcast_1"]')[0].checked = true;
+        $('input[name="broadcast_1"]')[1].checked = false;
+		//底部导航
+        $('input[name="order_nav_1"]')[0].checked = true;
+        $('input[name="order_nav_1"]')[1].checked = false;
+		//价格模块（全部不选）
+        $('.price').attr('checked',false);
+        $('.jian_templet').show();
+		//
+		$('.order_nav').attr('checked',true);
+		broadcast();
+		order_nav();
+    }
 
 	$('#goods_cuxiao_type').on('change',function(){
 		var now=$(this).val();
@@ -542,15 +630,15 @@
     };
 	//验证函数(价格)
 	function price(){
-        if($('input[name="price_1"]:checked').val() == 1){
-            $('#price').rules('add', {
-                required:true
-            });
-        }else{
-            $('#price').rules('add', {
-                required:false
-            });
-        }
+        // if($('input[name="price_1"]:checked').val() == 1){
+        //     $('#price').rules('add', {
+        //         required:true
+        //     });
+        // }else{
+        //     $('#price').rules('add', {
+        //         required:false
+        //     });
+        // }
 	}
 
     //验证函数(倒计时)
@@ -763,19 +851,21 @@
 				var msg =confirm("确定要修改此商品吗？");
 			@endif
 				if(msg){
-									$(form).ajaxSubmit({
+                		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
+						$(form).ajaxSubmit({
 							type: 'post',
 							url: "{{url('admin/goods/post_update')}}",
 							success: function(data){
-								if(data.err==1){
-									layer.msg(data.str,{time:2*1000},function() {
+                                layer.close(indexs);
+                                if(data.err==1){
+                                    layer.msg(data.str,{time:2*1000},function() {
 									//回调
 										index = parent.layer.getFrameIndex(window.name);
 										setTimeout("parent.layer.close(index);",2000);
 			                        	window.parent.location.reload();
 									});
 								}else{
-									layer.msg(data.str);
+                                    layer.msg(data.str);
 								}
 							},
 			                error: function(XmlHttpRequest, textStatus, errorThrown){

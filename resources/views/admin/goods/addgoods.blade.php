@@ -89,7 +89,8 @@
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
 						<option value="0" >0--台湾模板</option>
-						<option value="1">1--中东模板</option>
+						<option value="1">1--简体模板</option>
+						<option value="2">2--中东模板</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -215,23 +216,23 @@
 				<label class="form-label col-xs-4 col-sm-2">价格模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
-						是 <input type="radio" id="price_1" class="is_nav" name="price_1"  value="1">
-						否 <input type="radio" id="price_1" class="is_nav" name="price_1" checked="checked" value="0">
+						是 <input type="radio" id="price_1" class="is_nav price_1" name="price_1"  value="1">
+						否 <input type="radio" id="price_1" class="is_nav price_1" name="price_1" checked="checked" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix  templet_show jian_templet" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="price">免运费</label>
-					<input type="checkbox" id="price" name="price[]" value="free_freight">
+					<input type="checkbox" class="price" id="price" name="price[]" value="free_freight">
 					<label for="price">货到付款</label>
-					<input type="checkbox" id="price" name="price[]" value="cash_on_delivery">
+					<input type="checkbox" class="price" id="price" name="price[]" value="cash_on_delivery">
 					<label for="price">七天鉴赏期</label>
-					<input type="checkbox" id="price" name="price[]" value="seven_days">
+					<input type="checkbox" class="price" id="price" name="price[]" value="seven_days">
 					<label for="price">商品原价</label>
-					<input type="checkbox" id="price" name="price[]" value="original">
+					<input type="checkbox" class="price" id="price" name="price[]" value="original">
 				</div>
 			</div>
 		</div>
@@ -240,13 +241,13 @@
 				<label class="form-label col-xs-4 col-sm-2">倒计时模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
-						是 <input type="radio" id="count_down_1" class="is_nav" name="count_down_1"  value="1">
-						否 <input type="radio" id="count_down_1" class="is_nav" name="count_down_1" checked="checked" value="0">
+						是 <input type="radio" id="count_down_1" class="is_nav count_down_1" name="count_down_1"  value="1">
+						否 <input type="radio" id="count_down_1" class="is_nav count_down_1" name="count_down_1" checked="checked" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix templet_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品倒计时展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					时:<input type="text" style="width: 10%;" class="input-text" value="24" placeholder="" id="goods_end1" name="goods_end1">
@@ -260,19 +261,19 @@
 				<label class="form-label col-xs-4 col-sm-2">促销活动模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box ">
-						是 <input type="radio" id="promotion_1" class="is_nav" name="promotion_1"  value="1">
-						否 <input type="radio" id="promotion_1" class="is_nav" name="promotion_1" checked="checked" value="0">
+						是 <input type="radio" id="promotion_1" class="is_nav promotion_1" name="promotion_1"  value="1">
+						否 <input type="radio" id="promotion_1" class="is_nav promotion_1" name="promotion_1" checked="checked" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix templet_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品促销活动名：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="" placeholder="" id="goods_cuxiao_name" name="goods_cuxiao_name">
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix  templet_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<textarea name="goods_msg" cols="" rows="" id="goods_msg" class="textarea"  placeholder="说点什么..." datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)"></textarea>
@@ -285,13 +286,13 @@
 				<label class="form-label col-xs-4 col-sm-2">中部导航模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
-						是 <input type="radio" id="conter_nav_1" class="is_nav_1" name="center_nav_1"  value="1">
-						否 <input type="radio" id="conter_nav_1" class="is_nav_1" name="center_nav_1" checked="checked" value="0">
+						是 <input type="radio" id="conter_nav_1" class="is_nav_1 conter_nav_1" name="center_nav_1"  value="1">
+						否 <input type="radio" id="conter_nav_1" class="is_nav_1 conter_nav_1" name="center_nav_1" checked="checked" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix templet_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="conter_nav">商品规格</label>
@@ -302,7 +303,7 @@
 					<input type="checkbox" id="conter_nav" class="pinglun"name="center_nav[]" value="evaluate">
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix templet_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品评论数展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="" placeholder="" id="goods_comment_num" name="goods_comment_num" value="999">
@@ -315,13 +316,13 @@
 				<label class="form-label col-xs-4 col-sm-2">用户帮助模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
-						是 <input type="radio" id="uesr_help_1" class="is_nav" name="uesr_help_1" checked="checked"  value="1">
-						否 <input type="radio" id="uesr_help_1" class="is_nav" name="uesr_help_1" value="0">
+						是 <input type="radio" id="uesr_help_1" class="is_nav uesr_help_1" name="uesr_help_1" checked="checked"  value="1">
+						否 <input type="radio" id="uesr_help_1" class="is_nav uesr_help_1" name="uesr_help_1" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix">
+			<div class="clearfix templet_show">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择显示内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="uesr_help">用户须知</label>
@@ -338,13 +339,13 @@
 				<label class="form-label col-xs-4 col-sm-2">是否附带视频:</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
-						是 <input type="radio" id="is_video" class="is_video" name="is_video"  value="1">
-						否 <input type="radio" id="is_video" class="is_video" name="is_video" checked="checked" value="0">
+						是 <input type="radio" id="is_video" class="is_video is_video" name="is_video"  value="1">
+						否 <input type="radio" id="is_video" class="is_video is_video" name="is_video" checked="checked" value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix" style="display: none;">
+			<div class="clearfix templet_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2">附带视频(仅限mp4/mpeg格式)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="file" id="goods_video" class="input-text" value="" placeholder="" id="goods_video" name="goods_video" accept="audio/mp4,video/mp4,video/mpeg,video/mpeg">
@@ -356,13 +357,13 @@
 					<label class="form-label col-xs-4 col-sm-2">轮播图模块：</label>
 					<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 						<div class="check-box">
-							是 <input type="radio" id="broadcast_1" class="is_nav" name="broadcast_1"  checked="checked" value="1">
-							否 <input type="radio" id="broadcast_1" class="is_nav" name="broadcast_1"  value="0">
+							是 <input type="radio" id="broadcast_1" class="is_nav broadcast_1" name="broadcast_1"  checked="checked" value="1">
+							否 <input type="radio" id="broadcast_1" class="is_nav broadcast_1" name="broadcast_1"  value="0">
 							<label for="checkbox-pinglun">&nbsp;</label>
 						</div>
 					</div>
 				</div>
-				<div class="clearfix">
+				<div class="clearfix templet_show jian_templet">
 					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>封面图：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<div class="uploader-thum-container">
@@ -391,19 +392,19 @@
 				<label class="form-label col-xs-4 col-sm-2">底部导航模块：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
-						是 <input type="radio" id="order_nav_1" class="is_nav" name="order_nav_1" checked="checked" value="1">
-						否 <input type="radio" id="order_nav_1" class="is_nav" name="order_nav_1"  value="0">
+						是 <input type="radio" id="order_nav_1" class="is_nav order_nav_1" name="order_nav_1" checked="checked" value="1">
+						否 <input type="radio" id="order_nav_1" class="is_nav order_nav_1" name="order_nav_1"  value="0">
 						<label for="checkbox-pinglun">&nbsp;</label>
 					</div>
 				</div>
 			</div>
-			<div class="clearfix">
+			<div class="clearfix templet_show jian_templet">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择显示内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
 					<label for="order_nav">订单查询</label>
-					<input type="checkbox" checked="checked" id="order_nav" name="order_nav[]" value="order_select">
+					<input type="checkbox" class="order_nav"  checked="checked" id="order_nav" name="order_nav[]" value="order_select">
 					<label for="order_nav">立即购买</label>
-					<input type="checkbox" checked="checked" id="order_nav" name="order_nav[]" value="now_buy">
+					<input type="checkbox" class="order_nav"  checked="checked" id="order_nav" name="order_nav[]" value="now_buy">
 				</div>
 			</div>
 		</div>
@@ -426,7 +427,12 @@
 				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button> -->
 			</div>
 		</div>
-		
+		<div class="img_templet_2"onclick="guanbi_img_templet()"></div>
+		<div class="img_templet" id="img_templet" > <div style="width: 100%;height: 100%;overflow-y:auto ;"onclick="img_templet()"><image style="width: 100%;" src="/images/templet.png"></div></image>  </div>
+		<div class="allselect public_css" onclick="allselect()">全选模板</div>
+		<div class="partselect public_css" onclick="partselect()">简选模板</div>
+		<div class="totop public_css" onclick="totop()"><i class="Hui-iconfont">&#xe699;</i></div>
+		<div class="tobottom public_css" onclick="tobottom()"><i class="Hui-iconfont">&#xe698;</i></div>
 	</form>
 </article>
 @endsection
@@ -449,8 +455,94 @@
 		var now=$(this).val();
 		get_cuxiao_html(now);
 	})
-	
-	function get_cuxiao_html(now){
+
+    function guanbi_img_templet() {
+        $("#img_templet").attr("class","img_templet");
+        $(".img_templet_2").hide();
+    }
+
+    function img_templet() {
+        if($("#img_templet").attr("class")=="img_templet_1"){
+            $("#img_templet").attr("class","img_templet");
+            $(".img_templet_2").hide();
+        }else {
+            $("#img_templet").attr("class","img_templet_1");
+            $(".img_templet_2").show();
+        }
+    }
+
+    //页面底部
+    function tobottom(){
+        var Sheight = document.body.offsetHeight - document.documentElement.offsetHeight
+        document.documentElement.scrollTop = document.body.scrollTop =Sheight;
+    }
+
+    //页面置顶
+    function totop(){
+        document.documentElement.scrollTop = document.body.scrollTop =0;
+    }
+
+    //全选模板
+    function allselect()
+    {
+        layer.msg("已全部选中，请完善信息。");
+        for(var i=0; i<$('input[type="radio"][value="1"]').length;i++){
+            $('input[type="radio"][value="1"]')[i].checked = true
+        }
+        for(var i=0; i<$('input[type="checkbox"]').length;i++){
+            $('input[type="checkbox"]')[i].checked = true
+        }
+        $('.templet_show').show();
+        //价格
+        price();
+		//倒计时
+        count_down()
+		//促销活动模块
+        promotion();
+		//中间导航
+        center_nav()
+		//轮播导航
+        broadcast();
+		//评论数
+        pinglun();
+		//用户帮助
+        uesr_help();
+		//订单查询
+        order_nav();
+    }
+
+    //简选模板
+    function partselect()
+    {
+        layer.msg("已更改为简选模板模式，请完善信息。");
+        //初始化，全部不选
+        for(var i=0; i<$('input[type="radio"][value="0"]').length;i++){
+            $('input[type="radio"][value="0"]')[i].checked = true
+        }
+        $('.templet_show').hide();
+
+        //价格模板
+        $('input[name="price_1"]')[0].checked = true;
+        $('input[name="price_1"]')[1].checked = false;
+        //轮播模块
+        $('input[name="broadcast_1"]')[0].checked = true;
+        $('input[name="broadcast_1"]')[1].checked = false;
+        //底部导航
+        $('input[name="order_nav_1"]')[0].checked = true;
+        $('input[name="order_nav_1"]')[1].checked = false;
+        //价格模块（全部不选）
+        $('.price').attr('checked',false);
+        $('.jian_templet').show();
+        //
+        $('.order_nav').attr('checked',true);
+        //订单查询
+        order_nav();
+        //轮播导航
+        broadcast();
+    }
+
+
+    function get_cuxiao_html(now){
 		$('#cuxiaohtml').html('<div  style="margin:0px auto;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
 		$.ajax({
 			url:"{{url('admin/goods/getcuxiaohtml')}}",
@@ -492,21 +584,23 @@
             required:true,
         }
     };
-    $('#price_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
-            $('#price').rules('add', {
-                required:true
-            });
-        }else{
-            $('#price').rules('add', {
-                required:false
-            });
-        }
-    });
-    $('#count_down_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
+
+    //验证函数(价格)
+    function price(){
+        // if($('input[name="price_1"]:checked').val() == 1){
+        //     $('#price').rules('add', {
+        //         required:true
+        //     });
+        // }else{
+        //     $('#price').rules('add', {
+        //         required:false
+        //     });
+        // }
+    }
+
+    //验证函数(倒计时)
+    function count_down(){
+        if($('input[name="count_down_1"]:checked').val()==1){
             $('#goods_end1').rules('add', {
                 required:true,
                 digits : true
@@ -533,10 +627,11 @@
                 digits : false
             });
         }
-    });
-    $('#promotion_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
+    }
+
+    //促销活动模块
+    function  promotion(){
+        if($('input[name="promotion_1"]:checked').val()==1){
             $('#goods_cuxiao_name').rules('add', {
                 required:true
             });
@@ -545,10 +640,11 @@
                 required:false
             });
         }
-    });
-    $('#conter_nav_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
+    }
+
+    //中间导航
+    function  center_nav() {
+        if($('input[name="center_nav_1"]:checked').val()==1){
             $('#conter_nav').rules('add', {
                 required:true
             });
@@ -557,10 +653,54 @@
                 required:false
             });
         }
-    });
-    $('.pinglun').on('click',function(){
-        var val=$(this).val();
+    }
+
+    //用户帮助
+    function uesr_help() {
+        if($('input[name="uesr_help_1"]:checked').val()==1){
+            $('#uesr_help').rules('add', {
+                required:true
+            });
+        }else{
+            $('#uesr_help').rules('add', {
+                required:false
+            });
+        }
+    }
+
+    //订单导航
+    function order_nav(){
+        if($('input[name="order_nav_1"]:checked').val()==1){
+            $('#order_nav').rules('add', {
+                required:true
+            });
+        }else{
+            $('#order_nav').rules('add', {
+                required:false
+            });
+        }
+    }
+
+    //评论数验证
+    function pinglun(){
         if($(".pinglun").is(":checked")){
+            $('#goods_comment_num').rules('add', {
+                required:true,
+                digits : true
+            });
+            $("#evaluate_show").show(400);
+        }else{
+            $('#goods_comment_num').rules('add', {
+                required:false,
+                digits : false
+            });
+            $("#evaluate_show").hide(400);
+        }
+    }
+
+    //轮播图模块
+    function broadcast(){
+        if($('input[name="broadcast_1"]:checked').val()==1){
             $('#goods_comment_num').rules('add', {
                 required:true,
                 digits : true
@@ -573,56 +713,48 @@
             });
             $(this).parent().parent().next().hide(400);
         }
+    }
+
+    //单击事件触发（价格）
+    $('.price_1').on('click',function(){
+        price();
     });
-    $('#uesr_help_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
-            $('#uesr_help').rules('add', {
-                required:true
-            });
-        }else{
-            $('#uesr_help').rules('add', {
-                required:false
-            });
-        }
+
+    //单击事件触发（倒计时）
+    $('.count_down_1').on('click',function(){
+        count_down();
     });
-    $('#broadcast_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
-            $('#fm_imgs').rules('add', {
-                required:true
-            });
-        }else{
-            $('#fm_imgs').rules('add', {
-                required:false
-            });
-        }
+
+    //单击事件触发（促销活动模块）
+    $('.promotion_1').on('click',function(){
+        promotion();
     });
-    $('#order_nav_1').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
-            $('#order_nav').rules('add', {
-                required:true
-            });
-        }else{
-            $('#order_nav').rules('add', {
-                required:false
-            });
-        }
+
+    //单击事件触发（中间导航）
+    $('.conter_nav_1').on('click',function(){
+        center_nav();
     });
-    $('#is_video').on('click',function(){
-        var val=$(this).val();
-        if(val==1){
-            $('#goods_video').rules('add', {
-                required:true
-            });
-        }else{
-            $('#goods_video').rules('add', {
-                required:false
-            });
-        }
+
+    //单击事件触发（评论数）
+    $('.pinglun').on('click',function(){
+        pinglun();
     });
-	//表单验证
+
+    //单击事件触发（用户帮助）
+    $('.uesr_help_1').on('click',function(){
+        uesr_help();
+    });
+
+    //单击事件触发（轮播）
+    $('.broadcast_1').on('click',function(){
+        broadcast();
+    });
+
+    //单击事件触发（订单查询）
+    $('.order_nav_1').on('click',function(){
+        order_nav();
+    });
+    //表单验证
 	$("#form-goods-update").validate({
 		rules:rules,
 		onkeyup:false,

@@ -92,7 +92,7 @@ class IndexController extends Controller
                 # code...
                 break;
         }
-    	
+
     }
     public function fb(Request $request){
         //屏蔽站点
@@ -133,6 +133,11 @@ class IndexController extends Controller
         $vis->save();
     	return response()->json(array('status'=> $ans), 200);
     }
+
+    /** 下单界面
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function pay(Request $request){
         //下单界面
         //判断是否为预览操作
@@ -142,6 +147,19 @@ class IndexController extends Controller
            $goods_id=url::get_goods($request);
         }
     	$goods=goods::where('goods_id',$goods_id)->first();
+        //处理图片
+        $img = \App\img::where('img_goods_id',$goods_id)->first();
+        $str = $goods->goods_des_html;
+        $imgpreg = "/<img src=\"(.+?)\" (.*?)>/";
+        preg_match($imgpreg,$str,$imgs);
+        $mycount=count($imgs)-2;
+        if($img){
+            $goods->img = $img->img_url;
+        }else if(count($imgs)>0){
+            $goods->img = $imgs[$mycount];
+        }else{
+            $goods->img = '';
+        }
     	$img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
         if($cuxiao!=null&&$cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){

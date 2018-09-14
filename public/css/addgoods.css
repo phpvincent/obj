@@ -8,3 +8,83 @@
     border-top: 1px dashed;
     border-bottom: 0;
 }
+.allselect {
+    top:430px;
+    right: 30px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0 6px;
+    color: #666;
+}
+.public_css{
+    position: fixed;
+    cursor:pointer;
+    z-index: 10000;
+}
+.partselect {
+    top:468px;
+    right: 30px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0 6px;
+    color: #666;
+}
+.totop {
+    top:493px;
+    width: 40px;
+    height: 40px;
+    right: 48px;
+    font-size: 36px;
+    cursor:pointer;
+}
+
+.tobottom {
+    top:532px;
+    width: 40px;
+    height: 40px;
+    right: 48px;
+    font-size: 36px;
+}
+.img_templet{
+    width: 100px;
+    right: 16px;
+    top: 0;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #666;
+    position: fixed;
+    cursor:pointer;
+    z-index: 10000;
+}
+.img_templet_1{
+    position: fixed;
+    cursor:pointer;
+    z-index: 10000;
+    width: 420px;
+    margin: 0 auto;
+    top: 20px;
+    height: 710px;
+    color: #666;
+    transform: translateX(-50%);
+    left: 50%;
+    background-color: #fff;
+
+}
+.img_templet_2{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.15);
+}
+.guanbi_img_templet{
+    position: absolute;
+    right: -46px;
+    top: 6px;
+
+}

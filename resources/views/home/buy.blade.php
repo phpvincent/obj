@@ -160,11 +160,14 @@
 <!--product info begin-->
 <div class="pro_info">
     <div class="ctxthead">
-        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>
-        <div class="rpricebox">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="price">{{$goods->goods_price}}</span></div>
+{{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
+        @if($goods->img)
+        <div class="limgbox"><img src="{{$goods->img}}"/></div>
+        @endif
+        <div class="rpricebox" style="{{$goods->img ? '' : 'margin-top:60px;'}}">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="price">{{$goods->goods_price}}</span></div>
     </div>
 
-    <div class="ctxtbox">
+    <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
         <h1>{{$goods->goods_name}}</h1>
         <h2><span style="color: rgb(255, 0, 0);"><strong>【{{$goods->goods_cuxiao_name}}】</strong></span>{!!$goods->goods_msg!!}</h2>
             </div>
@@ -400,7 +403,6 @@ $('#pay').bind('click',function(){
         })
    })
 
-    console.log(dataObj);
     var fromArr2=$("form#save").serializeArray();
     $.each(fromArr2,function(i,val){
         datasObj[val.name]=val.value;

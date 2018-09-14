@@ -289,6 +289,11 @@ class GoodsController extends Controller
          if($data['is_video'] == 1) {
             array_push($array,'video');
              if($request->hasFile('goods_video')){
+                 $size = filesize($request->file('goods_video'));
+                 //这里可根据配置文件的设置，做得更灵活一点
+                 if($size > 8*1024*1024){
+                     return response()->json(['err' => 0, 'str' => '上传视频文件不能超过8M！']);
+                 }
                  $file=$request->file('goods_video');
                  $name=$file->getClientOriginalName();//得到图片名；
                  $ext=$file->getClientOriginalExtension();//得到图片后缀；
@@ -341,7 +346,10 @@ class GoodsController extends Controller
        //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
        if($data['price_1'] == 1){
            array_push($array,'price');
-           $array = array_merge($array,$data['price']);
+           if(isset($data['price'])){
+               $array = array_merge($array, $data['price']);
+           }
+//           $array = array_merge($array,$data['price']);
        }
 
        //2.评价模块
@@ -363,7 +371,11 @@ class GoodsController extends Controller
        //5.轮播图模块
        if($data['broadcast_1'] == 1) {
            foreach($request->file('fm_imgs') as $pic) {
-               //$file->move(base_path().'/public/uploads/', $file->getClientOriginalName());
+               $size = filesize($pic);
+               //这里可根据配置文件的设置，做得更灵活一点
+               if($size > 8*1024*1024){
+                   return response()->json(['err' => 0, 'str' => '上传封面图文件不能超过8M！']);
+               }
                $name=$pic->getClientOriginalName();//得到图片名；
                $ext=$pic->getClientOriginalExtension();//得到图片后缀；
                $fileName=md5(uniqid($name));
@@ -811,7 +823,9 @@ class GoodsController extends Controller
            //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
            if ($data['price_1'] == 1) {
                array_push($array, 'price');
-               $array = array_merge($array, $data['price']);
+               if(isset($data['price'])){
+                   $array = array_merge($array, $data['price']);
+               }
            }
 
            //2.评价模块
