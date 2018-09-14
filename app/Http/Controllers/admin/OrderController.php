@@ -199,11 +199,21 @@ class OrderController extends Controller
       return $html;
    }
    public function heshen(Request $request){
-    //获取订单核审页面
+    if($request->has('type')&&$request->input('type')=='all'){
+      $id=explode(',',$request->input('id'));
+      $orders=order::whereIn('order_id',$id)->get();
+      return view('admin/order/heshenarr')->with(compact('orders'));
+    }else{
+       //获取订单核审页面
       $id=$request->input('id');
       $order=order::where('order_id',$id)->first();
       $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
       return view('admin/order/heshen')->with(compact('order','goods'));
+    }
+   }
+   public function order_arr_change(Request $request){
+     $data=$request->all();
+     dd($data);
    }
    public function order_type_change(Request $request){
    	  $data=$request->all();

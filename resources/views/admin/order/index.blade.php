@@ -25,7 +25,7 @@
 			</div>
 	</div>
 	
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
@@ -197,6 +197,21 @@ function order_returninfo(id){
 function goods_edit(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
+function order_up(title,url,type,w,h){
+	var b='';
+	var a=$('input[type="checkbox"]:checked');
+	if(a.length<=0){
+		layer.msg('无选中项');
+		return false;
+	}
+	for (var i = a.length - 1; i >= 0; i--) {
+		if(a[i].value!=''&&a[i].value!=null){
+					b+=a[i].value+',';
+		}
+	}
+	url=url+'&id='+b;
+	layer_show(title,url,w,h);
+}
 $('#outorder').on('click',function(){
 	var mintime=$('#datemin').val();
 	var maxtime=$('#datemax').val();
@@ -222,7 +237,7 @@ function pl_del(){
 		return false;
 	}
 	for (var i = a.length - 1; i >= 0; i--) {
-		if(a[i].value!=null){
+		if(a[i].value!=''&&a[i].value!=null){
 					b.push(a[i].value);
 		}
 	}
@@ -240,6 +255,42 @@ function pl_del(){
 			           	 layer.msg(msg.str);
 			           }else{
 			           	 layer.msg('删除失败！');
+			           }
+					}
+				})
+
+
+}
+function pl_update(){
+	var msg =confirm("确定要批量核审这些订单吗？");
+	if(!msg){
+		return false;
+	}
+	var b=[];
+	var a=$('input[type="checkbox"]:checked');
+	if(a.length<=0){
+		layer.msg('无选中项');
+		return false;
+	}
+	for (var i = a.length - 1; i >= 0; i--) {
+		if(a[i].value!=null){
+					b.push(a[i].value);
+		}
+	}
+	layer.msg('核审中，请稍等!');
+	$.ajax({
+					url:"{{url('admin/order/heshen')}}",
+					type:'get',
+					data:{'id':b,'type':'all'},
+					datatype:'json',
+					success:function(msg){
+			           if(msg['err']==1){
+			           	 layer.msg(msg.str);
+               			 $('#order_index_table').dataTable().fnClearTable(); 
+			           }else if(msg['err']==0){
+			           	 layer.msg(msg.str);
+			           }else{
+			           	 layer.msg('核审失败！');
 			           }
 					}
 				})
