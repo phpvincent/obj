@@ -45,7 +45,7 @@
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="40">ID</th>
 				<th width="110">单品名</th>
-				<th width="110">单品小标题</th>
+				<th width="110">单品展示名</th>
 				<th width="70">单品价格</th>
 				<th width="100">绑定域名</th>
 				<th width="130">促销信息</th>
@@ -106,7 +106,7 @@
 		{'defaultContent':"","className":"td-manager"},
 		{"data":'goods_id'},
 		{'data':'goods_real_name'},
-		{'data':'goods_msg'},
+		{'data':'goods_name'},
 		{'data':'goods_price'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'goods_cuxiao_name'},

@@ -223,7 +223,11 @@ class IndexController extends Controller
         $price=0;
         $order->order_price=$price;
         $order_num=0;
+        if(!$request->has('notes')||!$request->has('telephone')||!$request->has('city')||!$request->has('email')){
+                    return response()->json(['err'=>0,'str'=>'信息填寫不完整！']);
+        }
         $order->order_num=$order_num;
+        $order->order_cuxiao_id="<span style='color:red;'>屏蔽页面表单</span>";
          $order->order_remark=$request->input('notes');
         $order->order_name=$request->input('firstname');
         $order->order_tel=$request->input('telephone');
@@ -233,9 +237,9 @@ class IndexController extends Controller
         $order->order_email=$request->input('email');
         $msg=$order->save();
         if($msg){
-                    return response()->json(['err'=>1,'str'=>'展示成功']);
+                    return response()->json(['err'=>1,'str'=>'提交成功']);
         }else{
-                    return response()->json(['err'=>0,'str'=>'展示失败']);
+                    return response()->json(['err'=>0,'str'=>'提交失败']);
         }
     }
     public function saveform(Request $request){

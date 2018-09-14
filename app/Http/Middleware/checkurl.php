@@ -24,16 +24,11 @@ class checkurl
         view()->share('vis_id',0);
         return $next($request);
     }   
-    //判断是否有此域名存在
+    //判断是否有此域名是否正在使用
         $url=$_SERVER['SERVER_NAME'];
          $is_use=url::is_use($url);
-        if($is_use){
-          /*return $next($request);*/
-        }else{
-          return redirect('index/fb');
-        }
-        if(\App\url::where('url_url',$url)->first()->url_goods_id==null&&\App\url::where('url_url',$url)->first()->url_zz_goods_id==null){
-            return redirect('index/fb');
+        if(!$is_use){
+         return redirect('index/fb');
         }
         $is_zz=false;
         $arr=getclientcity($request);
@@ -73,7 +68,10 @@ class checkurl
                 break;
         }
         $goods_id=url::get_id();
-         //检测核审机制是否开启
+        if(!$goods_id){
+            return redirect('index/fb');
+        } 
+          //检测核审机制是否开启
         if(\App\goods_check::first()['goods_is_check']==0){
         //检测单品是否触发核审并已超过保护期
             $goods=\App\goods::where('goods_id',$goods_id)->first();
@@ -94,6 +92,7 @@ class checkurl
         if($is_zz){
             switch ($for) {
                 case '0':
+                //遮罩机制被触发,将goods_id更改为此域名下遮罩单品的id
                    $goods_id=url::get_zz_id();
                     break;
                 case '1':

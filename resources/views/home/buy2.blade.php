@@ -166,7 +166,7 @@
 
     <div class="ctxtbox">
         <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>【{{$goods->goods_cuxiao_name}}】</strong></span>{!!$goods->goods_msg!!}</h2>
+        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span>{!!$goods->goods_msg!!}</h2>
             </div>
 </div>
 <!--product info end-->
@@ -237,7 +237,7 @@
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>
-        <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
+        <!--<input type="text" name="email" placeholder="选填，填写收件人电子邮件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填写收件人电子邮件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="选填，填写收件人电子邮件" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
@@ -543,11 +543,11 @@ jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="選填，填寫收件人電子郵件" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+        html1 +='<input type="text" placeholder="选填，填写收件人电子邮件" nullmsg="填写收件人电子邮件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
         html2 += "<label>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" class="mui-input-clear">';
+        html2 += '<input type="text" name="email" placeholder="选填，填写收件人电子邮件" class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();
         if(payty==7||payty==2){

@@ -9,13 +9,19 @@ class url extends Model
     protected $table = 'url';
     protected $primaryKey ='url_id';
     public static function is_use($url){
-    	$all_use=self::where('url_type','1')->get(['url_url']);
-    	foreach($all_use as $val){
-    		if($url==$val->url_url){
-    			return true;
-    		}
-    	}
-        return false;
+    	$all_use=self::where('url_url',$url)->first();
+        if($all_use==null){
+            return false;
+        }elseif($all_use['url_type']==0){
+            //域名没有开启
+            return false;
+        }
+        if($all_use['url_goods_id']==null&&$all_use['url_zz_goods_id']==null){
+            //域名没有绑定单品
+            return false;
+        }
+    	
+        return true;
     }
     public static function get_goods(Request $request){
     	$url=$_SERVER['SERVER_NAME'];
@@ -76,8 +82,8 @@ class url extends Model
     public static function get_zz_id(){
         $url=$_SERVER['SERVER_NAME'];
         $goods_zz_id=self::where('url_url',$url)->first();
-        
         if($goods_zz_id==null||$goods_zz_id==''){
+            //如果没有绑定遮罩单品，则自动返回正常单品的id
             return $goods_zz_id->url_goods_id;
         }
         return $goods_zz_id->url_zz_goods_id;
@@ -85,12 +91,23 @@ class url extends Model
     public static function get_id(){
         $url=$_SERVER['SERVER_NAME'];
         $goods_id=self::where('url_url',$url)->first();
-        if(($goods_id==null||$goods_id=='')&&($goods_zz_id==null||$goods_zz_id=='')){
+        /*if(($goods_id==null||$goods_id=='')&&($goods_zz_id==null||$goods_zz_id=='')){
             return redirect('index/fb');
         }
         if($goods_id==null||$goods_id==''){
             return $goods_id->url_zz_goods_id;
         }
-        return $goods_id->url_goods_id;
+        return $goods_id->url_goods_id;*/
+        if($goods_id==null){
+            return false;
+        }
+        if($goods_id['url_goods_id']==null&&$goods_id['url_zz_goods_id']==null){
+            return false;
+        }
+        if($goods_id['url_goods_id']!=null&&$goods_id['url_goods_id']>0){
+            return $goods_id['url_goods_id'];
+        }else{
+            return $goods_id['url_zz_goods_id'];
+        }
     }
 }

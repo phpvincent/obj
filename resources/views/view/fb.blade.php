@@ -268,7 +268,7 @@
                             window.parent.location.reload();
                         });
                     }else{
-                        layer.msg('咨詢成功，我們將盡快回復您的咨詢!!');
+                        layer.msg(result.str);
                     }
                 },
                 error : function() {
