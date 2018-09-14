@@ -86,7 +86,7 @@ class IndexController extends Controller
             return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '2':
-            return view('home.index2')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            return view('home.zhongdong.zhongdong')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             default:
                 # code...
@@ -183,6 +183,9 @@ class IndexController extends Controller
         if($blade_type==1){
             return view('home.buy2')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
+        if($blade_type==2){
+            return view('home.zhongdong.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -193,16 +196,22 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        // $goods->goods_blade_type =1;
-        /*if($goods->goods_blade_type == 1){ 
+        if($goods->goods_blade_type == 2){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
+            if(!$special->isEmpty()){
+                foreach($special as &$item)
+                {
+                    $item->price_img = \App\img::where('img_goods_id',$item->special_goods_id)->value('img_url');
+                    $item->price_name = \App\goods::where('goods_id',$item->special_goods_id)->value('goods_name');
+                }
+            }
             if(!$cuxiao->isEmpty()){
                 return response()->json(['err'=>1,'str'=>'获取成功','cuxiao'=>$cuxiao,'goods'=>$goods,'special'=>$special]);
             }else{
                 return response()->json(['err'=>0,'str'=>'获取失败']);
             }
-        }*/
+        }
         $cuxiaoSDK=new cuxiaoSDK($goods);
         $htmlstr=$cuxiaoSDK->getdiv();
         return $htmlstr;
@@ -364,9 +373,16 @@ class IndexController extends Controller
             return view('ajax.endsuccess')->with(['order'=>$order,'goods'=>$goods]);
         }
     }*/
-    public function send(){
+    public function send(Request $request){
+        if($request->has('goods_id')){
+            $goods_blade_type = \App\goods::where('goods_id',$request->input('goods_id'))->value('goods_blade_type');
+            if($goods_blade_type == 2){
+                return view('home.zhongdong.zhSend');                
+            }
+        }
         return view('home.send');
     }
+
     public function getsendmsg(Request $request){
         $order=\App\order::where('order_single_id',$request->input('msg'))->first();
         if($order==null||$order==false){
