@@ -324,9 +324,9 @@
                 }        
               }else{
                 if(j===0){
-                    colorBut= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" checked="checked"><span class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
+                    colorBut= '<label style="display:inline-block"><input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" checked="checked"><label for="" class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }else{
-                    colorBut+= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'"><span class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
+                    colorBut+= '<label style="display:inline-block"><input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'"><label for="" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }
               }
                
