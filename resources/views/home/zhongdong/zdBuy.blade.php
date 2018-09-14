@@ -117,7 +117,7 @@
 
         @if($goods->goods_pix!=null&&$goods->goods_pix!='')
         <!-- Facebook Pixel Code -->
-      <!-- <script>
+      <script>
          !function(f,b,e,v,n,t,s)
          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -128,7 +128,7 @@
          'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '{{$goods->goods_pix}}'); 
          fbq('track', 'PageView');
-         </script>   -->
+         </script>  
         <noscript>
          <img height="1" width="1" 
         src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
