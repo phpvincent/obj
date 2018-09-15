@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html>
     <head>
-                <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
+        <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>

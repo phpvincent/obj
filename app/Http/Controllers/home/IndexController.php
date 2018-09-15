@@ -202,8 +202,11 @@ class IndexController extends Controller
             if(!$special->isEmpty()){
                 foreach($special as &$item)
                 {
-                    $item->price_img = \App\img::where('img_goods_id',$item->special_goods_id)->value('img_url');
-                    $item->price_name = \App\goods::where('goods_id',$item->special_goods_id)->value('goods_name');
+                    $special_good = \App\price::where('price_id',$item->special_price_id)->first();
+                    if($special_good){
+                        $item->price_img = $special_good->price_img;
+                        $item->price_name = $special_good->price_name;
+                    }
                 }
             }
             if(!$cuxiao->isEmpty()){
