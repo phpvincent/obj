@@ -365,7 +365,10 @@ class IndexController extends Controller
         if($url==null){
             return false;
         }
-            return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+        if($goods->goods_blade_type == 2){
+            return view('home.zhongdong.zdEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+        }
+        return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
         $order=\App\order::where('order_id',$request->input('order_id'))->first();

@@ -151,7 +151,7 @@
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
     <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-    <h1 class="mui-title">確認訂單</h1>
+    <h1 class="mui-title">确认订单</h1>
 </header>
 
 <div class="mui-content">
@@ -255,7 +255,7 @@
           <div class="mui-input-row mui-radio mui-left cash-on-delivery">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-                貨到付款            </label>
+                货到付款            </label>
               <span style="width:100px;">
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
@@ -268,13 +268,13 @@
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01">提交訂單</button>
+    <button id="pay" type="button" class="btnstyle01">提交订单</button>
 </div>
 <!--button end-->
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-            溫馨提示：支持貨到付款+免郵費+七天無理由退換貨！收到商品後有任何疑問請聯繫我們在線客服，或發郵件至
+          温馨提示：支持货到付款+免费邮+七天无理由退换货！收到商品后有任何疑问请联系我们在线客服，或发邮件至
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
@@ -324,9 +324,9 @@
                 }        
               }else{
                 if(j===0){
-                    colorBut= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" checked="checked"><span class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
+                    colorBut= '<label style="display:inline-block"><input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" checked="checked"><label for="" class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }else{
-                    colorBut+= '<input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'"><span class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</span>&nbsp';
+                    colorBut+= '<label style="display:inline-block"><input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'"><label for="" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }
               }
                
