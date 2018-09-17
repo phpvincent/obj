@@ -44,12 +44,7 @@ class OrderController extends Controller
             $query->where('is_del','0');
           })
 	        ->count();
-            if(@strtotime(explode(';',$search)[0])>100&&@strtotime(explode(';',$search)[1])>100){
-            $timesearch=$search;
-            $search='';
-            $newlen=$len;
-            $len=$counts;
-           }
+         
          //获取自己名下的单
            $admin_id=Auth::user()->admin_id;
            if(Auth::user()->is_root!='1'){
@@ -73,6 +68,15 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
+            ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+           })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })
@@ -90,6 +94,15 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
+             ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+          })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })
@@ -120,6 +133,15 @@ class OrderController extends Controller
                 $query->whereIn('order_goods_id',$garr);
                 }
             })
+             ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+          })
             ->count();
             $data=DB::table('order')
             ->select('order.*','goods.goods_real_name','admin.admin_name')
@@ -144,6 +166,15 @@ class OrderController extends Controller
               $query->whereIn('order_goods_id',$garr);
             }
            })
+            ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+          })
             ->orderBy($order,$dsc)
             ->offset($start)
             ->limit($len)
@@ -175,22 +206,7 @@ class OrderController extends Controller
                 $data[$k]->config_msg="暂无属性信息";
               }
           }
-           //按照时间区间查找数据
-            if(isset($timesearch)){
-               if((strtotime(explode(';',$timesearch)[0])>100&&strtotime(explode(';',$timesearch)[1])>100)||strtotime($timesearch)>100){
-               $newcount=0;
-               $dataarr=[];
-               /*$msg=[];*/
-               foreach($data as $k=> $v){
-                  if((strtotime($v->order_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->order_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->order_time)==strtotime($timesearch)){
-                     $newcount+=1;
-                     $dataarr[]=$v;
-                     }
-               }
-               $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>array_slice($dataarr,$start,$newlen)];
-                   return response()->json($arr);
-               }
-           }
+        
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }

@@ -29,7 +29,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="14">订单列表</th>
+				<th scope="col" colspan="15">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
@@ -84,8 +84,10 @@
 		"processing": true,
 		"serverSide": true,
 		"ajax": {
-		"data":function(d){
-			d.goods_search = $('#admin_name').val();
+		"data":{
+			goods_search:function(){return $('#admin_name').val()},
+			mintime:function(){return $('#datemin').val()},
+			maxtime:function(){return $('#datemax').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -149,17 +151,8 @@
 	}
  dataTable =$('#order_index_table').DataTable($.tablesetting);
 $('#seavis1').on('click',function(){
-	var mintime=$('#datemin').val();
-	var maxtime=$('#datemax').val();
-	if(mintime==''&&maxtime==''){
-      dataTable.search(this.value).draw();
-      return false;
-	}
-	if(mintime==''||maxtime==''){
-		layer.msg('时间区间错误！');
-		return false;
-	}
-	dataTable.search(mintime+';'+maxtime).draw();
+	               			 $('#order_index_table').dataTable().fnClearTable(); 
+
 })
 function del_order(id){
 		var msg =confirm("确定要删除此订单吗？");
