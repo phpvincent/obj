@@ -142,12 +142,12 @@
 {{--价格栏位--}}
 @if(in_array('price',$templets))
 <div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
-    <div class="dc-price" style="background:#fff;">
+<div class="dc-price" style="background:#fff;">
         <span class="s-price" style="font-size:24px">
-            ${{$goods->goods_price}}        </span>
+            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}        </span>
         @if(in_array('original',$templets))
         <span class="o-price" style="font-size:12px">
-            ${{$goods->goods_real_price}}        </span>
+            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}        </span>
         @endif
     </div>
     @if(in_array('free_freight',$templets))

@@ -396,7 +396,7 @@ html{overflow-x:hidden;}
 .mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea { width:72%; font-size:12px; margin-right:4%;height:34px; line-height:34px;    border-radius: 8px;}
 .mui-input-row label~textarea { height:60px; line-height:30px; padding-top:0;}
 .qty_total{ padding-bottom:2px;}
-@media screen and (max-width: 656px){.detail-context .flag { font-size:15px !important;}}
+@media screen and (max-width: 656px){.detail-context .flag { font-size:12px !important;}}
 .mui-input-row select {border: 1px solid #dadada; border-radius: 5px;}
 .pro_color dl dd span.imgbox {width: 100px!important;}
 /*.pro_color dl dd span { margin-left:0 !important;}*/
