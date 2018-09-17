@@ -12,7 +12,7 @@
 		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
 		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
-	<div class="row cl">
+		<div style="width: 100%"><div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">单品类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="goods_type" id="goods_type" class="select">
@@ -22,7 +22,7 @@
 					@endforeach
 				</select>
 				</span> </div>
-		</div><br/>
+		</div>
 	<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">核审状态：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -35,7 +35,20 @@
 					<option value="$">保护期已过</option>
 				</select>
 				</span> </div>
-		</div><br/>
+
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">币种：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="pay_type" id="pay_type" class="select">
+					<option value="0">所有</option>
+					@foreach(\App\currency_type::get() as $k => $v)
+						<option value="{{$v->currency_type_id}}">{{$v->currency_type_name}}</option>
+					@endforeach
+				</select>
+				</span> </div>
+		</div><br/></div>
+	
 	<table class="table table-border table-bordered table-bg" id="goods_index_table">
 		<thead>
 			<tr>
@@ -97,6 +110,7 @@
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 			check_type:function(){return $('#check_type').val()},
+			pay_type:function(){return $('#pay_type').val()},
 		},
 		"url": "{{url('admin/goods/get_table')}}",
 		"type": "POST",
@@ -173,6 +187,9 @@
 	$('#goods_index_table').dataTable().fnClearTable(); 
 })
  $('#check_type').on('change',function(){
+	$('#goods_index_table').dataTable().fnClearTable(); 
+ }) 
+ $('#pay_type').on('change',function(){
 	$('#goods_index_table').dataTable().fnClearTable(); 
  })
 function del_goods(id){

@@ -106,6 +106,10 @@ class GoodsController extends Controller
                 $query->where('goods.goods_check_time','<',date("Y-m-d H:i:s",time()-$second));
                 $query->where('goods.goods_heshen','<>','1');
               }
+              if($request->has('pay_type')&&$request->input('pay_type')!='0'){
+                //按币种查询
+              $query->where('goods.goods_currency_id',$request->input('pay_type'));
+              }
           })
 	        ->count();
 	        $data=DB::table('goods')
@@ -153,6 +157,10 @@ class GoodsController extends Controller
                 $second=$second->goods_check_second;
                 $query->where('goods.goods_check_time','<',date("Y-m-d H:i:s",time()-$second));
                 $query->where('goods.goods_heshen','<>','1');
+              }
+              if($request->has('pay_type')&&$request->input('pay_type')!='0'){
+                //按币种查询
+              $query->where('goods.goods_currency_id',$request->input('pay_type'));
               }
           })
 	        ->orderBy($order,$dsc)
