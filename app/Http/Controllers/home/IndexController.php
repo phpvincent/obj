@@ -202,8 +202,11 @@ class IndexController extends Controller
             if(!$special->isEmpty()){
                 foreach($special as &$item)
                 {
-                    $item->price_img = \App\img::where('img_goods_id',$item->special_goods_id)->value('img_url');
-                    $item->price_name = \App\goods::where('goods_id',$item->special_goods_id)->value('goods_name');
+                    $special_good = \App\price::where('price_id',$item->special_price_id)->first();
+                    if($special_good){
+                        $item->price_img = $special_good->price_img;
+                        $item->price_name = $special_good->price_name;
+                    }
                 }
             }
             if(!$cuxiao->isEmpty()){
@@ -269,7 +272,7 @@ class IndexController extends Controller
     	}
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
-        // dd($goods);
+//         dd($goods);
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){
             $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
@@ -281,10 +284,14 @@ class IndexController extends Controller
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
-    	//判断金额合法性
+
+        //判断金额合法性
     	if($price==false||$price<=0){
           return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
+
+    	//币种 以及  汇率
+    	$order->order_currency_id=$goods->goods_currency_id;
     	$order->order_price=$price;
     	$order_num=$request->input('specNumber');
     	//判断商品数合法性
@@ -302,7 +309,7 @@ class IndexController extends Controller
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
-    	$msg=$order->save();
+        $msg=$order->save();
         if($request->has('goodsAtt')){
          $order_id=$order->order_id;
           $arrs=[];

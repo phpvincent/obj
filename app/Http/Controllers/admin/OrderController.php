@@ -150,9 +150,12 @@ class OrderController extends Controller
             ->get();
            }
            //商品附带规格信息
-	        foreach($data as $k => $v){
+	        foreach($data as $k => &$v){
+	        $goods_currency_id= \App\goods::where('goods_id',$v->order_goods_id)->value('goods_currency_id');
+	        $currency_type_name = \App\currency_type::where('currency_type_id',$goods_currency_id)->value('currency_type_name');
+	        $v->order_price = $currency_type_name.' '.$v->order_price;
             $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
-            if($order_config->count()>0){ 
+            if($order_config->count()>0){
                 $config_msg='';
                 $i=0;
                 foreach($order_config  as  $va){

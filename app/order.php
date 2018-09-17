@@ -9,6 +9,15 @@ class order extends Model
     protected $table = 'order';
     protected $primaryKey ='order_id';
     public $timestamps=false;
+
+    /**
+     *  模型关联表
+     */
+    public function currency_has_order()
+    {
+        return $this->hasOne('App\currency_type', 'currency_type_id', 'order_currency_id');
+    }
+
     //获取账户所在组的所有订单
     public static function get_group_order($admin_id){
       $admin=\App\admin::where('admin_id',$admin_id)->first();
