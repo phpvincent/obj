@@ -84,7 +84,8 @@
 		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="编辑" href="javascript:;" onclick="admin_update(\'账户编辑\',\'{{url("admin/admin/upadmin")}}?id='+data.admin_id+'\',\'2\',\'500\',\'300\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_admin(\''+data.admin_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+            console.log(data);
+            var info='<a title="编辑" href="javascript:;" onclick="admin_update(\'账户编辑\',\'{{url("admin/admin/upadmin")}}?id='+data.admin_id+'\',\'2\',\'500\',\'300\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_admin(\''+data.admin_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.is_root==0||data.is_root==null){
 				var isroot='<span class="label label-default radius">×</span>';
 				if(data.is_root!=null){

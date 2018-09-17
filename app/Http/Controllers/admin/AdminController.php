@@ -95,11 +95,21 @@ class AdminController extends Controller
 		    	if($newids==null){
 		    		$data[$key]->day_sale=0;
 		    	}else{
-		    			        	$day_sale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)"); 
-		    			        	if($day_sale[0]->day_sale==null){
-										$day_sale[0]->day_sale=0;
-										}  
-									$data[$key]->day_sale=$day_sale[0]->day_sale;
+		    	    $time = date('Y-m-d',time());
+                    //1.获取今天数据订单
+                    $orders = \App\order::where('order_time','like',$time.'%')->whereIn('order_goods_id',$goodsidarr)->get();
+                    $day_sales = 0;
+                    if(!$orders->isEmpty()){
+                        foreach ($orders as $item)
+                        {
+                            $day_sales += $item->order_price * $item->currency_has_order->exchange_rate;
+                        }
+                    }
+                    $data[$key]->day_sale=sprintf("%.2f",$day_sales);
+//                    $day_sale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)");
+//                    if($day_sale[0]->day_sale==null){
+//										$day_sale[0]->day_sale=0;
+//										}
 		    	}
 /*                $day_sale=DB::table('order')->where([['order.order_admin_id',$v->admin_id],["DateDiff(order.order_time,now())",'0']])->sum('order.order_price');
 */           	
