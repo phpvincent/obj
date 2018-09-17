@@ -205,7 +205,16 @@ class OrderController extends Controller
     if($request->has('type')&&$request->input('type')=='all'){
       $id=explode(',',$request->input('id'));
       $orders=order::whereIn('order_id',$id)->get();
-      return view('admin/order/heshenarr')->with(compact('orders'));
+      $send_nums='';
+      foreach($orders as $k => $v){
+        if($v->order_send!=null&&$v->order_send!=''){
+                  $send_nums.=$v->order_send.';';
+        }else{
+          $send_nums.='暂无;';
+        }
+      }
+      $send_nums=rtrim($send_nums,';');
+      return view('admin/order/heshenarr')->with(compact('orders','send_nums'));
     }else{
        //获取订单核审页面
       $id=$request->input('id');
@@ -215,8 +224,42 @@ class OrderController extends Controller
     }
    }
    public function order_arr_change(Request $request){
+    //订单批量核审
      $data=$request->all();
-     dd($data);
+     $msg=false;
+     foreach ($data['order_ids'] as $key => $val) {
+      $order=order::where('order_single_id',$val)->first();
+       if($request->has('order_send')&&$request->input('order_send')!=null){ 
+        if(count(explode(';', $data['order_send']))!=count($data['order_ids'])){
+          //检查快递单号数目是否有错
+            return response()->json(['err'=>0,'str'=>'快递单号数目错误']);
+        }
+        $admin=Auth::user()->admin_name;
+        $date=date('Y-m-d h:i:s',time());
+        $oldmsg=$order->order_return;
+        $order_send_now=explode(';',$data['order_send'])[$key];
+        if($order_send_now=='暂无'){
+          $order_send_now=null;
+        }
+        $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_send'=>$order_send_now,'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+        if($err===false){
+          $msg.=$val.',';
+        }
+       }else{
+        $admin=Auth::user()->admin_name;
+        $date=date('Y-m-d h:i:s',time());
+        $oldmsg=$order->order_return;
+        $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+        if($err===false){
+          $msg.=$val.',';
+        }
+       }
+     }
+     if($msg!==false){
+            return response()->json(['err'=>0,'str'=>rtrim($err,',').'号订单核审失败']);
+          }else{
+            return response()->json(['err'=>1,'str'=>'核审成功']);
+          }
    }
    public function order_type_change(Request $request){
    	  $data=$request->all();

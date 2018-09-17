@@ -7,7 +7,7 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">ID：{{$v->order_id}};订单号：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="{{$v->order_single_id}}" placeholder="" id="order_ids[]" name="order_ids[]" disabled="disabled">
+			<input type="text" class="input-text" value="{{$v->order_single_id}}" placeholder="" id="order_ids[]" name="order_ids[]" readonly="readonly" >
 		</div>
 	</div>
 	@endforeach
@@ -31,11 +31,11 @@
 	<div class="row cl" style="display: none;">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>快递单号(多个单号请用英文;隔开，保持顺序正确)：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="order_send" name="order_send">
+			<textarea name="order_send" cols="" rows="" id="order_send" class="textarea"  placeholder="请输入快递单号(多个单号请用英文;隔开，保持顺序正确)" dragonfly="true" >{{$send_nums}}</textarea>
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">核审信息记录：</label>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>核审信息记录：</label>
 		<div class="formControls col-xs-8 col-sm-9">
 			<textarea name="order_return" cols="" rows="" id="order_return_textarea" class="textarea"  placeholder="请输入核审记录信息" dragonfly="true" ></textarea>
 			<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
@@ -75,7 +75,7 @@
 				return false;
 			}
 			if(order_type>=3){
-				if(order_send_val.length<8||order_send_val.length>35){
+				if(order_send_val.length<8){
 					layer.msg("订单编号长度不合法！");
 					return false;
 				}
@@ -96,7 +96,7 @@
                         	window.parent.location.reload();
 						});
 					}else{
-						layer.msg('更改失败!');
+						layer.msg(data.str);
 					}
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
