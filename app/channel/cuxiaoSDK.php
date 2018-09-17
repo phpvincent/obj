@@ -125,6 +125,7 @@ class cuxiaoSDK{
 				->leftjoin('special','cuxiao.cuxiao_special_id','=','special.special_id')
 				->leftjoin('price','special.special_price_id','=','price.price_id')
 				->where([['cuxiao_goods_id',$goods_id],['cuxiao_type','3']])
+				->orderBy('cuxiao_id','asc')
 				->get();
 				
 				return view('admin.goods.channel3')->with(compact('cuxiao'));
