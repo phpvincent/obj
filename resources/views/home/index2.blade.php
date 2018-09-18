@@ -457,8 +457,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     留言:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="在線留言" name="content" class="textarea_style">
-                                    </textarea>
+                                    <textarea placeholder="在線留言" name="content" class="textarea_style"></textarea>
                                 </td>
                             </tr>
                             <tr>

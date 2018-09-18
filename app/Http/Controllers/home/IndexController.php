@@ -254,6 +254,11 @@ class IndexController extends Controller
                     return response()->json(['err'=>0,'str'=>'提交失败']);
         }
     }
+
+    /** 订单保存接口
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function saveform(Request $request){
         //判断是否为预览中的测试下单
         if(\Session::get('test_id',0)!=0){
@@ -289,7 +294,77 @@ class IndexController extends Controller
     	if($price==false||$price<=0){
           return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
     	}
+        $order_Array = [];
+    	//设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
+        //ip
+        $goods_ip = \App\order::where('order_ip',$ip)->get();
+        if(!$goods_ip->isEmpty()){
+            array_push($order_Array,'1');
+            foreach ($goods_ip as $item)
+            {
+                if($item->order_repeat_field){
+                    $order_repeat = explode(',',$item->order_repeat_field);
+                    if(!in_array('1',$order_repeat)){
+                        array_push($order_repeat,'1');
+                        $order_repeat_array = implode($order_repeat);
+                        $item->order_repeat_field = trim($order_repeat_array);
+                        $item->save();
+                    }
+                }else{
+                    $item->order_repeat_field = '1';
+                    $item->save();
+                }
+            }
+        }
 
+        //姓名
+        $orders_name = \App\order::where('order_name',$request->input('firstname'))->get();
+        if(!$orders_name->isEmpty()){
+            array_push($order_Array,'2');
+            foreach ($orders_name as $item)
+            {
+                if($item->order_repeat_field){
+                    $order_repeat = explode(',',$item->order_repeat_field);
+                    if(!in_array('2',$order_repeat)){
+                        array_push($order_repeat,'2');
+                        $order_repeat_array = implode(',',$order_repeat);
+                        $item->order_repeat_field = trim($order_repeat_array);
+                        $item->save();
+                    }
+                }else{
+                    $item->order_repeat_field = '2';
+                    $item->save();
+                }
+            }
+        }
+
+        //手机号
+        $orders_tel = \App\order::where('order_tel',$request->input('telephone'))->get();
+        if(!$orders_tel->isEmpty()){
+            array_push($order_Array,'3');
+            foreach ($orders_tel as $item)
+            {
+                if($item->order_repeat_field){
+                    $order_repeat = explode(',',$item->order_repeat_field);
+                    if(!in_array('3',$order_repeat)){
+                        array_push($order_repeat,'3');
+                        $order_repeat_array = implode(',',$order_repeat);
+                        $item->order_repeat_field = trim($order_repeat_array);
+                        $item->save();
+                    }
+                }else{
+                    $item->order_repeat_field = '3';
+                    $item->save();
+                }
+            }
+        }
+
+        if(!empty($order_Array)){
+            sort($order_Array);
+            $order_Array = implode(',',$order_Array);
+            $order->order_repeat_field=$order_Array;
+        }
+        //==============================================================================================================
     	//币种 以及  汇率
     	$order->order_currency_id=$goods->goods_currency_id;
     	$order->order_price=$price;
