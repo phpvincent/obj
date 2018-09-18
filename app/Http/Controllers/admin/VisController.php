@@ -444,7 +444,7 @@ class VisController extends Controller
    	 	for ($i=0; $i <7 ; $i++) { 
    	 	   $counts=DB::select("select count(*) as counts from vis where  DateDiff(vis.vis_time,now())=-$i");
    	 	   $allcount[]=$counts[0]->counts;
-   	 		$yxcounts=DB::select("select count(*) as yxcounts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_staytime >= 3");
+   	 		$yxcounts=DB::select("select count(*) as yxcounts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_ordertime > 0");
    	 		$yxcount[]=$yxcounts[0]->yxcounts;
    	 	}
    	 }else{
@@ -453,7 +453,7 @@ class VisController extends Controller
    	 	for ($i=0; $i <7 ; $i++) { 
    	 	   $counts=DB::select("select count(*) as counts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_goods_id=$id");
    	 	   $allcount[]=$counts[0]->counts;
-   	 		$yxcounts=DB::select("select count(*) as yxcounts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_staytime >= 3 and vis_goods_id=$id");
+   	 		$yxcounts=DB::select("select count(*) as yxcounts from vis where  DateDiff(vis.vis_time,now())=-$i and vis_ordertime > 0 and vis_goods_id=$id");
    	 		$yxcount[]=$yxcounts[0]->yxcounts;
    	 	}
    	 }
@@ -470,9 +470,9 @@ class VisController extends Controller
 	   			$data1['data'][$i]=$count;
 	   		}	
 	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_staytime >=3 and vis.vis_goods_id=$id");
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_ordertime >0 and vis.vis_goods_id=$id");
 	   			$count=$count[0]->counts;
-	   			$data2['name']='有效浏览';
+	   			$data2['name']='下单人数';
 	   			$data2['data'][$i]=$count;	
 	   		}
 	   	
@@ -491,16 +491,16 @@ class VisController extends Controller
 	   			$data1['data'][$i]=$count;
 	   		}	
 	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_staytime >=3");
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and  vis_ordertime >0 ");
 	   			$count=$count[0]->counts;
-	   			$data2['name']='有效浏览';
+	   			$data2['name']='下单人数';
 	   			$data2['data'][$i]=$count;	
 	   		}
 	   		$data[]=$data1;
 	   		$data[]=$data2;
 	   		$msg['data']=$data;
 	   		$allcc=DB::select("select count(*) as counts from vis where 0>=DateDiff(vis.vis_time,now())>-7");
-	   		$msg['max']=$allcc[0]->counts;
+	   		$msg['max']=max($data1['data']);
 	   		 return response()->json($msg);
    		}
    		
