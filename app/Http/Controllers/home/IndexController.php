@@ -212,7 +212,7 @@ class IndexController extends Controller
             if(!$cuxiao->isEmpty()){
                 return response()->json(['err'=>1,'str'=>'获取成功','cuxiao'=>$cuxiao,'goods'=>$goods,'special'=>$special]);
             }else{
-                return response()->json(['err'=>0,'str'=>'获取失败']);
+                return response()->json(['err'=>0,'str'=>'暂无数据','goods'=>$goods]);
             }
         }
         $cuxiaoSDK=new cuxiaoSDK($goods);

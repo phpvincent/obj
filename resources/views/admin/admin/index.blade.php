@@ -9,7 +9,19 @@
 		</span>
 		 <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
-	
+		<div @if(Auth::user()->is_root!='1') style="display: none" @endif id="select-admin">
+		<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">分组：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="group_name" id="group_name" class="select">
+						<option value="0">所有</option>
+						@foreach(\App\admin_group::get() as $val)
+						<option value="{{$val->admin_group_id}}" >{{$val->admin_group_name}}</option>
+						@endforeach
+					</select>
+					</span> </div>
+			</div>
+	</div>
 	<table class="table table-border table-bordered table-bg" id="admin_index_table">
 		<thead>
 			<tr>
@@ -24,7 +36,7 @@
 				<th width="70">所属角色</th>
 				<th width="70">拥有单品数</th>
 				<th width="70">下单数</th>
-				<th width="70">今日销售额</th>
+				<th width="70">今日销售额(￥)</th>
 				<th width="70">是否超管</th>
 				<th width="70">所属分组</th>
 				<th width="70">是否启用</th>
@@ -58,6 +70,7 @@
 		"data":{
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
+			group_name:function(){return $('#group_name').val()},
 		},
 		"url": "{{url('admin/admin/get_table')}}",
 		"type": "POST",
@@ -153,6 +166,9 @@
 		                
 		        	}
 		}
+		$('#group_name').on('change',function(){
+		          $('#admin_index_table').dataTable().fnClearTable(); 
+		})
 		function ch_root(admin_id){
 				var msg =confirm("确定要将此账户设置为超级管理员？");
 				if(msg){

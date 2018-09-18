@@ -51,11 +51,11 @@
 		</div>
 	</div>
 	
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="14">订单列表</th>
+				<th scope="col" colspan="15">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
@@ -147,6 +147,8 @@
 			order_repeat_ip:function(){return $('#order_repeat_ip').val()},
 			order_repeat_name:function(){return $('#order_repeat_name').val()},
 			order_repeat_tel:function(){return $('#order_repeat_tel').val()},
+			mintime:function(){return $('#datemin').val()},
+			maxtime:function(){return $('#datemax').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -194,19 +196,22 @@
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#ff6600");
                     $('.dataTable td.sorting_1').removeClass('sorting_1');
-                    console.log($('body .sorting_1'));
-
-
                 }
-                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1') &&  aData.order_repeat_field.indexOf('2')){
+                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('2')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#464c5b");
                 }
-                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1') &&  aData.order_repeat_field.indexOf('3')){
+                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#f51322");
                 }
-                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2') &&  aData.order_repeat_field.indexOf('3')){
+                console.log("======================");
+                console.log(aData.order_repeat_field.length);
+                console.log(aData.order_repeat_field.indexOf('3'));
+                console.log(aData.order_repeat_field.indexOf('2'));
+                console.log(aData.order_repeat_field);
+                console.log("=======================");
+                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#9ea7b4");
                 }
@@ -248,17 +253,8 @@
 	}
  dataTable =$('#order_index_table').DataTable($.tablesetting);
 $('#seavis1').on('click',function(){
-	var mintime=$('#datemin').val();
-	var maxtime=$('#datemax').val();
-	if(mintime==''&&maxtime==''){
-      dataTable.search(this.value).draw();
-      return false;
-	}
-	if(mintime==''||maxtime==''){
-		layer.msg('时间区间错误！');
-		return false;
-	}
-	dataTable.search(mintime+';'+maxtime).draw();
+	               			 $('#order_index_table').dataTable().fnClearTable(); 
+
 })
 function del_order(id){
 		var msg =confirm("确定要删除此订单吗？");

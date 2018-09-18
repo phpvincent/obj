@@ -181,6 +181,7 @@ class CheckController extends Controller
     	}elseif($request->isMethod('post')){
     		$data=$request->all();
     		$goods_check=\App\goods_check::first();
+        $old_status=$goods_check->goods_is_check;
     		$goods_check->goods_check_second=$data['goods_check_second'];
     		$goods_check->goods_check_max=$data['goods_check_max'];
     		if(isset($data['goods_is_check'])&&$data['goods_is_check']=='0'){
@@ -189,6 +190,9 @@ class CheckController extends Controller
     			$goods_check->goods_is_check=1;
     		}
     		$msg=$goods_check->save();
+        if($old_status==0&&$goods_is_check==1){
+          \Log::notice(Auth::user()->admin_name.'于'.date('Y-m-d H:i:s',time()).'在'.$request->getClientIp().'开启了核审机制');
+        }
     		if($msg){
     		  return response()->json(['err'=>1,'str'=>'更改成功！']);
 	    	}else{

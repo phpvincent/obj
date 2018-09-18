@@ -54,12 +54,7 @@ class OrderController extends Controller
             $query->where('is_del','0');
           })
 	        ->count();
-            if(@strtotime(explode(';',$search)[0])>100&&@strtotime(explode(';',$search)[1])>100){
-            $timesearch=$search;
-            $search='';
-            $newlen=$len;
-            $len=$counts;
-           }
+         
          //获取自己名下的单
            $admin_id=Auth::user()->admin_id;
 
@@ -85,6 +80,15 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
+            ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+           })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
@@ -125,6 +129,15 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
             })
+             ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+          })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
@@ -197,6 +210,15 @@ class OrderController extends Controller
                         $query->orWhere('order.order_repeat_field','1,2,3');
                     }
                 })
+             ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+          })
             ->count();
 
             //table表格数据
@@ -232,6 +254,7 @@ class OrderController extends Controller
                 })->where(function ($query)use($order_repeat_name){
                     if($order_repeat_name == 1){
                         $query->where('order_repeat_field','2');
+                        $query->orWhere('order_repeat_field',',2');
                         $query->orWhere('order_repeat_field','1,2');
                         $query->orWhere('order_repeat_field','2,3');
                         $query->orWhere('order_repeat_field','1,2,3');
@@ -239,11 +262,21 @@ class OrderController extends Controller
                 })->where(function ($query)use($order_repeat_tel){
                     if($order_repeat_tel == 1){
                         $query->where('order_repeat_field','3');
+                        $query->orWhere('order_repeat_field',',3');
                         $query->orWhere('order_repeat_field','1,3');
                         $query->orWhere('order_repeat_field','2,3');
                         $query->orWhere('order_repeat_field','1,2,3');
                     }
                 })
+            ->where(function($query)use($request){
+            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+              $query->where('order.order_time','>',$request->input('mintime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+              $query->where('order.order_time','<',$request->input('maxtime'));
+            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+            }
+          })
             ->orderBy($order,$dsc)
             ->offset($start)
             ->limit($len)
@@ -255,6 +288,9 @@ class OrderController extends Controller
 	        $currency_type_name = \App\currency_type::where('currency_type_id',$goods_currency_id)->value('currency_type_name');
 	        $v->order_price = $currency_type_name.' '.$v->order_price;
 	        if($v->order_repeat_field){
+	            if(substr( $v->order_repeat_field, 0, 1 ) == ','){
+                    $v->order_repeat_field = substr( $v->order_repeat_field, 1);
+                }
                 $v->order_repeat_field = explode(',',$v->order_repeat_field);
             }
             $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
@@ -278,22 +314,7 @@ class OrderController extends Controller
                 $data[$k]->config_msg="暂无属性信息";
               }
           }
-           //按照时间区间查找数据
-            if(isset($timesearch)){
-               if((strtotime(explode(';',$timesearch)[0])>100&&strtotime(explode(';',$timesearch)[1])>100)||strtotime($timesearch)>100){
-               $newcount=0;
-               $dataarr=[];
-               /*$msg=[];*/
-               foreach($data as $k=> $v){
-                  if((strtotime($v->order_time)>=strtotime(explode(';',$timesearch)[0])&&strtotime($v->order_time)<=strtotime(explode(';',$timesearch)[1]))||strtotime($v->order_time)==strtotime($timesearch)){
-                     $newcount+=1;
-                     $dataarr[]=$v;
-                     }
-               }
-               $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>array_slice($dataarr,$start,$newlen)];
-                   return response()->json($arr);
-               }
-           }
+        
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }
@@ -308,7 +329,16 @@ class OrderController extends Controller
     if($request->has('type')&&$request->input('type')=='all'){
       $id=explode(',',$request->input('id'));
       $orders=order::whereIn('order_id',$id)->get();
-      return view('admin/order/heshenarr')->with(compact('orders'));
+      $send_nums='';
+      foreach($orders as $k => $v){
+        if($v->order_send!=null&&$v->order_send!=''){
+                  $send_nums.=$v->order_send.';';
+        }else{
+          $send_nums.='暂无;';
+        }
+      }
+      $send_nums=rtrim($send_nums,';');
+      return view('admin/order/heshenarr')->with(compact('orders','send_nums'));
     }else{
        //获取订单核审页面
       $id=$request->input('id');
@@ -318,8 +348,42 @@ class OrderController extends Controller
     }
    }
    public function order_arr_change(Request $request){
+    //订单批量核审
      $data=$request->all();
-     dd($data);
+     $msg=false;
+     foreach ($data['order_ids'] as $key => $val) {
+      $order=order::where('order_single_id',$val)->first();
+       if($request->has('order_send')&&$request->input('order_send')!=null){ 
+        if(count(explode(';', $data['order_send']))!=count($data['order_ids'])){
+          //检查快递单号数目是否有错
+            return response()->json(['err'=>0,'str'=>'快递单号数目错误']);
+        }
+        $admin=Auth::user()->admin_name;
+        $date=date('Y-m-d h:i:s',time());
+        $oldmsg=$order->order_return;
+        $order_send_now=explode(';',$data['order_send'])[$key];
+        if($order_send_now=='暂无'){
+          $order_send_now=null;
+        }
+        $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_send'=>$order_send_now,'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+        if($err===false){
+          $msg.=$val.',';
+        }
+       }else{
+        $admin=Auth::user()->admin_name;
+        $date=date('Y-m-d h:i:s',time());
+        $oldmsg=$order->order_return;
+        $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+        if($err===false){
+          $msg.=$val.',';
+        }
+       }
+     }
+     if($msg!==false){
+            return response()->json(['err'=>0,'str'=>rtrim($err,',').'号订单核审失败']);
+          }else{
+            return response()->json(['err'=>1,'str'=>'核审成功']);
+          }
    }
    public function order_type_change(Request $request){
    	  $data=$request->all();

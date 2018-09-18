@@ -31,11 +31,13 @@
 		        var formName="f"+formnum;
 		        addform(formName); //增加一组商品属性；
 			}
+			@if($cuxiaos->first()->cuxiao_special_id!=null)
 			var cuxiao_special_id={{$cuxiaos->first()->cuxiao_special_id}};  //默认初始化赠品是否显示；
                                 $("[mine_id]").hide();
                             	if(cuxiao_special_id>0){
                             		$("[mine_id='"+cuxiao_special_id+"']").show();
                             	}
+            @endif
 	    var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	$('#addcart-quantity-dec').bind('click',function(){

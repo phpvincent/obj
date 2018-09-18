@@ -69,6 +69,11 @@ class AdminController extends Controller
 	        	$query->where('admin.admin_id','like',"%$search%");
 	        	$query->where('role.role_name','like',"%$search%");
 	        })
+            ->where(function($query)use($request){
+                if($request->input('group_name')!=0){
+                    $query->where('admin_group',$request->input('group_name'));
+                }
+            })
 	        ->count();
 	        $data=DB::table('admin')
 	        ->select('admin.*','role.role_name')
@@ -78,6 +83,11 @@ class AdminController extends Controller
 	        	$query->where('admin.admin_id','like',"%$search%");
 	        	$query->where('role.role_name','like',"%$search%");
 	        })
+            ->where(function($query)use($request){
+                if($request->input('group_name')!=0){
+                    $query->where('admin_group',$request->input('group_name'));
+                }
+            })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
