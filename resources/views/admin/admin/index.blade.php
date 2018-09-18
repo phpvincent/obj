@@ -36,7 +36,7 @@
 				<th width="70">所属角色</th>
 				<th width="70">拥有单品数</th>
 				<th width="70">下单数</th>
-				<th width="70">今日销售额</th>
+				<th width="70">今日销售额(￥)</th>
 				<th width="70">是否超管</th>
 				<th width="70">所属分组</th>
 				<th width="70">是否启用</th>
