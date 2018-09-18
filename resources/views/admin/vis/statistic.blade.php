@@ -18,6 +18,15 @@
 </div>
 <div id="container"></div>
 <hr>
+<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="times" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 选择日期范围</a></div><br/>
+<div class="text-c" style="display: none;"> 日期范围：
+		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+		-
+		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
+		<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
+		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
+		&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
+	</div>
 <div id="container-b"></div>
 @endsection
 @section('js')
@@ -27,7 +36,10 @@
 		getbin(0);
 });
 	$('#hart').on('click',function(){
-		$('#select-box').show(300);
+		$('#select-box').toggle(300);
+	})
+	$('#hart').on('click',function(){
+		$('.text-c').toggle(300);
 	})
 	$('#goods_name').on('change',function(){
 		var val=$(this).val();
@@ -73,7 +85,7 @@
 					                width: 1,
 					                color: '#000'
 					            }],
-					            max:100,
+					            max:Math.max.apply(null, result),
 					            min:0,
 					        },
 					        tooltip: {
