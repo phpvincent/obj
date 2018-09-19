@@ -273,7 +273,7 @@ class IndexController extends Controller
     	$order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
     	if($order_goods_id==false){
-          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
@@ -292,7 +292,7 @@ class IndexController extends Controller
 
         //判断金额合法性
     	if($price==false||$price<=0){
-          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
         $order_Array = [];
     	//设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
@@ -371,7 +371,7 @@ class IndexController extends Controller
     	$order_num=$request->input('specNumber');
     	//判断商品数合法性
     	if($order_num<=0){
-          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_num=$order_num;
     	$cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
@@ -413,14 +413,21 @@ class IndexController extends Controller
         }
         
     	if(!$msg){
-          return response()->json(['err'=>0,'url'=>'/endsuccess?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}else{
             $goods_id=$goods->goods_id;
             $order_id=$order->order_id;
         return response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
-    		//return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            //return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     	}
     }
+    /**
+    * 下单失败
+    */
+    public function endfail(Request $request){
+        return view('home.zhongdong.zdEndfail');    
+    }
+
     public function endsuccess(Request $request){
         $data=$request->all();
         if($request->has('type')&&$request->input('type')=='0'){
@@ -477,6 +484,9 @@ class IndexController extends Controller
         $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
         if($goods==null||$goods==null){
             return json_encode(false);
+        }
+        if($goods->goods_blade_type == 2){
+            return view('home.zhongdong.zdSendmsg')->with(compact('order','goods'));
         }
         return view('home.sendmsg')->with(compact('order','goods'));
     }
