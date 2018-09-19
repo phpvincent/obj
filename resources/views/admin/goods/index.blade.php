@@ -13,19 +13,18 @@
 		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
 		<div style="width: 100%"><div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">单品类型：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+			<label class="form-label col-xs-1 col-sm-1">单品类型：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="goods_type" id="goods_type" class="select">
 					<option value="0">所有</option>
 					@foreach($type as $val)
 					<option value="{{$val->goods_type_id}}" >{{$val->goods_type_name}}</option>
 					@endforeach
 				</select>
-				</span> </div>
-		</div>
-	<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">核审状态：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">核审状态：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="check_type" id="check_type" class="select">
 					<option value="#">所有</option>
 					<option value="1">正常状态</option>
@@ -34,12 +33,10 @@
 					<option value="@">保护期内</option>
 					<option value="$">保护期已过</option>
 				</select>
-				</span> </div>
-
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">币种：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">币种：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="pay_type" id="pay_type" class="select">
 					<option value="0">所有</option>
 					@foreach(\App\currency_type::get() as $k => $v)

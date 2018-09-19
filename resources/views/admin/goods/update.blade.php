@@ -973,13 +973,13 @@
         var configdiv=$('#configclo-value').clone();
         //属性值键值
         var k = $(obj).parent().parent().parent().prev().find('input:last').val();
-		//属性值名称
+        k++;
+        //属性值名称
 		var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
         configdiv.children('.col-sm-4').find('input').attr('name',msg+'['+k+']'+'[goods_config]');
         configdiv.children('.col-sm-3').find('input').attr('name',msg+'['+k+']'+'[config_imgs]');
         console.log(configdiv.children('.col-sm-3').find('input').attr('name'));
         configdiv.show(200);
-        k++;
         $(obj).parent().parent().parent().prev().find('input:last').val(k);
         $(obj).parent().parent().parent().append(configdiv);
     }

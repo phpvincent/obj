@@ -570,7 +570,7 @@ class GoodsController extends Controller
      */
    public function post_update(Request $request){
        $data=$request->all();
-       
+
        //字段验证（属性值，属性名，属性照片）
        $array_goods_config = [];
        $array_config_val = [];
@@ -646,7 +646,6 @@ class GoodsController extends Controller
        if(!empty($array_goods_config)){
            return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
        }
-
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
 
@@ -1005,7 +1004,7 @@ class GoodsController extends Controller
         }
 
         //处理商品属性名 + 属性值
-        $goods_config = \App\goods_config::where('goods_primary_id', $id)->get();
+        $goods_config = \App\goods_config::where('goods_primary_id', $id)->orderBy('goods_config_id','asc')->get();
         if (!$goods_config->isEmpty()) {
             $goods_config = $goods_config->toArray();
             foreach ($goods_config as $item) {
@@ -1047,7 +1046,7 @@ class GoodsController extends Controller
         }
 
         //处理商品获得促销
-        $cuxiao = \App\cuxiao::where('cuxiao_goods_id', $id)->get();
+        $cuxiao = \App\cuxiao::where('cuxiao_goods_id', $id)->orderBy('cuxiao_id','asc')->get();
         if ($cuxiao) {
             if (!$cuxiao->isEmpty()) {
                 $cuxiao = $cuxiao->toArray();

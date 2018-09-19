@@ -13,16 +13,42 @@
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 选择账户</a></div><br/>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-2">账户名：</label>
-				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-					<select name="admin_name" id="admin_name" class="select">
-						<option value="0">所有</option>
-						@foreach($admins as $val)
-						<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
-						@endforeach
+			<label class="form-label col-xs-1 col-sm-1">账户名：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="admin_name" id="admin_name" class="select">
+					<option value="0">所有</option>
+					@foreach($admins as $val)
+					<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
+					@endforeach
+				</select>
+				</span>
+			</div>
+		</div>
+		<div class="row cl" style="margin-top: 20px;">
+			<label class="form-label col-xs-1 col-sm-1">ip重复：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="order_repeat_ip" id="order_repeat_ip" class="select">
+						<option value="0">无</option>
+						<option value="1">ip</option>
+					</select>
+					</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">姓名重复：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="order_repeat_name" id="order_repeat_name" class="select">
+						<option value="0">无</option>
+						<option value="1">姓名</option>
+					</select>
+					</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="order_repeat_tel" id="order_repeat_tel" class="select">
+						<option value="0">无</option>
+						<option value="1">手机号</option>
 					</select>
 					</span> </div>
-			</div>
+		</div>
 	</div>
 	
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
@@ -64,16 +90,48 @@
 		</tbody>
 	</table>
 </div>
+<div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#3399ff;display: inline-block;"></div>
+		<div style="display:inline;">ip重复</div>
+	</div>
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#00cc66;display: inline-block;"></div>
+		<div style="display:inline;">姓名重复</div>
+	</div>
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#ff9900;display: inline-block;"></div>
+		<div style="display:inline;">电话重复</div>
+	</div>
+	</div>
+<div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 200px;">
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#464c5b;display: inline-block;"></div>
+		<div style="display:inline;">ip、姓名</div>
+	</div>
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#f51322;display: inline-block;"></div>
+		<div style="display:inline;">ip、电话重复</div>
+	</div>
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#9ea7b4;display: inline-block;"></div>
+		<div style="display:inline;">姓名、电话重复</div>
+	</div>
+	<div>
+		<div style="width: 20px;height: 20px;background-color:#ff6600;display: inline-block;"></div>
+		<div style="display:inline;">ip、姓名、电话重复</div>
+	</div>
+</div>
 </div>
 @endsection
 @section('js')
 
 <script type="text/javascript">
 	$.tablesetting={
-	"lengthMenu": [[5,10,20],[5,10,20]],
-		"paging": true,
-		"info":   true,	
-		"searching": true,
+	"lengthMenu": [[5,10,20],[5,10,20]],//每页显示条数
+		"paging": true,					//是否分页。
+		"info":   true,					//页脚信息
+		"searching": true,				//搜索
 		"ordering": true,
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
@@ -86,6 +144,9 @@
 		"ajax": {
 		"data":{
 			goods_search:function(){return $('#admin_name').val()},
+			order_repeat_ip:function(){return $('#order_repeat_ip').val()},
+			order_repeat_name:function(){return $('#order_repeat_name').val()},
+			order_repeat_tel:function(){return $('#order_repeat_tel').val()},
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 		},
@@ -115,7 +176,48 @@
 		{'data':'created_at'},
 		{'defaultContent':"","className":"td-manager"},*/
 		],
-		"createdRow":function(row,data,dataIndex){
+        //每行回调函数
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+            //改行满足的条件
+			if(aData.order_repeat_field){
+				if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
+                        //设置满足条件行的背景颜色
+                        $(nRow).css("background", "#3399ff");
+				}
+                if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '2'){
+                    	//     //设置满足条件行的背景颜色
+                        $(nRow).css("background", "#00cc66");
+                }
+                if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '3'){
+                    //     //设置满足条件行的背景颜色
+                        $(nRow).css("background", "#ff9900");
+                }
+                if(aData.order_repeat_field.length == 3){
+                    //     //设置满足条件行的背景颜色
+                    $(nRow).css("background", "#ff6600");
+                    $('.dataTable td.sorting_1').removeClass('sorting_1');
+                }
+                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('2')>=0){
+                    //     //设置满足条件行的背景颜色
+                    $(nRow).css("background", "#464c5b");
+                }
+                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
+                    //     //设置满足条件行的背景颜色
+                    $(nRow).css("background", "#f51322");
+                }
+                console.log("======================");
+                console.log(aData.order_repeat_field.length);
+                console.log(aData.order_repeat_field.indexOf('3'));
+                console.log(aData.order_repeat_field.indexOf('2'));
+                console.log(aData.order_repeat_field);
+                console.log("=======================");
+                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
+                    //     //设置满足条件行的背景颜色
+                    $(nRow).css("background", "#9ea7b4");
+                }
+			}
+        },
+        "createdRow":function(row,data,dataIndex){
 			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe643;</i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
@@ -299,6 +401,21 @@ $('#getadmin').on('click',function(){
 $('#admin_name').on('change',function(){
 	dataTable.ajax.reload();
 	var args = dataTable.ajax.params();
+})
+$('#order_repeat_ip').on('change',function(){
+	dataTable.ajax.reload();
+	var args = dataTable.ajax.params();
+	console.log("额外传到后台的参数值extra_search为："+args.goods_search);
+})
+$('#order_repeat_name').on('change',function(){
+	dataTable.ajax.reload();
+	var args = dataTable.ajax.params();
+	console.log("额外传到后台的参数值extra_search为："+args.goods_search);
+})
+$('#order_repeat_tel').on('change',function(){
+	dataTable.ajax.reload();
+	var args = dataTable.ajax.params();
+	console.log("额外传到后台的参数值extra_search为："+args.goods_search);
 })
 </script>
 

@@ -30,6 +30,11 @@ class OrderController extends Controller
      }
     
    }
+
+    /** 订单列表数据
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function get_table(Request $request){
       		$info=$request->all();
         	$cm=$info['order'][0]['column'];
@@ -39,6 +44,11 @@ class OrderController extends Controller
 	        $start=$info['start'];
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
+            //获取账户名
+            $goods_search=$request->has('goods_search')?$request->input('goods_search'):0;
+            $order_repeat_ip=$request->has('order_repeat_ip')?$request->input('order_repeat_ip'):0;
+            $order_repeat_name=$request->has('order_repeat_name')?$request->input('order_repeat_name'):0;
+            $order_repeat_tel=$request->has('order_repeat_tel')?$request->input('order_repeat_tel'):0;
 	        $counts=DB::table('order')
           ->where(function($query){
             $query->where('is_del','0');
@@ -47,7 +57,8 @@ class OrderController extends Controller
          
          //获取自己名下的单
            $admin_id=Auth::user()->admin_id;
-           if(Auth::user()->is_root!='1'){
+
+           if(Auth::user()->is_root!='1'){//非root 用户
             $garr=\App\goods::get_ownid($admin_id);
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
@@ -55,6 +66,7 @@ class OrderController extends Controller
               $query->where('is_del','0');
             })
             ->count();
+
              $newcount=DB::table('order')
             ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -79,8 +91,31 @@ class OrderController extends Controller
            })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
-            })
+            })->where(function ($query)use($order_repeat_ip){
+                     if($order_repeat_ip == 1){
+                         $query->where('order_repeat_field','1');
+                         $query->orWhere('order_repeat_field','1,2');
+                         $query->orWhere('order_repeat_field','1,3');
+                         $query->orWhere('order_repeat_field','1,2,3');
+                     }
+                 })->where(function ($query)use($order_repeat_name){
+                     if($order_repeat_name == 1){
+                         $query->where('order_repeat_field','2');
+                         $query->orWhere('order_repeat_field','1,2');
+                         $query->orWhere('order_repeat_field','2,3');
+                         $query->orWhere('order_repeat_field','1,2,3');
+                     }
+                 })->where(function ($query)use($order_repeat_tel){
+                     if($order_repeat_tel == 1){
+                         $query->where('order_repeat_field','3');
+                         $query->orWhere('order_repeat_field','1,3');
+                         $query->orWhere('order_repeat_field','2,3');
+                         $query->orWhere('order_repeat_field','1,2,3');
+                     }
+                 })
             ->count();
+
+             //列表数据
             $data=DB::table('order')
             ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -105,15 +140,36 @@ class OrderController extends Controller
           })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
-            })
+            })->where(function ($query)use($order_repeat_ip){
+                    if($order_repeat_ip == 1){
+                        $query->where('order_repeat_field','1');
+                        $query->orWhere('order_repeat_field','1,2');
+                        $query->orWhere('order_repeat_field','1,3');
+                        $query->orWhere('order_repeat_field','1,2,3');
+                    }
+                })->where(function ($query)use($order_repeat_name){
+                    if($order_repeat_name == 1){
+                        $query->where('order_repeat_field','2');
+                        $query->orWhere('order_repeat_field','1,2');
+                        $query->orWhere('order_repeat_field','2,3');
+                        $query->orWhere('order_repeat_field','1,2,3');
+                    }
+                })->where(function ($query)use($order_repeat_tel){
+                    if($order_repeat_tel == 1){
+                        $query->where('order_repeat_field','3');
+                        $query->orWhere('order_repeat_field','1,3');
+                        $query->orWhere('order_repeat_field','2,3');
+                        $query->orWhere('order_repeat_field','1,2,3');
+                    }
+                })
             ->orderBy($order,$dsc)
             ->offset($start)
             ->limit($len)
             ->get();
-           }else{
-            //获取账户名
-           $goods_search=$request->has('goods_search')?$request->input('goods_search'):0;
-            /*$wheresql=['order_goods_id','>',0];*/
+
+
+           }else{ //root用户
+
             $newcount=DB::table('order')
             ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -132,7 +188,28 @@ class OrderController extends Controller
                    $garr=order::get_group_order($goods_search);
                 $query->whereIn('order_goods_id',$garr);
                 }
-            })
+            })->where(function ($query)use($order_repeat_ip){
+                    if($order_repeat_ip == 1){
+                        $query->where('order.order_repeat_field','1');
+                        $query->orWhere('order.order_repeat_field','1,2');
+                        $query->orWhere('order.order_repeat_field','1,3');
+                        $query->orWhere('order.order_repeat_field','1,2,3');
+                    }
+                })->where(function ($query)use($order_repeat_name){
+                    if($order_repeat_name == 1){
+                        $query->where('order.order_repeat_field','2');
+                        $query->orWhere('order.order_repeat_field','1,2');
+                        $query->orWhere('order.order_repeat_field','2,3');
+                        $query->orWhere('order.order_repeat_field','1,2,3');
+                    }
+                })->where(function ($query)use($order_repeat_tel){
+                    if($order_repeat_tel == 1){
+                        $query->where('order.order_repeat_field','3');
+                        $query->orWhere('order.order_repeat_field','1,3');
+                        $query->orWhere('order.order_repeat_field','2,3');
+                        $query->orWhere('order.order_repeat_field','1,2,3');
+                    }
+                })
              ->where(function($query)use($request){
             if($request->input('mintime')!=null&&$request->input('maxtime')==null){
               $query->where('order.order_time','>',$request->input('mintime'));
@@ -143,6 +220,8 @@ class OrderController extends Controller
             }
           })
             ->count();
+
+            //table表格数据
             $data=DB::table('order')
             ->select('order.*','goods.goods_real_name','admin.admin_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -165,7 +244,30 @@ class OrderController extends Controller
               }
               $query->whereIn('order_goods_id',$garr);
             }
-           })
+           })->where(function ($query)use($order_repeat_ip){
+                    if($order_repeat_ip == 1){
+                        $query->where('order_repeat_field','1');
+                        $query->orWhere('order_repeat_field','1,2');
+                        $query->orWhere('order_repeat_field','1,3');
+                        $query->orWhere('order_repeat_field','1,2,3');
+                    }
+                })->where(function ($query)use($order_repeat_name){
+                    if($order_repeat_name == 1){
+                        $query->where('order_repeat_field','2');
+                        $query->orWhere('order_repeat_field',',2');
+                        $query->orWhere('order_repeat_field','1,2');
+                        $query->orWhere('order_repeat_field','2,3');
+                        $query->orWhere('order_repeat_field','1,2,3');
+                    }
+                })->where(function ($query)use($order_repeat_tel){
+                    if($order_repeat_tel == 1){
+                        $query->where('order_repeat_field','3');
+                        $query->orWhere('order_repeat_field',',3');
+                        $query->orWhere('order_repeat_field','1,3');
+                        $query->orWhere('order_repeat_field','2,3');
+                        $query->orWhere('order_repeat_field','1,2,3');
+                    }
+                })
             ->where(function($query)use($request){
             if($request->input('mintime')!=null&&$request->input('maxtime')==null){
               $query->where('order.order_time','>',$request->input('mintime'));
@@ -185,6 +287,12 @@ class OrderController extends Controller
 	        $goods_currency_id= \App\goods::where('goods_id',$v->order_goods_id)->value('goods_currency_id');
 	        $currency_type_name = \App\currency_type::where('currency_type_id',$goods_currency_id)->value('currency_type_name');
 	        $v->order_price = $currency_type_name.' '.$v->order_price;
+	        if($v->order_repeat_field){
+	            if(substr( $v->order_repeat_field, 0, 1 ) == ','){
+                    $v->order_repeat_field = substr( $v->order_repeat_field, 1);
+                }
+                $v->order_repeat_field = explode(',',$v->order_repeat_field);
+            }
             $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
             if($order_config->count()>0){
                 $config_msg='';
