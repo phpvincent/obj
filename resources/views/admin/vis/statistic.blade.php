@@ -85,8 +85,7 @@
 					                width: 1,
 					                color: '#000'
 					            }],
-					            max:Math.max.apply(null, result),
-					            min:0,
+
 					        },
 					        tooltip: {
 					            valueSuffix: '%'

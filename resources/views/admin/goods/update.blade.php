@@ -48,7 +48,7 @@
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>单品名：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{{$goods->goods_real_name}}" placeholder="" id="goods_real_name" name="goods_real_name">
+					<input type="text" class="input-text" value="{{$goods->goods_real_name}}" readonly="readonly" placeholder="" id="goods_real_name" name="goods_real_name">
 				</div>
 			</div>
 

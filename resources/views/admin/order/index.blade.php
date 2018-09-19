@@ -10,7 +10,7 @@
 		&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
 	</div>
 	
-	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 选择账户</a></div><br/>
+	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
 			<label class="form-label col-xs-1 col-sm-1">账户名：</label>
