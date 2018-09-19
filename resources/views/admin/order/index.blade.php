@@ -29,7 +29,7 @@
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_ip" id="order_repeat_ip" class="select">
 						<option value="0">无</option>
-						<option value="1">ip</option>
+						<option value="1">ip</option>s
 					</select>
 					</span>
 			</div>
@@ -96,7 +96,7 @@
 		</tbody>
 	</table>
 </div>
-<div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
+<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#FFE4E1;display: inline-block;"></div>
 		<div style="display:inline;">ip重复</div>
@@ -110,7 +110,7 @@
 		<div style="display:inline;">电话重复</div>
 	</div>
 	</div>
-<div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 200px;">
+<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 200px;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#d7dde4;display: inline-block;"></div>
 		<div style="display:inline;">ip、姓名</div>
