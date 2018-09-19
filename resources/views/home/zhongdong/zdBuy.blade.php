@@ -101,7 +101,7 @@
         <script type="text/javascript" src="/js/broser.js"></script>
         <style type="text/css">
             	.chose_cart{
-            		background-color: red;
+            		background-color: #00923f;
             		color: white !important;
             		border:1px dashed #ccc !important;
             	}
@@ -284,7 +284,7 @@
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01">Place Order</button>
+    <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;">Place Order</button>
 </div>
 <!--button end-->
 <!--footer begin-->
