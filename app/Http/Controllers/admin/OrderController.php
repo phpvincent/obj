@@ -313,8 +313,13 @@ class OrderController extends Controller
               }else{
                 $data[$k]->config_msg="暂无属性信息";
               }
+            $iparea=getclientcity($request,$v->order_ip);
+            $data[$k]->order_ip=($iparea['country']==$iparea['city']?$v->order_ip."<br/>".$iparea['country']:$v->order_ip."<br/>".$iparea['country'].'-'.$iparea['city']);
+            $data[$k]->order_tel=($v->order_tel==''||$v->order_tel==null?"<span style=color:red;>没有填写</span>":$v->order_tel);
+            $data[$k]->order_email=($v->order_email==''||$v->order_email==null?"<span style=color:red;>没有填写</span>":$v->order_email);
+            $data[$k]->order_add=($v->order_add==''||$v->order_add==null?"<span style=color:red;>没有填写</span>":$v->order_add);
+            $data[$k]->order_remark=($v->order_remark==''||$v->order_remark==null?"<span style=color:red;>没有填写</span>":$v->order_remark);
           }
-        
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }
