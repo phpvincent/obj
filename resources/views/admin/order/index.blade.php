@@ -29,7 +29,7 @@
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_ip" id="order_repeat_ip" class="select">
 						<option value="0">无</option>
-						<option value="1">ip</option>
+						<option value="1">ip</option>s
 					</select>
 					</span>
 			</div>
@@ -55,7 +55,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="15">订单列表</th>
+				<th scope="col" colspan="21">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
@@ -63,15 +63,21 @@
 				<th width="80">订单号</th>
 				<th width="60">下单者ip</th>
 				<th width="60">单品名</th>
-				<th width="60">促销信息</th>
-				<th width="60">属性信息</th>
+				<th width="60">收货人</th>
+				<th width="60">收货电话</th>
 				<th width="30">订单价格</th>
 				<th width="30">订单状态</th>
 				<th width="40">下单时间</th>
-				<th width="40">核审时间</th>
-				<th width="40">核审者</th>
+				<th width="60">详细地址</th>
+				<th width="60">留言</th>
 				<th width="30">件数</th>
 				<th width="60">快递单号</th>
+				<th width="60">促销信息</th>
+				<th width="60">属性信息</th>
+				<th width="60">收货人邮箱</th>
+				<th width="60">收货人地区</th>
+				<th width="40">核审时间</th>
+				<th width="40">核审者</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -90,7 +96,7 @@
 		</tbody>
 	</table>
 </div>
-<div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
+<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#FFE4E1;display: inline-block;"></div>
 		<div style="display:inline;">ip重复</div>
@@ -104,7 +110,7 @@
 		<div style="display:inline;">电话重复</div>
 	</div>
 	</div>
-<div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 200px;">
+<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 200px;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#d7dde4;display: inline-block;"></div>
 		<div style="display:inline;">ip、姓名</div>
@@ -136,9 +142,13 @@
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,3,4,5,6,7,11,13],
+		   "targets": [0,1,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20],
 		   "orderable": false
 		}],
+		"fixedColumns":{
+            leftColumns: 3,
+            rightColumns: 1
+        },
 		"processing": true,
 		"serverSide": true,
 		"ajax": {
@@ -160,15 +170,21 @@
 		{"data":'order_single_id'},
 		{"data":'order_ip'},
 		{'data':'goods_real_name'},
-		{'data':'order_cuxiao_id'},
-		{'data':'config_msg'},
+		{'data':'order_name'},
+		{'data':'order_tel'},
 		{'data':'order_price'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_time'},
-		{'data':'order_return_time'},
-		{'data':'admin_name'},
+		{'data':'order_add'},
+		{'data':'order_remark'},
 		{'data':'order_num'},
 		{'data':'order_send'},
+		{'data':'order_cuxiao_id'},
+		{'data':'config_msg'},
+		{'data':'order_email'},
+		{'defaultContent':"","className":"td-manager"},
+		{'data':'order_return_time'},
+		{'data':'admin_name'},
 		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
@@ -205,12 +221,12 @@
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#ff9900");
                 }
-                console.log("======================");
+/*                console.log("======================");
                 console.log(aData.order_repeat_field.length);
                 console.log(aData.order_repeat_field.indexOf('3'));
                 console.log(aData.order_repeat_field.indexOf('2'));
                 console.log(aData.order_repeat_field);
-                console.log("=======================");
+                console.log("=======================");*/
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#FFE4C4");
@@ -218,7 +234,7 @@
 			}
         },
         "createdRow":function(row,data,dataIndex){
-			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe643;</i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
+			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="收货地址"><i class="Hui-iconfont">&#xe643;</span></i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
 			}else if(data.order_type==1){
@@ -241,8 +257,9 @@
 			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(14)').html(info);
+			$(row).find('td:eq(20)').html(info);
 			$(row).find('td:eq(8)').html(isroot);
+			$(row).find('td:eq(17)').html(data.order_state+'-'+data.order_city);
 			/*$(row).find('td:eq(0)').html(checkbox);*/
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";

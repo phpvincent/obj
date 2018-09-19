@@ -20,7 +20,7 @@
 								@foreach($allrule as $k =>$val)
 									@if($val->rule_level==$v->rule_id)
 								<label class="">
-									<input type="checkbox" value="{{$val->rule_id}}" name="rules[]" id="user-Character-0-0-0" @if(in_array($v->rule_id,$useid)) checked="checked" @endif >
+									<input type="checkbox" value="{{$val->rule_id}}" name="rules[]" id="user-Character-0-0-0" @if(in_array($val->rule_id,$useid)) checked="checked" @endif >
 									{{$val->rule_name}}</label>
 									@endif
 								@endforeach
