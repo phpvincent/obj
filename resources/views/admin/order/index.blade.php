@@ -92,33 +92,33 @@
 </div>
 <div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#3399ff;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#FFE4E1;display: inline-block;"></div>
 		<div style="display:inline;">ip重复</div>
 	</div>
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#00cc66;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#CAE1FF;display: inline-block;"></div>
 		<div style="display:inline;">姓名重复</div>
 	</div>
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#ff9900;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#00cc66;display: inline-block;"></div>
 		<div style="display:inline;">电话重复</div>
 	</div>
 	</div>
 <div style="width: 200px;height: 200px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 200px;">
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#464c5b;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#d7dde4;display: inline-block;"></div>
 		<div style="display:inline;">ip、姓名</div>
 	</div>
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#f51322;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#ff9900;display: inline-block;"></div>
 		<div style="display:inline;">ip、电话重复</div>
 	</div>
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#9ea7b4;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#FFE4C4;display: inline-block;"></div>
 		<div style="display:inline;">姓名、电话重复</div>
 	</div>
 	<div>
-		<div style="width: 20px;height: 20px;background-color:#ff6600;display: inline-block;"></div>
+		<div style="width: 20px;height: 20px;background-color:#FFFACD;display: inline-block;"></div>
 		<div style="display:inline;">ip、姓名、电话重复</div>
 	</div>
 </div>
@@ -182,28 +182,28 @@
 			if(aData.order_repeat_field){
 				if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
                         //设置满足条件行的背景颜色
-                        $(nRow).css("background", "#3399ff");
+                        $(nRow).css("background", "#FFE4E1");
 				}
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '2'){
                     	//     //设置满足条件行的背景颜色
-                        $(nRow).css("background", "#00cc66");
+                        $(nRow).css("background", "#CAE1FF");
                 }
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '3'){
                     //     //设置满足条件行的背景颜色
-                        $(nRow).css("background", "#ff9900");
+                        $(nRow).css("background", "#00cc66");
                 }
                 if(aData.order_repeat_field.length == 3){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#ff6600");
+                    $(nRow).css("background", "#FFFACD");
                     $('.dataTable td.sorting_1').removeClass('sorting_1');
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('2')>=0){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#464c5b");
+                    $(nRow).css("background", "#d7dde4");
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#f51322");
+                    $(nRow).css("background", "#ff9900");
                 }
                 console.log("======================");
                 console.log(aData.order_repeat_field.length);
@@ -213,7 +213,7 @@
                 console.log("=======================");
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#9ea7b4");
+                    $(nRow).css("background", "#FFE4C4");
                 }
 			}
         },
