@@ -243,6 +243,7 @@
            </p>
            
         </div>
+        
         <div class="clear">
         </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
@@ -290,6 +291,20 @@
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
         <div class="clear">
         </div>
+        <script>
+            (function(){
+                /* 图片显示画面 */
+                function captureImage(a) {
+                    a.pause();       
+                };
+                var videos=$("#detial-context video");
+                for(var i=0;i<videos.length;i++){
+                    videos[i].setAttribute("autoplay","autoplay");
+                    videos[i].setAttribute("preload","auto");
+                    videos[i].addEventListener('canplay',captureImage(videos[i]));
+                }
+            })();
+        </script>
         <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
     <table class="data-table">
 
