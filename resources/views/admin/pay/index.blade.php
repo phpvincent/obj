@@ -25,8 +25,8 @@
 			</div>
 	</div>
 	
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
-	<table class="table table-border table-bordered table-bg" id="order_index_table">
+	<!-- <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div> -->
+	<table class="table table-border table-bordered table-bg" id="pay_index_table">
 		<thead>
 			<tr>
 				<th scope="col" colspan="15">订单列表</th>
@@ -89,7 +89,7 @@
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 		},
-		"url": "{{url('admin/order/get_table')}}",
+		"url": "{{url('admin/pay/get_table')}}",
 		"type": "POST",
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
 		},
@@ -149,9 +149,9 @@
 			$(row).find('td:eq(6)').html(video_btn);*/
 		}
 	}
- dataTable =$('#order_index_table').DataTable($.tablesetting);
+ dataTable =$('#pay_index_table').DataTable($.tablesetting);
 $('#seavis1').on('click',function(){
-	               			 $('#order_index_table').dataTable().fnClearTable(); 
+	               			 $('#pay_index_table').dataTable().fnClearTable(); 
 
 })
 function del_order(id){
@@ -172,7 +172,7 @@ function del_order(id){
                			 dataTable = $("#goods_index_table").dataTable($.tablesetting);*/
                			 //搜索后跳转到第一页
                			 //dataTable.fnPageChange(0);
-               			 $('#order_index_table').dataTable().fnClearTable(); 
+               			 $('#pay_index_table').dataTable().fnClearTable(); 
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{
@@ -243,7 +243,7 @@ function pl_del(){
 					success:function(msg){
 			           if(msg['err']==1){
 			           	 layer.msg(msg.str);
-               			 $('#order_index_table').dataTable().fnClearTable(); 
+               			 $('#pay_index_table').dataTable().fnClearTable(); 
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{
@@ -279,7 +279,7 @@ function pl_update(){
 					success:function(msg){
 			           if(msg['err']==1){
 			           	 layer.msg(msg.str);
-               			 $('#order_index_table').dataTable().fnClearTable(); 
+               			 $('#pay_index_table').dataTable().fnClearTable(); 
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{

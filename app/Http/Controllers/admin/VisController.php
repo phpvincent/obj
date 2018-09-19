@@ -470,9 +470,9 @@ class VisController extends Controller
 	   			$data1['data'][$i]=$count;
 	   		}	
 	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_ordertime >0 and vis.vis_goods_id=$id");
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis_buytime >0 and vis.vis_goods_id=$id");
 	   			$count=$count[0]->counts;
-	   			$data2['name']='下单人数';
+	   			$data2['name']='加购人数';
 	   			$data2['data'][$i]=$count;	
 	   		}
 	   	
@@ -491,9 +491,9 @@ class VisController extends Controller
 	   			$data1['data'][$i]=$count;
 	   		}	
 	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and  vis_ordertime >0 ");
+	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and  vis_buytime >0 ");
 	   			$count=$count[0]->counts;
-	   			$data2['name']='下单人数';
+	   			$data2['name']='加购人数';
 	   			$data2['data'][$i]=$count;	
 	   		}
 	   		$data[]=$data1;
