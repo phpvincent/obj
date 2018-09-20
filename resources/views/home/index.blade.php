@@ -119,6 +119,11 @@
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
+            <div class="swiper-slide" id="swiper-slide">
+                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
+                    <source src="{{$goods->goods_video}}" type="video/mp4">
+                </video>
+            </div>
         	@foreach($imgs as $key)
                         <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}"  style="width: 100%;"  alt="" /></div>
             @endforeach
