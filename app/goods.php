@@ -38,7 +38,12 @@ class goods extends Model
         }
     }
     public static function get_selfid($admin_id){
-        $admin_ids=self::where('goods_admin_id',$admin_id)->get(['goods_id'])->toArray();
+         if(\App\admin_group::where('admin_group_id',$group)->first()['admin_group_name']=='#全体人员#'){
+            //全体人员组成员取得所有订单的id
+            $admin_ids=self::get(['goods_id'])->toArray();
+        }else{
+            $admin_ids=self::where('goods_admin_id',$admin_id)->get(['goods_id'])->toArray();
+        }
         $ids=[];
         foreach($admin_ids as $v => $k){
             $ids[]=$k['goods_id'];
