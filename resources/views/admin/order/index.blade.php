@@ -12,6 +12,7 @@
 	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
 	<div style="display: none" id="select-admin">
+		@if(Auth::user()->is_root=='1')
 		<div class="row cl">
 			<label class="form-label col-xs-1 col-sm-1">账户名：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -20,6 +21,25 @@
 					@foreach($admins as $val)
 					<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
 					@endforeach
+				</select>
+				</span>
+			</div>
+		</div>
+		@endif
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1">订单核审状态：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="order_type" id="order_type" class="select">
+					<option value="#">所有</option>
+					<option value="0">未核审</option>
+					<option value="1">通过核审</option>
+					<option value="2">拒绝核审</option>
+					<option value="3">已发货</option>
+					<option value="4">已签收</option>
+					<option value="5">退货未退款</option>
+					<option value="6">退货并已退款</option>
+					<option value="7">未退货已退款</option>
+					<option value="8">拒签</option>
 				</select>
 				</span>
 			</div>
@@ -159,6 +179,7 @@
 			order_repeat_tel:function(){return $('#order_repeat_tel').val()},
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
+			order_type:function(){return $('#order_type').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -419,20 +440,21 @@ $('#admin_name').on('change',function(){
 	dataTable.ajax.reload();
 	var args = dataTable.ajax.params();
 })
+$('#order_type').on('change',function(){
+	dataTable.ajax.reload();
+	
+})
 $('#order_repeat_ip').on('change',function(){
 	dataTable.ajax.reload();
-	var args = dataTable.ajax.params();
-	console.log("额外传到后台的参数值extra_search为："+args.goods_search);
+	
 })
 $('#order_repeat_name').on('change',function(){
 	dataTable.ajax.reload();
-	var args = dataTable.ajax.params();
-	console.log("额外传到后台的参数值extra_search为："+args.goods_search);
+	
 })
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
-	var args = dataTable.ajax.params();
-	console.log("额外传到后台的参数值extra_search为："+args.goods_search);
+	
 })
 </script>
 

@@ -89,6 +89,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
            })
+            ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
@@ -138,6 +144,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
+              ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
@@ -221,6 +233,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
+              ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->count();
 
             //table表格数据
@@ -281,6 +299,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
+             ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->orderBy($order,$dsc)
             ->offset($start)
             ->limit($len)
