@@ -38,6 +38,7 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
+        <script type="text/javascript" src="/js/resizeDIV.js"></script>
        
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <script>
@@ -577,8 +578,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
-    var banhj = $("#swiper-slide").height()-60;
-    $("#divVideo").attr("style","margin:0 auto;max-width: 100%;height: "+banhj+"px;background-color:#000;width:100%;");
+    var banhj = $(
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
