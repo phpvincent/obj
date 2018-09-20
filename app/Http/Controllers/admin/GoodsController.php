@@ -292,7 +292,22 @@ class GoodsController extends Controller
              if (!$request->hasFile('fm_imgs')) {
                  return response()->json(['err' => 0, 'str' => '封面图不能为空！']);
              }
-         }
+             if($request->hasFile('goods_fm_video')){
+                 $size = filesize($request->file('goods_fm_video'));
+                 //这里可根据配置文件的设置，做得更灵活一点
+                 if($size > 8*1024*1024){
+                     return response()->json(['err' => 0, 'str' => '封面图视频文件不能超过8M！']);
+                 }
+                 $file=$request->file('goods_fm_video');
+                 $name=$file->getClientOriginalName();//得到视频名；
+                 $ext=$file->getClientOriginalExtension();//得到视频后缀；
+                 $fileName=md5(uniqid($name));
+                 $newfilename='fm'."_".$fileName.'.'.$ext;//生成新的的文件名
+                 $filedir="upload/fm_video/";
+                 $msg=$file->move($filedir,$newfilename);
+                 $goods->goods_fm_video=$filedir.$newfilename;
+             }
+           }
 
          //是否附带视频
          if($data['is_video'] == 1) {
@@ -686,6 +701,28 @@ class GoodsController extends Controller
        $old_img=\App\img::where('img_goods_id',$data['goods_id'])->get();
        if($data['broadcast_1'] == 1) {
            array_push($array, 'broadcast');
+          
+           //插入新的封面视频
+           if($request->hasFile('goods_fm_video')){
+                //删除原有封面视频
+               $old_fm_video=$goods->goods_fm_video;
+               if($old_fm_video!=null&&$old_fm_video!=''){
+                @unlink($old_fm_video);
+               }
+                 $size = filesize($request->file('goods_fm_video'));
+                 //这里可根据配置文件的设置，做得更灵活一点
+                 if($size > 8*1024*1024){
+                     return response()->json(['err' => 0, 'str' => '封面图视频文件不能超过8M！']);
+                 }
+                 $file=$request->file('goods_fm_video');
+                 $name=$file->getClientOriginalName();//得到视频名；
+                 $ext=$file->getClientOriginalExtension();//得到视频后缀；
+                 $fileName=md5(uniqid($name));
+                 $newfilename='fm'."_".$fileName.'.'.$ext;//生成新的的文件名
+                 $filedir="upload/fm_video/";
+                 $msg=$file->move($filedir,$newfilename);
+                 $goods->goods_fm_video=$filedir.$newfilename;
+             }
            if($request->hasFile('fm_imgs')) {
                foreach($old_img as $val){
                    @unlink($val->img_url);
@@ -927,7 +964,7 @@ class GoodsController extends Controller
         $id = $request->input('id');
         $good = \App\goods::where('goods_real_name',$request->input('goods_name'))->first();
         if($good){
-            return response()->json(['err'=>0,'str'=>'单商品名已存在，请重新命名！']);
+            return response()->json(['err'=>0,'str'=>'单品名已被使用，请重新命名！']);
         }
         $goods = \App\goods::where('goods_id',$id)->first();
 
@@ -963,12 +1000,25 @@ class GoodsController extends Controller
         if($goods['goods_video']){
             $image = substr($goods['goods_video'],6);
             $ext = strrchr($goods['goods_video'], '.');
-            $newImages = '/fm_video/fz_fm_video'.md5(microtime()).rand(100000,1000000).$ext;
+            $newImages = '/fm_video/fz_first_video'.md5(microtime()).rand(100000,1000000).$ext;
             if(Storage::disk('public')->exists($image)){
                 Storage::disk('public')->copy($image, $newImages);
                 $goods['goods_video'] = 'upload'.$newImages;
             }else{
                 $goods['goods_video'] = '';
+            }
+        }
+        //处理封面视频操作
+        if($goods['goods_fm_video']){
+            $image = substr($goods['goods_fm_video'],6);
+            $ext = strrchr($goods['goods_fm_video'], '.');
+            $newImages = '/fm_video/fz_fm_video'.md5(microtime()).rand(100000,1000000).$ext;
+            if(Storage::disk('public')->exists($image)){
+                Storage::disk('public')->copy($image, $newImages);
+                $goods['goods_fm_video'] = 'upload'.$newImages;
+            }else{
+                $goods['goods_fm_video'] = '';
+
             }
         }
 

@@ -37,6 +37,7 @@
 
 	<form class="form form-horizontal" id="form-goods-update" enctype="multipart/form-data" action="{{url('admin/goods/post_update')}}">
 		{{csrf_field()}}
+				<p style="color:red;width:100%;text-align: center;">* 为必填项！</p>
 		<input type="hidden" name="goods_id" value="{{$goods->goods_id}}">
 		<div class="row cl" style="border: 0px;">
 			<div class="clearfix">
@@ -433,6 +434,12 @@
 					</div>
 				</div>
 			</div>
+			<div class="clearfix templet_show" ">
+				<label class="form-label col-xs-4 col-sm-2">封面视频(仅限mp4/mpeg格式)：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					@if($goods->goods_fm_video!=''||$goods->goods_fm_video!=null)<video src="/{{$goods->goods_fm_video}}"	controls="" preload="none" width="420" height="280" data-setup="{}"></video>@else 	<label class="form-label col-xs-4 col-sm-2">暂无数据</label>@endif
+					<input type="file" id="goods_fm_video" class="input-text" value="" placeholder="" id="goods_fm_video" name="goods_fm_video" accept="audio/mp4,video/mp4,video/mpeg,video/mpeg">
+				</div>
 		</div>
 		{{--底部导航模块--}}
 		<div class="row cl">

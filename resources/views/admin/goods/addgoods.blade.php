@@ -40,6 +40,7 @@
 
 	</div>
 	<form class="form form-horizontal " id="form-goods-update" enctype="multipart/form-data" action="{{url('admin/goods/post_add')}}">
+		<p style="color:red;width:100%;text-align: center;">* 为必填项！</p>
 		{{csrf_field()}}
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
@@ -371,6 +372,12 @@
 						</div>
 					</div>
 				</div>
+				<div class="clearfix templet_show" ">
+				<label class="form-label col-xs-4 col-sm-2">封面视频(仅限mp4/mpeg格式,<span style="color:red;">不需要可留空</span>)：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="file" id="goods_fm_video" class="input-text" value="" placeholder="" id="goods_fm_video" name="goods_fm_video" accept="audio/mp4,video/mp4,video/mpeg,video/mpeg">
+				</div>
+			</div>
 		</div>
 	<!-- 	<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>对应域名：</label>
