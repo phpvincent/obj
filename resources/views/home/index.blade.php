@@ -577,6 +577,8 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+    var banhj = $("#swiper-slide").height()-60;
+    $("#divVideo").attr("style","margin:0 auto;max-width: 100%;height: "+banhj+"px;background-color:#000;width:100%;");
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
@@ -640,7 +642,8 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
-    $2(function() {
+    $2(function() { 
+        
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {

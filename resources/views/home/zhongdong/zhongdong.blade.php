@@ -118,6 +118,13 @@
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
+              @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+            <div class="swiper-slide" id="swiper-slide">
+                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
+                    <source src="{{$goods->goods_fm_video}}" type="video/mp4">
+                </video>
+            </div>
+            @endif
         	@foreach($imgs as $key)
                         <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
             @endforeach
@@ -544,6 +551,9 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+    var banhj = $("#swiper-slide").height()-60;
+    $("#divVideo").attr("style","margin:0 auto;max-width: 100%;height: "+banhj+"px;background-color:#000;width:100%;");
+
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
