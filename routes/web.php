@@ -59,6 +59,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/goods/copy_goods','admin\GoodsController@copy_goods');
 	Route::get('/admin/goods/only_name','admin\GoodsController@only_name');
 	Route::get('/admin/goods/show','admin\GoodsController@show');
+	Route::any('/admin/goods/addgoods_type','admin\GoodsController@addgoods_type');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');

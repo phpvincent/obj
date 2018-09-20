@@ -10,7 +10,8 @@
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> @if(Auth::user()->is_root=='1')<a href="javascript:;" onclick="location.href='/admin/url/goods_url'" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 域名绑定</a>&nbsp;&nbsp;&nbsp;@endif
 		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
-		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods_type" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品种类</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
 		<div style="width: 100%"><div class="row cl">
 			<label class="form-label col-xs-1 col-sm-1">单品类型：</label>
@@ -313,6 +314,9 @@ $('#outgoods').on('click',function(){
 })
 $('#addgoods').on('click',function(){
 	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
+})
+$('#addgoods_type').on('click',function(){
+	layer_show('种类添加','{{url("admin/goods/addgoods_type")}}',300,200);
 })
 function goods_update(title,url,type,w,h){
 			@if(\App\goods_check::first()['goods_is_check']==0)

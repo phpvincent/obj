@@ -1245,5 +1245,28 @@ class GoodsController extends Controller
                 break;
         }*/
     }
+    public function addgoods_type(Request $request)
+    {
+      if($request->isMethod('get')){
+          $goods_type=\App\goods_type::get();
+        foreach($goods_type as $k => $v){
+          $goods_type[$k]->goods_num=\App\goods::where([['goods_type',$v->goods_type_id],['is_del','0']])->count();
+        }
+        return view('admin.goods.addgoods_type')->with(compact('goods_type'));
+      }elseif($request->isMethod('post')){
+        $goods_new_type=new \App\goods_type;
+        $goods_new_type->goods_type_name=$request->input('goods_type_name');
+        $isuse=\App\goods_type::where('goods_type_name',$request->input('goods_type_name'))->first();
+        if($isuse!=null){
+           return response()->json(['err' => '0', 'msg' => '添加失败!此类名已存在！']);
+        }
+        $msg=$goods_new_type->save();
+        if($msg){
+            return response()->json(['err' => '1', 'msg' => '添加成功!']);
+        }else{
+           return response()->json(['err' => '0', 'msg' => '添加失败!']);
+        }
+      }
+    }
 }
   
