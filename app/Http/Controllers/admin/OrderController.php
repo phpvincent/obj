@@ -182,6 +182,8 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($goods_search){
                 if($goods_search!=0){
@@ -234,6 +236,8 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
            ->where(function($query)use($goods_search){
             if($goods_search!=0){
