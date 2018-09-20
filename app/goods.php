@@ -37,4 +37,12 @@ class goods extends Model
             return implode(',', $re_arr);
         }
     }
+    public static function get_selfid($admin_id){
+        $admin_ids=self::where('goods_admin_id',$admin_id)->get(['goods_id'])->toArray();
+        $ids=[];
+        foreach($admin_ids as $v => $k){
+            $ids[]=$k['goods_id'];
+        }
+        return $ids;
+    }
 }

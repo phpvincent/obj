@@ -59,7 +59,7 @@ class OrderController extends Controller
            $admin_id=Auth::user()->admin_id;
 
            if(Auth::user()->is_root!='1'){//非root 用户
-            $garr=\App\goods::get_ownid($admin_id);
+            $garr=\App\goods::get_selfid($admin_id);
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
             ->where(function($query){

@@ -156,6 +156,9 @@
 				var bd_type='<span style="color:brown;">遮罩单品</span>';
 			}
 			var url='<a href="http://'+data.url_url+'" target="_blank" >'+data.url_url+'</a>';
+			if(data.url_url==null){
+				url='<span class="label label-default radius" style="color:red;">未绑定域名</span>';
+			}
 			var checkbox='<input type="checkbox" name="" value="">';
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
 			var check='';
