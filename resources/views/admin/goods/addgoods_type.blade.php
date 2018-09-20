@@ -55,7 +55,7 @@
                         	
 						});
 					}else{
-						layer.msg(data.str);
+						layer.msg(data.msg);
 					}
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){

@@ -316,7 +316,7 @@ $('#addgoods').on('click',function(){
 	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
 })
 $('#addgoods_type').on('click',function(){
-	layer_show('种类添加','{{url("admin/goods/addgoods_type")}}',300,200);
+	layer_show('种类添加','{{url("admin/goods/addgoods_type")}}',400,300);
 })
 function goods_update(title,url,type,w,h){
 			@if(\App\goods_check::first()['goods_is_check']==0)
