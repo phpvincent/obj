@@ -60,7 +60,7 @@
 				<th width="100">绑定域名</th>
 				<th width="130">促销信息</th>
 				<th width="40">是否启用</th>
-				<th width="80">域名绑定类型</th>
+
 				<th width="100">发布时间</th>
 				<th width="80">发布人</th>
 				<th width="80">审核状态</th>
@@ -122,7 +122,7 @@
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'goods_cuxiao_name'},
 		{'defaultContent':"","className":"td-manager"},
-		{'defaultContent':"","className":"td-manager"},
+
 		{'data':'goods_up_time'},
 		{'data':'admin_name'},
 		{'defaultContent':"","className":"td-manager"},
@@ -166,11 +166,11 @@
 			}else if(data.goods_heshen==2){
 				check='<span style="color:red;">审核失败!</span>';
 			}
-			$(row).find('td:eq(11)').html(check);
-			$(row).find('td:eq(13)').html(info);
+			$(row).find('td:eq(10)').html(check);
+			$(row).find('td:eq(12)').html(info);
 			$(row).find('td:eq(7)').html(isroot);
 			$(row).find('td:eq(5)').html(url);
-			$(row).find('td:eq(8)').html(bd_type);
+		/*	$(row).find('td:eq(8)').html(bd_type);*/
 			$(row).find('td:eq(0)').html(checkbox);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
