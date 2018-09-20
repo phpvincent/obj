@@ -578,7 +578,6 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
-    var banhj = $(
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
