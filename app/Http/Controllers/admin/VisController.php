@@ -285,7 +285,7 @@ class VisController extends Controller
    			$goods=\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->get();
    		}else{
             $admins=\App\admin::get();
-            $goods=\App\goods::get();
+            $goods=\App\goods::where('is_del','0')->get();
    		}
    		return view('admin.vis.statistic')->with(compact('goods','admins'));
    	}elseif($request->isMethod('post')){
