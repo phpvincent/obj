@@ -10,7 +10,7 @@
 				<select name="goods_name" id="goods_name" class="select">
 					<option value="0">所有</option>
 					@foreach($goods as $val)
-					<option value="{{$val->goods_id}}" >{{$val->goods_name}}</option>
+					<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
 					@endforeach
 				</select>
 				</span> </div>
