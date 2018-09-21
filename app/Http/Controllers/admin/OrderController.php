@@ -59,7 +59,7 @@ class OrderController extends Controller
            $admin_id=Auth::user()->admin_id;
 
            if(Auth::user()->is_root!='1'){//非root 用户
-            $garr=\App\goods::get_ownid($admin_id);
+            $garr=\App\goods::get_selfid($admin_id);
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
             ->where(function($query){
@@ -89,6 +89,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
            })
+            ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
@@ -138,6 +144,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
+              ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
@@ -182,6 +194,8 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($goods_search){
                 if($goods_search!=0){
@@ -219,6 +233,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
+              ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->count();
 
             //table表格数据
@@ -234,6 +254,8 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
            ->where(function($query)use($goods_search){
             if($goods_search!=0){
@@ -277,6 +299,12 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
+             ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              if($order_type!='#'){
+                $query->where('order.order_type',$order_type);
+              }
+            })
             ->orderBy($order,$dsc)
             ->offset($start)
             ->limit($len)
@@ -313,8 +341,13 @@ class OrderController extends Controller
               }else{
                 $data[$k]->config_msg="暂无属性信息";
               }
+            $iparea=getclientcity($request,$v->order_ip);
+            $data[$k]->order_ip=($iparea['country']==$iparea['city']?$v->order_ip."<br/>".$iparea['country']:$v->order_ip."<br/>".$iparea['country'].'-'.$iparea['city']);
+            $data[$k]->order_tel=($v->order_tel==''||$v->order_tel==null?"<span style=color:red;>没有填写</span>":$v->order_tel);
+            $data[$k]->order_email=($v->order_email==''||$v->order_email==null?"<span style=color:red;>没有填写</span>":$v->order_email);
+            $data[$k]->order_add=($v->order_add==''||$v->order_add==null?"<span style=color:red;>没有填写</span>":$v->order_add);
+            $data[$k]->order_remark=($v->order_remark==''||$v->order_remark==null?"<span style=color:red;>没有填写</span>":$v->order_remark);
           }
-        
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
    }

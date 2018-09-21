@@ -101,7 +101,7 @@
         <script type="text/javascript" src="/js/broser.js"></script>
         <style type="text/css">
             	.chose_cart{
-            		background-color: red;
+            		background-color: #00923f;
             		color: white !important;
             		border:1px dashed #ccc !important;
             	}
@@ -182,7 +182,7 @@
 
     <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
         <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span>{!!$goods->goods_msg!!}</h2>
+        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}【@endif</strong></span>{!!$goods->goods_msg!!}</h2>
             </div>
 </div>
 <!--product info end-->
@@ -284,7 +284,7 @@
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01">Place Order</button>
+    <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;">Place Order</button>
 </div>
 <!--button end-->
 <!--footer begin-->

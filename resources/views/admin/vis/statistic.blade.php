@@ -19,7 +19,11 @@
 				<select name="goods_name" id="goods_name" class="select">
 					<option value="0">所有</option>
 					@foreach($goods as $val)
+<<<<<<< HEAD
 						<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
+=======
+					<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
+>>>>>>> 757600c5d6f2ebfcc7a5d5785bdefef71543a914
 					@endforeach
 				</select>
 				</span> </div>
@@ -290,151 +294,6 @@
                 })
             },
         })
-        // Highcharts.chart('container_1',{
-        //     chart: {
-        //         type: 'column'
-        //     },
-        //     title: {
-        //         text: '一代宗师'
-        //     },
-        //     subtitle: {
-        //         text: '网址: http://www.yidaizongshi.com'
-        //     },
-        //     xAxis: {
-        //         categories: [
-        //             '1',
-        //             '2',
-        //             '3',
-        //             '4',
-        //             '5',
-        //             '6',
-        //             '7',
-        //             '8',
-        //             '9',
-        //             '10',
-        //             '11',
-        //             '12'
-        //         ]
-        //     },
-        //     yAxis: {
-        //         min: 0,
-        //         title: {
-        //             text: '销量 (k)'
-        //         },
-        //         labels: { //格式化纵坐标的显示风格
-        //             formatter: function () {
-        //                 return this.value;
-        //             }
-        //         },
-        //         opposite: false //反转
-        //     },
-        //     legend: { //是否显示底注
-        //         enabled: true
-        //     },
-        //     tooltip: {
-        //         shared: true,
-        //         useHTML: true
-        //     },
-        //     plotOptions: {
-        //         column: {
-        //             pointPadding: 0.2,
-        //             borderWidth: 0
-        //         }
-        //     },
-        //     series: [{
-        //         name: '膏药',
-        //         //colorByPoint: true, //为每个柱子显示不同颜色
-        //         data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-		//
-        //     }, {
-        //         name: '这个也是膏药',
-        //         data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6,
-        //             92.3
-        //         ]
-		//
-        //     }, {
-        //         name: '这个还是膏药',
-        //         data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-		//
-        //     }, {
-        //         name: '这是狗皮膏药',
-        //         data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-		//
-        //     }]
-		// })
-        // $('#container_1').highcharts({
-        //     chart: {
-        //         type: 'column'
-        //     },
-        //     title: {
-        //         text: '一代宗师'
-        //     },
-        //     subtitle: {
-        //         text: '网址: http://www.yidaizongshi.com'
-        //     },
-        //     xAxis: {
-        //         categories: [
-        //             '1',
-        //             '2',
-        //             '3',
-        //             '4',
-        //             '5',
-        //             '6',
-        //             '7',
-        //             '8',
-        //             '9',
-        //             '10',
-        //             '11',
-        //             '12'
-        //         ]
-        //     },
-        //     yAxis: {
-        //         min: 0,
-        //         title: {
-        //             text: '销量 (k)'
-        //         },
-        //         labels: { //格式化纵坐标的显示风格
-        //             formatter: function () {
-        //                 return this.value;
-        //             }
-        //         },
-        //         opposite: false //反转
-        //     },
-        //     legend: { //是否显示底注
-        //         enabled: true
-        //     },
-        //     tooltip: {
-        //         shared: true,
-        //         useHTML: true
-        //     },
-        //     plotOptions: {
-        //         column: {
-        //             pointPadding: 0.2,
-        //             borderWidth: 0
-        //         }
-        //     },
-        //     series: [{
-        //         name: '膏药',
-        //         //colorByPoint: true, //为每个柱子显示不同颜色
-        //         data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-		//
-        //     }, {
-        //         name: '这个也是膏药',
-        //         data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6,
-        //             92.3
-        //         ]
-		//
-        //     }, {
-        //         name: '这个还是膏药',
-        //         data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-		//
-        //     }, {
-        //         name: '这是狗皮膏药',
-        //         data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-		//
-        //     }]
-        // });
-
     }
 	{{--function getbin(id){--}}
 		{{--$.ajax({--}}

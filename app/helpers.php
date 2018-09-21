@@ -30,10 +30,13 @@ if (!function_exists("makeSingleOrder")) {
     }
 }
 if (!function_exists("getclientcity")) {
-    function getclientcity(Request $request)
+    function getclientcity(Request $request,$type=false)
     { 
       set_time_limit(0);
       $ip=$request->getClientIp();
+      if($type!==false){
+        $ip=$type;
+      }
         $IpLocation=new IpLocation();
         $ip = $IpLocation->getlocation($ip);
         if($ip!=null&&$ip!=false&&$ip!=[]&&$ip!=''){

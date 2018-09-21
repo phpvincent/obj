@@ -10,7 +10,8 @@
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> @if(Auth::user()->is_root=='1')<a href="javascript:;" onclick="location.href='/admin/url/goods_url'" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 域名绑定</a>&nbsp;&nbsp;&nbsp;@endif
 		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
-		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods_type" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品种类</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
 		<div style="width: 100%"><div class="row cl">
 			<label class="form-label col-xs-1 col-sm-1">单品类型：</label>
@@ -60,7 +61,7 @@
 				<th width="100">绑定域名</th>
 				<th width="130">促销信息</th>
 				<th width="40">是否启用</th>
-				<th width="80">域名绑定类型</th>
+
 				<th width="100">发布时间</th>
 				<th width="80">发布人</th>
 				<th width="80">审核状态</th>
@@ -122,7 +123,7 @@
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'goods_cuxiao_name'},
 		{'defaultContent':"","className":"td-manager"},
-		{'defaultContent':"","className":"td-manager"},
+
 		{'data':'goods_up_time'},
 		{'data':'admin_name'},
 		{'defaultContent':"","className":"td-manager"},
@@ -156,6 +157,9 @@
 				var bd_type='<span style="color:brown;">遮罩单品</span>';
 			}
 			var url='<a href="http://'+data.url_url+'" target="_blank" >'+data.url_url+'</a>';
+			if(data.url_url==null){
+				url='<span class="label label-default radius" style="color:red;">未绑定域名</span>';
+			}
 			var checkbox='<input type="checkbox" name="" value="">';
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
 			var check='';
@@ -166,11 +170,11 @@
 			}else if(data.goods_heshen==2){
 				check='<span style="color:red;">审核失败!</span>';
 			}
-			$(row).find('td:eq(11)').html(check);
-			$(row).find('td:eq(13)').html(info);
+			$(row).find('td:eq(10)').html(check);
+			$(row).find('td:eq(12)').html(info);
 			$(row).find('td:eq(7)').html(isroot);
 			$(row).find('td:eq(5)').html(url);
-			$(row).find('td:eq(8)').html(bd_type);
+		/*	$(row).find('td:eq(8)').html(bd_type);*/
 			$(row).find('td:eq(0)').html(checkbox);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
@@ -310,6 +314,9 @@ $('#outgoods').on('click',function(){
 })
 $('#addgoods').on('click',function(){
 	layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);
+})
+$('#addgoods_type').on('click',function(){
+	layer_show('种类添加','{{url("admin/goods/addgoods_type")}}',400,300);
 })
 function goods_update(title,url,type,w,h){
 			@if(\App\goods_check::first()['goods_is_check']==0)

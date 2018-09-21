@@ -38,6 +38,7 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
+        <script type="text/javascript" src="/js/resizeDIV.js"></script>
        
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <script>
@@ -119,6 +120,13 @@
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
+            @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+            <div class="swiper-slide" id="swiper-slide">
+                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
+                    <source src="{{$goods->goods_fm_video}}" type="video/mp4">
+                </video>
+            </div>
+            @endif
         	@foreach($imgs as $key)
                         <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}"  style="width: 100%;"  alt="" /></div>
             @endforeach
@@ -167,7 +175,7 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(//dixonys.com/mobile/images/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
+    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
 </div>
 @endif
 
@@ -633,7 +641,8 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
-    $2(function() {
+    $2(function() { 
+        
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {

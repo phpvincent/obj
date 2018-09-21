@@ -37,7 +37,7 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
-       
+       <script type="text/javascript" src="/js/resizeDIV.js"></script>
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <script>
         jQuery(function(){setFrom();});
@@ -118,6 +118,13 @@
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
+              @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+            <div class="swiper-slide" id="swiper-slide">
+                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
+                    <source src="{{$goods->goods_fm_video}}" type="video/mp4">
+                </video>
+            </div>
+            @endif
         	@foreach($imgs as $key)
                         <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
             @endforeach
@@ -166,7 +173,7 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(//dixonys.com/mobile/images/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
+   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">Black Cat</span>
 </div>
 @endif
 
@@ -186,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}【</strong>@endif</span>{!! $goods->goods_msg !!}
 </div>
 @endif
 
@@ -390,15 +397,15 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
-      <img src="/images/filter-2.png" style="">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #f1b52a;">
+      <img src="/images/bt02.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Order<br>Enquiry</span>
+        <span style="line-height:14px;color:white">Order<br>Enquiry</span>
       </a>
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}}">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};background-color: #00923f;">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
 			<span>Buy Now</span>

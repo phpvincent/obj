@@ -59,6 +59,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/goods/copy_goods','admin\GoodsController@copy_goods');
 	Route::get('/admin/goods/only_name','admin\GoodsController@only_name');
 	Route::get('/admin/goods/show','admin\GoodsController@show');
+	Route::any('/admin/goods/addgoods_type','admin\GoodsController@addgoods_type');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
@@ -126,6 +127,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/check/re_check','admin\CheckController@re_check');
 	Route::post('/admin/check/getcheck','admin\CheckController@getcheck');
 	Route::any('/admin/check/set','admin\CheckController@set');
+	//花费相关
+	Route::get('/admin/pay/index','admin\PayController@index');
+	Route::post('/admin/pay/get_table','admin\PayController@index');
 
 
 });

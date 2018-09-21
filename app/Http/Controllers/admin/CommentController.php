@@ -33,7 +33,8 @@ class CommentController extends Controller
 	        })
 	        ->count();
 	        $newcount=DB::table('goods')
-	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
 	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
@@ -42,7 +43,8 @@ class CommentController extends Controller
 	        ->count();
 	        $data=DB::table('goods')
 	        ->select('goods.*')
-	        ->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
 	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));

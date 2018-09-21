@@ -150,7 +150,7 @@ $('#seavis').on('click',function(){
 	dataTable.draw();
 })
 $('#getvis').on('click',function(){
-	$('#select-admin').show(300);
+	$('#select-admin').toggle(300);
 })
 $('.radio-pb').on('click',function(){
 /*dataTable.destroy();*/
