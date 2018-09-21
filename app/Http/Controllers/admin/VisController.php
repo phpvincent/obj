@@ -428,7 +428,7 @@ class VisController extends Controller
    			})
    			->get();
    		}else{
-   			$goods=\App\goods::get();
+   			$goods=\App\goods::where('is_del','0')->get();
    		}
    		return view('admin.vis.ll')->with(compact('goods'));
    	}else{
