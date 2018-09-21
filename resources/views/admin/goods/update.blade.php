@@ -499,14 +499,14 @@
 @section('js')
 <script type="text/javascript">
     get_cuxiao_html($('#goods_cuxiao_type').val());
-	$(function(){
+/*	$(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
 		increaseArea: '20%'
 		});
 
-	});
+	});*/
 	function guanbi_img_templet() {
         $("#img_templet").attr("class","img_templet");
 		$(".img_templet_2").hide();
