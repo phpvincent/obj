@@ -499,7 +499,7 @@
 @section('js')
 <script type="text/javascript">
     get_cuxiao_html($('#goods_cuxiao_type').val());
-	(function(){
+	$(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
