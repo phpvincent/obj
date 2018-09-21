@@ -437,7 +437,10 @@
 			<div class="clearfix templet_show" ">
 				<label class="form-label col-xs-4 col-sm-2">封面视频(仅限mp4/mpeg格式)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					@if($goods->goods_fm_video!=''||$goods->goods_fm_video!=null)<video src="/{{$goods->goods_fm_video}}"	controls="" preload="none" width="420" height="280" data-setup="{}"></video>@else 	<label class="form-label col-xs-4 col-sm-2">暂无数据</label>@endif
+					@if($goods->goods_fm_video!=''||$goods->goods_fm_video!=null)<video src="/{{$goods->goods_fm_video}}"	id="fm_video_show" 	controls="" preload="none" width="420" height="280" data-setup="{}"></video>
+					<input class="btn btn-danger-outline radius" type="button" id="cl_fmvideo" value="X">
+					<input type="hidden" name="cl_fmvideo" value="0">
+					@else 	<label class="form-label col-xs-4 col-sm-2">暂无数据</label>@endif
 					<input type="file" id="goods_fm_video" class="input-text" value="" placeholder="" id="goods_fm_video" name="goods_fm_video" accept="audio/mp4,video/mp4,video/mpeg,video/mpeg">
 				</div>
 		</div>
@@ -496,7 +499,6 @@
 @section('js')
 <script type="text/javascript">
     get_cuxiao_html($('#goods_cuxiao_type').val());
-
 	(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
@@ -591,7 +593,10 @@
 		var now=$(this).val();
 		get_cuxiao_html(now);
 	})
-	
+	$('#cl_fmvideo').on('click',function(){
+    	$(this).prev().hide(300);
+    	$(this).next().val('1');
+    })
 	function get_cuxiao_html(now){
 		$('#cuxiaohtml').html('<div  style="margin:0px auto;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
 		$.ajax({
@@ -888,6 +893,9 @@
 
 	$('#goods_video').on('change',function(){
 		$(this).prev().hide(1000);
+	})
+	$('#goods_fm_video').on('change',function(){
+		$('#fm_video_show').hide(1000);
 	})
 
     //富文本编辑器

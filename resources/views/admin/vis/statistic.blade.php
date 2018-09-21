@@ -19,11 +19,7 @@
 				<select name="goods_name" id="goods_name" class="select">
 					<option value="0">所有</option>
 					@foreach($goods as $val)
-<<<<<<< HEAD
-						<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
-=======
 					<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
->>>>>>> 757600c5d6f2ebfcc7a5d5785bdefef71543a914
 					@endforeach
 				</select>
 				</span> </div>
@@ -150,6 +146,7 @@
         })
     }
 	function get_zhexian(datemin,datemax,goods_name,user_name){
+		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
         var data = {};
         data.mintime = datemin;
         data.maxtime = datemax;
@@ -162,6 +159,7 @@
 				data:data,
 				datatype:'json',
 				success:function(msg){
+					layer.close(indexs);
 				   var data=msg.data;
 				   /*console.log(eval('('+msg[0]['data']+')'));*/
 
@@ -222,6 +220,7 @@
 
 	// 柱状图
 	function zhuzhuangtu(datemin,datemax,goods_name,user_name) {
+		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
         var data = {};
         data.mintime = datemin;
         data.maxtime = datemax;
@@ -234,13 +233,14 @@
             data:data,
             datatype:'json',
             success:function(msg){
+				layer.close(indexs);
                 var data=msg.datacount;
                 /*console.log(eval('('+msg[0]['data']+')'));*/
 
                 for (var i = msg.datacount.length - 1; i >= 0; i--) {
                     var result=[];
                     for(var s in data[i]['data']){
-                        result.push(data[i]['data'][s]*100)
+                        result.push(data[i]['data'][s])
                     }
                     data[i]['data']=result;
 

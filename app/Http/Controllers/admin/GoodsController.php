@@ -723,6 +723,14 @@ class GoodsController extends Controller
                  $msg=$file->move($filedir,$newfilename);
                  $goods->goods_fm_video=$filedir.$newfilename;
              }
+          //删除封面视频
+          if($request->has('cl_fmvideo')&&$request->input('cl_fmvideo')=='1'&&!$request->hasFile('goods_fm_video')){
+            $old_fm_video=$goods->goods_fm_video;
+               if($old_fm_video!=null&&$old_fm_video!=''){
+                @unlink($old_fm_video);
+               }
+               $goods->goods_fm_video=null;
+          }
            if($request->hasFile('fm_imgs')) {
                foreach($old_img as $val){
                    @unlink($val->img_url);
