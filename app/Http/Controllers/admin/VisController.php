@@ -273,7 +273,7 @@ class VisController extends Controller
    public function statistic(Request $request){
    	if($request->isMethod('get')){
    		if(Auth::user()->is_root!='1'){
-   			$goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
+   			$goods=\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->get();
    		}else{
    			$goods=\App\goods::get();
    		}
