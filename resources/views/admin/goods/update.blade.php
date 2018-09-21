@@ -499,10 +499,6 @@
 @section('js')
 <script type="text/javascript">
     get_cuxiao_html($('#goods_cuxiao_type').val());
-    $('#cl_fmvideo').on('click',function(){
-    	$(this).prev().hide(300);
-    	$(this).next().val('1');
-    })
 	(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
@@ -597,7 +593,10 @@
 		var now=$(this).val();
 		get_cuxiao_html(now);
 	})
-	
+	$('#cl_fmvideo').on('click',function(){
+    	$(this).prev().hide(300);
+    	$(this).next().val('1');
+    })
 	function get_cuxiao_html(now){
 		$('#cuxiaohtml').html('<div  style="margin:0px auto;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
 		$.ajax({
