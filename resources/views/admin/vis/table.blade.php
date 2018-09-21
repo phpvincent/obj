@@ -34,12 +34,12 @@
 					<td>{{$val}}</td>
 				@endforeach
 			</tr>
-			<tr class="text-c">
-				<td>评论转化</td>
-				@foreach($data['comcountl'] as $val)
-					<td>{{$val}}</td>
-				@endforeach
-			</tr>
+			{{--<tr class="text-c">--}}
+				{{--<td>评论转化</td>--}}
+				{{--@foreach($data['comcountl'] as $val)--}}
+					{{--<td>{{$val}}</td>--}}
+				{{--@endforeach--}}
+			{{--</tr>--}}
 			<tr class="text-c">
 				<td>浏览人数</td>
 				@foreach($data['count'] as $val)
@@ -58,12 +58,12 @@
 					<td>{{$val}}</td>
 				@endforeach
 			</tr>
-			<tr class="text-c">
-				<td>评论人数</td>
-				@foreach($data['comcount'] as $val)
-					<td>{{$val}}</td>
-				@endforeach
-			</tr>
+			{{--<tr class="text-c">--}}
+				{{--<td>评论人数</td>--}}
+				{{--@foreach($data['comcount'] as $val)--}}
+					{{--<td>{{$val}}</td>--}}
+				{{--@endforeach--}}
+			{{--</tr>--}}
 		</tbody>
 </table>
 <div id="charthigh"></div>
