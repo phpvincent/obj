@@ -670,7 +670,7 @@ class VisController extends Controller
                        if ($count == 0) {
                            $data['buycountl'][$i] = 0;
                        } else {
-                           $data['buycountl'][$i] = (sprintf("%.6f", $buycount / $count)).'%';
+                           $data['buycountl'][$i] = (sprintf("%.6f", $buycount / $count)*100).'%';
                        }
                        $data['buycount'][] = $buycount;
                        $data['count'][] = $count;
@@ -681,7 +681,7 @@ class VisController extends Controller
                        if ($count == 0) {
                            $data['ordercountl'][$i] = 0;
                        } else {
-                           $data['ordercountl'][$i] = (sprintf("%.6f", $ordercount / $count)).'%';
+                           $data['ordercountl'][$i] = (sprintf("%.6f", $ordercount / $count)*100).'%';
                        }
                        $data['ordercount'][] = $ordercount;
                        //获取用户访问量
