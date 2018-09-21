@@ -150,6 +150,7 @@
         })
     }
 	function get_zhexian(datemin,datemax,goods_name,user_name){
+		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
         var data = {};
         data.mintime = datemin;
         data.maxtime = datemax;
@@ -162,6 +163,7 @@
 				data:data,
 				datatype:'json',
 				success:function(msg){
+					layer.close(indexs);
 				   var data=msg.data;
 				   /*console.log(eval('('+msg[0]['data']+')'));*/
 
@@ -222,6 +224,7 @@
 
 	// 柱状图
 	function zhuzhuangtu(datemin,datemax,goods_name,user_name) {
+		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
         var data = {};
         data.mintime = datemin;
         data.maxtime = datemax;
@@ -234,6 +237,7 @@
             data:data,
             datatype:'json',
             success:function(msg){
+				layer.close(indexs);
                 var data=msg.datacount;
                 /*console.log(eval('('+msg[0]['data']+')'));*/
 
