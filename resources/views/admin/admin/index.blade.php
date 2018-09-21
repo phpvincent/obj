@@ -58,7 +58,7 @@
 		"info":   true,	
 		"searching": true,
 		"ordering": true,
-		"order": [[ 1, "desc" ]],
+		"order": [[ 0, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
 		   "targets": [0,2,3,5,6,7,8,10,11,12],
