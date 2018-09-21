@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\goods;
+use App\special;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\vis;
@@ -190,7 +192,7 @@ class VisController extends Controller
         if($msg){
 	   	    	return response()->json(['err'=>1,'str'=>'修改成功']);
 	   	}else{
-		   	    	return response()->json(['err'=>0,'str'=>'修改失败']);
+		   	    return response()->json(['err'=>0,'str'=>'修改失败']);
 	   	}
     }
    public function outvis(Request $request){
@@ -270,108 +272,256 @@ class VisController extends Controller
    	$vis=vis::where('vis_id',$id)->first();
    	return view('admin.vis.stime')->with(compact('vis'));
    }
+
+    /** 浏览统计
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
    public function statistic(Request $request){
    	if($request->isMethod('get')){
    		if(Auth::user()->is_root!='1'){
-   			$goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
+   		    $admin_id = Auth::user()->admin_id;
+            $admins=\App\admin::where('admin_id',$admin_id)->get();
+            $goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
    		}else{
-   			$goods=\App\goods::get();
+            $admins=\App\admin::get();
+            $goods=\App\goods::get();
    		}
-   		return view('admin.vis.statistic')->with(compact('goods'));
+   		return view('admin.vis.statistic')->with(compact('goods','admins'));
    	}elseif($request->isMethod('post')){
-   		if($request->has('id')){
-   			$id=$request->input('id');
-   		}else{
-   			$id=0;
-   		}
-   		if($id!=0){
-   			//$vis=\App\vis::where('vis_goods_id',$id)->get();
-   				for ($i=0; $i <7 ; $i++) { 
-   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
-   				$count=$count[0]->counts;
-	   			$data1['name']='购买转化';
-	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null and vis.vis_goods_id=$id");
-	   			if($count==0){
-	   				$data1['data'][$i]=0;
-	   			}else{
-	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
-	   			}
-	   			
-	   		}	
-	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
-	   			$count=$count[0]->counts;
-	   			$data2['name']='下单转化';
-	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null and vis.vis_goods_id=$id");
-	   			if($count==0){
-	   				$data2['data'][$i]=0;
-	   			}else{
-	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
-	   			}
+        //时间筛选（默认七天，按天）
+        $start_time = $request->input('mintime');
+        $end_time = $request->input('maxtime');
+        $goods_id = $request->input('id');
+        $user_id = $request->input('user_id');
+        //判断是否为root用户
+        if(Auth::user()->is_root!='1'){
+            $user_id = 0;//非root不能通过用户筛选
+            $goods_arr = goods::where('goods_admin_id',Auth::user()->admin_id)->pluck('goods_id')->toArray();
+        }else{
+            $goods_arr = goods::pluck('goods_id')->toArray();
+        }
+        $time = [];
+        if((!$start_time || !$end_time) || strtotime($end_time)-strtotime($start_time) > 3600*24*3){
+            //超过3天或者没有选择时间，所以转化率按照天计算
+            if(!$start_time || !$end_time){ //没有选择时间
+                $leng = 6;
+                $use_end_time = time()-6*24*3600;
+            }else{                          //选择时间超过7天
+                $leng = intval((strtotime($end_time)-strtotime($start_time))/3600/24);
+                $use_end_time =  strtotime($start_time);
+            }
+            for($i=0; $i <=$leng; $i++)
+            {
+                $day = 3600*24;
+                $today = date('Y-m-d',$use_end_time+$i*$day);
+                //获取用户访问量
+                $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
+                //获取用户购买量
+                $buycount = \App\vis::visBuyCount($today,$goods_id,$user_id,$goods_arr);
+                $data1['name']='购买转化';
+                if($count==0){
+                    $data1['data'][$i]=0;
+                }else{
+                    $data1['data'][$i]=sprintf("%.2f",$buycount/$count);
+                }
+                $data4['name']='浏览量';
+                $data4['data'][$i] = $count;
+                $data5['name']='仅点击购买者';
+                $data5['data'][$i] = $buycount;
+                $time[] = $today;
+            }
+            for ($i=0; $i <=$leng; $i++) {
+                $day = 3600*24;
+                $today = date('Y-m-d',$use_end_time+$i*$day);
+                //获取用户访问量
+                $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
+                //获取用户下单量
+                $ordercount = \App\vis::visOrderCount($today,$goods_id,$user_id,$goods_arr);
+                $data2['name']='下单转化';
+                if($count==0){
+                    $data2['data'][$i]=0;
+                }else{
+                    $data2['data'][$i]=sprintf("%.2f",$ordercount/$count);
+                }
+                $data6['name']='点击购买并下单';
+                $data6['data'][$i] = $ordercount;
+            }
+            for ($i=0; $i <=$leng; $i++) {
+                $day = 3600*24;
+                $today = date('Y-m-d',$use_end_time+$i*$day);
+                //获取用户访问量
+                $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
+                //获取用户评论量
+                $comcount = \App\vis::visComCount($today,$goods_id,$user_id,$goods_arr);
+                $data3['name']='评论转化';
+                if($count==0){
+                    $data3['data'][$i]=0;
+                }else{
+                    $data3['data'][$i]=sprintf("%.2f",$comcount/$count);
+                }
+                $data7['name']='评论者';
+                $data7['data'][$i] = $comcount;
+            }
+        }else{
+                $leng =intval((strtotime($end_time)-strtotime($start_time)) / 3600);
+                for($i=0; $i <=$leng ; $i++)
+                {
+                    $day = 3600;
+                    $today = date('Y-m-d H',strtotime($start_time)+$i*$day);
+                    //获取用户访问量
+                    $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
+                    //获取用户购买量
+                    $buycount = \App\vis::visBuyCount($today,$goods_id,$user_id,$goods_arr);
+                    $data1['name']='购买转化';
+                    if($count==0){
+                        $data1['data'][$i]=0;
+                    }else{
+                        $data1['data'][$i]=sprintf("%.2f",$buycount/$count);
+                    }
+                    $data4['name']='浏览量';
+                    $data4['data'][$i] = $count;
+                    $data5['name']='仅点击购买者';
+                    $data5['data'][$i] = $buycount;
+                    $time[] = $today;
+                }
+                for ($i=0; $i <=$leng; $i++) {
+                    $day = 3600;
+                    $today = date('Y-m-d H',strtotime($end_time)+$i*$day);
+                    //获取用户访问量
+                    $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
+                    //获取用户下单量
+                    $ordercount = \App\vis::visOrderCount($today,$goods_id,$user_id,$goods_arr);
+                    $data2['name']='下单转化';
+                    if($count==0){
+                        $data2['data'][$i]=0;
+                    }else{
+                        $data2['data'][$i]=sprintf("%.2f",$ordercount/$count);
+                    }
+                    $data6['name']='点击购买并下单';
+                    $data6['data'][$i] = $ordercount;
+                }
+                for ($i=0; $i <=$leng; $i++) {
+                    $day = 3600;
+                    $today = date('Y-m-d H',strtotime($end_time)+$i*$day);
+                    //获取用户访问量
+                    $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
+                    //获取用户评论量
+                    $comcount = \App\vis::visComCount($today,$goods_id,$user_id,$goods_arr);
+                    $data3['name']='评论转化';
+                    if($count==0){
+                        $data3['data'][$i]=0;
+                    }else{
+                        $data3['data'][$i]=sprintf("%.2f",$comcount/$count);
+                    }
+                    $data7['name']='评论者';
+                    $data7['data'][$i] = $comcount;
+                }
+        }
+        //折线图
+        $data[]=$data1;
+        $data[]=$data2;
+        $data[]=$data3;
+        //柱状图
+        $datacount[]=$data4;
+        $datacount[]=$data5;
+        $datacount[]=$data6;
+        $datacount[]=$data7;
+        return response()->json(['data'=>$data,'datacount'=>$datacount,'time'=>$time]);
 
-	   			
-	   		}
-	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
-	   			$count=$count[0]->counts;
-	   			$data3['name']='评论转化';
-	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null and vis.vis_goods_id=$id");
-	   			if($count==0){
-	   				$data3['data'][$i]=0;
-	   			}else{
-	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
-	   			}
-	   			
-	   		}
-	   		$data[]=$data1;
-	   		$data[]=$data2;
-	   		$data[]=$data3;
-	   		 return response()->json($data);
-   		}else{
-   			//$count=DB::select("select count(*) from vis where DateDiff(dd,vis_time,getdate())={$i}");
-   			for ($i=0; $i <7 ; $i++) { 
-   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
-   				$count=$count[0]->counts;
-	   			$data1['name']='购买转化';
-	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null");
-	   			if($count==0){
-	   				$data1['data'][$i]=0;
-	   			}else{
-	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
-	   			}
-	   			
-	   		}	
-	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
-	   			$count=$count[0]->counts;
-	   			$data2['name']='下单转化';
-	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null");
-	   			if($count==0){
-	   				$data2['data'][$i]=0;
-	   			}else{
-	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
-	   			}
 
-	   			
-	   		}
-	   		for ($i=0; $i <7 ; $i++) { 
-	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
-	   			$count=$count[0]->counts;
-	   			$data3['name']='评论转化';
-	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null");
-	   			if($count==0){
-	   				$data3['data'][$i]=0;
-	   			}else{
-	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
-	   			}
-	   			
-	   		}
-	   		$data[]=$data1;
-	   		$data[]=$data2;
-	   		$data[]=$data3;
-	   		 return response()->json($data);
-   		}
-   		
+//   		if($request->has('id')){
+//   			$id=$request->input('id');
+//   		}else{
+//   			$id=0;
+//   		}
+//        if($id!=0){
+//   				for ($i=0; $i <7 ; $i++) {
+//   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+//   				$count=$count[0]->counts;
+//	   			$data1['name']='购买转化';
+//	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null and vis.vis_goods_id=$id");
+//	   			if($count==0){
+//	   				$data1['data'][$i]=0;
+//	   			}else{
+//	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
+//	   			}
+//
+//	   		}
+//	   		for ($i=0; $i <7 ; $i++) {
+//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+//	   			$count=$count[0]->counts;
+//	   			$data2['name']='下单转化';
+//	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null and vis.vis_goods_id=$id");
+//	   			if($count==0){
+//	   				$data2['data'][$i]=0;
+//	   			}else{
+//	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
+//	   			}
+//
+//
+//	   		}
+//	   		for ($i=0; $i <7 ; $i++) {
+//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
+//	   			$count=$count[0]->counts;
+//	   			$data3['name']='评论转化';
+//	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null and vis.vis_goods_id=$id");
+//	   			if($count==0){
+//	   				$data3['data'][$i]=0;
+//	   			}else{
+//	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
+//	   			}
+//
+//	   		}
+//	   		$data[]=$data1;
+//	   		$data[]=$data2;
+//	   		$data[]=$data3;
+//	   		 return response()->json($data);
+//   		}else{
+//   			//$count=DB::select("select count(*) from vis where DateDiff(dd,vis_time,getdate())={$i}");
+//   			for ($i=0; $i <7 ; $i++) {
+//   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+//   				$count=$count[0]->counts;
+//	   			$data1['name']='购买转化';
+//	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null");
+//	   			if($count==0){
+//	   				$data1['data'][$i]=0;
+//	   			}else{
+//	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
+//	   			}
+//
+//	   		}
+//	   		for ($i=0; $i <7 ; $i++) {
+//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+//	   			$count=$count[0]->counts;
+//	   			$data2['name']='下单转化';
+//	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null");
+//	   			if($count==0){
+//	   				$data2['data'][$i]=0;
+//	   			}else{
+//	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
+//	   			}
+//
+//
+//	   		}
+//	   		for ($i=0; $i <7 ; $i++) {
+//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
+//	   			$count=$count[0]->counts;
+//	   			$data3['name']='评论转化';
+//	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null");
+//	   			if($count==0){
+//	   				$data3['data'][$i]=0;
+//	   			}else{
+//	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
+//	   			}
+//
+//	   		}
+//	   		$data[]=$data1;
+//	   		$data[]=$data2;
+//	   		$data[]=$data3;
+//	   		 return response()->json($data);
+//   		}
+//
    	}
    }
    public function statistic_b(Request $request){
@@ -435,7 +585,122 @@ class VisController extends Controller
 
    	}
    }
-   public function get_ajaxtable(Request $request){
+
+    /** 返回数据浏览量，下单量，评论量，订单转化率，订单评论转化率信息
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+   public function get_table(Request $request)
+   {
+       if($request->isMethod('get')){
+           if(Auth::user()->is_root!='1'){
+               $goods=\App\goods::where('goods_admin_id',Auth::user()->admin_id)->get();
+           }else{
+               $goods=\App\goods::get();
+           }
+           return view('admin.vis.statistic')->with(compact('goods'));
+       }elseif($request->isMethod('post')) {
+           //时间筛选（默认七天，按天）
+           $start_time = $request->input('mintime');
+           $end_time = $request->input('maxtime');
+           $goods_id = $request->input('id');
+           $user_id = $request->input('user_id');
+           //判断是否为root用户
+           if (Auth::user()->is_root != '1') {
+               $goods_arr = goods::where('goods_admin_id', Auth::user()->admin_id)->pluck('goods_id')->toArray();
+           } else {
+               $goods_arr = goods::pluck('goods_id')->toArray();
+           }
+           $time = [];
+           if ((!$start_time || !$end_time) || strtotime($end_time) - strtotime($start_time) > 3600 * 24 * 3) {
+               //超过3天或者没有选择时间，所以转化率按照天计算
+               if (!$start_time || !$end_time) { //没有选择时间
+                   $leng = 6;
+                   $use_end_time = time()-6*24*3600;
+               } else {                          //选择时间超过7天
+                   $leng = intval((strtotime($end_time) - strtotime($start_time)) / 3600 / 24);
+                   $use_end_time =  strtotime($start_time);
+               }
+               $data['count'] = [];
+               $data['buycount'] = [];
+               $data['ordercount'] = [];
+               $data['comcount'] = [];
+           for ($i = 0; $i <= $leng; $i++) {
+                   $day = 3600 * 24;
+                   $today = date('Y-m-d', $use_end_time + $i * $day);
+                   //获取用户访问量
+                   $count = \App\vis::visCount($today, $goods_id, $user_id, $goods_arr);
+                   //获取用户购买量
+                   $buycount = \App\vis::visBuyCount($today, $goods_id, $user_id, $goods_arr);
+                   if ($count == 0) {
+                       $data['buycountl'][$i] = 0;
+                   } else {
+                       $data['buycountl'][$i] = sprintf("%.2f", $buycount / $count);
+                   }
+                   $data['buycount'][] = $buycount;
+                   $data['count'][] = $count;
+                   //获取用户下单量
+                   $ordercount = \App\vis::visOrderCount($today, $goods_id, $user_id, $goods_arr);
+                   if ($count == 0) {
+                       $data['ordercountl'][$i] = 0;
+                   } else {
+                       $data['ordercountl'][$i] = sprintf("%.2f", $ordercount / $count);
+                   }
+                   $data['ordercount'][] = $ordercount;
+                   //获取用户评论量
+                   $comcount = \App\vis::visComCount($today, $goods_id, $user_id, $goods_arr);
+                   if ($count == 0) {
+                       $data['comcountl'][$i] = 0;
+                   } else {
+                       $data['comcountl'][$i] = sprintf("%.2f", $comcount / $count);
+                   }
+                   $data['comcount'][] = $comcount;
+                   $time[] = $today;
+               }
+           } else {
+               $leng = intval((strtotime($end_time) - strtotime($start_time)) / 3600);
+               for ($i = 0; $i <= $leng; $i++) {
+                   $day = 3600;
+                   $today = date('Y-m-d H', strtotime($start_time) + $i * $day);
+                   //获取用户访问量
+                   $count = \App\vis::visCount($today, $goods_id, $user_id, $goods_arr);
+                   //获取用户购买量
+                   $buycount = \App\vis::visBuyCount($today, $goods_id, $user_id, $goods_arr);
+                   if ($count == 0) {
+                       $data['buycountl'][$i] = 0;
+                   } else {
+                       $data['buycountl'][$i] = sprintf("%.2f", $buycount / $count);
+                   }
+                   $data['buycount'][] = $buycount;
+                   $data['count'][] = $count;
+                   //获取用户访问量
+                   $count = \App\vis::visCount($today, $goods_id, $user_id, $goods_arr);
+                   //获取用户下单量
+                   $ordercount = \App\vis::visOrderCount($today, $goods_id, $user_id, $goods_arr);
+                   if ($count == 0) {
+                       $data['ordercountl'][$i] = 0;
+                   } else {
+                       $data['ordercountl'][$i] = sprintf("%.2f", $ordercount / $count);
+                   }
+                   $data['ordercount'][] = $ordercount;
+                   //获取用户访问量
+                   $count = \App\vis::visCount($today, $goods_id, $user_id, $goods_arr);
+                   //获取用户评论量
+                   $comcount = \App\vis::visComCount($today, $goods_id, $user_id, $goods_arr);
+                   if ($count == 0) {
+                       $data['comcountl'][$i] = 0;
+                   } else {
+                       $data['comcountl'][$i] = sprintf("%.2f", $comcount / $count);
+                   }
+                   $data['comcount'][] = $comcount;
+                   $time[] = $today;
+               }
+           }
+       }
+       return view('admin.vis.table')->with(compact('data','time'));
+   }
+
+    public function get_ajaxtable(Request $request){
    	 $id=$request->input('id');	
    	 $arr=[];
    	 if($id==0){

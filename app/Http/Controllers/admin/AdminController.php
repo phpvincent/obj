@@ -244,7 +244,6 @@ class AdminController extends Controller
     		foreach ($rules as $key => $value) {
     			$useid[]=$value->rule_id;
     		}
-    		
     		$allrule=\App\rule::get();
 
     		return view('admin.admin.ajaxrole')->with(compact('rules','allrule','useid'));

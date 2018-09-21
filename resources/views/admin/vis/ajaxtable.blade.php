@@ -24,7 +24,7 @@
 			<tr class="text-c">
 				<td>下单人数</td>
 				@foreach($yxcount as $val)
-				<td>{{$val}}</td>
+					<td>{{$val}}</td>
 				@endforeach
 			</tr>
 		</tbody>

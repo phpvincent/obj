@@ -102,6 +102,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/vis/statistic_b','admin\VisController@statistic_b');
 	Route::get('/admin/vis/ll','admin\VisController@ll');
 	Route::post('/admin/vis/get_ajaxtable','admin\VisController@get_ajaxtable');
+	Route::post('/admin/vis/get_table','admin\VisController@get_table');
 	Route::post('/admin/vis/get_zxtu','admin\VisController@get_zxtu');
 	//管理员账户相关
 	Route::get('/admin/admin/index','admin\AdminController@index');

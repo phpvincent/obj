@@ -303,7 +303,7 @@
 					<input type="checkbox" id="conter_nav" class="pinglun"name="center_nav[]" value="evaluate">
 				</div>
 			</div>
-			<div class="clearfix templet_show" style="display: none;">
+			<div class="clearfix templet_show"id="evaluate_show" style="display: none;">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品评论数展示：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="" placeholder="" id="goods_comment_num" name="goods_comment_num" value="999">
