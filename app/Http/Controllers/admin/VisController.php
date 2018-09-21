@@ -281,10 +281,10 @@ class VisController extends Controller
    	if($request->isMethod('get')){
    		if(Auth::user()->is_root!='1'){
    		    $admin_id = Auth::user()->admin_id;
-            $admins=\App\admin::where('admin_id',$admin_id)->get();
+            $admins=\App\admin::where([['admin_id',$admin_id],['admin_use','1']])->get();
    			$goods=\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->get();
    		}else{
-            $admins=\App\admin::get();
+            $admins=\App\admin::where('admin_use','1')->get();
             $goods=\App\goods::where('is_del','0')->get();
    		}
    		return view('admin.vis.statistic')->with(compact('goods','admins'));
