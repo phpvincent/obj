@@ -19,11 +19,7 @@
 				<select name="goods_name" id="goods_name" class="select">
 					<option value="0">所有</option>
 					@foreach($goods as $val)
-<<<<<<< HEAD
-						<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
-=======
 					<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
->>>>>>> 757600c5d6f2ebfcc7a5d5785bdefef71543a914
 					@endforeach
 				</select>
 				</span> </div>
