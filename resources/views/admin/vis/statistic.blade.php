@@ -240,7 +240,7 @@
                 for (var i = msg.datacount.length - 1; i >= 0; i--) {
                     var result=[];
                     for(var s in data[i]['data']){
-                        result.push(data[i]['data'][s]*100)
+                        result.push(data[i]['data'][s])
                     }
                     data[i]['data']=result;
 
