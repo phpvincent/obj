@@ -1,5 +1,15 @@
 @extends('admin.father.css')
 @section('content')
+
+<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/fixedColumns.dataTables.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/jquery.dataTables.min.css')}}" />
+<script type="text/javascript" src="{{asset('/admin/lib/jquery/jquery-3.3.1.js')}}"></script> 
+
+<style>
+ .dataTables_wrapper .dataTables_paginate a.paginate_button{
+	padding: 0.1em 1em;
+}
+</style>
 <div class="page-container">
 		<div class="text-c"> 日期范围：
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
@@ -78,7 +88,7 @@
 				<th scope="col" colspan="21">订单列表</th>
 			</tr>
 			<tr class="text-c">
-				<th width="25"><input type="checkbox" name="" value=""></th>
+				<th width="25"><input type="checkbox" class="allchecked" name="" value=""></th>
 				<th width="40">ID</th>
 				<th width="80">订单号</th>
 				<th width="60">下单者ip</th>
@@ -165,7 +175,9 @@
 		   "targets": [0,1,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20],
 		   "orderable": false
 		}],
-		"fixedColumns":{
+		scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
             leftColumns: 3,
             rightColumns: 1
         },
@@ -454,6 +466,17 @@ $('#order_repeat_name').on('change',function(){
 })
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
+	
+})
+var allcheckedflag=true;
+$("body").on("click",".allchecked",function(){
+    if(allcheckedflag){
+		$("div.DTFC_LeftWrapper :checkbox").prop("checked", true);
+		allcheckedflag=false;
+	}else{
+		$("div.DTFC_LeftWrapper :checkbox").prop("checked", false);
+		allcheckedflag=true;
+	}
 	
 })
 </script>
