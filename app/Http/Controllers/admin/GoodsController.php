@@ -355,6 +355,9 @@ class GoodsController extends Controller
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
+         if(!isset($data['goods_kind'])||$data['goods_kind']==null||$data['goods_kind']==''){
+             return response()->json(['err' => 0, 'str' => '产品信息错误！']);
+         }
          $goods->goods_kind_id=$data['goods_kind'];//单品所属产品id
        //商品描述
          if(isset($data['editor1'])){
@@ -1324,6 +1327,19 @@ class GoodsController extends Controller
         }else{
            return response()->json(['err' => '0', 'msg' => '添加失败!']);
         }
+      }
+    }
+    public function goods_real_name(Request $request)
+    {//单品名验证接口
+      if(!$request->has('name')||$request->input('name')==''||$request->input('name')==null)
+      {
+          return response()->json(false);
+      }
+      if(goods::where('goods_real_name',$name)->first()!=null)
+      {
+          return response()->json(false);        
+      }else{
+          return response()->json(true);        
       }
     }
 }

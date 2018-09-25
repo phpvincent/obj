@@ -61,7 +61,7 @@
                 error: function(XmlHttpRequest, textStatus, errorThrown){
 					layer.msg('error!');
 				}});
-			var index = parent.layer.getFrameIndex(window.name);
+			//var index = parent.layer.getFrameIndex(window.name);
 			//parent.$('.btn-refresh').click();
 			/*parent.layer.close(index);*/
 		}
