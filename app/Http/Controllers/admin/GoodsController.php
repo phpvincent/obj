@@ -191,6 +191,7 @@ class GoodsController extends Controller
             }else{
               $data[$key]->less_time='<span style="color:green;">正常状态</span>';
             }
+            $data[$key]->goods_price=\App\currency_type::where('currency_type_id',$v->goods_currency_id)->first()['currency_type_name'].' '.$v->goods_price;
            }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
