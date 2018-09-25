@@ -1288,5 +1288,11 @@ class GoodsController extends Controller
         
       }
     }
+    public function goods_kind_s(Request $request)
+    {
+      //获取所有产品名接口
+      $goods_kinds=\App\goods_kind::get()->toArray();
+      return response()->json($goods_kinds);
+    }
 }
   

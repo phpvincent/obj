@@ -494,6 +494,22 @@
         }
     }
 	// 搜索下拉框
+	$(".chanpin").focus(function(){
+		$('.box').show(400);
+		$.ajax({
+			//请求方式
+			type:'GET',
+			url:'{{url("admin/goods/goods_kind_s")}}',
+			dataType:'json',
+			data:{},
+			success:function(data){
+
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	});
 	function xiala(){
 		$('.box').show(400);
 		var a=$('.chanpin').val();
@@ -501,7 +517,7 @@
 		$.ajax({
 			//请求方式
 			type:'GET',
-			url:'fzz.php',
+			url:'{{url("admin/goods/goods_kind_s")}}',
 			dataType:'json',
 			data:{},
 			success:function(data){

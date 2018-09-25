@@ -61,6 +61,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/goods/show','admin\GoodsController@show');
 	Route::any('/admin/goods/addgoods_type','admin\GoodsController@addgoods_type');
 	Route::any('/admin/goods/goods_kind','admin\GoodsController@goods_kind');
+	Route::get('/admin/goods/goods_kind_s','admin\GoodsController@goods_kind_s');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
