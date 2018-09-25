@@ -76,13 +76,10 @@
 			<div class="clearfix">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择产品：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_num" oninput="xiala()" name="goods_num" value="">
+                    <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name" oninput="xiala()" name="goods_kind_name" value="">
+                    <input type="hidden" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
 					<div class="box" style="display: none;">
 						<ul>
-							<li>111</li>
-							<li>111</li>
-							<li>111</li>
-							<li>111</li>
 						</ul>
 					</div>
                 </div>
@@ -494,16 +491,22 @@
         }
     }
 	// 搜索下拉框
+	var xialaCheck =false;
 	$(".chanpin").focus(function(){
 		$('.box').show(400);
+		var a=$('.chanpin').val();
 		$.ajax({
 			//请求方式
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+a,
 			dataType:'json',
 			data:{},
 			success:function(data){
-
+				var str='';
+				jQuery.each(data,function(key,value){ 
+					str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
+				}) 
+				$('.box ul').html(str);
 			},
 			error:function(jqXHR){
 
@@ -511,17 +514,23 @@
 		});
 	});
 	function xiala(){
+		xialaCheck=true;
+		$('.box ul').empty();
 		$('.box').show(400);
 		var a=$('.chanpin').val();
-		console.log(a);
 		$.ajax({
 			//请求方式
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+a,
 			dataType:'json',
 			data:{},
 			success:function(data){
-
+				
+				var str='';
+				jQuery.each(data,function(key,value){ 
+					str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
+				}) 	
+				$('.box ul').html(str);
 			},
 			error:function(jqXHR){
 
@@ -529,13 +538,41 @@
 		});
 	}
 	$('.chanpin').on('blur',function(){
+		var a=$('.chanpin').val();
 		$('.box').hide(400);
-	})
-	$('.box li').on('click',function(){
+		if(xialaCheck){
+			$.ajax({
+			type:'GET',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+'',
+			dataType:'json',
+			data:{},
+			success:function(data){
+				jQuery.each(data,function(key,value){ 
+					if(a==value.goods_kind_name){
+						return false;
+					} 
+				}) 
+			$('.chanpin').val('');
+			$('#goods_kind').val('');
+			layer.alert('此产品不存在')
+			},
+			error:function(jqXHR){
+
+			}
+		});
+		}
+	});
+	
+	$('body').on('click','.box li',function(){
+
 		$('.box').hide(400);
 		var content=$(this).text();
+		var content_id=$(this).attr('data-id');
+		console.log(content_id)
 		$('.chanpin').val(content);
-
+		$('#goods_kind').val(content_id);
+		$('.box ul').empty();
+		xialaCheck=false;
 	})
 
     //页面底部
@@ -649,7 +686,13 @@
         },
         goods_num:{
             required:true,
-        }
+        },
+		goods_kind:{
+            required:true,
+        },
+		goods_kind_name:{
+            required:true,
+        },
     };
 
     //验证函数(价格)
