@@ -25,6 +25,7 @@
 }
 .box li{
     padding: 0 15px;
+    cursor:pointer;
 }
 .box li:nth-child(odd){background:#F4F4F4;}
 

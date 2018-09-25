@@ -76,7 +76,7 @@
 			<div class="clearfix">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择产品：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name" oninput="xiala()" name="goods_kind_name" value="">
+                    <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name"  oninput="xiala()" name="goods_kind_name" value="">
                     <input type="hidden" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
 					<div class="box" style="display: none;">
 						<ul>
@@ -491,7 +491,6 @@
         }
     }
 	// 搜索下拉框
-	var xialaCheck =false;
 	$(".chanpin").focus(function(){
 		$('.box').show(400);
 		var a=$('.chanpin').val();
@@ -502,6 +501,7 @@
 			dataType:'json',
 			data:{},
 			success:function(data){
+				xialaCheck =false;
 				var str='';
 				jQuery.each(data,function(key,value){ 
 					str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
@@ -514,7 +514,7 @@
 		});
 	});
 	function xiala(){
-		xialaCheck=true;
+		
 		$('.box ul').empty();
 		$('.box').show(400);
 		var a=$('.chanpin').val();
@@ -525,54 +525,61 @@
 			dataType:'json',
 			data:{},
 			success:function(data){
-				
 				var str='';
-				jQuery.each(data,function(key,value){ 
-					str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
-				}) 	
-				$('.box ul').html(str);
+				if(data.length !=0 ){
+					jQuery.each(data,function(key,value){ 
+						str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
+					}) 
+					$('.box ul').html(str);
+				}else{
+					$('.box ul').html('<li >没有相应产品</li>');
+				}
 			},
 			error:function(jqXHR){
 
 			}
 		});
 	}
+	
 	$('.chanpin').on('blur',function(){
+		 $('.box').hide(400);
+	});
+	function blur(){
 		var a=$('.chanpin').val();
-		$('.box').hide(400);
-		if(xialaCheck){
-			$.ajax({
+		$.ajax({
 			type:'GET',
 			url:'{{url("admin/goods/goods_kind_s")}}?name='+'',
 			dataType:'json',
 			data:{},
 			success:function(data){
+				var Check=true;
 				jQuery.each(data,function(key,value){ 
 					if(a==value.goods_kind_name){
-						return false;
+						Check=false;
 					} 
 				}) 
-			$('.chanpin').val('');
-			$('#goods_kind').val('');
-			layer.alert('此产品不存在')
+			if(Check){
+				$('.chanpin').val('');
+				$('#goods_kind').val('');
+				var target_top = $("#goods_kind_name").offset().top;
+ 				// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
+ 				$("html,body").scrollTop(target_top);
+				setTimeout('layer.alert("此产品不存在,请选择产品！");',1200); 
+			}
 			},
 			error:function(jqXHR){
 
 			}
 		});
-		}
-	});
-	
+	}
 	$('body').on('click','.box li',function(){
 
 		$('.box').hide(400);
 		var content=$(this).text();
 		var content_id=$(this).attr('data-id');
-		console.log(content_id)
 		$('.chanpin').val(content);
 		$('#goods_kind').val(content_id);
 		$('.box ul').empty();
-		xialaCheck=false;
 	})
 
     //页面底部
@@ -871,6 +878,7 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
+			blur();
 			$(form).ajaxSubmit({
 				type: 'post',
 				url: "{{url('admin/goods/post_add')}}",
