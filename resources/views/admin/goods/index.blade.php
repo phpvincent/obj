@@ -91,7 +91,7 @@
 
 <script type="text/javascript">
 	$.tablesetting={
-	"lengthMenu": [[5,10,20],[5,10,20]],
+	"lengthMenu": [[10,20],[10,20]],
 		"paging": true,
 		"info":   true,	
 		"searching": true,
