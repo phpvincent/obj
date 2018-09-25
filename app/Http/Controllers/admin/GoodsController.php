@@ -1291,8 +1291,17 @@ class GoodsController extends Controller
     public function goods_kind_s(Request $request)
     {
       //获取所有产品名接口
-      $goods_kinds=\App\goods_kind::get()->toArray();
-      return response()->json($goods_kinds);
+      if($request->has('name')){
+         $name=$request->input('name');
+         if($name==null||$name==''){
+          $goods_kinds=\App\goods_kind::get()->toArray();
+         }else{
+          $goods_kinds=\App\goods_kinds::where('goods_kind_name','like',"%$name%")->get()->toArray();
+         } 
+          return response()->json($goods_kinds);
+      }else{
+        return response()->json(['error']);
+      }  
     }
 }
   
