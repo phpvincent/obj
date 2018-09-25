@@ -355,7 +355,7 @@ class GoodsController extends Controller
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
-
+         $goods->goods_kind_id=$data['goods_kind'];//单品所属产品id
        //商品描述
          if(isset($data['editor1'])){
              $goods->goods_des_html=$data['editor1'];
@@ -861,7 +861,6 @@ class GoodsController extends Controller
            $goods->goods_type = $data['goods_type'];
            $goods->goods_up_time = date('Y-m-d h:i:s', time());
            $goods->goods_type_html = isset($data['editor2']) ? $data['editor2'] : "";
-
            //商品描述
            if (isset($data['editor1'])) {
                $goods->goods_des_html = $data['editor1'];
@@ -1296,12 +1295,36 @@ class GoodsController extends Controller
          if($name==null||$name==''){
           $goods_kinds=\App\goods_kind::get()->toArray();
          }else{
-          $goods_kinds=\App\goods_kinds::where('goods_kind_name','like',"%$name%")->get()->toArray();
+          $goods_kinds=\App\goods_kind::where('goods_kind_name','like',"%$name%")->get()->toArray();
          } 
           return response()->json($goods_kinds);
       }else{
-        return response()->json(['error']);
+        return response()->json(['error']); 
       }  
+    }
+    public function addgoods_kind(Request $request)
+    {//新增产品
+      if($request->isMethod('get')){
+        $goods_kinds=\App\goods_kind::get();
+        foreach($goods_kinds as $k => $v){
+          $goods_kinds[$k]->goods_kind_name=$v->goods_kind_name.'('.goods::where('goods_kind_id',$v->goods_kind_id)->count().')';
+        }
+        return view('admin.goods.addgoods_kind')->with(compact('goods_kinds'));
+      }elseif($request->isMethod('post')){
+        if($request->has('goods_kind_name')||$request->input('goods_kind_name')==''||$request->input('goods_kind_name')==null){
+           return response()->json(['err' => '0', 'msg' => '信息错误!']);
+        }
+        $goods_kind_name=$request->input('goods_kind_name');
+        $goods_kind=new \App\goods_kind;
+        $goods_kind->goods_kind_name=$request->input('goods_kind_name');
+        $goods_kind->goods_kind_time=date("Y-m-d H:i:s",time());
+        $msg=$goods_kind->save();
+        if($msg){
+            return response()->json(['err' => '1', 'msg' => '添加成功!']);
+        }else{
+           return response()->json(['err' => '0', 'msg' => '添加失败!']);
+        }
+      }
     }
 }
   

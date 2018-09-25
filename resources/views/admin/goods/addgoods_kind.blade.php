@@ -1,24 +1,24 @@
 @extends('admin.father.css')
 @section('content')
 <article class="page-container">
-		<form class="form form-horizontal" id="form-goodstype-update" enctype="multipart/form-data" action="{{url('admin/goods/addgoods_type')}}">
+		<form class="form form-horizontal" id="form-goodskind-update" enctype="multipart/form-data" action="{{url('admin/goods/addgoods_kind')}}">
 				{{csrf_field()}}
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">已有种类(拥有单品数)：</label>
+			<label class="form-label col-xs-4 col-sm-2">已有产品(拥有单品数)：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 			 <span class="select-box">
 				<select name="goods_type_chose" id="goods_type_chose" class="select">
-					@foreach($goods_type as $k => $v)
-					<option>{{$v->goods_type_name.'('.$v->goods_num.')'}}</option>
+					@foreach($goods_kinds as $k => $v)
+					<option>{{$v->goods_kind_name}}</option>
 					@endforeach
 				</select>
 			</span>
 			 </div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>新增种类：</label>
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>新增产品：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="goods_type_name" name="goods_type_name">
+				<input type="text" class="input-text" value="" placeholder="" id="goods_kind_name" name="goods_kind_name">
 			</div>
 		</div>
 		<div class="row cl">
@@ -33,7 +33,7 @@
 @endsection
 @section('js')
 	<script type="text/javascript">
-		$("#form-goodstype-update").validate({
+		$("#form-goodskind-update").validate({
 		rules:{
 			goods_type_name:{
 				required:true,
@@ -45,7 +45,7 @@
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "{{url('admin/goods/addgoods_type')}}",
+				url: "{{url('admin/goods/addgoods_kind')}}",
 				success: function(data){
 					if(data.err==1){
 						layer.msg('添加成功!',{time:2*1000},function() {
