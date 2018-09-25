@@ -52,7 +52,8 @@
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>单品名：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="goods_real_name" name="goods_real_name">
+					<input type="text" class="input-text" value="" placeholder="" onblur="danpin()" id="goods_real_name" name="goods_real_name">
+					<div class="danpin"  style="padding:10px 0;display:none"></div>
 				</div>
 			</div>
 			<div class="clearfix">
@@ -77,7 +78,7 @@
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择产品：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name"  oninput="xiala()" name="goods_kind_name" value="">
-                    <input type="hidden" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+                    <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
 					<div class="box" style="display: none;">
 						<ul>
 						</ul>
@@ -544,7 +545,8 @@
 	$('.chanpin').on('blur',function(){
 		 $('.box').hide(400);
 	});
-	function blur(){
+	function chanbingCheck(){
+		var Check=true;
 		var a=$('.chanpin').val();
 		$.ajax({
 			type:'GET',
@@ -552,7 +554,7 @@
 			dataType:'json',
 			data:{},
 			success:function(data){
-				var Check=true;
+				
 				jQuery.each(data,function(key,value){ 
 					if(a==value.goods_kind_name){
 						Check=false;
@@ -565,12 +567,16 @@
  				// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
  				$("html,body").scrollTop(target_top);
 				setTimeout('layer.alert("此产品不存在,请选择产品！");',1200); 
+				
 			}
 			},
 			error:function(jqXHR){
 
 			}
 		});
+		if(Check){
+			return false;
+		}
 	}
 	$('body').on('click','.box li',function(){
 
@@ -581,6 +587,36 @@
 		$('#goods_kind').val(content_id);
 		$('.box ul').empty();
 	})
+
+	// 单品验证
+	function danpin(){
+		var Check=true;
+		var a=$('#goods_real_name').val();
+		$.ajax({
+			type:'GET',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+'a',
+			dataType:'json',
+			data:{},
+			success:function(data){
+				$('.danpin').show(400);
+				jQuery.each(data,function(key,value){ 
+					if(a==value.goods_kind_name){
+						$('.danpin').text('此名称可以使用');
+						$('.danpin').css('color','#62c462');
+						Check=false;
+					} 
+				});
+				if(Check){
+					$('.danpin').text('名称重复，请更改名称');
+					$('.danpin').css('color','#dd514c');
+				}
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	}
+
 
     //页面底部
     function tobottom(){
@@ -878,7 +914,8 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			blur();
+			chanbingCheck();
+			console.log(chanbingCheck());
 			$(form).ajaxSubmit({
 				type: 'post',
 				url: "{{url('admin/goods/post_add')}}",

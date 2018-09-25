@@ -17,6 +17,7 @@
     overflow-y: auto;
     padding-right: 30px;
     box-sizing: border-box;
+    background-color: #fff;
 }
 .box ul{
     border: 1px solid #ddd;
