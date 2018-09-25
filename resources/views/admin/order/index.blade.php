@@ -1,7 +1,7 @@
 @extends('admin.father.css')
 @section('content')
 
-<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/fixedColumns.dataTables.min.css')}}" />
+<!-- <link rel="stylesheet" type="text/css" href="{{asset('/admin/static/fixedColumns.dataTables.min.css')}}" /> -->
 <link rel="stylesheet" type="text/css" href="{{asset('/admin/static/jquery.dataTables.min.css')}}" />
 <script type="text/javascript" src="{{asset('/admin/lib/jquery/jquery-3.3.1.js')}}"></script> 
 
