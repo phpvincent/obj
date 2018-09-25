@@ -1276,5 +1276,17 @@ class GoodsController extends Controller
         }
       }
     }
+    public function goods_kind(Request $request)
+    {
+      if($request->isMethod('get')){
+        $goods_kinds=\App\goods_kind::get();
+        foreach($goods_kinds as $k => $v){
+          $goods_kinds[$k]->goods_kind_name=$v->goods_kind_name.'('.\App\goods::where('goods_kind_id',$v->goods_kind_id)->count().')';
+        }
+        return view('admin.goods.goods_kind')->with(compact('goods_kinds'));
+      }elseif($request->isMethod('post')){
+        
+      }
+    }
 }
   
