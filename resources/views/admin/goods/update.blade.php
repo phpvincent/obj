@@ -66,13 +66,13 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属产品：</label>
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" placeholder="" id="goods_num" name="goods_num" value="{{$goods->goods_num}}">
 				</div>
 			</div>
 			 <div class="clearfix">
-                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属产品：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" placeholder="" id="goods_kind" name="goods_kind" readonly="readonly" value="{{\App\goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first()['goods_kind_name']}}">
                 </div>
