@@ -4,7 +4,7 @@
 		<form class="form form-horizontal" id="form-goodskind-update" enctype="multipart/form-data" action="{{url('admin/goods/addgoods_kind')}}">
 				{{csrf_field()}}
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">已有产品(拥有单品数)：</label>
+			<label class="form-label col-xs-4 col-sm-2">已有产品(所属单品数)：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 			 <span class="select-box">
 				<select name="goods_type_chose" id="goods_type_chose" class="select">

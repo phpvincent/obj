@@ -44,7 +44,7 @@
 		{{csrf_field()}}
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名：</label>
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>网页标题名：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="" placeholder="" id="goods_name" name="goods_name">
 				</div>

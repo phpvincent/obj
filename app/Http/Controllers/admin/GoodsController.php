@@ -1311,7 +1311,7 @@ class GoodsController extends Controller
         }
         return view('admin.goods.addgoods_kind')->with(compact('goods_kinds'));
       }elseif($request->isMethod('post')){
-        if($request->has('goods_kind_name')||$request->input('goods_kind_name')==''||$request->input('goods_kind_name')==null){
+        if(!$request->has('goods_kind_name')||$request->input('goods_kind_name')==''||$request->input('goods_kind_name')==null){
            return response()->json(['err' => '0', 'msg' => '信息错误!']);
         }
         $goods_kind_name=$request->input('goods_kind_name');
