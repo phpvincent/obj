@@ -1335,7 +1335,7 @@ class GoodsController extends Controller
       {
           return response()->json(false);
       }
-      if(goods::where('goods_real_name',$name)->first()!=null)
+      if(goods::where('goods_real_name',$request->input('name'))->first()!=null)
       {
           return response()->json(false);        
       }else{

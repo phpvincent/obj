@@ -79,11 +79,13 @@
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name"  oninput="xiala()" name="goods_kind_name" value="">
                     <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+                     <button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont"></i> </button>
 					<div class="box" style="display: none;">
 						<ul>
 						</ul>
 					</div>
                 </div>
+               
 				
             </div>
 			<div class="clearfix">
@@ -515,7 +517,7 @@
 		});
 	});
 	function xiala(){
-		
+		$('#goods_kind').val('');
 		$('.box ul').empty();
 		$('.box').show(400);
 		var a=$('.chanpin').val();
@@ -533,7 +535,7 @@
 					}) 
 					$('.box ul').html(str);
 				}else{
-					$('.box ul').html('<li >没有相应产品</li>');
+					$('.box ul').html('<span >没有相应产品</span>');
 				}
 			},
 			error:function(jqXHR){
@@ -561,8 +563,6 @@
 					} 
 				}) 
 			if(Check){
-				$('.chanpin').val('');
-				$('#goods_kind').val('');
 				var target_top = $("#goods_kind_name").offset().top;
  				// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
  				$("html,body").scrollTop(target_top);
@@ -594,21 +594,21 @@
 		var a=$('#goods_real_name').val();
 		$.ajax({
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}?name='+'a',
+			url:'{{url("admin/goods/goods_real_name")}}?name='+a,
 			dataType:'json',
 			data:{},
 			success:function(data){
 				$('.danpin').show(400);
-				jQuery.each(data,function(key,value){ 
-					if(a==value.goods_kind_name){
+					if(data){
 						$('.danpin').text('此名称可以使用');
 						$('.danpin').css('color','#62c462');
 						Check=false;
-					} 
-				});
+					} else{
+						$('.danpin').text('名称重复，请更改名称');
+						$('.danpin').css('color','#dd514c');
+					}
 				if(Check){
-					$('.danpin').text('名称重复，请更改名称');
-					$('.danpin').css('color','#dd514c');
+					
 				}
 			},
 			error:function(jqXHR){
@@ -914,7 +914,10 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			chanbingCheck();
+			var ss=chanbingCheck();
+			if(!ss){
+				return false;
+			}
 			console.log(chanbingCheck());
 			$(form).ajaxSubmit({
 				type: 'post',
@@ -1038,5 +1041,9 @@
 			layer.msg('如果想要删除，请通过虚线框内第一个减号进行删除');
 		}
 	}
+	//增加新产品
+	$('#addgoods_kind').on('click',function(){
+	layer_show('产品添加','{{url("admin/goods/addgoods_kind")}}',400,300);
+	})
 </script>
 @endsection
