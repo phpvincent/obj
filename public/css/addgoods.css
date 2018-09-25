@@ -1,7 +1,36 @@
 .clearfix{
-    overflow: hidden;
     margin: 14px 0;
 }
+.clearfix:after{
+    content:"";
+    display:block;
+    visibility:hidden;
+    clear:both;
+    height:0;
+    }
+/* 搜索下拉框 */
+.box{
+    position: absolute;
+    top: 36px;
+    z-index: 999;
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+.box ul{
+    border: 1px solid #ddd;
+    height: 128px;
+    background-color: #fff;
+}
+.box li{
+    padding: 0 15px;
+}
+.box li:nth-child(odd){background:#F4F4F4;}
+
+
+
+
 .form .row.cl {
     margin: 0;
     padding: 15px 0;

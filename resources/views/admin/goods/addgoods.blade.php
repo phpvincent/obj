@@ -74,6 +74,21 @@
                 </div>
             </div>
 			<div class="clearfix">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择产品：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_num" oninput="xiala()" name="goods_num" value="">
+					<div class="box" style="display: none;">
+						<ul>
+							<li>111</li>
+							<li>111</li>
+							<li>111</li>
+							<li>111</li>
+						</ul>
+					</div>
+                </div>
+				
+            </div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="currency_type" id="currency_type" class="select">
@@ -450,6 +465,7 @@
 
 
 	(function(){
+		
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
@@ -477,6 +493,34 @@
             $(".img_templet_2").show();
         }
     }
+	// 搜索下拉框
+	function xiala(){
+		$('.box').show(400);
+		var a=$('.chanpin').val();
+		console.log(a);
+		$.ajax({
+			//请求方式
+			type:'GET',
+			url:'fzz.php',
+			dataType:'json',
+			data:{},
+			success:function(data){
+
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	}
+	$('.chanpin').on('blur',function(){
+		$('.box').hide(400);
+	})
+	$('.box li').on('click',function(){
+		$('.box').hide(400);
+		var content=$(this).text();
+		$('.chanpin').val(content);
+
+	})
 
     //页面底部
     function tobottom(){
