@@ -184,7 +184,7 @@ canvas {
       <div class="login" style="top: 20%;z-index: 2;left: -37%;    background-color:rgb(0,0,0,0.5)">
           <div class="login_logo"><a href="#"><img src="/images/ydzs.jpg" /></a></div>
           <div class="login_name">
-               <p>后台信息管理系统</p>
+               <p style="color:#ffffff;">后台信息管理系统</p>
           </div>
           <form method="post" action="{{ route('login') }}">
               <input name="username" type="text"   placeholder="用户名"  value="{{old('username')}}" >
@@ -196,7 +196,7 @@ canvas {
                    <input type="text" class="form-control" id="captcha" placeholder="验证码" autocomplete="off" name="captcha">
                </div>
                {{csrf_field()}}
-              <input value="登录" style="width:100%;" type="submit">
+              <input value="登录" style="width:100%;background-color: #ffff33;color:black;" type="submit">
           </form>
       </div>
       <div class="copyright">一代宗师国医馆 版权所有©2016-2018 技术支持电话：000-00000000</div>
