@@ -5,11 +5,6 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/admin/static/jquery.dataTables.min.css')}}" />
 <script type="text/javascript" src="{{asset('/admin/lib/jquery/jquery-3.3.1.js')}}"></script> 
 
-<style>
- .dataTables_wrapper .dataTables_paginate a.paginate_button{
-	padding: 0.1em 1em;
-}
-</style>
 <div class="page-container">
 		<div class="text-c"> 日期范围：
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
