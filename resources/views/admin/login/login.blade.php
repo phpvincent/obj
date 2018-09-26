@@ -27,7 +27,23 @@ canvas {
 	width: 100%;
 	height: 100%;
 	background:#000;
-}</style>
+}
+
+        .login_logo {
+            transition: All 0.4s ease-in-out;
+            -webkit-transition: All 0.4s ease-in-out;
+            -moz-transition: All 0.4s ease-in-out;
+            -o-transition: All 0.4s ease-in-out;
+        }
+
+        .login_logo:hover {
+            transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+        }
+</style>
 <script>//remove 17173 video ad
       doAdblock();
       function doAdblock(){
@@ -181,7 +197,7 @@ canvas {
                          <script type="text/javascript">layer.msg(errors)</script>    
   @endif
     
-      <div class="login" style="top: 20%;z-index: 2;left: -37%;    background-color:rgb(0,0,0,0.5)">
+      <div class="login" style="top: 20%;z-index: 2;left: 50%;  position: absolute;transform: translateX(-50%);  background-color:rgb(0,0,0,0.5)">
           <div class="login_logo"><a href="#"><img src="/images/ydzs.jpg" /></a></div>
           <div class="login_name">
                <p style="color:#ffffff;">后台信息管理系统</p>
@@ -199,7 +215,7 @@ canvas {
               <input value="登录" style="width:100%;background-color: #ffff33;color:black;" type="submit">
           </form>
       </div>
-      <div class="copyright">一代宗师国医馆 版权所有©2016-2018 技术支持电话：000-00000000</div>
+      <div class="copyright" style="z-index: 2;position: absolute;top: 85%;">一代宗师国医馆 版权所有©2016-2018 技术支持电话：000-00000000</div>
       <canvas width="1920" height="282"></canvas>
 
  <script>
