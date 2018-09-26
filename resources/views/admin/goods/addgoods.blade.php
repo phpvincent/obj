@@ -554,9 +554,10 @@
 			type:'GET',
 			url:'{{url("admin/goods/goods_kind_s")}}?name='+'',
 			dataType:'json',
+			async:false,
 			data:{},
 			success:function(data){
-				
+
 				jQuery.each(data,function(key,value){ 
 					if(a==value.goods_kind_name){
 						Check=false;
@@ -576,6 +577,8 @@
 		});
 		if(Check){
 			return false;
+		}else{
+			return true;
 		}
 	}
 	$('body').on('click','.box li',function(){
@@ -915,10 +918,10 @@
 		success:"valid",
 		submitHandler:function(form){
 			var ss=chanbingCheck();
+			console.log(ss)
 			if(!ss){
 				return false;
 			}
-			console.log(chanbingCheck());
 			$(form).ajaxSubmit({
 				type: 'post',
 				url: "{{url('admin/goods/post_add')}}",

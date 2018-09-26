@@ -251,6 +251,19 @@
 </div>
 <!--table end-->
 <!--paypal begin-->
+
+<!--paypal end-->
+    <!--把货到付款费用添加抽象到cash_on_delivery中-->
+    
+
+<input type="hidden" name="id" value="103107897"/>
+<input type="hidden" name="poid" value=""/>
+<input type="hidden" name="append" value="0"/>
+<input type="hidden" name="salerule_id" value="0"/>
+<input type="hidden" name="currency_code" value="NTD"/>
+<input type="hidden" name="currency_id" value="1"/>
+<input type="hidden" name="amount" value="0"/>
+</form>
 <div class="paymentbox">
     <ul>
 
@@ -264,15 +277,23 @@
                                                   </span>
           </div>
         </li>
+        <li>
+     <!--    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="neiqian_biaodan">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="774VHA45GXWLS">
+            <input type="image" src="https://www.paypalobjects.com/en_GB/SG/i/btn/btn_buynowCC_LG.gif" border="0" name="" onclick="pay_submit();return false;" alt="PayPal – The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+        </form> -->
+        
+        </li>
             </ul>
 </div>
-<!--paypal end-->
-    <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">提交訂單</button>
 </div>
+       
+
 <!--button end-->
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
@@ -280,17 +301,25 @@
             溫馨提示：支持貨到付款+免郵費+七天無理由退換貨！收到商品後有任何疑問請聯繫我們在線客服，或發郵件至
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
-<input type="hidden" name="id" value="103107897"/>
-<input type="hidden" name="poid" value=""/>
-<input type="hidden" name="append" value="0"/>
-<input type="hidden" name="salerule_id" value="0"/>
-<input type="hidden" name="currency_code" value="NTD"/>
-<input type="hidden" name="currency_id" value="1"/>
-<input type="hidden" name="amount" value="0"/>
-</form>
-    
 
 <script>
+
+    // 内嵌表单提交
+    $("#tijiao").click(function () {
+    $.ajax({  
+            type: "POST",   //提交的方法
+            url:"https://www.paypal.com/cgi-bin/webscr", //提交的地址  
+            data:$('#neiqian_biaodan').serialize(),// 序列化表单值  
+            async: false,  
+            error: function(request) {  //失败的话
+                 alert("Connection error");  
+            },  
+            success: function(data) {  //成功
+                 alert(data);  //就将返回的数据显示出来
+            }  
+         });
+       });
+
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
