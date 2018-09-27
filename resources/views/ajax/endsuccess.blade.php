@@ -1,3 +1,4 @@
+<head>
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -9,8 +10,8 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
-<body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
-        @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
+
+      @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
     <!-- Facebook Pixel Code -->
         <script>
         !function(f,b,e,v,n,t,s)
@@ -51,6 +52,8 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+</head>
+<body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
         <h1 class="mui-title">確認訂單</h1>
 </header>

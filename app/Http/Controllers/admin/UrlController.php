@@ -142,13 +142,14 @@ class UrlController extends Controller
           }
           if(isset($msg['url_goods_id'])&&isset($msg['url_zz_goods_id'])&&($msg['url_goods_id']==$msg['url_zz_goods_id'])){
               if($msg['url_goods_id']==null&&$msg['url_zz_goods_id']==null){
-
+                //清空域名商品绑定
               }else{
-               
+               //选择同一商品绑定
                  return response()->json(['err'=>0,'str'=>'添加失败！遮罩单品不得与正常单品相同！']);
               }
                  
           }
+          //撤销原商品的绑定状态
           if(!isset($msg['url_goods_id'])){
             $oldid=$url->url_goods_id;
             if($oldid!=null){
@@ -165,21 +166,31 @@ class UrlController extends Controller
               $xxgoodss->save();
             }
           }
-          if(isset($msg['url_goods_id'])){
-            $bd_type=\App\goods::where('goods_id',$msg['url_goods_id'])->first();
-            if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_goods_id!=$msg['url_goods_id']){
-                    return response()->json(['err'=>0,'str'=>'更改失败！被选中正常单品已处于绑定状态']);
-            }
-            $bd_type->bd_type='1';
-            $bd_type->save();
-          }
-          if(isset($msg['url_zz_goods_id'])){
-             $bd_type=\App\goods::where('goods_id',$msg['url_zz_goods_id'])->first();
-            if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_zz_goods_id!=$msg['url_zz_goods_id']){
-                    return response()->json(['err'=>0,'str'=>'更改失败！被选中遮罩单品已处于绑定状态']);
-            }
-            $bd_type->bd_type='2';
-            $bd_type->save();
+          //遮罩单品与正常单品位置互换
+          if(isset($msg['url_goods_id'])&&isset($msg['url_zz_goods_id'])&&$msg['url_goods_id']==$url->url_zz_goods_id&&$msg['url_zz_goods_id']==$url->url_goods_id){
+            $zz_goods=\App\goods::where('goods_id',$msg['url_zz_goods_id'])->first();
+            $zz_goods->bd_type='1';
+            $zz_goods->save();
+            $zc_goods=\App\goods::where('goods_id',$msg['url_goods_id'])->first();
+            $zc_goods->bd_type='2';
+            $zc_goods->save();
+          }else{
+                if(isset($msg['url_goods_id'])){
+                  $bd_type=\App\goods::where('goods_id',$msg['url_goods_id'])->first();
+                  if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_goods_id!=$msg['url_goods_id']){
+                          return response()->json(['err'=>0,'str'=>'更改失败！被选中正常单品已处于绑定状态']);
+                  }
+                  $bd_type->bd_type='1';
+                  $bd_type->save();
+                }
+                 if(isset($msg['url_zz_goods_id'])){
+                   $bd_type=\App\goods::where('goods_id',$msg['url_zz_goods_id'])->first();
+                  if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_zz_goods_id!=$msg['url_zz_goods_id']){
+                          return response()->json(['err'=>0,'str'=>'更改失败！被选中遮罩单品已处于绑定状态']);
+                  }
+                  $bd_type->bd_type='2';
+                  $bd_type->save();
+                }
           }
           $url->url_goods_id=isset($msg['url_goods_id'])?$msg['url_goods_id']:null;
    	    	$url->url_zz_goods_id=isset($msg['url_zz_goods_id'])?$msg['url_zz_goods_id']:null;
