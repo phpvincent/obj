@@ -4,7 +4,12 @@
 <!-- <link rel="stylesheet" type="text/css" href="{{asset('/admin/static/fixedColumns.dataTables.min.css')}}" /> -->
 <link rel="stylesheet" type="text/css" href="{{asset('/admin/static/jquery.dataTables.min.css')}}" />
 <script type="text/javascript" src="{{asset('/admin/lib/jquery/jquery-3.3.1.js')}}"></script> 
-
+<style>
+ #order_index_table_wrapper .dataTables_scroll .dataTables_scrollHead table thead th{
+	border-left: none;   
+ }
+</style>
+<!-- 上面样式解决dataTable;border-left错开BUG -->
 <div class="page-container">
 		<div class="text-c"> 日期范围：
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
