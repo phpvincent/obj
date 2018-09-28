@@ -17,4 +17,14 @@ class PayController extends Controller
     	$counts=$admins->count();
     	return view('admin.pay.index')->with(compact('admins','counts'));
     }
+      public function add_pay_layer(Request $request)
+    {
+      if($request->isMethod('get'))
+      {//弹出层
+        return view('admin.pay.add_pay_layer');
+      }elseif($request->isMethod('post'))
+      {
+
+      }
+    }
 }

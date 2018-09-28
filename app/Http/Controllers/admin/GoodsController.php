@@ -1343,18 +1343,5 @@ class GoodsController extends Controller
           return response()->json(true);        
       }
     }
-    public function add_pay_layer(Request $request)
-    {
-      if($request->isMethod('get'))
-      {//弹出层
-        return view('admin.pay.add_pay_layer');
-      }elseif($request->isMethod('post'))
-      {
-
-      }
-    }
-
-
-
 }
   
