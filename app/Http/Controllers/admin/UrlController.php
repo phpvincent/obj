@@ -150,7 +150,7 @@ class UrlController extends Controller
                  
           }
           //撤销原商品的绑定状态
-          if(!isset($msg['url_goods_id'])){
+          if(!isset($msg['url_goods_id'])||$msg['url_goods_id']==null){
             $oldid=$url->url_goods_id;
             if($oldid!=null){
               $xxgoods=\App\goods::where('goods_id',$oldid)->first();
@@ -158,7 +158,7 @@ class UrlController extends Controller
               $xxgoods->save();
             }
           }
-          if(!isset($msg['url_zz_goods_id'])){
+          if(!isset($msg['url_zz_goods_id'])||$msg['url_goods_zz_id']==null){
             $oldids=$url->url_zz_goods_id;
             if($oldids!=null){
               $xxgoodss=\App\goods::where('goods_id',$oldids)->first();
@@ -178,7 +178,15 @@ class UrlController extends Controller
                 if(isset($msg['url_goods_id'])){
                   $bd_type=\App\goods::where('goods_id',$msg['url_goods_id'])->first();
                   if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_goods_id!=$msg['url_goods_id']){
-                          return response()->json(['err'=>0,'str'=>'更改失败！被选中正常单品已处于绑定状态']);
+                    //检测此正常商品是否被已经绑定到某个域名下
+                      $url_msg=\App\url::where(function($query)use($msg){
+                         $query->where('url_goods_id',$msg['url_goods_id']);
+                         $query->orWhere('url_zz_goods_id',$msg['url_goods_id']);
+                      })
+                      ->first();
+                      if($url_msg!=null){
+                            return response()->json(['err'=>0,'str'=>'更改失败！被选中正常单品已处于绑定状态']);
+                      }
                   }
                   $bd_type->bd_type='1';
                   $bd_type->save();
@@ -186,7 +194,15 @@ class UrlController extends Controller
                  if(isset($msg['url_zz_goods_id'])){
                    $bd_type=\App\goods::where('goods_id',$msg['url_zz_goods_id'])->first();
                   if($bd_type!=null&&$bd_type->bd_type!=0&&$url->url_zz_goods_id!=$msg['url_zz_goods_id']){
-                          return response()->json(['err'=>0,'str'=>'更改失败！被选中遮罩单品已处于绑定状态']);
+                    //检测此遮罩商品是否被已经绑定到某个域名下
+                     $url_msg=\App\url::where(function($query)use($msg){
+                         $query->where('url_goods_id',$msg['url_zz_goods_id']);
+                         $query->orWhere('url_zz_goods_id',$msg['url_zz_goods_id']);
+                      })
+                      ->first();
+                      if($url_msg!=null){
+                            return response()->json(['err'=>0,'str'=>'更改失败！被选中遮罩单品已处于绑定状态']);
+                      }
                   }
                   $bd_type->bd_type='2';
                   $bd_type->save();
