@@ -68,7 +68,6 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/goods/goods_kind_s','admin\GoodsController@goods_kind_s');
 	Route::get('/admin/goods/goods_real_name','admin\GoodsController@goods_real_name');
 	Route::match(['get','post'],'/admin/goods/addgoods_kind','admin\GoodsController@addgoods_kind');
-	Route::match(['get','post'],'/admin/goods/addgoods_kind_layer','admin\GoodsController@addgoods_kind_layer');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
@@ -139,6 +138,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	//花费相关
 	Route::get('/admin/pay/index','admin\PayController@index');
 	Route::post('/admin/pay/get_table','admin\PayController@index');
+	Route::post('/admin/pay/add_pay_layer','admin\PayController@add_pay_layer');
 
 
 });
