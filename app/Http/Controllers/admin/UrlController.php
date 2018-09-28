@@ -150,7 +150,7 @@ class UrlController extends Controller
                  
           }
           //撤销原商品的绑定状态
-          if(!isset($msg['url_goods_id'])||$msg['url_goods_id']==null){
+          if(!isset($msg['url_goods_id'])){
             $oldid=$url->url_goods_id;
             if($oldid!=null){
               $xxgoods=\App\goods::where('goods_id',$oldid)->first();
@@ -158,7 +158,7 @@ class UrlController extends Controller
               $xxgoods->save();
             }
           }
-          if(!isset($msg['url_zz_goods_id'])||$msg['url_goods_zz_id']==null){
+          if(!isset($msg['url_zz_goods_id'])){
             $oldids=$url->url_zz_goods_id;
             if($oldids!=null){
               $xxgoodss=\App\goods::where('goods_id',$oldids)->first();
