@@ -1343,5 +1343,18 @@ class GoodsController extends Controller
           return response()->json(true);        
       }
     }
+    public function addgoods_kind_layer(Request $request)
+    {
+      if($request->isMethod('get'))
+      {//弹出层
+        return view('admin.goods.addgoods_kind_layer');
+      }elseif($request->isMethod('post'))
+      {
+
+      }
+    }
+
+
+
 }
   
