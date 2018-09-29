@@ -6,8 +6,8 @@
 		@foreach($cuxiao as $key)
 		<br/>
 					促销名:<input type="text" style="width: 10%;" class="input-text" value="{{$key->cuxiao_msg}}" placeholder="" id="cuxiao_msg" name="cuxiao_msg[{{$key->cuxiao_id}}]">
-					件数:<input type="text" style="width: 10%;" class="input-text" value="{{explode(',',$key->cuxiao_config)[0]}}" placeholder="" id="cuxiao_num" name="cuxiao_num[{{$key->cuxiao_id}}]">
-					价格:<input type="text" style="width: 10%;" class="input-text" value="{{explode(',',$key->cuxiao_config)[1]}}" placeholder="" id="cuxiao_prize" name="cuxiao_prize[{{$key->cuxiao_id}}]">
+					件数:<input type="text" style="width: 10%;" class="input-text" value="{{explode(',',$key->cuxiao_config)[0]}}" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" id="cuxiao_num" name="cuxiao_num[{{$key->cuxiao_id}}]">
+					价格:<input type="text" style="width: 10%;" class="input-text" value="{{explode(',',$key->cuxiao_config)[1]}}" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" id="cuxiao_prize" name="cuxiao_prize[{{$key->cuxiao_id}}]">
 					赠品:<select name="cuxiao_special[{{$key->cuxiao_id}}]" class="select slectchange"  style="width:30%;">
 							<option value="0" >无</option>
 								@foreach(\App\price::get() as $v)
@@ -17,7 +17,7 @@
 		<br/>
 		@endforeach
 		@else
-		<br/>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao[0][msg]">件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao[0][num]">价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao[0][price]">	赠品:<select name="new_cuxiao[][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><br/>
+		<br/>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao[0][msg]">件数:<input type="text" style="width: 10%;" class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="" id="cuxiao_num" name="new_cuxiao[0][num]">价格:<input type="text" style="width: 10%;" class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="" id="goods_end2" name="new_cuxiao[0][price]">	赠品:<select name="new_cuxiao[][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><br/>
 		@endif
 	</div>
 
@@ -35,7 +35,7 @@
 				})
 	var index=1;
 				$("#addpz").on("click",function(){
-					var html='<br/>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao['+index+'][msg]">件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]">	赠品:<select name="new_cuxiao['+index+'][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><br/>';
+					var html='<br/>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao['+index+'][msg]">件数:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">价格:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]">	赠品:<select name="new_cuxiao['+index+'][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><br/>';
 					$("#pzhtml").append(html);
 					index+=1;
 					})
