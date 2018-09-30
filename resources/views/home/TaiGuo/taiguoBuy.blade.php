@@ -90,7 +90,7 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/zhongdongCity.js"></script>
+        <script src="/js/diqu/taiguo.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <link href="/css/addcart.css" rel="stylesheet">
@@ -101,7 +101,7 @@
         <script type="text/javascript" src="/js/broser.js"></script>
         <style type="text/css">
             	.chose_cart{
-            		background-color: #00923f;
+            		background-color: red;
             		color: white !important;
             		border:1px dashed #ccc !important;
             	}
@@ -164,7 +164,7 @@
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
     <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-    <h1 class="mui-title">CHECTOUT</h1>
+    <h1 class="mui-title">การยืนยันสั่งซื้อ</h1>
 </header>
 
 <div class="mui-content">
@@ -212,16 +212,16 @@
 <div class="mui-input-group">
     
     <div class="mui-input-row">
-        <label><span class="require">*</span>First name:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="required,Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        <label><span class="require">*</span>ชื่อ:</label>
+        <input type="text" name="firstname" datatype="s1-30" placeholder="ชื่อ*" nullmsg="กรุณากรอกชื่อ" class="mui-input-clear">
     </div>
-    <div class="mui-input-row">
+    <!-- <div class="mui-input-row">
         <label><span class="require">*</span>Last name:</label>
         <input type="text" name="lastname" placeholder="required,Please enter your last name" class="mui-input-clear">
-    </div>
+    </div> -->
     <div class="mui-input-row">
-        <label><span class="require">*</span>Phone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="required,Please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <label><span class="require">*</span>โทรศัพท์:</label>
+        <input type="text" datatype="/^\d+$/" placeholder="โทรศัพท์*" nullmsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" errormsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -236,12 +236,12 @@
         <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span></label>
+        <label><span class="require">*</span> จังหวัด/เขต/อำเภอ:</label>
         <div id="twzipcode"></div>
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span>Detailed address:</label>
-        <input type="text" datatype="z1-300" placeholder="required,Please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
+        <label><span class="require">*</span>เลขที่บ้าน/หมู่/ตำบล :</label>
+        <input type="text" datatype="z1-300" placeholder="เลขที่บ้าน/หมู่/ตำบล *" nullmsg="เขต/อำเภอ" errormsg="address_not_correct" name="address1" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>Address Line2:</label>
@@ -254,11 +254,11 @@
         <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">
+        <input type="text" name="email"errormsg="อีเมลที่ไม่ถูกต้อง" placeholder="Email" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
-        <label>message:</label>
-        <textarea name="notes" placeholder="Optional, such as standby telephone, product specification or delivery time, etc. "></textarea>
+        <label>ฝากข้อความไว้:</label>
+        <textarea name="notes" placeholder="ฝากข้อความไว้ "></textarea>
     </div>
 
 </div>
@@ -284,7 +284,7 @@
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;">Place Order</button>
+    <button id="pay" type="button" class="btnstyle01" style="">Place Order</button>
 </div>
 <!--button end-->
 <!--footer begin-->
@@ -426,27 +426,28 @@ $('#pay').bind('click',function(){
     console.log('zuihou',datasObj);
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('The detailed address can not be empty.');
+        layer.msg('รายละเอียดที่อยู่จะว่างเปล่า ');
         return false;
     }
     if(datasObj.city==null||datasObj.city==''){
-        layer.msg('Please select area information.');
+        layer.msg('กรุณากรอกที่อยู่จังหวัดให้ถูกต้อง');
         return false;
     }
     if(datasObj.firstname==null||datasObj.firstname==''){
-        layer.msg("Please fill in the consignee's name.");
+        layer.msg('กรุณากรอกชื่อ');
         return false;
     }
     if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg("Please fill in the consignee's cell phone number.");
+        layer.msg('คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ');
         return false;
     }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
-        layer.msg('Please fill in the valid cell phone number.');
+        layer.msg('คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ');
         return false;
     }
-    layer.msg("Please wait for the order submitted");
+
+    layer.msg("ในการส่งคำสั่ง , โปรดรอสักครู่");
 
     if(issubmit){
         issubmit=false;
@@ -463,12 +464,12 @@ $('#pay').bind('click',function(){
           
                     
            error: function(data) {
-               layer.msg('The order submission failed. Please check the network condition.');
+               layer.msg('การส่งคำสั่งล้มเหลวตรวจสอบสภาพของเครือข่าย');
            }
         }) ; 
         
     }else{
-        layer.msg('Orders have been submitted, not submitted repeatedly.');
+        layer.msg('ที่สั่งซื้อจะถูกส่งและไม่ส่งซ้ำ');
     }
    
     
@@ -606,7 +607,7 @@ jQuery(function(){
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
-                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  Only left:'+msg.goods.goods_num+'\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font>,   Largess : <font>0</font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Total Quantity:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">จํานวน:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  ซ้ายเท่านั้น:'+msg.goods.goods_num+'\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">จํานวน:<font>1</font>,   ของขวัญ: <font>0</font></span><span class="addcart-footer-price-total">รวมทั้งหมด:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">จํานวน:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
                             $("#addcart").html(addCartHtml1);
                             var pricehtml=$('.addcart-footer-price-total').children('font:first');
 	                        	var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
@@ -617,7 +618,7 @@ jQuery(function(){
 	                        		return false;
 	                        	}
 	                        	$(this).next().val(num-1);
-	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
+	                        	$('.addcart-specs-title-name').html("จํานวน:"+(num-1));
 	                        	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                        	$('#realprice').html((num-1)*price+".00");
 	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num-1)*price+'.00');
@@ -632,7 +633,7 @@ jQuery(function(){
 	                        		return false;
 	                        	}
 	                        	$(this).prev().val(num+1);
-	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
+	                        	$('.addcart-specs-title-name').html("จํานวน:"+(num+1));
 	                            $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                            $('#realprice').html((num+1)*price+".00");
 	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num+1)*price+'.00');
@@ -641,7 +642,7 @@ jQuery(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferential name【'+msg.cuxiao[0].cuxiao_msg+'】Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Total Quantity:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font>，Largess :<font>0</font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">จํานวน:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferential name【'+msg.cuxiao[0].cuxiao_msg+'】ซ้ายเท่านั้น:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">จํานวน:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">จํานวน:<font>1</font>，ของขวัญ:<font>0</font></span><span class="addcart-footer-price-total">รวมทั้งหมด:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -655,7 +656,7 @@ jQuery(function(){
 	                            		return false;
 	                            	}
 	                            	$(this).next().val(num-1);
-	                            	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
+	                            	$('.addcart-specs-title-name').html("จํานวน:"+(num-1));
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	num=num-1;
@@ -704,7 +705,7 @@ jQuery(function(){
 	                            	}
 	                            	// $(this).prev().val(num+1);
 	                            	$('#addcart-quantity-val').val(num+1);
-	                            	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
+	                            	$('.addcart-specs-title-name').html("จํานวน:"+(num+1));
 	                            	$('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                num=num+1;
@@ -760,7 +761,7 @@ jQuery(function(){
                                 specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">Largess</span></div></div>'
                             });
                             $("#addcart").append(specialHtml);
-                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, Preferential name 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div>'
+                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">จํานวน:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, Preferential name 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 ซ้ายเท่านั้น:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div>'
                             $("#addcart").append(yixuanHtml);
                             var buttonHtml= '';
                             var chose_cart='chose_cart';
@@ -769,7 +770,7 @@ jQuery(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Total Quantity:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>, Largess : <font>0</font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">จํานวน:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">จํานวน:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>, ของขวัญ: <font>0</font></span><span class="addcart-footer-price-total">รวมทั้งหมด:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
@@ -818,7 +819,7 @@ jQuery(function(){
                                    $('.addcart-footer-number-total').children('font:first').html(num);
                                    $('#addcart-quantity-val').val(num);
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
-                                   $('.addcart-specs-title-name').html("Total Quantity:"+num);
+                                   $('.addcart-specs-title-name').html("จํานวน:"+num);
 		                        console.log(num);
 		                        $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;

@@ -425,6 +425,11 @@ $('#pay').bind('click',function(){
         layer.msg('请填写收货人手机号码');
         return false;
     }
+    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('请输入有效手机号');
+        return false;
+    }
     layer.msg("订单提交中，请稍等");
 
     if(issubmit){
