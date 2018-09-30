@@ -267,16 +267,24 @@
 <div class="paymentbox">
     <ul>
 
-            <li>
-          <div class="mui-input-row mui-radio mui-left cash-on-delivery">
-              <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
+    <li>
+         <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+          <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-                貨到付款            </label>
-              <span style="width:100px;">
-                                    <img src="/images/cash.jpg" alt="" id="cash"/>
-                                                  </span>
-          </div>
-        </li>
+            貨到付款            </label>
+          <span style="width:100px;">
+                                <img src="/images/cash.jpg" alt="" id="cash"/>
+                                              </span>
+      </div>
+      <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+          <input name="pay_type" id="pay_2" value="2" type="radio">
+            <label>
+            PayPal            </label>
+          <span style="width:100px;">
+                                <img src="/images/cash.jpg" alt="" id="cash"/>
+                                              </span>
+      </div>
+    </li>
         <li>
      <!--    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="neiqian_biaodan">
             <input type="hidden" name="cmd" value="_s-xclick">
@@ -461,10 +469,11 @@ $('#pay').bind('click',function(){
         return false;
     }
     layer.msg("訂單提交中，請稍等");
-
+    var payType=$(".paymentbox input:checked").val();
     if(issubmit){
         issubmit=false;
-        $.ajax({
+        if(payType==1){
+            $.ajax({
            type: "POST",    
            url: "/saveform",
            data:datasObj,
@@ -480,6 +489,11 @@ $('#pay').bind('click',function(){
                layer.msg('訂單提交失敗，請檢查網絡情況');
            }
         }) ; 
+        }else{
+            location.href="/paypal_pay?"+JSON.stringify(datasObj);
+            
+        }
+
         
     }else{
         layer.msg('訂單已提交，不要重複提交');
