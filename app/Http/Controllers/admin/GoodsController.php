@@ -653,7 +653,7 @@ class GoodsController extends Controller
                                 array_push($array_config_val,false);
                             }
                         }
-                        if(in_array(false,$array_true)){
+                        if(in_array(true,$array_true) && in_array(false,$array_true)){
                             return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
                         }
                     }
@@ -863,7 +863,7 @@ class GoodsController extends Controller
            $goods->goods_pix = $data['goods_pix'];
            $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
            $goods->goods_type = $data['goods_type'];
-           $goods->goods_up_time = date('Y-m-d h:i:s', time());
+//           $goods->goods_up_time = date('Y-m-d h:i:s', time());
            $goods->goods_type_html = isset($data['editor2']) ? $data['editor2'] : "";
            //商品描述
            if (isset($data['editor1'])) {

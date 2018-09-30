@@ -133,7 +133,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/check/set','admin\CheckController@set');
 	//花费相关
 	Route::get('/admin/pay/index','admin\PayController@index');
-	Route::post('/admin/pay/get_table','admin\PayController@index');
+	Route::post('/admin/pay/get_table','admin\PayController@get_table');
+	Route::any('/admin/pay/spend_import','admin\PayController@spend_import');
+
 
 
 });
