@@ -903,5 +903,8 @@ jQuery('input[name=pay_type]').change(function(){
     }
 });
 </script>
+<script>
+   $(document).ready(function(){$("#divVideo").css("height","inherit")}) //改变轮播图video高度；
+</script>
 <!-- <script language="javascript" src="/js/LsJS.aspx"></script> --></body>
 </html>
