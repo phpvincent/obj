@@ -286,6 +286,14 @@
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">未退货并已退款</span></a>';
 			}else if(data.order_type==8){
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">拒签</span></a>';
+			}else if(data.order_type==9){
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">预支付</span></a>';
+			}else if(data.order_type==10){
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">取消支付</span></a>';
+			}else if(data.order_type==11){
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功</span></a>';
+			}else if(data.order_type==12){
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">支付失败</span></a>';
 			}
 			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);

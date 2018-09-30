@@ -8,4 +8,5 @@ class par extends Model
 {
     protected $table = 'par';
     protected $primaryKey ='par_id';
+     public $timestamps=false;
 }
