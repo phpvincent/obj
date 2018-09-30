@@ -89,7 +89,11 @@ class IndexController extends Controller
             return view('home.zhongdong.zhongdong')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '3':
-            return view('home.MaLaiXiYa.mlxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            return  view('home.MaLaiXiYa.mlxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '4':
+            return view('home.TaiGuo.taiguo')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
             default:
                 # code...
                 break;
@@ -191,6 +195,9 @@ class IndexController extends Controller
         if($blade_type==3){
             return view('home.MaLaiXiYa.mlxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
+        if($blade_type==4){
+            return view('home.TaiGuo.taiguoBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -201,7 +208,7 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3){ 
+        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$special->isEmpty()){
@@ -462,6 +469,9 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 3){
             return view('home.MaLaiXiYa.mlxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
         }
+        if($goods->goods_blade_type == 4){
+            return view('home.TaiGuo.taiguoEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+        }
         return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
@@ -479,6 +489,12 @@ class IndexController extends Controller
             if($goods_blade_type == 2){
                 return view('home.zhongdong.zhSend');                
             }
+            if($goods_blade_type == 3){
+                return view('home.MaLaiXiYa.mlxySend');                
+            }
+            if($goods_blade_type == 4){
+                return view('home.TaiGuo.taiguoSend');                
+            }
         }
         return view('home.send');
     }
@@ -495,6 +511,12 @@ class IndexController extends Controller
         }
         if($goods->goods_blade_type == 2){
             return view('home.zhongdong.zdSendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 3){
+            return view('home.MaLaiXiYa.mlxySendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 4){
+            return view('home.TaiGuo.taiguoSendmsg')->with(compact('order','goods'));
         }
         return view('home.sendmsg')->with(compact('order','goods'));
     }

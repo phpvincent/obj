@@ -159,7 +159,7 @@
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
-			<input name="queryNo" value="" id="txtkey" class="text" placeholder="填寫相關訊息查詢" type="text">
+			<input name="queryNo" value="" id="txtkey" class="text" placeholder="" type="text">
 		</form>
 	</div>
 	<a id="btnQuery">Query</a>
@@ -199,7 +199,7 @@
         <div class="clear"></div>
         <div style="padding:0px;padding-bottom: 10px;">
             <div style="width:100%; background:white;">
-								<div style="width:100%; background:white;"><img src="/images/footer.jpg" width="100%"></div>			</div>
+								<div style="width:100%; background:white;"><img src="/img/zd_kuaiditu.jpg" width="100%"></div>			</div>
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">

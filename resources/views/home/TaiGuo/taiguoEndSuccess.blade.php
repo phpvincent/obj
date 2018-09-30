@@ -57,21 +57,22 @@
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-        <h1 class="mui-title">Firm order</h1>
+        <h1 class="mui-title">การยืนยันสั่งซื้อ </h1>
 </header>
     <div class="mui-content">
     <div class="pay_image"><span class="sico"><i class="mui-icon mui-icon-checkmarkempty"></i></span></div>
     <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">Success!</h2>
-                            <div style="padding:15px;">
-                        Your order number :<font color="red">{{$order->order_single_id}}</font><br>
-                        Payable :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
+            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">สั่งซื้อสินค้าเรียบร้อยแล้ว！</h2>
+                            <div style="padding:15px;">        
+                หมายเลขการสั่งซื้อของคุณ:<font color="red">{{$order->order_single_id}}</font><br>
+                จะต้องจ่าย：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            Please keep your mobile phone unblocked, so that the courier can contact you in time. If you have any questions, please contact our online customer service in time. Have fun shopping!             </div>
+                                            
+ลูกค้าสวัสดีค่ะ คุณสั่งซื้อสำเร็จแล้ว สินค้าจะส่งไปถึงให้คุณโดยรวจเร็วที่สุด  กรุณาเปิดโทรศัพท์ไว้ให้ผู้ส่งของจะติดต่อคุณได้กรุณาอย่าสั่งซ้ำ ถ้ามีคำถามเกี่นวกับการสั่งซื้อ กรุณาติดต่อe-mail: <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">Return to the home page&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">กลับไปที่หน้าแรก&gt;&gt;</button>
             </div>
     </div>
 </div>
