@@ -84,7 +84,7 @@
 			com_name:{
 				required:true,
 				minlength:2,
-				maxlength:10,
+				maxlength:20,
 			},
 			com_phone:{
 				required:true,
