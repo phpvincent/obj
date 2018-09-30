@@ -164,7 +164,7 @@
         <span class="flag" style="font-size: 12px;">เก็บเงินปลายทาง</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">ชื่นชมเจ็ดวันระยะเวลา</span>
+        <span class="flag" style="font-size: 12px;background:#000;">รับประกันคืนสินค้าภายใน7วันหากไม่พอใจ</span>
     @endif
 </div>
 @endif
@@ -180,10 +180,10 @@
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text">Sold:<span>{{$goods->goods_num}}</span></div>
+    <div class="text">จำนวนที่เหลือ:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font>End:</font>
+        <font>ระยะเวลาที่เหลือของโปรโมชั่น:</font>
     </div>
 </div>
 @endif
@@ -193,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}【</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
 </div>
 @endif
 
@@ -438,7 +438,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                Online message                </div>
+                    ฝากข้อความออนไลน์                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -448,10 +448,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Name:
+                                    ชื่อ:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
+                                    <input type="text" placeholder="ชื่อ" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -460,17 +460,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Phone:
+                                    โทรศัพท์:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Phone" class="input01" name="phone"
+                                    <input type="text" placeholder="โทรศัพท์" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                evaluate:
+                                ระดับความพึงพอใจ:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -495,7 +495,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                leave word:
+                                ฝากข้อความไว้:
                                 </td>
                                 <td class="table_cell">
                                     <textarea placeholder="Online message " name="content" class="textarea_style">
@@ -505,7 +505,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="Submit" style="color:white">
+                                    value="ส่งคำประเมิน" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -698,11 +698,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("Name cannot be empty");
+                $2.toast("ชื่อ");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("Mobile number cannot be empty");
+                $2.toast("โทรศัพท์");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -725,11 +725,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("Thanks For Your Review！");
+                    $2.toast("ขอบคุณสำหรับความคิดเห็นของคุณ !");
                 }
                 else
                 {
-                    $2.toast("Submission fails！");
+                    $2.toast("การส่งล้มเหลว！");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);

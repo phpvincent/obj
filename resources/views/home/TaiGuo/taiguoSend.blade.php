@@ -145,7 +145,7 @@
 
 <div class="fixed">
   <h4> <a href="javascript:history.go(-1);"></a>
-  Order inquiry</h4>
+  ติดตามสถานะสินค้า</h4>
 </div>
 
 <div class="mui-content" style="background:#fff">
@@ -155,14 +155,14 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	Order number / Logistics order number (please fill in one entry) 		<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	หมายเลขสั่งซื้อ/หมายเลขใบนำส่งสินค้า(เลือกกรอกอย่างใดอย่างหนึ่ง)				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
-			<input name="queryNo" value="" id="txtkey" class="text" placeholder="填寫相關訊息查詢" type="text">
+			<input name="queryNo" value="" id="txtkey" class="text"  type="text">
 		</form>
 	</div>
-	<a id="btnQuery">Query</a>
+	<a id="btnQuery">สอบถามทันที</a>
 	<div class="clearfix"></div>
   </div>
 
@@ -199,16 +199,18 @@
         <div class="clear"></div>
         <div style="padding:0px;padding-bottom: 10px;">
             <div style="width:100%; background:white;">
-								<div style="width:100%; background:white;"><img src="/images/footer.jpg" width="100%"></div>			</div>
+								<div style="width:100%; background:white;"><img src="/img/taiguo.jpg" width="100%"></div>			</div>
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-					<strong>kindly reminder :</strong>
-					If you have any questions about your product, please contact online customer service or send an email to<a href='https://mail.google.com/mail/' style='color:#F8770E'>hyfhdcjn@gmail.com</a>.At the same time, please inform your name / contact information / order number, we will quickly give you timely processing, I wish you a good shopping!			</div>
+					<strong>คำเตือน:</strong>
+					
+
+                หลังจากลูกค้าได้รับสินค้าแล้ว ถ้ามีข้อสงสัยใดๆ  กรุณาติดต่อเจ้าหน้าที่ฝ่ายบริการลูกค้าโดยตรงหรือทางe-mail:<a href='https://mail.google.com/mail/' style='color:#F8770E'>hyfhdcjn@gmail.com</a>.</div>
 				<p></p>
   			</div>
 		</div>
-        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">Return to the home page </a></div>
+        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">กลับไปหน้าแรก</a></div>
   </div>
 
   <script src="https://d1lnephkr7mkjn.cloudfront.net/skin/default/js/jquery.min.js"></script>
@@ -217,7 +219,7 @@
     	
 		$("#btnQuery").click(function(e) {
 			if($("input[name='queryNo']").val()==''){
-				alert('Order number / Logistics order number (please fill in one entry)');
+				alert(' 		หมายเลขสั่งซื้อ/หมายเลขใบนำส่งสินค้า(เลือกกรอกอย่างใดอย่างหนึ่ง)		');
 				return;
 			}
             $("#queryForm").submit();
@@ -238,7 +240,7 @@
                 	if(msg!='false'){
                 		  $('.details').html(msg);
                 	}else{
-                		  $('.details').html("<span style='color:#f00;'>Order number error, no corresponding information, please re-enter</span>");
+                		  $('.details').html("<span style='color:#f00;'>โปรดระบุหมายเลขโลจิสติกส์ที่ถูกต้อง</span>");
                 	}
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }
