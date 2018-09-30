@@ -592,7 +592,7 @@ class IndexController extends Controller
             $invoice_id = explode('_', $response['INVNUM'])[1];
             try{
                  $order=\App\order::where('order_id',$invoice_id)->update(['order_type'=>'12']);
-                }catch($e){
+                }catch(Exception $e){
                 }
             return redirect('/endfail')->with(['type' =>'0']);
         }
@@ -610,7 +610,7 @@ class IndexController extends Controller
             $invoice_id = explode('_', $response['INVNUM'])[1];
             try{
                  $order=\App\order::where('order_id',$invoice_id)->update(['order_type'=>'12']);
-                }catch($e){
+                }catch(Exception $e){
                 }
             return redirect('/endfail?type=0');
         }
