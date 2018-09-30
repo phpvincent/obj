@@ -281,7 +281,7 @@
             <label>
             PayPal            </label>
           <span style="width:100px;">
-                                <img src="/images/cash.jpg" alt="" id="cash"/>
+                                <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
                                               </span>
       </div>
     </li>
