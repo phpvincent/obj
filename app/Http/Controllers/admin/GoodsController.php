@@ -653,7 +653,7 @@ class GoodsController extends Controller
                                 array_push($array_config_val,false);
                             }
                         }
-                        if(in_array(false,$array_true)){
+                        if(in_array(false,$array_true) && in_array(true,$array_true)){
                             return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
                         }
                     }
