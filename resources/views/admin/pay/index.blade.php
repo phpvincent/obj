@@ -2,7 +2,7 @@
 @section('content')
 <div class="page-container">
 		<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+		<input type="text" onfocus="WdatePicker({onpicking:function(dq){selectDatediff(dq.cal.getNewDateStr());},specialDates:['2018-09-21','2018-09-23','2018-09-26','2018-09-27'], dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
@@ -49,6 +49,14 @@
 @section('js')
 
 <script type="text/javascript">
+
+
+function bulu(id){
+	layer_show('订单信息','/admin/pay/add_pay_layer',500,300);
+}
+function selectDatediff(a){
+	console.log(a)
+}
 	$.tablesetting={
 	"lengthMenu": [[5,10,20],[5,10,20]],
 		"paging": true,

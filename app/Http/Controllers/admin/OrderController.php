@@ -20,7 +20,7 @@ class OrderController extends Controller
       })
       ->whereIn('order_goods_id',$garr)
       ->count();
-     return view('admin.order.index')->with(compact('counts','admins'));
+     return view('admin.order.index_notroot')->with(compact('counts','admins'));
      }else{
       $admins=\App\admin::get(); 
       $counts=order::where(function($query){

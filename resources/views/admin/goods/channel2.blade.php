@@ -6,8 +6,8 @@
 							<br/>促销名:<input type="text" style="width: 20%;" class="input-text"  value="{{$cuxiao->cuxiao_msg}}" placeholder="" id="cuxiao_msg" name="cuxiao_msg">
 		@foreach($cuxiao->cuxiao_config as $val => $key)
 		<br/>
-					购满件数:<input type="text" style="width: 10%;" class="input-text" value="{{$key['num']}}" placeholder="" id="cuxiao_num" name="cuxiao_num[{{$val}}]">
-					减免价格:<input type="text" style="width: 10%;" class="input-text" value="{{$key['price']}}" placeholder="" id="cuxiao_prize" name="cuxiao_prize[{{$val}}]">
+					购满件数:<input type="text" style="width: 10%;" class="input-text" value="{{$key['num']}}" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" id="cuxiao_num" name="cuxiao_num[{{$val}}]">
+					减免价格:<input type="text" style="width: 10%;" class="input-text" value="{{$key['price']}}" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" id="cuxiao_prize" name="cuxiao_prize[{{$val}}]">
 				
 		<br/>
 		
@@ -15,8 +15,8 @@
 		@else
 							<br/>促销名:<input type="text" style="width: 20%;" class="input-text"  value="" placeholder="" id="cuxiao_msg" name="cuxiao_msg">
 							<br/>
-							购满件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao[0][num]">
-							减免价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_prize" name="new_cuxiao[0][price]">
+							购满件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" name="new_cuxiao[0][num]">
+							减免价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_prize" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" name="new_cuxiao[0][price]">
 							<br/>
 		@endif
 	</div>
@@ -35,7 +35,7 @@
 				})
 	var index=1;
 				$("#addpz").on("click",function(){
-					var html='<br/>购满件数:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">减免价格:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]"><br/>';
+					var html='<br/>购满件数:<input type="text" style="width: 10%;" class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)" onblur="this.v();" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">减免价格:<input type="text" style="width: 10%;" class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)" onblur="this.v();" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]"><br/>';
 					$("#pzhtml").append(html);
 					index+=1;
 					})

@@ -182,7 +182,7 @@
 
     <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
         <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}【@endif</strong></span>{!!$goods->goods_msg!!}</h2>
+        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span>{!!$goods->goods_msg!!}</h2>
             </div>
 </div>
 <!--product info end-->
@@ -416,7 +416,7 @@ $('#pay').bind('click',function(){
         })
    })
 
-    console.log(dataObj);
+   console.log(dataObj);
     var fromArr2=$("form#save").serializeArray();
     $.each(fromArr2,function(i,val){
         datasObj[val.name]=val.value;
@@ -426,22 +426,27 @@ $('#pay').bind('click',function(){
     console.log('zuihou',datasObj);
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('詳細地址不能為空！');
+        layer.msg('The detailed address can not be empty.');
         return false;
     }
     if(datasObj.city==null||datasObj.city==''){
-        layer.msg('請選擇地區信息！');
+        layer.msg('Please select area information.');
         return false;
     }
     if(datasObj.firstname==null||datasObj.firstname==''){
-        layer.msg('請填寫收貨人姓名');
+        layer.msg("Please fill in the consignee's name.");
         return false;
     }
     if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg('請填寫收貨人手機號碼');
+        layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    layer.msg("訂單提交中，請稍等");
+    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('Please fill in the valid cell phone number.');
+        return false;
+    }
+    layer.msg("Please wait for the order submitted");
 
     if(issubmit){
         issubmit=false;
@@ -458,14 +463,13 @@ $('#pay').bind('click',function(){
           
                     
            error: function(data) {
-               layer.msg('訂單提交失敗，請檢查網絡情況');
+               layer.msg('The order submission failed. Please check the network condition.');
            }
         }) ; 
         
     }else{
-        layer.msg('訂單已提交，不要重複提交');
+        layer.msg('Orders have been submitted, not submitted repeatedly.');
     }
-   
     
             //记录购买事件
             

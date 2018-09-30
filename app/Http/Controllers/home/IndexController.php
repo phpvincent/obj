@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\home;
 
+use App\currency_type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\goods;
@@ -15,8 +16,19 @@ use App\order;
 use App\vis;
 use DB;
 use App\channel\cuxiaoSDK;
+use Srmklive\PayPal\Services\ExpressCheckout;
+
 class IndexController extends Controller
 {
+    protected $provider;
+
+    /** 构造方法，初始化参数
+     * IndexController constructor.
+     */
+    public function __construct() {
+        $this->provider = new ExpressCheckout();
+    }
+
     /** 前台首页
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -89,7 +101,11 @@ class IndexController extends Controller
             return view('home.zhongdong.zhongdong')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '3':
-            return view('home.MaLaiXiYa.mlxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            return  view('home.MaLaiXiYa.mlxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '4':
+            return view('home.TaiGuo.taiguo')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
             default:
                 # code...
                 break;
@@ -191,6 +207,9 @@ class IndexController extends Controller
         if($blade_type==3){
             return view('home.MaLaiXiYa.mlxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
+        if($blade_type==4){
+            return view('home.TaiGuo.taiguoBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -201,7 +220,7 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3){ 
+        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$special->isEmpty()){
@@ -394,7 +413,7 @@ class IndexController extends Controller
          $order_id=$order->order_id;
           $arrs=[];
          foreach($request->input('goodsAtt') as $val){
-             $ostr='';
+        // $ostr='';
              foreach($val as $key=> $v){
                 if(isset($arrs[$key])){
                       $arrs[$key].=$v.',';
@@ -462,6 +481,9 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 3){
             return view('home.MaLaiXiYa.mlxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
         }
+        if($goods->goods_blade_type == 4){
+            return view('home.TaiGuo.taiguoEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+        }
         return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
@@ -479,6 +501,12 @@ class IndexController extends Controller
             if($goods_blade_type == 2){
                 return view('home.zhongdong.zhSend');                
             }
+            if($goods_blade_type == 3){
+                return view('home.MaLaiXiYa.mlxySend');                
+            }
+            if($goods_blade_type == 4){
+                return view('home.TaiGuo.taiguoSend');                
+            }
         }
         return view('home.send');
     }
@@ -495,6 +523,12 @@ class IndexController extends Controller
         }
         if($goods->goods_blade_type == 2){
             return view('home.zhongdong.zdSendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 3){
+            return view('home.MaLaiXiYa.mlxySendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 4){
+            return view('home.TaiGuo.taiguoSendmsg')->with(compact('order','goods'));
         }
         return view('home.sendmsg')->with(compact('order','goods'));
     }
@@ -560,5 +594,232 @@ class IndexController extends Controller
     $business_form->business_form_phone=$data['phone'];
     $business_form->business_form_username=$data['name'];
     $business_form->save();
+   }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+   public function paypal_pay(Request $request){
+        //判断是否为预览中的测试下单
+       if(\Session::get('test_id',0)!=0){
+           return  response()->json(['err'=>0,'url'=>"/pay"]);
+       }
+       $ip=$request->getClientIp();
+       $order=new order();
+       $order->order_single_id='NR'.makeSingleOrder();
+       $order->order_ip=$ip;
+       $order->order_time=date('Y-m-d H:i:s',time());
+       $order_goods_id=url::get_goods($request);
+       if($order_goods_id==false){
+           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+       }
+       $order->order_goods_id=$order_goods_id;
+       $goods=goods::where('goods_id',$order_goods_id)->first();
+       $urls=url::where('url_goods_id',$goods->goods_id)->first();
+       if($urls==null){
+           $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+       }else{
+           $url=$urls->url_url;
+       }
+       if($url==null){
+           return false;
+       }
+       $cuxiaoSDK=new cuxiaoSDK($goods);
+       $price=$cuxiaoSDK->get_price($request->input('specNumber'));
+
+       //判断金额合法性
+       if($price==false||$price<=0){
+           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+       }
+       $order_Array = [];
+       //设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
+       //ip
+       $goods_ip = \App\order::where('order_ip',$ip)->get();
+       if(!$goods_ip->isEmpty()){
+           array_push($order_Array,'1');
+           foreach ($goods_ip as $item)
+           {
+               if($item->order_repeat_field){
+                   $order_repeat = explode(',',$item->order_repeat_field);
+                   if(!in_array('1',$order_repeat)){
+                       array_push($order_repeat,'1');
+                       $order_repeat_array = implode($order_repeat);
+                       $item->order_repeat_field = trim($order_repeat_array);
+                       $item->save();
+                   }
+               }else{
+                   $item->order_repeat_field = '1';
+                   $item->save();
+               }
+           }
+       }
+
+       //姓名
+       $orders_name = \App\order::where('order_name',$request->input('firstname'))->get();
+       if(!$orders_name->isEmpty()){
+           array_push($order_Array,'2');
+           foreach ($orders_name as $item)
+           {
+               if($item->order_repeat_field){
+                   $order_repeat = explode(',',$item->order_repeat_field);
+                   if(!in_array('2',$order_repeat)){
+                       array_push($order_repeat,'2');
+                       $order_repeat_array = implode(',',$order_repeat);
+                       $item->order_repeat_field = trim($order_repeat_array);
+                       $item->save();
+                   }
+               }else{
+                   $item->order_repeat_field = '2';
+                   $item->save();
+               }
+           }
+       }
+
+       //手机号
+       $orders_tel = \App\order::where('order_tel',$request->input('telephone'))->get();
+       if(!$orders_tel->isEmpty()){
+           array_push($order_Array,'3');
+           foreach ($orders_tel as $item)
+           {
+               if($item->order_repeat_field){
+                   $order_repeat = explode(',',$item->order_repeat_field);
+                   if(!in_array('3',$order_repeat)){
+                       array_push($order_repeat,'3');
+                       $order_repeat_array = implode(',',$order_repeat);
+                       $item->order_repeat_field = trim($order_repeat_array);
+                       $item->save();
+                   }
+               }else{
+                   $item->order_repeat_field = '3';
+                   $item->save();
+               }
+           }
+       }
+
+       if(!empty($order_Array)){
+           sort($order_Array);
+           $order_Array = implode(',',$order_Array);
+           $order->order_repeat_field=$order_Array;
+       }
+       //币种 以及  汇率
+       $order->order_currency_id=$goods->goods_currency_id;
+       $order->order_price=$price;
+       $order_num=$request->input('specNumber');
+       //判断商品数合法性
+       if($order_num<=0){
+           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+       }
+       $order->order_type= 9;//付费状态
+       $order->order_pay_type= 1;//paypal在线支付
+       $order->order_num=$order_num;
+       $cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
+       $cuxiao_msg=$cuxiao_msg!=null?$cuxiao_msg->cuxiao_msg:"暂无促销信息";
+       $order->order_cuxiao_id=$cuxiao_msg;
+       $order->order_remark=$request->input('notes');
+       $order->order_name=$request->input('firstname');
+       $order->order_tel=$request->input('telephone');
+       $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
+       $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
+       $order->order_add=$request->input('address1');
+       $order->order_email=$request->input('email');
+       $msg=$order->save();
+       if($request->has('goodsAtt')){
+           $order_id=$order->order_id;
+           $arrs=[];
+           foreach($request->input('goodsAtt') as $val){
+               foreach($val as $key=> $v){
+                   if(isset($arrs[$key])){
+                       $arrs[$key].=$v.',';
+                   }else{
+                       $arrs[$key]=$v.',';
+                   }
+               }
+           }
+           foreach($arrs as $k => $v){
+               $arrs[$k]=rtrim($v,',');
+               $order_config=new \App\order_config;
+               $order_config->order_config=$arrs[$k];
+               $order_config->order_primary_id=$order_id;
+               $order_config->save();
+           }
+       }
+       $this->paypal($order->order_id);
+   }
+
+    /** paypal支付
+     * @param $order_id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
+   private function paypal($order_id)
+   {
+           $data = $this->getCart($order_id);
+           $recurring  = false;
+           // TODO 解决币种问题
+           $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
+           $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($data);
+
+           if(!in_array(currency_type::$CURRENCY_TYPE,$currency->currency_english_name)){
+               $this->provider->setCurrency('USD')->setExpressCheckout($data);
+           }
+
+           // send a request to paypal
+           // paypal should respond with an array of data
+           // the array should contain a link to paypal's payment system
+           $response = $this->provider->setExpressCheckout($data, $recurring);
+           // if there is no link redirect back with error message
+           if (!$response['paypal_link']) {
+               return redirect('/cart')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
+               // For the actual error message dump out $response and see what's in there
+           }
+
+           // redirect to paypal
+           // after payment is done paypal
+           // will redirect us back to $this->expressCheckoutSuccess
+           return redirect($response['paypal_link']);
+   }
+
+    /** 拼接订单参数
+     * @param $order_id
+     * @return mixed
+     */
+   private function getCart($order_id)
+   {
+       $order = order::where('order_id',$order_id)->first();
+       $data['items'] = [
+           [
+               'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
+               'price' => $order->order_price,
+               'qty' => 1,
+           ],
+       ];
+       // return url is the url where PayPal returns after user confirmed the payment
+       $data['return_url'] = url('/paypal_success');
+       // every invoice id must be unique, else you'll get an error from paypal
+       $data['invoice_id'] = config('paypal.invoice_prefix') . '_' . $order_id;
+       $data['invoice_description'] = "Order #" . $order_id . " Invoice";
+       $data['cancel_url'] = url('/paypal_send?order_id='.$order_id);
+       // total is calculated by multiplying price with quantity of all cart items and then adding them up
+       // in this case total is 20 because Product 1 costs 10 (price 10 * quantity 1) and Product 2 costs 10 (price 5 * quantity 2)
+       $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
+       $data['total'] = $order->order_price;
+
+       if(!in_array(currency_type::$CURRENCY_TYPE,$currency->currency_english_name)){
+           $data['total'] = $order->order_price*$currency->exchange_rate*0.1456;
+       }
+       return $data;
+   }
+
+    /** 放弃订单
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+   public function paypal_send()
+   {
+        $order_id = $_GET['order_id'];
+        $order = order::where('order_id',$order_id)->delete();
+        if($order){
+            return redirect('/pay');
+        }
    }
 }

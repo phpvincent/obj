@@ -158,13 +158,13 @@
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">Free shipping</span>
+        <span class="flag" style="font-size: 12px;">จัดส่งฟรี</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
+        <span class="flag" style="font-size: 12px;">เก็บเงินปลายทาง</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">7 days appreciation period</span>
+        <span class="flag" style="font-size: 12px;background:#000;">รับประกันคืนสินค้าภายใน7วันหากไม่พอใจ</span>
     @endif
 </div>
 @endif
@@ -173,17 +173,17 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">Black Cat</span>
+   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">การจัดส่งทางkerry</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text">Sold:<span>{{$goods->goods_num}}</span></div>
+    <div class="text">จำนวนที่เหลือ:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font>End:</font>
+        <font>ระยะเวลาที่เหลือของโปรโมชั่น:</font>
     </div>
 </div>
 @endif
@@ -203,19 +203,19 @@
     @if(in_array('introduce',$templets))
     <li>
         <span href="#detial-context" class="scrollBar" scroll-y="0">
-        Overview              </span>
+        รายละเอียดสินค้า              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
         <span href="#detial-params" class="scrollBar" scroll-y="50">
-        Details               </span>
+        ขนาดสินค้า               </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        Reviews ({{$goods->goods_comment_num}}+)
+        รีวิว ({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
@@ -247,8 +247,7 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>
-                        Recent Reviews           </h4>
+                        <h4>ความคิดเห็นล่าสุด</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -283,7 +282,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else Leave us a message   @endif        </a>
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else แสดงความคิดเห็น   @endif        </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -296,30 +295,29 @@
     <tbody>
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">นโยบายการเปลี่ยนคืนสินค้า</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-                1.Free shipping+Cash on delivery+Items can be returned freely within 7 days after delivery <br>
-                2.If you have any questions, please contact us via email(
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        )  with name, contact info. and order No.. We will deal it ASAP.</p>
+            สินค้าที่ท่านซื้อสามารถคืนหรือเปลี่ยนภายใน 7 วันนับตั้งแต่ได้รับสินค้า กรุณาติดต่อฝ่ายบริการลูกค้าของเราภายในระยะเวลาที่กำหนด ทางเราจะรีบติดต่อท่านกลับไปเร็วที่สุด
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">ติดต่อเรา</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
-                <br>Email:
+                <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                <br>Email: -->
 
                                 <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                 <br>
-                If you have any questions please call us or contact us online. Thanks for your cooperation.</p>
+                
+            หากมีข้อสงสัยใดๆหลังได้รับสินค้า ท่านสามารถติดต่อฝ่ายบริการลูกค้าออนไลน์หรือส่งอีเมล์มาท
+            </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
@@ -400,7 +398,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Order<br>Enquiry</span>
+        <span style="line-height:14px;">การปรึกษาใบสั่ง<br>สินค้าออนไลน์</span>
       </a>
     </span>
     @endif
@@ -408,7 +406,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>Buy Now</span>
+			<span>ซื้อทันที</span>
 		</a>
 	</span>
     @endif
@@ -440,7 +438,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                Online message                </div>
+                    ฝากข้อความออนไลน์                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -450,10 +448,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Name:
+                                    ชื่อ:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
+                                    <input type="text" placeholder="ชื่อ" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -462,17 +460,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Phone:
+                                    โทรศัพท์:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Phone" class="input01" name="phone"
+                                    <input type="text" placeholder="โทรศัพท์" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                evaluate:
+                                ระดับความพึงพอใจ:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -497,7 +495,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                leave word:
+                                ฝากข้อความไว้:
                                 </td>
                                 <td class="table_cell">
                                     <textarea placeholder="Online message " name="content" class="textarea_style">
@@ -507,7 +505,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="Submit" style="color:white">
+                                    value="ส่งคำประเมิน" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -700,11 +698,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("Name cannot be empty");
+                $2.toast("ชื่อ");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("Mobile number cannot be empty");
+                $2.toast("โทรศัพท์");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -727,11 +725,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("Thanks For Your Review！");
+                    $2.toast("ขอบคุณสำหรับความคิดเห็นของคุณ !");
                 }
                 else
                 {
-                    $2.toast("Submission fails！");
+                    $2.toast("การส่งล้มเหลว！");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);
