@@ -830,7 +830,7 @@ class IndexController extends Controller
    public function paypal_send()
    {
        $order_id = $_GET['order_id'];
-       $msg=$request->has('token');
+       $msg=isset($_GET['token']);
        if(!$msg){
         $order = order::where('order_id', $order_id)->delete();
          return redirect('/pay');
@@ -879,7 +879,7 @@ class IndexController extends Controller
                 }catch(Exception $e){
                 }
             return redirect('/endfail?type=0');
-        }dd($response);
+        }
         $status = $payment_status['PAYMENTINFO_0_PAYMENTSTATUS'];//payal反馈订单状态码
         $order = \App\order::where('order_id',$invoice_id)->first();//获取系统中订单信息
         $paypal=new \App\paypal();//记录paypal信息
