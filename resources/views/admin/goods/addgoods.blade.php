@@ -389,7 +389,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="clearfix templet_show" ">
+				<div class="clearfix templet_show">
 				<label class="form-label col-xs-4 col-sm-2">封面视频(仅限mp4/mpeg格式,<span style="color:red;">不需要可留空</span>)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="file" id="goods_fm_video" class="input-text" value="" placeholder="" id="goods_fm_video" name="goods_fm_video" accept="audio/mp4,video/mp4,video/mpeg,video/mpeg">
@@ -432,6 +432,26 @@
 				</div>
 			</div>
 		</div>
+		{{--在线支付--}}
+		{{--<div class="row cl">--}}
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2">在线支付：</label>--}}
+				{{--<div class="formControls col-xs-8 col-sm-9 skin-minimal">--}}
+					{{--<div class="check-box">--}}
+						{{--是 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1"  value="1">--}}
+						{{--否 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1" checked="checked" value="0">--}}
+						{{--<label for="checkbox-pinglun">&nbsp;</label>--}}
+					{{--</div>--}}
+				{{--</div>--}}
+			{{--</div>--}}
+			{{--<div class="clearfix templet_show" style="display: none;">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择在线支付方式：</label>--}}
+				{{--<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">--}}
+					{{--<label for="pay_type">paypal支付</label>--}}
+					{{--<input type="checkbox" id="pay_type" name="pay_type[]" value="1">--}}
+				{{--</div>--}}
+			{{--</div>--}}
+		{{--</div>--}}
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 
@@ -467,6 +487,8 @@
 
 
 	(function(){
+
+
 		
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
@@ -714,7 +736,9 @@
         goods_real_name:{
             required:true,
         },
-
+        pay_type:{
+            required:true,
+        },
         goods_real_price:{
             required:true,
             number:true,
@@ -787,6 +811,27 @@
         }
     }
 
+    //加载完成事件
+    $(function(){
+        //价格
+        price();
+        //倒计时
+        count_down();
+        //促销活动模块
+        promotion();
+        //中间导航
+        center_nav();
+        //轮播导航
+        broadcast();
+        //评论数
+        pinglun();
+        //用户帮助
+        uesr_help();
+        //订单查询
+        order_nav();
+        //在线支付
+        pay_type();
+    });
     //促销活动模块
     function  promotion(){
         if($('input[name="promotion_1"]:checked').val()==1){
@@ -795,6 +840,19 @@
             });
         }else{
             $('#goods_cuxiao_name').rules('add', {
+                required:false
+            });
+        }
+    }
+
+    //在线支付
+    function  pay_type(){
+        if($('input[name="pay_type_1"]:checked').val()==1){
+            $('#pay_type').rules('add', {
+                required:true
+            });
+        }else{
+            $('#pay_type').rules('add', {
                 required:false
             });
         }
@@ -903,7 +961,17 @@
         uesr_help();
     });
 
+    //单击事件触发（在线支付）
+    $('.pay_type_1').on('click',function(){
+       pay_type();
+    });
+
     //单击事件触发（轮播）
+    $('.broadcast_1').on('click',function(){
+        broadcast();
+    });
+
+    //在线支付
     $('.broadcast_1').on('click',function(){
         broadcast();
     });

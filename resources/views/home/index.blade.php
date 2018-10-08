@@ -41,8 +41,9 @@
         <script type="text/javascript" src="/js/resizeDIV.js"></script>
        
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
+        
         <script>
-        jQuery(function(){setFrom();});
+        jQuery(function(){setFrom();});  
         </script>
 
         <!-- Facebook Pixel Code -->
@@ -200,11 +201,7 @@
 </div>
 @endif
 
-<style>
-    .detail-bars li {
-        width: {{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '32%') }} !important;
-    }
-</style>
+
 {{--中部导航--}}
 @if(in_array('center_nav',$templets))
 <ul class="detail-bars">
@@ -1005,5 +1002,13 @@ jQuery('input[name=pay_type]').change(function(){
     }
 });
 </script>
+<script>
+   $(document).ready(function(){$("#divVideo").css("height","inherit")}) //改变轮播图video高度；
+</script>
+<style>
+    .detail-bars li {
+        width: {{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '32%') }} !important;
+    }
+</style>
 <!-- <script language="javascript" src="/js/LsJS.aspx"></script> --></body>
 </html>

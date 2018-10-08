@@ -134,6 +134,15 @@
 					</select>
 					</span> </div>
 			</div>
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择支付方式：</label>--}}
+				{{--<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">--}}
+					{{--<label for="pay_type">货到付款</label>--}}
+					{{--<input type="checkbox" {{in_array('0',$goods['goods_pay_type']) ? 'checked="checked"' : ''}} id="pay_type" name="pay_type[]" value="0">--}}
+					{{--<label for="uesr_help">paypal在线支付</label>--}}
+					{{--<input type="checkbox" {{in_array('1',$goods['goods_pay_type']) ? 'checked="checked"' : ''}} id="pay_type" name="pay_type[]" value="1">--}}
+				{{--</div>--}}
+			{{--</div>--}}
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>
 				<div class="formControls col-xs-8 col-sm-9">
@@ -442,7 +451,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="clearfix templet_show" ">
+			<div class="clearfix templet_show">
 				<label class="form-label col-xs-4 col-sm-2">封面视频(仅限mp4/mpeg格式)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					@if($goods->goods_fm_video!=''||$goods->goods_fm_video!=null)<video src="/{{$goods->goods_fm_video}}"	id="fm_video_show" 	controls="" preload="none" width="420" height="280" data-setup="{}"></video>
@@ -474,6 +483,26 @@
 				</div>
 			</div>
 		</div>
+		{{--在线支付--}}
+		{{--<div class="row cl">--}}
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2">在线支付：</label>--}}
+				{{--<div class="formControls col-xs-8 col-sm-9 skin-minimal">--}}
+					{{--<div class="check-box">--}}
+						{{--是 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1"  @if(in_array('pay_type',$goods_templet)) checked="checked"  @endif   value="1">--}}
+						{{--否 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1"  @if(!in_array('pay_type',$goods_templet)) checked="checked" @endif  value="0">--}}
+						{{--<label for="checkbox-pinglun">&nbsp;</label>--}}
+					{{--</div>--}}
+				{{--</div>--}}
+			{{--</div>--}}
+			{{--<div class="clearfix templet_show" style="display: {{in_array('pay_type',$goods_templet) ? 'block' : 'none'}}">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择在线支付方式：</label>--}}
+				{{--<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">--}}
+					{{--<label for="pay_type">paypal支付</label>--}}
+					{{--<input type="checkbox" id="pay_type" @if(in_array('1',$goods['goods_pay_type'])) checked="checked"  @endif  name="pay_type[]" value="1">--}}
+				{{--</div>--}}
+			{{--</div>--}}
+		{{--</div>--}}
 
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
@@ -567,6 +596,8 @@
 		        uesr_help();
 				//订单查询
 		        order_nav();
+        		//在线支付
+        		pay_type();
 	}
 
 	//简选模板
@@ -718,6 +749,18 @@
         }
 	}
 
+    function pay_type(){
+        if($('input[name="pay_type_1"]:checked').val()==1){
+            $('#pay_type').rules('add', {
+                required:true
+            });
+        }else{
+            $('#pay_type').rules('add', {
+                required:false
+            });
+        }
+	}
+
 	//用户帮助
 	function uesr_help() {
         if($('input[name="uesr_help_1"]:checked').val()==1){
@@ -731,6 +774,7 @@
         }
     }
 
+
 	//订单导航
 	function order_nav(){
         if($('input[name="order_nav_1"]:checked').val()==1){
@@ -743,8 +787,15 @@
             });
         }
 	}
+	// function pay_type(){
+    //     $('#pay_type').rules('add', {
+    //         required:true
+    //     });
+	// }
+	//
+    // $(".error").hide(400)
 
-	//评论数验证
+    //评论数验证
 	function pinglun(){
         if($(".pinglun").is(":checked")){
             $('#goods_comment_num').rules('add', {
@@ -809,8 +860,8 @@
         uesr_help();
 		//订单查询
         order_nav();
-		//视频
-        // video();
+		//在线支付
+        pay_type();
 	});
 
 	//单击事件触发（价格）
@@ -851,6 +902,11 @@
     //单击事件触发（订单查询）
     $('.order_nav_1').on('click',function(){
         order_nav();
+    });
+
+    //单击事件触发（在线支付）
+    $('.pay_type_1').on('click',function(){
+        pay_type();
     });
 
     // //单击事件触发（视频）

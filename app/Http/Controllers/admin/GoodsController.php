@@ -257,13 +257,13 @@ class GoodsController extends Controller
        }
 
        $goods=new \App\goods();
-         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
-         if($isset!=null){
-                  return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
-         }
+       $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
+       if($isset!=null){
+              return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
+       }
 
-         $templets = []; //首页显示内容
-         $array = [];    //模块显示数组
+       $templets = []; //首页显示内容
+       $array = [];    //模块显示数组
 
 
        //倒计时模块
@@ -308,7 +308,7 @@ class GoodsController extends Controller
                  $msg=$file->move($filedir,$newfilename);
                  $goods->goods_fm_video=$filedir.$newfilename;
              }
-           }
+         }
 
          //是否附带视频
          if($data['is_video'] == 1) {
@@ -341,6 +341,17 @@ class GoodsController extends Controller
                 $goods->goods_comment_num=$data['goods_comment_num'] ? $data['goods_comment_num'] : 0 ;
             }
         }
+
+
+       //在线支付
+//       if($data['pay_type_1'] == 1) {
+//           array_push($array,'pay_type');
+//           $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
+//           $goods->goods_pay_type='0,'.implode(',',$pay_type);
+//       }else {
+//           $goods->goods_pay_type='0';
+//       }
+
          $goods->goods_name=$data['goods_name'];
          $goods->goods_currency_id=$data['currency_type'];
          $goods->goods_real_name=$data['goods_real_name'];
@@ -356,6 +367,7 @@ class GoodsController extends Controller
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
+         $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
          if(!isset($data['goods_kind'])||$data['goods_kind']==null||$data['goods_kind']==''){
              return response()->json(['err' => 0, 'str' => '产品信息错误！']);
          }
@@ -366,7 +378,6 @@ class GoodsController extends Controller
          }else{
              return response()->json(['err' => 0, 'str' => '富文本商品描述不能为空！']);
          }
-//         $goods->goods_des_html=isset($data['editor1'])?$data['editor1']:"";
 
         $msg2=$goods->save();
         $goods_id=$goods->goods_id;
@@ -563,6 +574,7 @@ class GoodsController extends Controller
    	 	$id=$request->input('id');
    	 	$goods=goods::where('goods_id',$id)->first();
    	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
+        $goods['goods_pay_type'] = explode(',',$goods['goods_pay_type']);
          $type=\App\goods_type::get();
      
         $goods_config=\App\goods_config::where('goods_primary_id',$id)->get();
@@ -807,149 +819,158 @@ class GoodsController extends Controller
            $goods->goods_comment_num = 0;
        }
 
+       //在线支付
+//       if($data['pay_type_1'] == 1) {
+//           array_push($array,'pay_type');
+//           $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
+//           $goods->goods_pay_type='0,'.implode(',',$pay_type);
+//       }else {
+//           $goods->goods_pay_type='0';
+//       }
 
-           //判断是否触发核审机制
-           if (\App\goods_check::first()['goods_is_check'] == 0&&Auth::user()->is_root=='0') {
-               $recheck = $request->has('recheck') ? $request->input('recheck') : 0;
-               if ($request->input('recheck') != 1) {//核审人员修改单品不做记录
-                   //判断是否触发修改次数上限
-                   $maxcheck = \App\goods_check::first()['goods_check_max'];
-                   if ($goods->goods_check_num >= $maxcheck) {
-                       $old_time = $goods->goods_check_time;
-                       $o_date = strtotime($old_time);
-                       $o_date = date('Y-m-d', $o_date);
-                       $n_date = date('Y-m-d');
-                       if ($o_date == $n_date) {
-                           return response()->json(['err' => 0, 'str' => '该单品今日已达到最高核审次数上限，无法再次修改！请联系管理员处理！']);
-                       } else {
-                           $goods->goods_check_time = date('Y-m-d H:i:s', time());
-                           $goods->goods_check_num = 1;
-                       }
-                   }
-                   $goods->goods_heshen = '0';
+       //判断是否触发核审机制
+       if (\App\goods_check::first()['goods_is_check'] == 0&&Auth::user()->is_root=='0') {
+           $recheck = $request->has('recheck') ? $request->input('recheck') : 0;
+           if ($request->input('recheck') != 1) {//核审人员修改单品不做记录
+               //判断是否触发修改次数上限
+               $maxcheck = \App\goods_check::first()['goods_check_max'];
+               if ($goods->goods_check_num >= $maxcheck) {
                    $old_time = $goods->goods_check_time;
-                   if ($old_time == null) {
+                   $o_date = strtotime($old_time);
+                   $o_date = date('Y-m-d', $o_date);
+                   $n_date = date('Y-m-d');
+                   if ($o_date == $n_date) {
+                       return response()->json(['err' => 0, 'str' => '该单品今日已达到最高核审次数上限，无法再次修改！请联系管理员处理！']);
+                   } else {
                        $goods->goods_check_time = date('Y-m-d H:i:s', time());
                        $goods->goods_check_num = 1;
-                   } elseif ($old_time != null) {
-                       //判断上次核审时间是否为今天
-                       $o_date = strtotime($old_time);
-                       $o_date = date('Y-m-d', $o_date);
-                       $n_date = date('Y-m-d');
-                       if ($o_date == $n_date) {
-                           $goods->goods_check_time = date('Y-m-d H:i:s', time());
-                           $goods->goods_check_num += 1;
-                       } else {
-                           $goods->goods_check_time = date('Y-m-d H:i:s', time());
-                           $goods->goods_check_num = 1;
-                       }
                    }
                }
-           }else{
-                  $goods->goods_heshen='1';
-                  $goods->goods_check_time=date('Y-m-d H:i:s',time());
-                  $goods->goods_check_num=0;
-           }
-
-           $goods->goods_name = $data['goods_name'];
-           $goods->goods_num=$data['goods_num'];
-           $goods->goods_currency_id=$data['currency_type'];
-           $goods->goods_real_name = $data['goods_real_name'];
-           $goods->goods_real_price = $data['goods_real_price'];
-           $goods->goods_price = $data['goods_price'];
-           $goods->goods_blade_type = $data['goods_blade_type'];
-           $goods->goods_buy_url = $request->has('goods_buy_url') ? $data['goods_buy_url'] : null;
-           $goods->goods_buy_msg = $request->has('goods_buy_msg') ? $data['goods_buy_msg'] : null;
-           $goods->goods_pix = $data['goods_pix'];
-           $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
-           $goods->goods_type = $data['goods_type'];
-//           $goods->goods_up_time = date('Y-m-d h:i:s', time());
-           $goods->goods_type_html = isset($data['editor2']) ? $data['editor2'] : "";
-           //商品描述
-           if (isset($data['editor1'])) {
-               $goods->goods_des_html = $data['editor1'];
-           } else {
-               return response()->json(['err' => 0, 'str' => '富文本商品描述不能为空！']);
-           }
-           $sdk = new cuxiaoSDK($goods);
-           $msg1 = $sdk->saveupdate($request);
-           $goods->goods_cuxiao_type = $data['goods_cuxiao_type'];
-           $msg2 = $goods->save();
-
-           //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
-           if ($data['price_1'] == 1) {
-               array_push($array, 'price');
-               if(isset($data['price'])){
-                   $array = array_merge($array, $data['price']);
-               }
-           }
-
-           //2.评价模块
-           if($data['commit_1'] == 1){
-               array_push($array,'commit');
-           }
-
-           //3.用户帮助模块
-           if ($data['user_help_1'] == 1) {
-               array_push($array, 'user_help');
-               $array = array_merge($array, $data['user_help']);
-           }
-
-           //4.物流公司
-           if ($data['express_1'] == 1) {
-               array_push($array, 'express');
-           }
-
-           //5.底部导航模块
-           if ($data['order_nav_1'] == 1) {
-               array_push($array, 'order_nav');
-               $array = array_merge($array, $data['order_nav']);
-           }
-
-           //删除之前的页面显示
-           \App\goods_templet::where('goods_id', $data['goods_id'])->delete();
-
-           //插入显示数据
-           if (!empty($array)) {
-               $datas = \App\templet_show::whereIn('templet_english_name', $array)->select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
-               foreach ($datas as &$val) {
-                   $val['goods_id'] = $data['goods_id'];
-               }
-               $bool = \App\goods_templet::insert($datas);
-               if (!$bool) {
-                   return response()->json(['err' => 0, 'str' => '修改失败！']);
-               }
-           }
-
-           //新增或修改商品属性名和属性值
-           $goods_attr = $data['goods_config_name'];
-           if (!empty($goods_attr)) {
-               foreach ($goods_attr as $item) {
-                   if (isset($item['id'])) {
-                       $goods_config = \App\goods_config::where('goods_config_id', $item['id'])->first();
+               $goods->goods_heshen = '0';
+               $old_time = $goods->goods_check_time;
+               if ($old_time == null) {
+                   $goods->goods_check_time = date('Y-m-d H:i:s', time());
+                   $goods->goods_check_num = 1;
+               } elseif ($old_time != null) {
+                   //判断上次核审时间是否为今天
+                   $o_date = strtotime($old_time);
+                   $o_date = date('Y-m-d', $o_date);
+                   $n_date = date('Y-m-d');
+                   if ($o_date == $n_date) {
+                       $goods->goods_check_time = date('Y-m-d H:i:s', time());
+                       $goods->goods_check_num += 1;
                    } else {
-                       $goods_config = new \App\goods_config();
-                   }
-                   $goods_config->goods_config_msg = $item['goods_config_name'];
-                   $goods_config->goods_config_type = 0;
-                   $goods_config->goods_primary_id = $data['goods_id'];
-                   $goods_config->is_img = 0;
-                   $goods_config->save();
-                   $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $data['goods_id']);
-                   if ($con_val === false) {
-                       return response()->json(['err' => 0, 'str' => '保存失败！']);
+                       $goods->goods_check_time = date('Y-m-d H:i:s', time());
+                       $goods->goods_check_num = 1;
                    }
                }
            }
-           if ($msg1 && $msg2) {
-               if (\App\goods_check::first()['goods_is_check'] == 0) {
-                   return response()->json(['err' => 1, 'str' => '保存成功！请留意核审状态！']);
+       }else{
+              $goods->goods_heshen='1';
+              $goods->goods_check_time=date('Y-m-d H:i:s',time());
+              $goods->goods_check_num=0;
+       }
+
+       $goods->goods_name = $data['goods_name'];
+       $goods->goods_num=$data['goods_num'];
+       $goods->goods_currency_id=$data['currency_type'];
+       $goods->goods_real_name = $data['goods_real_name'];
+       $goods->goods_real_price = $data['goods_real_price'];
+       $goods->goods_price = $data['goods_price'];
+       $goods->goods_blade_type = $data['goods_blade_type'];
+       $goods->goods_buy_url = $request->has('goods_buy_url') ? $data['goods_buy_url'] : null;
+       $goods->goods_buy_msg = $request->has('goods_buy_msg') ? $data['goods_buy_msg'] : null;
+       $goods->goods_pix = $data['goods_pix'];
+       $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
+       $goods->goods_type = $data['goods_type'];
+//           $goods->goods_pay_type=implode(',',$request->input('pay_type'));
+//           $goods->goods_up_time = date('Y-m-d h:i:s', time());
+       $goods->goods_type_html = isset($data['editor2']) ? $data['editor2'] : "";
+       //商品描述
+       if (isset($data['editor1'])) {
+           $goods->goods_des_html = $data['editor1'];
+       } else {
+           return response()->json(['err' => 0, 'str' => '富文本商品描述不能为空！']);
+       }
+       $sdk = new cuxiaoSDK($goods);
+       $msg1 = $sdk->saveupdate($request);
+       $goods->goods_cuxiao_type = $data['goods_cuxiao_type'];
+       $msg2 = $goods->save();
+
+       //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
+       if ($data['price_1'] == 1) {
+           array_push($array, 'price');
+           if(isset($data['price'])){
+               $array = array_merge($array, $data['price']);
+           }
+       }
+
+       //2.评价模块
+       if($data['commit_1'] == 1){
+           array_push($array,'commit');
+       }
+
+       //3.用户帮助模块
+       if ($data['user_help_1'] == 1) {
+           array_push($array, 'user_help');
+           $array = array_merge($array, $data['user_help']);
+       }
+
+       //4.物流公司
+       if ($data['express_1'] == 1) {
+           array_push($array, 'express');
+       }
+
+       //5.底部导航模块
+       if ($data['order_nav_1'] == 1) {
+           array_push($array, 'order_nav');
+           $array = array_merge($array, $data['order_nav']);
+       }
+
+       //删除之前的页面显示
+       \App\goods_templet::where('goods_id', $data['goods_id'])->delete();
+
+       //插入显示数据
+       if (!empty($array)) {
+           $datas = \App\templet_show::whereIn('templet_english_name', $array)->select(DB::raw('templet_show_id AS templet_id'))->get()->toArray();
+           foreach ($datas as &$val) {
+               $val['goods_id'] = $data['goods_id'];
+           }
+           $bool = \App\goods_templet::insert($datas);
+           if (!$bool) {
+               return response()->json(['err' => 0, 'str' => '修改失败！']);
+           }
+       }
+
+       //新增或修改商品属性名和属性值
+       $goods_attr = $data['goods_config_name'];
+       if (!empty($goods_attr)) {
+           foreach ($goods_attr as $item) {
+               if (isset($item['id'])) {
+                   $goods_config = \App\goods_config::where('goods_config_id', $item['id'])->first();
                } else {
-                   return response()->json(['err' => 1, 'str' => '保存成功！']);
+                   $goods_config = new \App\goods_config();
                }
-           } else {
-               return response()->json(['err' => 0, 'str' => '保存失败！']);
+               $goods_config->goods_config_msg = $item['goods_config_name'];
+               $goods_config->goods_config_type = 0;
+               $goods_config->goods_primary_id = $data['goods_id'];
+               $goods_config->is_img = 0;
+               $goods_config->save();
+               $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $data['goods_id']);
+               if ($con_val === false) {
+                   return response()->json(['err' => 0, 'str' => '保存失败！']);
+               }
            }
+       }
+       if ($msg1 && $msg2) {
+           if (\App\goods_check::first()['goods_is_check'] == 0) {
+               return response()->json(['err' => 1, 'str' => '保存成功！请留意核审状态！']);
+           } else {
+               return response()->json(['err' => 1, 'str' => '保存成功！']);
+           }
+       } else {
+           return response()->json(['err' => 0, 'str' => '保存失败！']);
+       }
    }
    public function getcuxiaohtml(Request $request){
    	 $sdk=cuxiaoSDK::getcuxiaohtml($request->input('id'),$request->input('goods_id'));

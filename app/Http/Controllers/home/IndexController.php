@@ -744,7 +744,8 @@ class IndexController extends Controller
                $order_config->save();
            }
        }
-       $this->paypal($order->order_id);
+       $link=$this->paypal($order->order_id);
+       return response()->json(['err'=>1,'url'=>$link]);
    }
 
     /** paypal支付
@@ -758,10 +759,11 @@ class IndexController extends Controller
            $recurring  = false;
            // TODO 解决币种问题
            $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
-           $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($data);
 
-           if(!in_array(currency_type::$CURRENCY_TYPE,$currency->currency_english_name)){
+           if(!in_array($currency->currency_english_name,currency_type::$CURRENCY_TYPE)){
                $this->provider->setCurrency('USD')->setExpressCheckout($data);
+           }else{
+               $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($data);
            }
 
            // send a request to paypal
@@ -777,7 +779,9 @@ class IndexController extends Controller
            // redirect to paypal
            // after payment is done paypal
            // will redirect us back to $this->expressCheckoutSuccess
-           return redirect($response['paypal_link']);
+//           return redirect($response['paypal_link']);
+       return $response['paypal_link'];
+
    }
 
     /** 拼接订单参数
@@ -787,6 +791,7 @@ class IndexController extends Controller
    private function getCart($order_id)
    {
        $order = order::where('order_id',$order_id)->first();
+       $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
        $data['items'] = [
            [
                'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
@@ -795,18 +800,23 @@ class IndexController extends Controller
            ],
        ];
        // return url is the url where PayPal returns after user confirmed the payment
-       $data['return_url'] = url('/paypal_success');
+       $data['return_url'] = url('/expressCheckoutSuccess');
        // every invoice id must be unique, else you'll get an error from paypal
        $data['invoice_id'] = config('paypal.invoice_prefix') . '_' . $order_id;
        $data['invoice_description'] = "Order #" . $order_id . " Invoice";
        $data['cancel_url'] = url('/paypal_send?order_id='.$order_id);
        // total is calculated by multiplying price with quantity of all cart items and then adding them up
        // in this case total is 20 because Product 1 costs 10 (price 10 * quantity 1) and Product 2 costs 10 (price 5 * quantity 2)
-       $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
        $data['total'] = $order->order_price;
-
-       if(!in_array(currency_type::$CURRENCY_TYPE,$currency->currency_english_name)){
-           $data['total'] = $order->order_price*$currency->exchange_rate*0.1456;
+       if(!in_array($currency->currency_english_name,currency_type::$CURRENCY_TYPE)){
+           $data['total'] = sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456);
+           $data['items'] = [
+               [
+                   'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
+                   'price' => sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
+                   'qty' => 1,
+               ],
+           ];
        }
        return $data;
    }
@@ -816,10 +826,79 @@ class IndexController extends Controller
      */
    public function paypal_send()
    {
-        $order_id = $_GET['order_id'];
-        $order = order::where('order_id',$order_id)->delete();
-        if($order){
-            return redirect('/pay');
+       $order_id = $_GET['order_id'];
+       $order = order::where('order_id', $order_id)->delete();
+       if ($order) {
+           return redirect('/pay');
+       }
+   }
+
+    /** 订单paypal支付成功
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
+   public function expressCheckoutSuccess(Request $request)
+   {
+        $token = $request->get('token');
+        $PayerID = $request->get('PayerID');//支付者paypalid
+        $response = $this->provider->getExpressCheckoutDetails($token);//解析回调数据
+        if (!in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
+            $invoice_id = explode('_', $response['INVNUM'])[1];
+            try{
+                 $order=\App\order::where('order_id',$invoice_id)->update(['order_type'=>'12']);
+                }catch(Exception $e){
+                }
+            return redirect('/endfail')->with(['type' =>'0']);
+        }
+        $invoice_id = explode('_', $response['INVNUM'])[1];//获取数据库订单表中订单号
+        $cart = $this->getCart($invoice_id);//获取发起请求时组装的参数
+        //设置币种
+        $currency = currency_type::where('currency_type_id',order::where('order_id',$invoice_id)->value('order_currency_id'))->first();
+        if(!in_array($currency->currency_english_name,currency_type::$CURRENCY_TYPE)){
+            $this->provider->setCurrency('USD')->setExpressCheckout($cart);
+        }else{
+            $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($cart);
+        }
+        //二次验证回调数据
+        $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
+        if (!in_array(strtoupper($payment_status['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
+            $invoice_id = explode('_', $response['INVNUM'])[1];
+            try{
+                 $order=\App\order::where('order_id',$invoice_id)->update(['order_type'=>'12']);
+                }catch(Exception $e){
+                }
+            return redirect('/endfail?type=0');
+        }
+        $status = $payment_status['PAYMENTINFO_0_PAYMENTSTATUS'];//payal反馈订单状态码
+        $order = \App\order::where('order_id',$invoice_id)->first();//获取系统中订单信息
+        $paypal=new \App\paypal();//记录paypal信息
+        $paypal->paypal_paymentstatus=$status;
+        $paypal->paypal_corre_id=$response['CORRELATIONID'];
+        $paypal->paypal_token=$token;
+        $paypal->paypal_amount=(double)$response['AMT'];
+        $paypal->paypal_currency=$response['CURRENCYCODE'];
+        $paypal->paypal_time=$response['TIMESTAMP'];
+        $paypal->paypal_status=$response['ACK'];
+        $paypal->paypal_payer_id=$PayerID;
+        $paypal->paypal_email=$response['EMAIL'];
+        $paypal->paypal_firstname=$response['FIRSTNAME'];
+        $paypal->paypal_lastname=$response['LASTNAME'];
+        $paypal->paypal_order_id=$invoice_id;
+        $paypal->paypal_desc=$response['DESC'];
+        $msg=$paypal->save();
+        if($msg){
+            $order->order_type='11';
+            $order->save();
+            $goods_id=$order->order_goods_id;
+            $order_id=$order->order_id;
+            return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
+        }else{
+            $order->order_type='13';
+            $order->save();
+            $goods_id=$order->order_goods_id;
+            $order_id=$order->order_id;
+            return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }
    }
 }
