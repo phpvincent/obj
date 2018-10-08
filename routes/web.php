@@ -28,6 +28,9 @@ Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');
 	Route::match(['get', 'post'], '/saveform','home\IndexController@saveform');
+	Route::match(['get', 'post'], '/paypal_pay','home\IndexController@paypal_pay');
+	Route::match(['get', 'post'], '/paypal_success','home\IndexController@paypal_success');
+	Route::match(['get', 'post'], '/paypal_send','home\IndexController@paypal_send');
 	Route::match(['get', 'post'], '/endsuccess','home\IndexController@endsuccess');
 	Route::match(['get', 'post'], '/endfail','home\IndexController@endfail');
 	Route::match(['get', 'post'], '/expressCheckoutSuccess','home\IndexController@expressCheckoutSuccess');
@@ -139,8 +142,8 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/check/set','admin\CheckController@set');
 	//花费相关
 	Route::get('/admin/pay/index','admin\PayController@index');
-	Route::post('/admin/pay/get_table','admin\PayController@index');
+	Route::post('/admin/pay/get_table','admin\PayController@get_table');
+	Route::any('/admin/pay/spend_import','admin\PayController@spend_import');
 	Route::match(['get','post'],'/admin/pay/add_pay_layer','admin\PayController@add_pay_layer');
-
 
 });

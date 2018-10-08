@@ -276,14 +276,16 @@
                                 <img src="/images/cash.jpg" alt="" id="cash"/>
                                               </span>
       </div>
-    <!--   <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+    @if(in_array('1',$goods->goods_pay_type))
+    <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
           <input name="pay_type" id="pay_2" value="2" type="radio">
             <label>
             PayPal            </label>
           <span style="width:100px;">
                                 <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
                                               </span>
-      </div> -->
+      </div>
+    @endif
     </li>
         <li>
      <!--    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="neiqian_biaodan">
@@ -445,7 +447,6 @@ $('#pay').bind('click',function(){
     })
     datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
     datasObj.goodsAtt=dataObj;                             //商品属性；
-    console.log('zuihou',datasObj);
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
         layer.msg('詳細地址不能為空！');
@@ -490,7 +491,23 @@ $('#pay').bind('click',function(){
            }
         }) ; 
         }else{
-            location.href="/paypal_pay?"+JSON.stringify(datasObj);
+            // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+            $.ajax({
+                type: "POST",
+                url: "/paypal_pay",
+                data:datasObj,
+                success: function (data) {
+                    var btime=getNowDate();
+                    try{fbq('track', 'InitiateCheckout')}catch(e){};
+                    $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                    location.href=data.url;
+                },
+
+
+                error: function(data) {
+                    layer.msg('訂單提交失敗，請檢查網絡情況');
+                }
+            }) ;
             
         }
 
