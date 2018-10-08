@@ -758,7 +758,7 @@ class IndexController extends Controller
      */
    private function paypal($order_id)
    {
-           $data = $this->getCart($order_id);
+           $data = $this->getCart($order_id);dd($data);
            $recurring  = false;
            // TODO 解决币种问题
            $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
@@ -772,7 +772,7 @@ class IndexController extends Controller
            // send a request to paypal
            // paypal should respond with an array of data
            // the array should contain a link to paypal's payment system
-           $response = $this->provider->setExpressCheckout($data, $recurring);dd($response);
+           $response = $this->provider->setExpressCheckout($data, $recurring);
            // if there is no link redirect back with error message
            if (!$response['paypal_link']) {
                return redirect('/cart')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
