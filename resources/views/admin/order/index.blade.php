@@ -172,7 +172,7 @@
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20],
+		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20],
 		   "orderable": false
 		}],
 		scrollX:        true,
