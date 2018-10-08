@@ -830,8 +830,8 @@ class IndexController extends Controller
    public function paypal_send()
    {
        $order_id = $_GET['order_id'];
-       $msg=isset($_GET['token']);
-       if(!$msg){
+       $msg=\App\order::where('order_id',$order_id)->first()['order_type'];
+       if($msg!='11'&&$msg!='13'){
         $order = order::where('order_id', $order_id)->delete();
          return redirect('/pay');
        }else{
