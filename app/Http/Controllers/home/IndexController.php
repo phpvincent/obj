@@ -772,7 +772,7 @@ class IndexController extends Controller
            // send a request to paypal
            // paypal should respond with an array of data
            // the array should contain a link to paypal's payment system
-           $response = $this->provider->setExpressCheckout($data, $recurring);dd($response);
+           $response = $this->provider->setExpressCheckout($data, $recurring);
            // if there is no link redirect back with error message
            if (!$response['paypal_link']) {
                return redirect('/cart')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
@@ -798,7 +798,7 @@ class IndexController extends Controller
        $data['items'] = [
            [
                'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
-               'price' => $order->order_price,
+               'price' =>(float)$order->order_price,
                'qty' => 1,
            ],
        ];
@@ -816,7 +816,7 @@ class IndexController extends Controller
            $data['items'] = [
                [
                    'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
-                   'price' => sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
+                   'price' => (float)sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
                    'qty' => 1,
                ],
            ];
