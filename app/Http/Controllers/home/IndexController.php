@@ -830,10 +830,17 @@ class IndexController extends Controller
    public function paypal_send()
    {
        $order_id = $_GET['order_id'];
-       $order = order::where('order_id', $order_id)->delete();
+       $msg=$request->has('token');
+       if(!$msg){
+        $order = order::where('order_id', $order_id)->delete();
+         return redirect('/pay');
+       }else{
+          return redirect('/pay');
+       }
+       /*$order = order::where('order_id', $order_id)->delete();
        if ($order) {
            return redirect('/pay');
-       }
+       }*/
    }
 
     /** 订单paypal支付成功
