@@ -869,7 +869,7 @@ class IndexController extends Controller
             $this->provider->setCurrency('USD')->setExpressCheckout($cart);
         }else{
             $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($cart);
-        }   dd($response);
+        }   
         //二次验证回调数据
         $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
         if (!in_array(strtoupper($payment_status['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
@@ -879,14 +879,14 @@ class IndexController extends Controller
                 }catch(Exception $e){
                 }
             return redirect('/endfail?type=0');
-        }
+        }dd($response);
         $status = $payment_status['PAYMENTINFO_0_PAYMENTSTATUS'];//payal反馈订单状态码
         $order = \App\order::where('order_id',$invoice_id)->first();//获取系统中订单信息
         $paypal=new \App\paypal();//记录paypal信息
         $paypal->paypal_paymentstatus=$status;
         $paypal->paypal_corre_id=$response['CORRELATIONID'];
         $paypal->paypal_token=$token;
-        $paypal->paypal_amount=(double)$response['AMT'];
+        $paypal->paypal_amount=$response['AMT'];
         $paypal->paypal_currency=$response['CURRENCYCODE'];
         $paypal->paypal_time=$response['TIMESTAMP'];
         $paypal->paypal_status=$response['ACK'];
