@@ -798,7 +798,7 @@ class IndexController extends Controller
        $data['items'] = [
            [
                'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
-               'price' =>(float)$order->order_price,
+               'price' =>$order->order_price,
                'qty' => 1,
            ],
        ];
@@ -816,7 +816,7 @@ class IndexController extends Controller
            $data['items'] = [
                [
                    'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
-                   'price' => (float)sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
+                   'price' =>sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
                    'qty' => 1,
                ],
            ];
