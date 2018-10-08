@@ -758,7 +758,7 @@ class IndexController extends Controller
      */
    private function paypal($order_id)
    {
-           $data = $this->getCart($order_id);
+           $data = $this->getCart($order_id);dd($data);
            $recurring  = false;
            // TODO 解决币种问题
            $currency = currency_type::where('currency_type_id',order::where('order_id',$order_id)->value('order_currency_id'))->first();
