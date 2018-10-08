@@ -565,4 +565,10 @@ class OrderController extends Controller
          $zdname=['下单时间','产品名称','型号/尺寸/颜色','数量','币种','销售单价','总金额','客户名字','客户电话','邮寄地址','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
    }
+   public function payinfo(Request $request)
+   {
+    $id=$request->input('id');
+    $paypal=\App\paypal::where('paypal_order_id',$id)->first();
+    return view('admin.order.paypal')->with(compact('paypal'));
+   }
 }
