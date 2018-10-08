@@ -264,7 +264,18 @@ class GoodsController extends Controller
 
        $templets = []; //首页显示内容
        $array = [];    //模块显示数组
-
+       //在线支付
+       // if($data['pay_type_1'] == 1) {
+       //     array_push($array,'pay_type');
+       //     $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
+       //     $goods->goods_pay_type='0,'.implode(',',$pay_type);
+       //     //paypal不支持的币种
+       //     if(!in_array(\App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name'), \App\currency_type::$CURRENCY_TYPE)){
+       //        return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
+       //     }
+       // }else {
+       //     $goods->goods_pay_type='0';
+       // }
 
        //倒计时模块
          if($data['count_down_1'] == 1){
@@ -342,15 +353,6 @@ class GoodsController extends Controller
             }
         }
 
-
-       //在线支付
-//       if($data['pay_type_1'] == 1) {
-//           array_push($array,'pay_type');
-//           $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
-//           $goods->goods_pay_type='0,'.implode(',',$pay_type);
-//       }else {
-//           $goods->goods_pay_type='0';
-//       }
 
          $goods->goods_name=$data['goods_name'];
          $goods->goods_currency_id=$data['currency_type'];
@@ -686,6 +688,20 @@ class GoodsController extends Controller
         }
 
        $array = [];
+
+       //在线支付
+       // if($data['pay_type_1'] == 1) {
+       //     array_push($array,'pay_type');
+       //     $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
+       //     $goods->goods_pay_type='0,'.implode(',',$pay_type);
+       //     //paypal不支持的币种
+       //     if(!in_array(\App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name'), \App\currency_type::$CURRENCY_TYPE)){
+       //        return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
+       //     }
+       // }else {
+       //     $goods->goods_pay_type='0';
+       // }
+
        //倒计时模块
        if($data['count_down_1'] == 1){
            if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
