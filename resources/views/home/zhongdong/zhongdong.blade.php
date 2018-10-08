@@ -132,8 +132,8 @@
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">視頻</li>
-        <li class="bannerqli">圖片</li>
+        <li class="bannerqli bactive">video</li>
+        <li class="bannerqli">image</li>
     </ul>
 </div>
 @endif
@@ -180,7 +180,7 @@
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text">Sold:<span>{{$goods->goods_num}}</span></div>
+    <div class="text">Stock:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
         <font>End:</font>

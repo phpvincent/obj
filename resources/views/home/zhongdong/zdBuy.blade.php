@@ -248,7 +248,7 @@
         <input type="text" name="address2" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
-        <label>郵政編號:</label>
+        <label>Postalcode:</label>
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
