@@ -178,7 +178,9 @@ class IndexController extends Controller
         }else{
             $goods->img = '';
         }
-    	$img=img::where('img_goods_id',$goods_id)->first();
+        //支持支付方式
+        $goods->goods_pay_type = explode(',',$goods->goods_pay_type);
+        $img=img::where('img_goods_id',$goods_id)->first();
     	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->first();
         if($cuxiao!=null&&$cuxiao->cuxiao_type=='2'&&$cuxiao->cuxiao_config!=''&&$cuxiao->cuxiao_config!=null){
             $cuxiao_num=explode(',',$cuxiao->cuxiao_config)[0];

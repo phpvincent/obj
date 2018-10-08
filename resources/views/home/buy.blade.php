@@ -276,14 +276,16 @@
                                 <img src="/images/cash.jpg" alt="" id="cash"/>
                                               </span>
       </div>
-    <!--   <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+    @if(in_array('1',$goods->goods_pay_type))
+    <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
           <input name="pay_type" id="pay_2" value="2" type="radio">
             <label>
             PayPal            </label>
           <span style="width:100px;">
                                 <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
                                               </span>
-      </div> -->
+      </div>
+    @endif
     </li>
         <li>
      <!--    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="neiqian_biaodan">
