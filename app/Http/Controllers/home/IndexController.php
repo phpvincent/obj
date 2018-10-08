@@ -605,6 +605,7 @@ class IndexController extends Controller
    public function paypal_pay(Request $request){
         //判断是否为预览中的测试下单
        if(\Session::get('test_id',0)!=0){
+
            return  response()->json(['err'=>0,'url'=>"/pay"]);
        }
        $ip=$request->getClientIp();
@@ -878,6 +879,7 @@ class IndexController extends Controller
         $paypal->paypal_paymentstatus=$status;
         $paypal->paypal_corre_id=$response['CORRELATIONID'];
         $paypal->paypal_token=$token;
+        dd($response);
         $paypal->paypal_amount=(double)$response['AMT'];
         $paypal->paypal_currency=$response['CURRENCYCODE'];
         $paypal->paypal_time=$response['TIMESTAMP'];
