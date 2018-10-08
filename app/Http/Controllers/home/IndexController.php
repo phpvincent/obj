@@ -862,7 +862,7 @@ class IndexController extends Controller
             $this->provider->setCurrency('USD')->setExpressCheckout($cart);
         }else{
             $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($cart);
-        }
+        }   dd($response);
         //二次验证回调数据
         $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
         if (!in_array(strtoupper($payment_status['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
@@ -879,7 +879,6 @@ class IndexController extends Controller
         $paypal->paypal_paymentstatus=$status;
         $paypal->paypal_corre_id=$response['CORRELATIONID'];
         $paypal->paypal_token=$token;
-        dd($response);
         $paypal->paypal_amount=(double)$response['AMT'];
         $paypal->paypal_currency=$response['CURRENCYCODE'];
         $paypal->paypal_time=$response['TIMESTAMP'];
