@@ -497,8 +497,9 @@ $('#pay').bind('click',function(){
                 url: "/paypal_pay",
                 data:datasObj,
                 success: function (data) {
-                    if(data.err=='1'){
+                    if(data.err=='0'){
                         layer.msg('paypal支付失敗，請選擇其它支付方式！');
+                         issubmit=true;
                     }else{
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
