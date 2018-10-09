@@ -132,8 +132,8 @@
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">視頻</li>
-        <li class="bannerqli">圖片</li>
+        <li class="bannerqli bactive">video</li>
+        <li class="bannerqli">image</li>
     </ul>
 </div>
 @endif
