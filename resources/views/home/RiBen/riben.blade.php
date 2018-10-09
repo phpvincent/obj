@@ -158,13 +158,13 @@
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">Free shipping</span>
+        <span class="flag" style="font-size: 12px;">送料無料</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
+        <span class="flag" style="font-size: 12px;">到着払い</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">7 days appreciation period</span>
+        <span class="flag" style="font-size: 12px;background:#000;">７日以内返品・交換可能</span>
     @endif
 </div>
 @endif
@@ -173,17 +173,17 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:28px 18px;">DHL</span>
+   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">การจัดส่งทางkerry</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text">Sold:<span>{{$goods->goods_num}}</span></div>
+    <div class="text"><span>{{$goods->goods_num}}組限定</span></div>
     <div class="boxtime">
-        <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font>End:</font>
+        <div class="time" id="timer"><span id="h" class="colon"></span>時<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
+        <font>終了まで:</font>
     </div>
 </div>
 @endif
@@ -203,19 +203,19 @@
     @if(in_array('introduce',$templets))
     <li>
         <span href="#detial-context" class="scrollBar" scroll-y="0">
-        Overview              </span>
+        商品の紹介              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
         <span href="#detial-params" class="scrollBar" scroll-y="50">
-        Details               </span>
+        商品の規格               </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        Reviews ({{$goods->goods_comment_num}}+)
+        評価({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
@@ -247,8 +247,7 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>
-                        Recent Reviews           </h4>
+                        <h4>最新の評価</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -283,7 +282,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else Leave us a message   @endif        </a>
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else 評価する   @endif        </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -296,30 +295,29 @@
     <tbody>
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品・交換について</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-                1.Free shipping+Cash on delivery+Items can be returned freely within 7 days after delivery <br>
-                2.If you have any questions, please contact us via email(
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        )  with name, contact info. and order No.. We will deal it ASAP.</p>
+１、個人的な理由で返品・交換をご希望される場合：商品が到着する7日以内、しかも再び販売することができる場合ならば、オンラインチャットあるいはメール（hyfhdcjn@gmail.com）により、当社にご連絡してください。アフターサービスセンターは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料はお客様が支払いいただきます。<br>
+２、商品の品質問題で返品・交換をご希望される場合：商品が到着する7日以内にメール(hyfhdcjn@gmail.com)でアフターサービスセンターにご連絡してください。こちらは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料は当社が支払います。
+
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">お知らせ</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
-                <br>Email:
-
+                <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                <br>Email: -->
+                商品の実際使用効果は個人によって、違います。全てのお客様は宣伝する効果を楽しむことが保証できない。ご疑問があれば、オンラインチャットあるいはメール
                                 <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                <br>
-                If you have any questions please call us or contact us online. Thanks for your cooperation.</p>
+                                で当社にご連絡してください。
+            </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
@@ -339,22 +337,17 @@
                 </p> -->
             </td></tr>
         @endif
-        <!-- <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品・交換の流れ:</th>
         </tr>
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-               
-               
-                <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
-
-                    換貨審核—退款/換貨；</p>
-                <p>退換貨請註明：訂單號、姓名、電話。</p>
+            商品到着の確認　　返品・交換を申し込みます　 　アフターサービスセンターが確認します　 お客様が商品を返送します 　倉庫側は返送する商品を確認します 　商品の返品・交換の確認 　返金/交換します
                 
             </td>
 
-        </tr> -->
+        </tr>
                 <tr class="first odd"></tr>
             </tbody>
         @endif
@@ -400,7 +393,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Order<br>Enquiry</span>
+        <span style="line-height:14px;">ご注文の<br/>お問い合わせ</span>
       </a>
     </span>
     @endif
@@ -408,7 +401,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>Buy Now</span>
+			<span>いま買い物する</span>
 		</a>
 	</span>
     @endif
@@ -440,7 +433,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                Online message                </div>
+                オンライン　コメント                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -450,10 +443,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Name:
+                                    お名前:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
+                                    <input type="text" placeholder="お名前" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -462,17 +455,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Phone:
+                                    携帯番号:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Phone" class="input01" name="phone"
+                                    <input type="text" placeholder="携帯番号" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                evaluate:
+                                カスタマーレビュー:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -497,17 +490,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                leave word:
+                                コメント：オンラインコメント:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="Online message " name="content" class="textarea_style">
+                                    <textarea placeholder="" name="content" class="textarea_style">
                                     </textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="Submit" style="color:white">
+                                    value="評価する" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -700,11 +693,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("Name cannot be empty");
+                $2.toast("「お名前」は空欄にできません");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("Mobile number cannot be empty");
+                $2.toast("「電話番号」は空欄にできません");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -727,11 +720,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("Thanks For Your Review！");
+                    $2.toast("ご来店ありがとうございます ");
                 }
                 else
                 {
-                    $2.toast("Submission fails！");
+                    $2.toast("การส่งล้มเหลว！");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);

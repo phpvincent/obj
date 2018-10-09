@@ -134,6 +134,8 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
              ->where(function($query)use($request){
             if($request->input('mintime')!=null&&$request->input('maxtime')==null){
@@ -564,5 +566,11 @@ class OrderController extends Controller
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
          $zdname=['下单时间','产品名称','型号/尺寸/颜色','数量','币种','销售单价','总金额','客户名字','客户电话','邮寄地址','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
+   }
+   public function payinfo(Request $request)
+   {
+    $id=$request->input('id');
+    $paypal=\App\paypal::where('paypal_order_id',$id)->first();
+    return view('admin.order.paypal')->with(compact('paypal'));
    }
 }

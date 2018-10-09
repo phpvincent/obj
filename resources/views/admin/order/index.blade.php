@@ -287,13 +287,16 @@
 			}else if(data.order_type==8){
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">拒签</span></a>';
 			}else if(data.order_type==9){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">预支付</span></a>';
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">预支付</span></a>';
 			}else if(data.order_type==10){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">取消支付</span></a>';
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">取消支付</span></a>';
 			}else if(data.order_type==11){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功</span></a>';
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功</span></a>';
 			}else if(data.order_type==12){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:#ccc;">支付失败</span></a>';
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付失败</span></a>';
+			}
+			if(data.order_pay_type!='0'){
+				isroot+='<a href="javascript:;" onclick="order_payinfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:white;">支付信息</span></a>';
 			}
 			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
@@ -346,6 +349,9 @@ function del_order(id){
 	}
 function order_returninfo(id){
 	layer_show('订单信息','/admin/order/orderinfo?id='+id,500,300);
+}
+function order_payinfo(id){
+	layer_show('订单信息','/admin/order/payinfo?id='+id,700,400);
 }
 function goods_edit(title,url,type,w,h){
 	layer_show(title,url,w,h);

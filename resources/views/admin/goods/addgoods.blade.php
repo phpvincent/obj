@@ -109,6 +109,7 @@
 						<option value="2">2--中东模板</option>
 						<option value="3">3--马来西亚模板</option>
 						<option value="4">4--泰国模板</option>
+						<option value="5">5--日本模板</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -451,7 +452,7 @@
 					{{--<input type="checkbox" id="pay_type" name="pay_type[]" value="1">--}}
 				{{--</div>--}}
 			{{--</div>--}}
-		{{--</div>--}}
+		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 

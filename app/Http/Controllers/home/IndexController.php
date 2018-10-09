@@ -106,6 +106,9 @@ class IndexController extends Controller
             case '4':
             return view('home.TaiGuo.taiguo')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
             break;
+            case '5':
+            return view('home.RiBen.riben')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
             default:
                 # code...
                 break;
@@ -212,6 +215,9 @@ class IndexController extends Controller
         if($blade_type==4){
             return view('home.TaiGuo.taiguoBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
+        if($blade_type==5){
+            return view('home.RiBen.ribenBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -222,7 +228,7 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4){ 
+        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$special->isEmpty()){
@@ -495,6 +501,9 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 4){
             return view('home.TaiGuo.taiguoEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
         }
+        if($goods->goods_blade_type == 5){
+            return view('home.RiBen.ribenEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+        }
         return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
@@ -518,6 +527,9 @@ class IndexController extends Controller
             if($goods_blade_type == 4){
                 return view('home.TaiGuo.taiguoSend');                
             }
+            if($goods_blade_type == 5){
+                return view('home.RiBen.ribenSend');                
+            }
         }
         return view('home.send');
     }
@@ -540,6 +552,9 @@ class IndexController extends Controller
         }
         if($goods->goods_blade_type == 4){
             return view('home.TaiGuo.taiguoSendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 5){
+            return view('home.RiBen.ribenSendmsg')->with(compact('order','goods'));
         }
         return view('home.sendmsg')->with(compact('order','goods'));
     }
@@ -614,6 +629,7 @@ class IndexController extends Controller
    public function paypal_pay(Request $request){
         //判断是否为预览中的测试下单
        if(\Session::get('test_id',0)!=0){
+
            return  response()->json(['err'=>0,'url'=>"/pay"]);
        }
        $ip=$request->getClientIp();
@@ -802,7 +818,7 @@ class IndexController extends Controller
        $data['items'] = [
            [
                'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
-               'price' => $order->order_price,
+               'price' =>$order->order_price,
                'qty' => 1,
            ],
        ];
@@ -820,7 +836,7 @@ class IndexController extends Controller
            $data['items'] = [
                [
                    'name' => goods::where('goods_id',$order->order_goods_id)->value('goods_real_name'),
-                   'price' => sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
+                   'price' =>sprintf('%.2f',$order->order_price*$currency->exchange_rate*0.1456),
                    'qty' => 1,
                ],
            ];
@@ -834,10 +850,17 @@ class IndexController extends Controller
    public function paypal_send()
    {
        $order_id = $_GET['order_id'];
-       $order = order::where('order_id', $order_id)->delete();
+       $msg=\App\order::where('order_id',$order_id)->first()['order_type'];
+       if($msg!='11'&&$msg!='13'){
+        $order = order::where('order_id', $order_id)->delete();
+         return redirect('/pay');
+       }else{
+          return redirect('/pay');
+       }
+       /*$order = order::where('order_id', $order_id)->delete();
        if ($order) {
            return redirect('/pay');
-       }
+       }*/
    }
 
     /** 订单paypal支付成功
@@ -866,7 +889,7 @@ class IndexController extends Controller
             $this->provider->setCurrency('USD')->setExpressCheckout($cart);
         }else{
             $this->provider->setCurrency($currency->currency_english_name)->setExpressCheckout($cart);
-        }
+        }   
         //二次验证回调数据
         $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
         if (!in_array(strtoupper($payment_status['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
@@ -883,7 +906,7 @@ class IndexController extends Controller
         $paypal->paypal_paymentstatus=$status;
         $paypal->paypal_corre_id=$response['CORRELATIONID'];
         $paypal->paypal_token=$token;
-        $paypal->paypal_amount=(double)$response['AMT'];
+        $paypal->paypal_amount=$response['AMT'];
         $paypal->paypal_currency=$response['CURRENCYCODE'];
         $paypal->paypal_time=$response['TIMESTAMP'];
         $paypal->paypal_status=$response['ACK'];

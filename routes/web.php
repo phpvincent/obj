@@ -83,6 +83,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/order/outorder','admin\OrderController@outorder');
 	Route::post('/admin/order/order_type_change','admin\OrderController@order_type_change');
 	Route::post('/admin/order/order_arr_change','admin\OrderController@order_arr_change');
+	Route::get('/admin/order/payinfo','admin\OrderController@payinfo');//订单支付信息展示
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');
 	Route::post('/admin/url/get_url','admin\UrlController@get_url');
