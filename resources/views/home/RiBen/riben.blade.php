@@ -393,7 +393,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">ご注文のお問い合わせ</span>
+        <span style="line-height:14px;">ご注文の<br/>お問い合わせ</span>
       </a>
     </span>
     @endif
