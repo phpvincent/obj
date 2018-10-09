@@ -329,9 +329,12 @@ class IndexController extends Controller
             foreach ($goods_ip as $item)
             {
                 if($item->order_repeat_field){
-                    $order_repeat = explode(',',$item->order_repeat_field);
+                    $pos = strpos($item->order_repeat_field, ',');
+                    $order_repeat_field  = substr($item->order_repeat_field,$pos-1);
+                    $order_repeat = explode(',',$order_repeat_field);
                     if(!in_array('1',$order_repeat)){
                         array_push($order_repeat,'1');
+                        sort($order_repeat);
                         $order_repeat_array = implode($order_repeat);
                         $item->order_repeat_field = trim($order_repeat_array);
                         $item->save();
@@ -350,9 +353,12 @@ class IndexController extends Controller
             foreach ($orders_name as $item)
             {
                 if($item->order_repeat_field){
-                    $order_repeat = explode(',',$item->order_repeat_field);
+                    $pos = strpos($item->order_repeat_field, ',');
+                    $order_repeat_field  = substr($item->order_repeat_field,$pos-1);
+                    $order_repeat = explode(',',$order_repeat_field);
                     if(!in_array('2',$order_repeat)){
                         array_push($order_repeat,'2');
+                        sort($order_repeat);
                         $order_repeat_array = implode(',',$order_repeat);
                         $item->order_repeat_field = trim($order_repeat_array);
                         $item->save();
@@ -371,9 +377,12 @@ class IndexController extends Controller
             foreach ($orders_tel as $item)
             {
                 if($item->order_repeat_field){
-                    $order_repeat = explode(',',$item->order_repeat_field);
+                    $pos = strpos($item->order_repeat_field, ',');
+                    $order_repeat_field  = substr($item->order_repeat_field,$pos-1);
+                    $order_repeat = explode(',',$order_repeat_field);
                     if(!in_array('3',$order_repeat)){
                         array_push($order_repeat,'3');
+                        sort($order_repeat);
                         $order_repeat_array = implode(',',$order_repeat);
                         $item->order_repeat_field = trim($order_repeat_array);
                         $item->save();
@@ -778,10 +787,6 @@ class IndexController extends Controller
                // For the actual error message dump out $response and see what's in there
            }
 
-           // redirect to paypal
-           // after payment is done paypal
-           // will redirect us back to $this->expressCheckoutSuccess
-//           return redirect($response['paypal_link']);
        return $response['paypal_link'];
 
    }
