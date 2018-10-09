@@ -14,7 +14,10 @@ use Illuminate\Http\Request;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 	Route::get('/paypal',function(Request $request){
-		dd($request->all());
+		$par=new \App\par;
+		$par->url='test';
+		$par_goods_id=0;
+		$par->save();
 	});
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
