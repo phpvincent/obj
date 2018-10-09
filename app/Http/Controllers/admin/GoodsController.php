@@ -264,18 +264,44 @@ class GoodsController extends Controller
 
        $templets = []; //首页显示内容
        $array = [];    //模块显示数组
+
        //在线支付
-       // if($data['pay_type_1'] == 1) {
-       //     array_push($array,'pay_type');
-       //     $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
-       //     $goods->goods_pay_type='0,'.implode(',',$pay_type);
-       //     //paypal不支持的币种
-       //     if(!in_array(\App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name'), \App\currency_type::$CURRENCY_TYPE)){
-       //        return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
-       //     }
-       // }else {
-       //     $goods->goods_pay_type='0';
-       // }
+//       if($data['pay_type_1'] == 1) {
+//           array_push($array,'pay_type');
+//           $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
+//           $goods->goods_pay_type='0,'.implode(',',$pay_type);
+//           //paypal不支持的币种
+//           $currency_type = \App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name');
+//           if(!in_array($currency_type, \App\currency_type::$CURRENCY_TYPE)){
+//               return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
+//           }
+//           //判断币种金额是否存在限制
+//           if($currency_type == 'THD' || $currency_type == 'JPY'){
+//               //满减优惠
+//               if(isset($data['new_cuxiao'])){
+//                   foreach ($data['new_cuxiao'] as $item)
+//                   {
+//                       if(intval($item['price']) != $item['price']){
+//                           return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+//                       }
+//                   }
+//               }
+//               //自定义套餐
+//               if(isset($data['cuxiao_prize'])){
+//                   foreach ($data['cuxiao_prize'] as $item)
+//                   {
+//                       if(intval($item) != $item){
+//                           return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+//                       }
+//                   }
+//               }
+//               if(intval($data['goods_real_price']) != $data['goods_real_price'] || intval($data['goods_price']) != $data['goods_price']){
+//                   return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+//               }
+//           }
+//       }else {
+//           $goods->goods_pay_type='0';
+//       }
 
        //倒计时模块
          if($data['count_down_1'] == 1){
@@ -688,19 +714,44 @@ class GoodsController extends Controller
         }
 
        $array = [];
-
        //在线支付
-       // if($data['pay_type_1'] == 1) {
-       //     array_push($array,'pay_type');
-       //     $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
-       //     $goods->goods_pay_type='0,'.implode(',',$pay_type);
-       //     //paypal不支持的币种
-       //     if(!in_array(\App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name'), \App\currency_type::$CURRENCY_TYPE)){
-       //        return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
-       //     }
-       // }else {
-       //     $goods->goods_pay_type='0';
-       // }
+//        if($data['pay_type_1'] == 1) {
+//            array_push($array,'pay_type');
+//            $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
+//            $goods->goods_pay_type='0,'.implode(',',$pay_type);
+//            //paypal不支持的币种
+//            $currency_type = \App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name');
+//            if(!in_array($currency_type, \App\currency_type::$CURRENCY_TYPE)){
+//               return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
+//            }
+//            //判断币种金额是否存在限制
+//            if($currency_type == 'THD' || $currency_type == 'JPY'){
+//                //满减优惠
+//                if(isset($data['new_cuxiao'])){
+//                    foreach ($data['new_cuxiao'] as $item)
+//                    {
+//                        if(intval($item['price']) != $item['price']){
+//                            return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+//                        }
+//                    }
+//                }
+//                //自定义套餐
+//                if(isset($data['cuxiao_prize'])){
+//                    foreach ($data['cuxiao_prize'] as $item)
+//                    {
+//                        if(intval($item) != $item){
+//                            return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+//                        }
+//                    }
+//                }
+//                //原价、商品定价
+//                if(intval($data['goods_real_price']) != $data['goods_real_price'] || intval($data['goods_price']) != $data['goods_price']){
+//                    return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+//                }
+//            }
+//        }else {
+//            $goods->goods_pay_type='0';
+//        }
 
        //倒计时模块
        if($data['count_down_1'] == 1){
@@ -834,15 +885,6 @@ class GoodsController extends Controller
        }else {
            $goods->goods_comment_num = 0;
        }
-
-       //在线支付
-//       if($data['pay_type_1'] == 1) {
-//           array_push($array,'pay_type');
-//           $pay_type = isset($data['pay_type']) ? $data['pay_type'] : '';
-//           $goods->goods_pay_type='0,'.implode(',',$pay_type);
-//       }else {
-//           $goods->goods_pay_type='0';
-//       }
 
        //判断是否触发核审机制
        if (\App\goods_check::first()['goods_is_check'] == 0&&Auth::user()->is_root=='0') {
