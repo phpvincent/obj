@@ -595,6 +595,8 @@ class IndexController extends Controller
     $id=$request->input('id');
     $vis=\App\vis::where('vis_id',$id)->first();
     $time=$request->input('date');
+    $change=strtotime($time);
+    $time=date('Y-m-d H:i:s',$change);
  /*   $data=date('Y-m-d H:i:s',$time);*/
     $vis->vis_staytime=time()-strtotime(($vis->vis_time));
     $vis->vis_buytime=$time;
@@ -605,6 +607,8 @@ class IndexController extends Controller
             return response('test',200);
         }
     $date=$request->input('date');
+     $change=strtotime($date);
+    $date=date('Y-m-d H:i:s',$change);
     $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     $vis->vis_ordertime=$date;
     $vis->vis_staytime=time()-strtotime(($vis->vis_time));

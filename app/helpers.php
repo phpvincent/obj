@@ -118,7 +118,11 @@ if (!function_exists("getclientcity")) {
 }
 if (!function_exists("getclientype")) {
     function getclientype()
-    {   $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    {     
+        if(!isset($_SERVER['HTTP_USER_AGENT'])){
+          return 'unknown';
+        }
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
          if(stristr($_SERVER['HTTP_USER_AGENT'], 'Android')){//返回值中是否有Android这个关键字
           $a =  explode(" ",$user_agent);
           $b = $a[6].$a[7];
