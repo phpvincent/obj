@@ -132,8 +132,8 @@
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">視頻</li>
-        <li class="bannerqli">圖片</li>
+        <li class="bannerqli bactive">video</li>
+        <li class="bannerqli">image</li>
     </ul>
 </div>
 @endif
@@ -173,7 +173,7 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:28px 18px;">DHL</span>
+   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 70px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:70px 60px;"> <b>DHL</b></span>
 </div>
 @endif
 

@@ -772,6 +772,9 @@ class IndexController extends Controller
            }
        }
        $link=$this->paypal($order->order_id);
+       if($link===false){
+        return response()->json(['err'=>0,'msg'=>'paypal fail']);
+       }
        return response()->json(['err'=>1,'url'=>$link]);
    }
 
@@ -799,7 +802,9 @@ class IndexController extends Controller
            $response = $this->provider->setExpressCheckout($data, $recurring);
            // if there is no link redirect back with error message
            if (!$response['paypal_link']) {
-               return redirect('/cart')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
+            \App\order::where('order_id',$order_id)->delete();
+             return false;
+               //return redirect('/pay')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
                // For the actual error message dump out $response and see what's in there
            }
 
