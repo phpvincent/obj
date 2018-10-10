@@ -2315,13 +2315,7 @@
             parentId: "R3879784",
             displayName: "Asajaya"
             },
-            {
-            id: "R80017373",
-            name: "Balingian",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Balingian"
-            },
+            
             {
             id: "R80017374",
             name: "Baram",
@@ -2335,13 +2329,6 @@
             nameLocal: "",
             parentId: "R3879784",
             displayName: "Bau"
-            },
-            {
-            id: "R80017368",
-            name: "Bekenu",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Bekenu"
             },
             {
             id: "R80017353",
@@ -2392,20 +2379,7 @@
             parentId: "R3879784",
             displayName: "Daro"
             },
-            {
-            id: "R80017389",
-            name: "Debak",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Debak"
-            },
-            {
-            id: "R80017363",
-            name: "Engkilili",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Engkilili"
-            },
+            
             {
             id: "R80017369",
             name: "Julau",
@@ -2463,27 +2437,6 @@
             displayName: "Limbang"
             },
             {
-            id: "R80017355",
-            name: "Lingga",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Lingga"
-            },
-            {
-            id: "R80017350",
-            name: "Long Lama",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Long Lama"
-            },
-            {
-            id: "R80017376",
-            name: "Lubok Antu",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Lubok Antu"
-            },
-            {
             id: "R80017371",
             name: "Lundu",
             nameLocal: "",
@@ -2519,67 +2472,11 @@
             displayName: "Mukah"
             },
             {
-            id: "R80017349",
-            name: "Nanga Medamit",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Nanga Medamit"
-            },
-            {
-            id: "R80017377",
-            name: "Niah",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Niah"
-            },
-            {
-            id: "R80017387",
-            name: "Pusa",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Pusa"
-            },
-            {
-            id: "R80017391",
-            name: "Roban",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Roban"
-            },
-            {
-            id: "R80017365",
-            name: "Saratok",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Saratok"
-            },
-            {
             id: "R80017378",
             name: "Sarikei",
             nameLocal: "",
             parentId: "R3879784",
             displayName: "Sarikei"
-            },
-            {
-            id: "R80017359",
-            name: "Sebauh",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Sebauh"
-            },
-            {
-            id: "R80017357",
-            name: "Sebuyau",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Sebuyau"
-            },
-            {
-            id: "R80017358",
-            name: "Serian",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Serian"
             },
             {
             id: "R80017366",
@@ -2595,13 +2492,7 @@
             parentId: "R3879784",
             displayName: "Siburan"
             },
-            {
-            id: "R80017346",
-            name: "Simunjan",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Simunjan"
-            },
+            
             {
             id: "R80017392",
             name: "Song",
@@ -2609,33 +2500,13 @@
             parentId: "R3879784",
             displayName: "Song"
             },
-            {
-            id: "R80017352",
-            name: "Spaoh",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Spaoh"
-            },
+            
             {
             id: "R80017367",
             name: "Sri Aman",
             nameLocal: "",
             parentId: "R3879784",
             displayName: "Sri Aman"
-            },
-            {
-            id: "R80017361",
-            name: "Sundar",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Sundar"
-            },
-            {
-            id: "R80017379",
-            name: "Tatau",
-            nameLocal: "",
-            parentId: "R3879784",
-            displayName: "Tatau"
             }
             ];
         var l=[

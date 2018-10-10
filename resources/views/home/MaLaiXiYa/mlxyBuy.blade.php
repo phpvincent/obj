@@ -284,6 +284,9 @@
     
 <!--button begin-->
 <div class="btndiv">
+ <strong>Tips:</strong> Delivery can't be arranged  to the  areas which is invalid for selection in Sarawak .please choose the reachable ones for shipment
+</div>
+<div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="">Place Order</button>
 </div>
 <!--button end-->
