@@ -50,6 +50,11 @@
 					<option value="6">退货并已退款</option>
 					<option value="7">未退货已退款</option>
 					<option value="8">拒签</option>
+					<option value="9">预支付</option>
+					<option value="10">取消支付</option>
+					<option value="11">支付成功</option>
+					<option value="12">支付失败</option>
+					<option value="13">支付成功但无paypal数据</option>
 				</select>
 				</span>
 			</div>
