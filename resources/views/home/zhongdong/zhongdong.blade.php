@@ -339,25 +339,27 @@
                 </p> -->
             </td></tr>
         @endif
-        <!-- <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Returns & Replacements Procedures</th>
         </tr>
+        <tr class="first odd">
+            <td colspan="2">
+                <p>Konfirmasi penerimaan barang – Pengajuan pengembalian barang – Berhasil verifikasi – pelanggan mengirim produk return – Produk return diterima di gudang – verfikasi produk return – Pengembalian dana / penggantian produk</p>
+                <p>Pengembalian atau penggantian produk silahkan mengisi : Nomor Order, nama lengkap dan nomor HP.</p>
+            </td>
+
+        </tr>
+                <tr class="first odd"></tr>
+        @endif
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-               
-               
-                <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
-
-                    換貨審核—退款/換貨；</p>
-                <p>退換貨請註明：訂單號、姓名、電話。</p>
-                
+                <p>ZSSSHOP believes in the “attitude of quality”. It selects from worldwide for high quality products such as clothing, shoes, bags, homeware, kitchenware, sportswear, etc. It ensures the quality of craft, regional origin and raw materials of the products according to strict criteria in order to bring the best products for you.</p>
             </td>
 
-        </tr> -->
-                <tr class="first odd"></tr>
-            </tbody>
-        @endif
+        </tr>
+        <tr class="first odd"></tr>
+        </tbody>
 </table>
 <style>
     .footer2{
