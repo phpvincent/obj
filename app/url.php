@@ -26,9 +26,14 @@ class url extends Model
     public static function get_goods(Request $request){
     	$url=$_SERVER['SERVER_NAME'];
         $level=self::where('url_url',$url)->first(['url_zz_level']);
+        if($level==null){
+            $level='4';
+        }else{
+            @$level=$level->url_zz_level;
+        }
         $url=self::where('url_url',$url)->first();
         $arr=getclientcity($request);
-        switch ($level->url_zz_level) {
+        switch ($level) {
             case '0':
               $goods_id=$url->url_goods_id;
                 break;

@@ -125,11 +125,17 @@ if (!function_exists("getclientype")) {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
          if(stristr($_SERVER['HTTP_USER_AGENT'], 'Android')){//返回值中是否有Android这个关键字
           $a =  explode(" ",$user_agent);
+          if(!isset($a[6])||!isset($a[7])){
+                  return 'unknown';
+                }
           $b = $a[6].$a[7];
             return $b;
         }else{
             if(stristr($_SERVER['HTTP_USER_AGENT'], 'iPhone')){
                 $a =  explode(" ",$user_agent);
+                if(!isset($a[3])){
+                  return 'unknown';
+                }
                 return $a[3];
             }elseif(stristr($_SERVER['HTTP_USER_AGENT'], 'iPad')){
                  return 'iPad';

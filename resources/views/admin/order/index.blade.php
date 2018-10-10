@@ -108,7 +108,7 @@
 				<th width="60">收货人地区</th>
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
-				<th width="150">操作</th>
+				<th width="130">操作</th>
 			</tr>
 		</thead>
 		<tbody>
