@@ -169,7 +169,7 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2">YaHoo像素(没有则留空)：</label>
+				<label class="form-label col-xs-4 col-sm-2">Google像素(没有则留空)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$goods->goods_google_pix}}" placeholder="" id="goods_google_pix" name="goods_google_pix">
 				</div>
