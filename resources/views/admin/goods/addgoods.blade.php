@@ -110,6 +110,7 @@
 						<option value="3">3--马来西亚模板</option>
 						<option value="4">4--泰国模板</option>
 						<option value="5">5--日本模板</option>
+						<option value="6">6--印度尼西亚</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>

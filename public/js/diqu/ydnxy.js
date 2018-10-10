@@ -213,8 +213,8 @@
                 opts = self.options,
                 county = '',
                 list = {
-                    'county': '<option value="">都道府県を選択してください</option>',
-                    'district': '<option value="">市町村を選択してください</option>'
+                    'county': '<option value="">Silahkan pilih provinsi</option>',
+                    'district': '<option value="">kota</option>'
                 },
                 tpl = [];
 
