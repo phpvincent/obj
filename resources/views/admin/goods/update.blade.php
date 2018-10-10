@@ -99,6 +99,7 @@
 						<option value="3" @if($goods->goods_blade_type=='3') selected="selected" @endif>3--马来西亚模板</option>
 						<option value="4" @if($goods->goods_blade_type=='4') selected="selected" @endif>4--泰国模板</option>
 						<option value="5" @if($goods->goods_blade_type=='5') selected="selected" @endif>5--日本模板</option>
+						<option value="6" @if($goods->goods_blade_type=='6') selected="selected" @endif>6--印度尼西亚</option>
 						{{--<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
