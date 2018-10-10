@@ -574,28 +574,23 @@ $(function(){
         localStorage.setItem("jsArr", tjArr1);
     }
     // 用户继续访问根据上面提供的key值补充数据
-    window.onbeforeunload = function() {
-        var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
-        var tjI = tjArrRd.length - 1;
-        if(tjArrRd[tjI].tjRd == tjRandom){
-            tjArrRd[tjI].time = tjSecond;
-            tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
-            tjArrRd[tjI].timeOut = Date.parse(new Date());
-            var tjArr1= JSON.stringify(tjArrRd);
-            localStorage.setItem("jsArr", tjArr1);
-            $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
-        }
-    };
+    // window.onbeforeunload = function() {
+    //     var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
+    //     var tjI = tjArrRd.length - 1;
+    //     if(tjArrRd[tjI].tjRd == tjRandom){
+    //         tjArrRd[tjI].time = tjSecond;
+    //         tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
+    //         tjArrRd[tjI].timeOut = Date.parse(new Date());
+    //         var tjArr1= JSON.stringify(tjArrRd);
+    //         localStorage.setItem("jsArr", tjArr1);
+    //         $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
+    //     }
+    // };
      window.onbeforeunload = function() {
           $.ajax({url:"/paypal"+"?times="+new Date(),async:false});
      };
     mui.init({
 	swipeBack:true //启用右滑关闭功能
-    });
-    mui.init({
-	keyEventBind: {
-		backbutton: true  //back按键监听
-	}
     });
     mui.init({
 	beforeback: function(){
