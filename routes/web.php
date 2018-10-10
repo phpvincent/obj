@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 	Route::get('/index/fb','home\IndexController@fb');
 	Route::any('/paypal',function(Request $request){
 		$time=date('Y-m-d H:i:s',time());
-		$date=$request->all();
+		$data=$request->all();
 		$data=json_encode($data);
 		\Log::notice('['.$time.']'.'数据：'.$data);
 	});
