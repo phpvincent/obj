@@ -17,7 +17,8 @@ use Illuminate\Http\Request;
 		$time=date('Y-m-d H:i:s',time());
 		$data=$request->all();
 		$data=json_encode($data);
-		\Log::notice('['.$time.']'.'数据：'.$data);
+		$ip=$request->getClientIp();
+		\Log::notice('['.$time.']ip:'.$ip.'____数据：'.$data);
 	});
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
