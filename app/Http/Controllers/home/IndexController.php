@@ -228,6 +228,11 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
+        if($goods==null){
+            $ip=$request->getClientIp(); 
+            $time=date('Y-m-d H:i:s',time());
+             \Log::notice('['.$time.']'.$ip.'获取'.$goods_id.'gethtml获取失败!');
+        }
         if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();

@@ -32,7 +32,14 @@ class checkurl
         }
         $is_zz=false;
         $arr=getclientcity($request);
-        $type=getclientype();
+        try{
+                    $type=getclientype();
+        }catch(\Exception $e){
+                    $type='unknow';
+        }
+        if(!isset($type)){
+            $type='unknow';
+        }
         $lan=getclientlan(); 
         $level=url::getlevel();
         $for=url::getzzfor();
