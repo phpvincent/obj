@@ -805,7 +805,7 @@ jQuery(function(){
                             		$("[mine_id='"+cuxiao_special_id+"']").show();
                             	}
                             	if(attr=='chose_cart'){
-                            		layer.msg('Selected ');
+                            		layer.msg('Dipilih ');
                             	}else if(attr =='unchose_cart'){
                        		     $('.chose_cart').attr('class','unchose_cart');
                        		     $(this).attr('class','chose_cart');
