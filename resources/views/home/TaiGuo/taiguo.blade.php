@@ -168,7 +168,7 @@
     @endif
 </div>
 @endif
-<div class="clear"></div>
+<div class="clear"></div><button type="button" class='mui-btn mui-btn-danger mui-action-back'>关闭</button>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
