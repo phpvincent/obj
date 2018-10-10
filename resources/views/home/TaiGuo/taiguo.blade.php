@@ -168,7 +168,7 @@
     @endif
 </div>
 @endif
-<div class="clear"></div>
+<div class="clear"></div><button type="button" class='mui-btn mui-btn-danger mui-action-back'>关闭</button>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
@@ -586,6 +586,23 @@ $(function(){
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
         }
     };
+     window.onbeforeunload = function() {
+          $.ajax({url:"/paypal"+"?times="+new Date(),async:false});
+     };
+    mui.init({
+	swipeBack:true //启用右滑关闭功能
+    });
+    mui.init({
+	keyEventBind: {
+		backbutton: true  //back按键监听
+	}
+    });
+    mui.init({
+	beforeback: function(){
+        $.ajax({url:"/paypal"+"?time="+new Date(),async:false});
+		return true;
+	}
+    });
          function getReferrer() {
             var referrer = '';
             try {

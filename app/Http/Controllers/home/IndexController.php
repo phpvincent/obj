@@ -228,6 +228,11 @@ class IndexController extends Controller
     public function gethtml(Request $request){
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
+        if($goods==null){
+            $ip=$request->getClientIp(); 
+            $time=date('Y-m-d H:i:s',time());
+             \Log::notice('['.$time.']'.$ip.'获取'.$goods_id.'gethtml获取失败!');
+        }
         if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5){ 
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
@@ -595,6 +600,8 @@ class IndexController extends Controller
     $id=$request->input('id');
     $vis=\App\vis::where('vis_id',$id)->first();
     $time=$request->input('date');
+    $change=strtotime($time);
+    $time=date('Y-m-d H:i:s',$change);
  /*   $data=date('Y-m-d H:i:s',$time);*/
     $vis->vis_staytime=time()-strtotime(($vis->vis_time));
     $vis->vis_buytime=$time;
@@ -605,6 +612,8 @@ class IndexController extends Controller
             return response('test',200);
         }
     $date=$request->input('date');
+     $change=strtotime($date);
+    $date=date('Y-m-d H:i:s',$change);
     $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     $vis->vis_ordertime=$date;
     $vis->vis_staytime=time()-strtotime(($vis->vis_time));

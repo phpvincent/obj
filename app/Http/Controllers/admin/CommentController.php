@@ -13,7 +13,16 @@ class CommentController extends Controller
 {
    public function index(){
    	$goods=goods::get();
-   	$counts=goods::count();
+   	 $counts=DB::table('goods')
+	        ->where(function($query){
+	        	if(Auth::user()->is_root!='1'){
+	        		$query->where('goods_admin_id',Auth::user()->admin_id);
+	        	}
+	        })
+	         ->where(function($query){
+	        	$query->where('is_del','0');
+	        })
+	        ->count();
    	return view('admin.comment.comment')->with('counts',$counts);
    }
    public function getindex(Request $request){
@@ -28,27 +37,40 @@ class CommentController extends Controller
 	        $counts=DB::table('goods')
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
-	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
+	        })
+	         ->where(function($query){
+	        	$query->where('is_del','0');
 	        })
 	        ->count();
 	        $newcount=DB::table('goods')
-	        ->where([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
+	        ->where(function($query)use($search){
+	        	$query->where([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']]);
+	        	$query->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']]);
+	        })
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
-	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
+	        })
+	        ->where(function($query){
+	        	$query->where('is_del','0');
 	        })
 	        ->count();
 	        $data=DB::table('goods')
+	        ->where(function($query)use($search){
+	        	$query->where([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']]);
+	        	$query->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']]);
+	        })
 	        ->select('goods.*')
-	        ->where([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']])
-	        ->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']])
 	        ->where(function($query){
 	        	if(Auth::user()->is_root!='1'){
-	        		$query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
+	        })
+	        ->where(function($query){
+	        	$query->where('is_del','0');
 	        })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)

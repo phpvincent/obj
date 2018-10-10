@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,12 +37,10 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
-        <script type="text/javascript" src="/js/resizeDIV.js"></script>
-       
+       <script type="text/javascript" src="/js/resizeDIV.js"></script>
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
-        
         <script>
-        jQuery(function(){setFrom();});  
+        jQuery(function(){setFrom();});
         </script>
 
         <!-- Facebook Pixel Code -->
@@ -86,18 +83,6 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', '{{$goods->goods_google_pix}}');
-        </script>
-        @endif 
-        <!-- End Google Pixel Code -->
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -126,14 +111,14 @@
 
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content">
-        <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
-        <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
+    <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
+    <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
 <!--产品轮播-->
 @if(in_array('broadcast',$templets))
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
-            @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+              @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
             <div class="swiper-slide" id="swiper-slide">
                 <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
                     <source src="{{$goods->goods_fm_video}}" type="video/mp4">
@@ -141,7 +126,7 @@
             </div>
             @endif
         	@foreach($imgs as $key)
-                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}"  style="width: 100%;"  alt="" /></div>
+                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
             @endforeach
         </div>
         <div class="swiper-pagination"></div>
@@ -152,18 +137,19 @@
     </ul>
 </div>
 @endif
+
 <div class="divVideoc1"></div>
 <!--产品轮播-->
 <script type="text/javascript" src="/js/swiper-3.4.2.jquery.min.js" ></script>
 <script src='/js/client.js'></script>
 <script type="text/javascript" src="/js/video.js"></script>
         <!--把商品描述部分内容抽象到detail_content中-->
-<div class="clear"></div>
+        <div class="clear"></div>
 
 {{--价格栏位--}}
 @if(in_array('price',$templets))
 <div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
-    <div class="dc-price" style="background:#fff;">
+<div class="dc-price" style="background:#fff;">
         <span class="s-price" style="font-size:24px">
             {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}        </span>
         @if(in_array('original',$templets))
@@ -172,37 +158,35 @@
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-    <span class="flag" style="font-size: 12px;">免運費</span>
+        <span class="flag" style="font-size: 12px;">Gratis biaya pengiriman</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-    <span class="flag" style="font-size: 12px;">貨到付款</span>
+        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
     @endif
     @if(in_array('seven_days',$templets))
-    <span class="flag" style="font-size: 12px;background:#000;">7天鑑賞期</span>
+        <span class="flag" style="font-size: 12px;background:#000;">7 hari masa garansi</span>
     @endif
 </div>
 @endif
-
 <div class="clear"></div>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑貓宅急便配送</span>
+   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:28px 18px;">DHL</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
-    <div class="timebox">
-        <div class="text">倒數：<span>{{$goods->goods_num}}組</span></div>
-        <div class="boxtime">
-            <div class="time" id="timer"><span id="h" class="colon"></span>時<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
-            <font>距結束：</font>
-        </div>
+<div class="timebox">
+    <div class="text"> Hitung mundur:<span>{{$goods->goods_num}}grup</span></div>
+    <div class="boxtime">
+        <div class="time" id="timer"><span id="h" class="colon"></span>Jam<span id="m" class="colon"></span>menit<span id="s" class="colon"></span>detik</div>
+        <font>Batas akhir:</font>
     </div>
+</div>
 @endif
-
 <div class="clear"></div>
 
 {{--活动描述--}}
@@ -213,37 +197,33 @@
 </div>
 @endif
 
-
 {{--中部导航--}}
 @if(in_array('center_nav',$templets))
 <ul class="detail-bars">
     @if(in_array('introduce',$templets))
     <li>
-        <span href="#detial-context" class="scrollBar" scroll-y="0">
-          商品介紹                </span>
+        <span href="#detial-context" class="scrollBar" scroll-y="0">Penjelasan produk</span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
-        <span href="#detial-params" class="scrollBar" scroll-y="50">
-           商品規格                </span>
+        <span href="#detial-params" class="scrollBar" scroll-y="50">Spesifikasi produk</span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
-    <li style="width:{{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '') }};">
+    <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-                                    評價 ({{$goods->goods_comment_num}}+)
+        ulasan ({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
 </ul>
 @endif
-
         <div class="clear"></div>
-
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(in_array('video',$templets) && !empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
+            	
 			</p>
             @endif
             <p>
@@ -260,14 +240,12 @@
            </p>
            
         </div>
-        
         <div class="clear">
         </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
-{{--            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
+            {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>
-                最新評價            </h4>
+                        <h4>Ulasan terakhir</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -277,7 +255,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                                滿意度：
+                            evaluate:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -289,7 +267,7 @@
                                 <p>{{$v->com_msg}}</p><p>
                                 @if(!empty($v->com_img))
                                     @foreach($v->com_img as $kk => $val)
-                                <img src="{{$val->com_url}}" title="客户图片" alt="客户图片"/>  
+                                <img src="{{$val->com_url}}" title="ClientImages" alt="客户图片"/>  
                                     @endforeach
 								@endif                         </p> </p>
                         </div>
@@ -300,59 +278,50 @@
                     </div> 
                 </div>
                @endif
-            <div class="go-appraise" style=" background:#fff; border:none;">
+                        <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    我要評價     @else 給我們留言   @endif        </a>
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    Ulasan Saya    @else Pesan   @endif        </a>
             </div>
-        </div>
+                    </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
         <div class="clear">
         </div>
-        <script>
-            (function(){
-                /* 图片显示画面 */
-                function captureImage(a) {
-                    a.pause();       
-                };
-                var videos=$("#detial-context video");
-                for(var i=0;i<videos.length;i++){
-                    videos[i].setAttribute("autoplay","autoplay");
-                    videos[i].setAttribute("preload","auto");
-                    videos[i].addEventListener('canplay',captureImage(videos[i]));
-                }
-            })();
-        </script>
-        <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
-    <table class="data-table">
-
+<div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
+<table class="data-table">
     {{--用户帮助模块--}}
     @if(in_array('user_help',$templets))
     <tbody>
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用戶須知</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Informasi</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>本產品的實際使用效果根據個人情況決定，不保證每位用戶都能享受到所宣傳的效果。若有疑問請諮詢在線客服或通過電子郵箱(
+                <p>
+                Hasil dari penggunaan produk ini sesuai dengan kondisi masing-masing pelanggan dan tidak menjamin bahwa setiap pelanggan dapat mencapai hasil sesuai di promosi. Jika Anda memiliki pertanyaan, silakan hubungi layanan pelanggan online kami atau hubungi kami melalui e-mail(
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        )聯絡我們，本公司享有最終解釋權。</p>
+                                        ) perusahaan kami memiliki hak interpretasi akhir.</p>
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·如何申請退換貨</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Cara mengajukan pengambalian barang</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>1.由於個人原因產生的退換貨：至收到商品之日起7天內，在不影響二次銷
+            <p>
+            1. Pengembalian karena alasan pribadi: dalam 7 hari dari tanggal penerimaan barang silakan hubungi layanan pelanggan online kami atau kirim email ke <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a> tanpa mempengaruhi penjualan kedua. Permintaan Anda akan diterima dalam waktu 1-3 hari kerja oleh bagian layanan customer service dan biaya pengiriman yang dikenakan akan ditanggung oleh pelanggan.<br>
+
+
+             2.Pengembalian karena alasan kualitas: dalam 7 hari dari tanggal penerimaan barang silahkan mengirim email ke ke pusat layanan customer service kami <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>, Customer service kami akan merespon permintaan Anda dalam waktu 1-3 hari, biaya pengiriman atas pengembalian barang akan ditanggung oleh pihak kami.</p>
+                <!-- <p>1.由於個人原因
+                    需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         ，售後
 
                     客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
 
-                    需自行承擔。</p>
                 <p>
                     2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
 
@@ -361,39 +330,26 @@
                                         ，客服會在收到郵件後的1-3個工作日內受
 
                     理您的請求，退換貨所產生的運費由我方承擔。
-                </p>
+                </p> -->
             </td></tr>
-            @endif
-        @if(in_array('exchange_of_goods',$templets))
+        @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Alur Pengembalian barang</th>
         </tr>
-        <tr> <td colspan="2">
+        <tr class="first odd">
+            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <td colspan="2">
                
                
-                <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
-
-                    換貨審核—退款/換貨；</p>
-                <p>退換貨請註明：訂單號、姓名、電話。</p>
+                <p>Konfirmasi penerimaan barang – Pengajuan pengembalian barang – Berhasil verifikasi – pelanggan mengirim produk return – Produk return diterima di gudang – verfikasi produk return – Pengembalian dana / penggantian produk</p>
+                <p>Pengembalian atau penggantian produk silahkan mengisi : Nomor Order, nama lengkap dan nomor HP.</p>
                 
             </td>
-            
-        </tr>
-        <tr class="first odd">
-            
-            <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
-           <td colspan="2">
-                <p>ZSSSHOP嚴選商城，秉承一貫的嚴謹態度,深入世界各地,嚴格把關所有商品的產地、工藝、原材料,甄選服飾、鞋包、居家、廚房、運動等各類商品,力求給你最優質的商品。</p>
-            </td>
 
         </tr>
+                <tr class="first odd"></tr>
+            </tbody>
         @endif
-                <tr class="first odd">
-          
-            
-        </tr>
-    </tbody>
-    @endif
 </table>
 <style>
     .footer2{
@@ -430,22 +386,21 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </div>
     </div> -->
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
-{{--底部导航--}}
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">訂單<br>查詢</span>
+        <span style="line-height:14px;">Pesanan<br>Cari</span>
       </a>
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}}">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>立即購買</span>
+			<span>Beli sekarang</span>
 		</a>
 	</span>
     @endif
@@ -477,7 +432,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                    在線留言                </div>
+                Pesan online                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -487,10 +442,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    姓名:
+                                    Nama:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="姓名" class="mui-input-clear input01"
+                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -499,17 +454,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    手機:
+                                    No. Hanphone:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="手機" class="input01" name="phone"
+                                    <input type="text" placeholder="No. Hanphone" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                    滿意度:
+                                Tingkat kepuasan:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -534,16 +489,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                    留言:
+                                Pesan:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="在線留言" name="content" class="textarea_style"></textarea>
+                                    <textarea placeholder="Pesan online" name="content" class="textarea_style">
+                                    </textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="提交評價" style="color:white">
+                                    value="Kirim ulasan" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -571,7 +527,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
             if(m<10) m = "0" + m;
             if(s<10) s = "0" + s;
             
-            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"時"+'<span id="m" class="colon">' + m + '</span>'+"分"+'<span id="s" class="colon">' + s + '</span>'+"秒");
+            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"s"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
            time=time-1000;
             /*startDate.setTime(startDate.getTime() + 1000);
             if(startDate.getTime()==endDate.getTime()){
@@ -612,8 +568,7 @@ $(function(){
         localStorage.setItem("jsArr", tjArr1);
     }
     // 用户继续访问根据上面提供的key值补充数据
-    window.onblur = function() {
-        console.log('离开页面测试1')
+    window.onbeforeunload = function() {
         var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
         var tjI = tjArrRd.length - 1;
         if(tjArrRd[tjI].tjRd == tjRandom){
@@ -650,8 +605,7 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
-    $2(function() { 
-        
+    $2(function() {
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {
@@ -738,17 +692,17 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("姓名不得为空");
+                $2.toast("Nama tidak boleh kosong");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("手機不得为空");
+                $2.toast("No. Handphone tidak boleh kosong");
                 return false;
             }
-            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
-            if (!myreg.test($2("input[name='phone']").val())) {
-                $2.toast("手機格式错误");
-            }
+            // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            // if (!myreg.test($2("input[name='phone']").val())) {
+            //     $2.toast("手機格式错误");
+            // }
             var data = {};
             data.level = $2("input[name='level']").val();
             data.product_id = '103107897';
@@ -765,11 +719,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("Thanks For Your Review！");
+                    $2.toast("Terima kasih atas pendapat Anda");
                 }
                 else
                 {
-                    $2.toast("Submission fails！");
+                    $2.toast("gagal dikirim");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);
@@ -900,10 +854,10 @@ $(function(){
 </div>
 <!--商品介绍  商品参数处按钮的固定-->
 <script type="text/javascript" charset="utf-8">
-    // var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
+    var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
 </script>
 <script>
-        $(function(){
+            $(function(){
             $('#detial-context p a').each(function(index,ele){
                 var con_a = $(this).attr('href');
                 if(con_a.length>0){
@@ -1013,9 +967,6 @@ jQuery('input[name=pay_type]').change(function(){
         });
     }
 });
-</script>
-<script>
-   $(document).ready(function(){$("#divVideo").css("height","inherit")}) //改变轮播图video高度；
 </script>
 <style>
     .detail-bars li {

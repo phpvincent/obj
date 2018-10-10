@@ -388,6 +388,7 @@ class GoodsController extends Controller
          $goods->goods_pix=$data['goods_pix'];
          $goods->goods_num=$data['goods_num'];
          $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
+         $goods->goods_google_pix=$data['goods_google_pix'];
          $goods->goods_admin_id=$data['admin_id'];
          $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
          $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
@@ -940,6 +941,7 @@ class GoodsController extends Controller
        $goods->goods_buy_msg = $request->has('goods_buy_msg') ? $data['goods_buy_msg'] : null;
        $goods->goods_pix = $data['goods_pix'];
        $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
+       $goods->goods_google_pix = $data['goods_google_pix'];
        $goods->goods_type = $data['goods_type'];
 //           $goods->goods_pay_type=implode(',',$request->input('pay_type'));
 //           $goods->goods_up_time = date('Y-m-d h:i:s', time());

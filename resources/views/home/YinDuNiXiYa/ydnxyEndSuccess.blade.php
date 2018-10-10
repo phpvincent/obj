@@ -11,8 +11,8 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 
-      @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
-    <!-- Facebook Pixel Code -->
+<!-- Facebook Pixel Code -->
+@if($goods->goods_pix!=null&&$goods->goods_pix!='')    
         <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -24,7 +24,7 @@
         'https://connect.facebook.net/en_US/fbevents.js');
          fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
-        fbq('track', 'Purchase', {value:'{{$order->order_price}}', currency:'{{\App\currency_type::where("currency_type_id",$order->order_currency_id)->first()["currency_english_name"]}}'});//购买
+        fbq('track', 'Purchase', {value:'{{$order->order_price}}', currency:'TWD'});//购买
         </script>
         <noscript>
          <img height="1" width="1" 
@@ -53,23 +53,25 @@
         @endif
         <!-- End YaHoo Pixel Code -->
 </head>
-<body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
+<body style="">
+
+<header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-        <h1 class="mui-title">確認訂單</h1>
+        <h1 class="mui-title">Konfirmasi pesanan</h1>
 </header>
     <div class="mui-content">
     <div class="pay_image"><span class="sico"><i class="mui-icon mui-icon-checkmarkempty"></i></span></div>
     <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">訂單已成功！</h2>
+            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">Pesanan berhasil !</h2>
                             <div style="padding:15px;">
-                您的訂單編號:<font color="red">{{$order->order_single_id}}</font><br>
-                應支付：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
+                            Nomer pesanan Anda :<font color="red">{{$order->order_single_id}}</font><br>
+                            Yang harus dibayar :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-請您保持手機暢通，方便快遞員能及時與您取得聯繫，如有任何疑問， 請及時聯繫我們在線客服。 祝您購物愉快！            </div>
+                                            Mohon agar HP Anda tetap aktif, supaya mempermudah kurir untuk menghubungi Anda. Jika ada pertanyaan, silahkan menghubungi layanan chat online kami. Semoga belanja Anda menyenangkan !             </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">返回首頁&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">kembali ke beranda&gt;&gt;</button>
             </div>
     </div>
 </div>

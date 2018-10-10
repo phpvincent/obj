@@ -11,18 +11,18 @@
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-        <h1 class="mui-title">คำสั่งซื้อที่มั่นคง</h1>
+        <h1 class="mui-title">Konfirmasi pesanan</h1>
 </header>
     <div class="mui-content">
     <div class="pay_image" ><span class="sico" ><i class="mui-icon mui-icon-closeempty" style="background-color: red; border-radius: 50%;"></i></span></div>
     <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#f00">การส่งคำสั่งซื้อล้มเหลว! </h2>
+            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#f00">Pesanan gagal dikirim </h2>
                            
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            โปรดส่งกลับเพื่อส่งคำสั่งซื้ออีกครั้ง!         </div>
+                                            Silahkan kirim ulang pesanan !         </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="goHome();">กลับ&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="goHome();">kembali&gt;&gt;</button>
             </div>
     </div>
 </div>
