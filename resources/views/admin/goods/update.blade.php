@@ -168,6 +168,12 @@
 					<input type="text" class="input-text" value="{{$goods->goods_yahoo_pix}}" placeholder="" id="goods_yahoo_pix" name="goods_yahoo_pix">
 				</div>
 			</div>
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">YaHoo像素(没有则留空)：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="{{$goods->goods_google_pix}}" placeholder="" id="goods_google_pix" name="goods_google_pix">
+				</div>
+			</div>
 
 		@if(\App\goods_config::where('goods_primary_id',$goods->goods_id)->count()<=0)
 		<div class="clearfix" style="margin-left: 2%">
