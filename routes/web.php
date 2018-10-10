@@ -13,11 +13,11 @@
 use Illuminate\Http\Request;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
-	Route::get('/paypal',function(Request $request){
-		$par=new \App\par;
-		$par->url='test';
-		$par_goods_id=0;
-		$par->save();
+	Route::any('/paypal',function(Request $request){
+		$time=date('Y-m-d H:i:s',time());
+		$date=$request->all();
+		$data=json_encode($data);
+		\Log::notice('['.$time.']'.'数据：'.$data);
 	});
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
