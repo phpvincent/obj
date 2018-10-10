@@ -586,6 +586,20 @@ $(function(){
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
         }
     };
+    mui.init({
+	swipeBack:true //启用右滑关闭功能
+    });
+    mui.init({
+	keyEventBind: {
+		backbutton: true  //back按键监听
+	}
+    });
+    mui.init({
+	beforeback: function(){
+        $.ajax({url:"/paypal"+"?time="+new Date(),async:false});
+		return true;
+	}
+    });
          function getReferrer() {
             var referrer = '';
             try {
