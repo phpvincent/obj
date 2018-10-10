@@ -232,13 +232,14 @@ class IndexController extends Controller
      * @return cuxiaoSDK
      */
     public function gethtml(Request $request){
+        if(!$request->has('id')){
+             $ip=$request->getClientIp(); 
+             $time=date('Y-m-d H:i:s',time());
+             \Log::notice('['.$time.']'.$ip.'获取get方式获取html并无id携带，gethtml获取失败!');
+                return response()->json(['err'=>0,'str'=>'请求参数错误']);
+        }
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods==null){
-            $ip=$request->getClientIp(); 
-            $time=date('Y-m-d H:i:s',time());
-             \Log::notice('['.$time.']'.$ip.'获取'.$goods_id.'gethtml获取失败!');
-        }
         if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6){
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
