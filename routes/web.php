@@ -144,9 +144,15 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/check/getcheck','admin\CheckController@getcheck');
 	Route::any('/admin/check/set','admin\CheckController@set');
 	//花费相关
-	Route::get('/admin/pay/index','admin\PayController@index');
-	Route::post('/admin/pay/get_table','admin\PayController@get_table');
-	Route::any('/admin/pay/spend_import','admin\PayController@spend_import');
-	Route::match(['get','post'],'/admin/pay/add_pay_layer','admin\PayController@add_pay_layer');
+	Route::get('/admin/pay/index','admin\PayController@index');//花费首页
+	Route::post('/admin/pay/get_table','admin\PayController@get_table');//花费列表
+	Route::any('/admin/pay/spend_import','admin\PayController@spend_import');//导入花费信息
+	Route::any('/admin/pay/add_spend','admin\PayController@add_spend');//新增花费
+	Route::any('/admin/pay/add_pay_number','admin\PayController@add_pay_number');//新增广告编号
+	Route::get('/admin/pay/spend_entry','admin\PayController@spend_entry');//未添加花费日期
+	Route::get('/admin/pay/spend_show','admin\PayController@spend_show');//花费详情
+	Route::post('/admin/pay/get_show_table','admin\PayController@get_show_table');//花费列表信息
+
+	Route::any('/admin/pay/del_spend','admin\PayController@del_spend');//删除商品花费
 
 });

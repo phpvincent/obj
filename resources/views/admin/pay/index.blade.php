@@ -24,7 +24,7 @@
 			</div>
 	</div>
 
-	<a style="margin-bottom: 10px;margin-left: 5px" href="javascript:;" onclick="pl_del()" class="btn btn-warning radius"><i class="Hui-iconfont">&#xe645;</i> 导入花费</a><span style="margin-bottom: 10px" class="l"><a href="javascript:;" onclick="order_up('新增广告编号','/admin/pay/ad_number','2','800','500')" class="btn btn-success radius"><i class="Hui-iconfont">&#xe61f;</i> 新增广告编号</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br>
+	<a style="margin-bottom: 10px;margin-left: 5px" href="javascript:;" onclick="pl_del()" class="btn btn-warning radius"><i class="Hui-iconfont">&#xe645;</i> 导入花费</a>
 	<table class="table table-border table-bordered table-bg" id="pay_index_table">
 		<thead>
 			<tr>
@@ -33,11 +33,11 @@
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="30">ID</th>
-				<th width="60">单品名</th>
+				<th width="30">单品名</th>
 				<th width="60">花费总额（元）</th>
 				<th width="60">销售总额（元）</th>
 				<th width="50">录入状态</th>
-				<th width="100">操作</th>
+				<th width="50">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -49,11 +49,6 @@
 @section('js')
 
 <script type="text/javascript">
-
-
-function bulu(id){
-	layer_show('订单信息','/admin/pay/add_pay_layer',500,300);
-}
 function selectDatediff(a){
 	console.log(a)
 }
@@ -92,44 +87,25 @@ function selectDatediff(a){
 		{'defaultContent':"","className":"td-manager"},
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe643;</i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
-			if(data.order_type==0){
-				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
-			}else if(data.order_type==1){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:green;">核审通过</span></a>';
-			}else if(data.order_type==2){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:red;">核审驳回</span></a>';
-			}else if(data.order_type==3){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:brown;">已发货</span></a>';
-			}else if(data.order_type==4){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#6699ff;">已签收</span></a>';
-			}else if(data.order_type==5){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">退货未退款</span></a>';
-			}else if(data.order_type==6){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">退货并已退款</span></a>';
-			}else if(data.order_type==7){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">未退货并已退款</span></a>';
-			}else if(data.order_type==8){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">拒签</span></a>';
-			}
-			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
+			var info='<a title="预览详情" href="javascript:;" onclick="goods_getaddr(\'预览详情\',\'{{url("admin/pay/spend_show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览详情"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="新增花费" href="javascript:;" onclick="goods_getaddr(\'新增花费\',\'/admin/pay/add_spend?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增花费"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="新增广告编号" href="javascript:;" onclick="goods_getaddr(\'新增广告编号\',\'/admin/pay/add_pay_number?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增广告编号"><i class="Hui-iconfont">&#xe600;</i></span></a><a title="删除花费" href="javascript:;" onclick="del_order(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			var checkbox='<input type="checkbox" name="" value="'+data.goods_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
-			$(row).find('td:eq(14)').html(info);
-			$(row).find('td:eq(8)').html(isroot);
+			$(row).find('td:eq(6)').html(info);
 			$(row).addClass('text-c');
 		}
 	}
  dataTable =$('#pay_index_table').DataTable($.tablesetting);
-$('#seavis1').on('click',function(){
-	               			 $('#pay_index_table').dataTable().fnClearTable(); 
-
+ $('#seavis1').on('click',function(){
+ $('#pay_index_table').dataTable().fnClearTable();
 })
+
+// 删除商品花费
 function del_order(id){
-		var msg =confirm("确定要删除此订单吗？");
+		var msg =confirm("确定要删除此商品花费信息吗？");
 		if(msg){
         		layer.msg('删除中');
         			$.ajax({
-					url:"{{url('admin/order/delorder')}}",
+					url:"{{url('admin/pay/del_spend')}}",
 					type:'get',
 					data:{'id':id},
 					datatype:'json',
@@ -148,115 +124,12 @@ function del_order(id){
                 
         	}
 	}
-function order_returninfo(id){
-	layer_show('订单信息','/admin/order/orderinfo?id='+id,500,300);
-}
-function goods_edit(title,url,type,w,h){
-	layer_show(title,url,w,h);
-}
-function order_up(title,url,type,w,h){
-	var b='';
-	var a=$('input[type="checkbox"]:checked');
-	if(a.length<=0){
-		layer.msg('无选中项');
-		return false;
-	}
-	for (var i = a.length - 1; i >= 0; i--) {
-		if(a[i].value!=''&&a[i].value!=null){
-					b+=a[i].value+',';
-		}
-	}
-	url=url+'&id='+b;
-	layer_show(title,url,w,h);
-}
-$('#outorder').on('click',function(){
-	var mintime=$('#datemin').val();
-	var maxtime=$('#datemax').val();
-	if(mintime==''&&maxtime==''){
-		layer.msg('请稍等');
-     location.href='{{url("admin/order/outorder")}}';
-	}else if(mintime==''||maxtime==''){
-		layer.msg('请选择正确日期区间');
-	}else{
-		layer.msg('请稍等');
-		location.href='{{url("admin/order/outorder")}}?min='+mintime+'&max='+maxtime;
-	}
-})
-function pl_del(){
-	var msg =confirm("确定要批量删除这些订单吗？");
-	if(!msg){
-		return false;
-	}
-	var b=[];
-	var a=$('input[type="checkbox"]:checked');
-	if(a.length<=0){
-		layer.msg('无选中项');
-		return false;
-	}
-	for (var i = a.length - 1; i >= 0; i--) {
-		if(a[i].value!=''&&a[i].value!=null){
-					b.push(a[i].value);
-		}
-	}
-	layer.msg('删除中，请稍等!');
-	$.ajax({
-					url:"{{url('admin/order/delorder')}}",
-					type:'get',
-					data:{'id':b,'type':'all'},
-					datatype:'json',
-					success:function(msg){
-			           if(msg['err']==1){
-			           	 layer.msg(msg.str);
-               			 $('#pay_index_table').dataTable().fnClearTable(); 
-			           }else if(msg['err']==0){
-			           	 layer.msg(msg.str);
-			           }else{
-			           	 layer.msg('删除失败！');
-			           }
-					}
-				})
 
-
-}
-function pl_update(){
-	var msg =confirm("确定要批量核审这些订单吗？");
-	if(!msg){
-		return false;
-	}
-	var b=[];
-	var a=$('input[type="checkbox"]:checked');
-	if(a.length<=0){
-		layer.msg('无选中项');
-		return false;
-	}
-	for (var i = a.length - 1; i >= 0; i--) {
-		if(a[i].value!=null){
-					b.push(a[i].value);
-		}
-	}
-	layer.msg('核审中，请稍等!');
-	$.ajax({
-					url:"{{url('admin/order/heshen')}}",
-					type:'get',
-					data:{'id':b,'type':'all'},
-					datatype:'json',
-					success:function(msg){
-			           if(msg['err']==1){
-			           	 layer.msg(msg.str);
-               			 $('#pay_index_table').dataTable().fnClearTable(); 
-			           }else if(msg['err']==0){
-			           	 layer.msg(msg.str);
-			           }else{
-			           	 layer.msg('核审失败！');
-			           }
-					}
-				})
-
-
-}
+//操作按钮函数
 function goods_getaddr(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
+
 $('#getadmin').on('click',function(){
 	$('#select-admin').toggle(300);
 })
