@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 	Route::any('/paypal',function(Request $request){
-		$time=date('Y-m-d H:i:s',time());
+		/*$time=date('Y-m-d H:i:s',time());
 		$data=$request->all();
 		$data=json_encode($data);
 		$ip=$request->getClientIp();
-		\Log::notice('['.$time.']ip:'.$ip.'____数据：'.$data);
+		\Log::notice('['.$time.']ip:'.$ip.'____数据：'.$data);*/
 	});
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
