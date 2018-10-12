@@ -61,7 +61,14 @@ class url extends Model
                 }
                 break;
             case '4':
-                $goods_id=$url->url_zz_goods_id;
+                try{
+                     $goods_id=$url->url_zz_goods_id;
+                }catch(\Exception $e){
+
+                }
+                if(!isset($goods_id)||$goods_id==null){
+                    @$goods_id=$url['url_zz_goods_id'];
+                }
             break;
             default:
                 break;
