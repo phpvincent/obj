@@ -11,7 +11,6 @@
             <div class="row" style="height: 40px;" >
                 <div class="col-xs-4 col-sm-4" style="display: inline">
                     <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
-                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">是否隐藏</label>
                 </div>
                 <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                     <div class="uploader-thum-container">
@@ -28,7 +27,6 @@
     <div class="row" style="height: 40px;display: none;"  attr="newConfig" id="configclo-value">
         <div class="col-xs-4 col-sm-4" style="display: inline">
             属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
-                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">是否隐藏</label>
         </div>
         <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
             <div class="uploader-thum-container">
@@ -196,7 +194,6 @@
                         <div class="row" style="height: 40px;" >
                             <div class="col-xs-4 col-sm-4" style="display: inline">
                                 <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
-                                                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">是否隐藏</label>
                             </div>
                             <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                                 <div class="uploader-thum-container">
@@ -233,7 +230,6 @@
                         <div class="row" style="height: 40px;" >
                             <div class="col-xs-4 col-sm-4" style="display: inline">
                                 <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="{{$item['config_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
-                                <input type="checkbox" id="config_isshow" class="price" @if($item['config_isshow']==1) checked="checked" @endif name="config_isshow[{{$item['config_val_id']}}]" value="1"><label for="price">是否隐藏</label>
 								<input type="text" style="width: 60%;margin-top:10px;display: none " class="input-text" value="{{$item['config_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
 							</div> 
 							
