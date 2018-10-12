@@ -25,10 +25,10 @@
 				<td>名下单品数</td>
 				<td>{{$admin_goods_count}}</td>
 			</tr>
-			<tr>
+<!-- 			<tr>
 				<td>今日销售额</td>
 				<td>{{$daysale}}</td>
-			</tr>
+			</tr> -->
 			
 		</table>
 </div>
