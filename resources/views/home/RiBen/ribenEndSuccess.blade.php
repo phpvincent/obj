@@ -10,7 +10,7 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
-
+@if($order['pix_event'])
 <!-- Facebook Pixel Code -->
 @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
         <script>
@@ -52,6 +52,7 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+@endif
 </head>
 <body style="">
 

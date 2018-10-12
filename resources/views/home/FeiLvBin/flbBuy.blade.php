@@ -210,10 +210,10 @@
 <!--table begin-->
     <div class="secure secure_03"><img src="/images/secure_03.jpg" /></div>
 <div class="mui-input-group">
-    
+    <input type="hidden" name="firstname">
     <div class="mui-input-row">
         <label><span class="require">*</span>First name:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="required,Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        <input type="text" name="firstname1" datatype="s1-30" placeholder="required,Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Last name:</label>
@@ -247,7 +247,7 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row">
+    <div class="mui-input-row"style="display:none;" >
         <label><span class="require">*</span>Postalcode:</label>
         <input type="text" name="zip" class="mui-input-clear">
     </div>
@@ -307,6 +307,12 @@
     
 
 <script>
+// 拼接名字
+$('input[name="lastname"]').blur(function(){
+    var a=$('input[name="firstname1"]').val();
+    var b=$('input[name="lastname"]').val();
+    $('input[name="firstname"]').val(a+'\u0020'+b);
+});
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
@@ -378,11 +384,11 @@
                 return false;
             }*/
                 var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
-                if(vname.test(jQuery("input[name='firstname']").val())){
+                if(vname.test(jQuery("input[name='firstname1']").val())){
                     /*layer.msg("請填寫您的真實姓名");
                     return false;*/
                 }
-                if(_checkBlackName(jQuery("input[name='firstname']").val())){
+                if(_checkBlackName(jQuery("input[name='firstname1']").val())){
                     layer.msg("無效的名字");
                     return false;
                 }
@@ -436,7 +442,7 @@ $('#pay').bind('click',function(){
         layer.msg('Please select area information.');
         return false;
     }
-    if(datasObj.firstname==null||datasObj.firstname==''){
+    if(datasObj.firstname1==null||datasObj.firstname1==''){
         layer.msg("Please fill in the consignee's name.");
         return false;
     }
@@ -444,21 +450,21 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct postal code.");
-        return false;
-    }
-    var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
-    if(!zipre.test(datasObj.zip)){
-        layer.msg('Please fill in the valid postal code.');
-        return false;
-    }
+    // if(datasObj.zip==null||datasObj.zip==''){
+    //     layer.msg("Please fill in the correct postal code.");
+    //     return false;
+    // }
+    // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+    // if(!zipre.test(datasObj.zip)){
+    //     layer.msg('Please fill in the valid postal code.');
+    //     return false;
+    // }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('Please fill in the valid cell phone number.');
         return false;
     }
-    datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
+    // datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 
     if(issubmit){

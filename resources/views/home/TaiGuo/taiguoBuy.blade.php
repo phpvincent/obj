@@ -247,8 +247,8 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="display:none;">
-        <label>郵政編號:</label>
+    <div class="mui-input-row" style="">
+        <label>รหัสไปรษณีย์:</label>
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
@@ -443,12 +443,21 @@ $('#pay').bind('click',function(){
         layer.msg('คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ');
         return false;
     }
+    if(datasObj.zip==null||datasObj.zip==''){
+        layer.msg("กรุณากรอกรหัสไปรษณีย์ที่ถูกต้อง");
+        return false;
+    }
+    var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+    if(!zipre.test(datasObj.zip)){
+        layer.msg('กรุณากรอกรหัสไปรษณีย์ที่ถูกต้อง');
+        return false;
+    }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ');
         return false;
     }
-
+    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("ในการส่งคำสั่ง , โปรดรอสักครู่");
 
     if(issubmit){
