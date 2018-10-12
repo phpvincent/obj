@@ -223,7 +223,7 @@ class GoodsController extends Controller
         }else{
             $data['goods_config_name'] = [];
         }
-        //验证属性规则
+       //验证属性规则
         if(!empty($data['goods_config_name'])){
             foreach ($data['goods_config_name'] as $item)
             {

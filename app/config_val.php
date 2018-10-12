@@ -32,6 +32,7 @@ class config_val extends Model
                 $config_val->config_val_msg = $val['goods_config'];
                 $config_val->config_type_id = $goods_config_id;
                 $config_val->config_goods_id = $goods_id;
+                $config_val->config_isshow = isset($val['config_isshow']) ? '1' : '0';
                 if($val['config_imgs']){
                     //之前存在数据，直接删除已存在的数据
                     if($config_val->config_val_img){

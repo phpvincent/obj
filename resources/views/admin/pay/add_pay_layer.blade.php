@@ -77,6 +77,7 @@
                 </div>
             </div>
             <input type="hidden" id="spend_goods_id" name="spend_goods_id" value="{{$id}}">
+            <input type="hidden" id="goods_status" name="goods_status" value="">
         </div>
 
     </form>
@@ -187,7 +188,7 @@
     function submintStatus(a) {
         $('#button1').attr('type','submit');
         $('#button0').attr('type','submit');
-        console.log('bbbbbb==========='+a);
+        $('#goods_status').val(a);
         $("#spend-add").validate({
             rules:{
                 spend_money:{
@@ -204,15 +205,13 @@
                     layer.msg('请选择花费录入时间！');
                     return false;
                 }
-                var status = a;
                 $(form).ajaxSubmit({
                     type: 'post',
                     url: "{{url('admin/pay/add_spend')}}",
                     success: function(data){
                         if(data.err==1){
                             layer.msg(data.msg,{time:2*1000},function() {
-                                console.log('ccccccccc====='+status);
-                                if(a === 0){
+                                if($('#goods_status').val() === '0'){
                                     //回调
                                     index = parent.layer.getFrameIndex(window.name);
                                     setTimeout("parent.layer.close(index);",2000);
