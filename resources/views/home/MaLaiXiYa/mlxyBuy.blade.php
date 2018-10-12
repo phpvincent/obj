@@ -464,7 +464,7 @@ $('#pay').bind('click',function(){
         layer.msg('Please fill in the valid cell phone number.');
         return false;
     }
-    datasObj.address1=datasObj.address1+"（Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 
     if(issubmit){

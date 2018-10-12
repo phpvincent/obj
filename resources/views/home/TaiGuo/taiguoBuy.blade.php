@@ -449,7 +449,7 @@ $('#pay').bind('click',function(){
     }
     var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
     if(!zipre.test(datasObj.zip)){
-        layer.msg('Please fill in the valid postal code.');
+        layer.msg('กรุณากรอกรหัสไปรษณีย์ที่ถูกต้อง');
         return false;
     }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
@@ -457,7 +457,7 @@ $('#pay').bind('click',function(){
         layer.msg('คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ');
         return false;
     }
-    datasObj.address1=datasObj.address1+"（Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("ในการส่งคำสั่ง , โปรดรอสักครู่");
 
     if(issubmit){
