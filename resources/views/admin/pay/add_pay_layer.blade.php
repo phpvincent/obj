@@ -23,6 +23,7 @@
     
 </style>
 <article class="content">
+    <div style="color: #f51322;font-size: 14px;margin: 0 auto;width: 600px;">注意：日历中红色方块为尚未录入花费信息日期，记录花费起始日期为商品添加日期,只可添加2日前花费</div>
     <form class="form form-horizontal" id="spend-add" enctype="multipart/form-data" action="{{url('admin/pay/add_spend')}}" method="post">
         {{csrf_field()}}
         <div class="riqi">
@@ -76,30 +77,59 @@
                     <button class="btn btn-primary radius" id="button0" onclick="submintStatus(0)" type="button"><i class="Hui-iconfont"></i> 提交</button>
                 </div>
             </div>
+            {{--商品id--}}
             <input type="hidden" id="spend_goods_id" name="spend_goods_id" value="{{$id}}">
+            {{--表单提交状态：1：提交并继续录入；0：提交--}}
             <input type="hidden" id="goods_status" name="goods_status" value="">
+            {{--商品是否在可以录入花费周期内；true：在 false：不在--}}
+            <text id="bool" style="display: none"></text>
+            {{--是否为超级管理员--}}
+            <text id="is_root" style="display: none">{{ Auth::user()->is_root }}</text>
         </div>
-
     </form>
-    <div class="page-container neirong">
-        <table class="table table-border table-bordered table-bg" id="pay_index_table">
-            <thead>
-            <tr>
-                <th scope="col" colspan="15">花费详情</th>
-            </tr>
-            <tr class="text-c">
-                <th>花费日期</th>
-                <th>花费平台</th>
-                <th>钱币种类</th>
-                <th>花费金额</th>
-                <th>录入方式</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+    {{--table表格--}}
+    @if(Auth::user()->is_root == 1)
+        <div class="page-container neirong">
+            <table class="table table-border table-bordered table-bg" id="pay_index_table">
+                <thead>
+                <tr>
+                    <th scope="col" colspan="15">花费详情</th>
+                </tr>
+                <tr class="text-c">
+                    <th>花费日期</th>
+                    <th>花费平台</th>
+                    <th>钱币种类</th>
+                    <th>花费金额</th>
+                    <th>录入方式</th>
+                    <th>录入人</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    @else
+        <div class="page-container neirong">
+            <table class="table table-border table-bordered table-bg" id="pay_index_table">
+                <thead>
+                <tr>
+                    <th scope="col" colspan="15">花费详情</th>
+                </tr>
+                <tr class="text-c">
+                    <th>花费日期</th>
+                    <th>花费平台</th>
+                    <th>钱币种类</th>
+                    <th>花费金额</th>
+                    <th>录入方式</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    @endif
 </article>
 
 @section('js')
@@ -130,36 +160,73 @@
     $(".riqi_zhanshi").text(stringDate);
     //加载完成事件
     var id = "{{$id}}";
-    $.tablesetting = {
-        'paging':false,
-        "searching" : false,
-        "bSort": false,
-        "columnDefs": [{
-            "targets": [0, 1, 2, 3, 4],
-        }],
-        "ajax": {
-            "data":{
-                id:id,
-                time:function(){return $(".riqi_zhanshi").text()},
+    var is_root = $('#is_root').text();
+
+    if(is_root == 1){
+        $.tablesetting = {
+            'paging':false,
+            "searching" : false,
+            "bSort": false,
+            "columnDefs": [{
+                "targets": [0, 1, 2, 3, 4, 5],
+            }],
+            "ajax": {
+                "data":{
+                    id:id,
+                    time:function(){return $(".riqi_zhanshi").text()},
+                },
+                "url": "{{url('admin/pay/get_show_table')}}",
+                "type": "POST",
+                'headers': {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
             },
-            "url": "{{url('admin/pay/get_show_table')}}",
-            "type": "POST",
-            'headers': {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-        },
-        "columns": [
-            {"data": 'spend_time'},
-            {"data": 'spend_platform'},
-            {"data": 'spend_currency'},
-            {"data": 'spend_money'},
-            {"data": 'is_impload'},
-            {'defaultContent':"","className":"td-manager"},
-        ],
-        "createdRow":function(row,data,dataIndex){
-            var info='<a title="删除花费" href="javascript:;" onclick="del_order(\''+data.spend_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
-            $(row).find('td:eq(5)').html(info);
-            $(row).addClass('text-c');
+            "columns": [
+                {"data": 'spend_time'},
+                {"data": 'spend_platform'},
+                {"data": 'spend_currency'},
+                {"data": 'spend_money'},
+                {"data": 'is_impload'},
+                {"data": 'spend_author_id'},
+                {'defaultContent':"","className":"td-manager"},
+            ],
+            "createdRow":function(row,data,dataIndex){
+                var info='<a title="删除花费" href="javascript:;" onclick="del_order(\''+data.spend_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+                $(row).find('td:eq(6)').html(info);
+                $(row).addClass('text-c');
+            }
+        }
+    }else{
+        $.tablesetting = {
+            'paging':false,
+            "searching" : false,
+            "bSort": false,
+            "columnDefs": [{
+                "targets": [0, 1, 2, 3, 4],
+            }],
+            "ajax": {
+                "data":{
+                    id:id,
+                    time:function(){return $(".riqi_zhanshi").text()},
+                },
+                "url": "{{url('admin/pay/get_show_table')}}",
+                "type": "POST",
+                'headers': {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+            },
+            "columns": [
+                {"data": 'spend_time'},
+                {"data": 'spend_platform'},
+                {"data": 'spend_currency'},
+                {"data": 'spend_money'},
+                {"data": 'is_impload'},
+                {'defaultContent':"","className":"td-manager"},
+            ],
+            "createdRow":function(row,data,dataIndex){
+                var info='<a title="删除花费" href="javascript:;" onclick="del_order(\''+data.spend_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+                $(row).find('td:eq(5)').html(info);
+                $(row).addClass('text-c');
+            }
         }
     }
+
 
     dataTable = $('#pay_index_table').DataTable($.tablesetting);
 
@@ -172,6 +239,7 @@
         success: function (data) {
             if (data.err === '1') {
                 var c = data.spend_entry;
+                $('#bool').text(data.bool);
                 WdatePicker({
                     eCont: 'date',
                     onpicked: function (dp) {
@@ -205,6 +273,12 @@
                     layer.msg('请选择花费录入时间！');
                     return false;
                 }
+                var bool = $('#bool').text();
+                if(bool === 'false'){
+                    layer.msg('花费产生两日后录入，请查看花费产生时间！');
+                    return false;
+                };
+
                 $(form).ajaxSubmit({
                     type: 'post',
                     url: "{{url('admin/pay/add_spend')}}",
@@ -217,6 +291,7 @@
                                     setTimeout("parent.layer.close(index);",2000);
                                     window.parent.location.reload();
                                 }else{
+                                    $('#spend_money').val('');
                                     $('#pay_index_table').dataTable().fnClearTable();
                                     $('#pay_index_table').DataTable().ajax.reload();
                                 }
@@ -259,7 +334,6 @@
 
     //选择查看花费时间
     function selectDatediff(a, id, bool,c){
-        console.log(c)
         if(!bool){
             layer.msg('抱歉，暂时未到录入花费时间');
             return false;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\ad_info;
+use App\admin;
 use App\currency_type;
 use App\goods;
 use App\order;
@@ -62,6 +63,12 @@ class PayController extends Controller
                 ->where('is_del','0')
                 ->where('goods_heshen','1')
                 ->where('goods_admin_id',$admin_id)
+                ->where(function($query)use($search){
+                    //1.搜索单品名称
+                    $query->where([['goods_real_name','like',"%$search%"]]);
+                    //2.搜索id
+                    $query->orWhere([['goods_id','like',"%$search%"]]);
+                })
                 ->count();
 //            $newcount=DB::table('goods')
 //                ->where('is_del','0')
@@ -89,7 +96,7 @@ class PayController extends Controller
                 ->where('is_del','0')
                 ->where('goods_heshen','1')
                 ->where('goods_admin_id',$admin_id)
-                ->select('goods_id','goods_real_name','goods_up_time')
+                ->select('goods_id','goods_real_name','goods_up_time','goods_currency_id')
                 ->where(function($query)use($search){
                     //1.搜索单品名称
                     $query->where([['goods_real_name','like',"%$search%"]]);
@@ -104,16 +111,7 @@ class PayController extends Controller
                 foreach ($data as &$item)
                 {
                     //计算单品花费总额
-                    $all_goods_money = spend::where('spend_goods_id',$item->goods_id)
-                        ->where(function($query)use($request){//根据时间筛选
-                            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-                                $query->where('spend.spend_time','>',$request->input('mintime'));
-                            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-                                $query->where('spend.spend_time','<',$request->input('maxtime'));
-                            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-                                $query->whereBetween('spend.spend_time',[$request->input('mintime'),$request->input('maxtime')]);
-                            }
-                        })->get();
+                    $all_goods_money = spend::where('spend_goods_id',$item->goods_id)->get();
                     $goods_spend_money = 0;
                     if(!$all_goods_money->isEmpty()){
                         foreach ($all_goods_money as $val)
@@ -123,13 +121,16 @@ class PayController extends Controller
                     }
                     $item->goods_spend_money = sprintf("%.2f",$goods_spend_money);
                     //计算单品销售总额
-                    $item->goods_money = sprintf("%.2f",order::where('order_goods_id',$item->goods_id)->sum('order_price'));
+                    $item->goods_money = sprintf("%.2f",(order::where('order_goods_id',$item->goods_id)
+                        ->where(function ($query){
+                            $query->whereIn('order_type',order::get_sale_type());
+                        })->sum('order_price'))*currency_type::where('currency_type_id',$item->goods_currency_id)->value('exchange_rate'));
                     //商品录入状态（如果从审核通过开始就需要有花费记录，花费记录只记录两日前的花费，如果商品审核通过，没有产生花费，也需要记录花费，为0元）
                     $end_time = strtotime(date('Y-m-d',time()-3600*24).'00:00:00');//结束时间
                     $start_time = strtotime(date('Y-m-d',strtotime($item->goods_up_time)).'00:00:00');//开始时间
                     if($end_time > $start_time){
                         $item->goods_status = 1;
-                        $length = ($end_time-$start_time)/24*3600;
+                        $length = ($end_time-$start_time)/24/3600;
                         for($i=0; $i<$length; $i++)
                         {
                             $dates = date('Y-m-d',strtotime($item->goods_up_time));
@@ -148,6 +149,17 @@ class PayController extends Controller
             $newcount=DB::table('goods')
                 ->where('is_del','0')
                 ->where('goods_heshen','1')
+                ->where(function($query)use($search){
+                    //1.搜索单品名称
+                    $query->where([['goods_real_name','like',"%$search%"]]);
+                    //2.搜索id
+                    $query->orWhere([['goods_id','like',"%$search%"]]);
+                })
+                ->where(function($query)use($goods_search){//筛选具体管理员（非root用户只能查看自己花费）
+                    if($goods_search){
+                        $query->where('goods.goods_admin_id',$goods_search);
+                    }
+                })
                 ->count();
 //            $newcount=DB::table('goods')
 //                ->where('is_del','0')
@@ -178,7 +190,7 @@ class PayController extends Controller
             $data = DB::table('goods')
                 ->where('is_del','0')
                 ->where('goods_heshen','1')
-                ->select('goods_id','goods_real_name','goods_up_time')
+                ->select('goods_id','goods_real_name','goods_up_time','goods_currency_id')
                 ->where(function($query)use($search){
                     //1.搜索单品名称
                     $query->where([['goods_real_name','like',"%$search%"]]);
@@ -198,16 +210,7 @@ class PayController extends Controller
                 foreach ($data as &$item)
                 {
                     //计算单品花费总额
-                    $all_goods_money = spend::where('spend_goods_id',$item->goods_id)
-                        ->where(function($query)use($request){//根据时间筛选
-                            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-                                $query->where('spend.spend_time','>',$request->input('mintime'));
-                            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-                                $query->where('spend.spend_time','<',$request->input('maxtime'));
-                            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-                                $query->whereBetween('spend.spend_time',[$request->input('mintime'),$request->input('maxtime')]);
-                            }
-                        })->get();
+                    $all_goods_money = spend::where('spend_goods_id',$item->goods_id)->get();
                     $goods_spend_money = 0;
                     if(!$all_goods_money->isEmpty()){
                         foreach ($all_goods_money as $val)
@@ -216,22 +219,26 @@ class PayController extends Controller
                         }
                     }
                     $item->goods_spend_money =  sprintf("%.2f",$goods_spend_money);
-                    //计算单品销售总额
-                    $item->goods_money = sprintf("%.2f",order::where('order_goods_id',$item->goods_id)->sum('order_price'));
+                    //计算单品销售总额(算汇率)
+                    $item->goods_money = sprintf("%.2f",(order::where('order_goods_id',$item->goods_id)
+                        ->where(function ($query){
+                            $query->whereIn('order_type',order::get_sale_type());
+                        })->sum('order_price'))*currency_type::where('currency_type_id',$item->goods_currency_id)->value('exchange_rate'));
                     //商品录入状态（如果从审核通过开始就需要有花费记录，花费记录只记录两日前的花费，如果商品审核通过，没有产生花费，也需要记录花费，为0元）
                     $end_time = strtotime(date('Y-m-d',time()-3600*24).'00:00:00');//结束时间
                     $start_time = strtotime(date('Y-m-d',strtotime($item->goods_up_time)).'00:00:00');//开始时间
                     if($end_time > $start_time){
-                        $item->goods_status = 1;
+                        $status = 1;
                         $length = ($end_time-$start_time)/24/3600;
                         for($i=0; $i<$length; $i++)
                         {
-                            $dates = date('Y-m-d',strtotime($item->goods_up_time));
-                            if(!spend::where('spend_goods_id',$item->goods_id)->where('spend_time',$dates)->first()){
-                                $item->goods_status = 0;
-                                break;
+                            $dates = date('Y-m-d',strtotime($item->goods_up_time)+$i*24*3600).' 00:00:00';
+                            $spend = spend::where('spend_goods_id',$item->goods_id)->where('spend_time',$dates)->first();
+                            if(!$spend){
+                                $status = 0;
                             }
                         }
+                        $item->goods_status = $status;
                     }else{
                         $item->goods_status = 1;
                     }
@@ -264,6 +271,7 @@ class PayController extends Controller
               $spend->spend_platform = $data['spend_platform'];
               $spend->spend_admin_id = goods::where('goods_id',$data['spend_goods_id'])->value('goods_admin_id');
               $spend->create_time = date('Y-m-d H:i:s');
+              $spend->spend_author_id = Auth::user()->admin_id;
               $spend->is_impload = '1';
               $spend_save = $spend->save();
               if($spend_save){
@@ -371,8 +379,11 @@ class PayController extends Controller
                         $item->spend_platform = 'FB';
                         break;
                 }
-
+                //币种名称
                 $item->spend_currency = currency_type::where('currency_type_id',$item->spend_currency_id)->value('currency_type_name');
+
+                //录入人
+                $item->spend_author_id = admin::where('admin_id',$item->spend_author_id)->value('admin_name');
             }
         }
         return response()->json(['data'=>$data]);

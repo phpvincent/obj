@@ -84,7 +84,7 @@
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="currency_type" id="currency_type" class="select">
 						@foreach($currency_type as $item)
-							<option value="{{$item->currency_type_id}}" {{$item->currency_type_id == $goods->goods_currency_id ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
+							<option disabled="disabled" value="{{$item->currency_type_id}}" {{$item->currency_type_id == $goods->goods_currency_id ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
 						@endforeach
 						{{--<option value="1">1--中东模板</option>--}}
 						{{--<option value="2">2--无倒计时模板</option>--}}
