@@ -15,7 +15,7 @@ class CommentController extends Controller
    	$goods=goods::get();
    	 $counts=DB::table('goods')
 	        ->where(function($query){
-	        	if(Auth::user()->is_root!='1'){
+	        	if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
 	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
 	        })
@@ -36,7 +36,7 @@ class CommentController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('goods')
 	        ->where(function($query){
-	        	if(Auth::user()->is_root!='1'){
+	        	if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
 	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
 	        })
@@ -50,7 +50,7 @@ class CommentController extends Controller
 	        	$query->orWhere([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']]);
 	        })
 	        ->where(function($query){
-	        	if(Auth::user()->is_root!='1'){
+	        	if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
 	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
 	        })
@@ -65,7 +65,7 @@ class CommentController extends Controller
 	        })
 	        ->select('goods.*')
 	        ->where(function($query){
-	        	if(Auth::user()->is_root!='1'){
+	        	if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
 	        		$query->where('goods_admin_id',Auth::user()->admin_id);
 	        	}
 	        })

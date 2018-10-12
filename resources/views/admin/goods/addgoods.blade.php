@@ -111,6 +111,7 @@
 						<option value="4">4--泰国模板</option>
 						<option value="5">5--日本模板</option>
 						<option value="6">6--印度尼西亚</option>
+						<option value="7">7--菲律宾</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>

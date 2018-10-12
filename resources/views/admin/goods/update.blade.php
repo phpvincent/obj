@@ -11,6 +11,7 @@
             <div class="row" style="height: 40px;" >
                 <div class="col-xs-4 col-sm-4" style="display: inline">
                     <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
+                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">是否隐藏</label>
                 </div>
                 <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                     <div class="uploader-thum-container">
@@ -27,6 +28,7 @@
     <div class="row" style="height: 40px;display: none;"  attr="newConfig" id="configclo-value">
         <div class="col-xs-4 col-sm-4" style="display: inline">
             属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">是否隐藏</label>
         </div>
         <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
             <div class="uploader-thum-container">
@@ -100,6 +102,7 @@
 						<option value="4" @if($goods->goods_blade_type=='4') selected="selected" @endif>4--泰国模板</option>
 						<option value="5" @if($goods->goods_blade_type=='5') selected="selected" @endif>5--日本模板</option>
 						<option value="6" @if($goods->goods_blade_type=='6') selected="selected" @endif>6--印度尼西亚</option>
+						<option value="7" @if($goods->goods_blade_type=='7') selected="selected" @endif>7--菲律宾</option>
 						{{--<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -193,6 +196,7 @@
                         <div class="row" style="height: 40px;" >
                             <div class="col-xs-4 col-sm-4" style="display: inline">
                                 <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                                                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">是否隐藏</label>
                             </div>
                             <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                                 <div class="uploader-thum-container">
@@ -213,6 +217,7 @@
 			{{--<input type="button" class="btn btn-default" value="移除商品附带属性" id="addcon" isalive='on'/>--}}
 			<input type="button" class="btn btn-default" style="display: none" value="{{count($goods_config)}}" id="num"/>
 		</div>
+		
 		<div style="margin:0px auto;margin-bottom:100px;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;" id="conhtml">
 			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
             @foreach($goods_config as $k=>$v)
@@ -228,8 +233,11 @@
                         <div class="row" style="height: 40px;" >
                             <div class="col-xs-4 col-sm-4" style="display: inline">
                                 <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="{{$item['config_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+                                <input type="checkbox" id="config_isshow" class="price" @if($item['config_isshow']==1) checked="checked" @endif name="config_isshow[{{$item['config_val_id']}}]" value="1"><label for="price">是否隐藏</label>
 								<input type="text" style="width: 60%;margin-top:10px;display: none " class="input-text" value="{{$item['config_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
-							</div>
+							</div> 
+							
+							
                             <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                                 <div class="uploader-thum-container">
                                     <input type="file" name="goods_config_name[{{$k}}][msg][{{$key}}][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">

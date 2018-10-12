@@ -112,6 +112,9 @@ class IndexController extends Controller
             case '6':
             return view('home.YinDuNiXiYa.ydnxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
             break;
+            case '7':
+            return view('home.FeiLvBin.flb')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
             default:
                 # code...
                 break;
@@ -224,6 +227,9 @@ class IndexController extends Controller
         if($blade_type==6){
             return view('home.YinDuNiXiYa.ydnxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
+        if($blade_type==7){
+            return view('home.FeiLvBin.flbBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -232,14 +238,15 @@ class IndexController extends Controller
      * @return cuxiaoSDK
      */
     public function gethtml(Request $request){
+        if(!$request->has('id')){
+             $ip=$request->getClientIp(); 
+             $time=date('Y-m-d H:i:s',time());
+             \Log::notice('['.$time.']'.$ip.'获取get方式获取html并无id携带，gethtml获取失败!');
+                return response()->json(['err'=>0,'str'=>'请求参数错误']);
+        }
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods==null){
-            $ip=$request->getClientIp(); 
-            $time=date('Y-m-d H:i:s',time());
-             \Log::notice('['.$time.']'.$ip.'获取'.$goods_id.'gethtml获取失败!');
-        }
-        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6){
+        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6||$goods->goods_blade_type == 7){
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$special->isEmpty()){
@@ -518,6 +525,9 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 6){
             return view('home.YinDuNiXiYa.ydnxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
+        if($goods->goods_blade_type == 7){
+            return view('home.FeiLvBin.flbEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+        }
         return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
@@ -547,6 +557,9 @@ class IndexController extends Controller
             if($goods_blade_type == 6){
                 return view('home.YinDuNiXiYa.ydnxySend');
             }
+            if($goods_blade_type == 7){
+                return view('home.FeiLvBin.flbSend');
+            }
         }
         return view('home.send');
     }
@@ -575,6 +588,9 @@ class IndexController extends Controller
         }
         if($goods->goods_blade_type == 6){
             return view('home.YinDuNiXiYa.ydnxySendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 7){
+            return view('home.FeiLvBin.flbSendmsg')->with(compact('order','goods'));
         }
         return view('home.sendmsg')->with(compact('order','goods'));
     }
