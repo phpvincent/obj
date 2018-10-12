@@ -7,16 +7,17 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>账户名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="{{$admin->admin_name}}" placeholder="" id="admin_name" name="admin_name">
+				<input type="text" class="input-text" value="{{$admin->admin_name}}" placeholder="" id="admin_name" name="admin_name" @if(\Auth::user()->is_root!='1') readonly=readonly @endif>
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>账户密码：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="password" class="input-text" value="" placeholder="请输入密码" id="password" name="password">
+				<input type="password" class="input-text" value="" placeholder="请输入新密码" id="password" name="password">
 			</div>
 		</div>
-		<div class="row cl">
+		
+		<div class="row cl" @if(\Auth::user()->is_root!='1') style="display:none;" @endif>
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属分组：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="admin_group_id" id="admin_group_id" class="select">
@@ -26,15 +27,22 @@
 				</select>
 				</span> </div>
 		</div>
+		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>所属角色：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="role_id" id="role_id" class="select">
-					<option value="0">超级管理员</option>
-					@foreach(\App\role::get() as $key => $v)
-						<option value="{{$v->role_id}}" @if($v->role_id==$admin->admin_role_id) selected="selected" @endif>{{$v->role_name}}</option>
-					@endforeach
-				</select>
+				
+					 @if(\Auth::user()->is_root!='1')
+						<input type="text" class="input-text" value="{{\App\role::where('role_id',$admin->admin_role_id)->first()['role_name']}}" placeholder="" id="" name="" readonly="readonly">
+						<input type="hidden" name="role_id" value="{{$admin->admin_role_id}}">
+					 @else
+					 <select name="role_id" id="role_id" class="select">
+						 <option value="0">超级管理员</option>
+						@foreach(\App\role::get() as $key => $v)
+							<option value="{{$v->role_id}}" @if($v->role_id==$admin->admin_role_id) selected="selected" @endif>{{$v->role_name}}</option>
+						@endforeach	
+						</select>
+					 @endif
 				</span>
 			 </div>
 		</div>
