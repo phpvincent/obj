@@ -466,11 +466,11 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the correct postal code.");
         return false;
     }
-    var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
-    if(!zipre.test(datasObj.zip)){
-        layer.msg('Please fill in the valid postal code.');
-        return false;
-    }
+    // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+    // if(!zipre.test(datasObj.zip)){
+    //     layer.msg('Please fill in the valid postal code.');
+    //     return false;
+    // }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('Please fill in the valid cell phone number.');
