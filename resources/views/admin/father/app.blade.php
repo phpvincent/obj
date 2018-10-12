@@ -132,7 +132,7 @@ $(function(){
 });
 /*个人信息*/
 function myselfinfo(){
-		layer_show('个人信息','/admin/admin/layershow',500,300);
+		layer_show('个人信息','/admin/admin/layershow',800,500);
 }
 
 

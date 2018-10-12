@@ -2,7 +2,7 @@
 @section('content')
 <div class="page-container">
 		<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({onpicking:function(dq){selectDatediff(dq.cal.getNewDateStr());},specialDates:['2018-09-21','2018-09-23','2018-09-26','2018-09-27'], dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+		<input type="text" onfocus="WdatePicker({onpicking:function(dq){selectDatediff(dq.cal.getNewDateStr());}, dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
@@ -53,7 +53,7 @@ function selectDatediff(a){
 	console.log(a)
 }
 	$.tablesetting={
-	"lengthMenu": [[5,10,20],[5,10,20]],
+	"lengthMenu": [[10,20],[10,20]],
 		"paging": true,
 		"info":   true,	
 		"searching": true,
@@ -82,48 +82,27 @@ function selectDatediff(a){
 		{"data":'goods_real_name'},
 		{"data":'goods_spend_money'},
 		{"data":'goods_money'},
-        // {'defaultContent':"","className":"td-manager"},
-        {"data":'goods_status'},
 		{'defaultContent':"","className":"td-manager"},
+        {'defaultContent':"","className":"td-manager"},
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="预览详情" href="javascript:;" onclick="goods_getaddr(\'预览详情\',\'{{url("admin/pay/spend_show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览详情"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="新增花费" href="javascript:;" onclick="goods_getaddr(\'新增花费\',\'/admin/pay/add_spend?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增花费"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="新增广告编号" href="javascript:;" onclick="goods_getaddr(\'新增广告编号\',\'/admin/pay/add_pay_number?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增广告编号"><i class="Hui-iconfont">&#xe600;</i></span></a><a title="删除花费" href="javascript:;" onclick="del_order(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			var info='<a title="预览详情" href="javascript:;" onclick="goods_getaddr(\'预览详情\',\'{{url("admin/pay/spend_show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览详情"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="新增花费" href="javascript:;" onclick="goods_getaddr(\'新增花费\',\'/admin/pay/add_spend?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增花费"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="新增广告编号" href="javascript:;" onclick="goods_getaddr(\'新增广告编号\',\'/admin/pay/add_pay_number?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增广告编号"><i class="Hui-iconfont">&#xe600;</i></span></a>';
 			var checkbox='<input type="checkbox" name="" value="'+data.goods_id+'">';
+            if(data.goods_status==1){
+                var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">信息完整</span></a>';
+            }else{
+                var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:green;">信息缺失</span></a>';
+            }
 			$(row).find('td:eq(0)').html(checkbox);
-			$(row).find('td:eq(6)').html(info);
+            $(row).find('td:eq(5)').html(isroot);
+            $(row).find('td:eq(6)').html(info);
 			$(row).addClass('text-c');
 		}
 	}
  dataTable =$('#pay_index_table').DataTable($.tablesetting);
  $('#seavis1').on('click',function(){
  $('#pay_index_table').dataTable().fnClearTable();
-})
-
-// 删除商品花费
-function del_order(id){
-		var msg =confirm("确定要删除此商品花费信息吗？");
-		if(msg){
-        		layer.msg('删除中');
-        			$.ajax({
-					url:"{{url('admin/pay/del_spend')}}",
-					type:'get',
-					data:{'id':id},
-					datatype:'json',
-					success:function(msg){
-			           if(msg['err']==1){
-			           	 layer.msg(msg.str);
-               			 $('#pay_index_table').dataTable().fnClearTable(); 
-			           }else if(msg['err']==0){
-			           	 layer.msg(msg.str);
-			           }else{
-			           	 layer.msg('删除失败！');
-			           }
-					}
-				})
-        	}else{
-                
-        	}
-	}
+});
 
 //操作按钮函数
 function goods_getaddr(title,url,type,w,h){
@@ -133,6 +112,7 @@ function goods_getaddr(title,url,type,w,h){
 $('#getadmin').on('click',function(){
 	$('#select-admin').toggle(300);
 })
+
 $('#admin_name').on('change',function(){
 	dataTable.ajax.reload();
 	var args = dataTable.ajax.params();

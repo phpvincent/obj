@@ -4,17 +4,18 @@
 <article class="page-container">
     <div class="config" style="display: none;" attr="newConfig" id="configclo">
         <div class="row" style="margin-left: 0px;">
-            属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name">
+            属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
 			<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">
 		</div>
         <div class="con-value">
             <div class="row" style="height: 40px;" >
                 <div class="col-xs-4 col-sm-4" style="display: inline">
                     <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
+                    <input type="checkbox" id="config_isshow" class="price" name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
                 </div>
                 <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                     <div class="uploader-thum-container">
-                        <input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+                        <input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple" accept="image/png,image/gif,image/jpg,image/jpeg">
                     </div>
                 </div>
                 <div style="display: inline;">
@@ -27,6 +28,7 @@
     <div class="row" style="height: 40px;display: none;"  attr="newConfig" id="configclo-value">
         <div class="col-xs-4 col-sm-4" style="display: inline">
             属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
         </div>
         <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
             <div class="uploader-thum-container">
@@ -195,6 +197,7 @@
                         <div class="row" style="height: 40px;" >
                             <div class="col-xs-4 col-sm-4" style="display: inline">
                                 <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                                                    <input type="checkbox" id="config_isshow" class="price"   name="goods_config_name[0][msg][0][config_isshow]" value="1"><label for="price">隐藏属性</label>
                             </div>
                             <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                                 <div class="uploader-thum-container">
@@ -231,10 +234,9 @@
                         <div class="row" style="height: 40px;" >
                             <div class="col-xs-4 col-sm-4" style="display: inline">
                                 <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="{{$item['config_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+                                <input type="checkbox" id="config_isshow" class="price" @if($item['config_isshow']==1) checked="checked" @endif name="goods_config_name[{{$k}}][msg][{{$key}}][config_isshow]" value="1"><label for="price">隐藏属性</label>
 								<input type="text" style="width: 60%;margin-top:10px;display: none " class="input-text" value="{{$item['config_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
-							</div> 
-							
-							
+							</div>
                             <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
                                 <div class="uploader-thum-container">
                                     <input type="file" name="goods_config_name[{{$k}}][msg][{{$key}}][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
@@ -1041,7 +1043,8 @@
             }
 		    configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
 		    configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
-            configdiv.children('div:last').children('.row').children('.col-sm-4').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+            configdiv.children('div:last').children('.row').children('.col-sm-4').find('input:first').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+            configdiv.children('div:last').children('.row').children('.col-sm-4').find('input:last').attr('name','goods_config_name['+a+']'+'[msg][0][config_isshow]');
 		    configdiv.children('div:last').children('.row').children('.col-sm-3').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][config_imgs]');
         	a++;
             if($('#num').val() == undefined){
@@ -1068,7 +1071,8 @@
         k++;
         //属性值名称
 		var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
-        configdiv.children('.col-sm-4').find('input').attr('name',msg+'['+k+']'+'[goods_config]');
+        configdiv.children('.col-sm-4').find('input:first').attr('name',msg+'['+k+']'+'[goods_config]');
+        configdiv.children('.col-sm-4').find('input:last').attr('name',msg+'['+k+']'+'[config_isshow]');
         configdiv.children('.col-sm-3').find('input').attr('name',msg+'['+k+']'+'[config_imgs]');
         console.log(configdiv.children('.col-sm-3').find('input').attr('name'));
         configdiv.show(200);

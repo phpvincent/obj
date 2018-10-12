@@ -10,12 +10,13 @@
 		</div>
 		<div class="con-value">
 			<div class="row" style="height: 40px;" >
-				<div class="col-xs-4 col-sm-4" style="display: inline">
+				<div class="col-xs-6 col-sm-6" style="display: inline">
 					<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
+					<input type="checkbox" id="config_isshow" class="price" name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
 				</div>
 				<div class="formControls col-xs-3 col-sm-3" style="display: inline;">
 					<div class="uploader-thum-container">
-						<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
+						<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;width: 100%" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
 					</div>
 				</div>
 				<div style="display: inline;">
@@ -27,8 +28,9 @@
 
 	{{--商品属性值--}}
 	<div class="row" style="height: 40px;display: none;" id="configclo-value">
-		<div class="col-xs-4 col-sm-4" style="display: inline">
+		<div class="col-xs-6 col-sm-6" style="display: inline">
 			属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+			<input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
 		</div>
 		<div class="formControls col-xs-3 col-sm-3" style="display: inline;">
 			<div class="uploader-thum-container">
@@ -194,8 +196,9 @@
 							</div>
 							<div class="con-value">
 								<div class="row" style="height: 40px;" >
-									<div class="col-xs-4 col-sm-4" style="display: inline">
+									<div class="col-xs-6 col-sm-6" style="display: inline">
 										<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+										<input type="checkbox" id="config_isshow" class="price"   name="goods_config_name[0][msg][0][config_isshow]" value="1"><label for="price">隐藏属性</label>
 									</div>
 									<div class="formControls col-xs-3 col-sm-3" style="display: inline;">
 										<div class="uploader-thum-container" style="overflow: hidden;">
@@ -1087,7 +1090,8 @@
 
             configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
 			configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
-			configdiv.children('div:last').children('.row').children('.col-sm-4').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+			configdiv.children('div:last').children('.row').children('.col-sm-6').find('input:first').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+			configdiv.children('div:last').children('.row').children('.col-sm-6').find('input:last').attr('name','goods_config_name['+a+']'+'[msg][0][config_isshow]');
 			configdiv.children('div:last').children('.row').children('.col-sm-3').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][config_imgs]');
         	$('#num').val(a);
 			configdiv.show(200);
@@ -1108,7 +1112,8 @@
 		//属性值名称
         k++;
         var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
-		configdiv.children('.col-sm-4').find('input').attr('name',msg+'['+k+']'+'[goods_config]');
+		configdiv.children('.col-sm-6').find('input:first').attr('name',msg+'['+k+']'+'[goods_config]');
+		configdiv.children('.col-sm-6').find('input:last').attr('name',msg+'['+k+']'+'[config_isshow]');
 		configdiv.children('.col-sm-3').find('input').attr('name',msg+'['+k+']'+'[config_imgs]');
 		// console.log(configdiv.children('.col-sm-3').find('input').attr('name'));
         configdiv.show(200);

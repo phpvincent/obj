@@ -107,7 +107,9 @@ class AdminController extends Controller
 		    	}else{
 		    	    $time = date('Y-m-d',time());
                     //1.获取今天数据订单
-                    $orders = \App\order::where('order_time','like',$time.'%')->whereIn('order_goods_id',$goodsidarr)->get();
+                    $orders = \App\order::where('order_time','like',$time.'%')->whereIn('order_goods_id',$goodsidarr)->where(function($query){
+                        $query->whereIn('order.order_type',\App\order::get_sale_type());
+                    })->get();
                     $day_sales = 0;
                     if(!$orders->isEmpty()){
                         foreach ($orders as $item)
@@ -274,7 +276,8 @@ class AdminController extends Controller
     	}
     	$newids=rtrim($newids,',');
     	if($newids!=''&&$newids!=null){
-    	    	$daysale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids)");
+                $allow=\App\order::get_sale_type(false);
+    	    	$daysale=DB::select("select sum(`order`.order_price) as day_sale from `order`  where DateDiff(order.order_time,now())=0 and order.order_goods_id in ($newids) and order.order_type in ({$allow})");
     	    	if($daysale[0]->day_sale==null){
 		    		$daysale=0;
 		    	}else{
