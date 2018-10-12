@@ -247,7 +247,7 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row">
+    <div class="mui-input-row"style="display:none;" >
         <label><span class="require">*</span>Postalcode:</label>
         <input type="text" name="zip" class="mui-input-clear">
     </div>
@@ -450,21 +450,21 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct postal code.");
-        return false;
-    }
-    var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
-    if(!zipre.test(datasObj.zip)){
-        layer.msg('Please fill in the valid postal code.');
-        return false;
-    }
+    // if(datasObj.zip==null||datasObj.zip==''){
+    //     layer.msg("Please fill in the correct postal code.");
+    //     return false;
+    // }
+    // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+    // if(!zipre.test(datasObj.zip)){
+    //     layer.msg('Please fill in the valid postal code.');
+    //     return false;
+    // }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('Please fill in the valid cell phone number.');
         return false;
     }
-    datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
+    // datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 
     if(issubmit){
