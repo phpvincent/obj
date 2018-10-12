@@ -236,24 +236,26 @@
         <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
     </div>
     <div class="mui-input-row">
+        <label><span class="require">*</span>Detailed address:</label>
+        <input type="text" datatype="z1-300" placeholder="required,Please fill in the full address" nullmsg="address_not_correct" errormsg="address_not_correct" name="address1" class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label><span class="require">*</span>City:</label>
+        <input type="text" datatype="z1-300" placeholder="Please fill in the city" nullmsg="" errormsg="Please fill in the city" name="city" class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
         <label><span class="require">*</span>country:</label>
         <select name="state" style="margin-right:4.7%;float: left;width: 72%!important;">
             <option value="">- - Select an option - -</option>
         </select>
     </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>City:</label>
-        <input type="text" datatype="z1-300" placeholder="required,Please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="city" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Detailed address:</label>
-        <input type="text" datatype="z1-300" placeholder="required,Please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
-    </div>
+    
+    
     <div class="mui-input-row" style="display:none;">
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="display:none;">
+    <div class="mui-input-row" style="">
         <label>Postalcode:</label>
         <input type="text" name="zip" class="mui-input-clear">
     </div>
@@ -460,11 +462,21 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
+    if(datasObj.zip==null||datasObj.zip==''){
+        layer.msg("Please fill in the correct postal code.");
+        return false;
+    }
+    var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+    if(!zipre.test(datasObj.zip)){
+        layer.msg('Please fill in the valid postal code.');
+        return false;
+    }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('Please fill in the valid cell phone number.');
         return false;
     }
+    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 
     if(issubmit){
