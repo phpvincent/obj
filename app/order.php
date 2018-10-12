@@ -32,4 +32,12 @@ class order extends Model
       	return self::get();
      }
    }
+   public static function get_sale_type($type=true){
+    $arr=['1','3','4','11','13'];
+    if($type){
+          return ['1','3','4','11','13'];
+        }else{
+          return implode(',', $arr);
+        }
+   }
 }
