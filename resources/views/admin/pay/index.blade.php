@@ -1,14 +1,6 @@
 @extends('admin.father.css')
 @section('content')
 <div class="page-container">
-		<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({onpicking:function(dq){selectDatediff(dq.cal.getNewDateStr());}, dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-		-
-		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
-		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
-	</div>
-	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 选择账户</a></div><br/>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
@@ -50,7 +42,6 @@
 
 <script type="text/javascript">
 function selectDatediff(a){
-	console.log(a)
 }
 	$.tablesetting={
 	"lengthMenu": [[10,20],[10,20]],
@@ -69,8 +60,6 @@ function selectDatediff(a){
 		"ajax": {
 		"data":{
 			spend_search:function(){return $('#admin_name').val()},
-			mintime:function(){return $('#datemin').val()},
-			maxtime:function(){return $('#datemax').val()},
 		},
 		"url": "{{url('admin/pay/get_table')}}",
 		"type": "POST",
@@ -89,9 +78,9 @@ function selectDatediff(a){
 			var info='<a title="预览详情" href="javascript:;" onclick="goods_getaddr(\'预览详情\',\'{{url("admin/pay/spend_show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览详情"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="新增花费" href="javascript:;" onclick="goods_getaddr(\'新增花费\',\'/admin/pay/add_spend?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增花费"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="新增广告编号" href="javascript:;" onclick="goods_getaddr(\'新增广告编号\',\'/admin/pay/add_pay_number?id='+data.goods_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="新增广告编号"><i class="Hui-iconfont">&#xe600;</i></span></a>';
 			var checkbox='<input type="checkbox" name="" value="'+data.goods_id+'">';
             if(data.goods_status==1){
-                var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">信息完整</span></a>';
+                var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">信息录入完整</span></a>';
             }else{
-                var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:green;">信息缺失</span></a>';
+                var isroot='<a href="javascript:;" onclick="order_returninfo('+data.goods_id+')" <span class="label label-default radius" style="color:green;">信息录入不完整</span></a>';
             }
 			$(row).find('td:eq(0)').html(checkbox);
             $(row).find('td:eq(5)').html(isroot);
@@ -100,9 +89,6 @@ function selectDatediff(a){
 		}
 	}
  dataTable =$('#pay_index_table').DataTable($.tablesetting);
- $('#seavis1').on('click',function(){
- $('#pay_index_table').dataTable().fnClearTable();
-});
 
 //操作按钮函数
 function goods_getaddr(title,url,type,w,h){
@@ -111,12 +97,17 @@ function goods_getaddr(title,url,type,w,h){
 
 $('#getadmin').on('click',function(){
 	$('#select-admin').toggle(300);
-})
+});
 
 $('#admin_name').on('change',function(){
 	dataTable.ajax.reload();
 	var args = dataTable.ajax.params();
-})
+});
+
+//花费录入状态（跳转录入页面）
+function order_returninfo(id) {
+    layer_show('新增花费','/admin/pay/add_spend?id='+id,800,500);
+}
 </script>
 
 @endsection
