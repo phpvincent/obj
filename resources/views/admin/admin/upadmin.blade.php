@@ -37,7 +37,7 @@
 						<input type="hidden" name="role_id" value="{{$admin->admin_role_id}}">
 					 @else
 					 <select name="role_id" id="role_id" class="select">
-						 <option value="0" @if(\Auth::user()->is_root='1') selected="selected" @endif>超级管理员</option>
+						 <option value="0" @if(\Auth::user()->is_root=='1') selected="selected" @endif>超级管理员</option>
 						@foreach(\App\role::get() as $key => $v)
 							<option value="{{$v->role_id}}" @if(\Auth::user()->is_root!='1'&&$v->role_id==$admin->admin_role_id) selected="selected" @endif>{{$v->role_name}}</option>
 						@endforeach	
