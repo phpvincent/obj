@@ -90,7 +90,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="21">订单列表</th>
+				<th scope="col" colspan="21" style="white-space: nowrap">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value=""></th>
