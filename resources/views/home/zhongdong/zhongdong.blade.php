@@ -193,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>&#12304;{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span><div style="display: inline-block;">{!! $goods->goods_msg !!}</div>
 </div>
 @endif
 
