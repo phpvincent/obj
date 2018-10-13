@@ -193,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}【</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span>{!! $goods->goods_msg !!}
 </div>
 @endif
 
@@ -344,8 +344,8 @@
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>Konfirmasi penerimaan barang – Pengajuan pengembalian barang – Berhasil verifikasi – pelanggan mengirim produk return – Produk return diterima di gudang – verfikasi produk return – Pengembalian dana / penggantian produk</p>
-                <p>Pengembalian atau penggantian produk silahkan mengisi : Nomor Order, nama lengkap dan nomor HP.</p>
+                <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
+                <p>Please specify: Order no, customer name, and customer contact no.</p>
             </td>
 
         </tr>

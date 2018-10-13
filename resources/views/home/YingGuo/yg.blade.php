@@ -173,7 +173,7 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">Black Cat</span>
+   <!-- <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">Black Cat</span> -->
 </div>
 @endif
 
@@ -193,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}【</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
 </div>
 @endif
 
@@ -344,8 +344,8 @@
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>Konfirmasi penerimaan barang – Pengajuan pengembalian barang – Berhasil verifikasi – pelanggan mengirim produk return – Produk return diterima di gudang – verfikasi produk return – Pengembalian dana / penggantian produk</p>
-                <p>Pengembalian atau penggantian produk silahkan mengisi : Nomor Order, nama lengkap dan nomor HP.</p>
+                <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
+                <p>Please specify: Order no, customer name, and customer contact no.</p>
             </td>
 
         </tr>

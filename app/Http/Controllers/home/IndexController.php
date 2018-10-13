@@ -200,12 +200,14 @@ class IndexController extends Controller
             $cuxiao_num='null';
         }
         $goods_config=\DB::table('goods_config')
-        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id')
+        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id','config_val.config_isshow')
         ->leftjoin('config_val','goods_config.goods_config_id','config_val.config_type_id')
-        ->where('goods_config.goods_primary_id',$goods_id)
+        ->where(function($query)use($goods_id){
+            $query->where('goods_config.goods_primary_id',$goods_id);
+            $query->where('config_val.config_isshow','0');
+        })
         ->orderBy('config_val.config_val_id','asc')
         ->get();
-        
         $goods_config_arr=[];
         foreach($goods_config as $k => $v){
             $goods_config_arr[$v->goods_config_id][]=$v;
