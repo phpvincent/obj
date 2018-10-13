@@ -503,6 +503,9 @@ class IndexController extends Controller
         if($request->has('type')&&$request->input('type')=='0'){
             return view('ajax.endfail');
         }
+        if(!$request->has('goods_id')||!$request->has('order_id')){
+            return view('ajax.endfail');
+        }
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
         if($request->order_id!=0){
              $order=\App\order::where("order_id",$request->order_id)->first();
