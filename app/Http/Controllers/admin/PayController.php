@@ -124,7 +124,7 @@ class PayController extends Controller
                     $item->goods_money = sprintf("%.2f",(order::where('order_goods_id',$item->goods_id)
                         ->where(function ($query){
                             $query->whereIn('order_type',order::get_sale_type());
-                        })->sum('order_price'))*currency_type::where('currency_type_id',$item->goods_currency_id)->value('exchange_rate'));
+                        })->where('is_del','0')->sum('order_price'))*currency_type::where('currency_type_id',$item->goods_currency_id)->value('exchange_rate'));
                     //商品录入状态（如果从审核通过开始就需要有花费记录，花费记录只记录两日前的花费，如果商品审核通过，没有产生花费，也需要记录花费，为0元）
                     $end_time = strtotime(date('Y-m-d',time()-3600*24).'00:00:00');//结束时间
                     $start_time = strtotime(date('Y-m-d',strtotime($item->goods_up_time)).'00:00:00');//开始时间
@@ -223,7 +223,7 @@ class PayController extends Controller
                     $item->goods_money = sprintf("%.2f",(order::where('order_goods_id',$item->goods_id)
                         ->where(function ($query){
                             $query->whereIn('order_type',order::get_sale_type());
-                        })->sum('order_price'))*currency_type::where('currency_type_id',$item->goods_currency_id)->value('exchange_rate'));
+                        })->where('is_del','0')->sum('order_price'))*currency_type::where('currency_type_id',$item->goods_currency_id)->value('exchange_rate'));
                     //商品录入状态（如果从审核通过开始就需要有花费记录，花费记录只记录两日前的花费，如果商品审核通过，没有产生花费，也需要记录花费，为0元）
                     $end_time = strtotime(date('Y-m-d',time()-3600*24).'00:00:00');//结束时间
                     $start_time = strtotime(date('Y-m-d',strtotime($item->goods_up_time)).'00:00:00');//开始时间
