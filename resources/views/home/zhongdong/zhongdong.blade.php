@@ -344,8 +344,8 @@
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>Konfirmasi penerimaan barang – Pengajuan pengembalian barang – Berhasil verifikasi – pelanggan mengirim produk return – Produk return diterima di gudang – verfikasi produk return – Pengembalian dana / penggantian produk</p>
-                <p>Pengembalian atau penggantian produk silahkan mengisi : Nomor Order, nama lengkap dan nomor HP.</p>
+                <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
+                <p>Please specify: Order no, customer name, and customer contact no.</p>
             </td>
 
         </tr>
