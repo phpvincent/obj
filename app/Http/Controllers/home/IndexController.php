@@ -597,7 +597,7 @@ class IndexController extends Controller
                 return view('home.YingGuo.ygSend');
             }
         }
-        return view('home.send');
+        return view('home.TaiwanFan.send');
     }
 
     public function getsendmsg(Request $request){
