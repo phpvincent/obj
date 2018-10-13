@@ -229,14 +229,15 @@
 
 
     dataTable = $('#pay_index_table').DataTable($.tablesetting);
-
     //日历数据
+    layer.load(1 ,{shade: [0.15, '#393D49']});
     $.ajax({
         url: "{{url('admin/pay/spend_entry')}}",
         type: 'get',
         data: {'id': id},
         datatype: 'json',
         success: function (data) {
+
             if (data.err === '1') {
                 var c = data.spend_entry;
                 $('#bool').text(data.bool);
@@ -246,9 +247,11 @@
                         selectDatediff(dp.cal.getDateStr(), id, data.bool,dp);
                     }, specialDates: c, maxDate: '%y-%M-#{%d-2}', minDate: data.goods_up_time
                 })
+                
             } else {
                 window.location = window.location;
             }
+            layer.closeAll('loading');
         }
     })
 
@@ -291,6 +294,7 @@
                                     setTimeout("parent.layer.close(index);",2000);
                                     window.parent.location.reload();
                                 }else{
+                                    window.location.reload();
                                     $('#spend_money').val('');
                                     $('#pay_index_table').dataTable().fnClearTable();
                                     $('#pay_index_table').DataTable().ajax.reload();
