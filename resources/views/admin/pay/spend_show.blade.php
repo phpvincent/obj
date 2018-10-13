@@ -145,7 +145,7 @@
             $('#pay_index_table').DataTable().ajax.reload();
             // $('#pay_index_table').dataTable().ajax.reload();
         }
-
+        layer.load(1 ,{shade: [0.15, '#393D49']});
             $.ajax({
                 url: "{{url('admin/pay/spend_entry')}}",
                 type: 'get',
@@ -162,6 +162,7 @@
                     } else {
                         window.location = window.location;
                     }
+                    layer.closeAll('loading');
                 }
             })
         //操作按钮函数
