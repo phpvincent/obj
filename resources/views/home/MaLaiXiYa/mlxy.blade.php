@@ -343,7 +343,7 @@
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Returns & Replacements Procedures</th>
         </tr>
         <tr class="first odd">
-            <td colspan="2">
+            <td colspan="2">模板
                 <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
                 <p>Please specify: Order no, customer name, and customer contact no.</p>
             </td>

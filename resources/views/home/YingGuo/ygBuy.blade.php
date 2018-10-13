@@ -243,6 +243,10 @@
         <label><span class="require">*</span>City:</label>
         <input type="text" datatype="z1-300" placeholder="Please fill in the city" nullmsg="" errormsg="Please fill in the city" name="city" class="mui-input-clear">
     </div>
+    <div class="mui-input-row" style="">
+        <label><span class="require">*</span>Postalcode:</label>
+        <input type="text" name="zip" class="mui-input-clear">
+    </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>country:</label>
         <select name="state" style="margin-right:4.7%;float: left;width: 72%!important;">
@@ -255,10 +259,7 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="">
-        <label>Postalcode:</label>
-        <input type="text" name="zip" class="mui-input-clear">
-    </div>
+    
         <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
