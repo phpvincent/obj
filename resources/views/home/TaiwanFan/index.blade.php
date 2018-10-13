@@ -434,7 +434,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
         <span style="line-height:14px;">訂單<br>查詢</span>
