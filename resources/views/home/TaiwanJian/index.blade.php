@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -37,10 +38,12 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
-       <script type="text/javascript" src="/js/resizeDIV.js"></script>
+        <script type="text/javascript" src="/js/resizeDIV.js"></script>
+       
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
+        
         <script>
-        jQuery(function(){setFrom();});
+        jQuery(function(){setFrom();});  
         </script>
 
         <!-- Facebook Pixel Code -->
@@ -83,53 +86,22 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
         <script>
         jQuery(function(){setFrom();});
         </script>
-        <style>
-            .Popup{
-                display: none;
-                top:0;
-                left:0;
-                right:0;
-                bottom:0;
-                z-index:9999999999;
-                position:fixed;
-                background-color:rgba(0,0,0,0.3)
-            }
-            .Popup>div{
-                height:80%;
-                width:80%;
-                position: absolute;
-                transform: translate(-50%, -50%);
-                top: 50%;
-                left: 50%;
-            }
-            .Popup>div>div{
-                height:100%;
-                width:100%;
-                overflow-y: auto;
-                
-                background: #fff;
-                padding:10px;
-                padding-bottom:30px;
-            }
-            .Popup>div .Close{
-                height:30px;
-                line-height:30px;
-                width:100%;
-                left:0;
-                text-align: center;
-                position: absolute;
-                bottom:0;
-                background: #6b6868;
-                color:#fff;
-                cursor:pointer;
-            }
-            .Popup>div h3,.Popup>div h6{
-                text-align: center;
-            }
-        </style>
+
 	</head>
 	<body style="">
 	<script>
@@ -151,76 +123,17 @@
 	jQuery("#payForm").attr('action', u);
 	});
 	</script>
-    <div class="Popup">
-        <div>
-        <div>
-            <h3>PRIVACY POLICY</h3>
-            <div>
-                <strong> What personal data do we collect about you?</strong>
-                <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
-                <p>
-                •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
-                </p>
-                <p>
-                •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
-                </p>
-                <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
-                <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
-                <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
-            </div>
-            <div>
-                <strong>What do we use this personal data for?</strong>
-                <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
-                <p>•    To fulfill your order </p>
-                <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
-                <p>•    To improve and maintain the Site, and monitor its usage.</p>
-                <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
-                <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
-                <p>•    To comply with our legal and regulatory obligations.</p>
-                <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
-                <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
-                <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
-            </div>
-            <div>
-                <strong>Who do we share this personal data with?</strong>
-                <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
-                <p>•   Permitted or required by law; or,</p>
-                <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
-                <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
-                <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
-                <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
-                <p>•  Protect and defend the rights or property of the Site;</p>
-                <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
-            </div>
-            <div>
-                <strong>Security </strong>
-                <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
-                <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
-                
-            </div>
-            <div>
-                <strong>Cookies</strong>
-                <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
-                
-            </div>
-            <div>
-                <strong>Contact Us</strong>
-                <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
-            </div>
-            <div class="Close">Close</div>
-        </div>
-        </div>
-    </div>
+
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content">
-    <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
-    <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
+        <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
+        <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
 <!--产品轮播-->
 @if(in_array('broadcast',$templets))
 <div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
-              @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+            @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
             <div class="swiper-slide" id="swiper-slide">
                 <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
                     <source src="{{$goods->goods_fm_video}}" type="video/mp4">
@@ -228,30 +141,29 @@
             </div>
             @endif
         	@foreach($imgs as $key)
-                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
+                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}"  style="width: 100%;"  alt="" /></div>
             @endforeach
         </div>
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">video</li>
-        <li class="bannerqli">image</li>
+        <li class="bannerqli bactive">视频</li>
+        <li class="bannerqli">图片</li>
     </ul>
 </div>
 @endif
-
 <div class="divVideoc1"></div>
 <!--产品轮播-->
 <script type="text/javascript" src="/js/swiper-3.4.2.jquery.min.js" ></script>
 <script src='/js/client.js'></script>
 <script type="text/javascript" src="/js/video.js"></script>
         <!--把商品描述部分内容抽象到detail_content中-->
-        <div class="clear"></div>
+<div class="clear"></div>
 
 {{--价格栏位--}}
 @if(in_array('price',$templets))
 <div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
-<div class="dc-price" style="background:#fff;">
+    <div class="dc-price" style="background:#fff;">
         <span class="s-price" style="font-size:24px">
             {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}        </span>
         @if(in_array('original',$templets))
@@ -260,35 +172,37 @@
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">Free shipping</span>
+    <span class="flag" style="font-size: 12px;">免运费</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
+    <span class="flag" style="font-size: 12px;">货到付款</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">14 days appreciation period</span>
+    <span class="flag" style="font-size: 12px;background:#000;">7天鉴赏期</span>
     @endif
 </div>
 @endif
+
 <div class="clear"></div>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <!-- <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">Black Cat</span> -->
+    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑猫宅急便配送</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
-<div class="timebox">
-    <div class="text">Stock:<span>{{$goods->goods_num}}</span></div>
-    <div class="boxtime">
-        <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font>End:</font>
+    <div class="timebox">
+        <div class="text">倒数：<span>{{$goods->goods_num}}组</span></div>
+        <div class="boxtime">
+            <div class="time" id="timer"><span id="h" class="colon"></span>时<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
+            <font>距结束：</font>
+        </div>
     </div>
-</div>
 @endif
+
 <div class="clear"></div>
 
 {{--活动描述--}}
@@ -299,35 +213,37 @@
 </div>
 @endif
 
+
 {{--中部导航--}}
 @if(in_array('center_nav',$templets))
 <ul class="detail-bars">
     @if(in_array('introduce',$templets))
     <li>
         <span href="#detial-context" class="scrollBar" scroll-y="0">
-        Overview              </span>
+          商品介绍              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
         <span href="#detial-params" class="scrollBar" scroll-y="50">
-        Details               </span>
+           商品规格                </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
-    <li>
+    <li style="width:{{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '') }};">
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        Reviews ({{$goods->goods_comment_num}}+)
+                                    评价 ({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
 </ul>
 @endif
+
         <div class="clear"></div>
+
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(in_array('video',$templets) && !empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-            	
 			</p>
             @endif
             <p>
@@ -344,13 +260,14 @@
            </p>
            
         </div>
+        
         <div class="clear">
         </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
-            {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
+{{--            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
                         <h4>
-                        Recent Reviews           </h4>
+                最新评价            </h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -360,7 +277,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            evaluate:
+                                满意度：
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -372,7 +289,7 @@
                                 <p>{{$v->com_msg}}</p><p>
                                 @if(!empty($v->com_img))
                                     @foreach($v->com_img as $kk => $val)
-                                <img src="{{$val->com_url}}" title="ClientImages" alt="客户图片"/>  
+                                <img src="{{$val->com_url}}" title="客户图片" alt="客户图片"/>  
                                     @endforeach
 								@endif                         </p> </p>
                         </div>
@@ -383,88 +300,90 @@
                     </div> 
                 </div>
                @endif
-                        <div class="go-appraise" style=" background:#fff; border:none;">
+            <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else Leave us a message   @endif        </a>
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    我要评价     @else 给我们留言   @endif        </a>
             </div>
-                    </div>
+        </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
         <div class="clear">
         </div>
-<div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
-<table class="data-table">
+        <script>
+            (function(){
+                /* 图片显示画面 */
+                function captureImage(a) {
+                    a.pause();       
+                };
+                var videos=$("#detial-context video");
+                for(var i=0;i<videos.length;i++){
+                    videos[i].setAttribute("autoplay","autoplay");
+                    videos[i].setAttribute("preload","auto");
+                    videos[i].addEventListener('canplay',captureImage(videos[i]));
+                }
+            })();
+        </script>
+        <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
+    <table class="data-table">
+
     {{--用户帮助模块--}}
     @if(in_array('user_help',$templets))
     <tbody>
         @if(in_array('user_know',$templets))
-        <!-- <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用户须知</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>
-                1.Free shipping+Cash on delivery+Items can be returned freely within 7 days after delivery <br>
-                2.If you have any questions, please contact us via email(
+                <p>本产品的实际使用效果根据个人情况决定，不保证每位用户都能享受到宣传的效果。若有疑问请咨询在线客服或通过电子邮箱(
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        )  with name, contact info. and order No.. We will deal it ASAP.</p>
-            </td></tr> -->
-        @endif
-        <tr class="first odd">
-            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(Click and view)</span></Click></th>
-        </tr>
-        @if(in_array('apply_goods',$templets))
-        <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
-        </tr>
-        <tr class="first odd">
-            <td colspan="2">
-            <p>
-                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
-                <br>Email:
-
-                                <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                <br>
-                If you have any questions please call us or contact us online. Thanks for your cooperation.</p>
-                <!-- <p>1.由於個人原因
-                    需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
-                    售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        ，售後
-
-                    客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
-
-                <p>
-                    2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
-
-                    發送郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        ，客服會在收到郵件後的1-3個工作日內受
-
-                    理您的請求，退換貨所產生的運費由我方承擔。
-                </p> -->
+                                        )联络我们，本公司享有最终解释权。</p>
             </td></tr>
         @endif
+        @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Returns & Replacements Procedures</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·如何申请退换货</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
-                <p>Please specify: Order no, customer name, and customer contact no.</p>
+                <p>1.由于个人原因产生的退换货：至收到商品起7天内，在不影响二次销售的情况下请联系我们的在线客服或发邮件至
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费需自行承担。
+                </p>
+                <p>
+                   2.由于质量原因产生的退换货：至收到商品之日起7天内，向售后服务中心发送邮件至
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费由我方承担。
+                </p>
+            </td></tr>
+            @endif
+        @if(in_array('exchange_of_goods',$templets))
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退换货流程:</th>
+        </tr>
+        <tr> <td colspan="2">    
+                <p>确认收货-申请退换货-客服审核通过-用户寄回商品-仓库签收验货-退换货审核-退款/换货；
+                </p>
+                <p>退换货请注明：订单号、姓名、电话。</p>
+                
+            </td>
+            
+        </tr>
+        <tr class="first odd">
+            
+            <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+           <td colspan="2">
+                <p>ZSSSHOP严选商城，秉承一贯的严谨态度，深入世界各地，严格把关所有商品的产地、工艺、原材料，甄选服饰、鞋包、居家、厨房、运动等各类商品，力求给你最优质的商品。
+               </p>
             </td>
 
         </tr>
-                <tr class="first odd"></tr>
         @endif
-        <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
-            <td colspan="2">
-                <p>ZSSSHOP believes in the “attitude of quality”. It selects from worldwide for high quality products such as clothing, shoes, bags, homeware, kitchenware, sportswear, etc. It ensures the quality of craft, regional origin and raw materials of the products according to strict criteria in order to bring the best products for you.</p>
-            </td>
-
+                <tr class="first odd">
+          
+            
         </tr>
-        <tr class="first odd"></tr>
-        </tbody>
+    </tbody>
+    @endif
 </table>
 <style>
     .footer2{
@@ -501,21 +420,22 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </div>
     </div> -->
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
+{{--底部导航--}}
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #f1b52a;">
-      <img src="/images/filter-3.png" style="">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
+      <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;color:white">Order<br>Enquiry</span>
+        <span style="line-height:14px;">订单<br>查询</span>
       </a>
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}}">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>Buy Now</span>
+			<span>立即购买</span>
 		</a>
 	</span>
     @endif
@@ -547,7 +467,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                Online message                </div>
+                    在线留言                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -557,10 +477,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Name:
+                                    姓名:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
+                                    <input type="text" placeholder="姓名" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -569,17 +489,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Phone:
+                                    手机:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Phone" class="input01" name="phone"
+                                    <input type="text" placeholder="手机" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                evaluate:
+                                    满意度:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -604,17 +524,16 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                leave word:
+                                    留言:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="Online message " name="content" class="textarea_style">
-                                    </textarea>
+                                    <textarea placeholder="在线留言" name="content" class="textarea_style"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="Submit" style="color:white">
+                                    value="提交评价" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -624,7 +543,6 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </form>
     </div>
 </div>
-
 <script language="javascript">
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
@@ -643,7 +561,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
             if(m<10) m = "0" + m;
             if(s<10) s = "0" + s;
             
-            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"h"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
+            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"时"+'<span id="m" class="colon">' + m + '</span>'+"分"+'<span id="s" class="colon">' + s + '</span>'+"秒");
            time=time-1000;
             /*startDate.setTime(startDate.getTime() + 1000);
             if(startDate.getTime()==endDate.getTime()){
@@ -659,18 +577,6 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
-    // 增加弹窗
-    $('.privacyPolicy').click(function(){
-        $('.Popup').show();
-    })
-    $('.Close').click(function(){
-        $('.Popup').hide();
-    })
-
-
-
-
-
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
@@ -696,7 +602,8 @@ $(function(){
         localStorage.setItem("jsArr", tjArr1);
     }
     // 用户继续访问根据上面提供的key值补充数据
-    window.onbeforeunload = function() {
+    window.onblur = function() {
+        console.log('离开页面测试1')
         var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
         var tjI = tjArrRd.length - 1;
         if(tjArrRd[tjI].tjRd == tjRandom){
@@ -733,7 +640,8 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
-    $2(function() {
+    $2(function() { 
+        
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {
@@ -820,17 +728,17 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("Name cannot be empty");
+                $2.toast("姓名不得为空");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("Mobile number cannot be empty");
+                $2.toast("手机不得为空");
                 return false;
             }
-            // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
-            // if (!myreg.test($2("input[name='phone']").val())) {
-            //     $2.toast("手機格式错误");
-            // }
+            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test($2("input[name='phone']").val())) {
+                $2.toast("手机格式错误");
+            }
             var data = {};
             data.level = $2("input[name='level']").val();
             data.product_id = '103107897';
@@ -980,13 +888,12 @@ $(function(){
 </div>
 <div id="ext_overlay" class="ext_overlayBG" style="display: none; z-index: 2147483646;">
 </div>
-
 <!--商品介绍  商品参数处按钮的固定-->
 <script type="text/javascript" charset="utf-8">
-    var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
+    // var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
 </script>
 <script>
-            $(function(){
+        $(function(){
             $('#detial-context p a').each(function(index,ele){
                 var con_a = $(this).attr('href');
                 if(con_a.length>0){
@@ -1014,15 +921,15 @@ $(function(){
             }
             				var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
 				if(vname.test(jQuery("input[name='firstname']").val())){
-					alert("請填寫您的真實姓名");
+					alert("请填写您的真实姓名");
 					return false;
 				}
 				if(_checkBlackName(jQuery("input[name='firstname']").val())){
-					alert("無效的名字");
+					alert("无效的名字");
 					return false;
 				}
 			            if(jQuery("select[name='state6']").val()==""){
-                alert('請選取縣市');
+                alert('请选取县市');
                 return false;
             }
             jQuery('#pay').attr('disabled',true);
@@ -1030,7 +937,7 @@ $(function(){
         },
         tipSweep:true
     });
-    form.tipmsg.r="訂單提交中...";
+    form.tipmsg.r="订单提交中...";
 
 
 jQuery('input[name=pay_type]').change(function(){
@@ -1097,11 +1004,13 @@ jQuery('input[name=pay_type]').change(function(){
     }
 });
 </script>
+<script>
+   $(document).ready(function(){$("#divVideo").css("height","inherit")}) //改变轮播图video高度；
+</script>
 <style>
     .detail-bars li {
         width: {{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '32%') }} !important;
     }
 </style>
-
 <!-- <script language="javascript" src="/js/LsJS.aspx"></script> --></body>
 </html>
