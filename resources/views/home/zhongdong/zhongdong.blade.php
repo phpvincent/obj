@@ -540,7 +540,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
             if(m<10) m = "0" + m;
             if(s<10) s = "0" + s;
             
-            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"s"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
+            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"h"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
            time=time-1000;
             /*startDate.setTime(startDate.getTime() + 1000);
             if(startDate.getTime()==endDate.getTime()){

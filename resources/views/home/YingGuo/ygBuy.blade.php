@@ -219,10 +219,7 @@
         <label><span class="require">*</span>Last name:</label>
         <input type="text" name="lastname" placeholder="required,Please enter your last name" class="mui-input-clear">
     </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Phone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="required,Please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
-    </div>
+    
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -261,9 +258,13 @@
     </div>
     
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label>Phone:</label>
+        <input type="text" datatype="/^\d+$/" placeholder="required,Please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>message:</label>
@@ -459,10 +460,15 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the consignee's name.");
         return false;
     }
-    if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg("Please fill in the consignee's cell phone number.");
+    var res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("邮箱");
         return false;
     }
+    // if(datasObj.telephone==null||datasObj.telephone==''){
+    //     layer.msg("Please fill in the consignee's cell phone number.");
+    //     return false;
+    // }
     if(datasObj.zip==null||datasObj.zip==''){
         layer.msg("Please fill in the correct postal code.");
         return false;
@@ -472,11 +478,11 @@ $('#pay').bind('click',function(){
     //     layer.msg('Please fill in the valid postal code.');
     //     return false;
     // }
-    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    if(!re.test(datasObj.telephone)){
-        layer.msg('Please fill in the valid cell phone number.');
-        return false;
-    }
+    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    // if(!re.test(datasObj.telephone)){
+    //     layer.msg('Please fill in the valid cell phone number.');
+    //     return false;
+    // }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 

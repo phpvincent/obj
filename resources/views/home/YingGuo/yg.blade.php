@@ -266,7 +266,7 @@
         <span class="flag" style="font-size: 12px;">Cash on delivery</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">7 days appreciation period</span>
+        <span class="flag" style="font-size: 12px;background:#000;">14 days appreciation period</span>
     @endif
 </div>
 @endif
@@ -397,7 +397,7 @@
     @if(in_array('user_help',$templets))
     <tbody>
         @if(in_array('user_know',$templets))
-        <tr class="first odd">
+        <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
         </tr>
         <tr class="first odd">
@@ -407,7 +407,7 @@
                 2.If you have any questions, please contact us via email(
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         )  with name, contact info. and order No.. We will deal it ASAP.</p>
-            </td></tr>
+            </td></tr> -->
         @endif
         <tr class="first odd">
             <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(Click and view)</span></Click></th>
@@ -643,7 +643,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
             if(m<10) m = "0" + m;
             if(s<10) s = "0" + s;
             
-            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"s"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
+            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"h"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
            time=time-1000;
             /*startDate.setTime(startDate.getTime() + 1000);
             if(startDate.getTime()==endDate.getTime()){
