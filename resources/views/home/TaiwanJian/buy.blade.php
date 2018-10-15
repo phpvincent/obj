@@ -174,7 +174,7 @@
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
     <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-    <h1 class="mui-title">確認訂單</h1>
+    <h1 class="mui-title">确认订单</h1>
 </header>
 
 <div class="mui-content">
@@ -223,15 +223,15 @@
     
     <div class="mui-input-row">
         <label><span class="require">*</span>姓名:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="必填，填寫收件人姓名" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        <input type="text" name="firstname" datatype="s1-30" placeholder="必填，填写收件人姓名" nullmsg="填写收件人信息" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>Last name:</label>
         <input type="text" name="lastname" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span>手機:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="必填，填寫收件人聯繫電話" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <label><span class="require">*</span>手机:</label>
+        <input type="text" datatype="/^\d+$/" placeholder="必填，填写收件人联系电话" nullmsg="填写收件人联系电话" errormsg="请填写正确的电话号码" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -250,25 +250,25 @@
         <div id="twzipcode"></div>
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span>詳細地址:</label>
-        <input type="text" datatype="z1-300" placeholder="必填，街道門牌信息" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
+        <label><span class="require">*</span>详细地址:</label>
+        <input type="text" datatype="z1-300" placeholder="必填，街道门牌信息" nullmsg="街道门牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
-        <label>郵政編號:</label>
+        <label>邮政编号:</label>
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email" placeholder="選填，填寫收件人電子郵件" class="mui-input-clear">
+        <input type="text" name="email" placeholder="选填，填写收件人电子邮件" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>留言:</label>
-        <textarea name="notes" placeholder="選填，如備用電話、產品規格或配送時間等"></textarea>
+        <textarea name="notes" placeholder="选填，如备用电话、产品规格或配送时间等"></textarea>
     </div>
 
 </div>
@@ -294,7 +294,7 @@
          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
           <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-            貨到付款            </label>
+            货到付款            </label>
           <span style="width:100px;">
                                 <img src="/images/cash.jpg" alt="" id="cash"/>
                                               </span>
@@ -323,7 +323,7 @@
 </div>
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01">提交訂單</button>
+    <button id="pay" type="button" class="btnstyle01">提交订单</button>
 </div>
        
 
@@ -331,7 +331,7 @@
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-            溫馨提示：支持貨到付款+免郵費+七天無理由退換貨！收到商品後有任何疑問請聯繫我們在線客服，或發郵件至
+    温馨提示：支持货到付款+免邮费+七天无理由退换货！收到商品后有任何疑问请联系我们在线客服，或发邮件至
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
 
@@ -428,11 +428,11 @@
                     return false;*/
                 }
                 if(_checkBlackName(jQuery("input[name='firstname']").val())){
-                    layer.msg("無效的名字");
+                    layer.msg("无效的名字");
                     return false;
                 }
                         if(jQuery("select[name='state6']").val()==""){
-                alert('請選取縣市');
+                alert('请选取县市');
                 return false;
             }
             jQuery('#pay').attr('disabled',true);
@@ -440,7 +440,7 @@
         },
         tipSweep:true
     });
-    form.tipmsg.r="訂單提交中...";
+    form.tipmsg.r="订单提交中...";
 
 
 
@@ -473,27 +473,27 @@ $('#pay').bind('click',function(){
     console.log("zuihou",datasObj)
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('詳細地址不能為空！');
+        layer.msg('详细地址不能为空！');
         return false;
     }
     if(datasObj.city==null||datasObj.city==''){
-        layer.msg('請選擇地區信息！');
+        layer.msg('请选择地区信息！');
         return false;
     }
     if(datasObj.firstname==null||datasObj.firstname==''){
-        layer.msg('請填寫收貨人姓名');
+        layer.msg('请填写收货人姓名');
         return false;
     }
     if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg('請填寫收貨人手機號碼');
+        layer.msg('请填写收货人手机号码');
         return false;
     }
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
-        layer.msg('請輸入有效手機號');
+        layer.msg('请输入有效手机号');
         return false;
     }
-    layer.msg("訂單提交中，請稍等");
+    layer.msg("订单提交中，请稍等...");
     var payType=$(".paymentbox input:checked").val();
     if(issubmit){
         issubmit=false;
@@ -511,7 +511,7 @@ $('#pay').bind('click',function(){
           
                     
            error: function(data) {
-               layer.msg('訂單提交失敗，請檢查網絡情況');
+               layer.msg('订单提交失败，请检查网络情况');
            }
         }) ; 
         }else{
@@ -522,7 +522,7 @@ $('#pay').bind('click',function(){
                 data:datasObj,
                 success: function (data) {
                     if(data.err=='0'){
-                        layer.msg('paypal支付失敗，請選擇其它支付方式！');
+                        layer.msg('paypal支付失败，请选择其他支付方式！');
                          issubmit=true;
                     }else{
                         var btime=getNowDate();
@@ -534,7 +534,7 @@ $('#pay').bind('click',function(){
 
 
                 error: function(data) {
-                    layer.msg('訂單提交失敗，請檢查網絡情況');
+                    layer.msg('订单提交失败，请检查网络情况');
                 }
             }) ;
             
@@ -542,7 +542,7 @@ $('#pay').bind('click',function(){
 
         
     }else{
-        layer.msg('訂單已提交，不要重複提交');
+        layer.msg('订单已提交，不要重复提交');
     }
    
     
@@ -638,11 +638,11 @@ jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="選填，填寫收件人電子郵件" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+        html1 +='<input type="text" placeholder="选填，填写收件人电子邮箱" nullmsg="选填电子邮箱" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
         html2 += "<label>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" class="mui-input-clear">';
+        html2 += '<input type="text" name="email" placeholder="选填，填写收件人电子邮箱" class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();
         if(payty==7||payty==2){
@@ -680,7 +680,7 @@ jQuery(function(){
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
-                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  僅剩:'+msg.goods.goods_num+'件\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含贈 <font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  仅剩:'+msg.goods.goods_num+'件\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含赠 <font>0</font>件</span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
                             $("#addcart").html(addCartHtml1);
                             var pricehtml=$('.addcart-footer-price-total').children('font:first');
 	                        	var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
@@ -715,7 +715,7 @@ jQuery(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已選【'+msg.cuxiao[0].cuxiao_msg+'】僅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含贈<font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已选【'+msg.cuxiao[0].cuxiao_msg+'】仅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含赠<font>0</font>件</span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -831,10 +831,10 @@ jQuery(function(){
                         $(function(){
                             var specialHtml='';
                             $.each(msg.special,function(i,item){
-                                specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">贈品</span></div></div>'
+                                specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">赠品</span></div></div>'
                             });
                             $("#addcart").append(specialHtml);
-                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>，已選  【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 僅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div>'
+                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>，已选  【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 仅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div>'
                             $("#addcart").append(yixuanHtml);
                             var buttonHtml= '';
                             var chose_cart='chose_cart';
@@ -843,7 +843,7 @@ jQuery(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>，含贈 <font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>，含赠 <font>0</font>件</span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
@@ -863,12 +863,12 @@ jQuery(function(){
 	                       var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		                   var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	                       $('#addcart-quantity-dec').bind('click',function(){
-		                   layer.msg('此商品僅支持套餐購買');
+		                   layer.msg('此商品仅支持套餐购买');
 		                   return false;
 	                       })
 	                       $('#addcart-quantity-inc').bind('click',function(){
 
-		                    layer.msg('此商品僅支持套餐購買');
+		                    layer.msg('此商品仅支持套餐购买');
 		                    return false;
 	                        })
                             $('.addcart-float-buttons-block').children('button').click(function(){    	
@@ -892,7 +892,7 @@ jQuery(function(){
                                    $('.addcart-footer-number-total').children('font:first').html(num);
                                    $('#addcart-quantity-val').val(num);
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
-                                   $('div.unfold .addcart-specs-title-name').html("总数量:"+num);
+                                   $('.addcart-specs-title-name').html("总数量："+num);
 		                        console.log(num);
 		                        $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;
