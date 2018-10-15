@@ -49,7 +49,7 @@
 			<div class="formControls col-xs-8 col-sm-9 ">
 				<div class="check-box">
 					@foreach($ad_account as $k => $v)
-						<input type="checkbox" id="ad_account" name="ad_account[]"  @if($v->is_blong) checked='checked' @endif value="{{$v->ad_account_id}}"  >
+						<input type="checkbox" id="ad_account" name="ad_account[]"  @if($v->is_belong) checked='checked' @endif value="{{$v->ad_account_id}}"  >
 						<label for="checkbox-pinglun">{{$v->ad_account_name}}(@if($v->ad_account_belong=='0') fb @elseif($v->ad_account_belong=='1') Yahoo @else Google @endif)</label><br>
 					@endforeach
 				</div>
