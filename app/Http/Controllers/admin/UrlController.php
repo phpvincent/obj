@@ -226,7 +226,7 @@ class UrlController extends Controller
           $url->url_zz_level=$msg['url_zz_level'];
    	    	$url->url_zz_for=$msg['url_zz_for'];
           $url->url_admin_id=Auth::user()->admin_id;
-          $url->url_ad_account_id=implode(',', $msg['ad_account']);
+          $url->url_ad_account_id=isset($msg['ad_account'])?implode(',', $msg['ad_account']):null;
    	    	$msg=$url->save();
    	    	if($msg)
          {
