@@ -459,7 +459,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-                <p>ZSSSHOP believes in the “attitude of quality”. It selects from worldwide for high quality products such as clothing, shoes, bags, homeware, kitchenware, sportswear, etc. It ensures the quality of craft, regional origin and raw materials of the products according to strict criteria in order to bring the best products for you.</p>
+                <p>ZSSHOP believes in the “attitude of quality”. It selects from worldwide for high quality products such as clothing, shoes, bags, homeware, kitchenware, sportswear, etc. It ensures the quality of craft, regional origin and raw materials of the products according to strict criteria in order to bring the best products for you.</p>
             </td>
 
         </tr>
@@ -569,10 +569,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Phone:
+                                    Email:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Phone" class="input01" name="phone"
+                                    <input type="text" placeholder="required,Please fill in email" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
@@ -823,8 +823,13 @@ $(function(){
                 $2.toast("Name cannot be empty");
                 return false;
             }
-            if ($2("input[name='phone']").val() == '') {
-                $2.toast("Mobile number cannot be empty");
+            // if ($2("input[name='phone']").val() == '') {
+            //     $2.toast("Mobile number cannot be empty");
+            //     return false;
+            // }
+            var res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;//邮箱
+            if(!res.test($2("input[name='phone']").val())){
+                $2.toast("Please enter your email address.");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;

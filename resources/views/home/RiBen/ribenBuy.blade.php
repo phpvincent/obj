@@ -247,9 +247,9 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="display:none;">
-        <label>郵政編號:</label>
-        <input type="text" name="zip" class="mui-input-clear">
+    <div class="mui-input-row" style="">
+        <label><span class="require">*</span>郵便番号:</label>
+        <input type="text" name="zip" placeholder="必須 郵便番号" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
         <label>メールアドレス:</label>
@@ -441,12 +441,16 @@ $('#pay').bind('click',function(){
         layer.msg('「電話番号」は空欄にできません');
         return false;
     }
-    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    if(!re.test(datasObj.telephone)){
-        layer.msg('正しい携帯番号を書いてください');
+    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    // if(!re.test(datasObj.telephone)){
+    //     layer.msg('正しい携帯番号を書いてください');
+    //     return false;
+    // }
+    if(datasObj.zip==null||datasObj.zip==''){
+        layer.msg("郵便番号は暇ではありません");
         return false;
     }
-
+    datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("ご購入の手続きは提出中。少々お待ちください。");
 
     if(issubmit){
@@ -793,12 +797,12 @@ jQuery(function(){
 	                       var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		                   var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	                       $('#addcart-quantity-dec').bind('click',function(){
-		                   layer.msg('This item only supports package purchase');
+		                   layer.msg('この商品はセットでしかご購入頂けません');
 		                   return false;
 	                       })
 	                       $('#addcart-quantity-inc').bind('click',function(){
 
-		                    layer.msg('This item only supports package purchase');
+		                    layer.msg('この商品はセットでしかご購入頂けません');
 		                    return false;
 	                        })
                             $('.addcart-float-buttons-block').children('button').click(function(){    	

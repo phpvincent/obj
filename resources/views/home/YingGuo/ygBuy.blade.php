@@ -242,7 +242,7 @@
     </div>
     <div class="mui-input-row" style="">
         <label><span class="require">*</span>Postalcode:</label>
-        <input type="text" name="zip" class="mui-input-clear">
+        <input type="text" name="zip" placeholder="required, Please fill in the zip code" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>country:</label>
@@ -260,7 +260,7 @@
         <div class="mui-input-row need_email">
         <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">
+        <input type="text" name="email" placeholder="required,Please fill in email" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label>Phone:</label>
@@ -368,7 +368,7 @@ $('input[name="lastname"]').blur(function(){
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'"><div><strong>No.'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'"><div><strong>item.'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
@@ -462,7 +462,7 @@ $('#pay').bind('click',function(){
     }
     var res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;//邮箱
     if(!res.test(datasObj.email)){
-        layer.msg("邮箱");
+        layer.msg("Please enter your email address.");
         return false;
     }
     // if(datasObj.telephone==null||datasObj.telephone==''){
@@ -470,7 +470,7 @@ $('#pay').bind('click',function(){
     //     return false;
     // }
     if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct postal code.");
+        layer.msg("Please fill in the correct zip code.");
         return false;
     }
     // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
