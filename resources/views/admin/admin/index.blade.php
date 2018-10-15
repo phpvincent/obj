@@ -97,8 +97,7 @@
 		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-            console.log(data);
-            var info='<a title="编辑" href="javascript:;" onclick="admin_update(\'账户编辑\',\'{{url("admin/admin/upadmin")}}?id='+data.admin_id+'\',\'2\',\'500\',\'300\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_admin(\''+data.admin_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+            var info='<a title="编辑" href="javascript:;" onclick="admin_update(\'账户编辑\',\'{{url("admin/admin/upadmin")}}?id='+data.admin_id+'\',\'2\',\'500\',\'400\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_admin(\''+data.admin_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.is_root==0||data.is_root==null){
 				var isroot='<span class="label label-default radius">×</span>';
 				if(data.is_root!=null){
@@ -131,10 +130,10 @@
 		}
 	dataTable=$('#admin_index_table').DataTable($.tablesetting);
 		$('#addadmin').on('click',function(){
-				layer_show('添加账户',"{{url('admin/admin/addadmin')}}",500,300);
+				layer_show('添加账户',"{{url('admin/admin/addadmin')}}",500,400);
 		});
 		$('#addgroup').on('click',function(){
-				layer_show('添加分组',"{{url('admin/admin/addgroup')}}",500,200);
+				layer_show('添加分组',"{{url('admin/admin/addgroup')}}",500,220);
 		});
 		function del_admin(admin_id){
 				var msg =confirm("确定要删除此账户？");

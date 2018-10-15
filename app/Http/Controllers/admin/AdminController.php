@@ -28,6 +28,7 @@ class AdminController extends Controller
     		$admin->admin_name=$data['admin_name'];
     		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
             $admin->admin_group=$data['admin_group_id'];
+            $admin->admin_data_rule=$data['admin_data_rule'];
     		if($data['admin_role_id']==0){
     			$admin->is_root='1';
     			$admin->admin_role_id='1';
@@ -296,6 +297,7 @@ class AdminController extends Controller
         }elseif($request->isMethod('post')){
             $group=new \App\admin_group();
             $group->admin_group_name=$request->input('admin_group_name');
+            $group->admin_group_rule=$request->input('admin_group_rule');
             $msg=$group->save();
             if($msg){
                 return response()->json(['err'=>1,'str'=>'添加成功']);

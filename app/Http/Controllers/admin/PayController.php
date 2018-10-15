@@ -24,7 +24,7 @@ class PayController extends Controller
     	if(Auth::user()->is_root=='1'){
     		$admins=\App\admin::get();
     	}else{
-    		$admins=\App\admin::whereIn('admin_id',\App\admin::get_group_ids(Auth::user()->admin_id))->get();
+    		$admins=\App\admin::whereIn('admin_id',admin::get_admins_id())->get();
     	}
     	$counts=$admins->count();
     	return view('admin.pay.index')->with(compact('admins','counts'));
@@ -46,23 +46,24 @@ class PayController extends Controller
 
         //获取账户名
         $goods_search=$request->has('spend_search')?$request->input('spend_search'):0;
-        $admin_id = Auth::user()->admin_id;
+//        $admin_id = Auth::user()->admin_id;
 
         //花费总条数
-        $counts=DB::table('goods')
-            ->where(function($query)use($admin_id){
-                if(Auth::user()->is_root!='1'){
-                    $query->where('goods_admin_id',$admin_id);
-                }
-            })
-            ->count();
+//        $counts=DB::table('goods')
+//            ->where(function($query)use($admin_id){
+//                if(Auth::user()->is_root!='1'){
+//                    $query->where('goods_admin_id',$admin_id);
+//                }
+//            })
+//            ->count();
+        $counts = count(admin::get_goods_id());
 
         if(Auth::user()->is_root!='1'){//非root 用户
             //获取自己名下的花费
             $newcount=DB::table('goods')
                 ->where('is_del','0')
-                ->where('goods_heshen','1')
-                ->where('goods_admin_id',$admin_id)
+                ->where('goods_id','!=','4')
+                ->whereIn('goods_id',admin::get_goods_id())
                 ->where(function($query)use($search){
                     //1.搜索单品名称
                     $query->where([['goods_real_name','like',"%$search%"]]);
@@ -70,32 +71,12 @@ class PayController extends Controller
                     $query->orWhere([['goods_id','like',"%$search%"]]);
                 })
                 ->count();
-//            $newcount=DB::table('goods')
-//                ->where('is_del','0')
-//                ->where('goods_heshen','1')
-//                ->where('goods_admin_id',$admin_id)
-//                ->leftjoin('spend','spend.spend_goods_id','=','goods.goods_id')
-//                ->where(function($query)use($search){
-//                    //1.搜索单品名称
-//                    $query->where([['goods.goods_real_name','like',"%$search%"]]);
-//                    //2.搜索id
-//                    $query->orWhere([['goods.goods_id','like',"%$search%"]]);
-//                })
-//                ->where(function($query)use($request){//根据时间筛选
-//                    if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-//                        $query->where('spend.spend_time','>',$request->input('mintime'));
-//                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-//                        $query->where('spend.spend_time','<',$request->input('maxtime'));
-//                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-//                        $query->whereBetween('spend.spend_time',[$request->input('mintime'),$request->input('maxtime')]);
-//                    }
-//                })->count();
 
             //获取商品ID
             $data = DB::table('goods')
                 ->where('is_del','0')
-                ->where('goods_heshen','1')
-                ->where('goods_admin_id',$admin_id)
+                ->where('goods_id','!=','4')
+                ->whereIn('goods_id',admin::get_goods_id())
                 ->select('goods_id','goods_real_name','goods_up_time','goods_currency_id')
                 ->where(function($query)use($search){
                     //1.搜索单品名称
@@ -148,7 +129,8 @@ class PayController extends Controller
             //获取总条数
             $newcount=DB::table('goods')
                 ->where('is_del','0')
-                ->where('goods_heshen','1')
+                ->where('goods_id','!=','4')
+                ->whereIn('goods_id',admin::get_goods_id())
                 ->where(function($query)use($search){
                     //1.搜索单品名称
                     $query->where([['goods_real_name','like',"%$search%"]]);
@@ -161,35 +143,12 @@ class PayController extends Controller
                     }
                 })
                 ->count();
-//            $newcount=DB::table('goods')
-//                ->where('is_del','0')
-//                ->where('goods_heshen','1')
-//                ->leftjoin('spend','spend.spend_goods_id','=','goods.goods_id')
-//                ->where(function($query)use($search){
-//                    //1.搜索单品名称
-//                    $query->where([['goods.goods_real_name','like',"%$search%"]]);
-//                    //2.搜索id
-//                    $query->orWhere([['goods.goods_id','like',"%$search%"]]);
-//                })
-//                ->where(function($query)use($goods_search){//筛选具体管理员（非root用户只能查看自己花费）
-//                    if($goods_search){
-//                        $query->where('goods.goods_admin_id',$goods_search);
-//                    }
-//                })
-//                ->where(function($query)use($request){//根据时间筛选
-//                    if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-//                        $query->where('spend.spend_time','>',$request->input('mintime'));
-//                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-//                        $query->where('spend.spend_time','<',$request->input('maxtime'));
-//                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-//                        $query->whereBetween('spend.spend_time',[$request->input('mintime'),$request->input('maxtime')]);
-//                    }
-//                })->count();
 
             //获取商品ID
             $data = DB::table('goods')
                 ->where('is_del','0')
-                ->where('goods_heshen','1')
+                ->where('goods_id','!=','4')
+                ->whereIn('goods_id',admin::get_goods_id())
                 ->select('goods_id','goods_real_name','goods_up_time','goods_currency_id')
                 ->where(function($query)use($search){
                     //1.搜索单品名称

@@ -10,7 +10,7 @@
 					@foreach($roles as $v)
 					<option value="{{$v->role_id}}">{{$v->role_name}}</option>
 					@endforeach
-					<option value="0" >超级管理员</option>
+					<option  value="0" >超级管理员</option>
 				</select>
 				</span> </div>
 		</div>
@@ -19,8 +19,28 @@
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="admin_group_id" id="admin_group_id" class="select">
 					@foreach(\App\admin_group::get() as $v)
-					<option value="{{$v->admin_group_id}}">{{$v->admin_group_name}}</option>
+						<option attr="{{$v->admin_group_rule}}" value="{{$v->admin_group_id}}">{{$v->admin_group_name}}</option>
 					@endforeach
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl shuju_1" style="display: none">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>查看数据权限：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="admin_data_rule" class="select admin_data_rule">
+						<option value="0">仅查看自己</option>
+						<option value="1">查看自己与本组</option>
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl shuju_0">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>查看数据权限：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="admin_data_rule" class="select admin_data_rule">
+						<option value="0">仅查看自己</option>
+						<option value="1">查看自己与本组</option>
+						<option value="2">查看全体成员</option>
+						<option value="3">root</option>
 				</select>
 				</span> </div>
 		</div>
@@ -48,6 +68,30 @@
 @endsection
 @section('js')
 <script type="text/javascript">
+    var a =$("#admin_group_id  option:first").attr('attr');
+    if(a==1){
+        $('.shuju_1').show();
+        $('.shuju_0').hide();
+    }else {
+        $('.shuju_0').show();
+        $('.shuju_1').hide();
+    }
+    $("#admin_group_id").on('change',function(){
+        Jurisdiction();
+	});
+    function Jurisdiction(){
+        var a =$("#admin_group_id  option:selected").attr('attr');
+        if(a==1){
+            $('.shuju_1').show();
+            $('.shuju_0').hide();
+        }else {
+            $('.shuju_0').show();
+            $('.shuju_1').hide();
+        }
+	}
+
+
+
 	$('#admin-add').on('submit',function(){
 		if($('#admin_role_id').val()=='0'){
 			var msg =confirm("确定要增加超级管理员账户吗？");
