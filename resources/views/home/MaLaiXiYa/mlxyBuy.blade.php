@@ -182,7 +182,7 @@
 
     <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
         <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span>{!!$goods->goods_msg!!}</h2>
+        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
             </div>
 </div>
 <!--product info end-->
@@ -836,7 +836,7 @@ jQuery(function(){
                                    $('.addcart-footer-number-total').children('font:first').html(num);
                                    $('#addcart-quantity-val').val(num);
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
-                                   $('.addcart-specs-title-name').html("Total Quantity:"+num);
+                                   $('div.unfold .addcart-specs-title-name').html("Total Quantity:"+num);
 		                        console.log(num);
 		                        $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;

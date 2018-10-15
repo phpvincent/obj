@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -10,7 +11,12 @@ class CheckController extends Controller
 {
     public function index(Request $request)
     {
-    	$counts=\App\goods::where('goods_heshen','0')->count();
+    	$counts=\App\goods::where('goods_heshen','0')
+            ->whereIn('goods_id',admin::get_goods_id())
+            ->where(function($query){
+                $query->where('goods_id','<>','4');
+            })
+            ->count();
     	return view('admin.check.index')->with(compact('counts'));
     }
     public function getcheck(Request $request)
@@ -32,20 +38,22 @@ class CheckController extends Controller
           ->where(function($query){
             $query->where('goods_id','<>','4');
           })
+          ->whereIn('goods_id',admin::get_goods_id())
           ->where(function($query){
           	$query->where('goods_heshen','<>','1');
           })
 	      ->count();
+
 	      $newcount=DB::table('goods')
 	      ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
 	      ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	      ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-	      ->where(function($query)use($search){
-            $query->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0']]);
+          ->where(function($query)use($search){
+            $query->where([['goods.goods_name','like',"%$search%"]]);
+            $query->orWhere([['goods.goods_real_name','like',"%$search%"]]);
+            $query->orWhere([['goods.goods_msg','like',"%$search%"]]);
+            $query->orWhere([['url.url_url','like',"%$search%"]]);
+            $query->orWhere([['admin.admin_name','like',"%$search%"]]);
           })
           /*->where(function($query){
            if(Auth::user()->is_root!='1'){
@@ -57,6 +65,7 @@ class CheckController extends Controller
             $query->where('goods_id','<>','4');
             $query->where('goods_heshen','<>','1');
           })
+          ->whereIn('goods.goods_id',admin::get_goods_id())
           ->where(function($query)use($info){
           	if($info['ischeck']==0){
             	$query->where('goods_heshen','<>','1');
@@ -78,23 +87,26 @@ class CheckController extends Controller
 	      ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
 	      ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	      ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-	      ->where(function($query)use($search){
-            $query->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['goods.goods_real_name','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0']]);
-            $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0']]);
+          ->where('goods.is_del','0')
+          ->where(function($query)use($search){
+            $query->where([['goods.goods_name','like',"%$search%"]]);
+            $query->orWhere([['goods.goods_real_name','like',"%$search%"]]);
+            $query->orWhere([['goods.goods_msg','like',"%$search%"]]);
+            $query->orWhere([['url.url_url','like',"%$search%"]]);
+            $query->orWhere([['admin.admin_name','like',"%$search%"]]);
           })
           ->where(function($query){
-           if(Auth::user()->is_root!='1'){
-              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
-              $query->whereIn('goods.goods_admin_id',$ids);
-            }
+//           if(Auth::user()->is_root!='1'){
+//              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+//              $query->whereIn('goods.goods_admin_id',$ids);
+              $query->whereIn('goods.goods_admin_id',admin::get_admins_id());
+//            }
           })
           ->where(function($query){
             $query->where('goods_id','<>','4');
             $query->where('goods_heshen','<>','1');
           })
+          ->whereIn('goods.goods_id',admin::get_goods_id())
           ->where(function($query)use($info){
           	if($info['ischeck']==0){
             	$query->where('goods_heshen','<>','1');

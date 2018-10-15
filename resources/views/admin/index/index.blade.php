@@ -4,6 +4,7 @@
 	<p class="f-20 text-success">欢迎使用信息管理系统！</p>
 	<p>登录次数：{{Cookie::get('l_num')}} </p>
 	<p>上次登录IP：{{Cookie::get('l_ip')}} 上次登录时间：{{Cookie::get('l_time')}}</p>
+	@if(Auth::user()->is_root == '1')
 	<table class="table table-border table-bordered table-bg">
 		<thead>
 			<tr>
@@ -61,6 +62,7 @@
 			</tr> -->
 		</tbody>
 	</table>
+	@endif
 	<table class="table table-border table-bordered table-bg mt-20">
 		<thead>
 			<tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\order;
@@ -10,24 +11,31 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
    public function index(){
-         $admin_id=Auth::user()->admin_id;
-     if(Auth::user()->is_root!='1'){
-      $admins=\App\admin::get_group($admin_id);
-      $garr=order::get_group_order($admin_id);
-      $counts=DB::table('order')
-      ->where(function($query){
+//         $admin_id=Auth::user()->admin_id;
+//     if(Auth::user()->is_root!='1'){
+//      $admins=\App\admin::get_group($admin_id);
+//      $garr=order::get_group_order($admin_id);
+//      $counts=DB::table('order')
+//      ->where(function($query){
+//        $query->where('is_del','0');
+//      })
+//      ->whereIn('order_goods_id',$garr)
+//      ->count();
+//     return view('admin.order.index_notroot')->with(compact('counts','admins'));
+//     }else{
+//      $admins=\App\admin::get();
+//      $counts=order::where(function($query){
+//        $query->where('is_del','0');
+//      })->count();
+     $admins = admin::whereIn('admin_id',admin::get_admins_id())->get();
+     $counts = DB::table('order')
+     ->where(function($query){
         $query->where('is_del','0');
-      })
-      ->whereIn('order_goods_id',$garr)
-      ->count();
-     return view('admin.order.index_notroot')->with(compact('counts','admins'));
-     }else{
-      $admins=\App\admin::get(); 
-      $counts=order::where(function($query){
-        $query->where('is_del','0');
-      })->count();
+     })
+     ->whereIn('order_goods_id',admin::get_goods_id())
+     ->count();
      return view('admin.order.index')->with(compact('counts','admins'));
-     }
+//     }
     
    }
 
@@ -56,10 +64,11 @@ class OrderController extends Controller
 	        ->count();
          
          //获取自己名下的单
-           $admin_id=Auth::user()->admin_id;
+//         $admin_id=Auth::user()->admin_id;
 
            if(Auth::user()->is_root!='1'){//非root 用户
-            $garr=\App\goods::get_selfid($admin_id);
+//            $garr=\App\goods::get_selfid($admin_id);
+            $garr = admin::get_goods_id();
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
             ->where(function($query){

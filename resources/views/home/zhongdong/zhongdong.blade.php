@@ -193,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>&#12304;{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span><div style="display: inline-block;">{!! $goods->goods_msg !!}</div>
 </div>
 @endif
 
@@ -339,6 +339,7 @@
                 </p> -->
             </td></tr>
         @endif
+        @if(in_array('exchange_of_goods',$templets))
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Returns & Replacements Procedures</th>
         </tr>
@@ -350,7 +351,7 @@
 
         </tr>
                 <tr class="first odd"></tr>
-        @endif
+       
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
@@ -358,8 +359,10 @@
             </td>
 
         </tr>
+        @endif
         <tr class="first odd"></tr>
         </tbody>
+        @endif
 </table>
 <style>
     .footer2{

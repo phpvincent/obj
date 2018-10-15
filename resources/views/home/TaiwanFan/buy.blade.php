@@ -99,10 +99,22 @@
          <!-- <script src="/js/addcart.js"></script> -->
          <!--gleepay-->
         <script type="text/javascript" src="/js/broser.js"></script>
+        <style type="text/css">
+            	.chose_cart{
+            		background-color: red; 
+            		color: white !important;
+            		border:1px dashed #ccc !important;
+            	}
+            	.unchose_cart{
+            		background-color: white;
+            		color: black !important;
+            		border:1px dashed #ccc !important;
+            	}
+        </style>
 
         
 
-        @if($goods->goods_pix!=null&&$goods->goods_pix!='')
+       @if($goods->goods_pix!=null&&$goods->goods_pix!='')
         <!-- Facebook Pixel Code -->
       <script>
          !function(f,b,e,v,n,t,s)
@@ -180,7 +192,7 @@
 
     <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
         <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span>{!!$goods->goods_msg!!}</h2>
+        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
             </div>
 </div>
 <!--product info end-->
@@ -458,6 +470,7 @@ $('#pay').bind('click',function(){
     })
     datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
     datasObj.goodsAtt=dataObj;                             //商品属性；
+    console.log("zuihou",datasObj)
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
         layer.msg('詳細地址不能為空！');
@@ -662,10 +675,238 @@ jQuery(function(){
                 data:{'id':{{$goods->goods_id}},'_token':"{{csrf_token()}}"},
                 datatype:'html',
                 success:function(msg){
-                 $('#addcart').html(msg);
-                    // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
+                //  $('#addcart').html(msg);
+                 console.log('123',msg)
+                    // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
+                    if(msg.goods.goods_cuxiao_type=="0"){
+                         $(function(){
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">第1件</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  僅剩:'+msg.goods.goods_num+'件\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含贈 <font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
+                            $("#addcart").html(addCartHtml1);
+                            var pricehtml=$('.addcart-footer-price-total').children('font:first');
+	                        	var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
+	                        $('#addcart-quantity-dec').bind('click',function(){
+	                        	removeform(); // 删除一组商品属性
+	                        	var num=parseInt($(this).next().val());
+	                        	if(num<=1){
+	                        		return false;
+	                        	}
+	                        	$(this).next().val(num-1);
+	                        	$('.addcart-specs-title-name').html("第"+(num-1)+"件");
+	                        	$('.addcart-footer-number-total').children('font:first').html(num-1);
+	                        	$('#realprice').html((num-1)*price+".00");
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num-1)*price+'.00');
+	                        })
+	                        $('#addcart-quantity-inc').bind('click',function(){
+	                        	formnum+=1
+	                        	var formName="f"+formnum;
+	                        	addform(formName); //增加一组商品属性；
+	                        	var num=parseInt($(this).prev().val());
+	                        	if(num>={{$goods->goods_num}}){
+	                        		layer.msg('库存不足！');
+	                        		return false;
+	                        	}
+	                        	$(this).prev().val(num+1);
+	                        	$('.addcart-specs-title-name').html("第"+(num+1)+"件");
+	                            $('.addcart-footer-number-total').children('font:first').html(num+1);
+	                            $('#realprice').html((num+1)*price+".00");
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num+1)*price+'.00');
+	                        })
+                         })
+
+                    }else if(msg.goods.goods_cuxiao_type=="2"){
+                            $(function(){
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">第1件</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已選【'+msg.cuxiao[0].cuxiao_msg+'】僅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font>，含贈<font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                $("#addcart").html(addCartHtml2);
+
+                                    var pricehtml=$('.addcart-footer-price-total').children('font:first');
+	                            	var price=pricehtml.html().replace(/[^0-9]/ig,"");
+	                            	var config_arr=String(msg.cuxiao[0].cuxiao_config).split(',');
+	                            
+	                                $('#addcart-quantity-dec').bind('click',function(){
+	                            	removeform();
+	                            	var num=parseInt($(this).next().val());
+	                            	if(num<=1){
+	                            		return false;
+	                            	}
+	                            	$(this).next().val(num-1);
+	                            	$('.addcart-specs-title-name').html("第"+(num-1)+"件");
+	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
+	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
+	                            	num=num-1;
+	                            	var confignum=$('.radiobox').length;console.log(confignum);
+	                            	var price=parseInt(msg.goods.goods_price);
+	                            	var end_price=price*num;
+	                            	if(num<config_arr[0]){
+	                            		var end_price=price*num;
+	                            		$('#realprice').html(end_price);
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            	}else{
+	                            		var jp=price*(parseInt(config_arr[0])-1);
+	                            		var jjp=0;
+	                            		var len=config_arr.length;
+	                            		for(var i = 0; i < config_arr.length/2; i++){
+	                            				if(num>=parseInt(config_arr[i*2])){
+	                            					if(num<parseInt(config_arr[i*2+2])){
+	                            						jjp+=(num-(parseInt(config_arr[i*2])-1))*(price-(parseInt(config_arr[i*2+1])));
+	                            						break;
+	                            					}else if(num>=parseInt(config_arr[i*2+2])){
+	                            						jjp+=(parseInt(config_arr[i*2+2])-parseInt(config_arr[i*2]))*(price-parseInt(config_arr[i*2+1]));
+	                            					}else{
+	                            						jjp+=(num-parseInt(config_arr[i*2])+1)*(price-parseInt(config_arr[i*2+1]));
+	                            					}
+	                            				}
+	                            			}
+	                            		 end_price=jp+jjp;
+	                            		$('#realprice').html(end_price);
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            	}
+	                            		
+	                            })
+	                            
+	                            function zhengjia(){
+	                            	
+	                            	formnum+=1;
+	                            	var formName="f"+formnum;
+	                            	addform(formName); console.log(formnum) //增加一组商品属性
+                            
+	                            	// var num=parseInt($(this).prev().val());
+	                            	var num = Number($('#addcart-quantity-val').val())
+	                            	console.log(num)
+	                            	if(num>= msg.goods.goods_num){
+	                            		layer.msg('库存不足！');
+	                            		return false;
+	                            	}
+	                            	// $(this).prev().val(num+1);
+	                            	$('#addcart-quantity-val').val(num+1);
+	                            	$('.addcart-specs-title-name').html("第"+(num+1)+"件");
+	                            	$('.addcart-footer-number-total').children('font:first').html(num+1);
+	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
+	                                num=num+1;
+	                                var confignum=$('.radiobox').length;console.log(confignum);
+	                            var price=parseInt(msg.goods.goods_price);
+	                            	var end_price=price*num;
+	                            	if(num<config_arr[0]){
+	                            		var end_price=price*num;
+	                            		$('#realprice').html(end_price);
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            	}else{
+	                            		var jp=price*(parseInt(config_arr[0])-1);
+	                            		var jjp=0;
+	                            		var len=config_arr.length;
+	                            		for(var i = 0; i < config_arr.length/2; i++){
+	                            	
+	                            				if(num>=parseInt(config_arr[i*2])){
+	                            					if(num<parseInt(config_arr[i*2+2])){
+	                            						jjp+=(num-(parseInt(config_arr[i*2])-1))*(price-(parseInt(config_arr[i*2+1])));
+	                            						break;
+	                            					}else if(num>=parseInt(config_arr[i*2+2])){
+	                            						jjp+=(parseInt(config_arr[i*2+2])-parseInt(config_arr[i*2]))*(price-parseInt(config_arr[i*2+1]));
+	                            					}else{
+	                            						jjp+=(num-parseInt(config_arr[i*2])+1)*(price-parseInt(config_arr[i*2+1]));
+	                            					}
+	                            				}
+	                            			}
+	                            		 end_price=jp+jjp;
+	                            		$('#realprice').html(end_price);
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            	}	
+	                            }
+                            
+	                            var shuliang = formnum;
+	                            if(shuliang>= msg.goods.goods_num){
+	                            	shuliang = msg.goods.goods_num
+	                            	for(var i=1; i<shuliang;i++){
+	                            		zhengjia();
+	                            	}
+	                            }else{
+	                            	for(var i=1; i<shuliang;i++){
+	                            		zhengjia();
+	                            	}
+	                            }
+	                            $('#addcart-quantity-inc').bind('click',function(){
+	                            	zhengjia();
+	                            });
+                            })
+                    }else  if(msg.goods.goods_cuxiao_type=="3"){
+                        $(function(){
+                            var specialHtml='';
+                            $.each(msg.special,function(i,item){
+                                specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">贈品</span></div></div>'
+                            });
+                            $("#addcart").append(specialHtml);
+                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">第1件'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>，已選  【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 僅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div>'
+                            $("#addcart").append(yixuanHtml);
+                            var buttonHtml= '';
+                            var chose_cart='chose_cart';
+                            var unchose_cart='unchose_cart';
+                            $.each(msg.cuxiao,function(j,val){
+                                  buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
+                            })
+                            $("#addcart").append(buttonHtml);
+                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>，含贈 <font>0</font>件</span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
+                            $("#addcart").append(numberHtml);
+
+                            $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
+		                   	var num1=$("#addcart-quantity-val").val()-0;
+		                   	formnum=0;
+		                   	for(var i=1;i<=num1;i++){
+		                   		formnum+=1
+		                           var formName="f"+formnum;
+		                           addform(formName); //增加一组商品属性；
+		                   	}
+                            $('form').children('[name="cuxiao_id"]').val(msg.cuxiao[0].cuxiao_id); //隐藏域促销id
+                            var cuxiao_special_id=msg.cuxiao[0].cuxiao_special_id;  //默认初始化赠品是否显示；
+                                $("[mine_id]").hide();
+                            	if(cuxiao_special_id>0){
+                            		$("[mine_id='"+cuxiao_special_id+"']").show();
+                            	}
+	                       var pricehtml=$('.addcart-footer-price-total').children('font:first');
+		                   var price=pricehtml.html().replace(/[^0-9]/ig,"");
+	                       $('#addcart-quantity-dec').bind('click',function(){
+		                   layer.msg('此商品僅支持套餐購買');
+		                   return false;
+	                       })
+	                       $('#addcart-quantity-inc').bind('click',function(){
+
+		                    layer.msg('此商品僅支持套餐購買');
+		                    return false;
+	                        })
+                            $('.addcart-float-buttons-block').children('button').click(function(){    	
+                            	$('form').children('[name="cuxiao_id"]').val($(this).attr('cuxiao_id'));
+                            	var attr=$(this).attr('class');
+                            	var cuxiao_special_id=$(this).attr('cuxiao_special_id');
+                                $("[mine_id]").hide();
+                            	if(cuxiao_special_id>0){
+                            		$("[mine_id='"+cuxiao_special_id+"']").show();
+                            	}
+                            	if(attr=='chose_cart'){
+                            		layer.msg('已选择 ');
+                            	}else if(attr =='unchose_cart'){
+                       		     $('.chose_cart').attr('class','unchose_cart');
+                       		     $(this).attr('class','chose_cart');
+                                   var num=$(this).attr('num');
+                                   var price=$(this).attr('price');
+                                   var cuxiao_msg=$(this).attr('type_name');
+                                   $('#sell_msg').html(cuxiao_msg);
+                                   $('#realprice').html(price);
+                                   $('.addcart-footer-number-total').children('font:first').html(num);
+                                   $('#addcart-quantity-val').val(num);
+                                   pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
+                                //    $('.addcart-specs-title-name').html("Total Quantity:"+num);
+		                        console.log(num);
+		                        $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
+		                        formnum=0;
+		                        for(var i=1;i<=num;i++){
+		                        	formnum+=1
+		                           var formName="f"+formnum;
+		                           addform(formName); //增加一组商品属性；
+		                   	    }
+                       	        }
+                            })
+                       })
+                            
                 }
-            })
+          }  })
     })
 </script>
 

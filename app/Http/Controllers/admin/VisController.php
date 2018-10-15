@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\admin;
 use App\goods;
 use App\special;
 use Illuminate\Http\Request;
@@ -14,10 +15,11 @@ class VisController extends Controller
     public function index(){
     	$counts=DB::table('vis')
 	         ->where(function($query){
-	        	if(Auth::user()->is_root!='1'){
-	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
-	        	}
-	        })
+//	        	if(Auth::user()->is_root!='1'){
+//	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+//	        	}
+              		$query->whereIn('vis_goods_id',admin::get_goods_id());
+             })
 	        ->count();
     	return view('admin.vis.index')->with('counts',$counts);
     }
@@ -279,15 +281,17 @@ class VisController extends Controller
      */
    public function statistic(Request $request){
    	if($request->isMethod('get')){
-   		if(Auth::user()->is_root!='1'){
-   		    $admin_id = Auth::user()->admin_id;
-            $admins=\App\admin::where([['admin_id',$admin_id],['admin_use','1']])->get();
-   			$goods=\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->get();
-   		}else{
-            $admins=\App\admin::where('admin_use','1')->get();
-            $goods=\App\goods::where('is_del','0')->get();
-   		}
-   		return view('admin.vis.statistic')->with(compact('goods','admins'));
+//   		if(Auth::user()->is_root!='1'){
+//   		    $admin_id = Auth::user()->admin_id;
+//            $admins=\App\admin::where([['admin_id',$admin_id],['admin_use','1']])->get();
+//   			$goods=\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->get();
+//   		}else{
+//            $admins=\App\admin::where('admin_use','1')->get();
+//            $goods=\App\goods::where('is_del','0')->get();
+//   		}
+           $admins=\App\admin::whereIn('admin_id',admin::get_admins_id())->get();
+           $goods=\App\goods::whereIn('goods_id',admin::get_goods_id())->get();
+        return view('admin.vis.statistic')->with(compact('goods','admins'));
    	}elseif($request->isMethod('post')){
         //时间筛选（默认七天，按天）
         $start_time = $request->input('mintime');
@@ -297,10 +301,15 @@ class VisController extends Controller
         //判断是否为root用户
         if(Auth::user()->is_root!='1'){
             $user_id = 0;//非root不能通过用户筛选
-            $goods_arr = goods::where('goods_admin_id',Auth::user()->admin_id)->pluck('goods_id')->toArray();
-        }else{
-            $goods_arr = goods::pluck('goods_id')->toArray();
         }
+        $goods_arr = goods::where('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
+
+//        if(Auth::user()->is_root!='1'){
+//            $user_id = 0;//非root不能通过用户筛选
+//            $goods_arr = goods::where('goods_admin_id',Auth::user()->admin_id)->pluck('goods_id')->toArray();
+//        }else{
+//            $goods_arr = goods::pluck('goods_id')->toArray();
+//        }
         $time = [];
         if((!$start_time || !$end_time) || strtotime($end_time)-strtotime($start_time) > 3600*24*3){
             //超过3天或者没有选择时间，所以转化率按照天计算
@@ -577,17 +586,19 @@ class VisController extends Controller
    }
    public function ll(Request $request){
    	if($request->isMethod('get')){
-   		if(Auth::user()->is_root!='1'){
-   			$goods=\App\goods::
-   			where('goods_admin_id',Auth::user()->admin_id)
-   			->where(function($query){
-   				$query->where('is_del','0');
-   			})
-   			->get();
-   		}else{
-   			$goods=\App\goods::where('is_del','0')->get();
-   		}
-   		return view('admin.vis.ll')->with(compact('goods'));
+//   		if(Auth::user()->is_root!='1'){
+//   			$goods=\App\goods::
+//   			where('goods_admin_id',Auth::user()->admin_id)
+//   			->where(function($query){
+//   				$query->where('is_del','0');
+//   			})
+//   			->get();
+//   		}else{
+//   			$goods=\App\goods::where('is_del','0')->get();
+//   		}
+        $goods=\App\goods::whereIn('goods_admin_id',admin::get_admins_id())->where('is_del','0')->get();
+
+        return view('admin.vis.ll')->with(compact('goods'));
    	}else{
 
    	}
@@ -605,12 +616,16 @@ class VisController extends Controller
            $goods_id = $request->input('id');
            $user_id = $request->input('user_id');
            //判断是否为root用户
+//           if (Auth::user()->is_root != '1') {
+//               $user_id = 0;//非root不能通过用户筛选
+//               $goods_arr = goods::where('goods_admin_id', Auth::user()->admin_id)->pluck('goods_id')->toArray();
+//           } else {
+//               $goods_arr = goods::pluck('goods_id')->toArray();
+//           }
            if (Auth::user()->is_root != '1') {
                $user_id = 0;//非root不能通过用户筛选
-               $goods_arr = goods::where('goods_admin_id', Auth::user()->admin_id)->pluck('goods_id')->toArray();
-           } else {
-               $goods_arr = goods::pluck('goods_id')->toArray();
            }
+           $goods_arr = goods::whereIn('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
            $time = [];
            if ((!$start_time || !$end_time) || strtotime($end_time) - strtotime($start_time) > 3600 * 24 * 3) {
                //超过3天或者没有选择时间，所以转化率按照天计算
@@ -701,7 +716,7 @@ class VisController extends Controller
        return view('admin.vis.table')->with(compact('data','time'));
    }
 
-    public function get_ajaxtable(Request $request){
+   public function get_ajaxtable(Request $request){
    	 $id=$request->input('id');	
    	 $arr=[];
    	 if($id==0){

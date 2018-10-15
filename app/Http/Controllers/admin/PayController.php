@@ -21,11 +21,11 @@ class PayController extends Controller
      */
     public function index(Request $request)
     {
-    	if(Auth::user()->is_root=='1'){
-    		$admins=\App\admin::get();
-    	}else{
-    		$admins=\App\admin::whereIn('admin_id',admin::get_admins_id())->get();
-    	}
+//    	if(Auth::user()->is_root=='1'){
+//    		$admins=\App\admin::get();
+//        }else{
+//        }
+    	$admins=\App\admin::whereIn('admin_id',admin::get_admins_id())->get();
     	$counts=$admins->count();
     	return view('admin.pay.index')->with(compact('admins','counts'));
     }

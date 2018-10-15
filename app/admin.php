@@ -133,7 +133,7 @@ class admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
             }
         }
         if($auth->is_root == 1){
-            $data = admin::pluck('goods_id')->toArray();
+            $data = admin::pluck('admin_id')->toArray();
         }
 
         if($bool){

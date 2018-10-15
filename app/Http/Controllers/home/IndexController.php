@@ -92,10 +92,10 @@ class IndexController extends Controller
         $blade_type=$goods->goods_blade_type;
         switch ($blade_type) {
             case '0':
-            return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            return view('home.TaiwanFan.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '1':
-            return view('home.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            return view('home.TaiwanJian.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
                 break;
             case '2':
             return view('home.zhongdong.zhongdong')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
@@ -214,8 +214,11 @@ class IndexController extends Controller
         } /*dd($goods_config_arr);*/
         $goods_config_arr=(string)json_encode($goods_config_arr);
         $blade_type=$goods->goods_blade_type;
+        if($blade_type==0){
+            return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
         if($blade_type==1){
-            return view('home.buy2')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.TaiwanJian.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
         if($blade_type==2){
             return view('home.zhongdong.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
@@ -238,7 +241,7 @@ class IndexController extends Controller
         if($blade_type==8){
             return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
-    	return view('home.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+    	return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
     /** 前台活动模板
@@ -254,7 +257,7 @@ class IndexController extends Controller
         }
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6||$goods->goods_blade_type == 7||$goods->goods_blade_type == 8){
+        if($goods->goods_blade_type == 0||$goods->goods_blade_type == 1||$goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6||$goods->goods_blade_type == 7||$goods->goods_blade_type == 8){
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$special->isEmpty()){
@@ -500,6 +503,9 @@ class IndexController extends Controller
         if($request->has('type')&&$request->input('type')=='0'){
             return view('ajax.endfail');
         }
+        if(!$request->has('goods_id')||!$request->has('order_id')){
+            return view('ajax.endfail');
+        }
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
         if($request->order_id!=0){
              $order=\App\order::where("order_id",$request->order_id)->first();
@@ -525,6 +531,12 @@ class IndexController extends Controller
         if($url==null){
             return false;
         }
+        if($goods->goods_blade_type == 0){
+            return view('home.TaiwanFan.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+        }
+        if($goods->goods_blade_type == 1){
+            return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+        }
         if($goods->goods_blade_type == 2){
             return view('home.zhongdong.zdEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
         }
@@ -546,7 +558,7 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 8){
             return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
-        return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+        return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
         $order=\App\order::where('order_id',$request->input('order_id'))->first();
@@ -560,6 +572,12 @@ class IndexController extends Controller
     public function send(Request $request){
         if($request->has('goods_id')){
             $goods_blade_type = \App\goods::where('goods_id',$request->input('goods_id'))->value('goods_blade_type');
+            if($goods_blade_type == 0){
+                return view('home.TaiwanFan.send');                
+            }
+            if($goods_blade_type == 1){
+                return view('home.TaiwanJian.send');                
+            }
             if($goods_blade_type == 2){
                 return view('home.zhongdong.zhSend');                
             }
@@ -582,7 +600,7 @@ class IndexController extends Controller
                 return view('home.YingGuo.ygSend');
             }
         }
-        return view('home.send');
+        return view('home.TaiwanFan.send');
     }
 
     public function getsendmsg(Request $request){
@@ -594,6 +612,12 @@ class IndexController extends Controller
         $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
         if($goods==null||$goods==null){
             return json_encode(false);
+        }
+        if($goods->goods_blade_type == 0){
+            return view('home.TaiwanFan.sendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 1){
+            return view('home.TaiwanJian.sendmsg')->with(compact('order','goods'));
         }
         if($goods->goods_blade_type == 2){
             return view('home.zhongdong.zdSendmsg')->with(compact('order','goods'));
@@ -616,7 +640,7 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 8){
             return view('home.YingGuo.ygSendmsg')->with(compact('order','goods'));
         }
-        return view('home.sendmsg')->with(compact('order','goods'));
+        return view('home.TaiwanFan.sendmsg')->with(compact('order','goods'));
     }
     public function channelindex(){
         return view('view.index');

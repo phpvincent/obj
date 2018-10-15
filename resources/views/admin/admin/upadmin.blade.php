@@ -8,6 +8,7 @@
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>账户名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="{{$admin->admin_name}}" placeholder="" id="admin_name" name="admin_name" @if(\Auth::user()->is_root!='1') readonly=readonly @endif>
+				<input type="text" class="input-text" value="" placeholder="" id="attr" name="attr" style="display: none">
 			</div>
 		</div>
 		<div class="row cl">
@@ -33,9 +34,9 @@
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					@if(\Auth::user()->is_root!='1')
 						<input type="text" class="input-text" value="{{$admin->admin_data_rule=='0' ? '仅查看自己' : ($admin->admin_data_rule=='1' ? '查看自己与本组' : ($admin->admin_data_rule=='2' ? '查看全体成员' : 'root'))}}" placeholder="" id="" name="" readonly="readonly">
-						<input type="hidden" name="admin_data_rule" value="{{$admin->admin_data_rule}}">
+						<input type="hidden" name="admin_data_rule0" value="{{$admin->admin_data_rule}}">
 					@else
-						<select name="admin_data_rule" class="select admin_data_rule">
+						<select name="admin_data_rule0" class="select admin_data_rule">
 							<option @if($admin->admin_data_rule=='0') selected='selected' @endif value="0">仅查看自己</option>
 							<option @if($admin->admin_data_rule=='1') selected='selected' @endif value="1">查看自己与本组</option>
 							<option @if($admin->admin_data_rule=='2') selected='selected' @endif value="2">查看全体成员</option>
@@ -50,9 +51,9 @@
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					@if(\Auth::user()->is_root!='1')
 						<input type="text" class="input-text" value="{{$admin->admin_data_rule=='0' ? '仅查看自己' : ($admin->admin_data_rule=='1' ? '查看自己与本组' : ($admin->admin_data_rule=='2' ? '查看全体成员' : 'root'))}}" placeholder="" id="" name="" readonly="readonly">
-						<input type="hidden" name="admin_data_rule" value="{{$admin->admin_data_rule}}">
+						<input type="hidden" name="admin_data_rule1" value="{{$admin->admin_data_rule}}">
 					@else
-						<select name="admin_data_rule" class="select admin_data_rule">
+						<select name="admin_data_rule1" class="select admin_data_rule">
 							<option @if($admin->admin_data_rule=='0') selected='selected' @endif value="0">仅查看自己</option>
 							<option @if($admin->admin_data_rule=='1') selected='selected' @endif value="1">查看自己与本组</option>
 						</select>
@@ -70,9 +71,9 @@
 						<input type="hidden" name="role_id" value="{{$admin->admin_role_id}}">
 					 @else
 					 <select name="role_id" id="role_id" class="select">
-						 <option value="0" @if(\Auth::user()->is_root=='1') selected="selected" @endif>超级管理员</option>
+						 <option value="0" @if($admin->is_root=='1') selected="selected" @endif>超级管理员</option>
 						@foreach(\App\role::get() as $key => $v)
-							<option value="{{$v->role_id}}" @if(\Auth::user()->is_root!='1'&&$v->role_id==$admin->admin_role_id) selected="selected" @endif>{{$v->role_name}}</option>
+							<option value="{{$v->role_id}}" @if($admin->is_root!='1'&&$v->role_id==$admin->admin_role_id) selected="selected" @endif>{{$v->role_name}}</option>
 						@endforeach	
 						</select>
 					 @endif
@@ -97,6 +98,7 @@
     });
     function Jurisdiction(){
         var a =$("#admin_group_id  option:selected").attr('attr');
+        $('#attr').val(a);
         if(a==1){
             $('.shuju_1').show();
             $('.shuju_0').hide();

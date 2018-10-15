@@ -86,7 +86,50 @@
         <script>
         jQuery(function(){setFrom();});
         </script>
-
+        <style>
+            .Popup{
+                display: none;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                z-index:9999999999;
+                position:fixed;
+                background-color:rgba(0,0,0,0.3)
+            }
+            .Popup>div{
+                height:80%;
+                width:80%;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+            }
+            .Popup>div>div{
+                height:100%;
+                width:100%;
+                overflow-y: auto;
+                
+                background: #fff;
+                padding:10px;
+                padding-bottom:30px;
+            }
+            .Popup>div .Close{
+                height:30px;
+                line-height:30px;
+                width:100%;
+                left:0;
+                text-align: center;
+                position: absolute;
+                bottom:0;
+                background: #6b6868;
+                color:#fff;
+                cursor:pointer;
+            }
+            .Popup>div h3,.Popup>div h6{
+                text-align: center;
+            }
+        </style>
 	</head>
 	<body style="">
 	<script>
@@ -108,7 +151,66 @@
 	jQuery("#payForm").attr('action', u);
 	});
 	</script>
-
+    <div class="Popup">
+        <div>
+        <div>
+            <h3>PRIVACY POLICY</h3>
+            <div>
+                <strong> What personal data do we collect about you?</strong>
+                <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
+                <p>
+                •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
+                </p>
+                <p>
+                •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
+                </p>
+                <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
+                <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
+                <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
+            </div>
+            <div>
+                <strong>What do we use this personal data for?</strong>
+                <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
+                <p>•    To fulfill your order </p>
+                <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
+                <p>•    To improve and maintain the Site, and monitor its usage.</p>
+                <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
+                <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
+                <p>•    To comply with our legal and regulatory obligations.</p>
+                <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
+                <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
+                <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
+            </div>
+            <div>
+                <strong>Who do we share this personal data with?</strong>
+                <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
+                <p>•   Permitted or required by law; or,</p>
+                <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
+                <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
+                <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
+                <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
+                <p>•  Protect and defend the rights or property of the Site;</p>
+                <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
+            </div>
+            <div>
+                <strong>Security </strong>
+                <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
+                <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
+                
+            </div>
+            <div>
+                <strong>Cookies</strong>
+                <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
+                
+            </div>
+            <div>
+                <strong>Contact Us</strong>
+                <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
+            </div>
+            <div class="Close">Close</div>
+        </div>
+        </div>
+    </div>
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content">
     <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
@@ -193,7 +295,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span><p style="display: inline-block;">{!! $goods->goods_msg !!}</p>
 </div>
 @endif
 
@@ -307,6 +409,9 @@
                                         )  with name, contact info. and order No.. We will deal it ASAP.</p>
             </td></tr>
         @endif
+        <tr class="first odd">
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(Click and view)</span></Click></th>
+        </tr>
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
@@ -519,6 +624,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </form>
     </div>
 </div>
+
 <script language="javascript">
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
@@ -553,6 +659,18 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+    // 增加弹窗
+    $('.privacyPolicy').click(function(){
+        $('.Popup').show();
+    })
+    $('.Close').click(function(){
+        $('.Popup').hide();
+    })
+
+
+
+
+
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
@@ -862,6 +980,7 @@ $(function(){
 </div>
 <div id="ext_overlay" class="ext_overlayBG" style="display: none; z-index: 2147483646;">
 </div>
+
 <!--商品介绍  商品参数处按钮的固定-->
 <script type="text/javascript" charset="utf-8">
     var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
@@ -983,5 +1102,6 @@ jQuery('input[name=pay_type]').change(function(){
         width: {{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '32%') }} !important;
     }
 </style>
+
 <!-- <script language="javascript" src="/js/LsJS.aspx"></script> --></body>
 </html>

@@ -23,7 +23,8 @@ class order extends Model
       $admin=\App\admin::where('admin_id',$admin_id)->first();
       if($admin['is_root']!='1'){
           $garr=[];
-	      $goodsarr=\App\goods::whereIn("goods_admin_id",\App\admin::get_group_ids($admin_id))->get(['goods_id'])->toArray();
+//	      $goodsarr=\App\goods::whereIn("goods_admin_id",\App\admin::get_group_ids($admin_id))->get(['goods_id'])->toArray();
+	      $goodsarr=\App\goods::whereIn("goods_admin_id",admin::get_admins_id())->get(['goods_id'])->toArray();
 	      foreach($goodsarr as $key => $v){
 	        $garr[]=$v['goods_id'];
 	      }

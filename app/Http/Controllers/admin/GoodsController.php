@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\admin;
 use App\com_img;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,12 +22,13 @@ use App\channel\cuxiaoSDK;
 class GoodsController extends Controller
 {
    public function index(){
-      if(Auth::user()->is_root=='1'){
-         $counts=goods::count();
-       }else{
-        $counts=goods::where('goods_admin_id',Auth::user()->admin_id)->count();
-       }
-        $type=\App\goods_type::get();
+//      if(Auth::user()->is_root=='1'){
+//         $counts=goods::count();
+//       }else{
+//        $counts=goods::where('goods_admin_id',Auth::user()->admin_id)->count();
+//       }
+       $counts=goods::whereIn('goods_admin_id',admin::get_admins_id())->count();
+       $type=\App\goods_type::get();
 
    	  return view('admin.goods.index')->with(compact('counts','type'));
    }
@@ -47,7 +49,8 @@ class GoodsController extends Controller
 	        $counts=DB::table('goods')
           ->where(function($query){
             if(Auth::user()->is_root!='1'){
-              $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+//              $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
+              $query->whereIn('goods_admin_id',admin::get_admins_id());
             }
           })
 	        ->count();
@@ -74,8 +77,9 @@ class GoodsController extends Controller
           })
           ->where(function($query){
             if(Auth::user()->is_root!='1'){
-              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
-              $query->whereIn('goods.goods_admin_id',$ids);
+//              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+//              $query->whereIn('goods.goods_admin_id',$ids);
+                $query->whereIn('goods.goods_admin_id',admin::get_admins_id());
             }
           })
           ->where(function($query){
@@ -126,8 +130,9 @@ class GoodsController extends Controller
           })
           ->where(function($query){
            if(Auth::user()->is_root!='1'){
-              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
-              $query->whereIn('goods.goods_admin_id',$ids);
+//              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+//              $query->whereIn('goods.goods_admin_id',$ids);
+              $query->whereIn('goods.goods_admin_id',admin::get_admins_id());
             }
           })
           ->where(function($query){

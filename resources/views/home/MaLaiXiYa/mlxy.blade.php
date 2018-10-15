@@ -193,7 +193,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span>{!! $goods->goods_msg !!}
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span><p style="display: inline-block;">{!! $goods->goods_msg !!}</p>
 </div>
 @endif
 
@@ -343,7 +343,7 @@
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Returns & Replacements Procedures</th>
         </tr>
         <tr class="first odd">
-            <td colspan="2">模板
+            <td colspan="2">
                 <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
                 <p>Please specify: Order no, customer name, and customer contact no.</p>
             </td>

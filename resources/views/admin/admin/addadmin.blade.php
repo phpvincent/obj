@@ -27,7 +27,7 @@
 		<div class="row cl shuju_1" style="display: none">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>查看数据权限：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="admin_data_rule" class="select admin_data_rule">
+				<select name="admin_data_rule1" class="select admin_data_rule">
 						<option value="0">仅查看自己</option>
 						<option value="1">查看自己与本组</option>
 				</select>
@@ -36,7 +36,7 @@
 		<div class="row cl shuju_0">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>查看数据权限：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="admin_data_rule" class="select admin_data_rule">
+				<select name="admin_data_rule0" class="select admin_data_rule">
 						<option value="0">仅查看自己</option>
 						<option value="1">查看自己与本组</option>
 						<option value="2">查看全体成员</option>
@@ -48,6 +48,7 @@
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>用户名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="admin_name" name="admin_name">
+				<input type="text" class="input-text" style="display: none;" value="" placeholder="" id="attr" name="attr">
 			</div>
 		</div>
 		<div class="row cl">
@@ -69,6 +70,7 @@
 @section('js')
 <script type="text/javascript">
     var a =$("#admin_group_id  option:first").attr('attr');
+    $('#attr').val(a);
     if(a==1){
         $('.shuju_1').show();
         $('.shuju_0').hide();
@@ -81,6 +83,7 @@
 	});
     function Jurisdiction(){
         var a =$("#admin_group_id  option:selected").attr('attr');
+        $('#attr').val(a);
         if(a==1){
             $('.shuju_1').show();
             $('.shuju_0').hide();

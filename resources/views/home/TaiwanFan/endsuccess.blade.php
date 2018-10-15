@@ -24,7 +24,7 @@
         'https://connect.facebook.net/en_US/fbevents.js');
          fbq('init', '{{$goods->goods_pix}}'); 
         fbq('track', 'PageView');
-        fbq('track', 'Purchase', {value:'{{$order->order_price}}', currency:'TWD'});//购买
+        fbq('track', 'Purchase', {value:'{{$order->order_price}}', currency:'{{\App\currency_type::where("currency_type_id",$order->order_currency_id)->first()["currency_english_name"]}}'});//购买
         </script>
         <noscript>
          <img height="1" width="1" 
@@ -51,7 +51,7 @@
             }});
         </script>
         @endif
-        <!-- End YaHoo Pixel Code -->
+          <!-- End YaHoo Pixel Code -->
           <!-- Global site tag (gtag.js) - Google Analytics -->
           @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
         <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>

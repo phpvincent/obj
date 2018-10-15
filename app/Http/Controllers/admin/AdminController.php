@@ -28,7 +28,11 @@ class AdminController extends Controller
     		$admin->admin_name=$data['admin_name'];
     		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
             $admin->admin_group=$data['admin_group_id'];
-            $admin->admin_data_rule=$data['admin_data_rule'];
+            if($data['attr'] == 0){
+                $admin->admin_data_rule= $data['admin_data_rule0'];
+            }else{
+                $admin->admin_data_rule = $data['admin_data_rule1'];
+            }
     		if($data['admin_role_id']==0){
     			$admin->is_root='1';
     			$admin->admin_role_id='1';
@@ -196,10 +200,15 @@ class AdminController extends Controller
     		return view('admin.admin.upadmin')->with(compact('admin'));
     	}else if($request->isMethod('post')){
     		$data=$request->all();
-    		$id=$request->input('admin_id');
+            $id=$request->input('admin_id');
     		$admin=\App\admin::where('admin_id',$id)->first();
     		$admin->admin_name=$data['admin_name'];
             $admin->admin_group=$data['admin_group_id'];
+            if($data['attr'] == 0){
+                $admin->admin_data_rule= $data['admin_data_rule0'];
+            }else{
+                $admin->admin_data_rule = $data['admin_data_rule1'];
+            }
     		if($data['role_id']==0){
     			$admin->is_root='1';
 
