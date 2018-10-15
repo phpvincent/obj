@@ -35,12 +35,24 @@
 			</span>
 			 </div>
 		</div>
+
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">是否上线：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="check-box">
 					<input type="checkbox" id="is_online" name="is_online"  checked="checked"  value="1" >
 					<label for="checkbox-pinglun">&nbsp;</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">关联广告账户：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					@foreach(\App\ad_account::all() as $k => $v)
+						<input type="checkbox" id="ad_account" name="ad_account[]"    value="{{$v->ad_account_id}}" >
+						<label for="checkbox-pinglun">{{$v->ad_account_name}}(@if($v->ad_account_type=='0') fb @elseif($v->ad_account_type=='1') Yahoo @else Google @endif)</label><br>
+					@endforeach
 				</div>
 			</div>
 		</div>

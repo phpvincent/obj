@@ -44,6 +44,17 @@
 				</span>
 			 </div>
 	</div>
+	<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">关联广告账户：</label>
+			<div class="formControls col-xs-8 col-sm-9 ">
+				<div class="check-box">
+					@foreach($ad_account as $k => $v)
+						<input type="checkbox" id="ad_account" name="ad_account[]"  @if($v->is_blong) checked='checked' @endif value="{{$v->ad_account_id}}"  >
+						<label for="checkbox-pinglun">{{$v->ad_account_name}}(@if($v->ad_account_belong=='0') fb @elseif($v->ad_account_belong=='1') Yahoo @else Google @endif)</label><br>
+					@endforeach
+				</div>
+			</div>
+	</div>
 	<br>
 	<div class="row cl" style="border: 1px solid #ccc;width: 80%;margin:0px auto;">
 		<label class="form-label col-xs-4 col-sm-3">正常单品：</label>
