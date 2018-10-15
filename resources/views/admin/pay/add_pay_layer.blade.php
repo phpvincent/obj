@@ -243,9 +243,13 @@
                 $('#bool').text(data.bool);
                 WdatePicker({
                     eCont: 'date',
-                    onpicked: function (dp) {
+                    onpicked: function (dp) {  
+                             
                         selectDatediff(dp.cal.getDateStr(), id, data.bool,dp);
-                    }, specialDates: c, maxDate: '%y-%M-#{%d-2}', minDate: data.goods_up_time
+                    },
+                     specialDates: c,
+                      maxDate: '%y-%M-#{%d-2}',
+                       minDate: data.goods_up_time
                 })
                 
             } else {
@@ -338,6 +342,13 @@
 
     //选择查看花费时间
     function selectDatediff(a, id, bool,c){
+        setTimeout(() => {
+            // console.log($("#date iframe").contents().find(".WdayTable td.WdayOn"))
+            $("#date iframe").contents().find(".WdayTable td.WdayOn").attr("onmouseout","this.className='WdayOn'")
+            $("#date iframe").contents().find(".WdayTable td.WwdayOn").attr("onmouseout","this.className='WdayOn'")
+                        }, 30);
+      
+
         if(!bool){
             layer.msg('抱歉，暂时未到录入花费时间');
             return false;
@@ -353,23 +364,5 @@
         layer_show(title,url,w,h);
     }
 
-    setTimeout(function(){
-        console.log("1")
-        // $("#date iframe").contents().find(".WdayTable").on("click","td.WspecialDay",function(){
-        //     // $(this).attr("class","Wselday")
-        //     // $(this).css("background-color","#222")
-        //     console.log("2");
-        // })
-        $("#date iframe").contents().find(".WdayTable td.WspecialDay").on("mousedown",function(){
-            console.log("22");console.log($(this)[0]);$(this).text("laofan")
-        })
-        // $("#date iframe").contents().find(".WdayTable td.WspecialDay").each(function(i,item){
-        //
-        //     $(item).on("mouseup",function(){
-        //         console.log("nini")
-        //     })
-        // })
-        console.log($("#date iframe").contents().find(".WdayTable td.WspecialDay"))
-    },3000)
 </script>
 @endsection
