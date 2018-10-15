@@ -302,8 +302,8 @@ class VisController extends Controller
         if(Auth::user()->is_root!='1'){
             $user_id = 0;//非root不能通过用户筛选
         }
-        $goods_arr = goods::where('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
-
+//        $goods_arr = goods::where('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
+        $goods_arr = admin::get_goods_id();
 //        if(Auth::user()->is_root!='1'){
 //            $user_id = 0;//非root不能通过用户筛选
 //            $goods_arr = goods::where('goods_admin_id',Auth::user()->admin_id)->pluck('goods_id')->toArray();
@@ -625,7 +625,8 @@ class VisController extends Controller
            if (Auth::user()->is_root != '1') {
                $user_id = 0;//非root不能通过用户筛选
            }
-           $goods_arr = goods::whereIn('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
+//           $goods_arr = goods::whereIn('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
+           $goods_arr = admin::get_goods_id();
            $time = [];
            if ((!$start_time || !$end_time) || strtotime($end_time) - strtotime($start_time) > 3600 * 24 * 3) {
                //超过3天或者没有选择时间，所以转化率按照天计算
