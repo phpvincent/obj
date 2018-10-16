@@ -21,6 +21,9 @@
     padding: 0 15px;
     cursor:pointer;
 }
+.box li:first-child{
+	color:red;
+}
 .box li:nth-child(odd){background:#F4F4F4;}
 </style>
 <article class="page-container">
@@ -227,9 +230,12 @@ function ajax(type,msg,defaults){
 				if(defaults){
 					if(!wu&&type==1){
 					$('.chanpin').val('无');
+
 					$('#url_goods_id').val(null);
+					$('.chanpin').css("color","red");
 				}
 				if(!wu1&&type==2){
+					$('.chanpin1').css("color","red");
 					$('.chanpin1').val('无');
 					$('#url_zz_goods_id').val(null);
 				}
@@ -256,6 +262,11 @@ $(".chanpin").focus(function(){
 			a=false;
 		}
 		ajax(1,a);
+		if(a=="无"){
+			$('.chanpin').css("color","red");
+		}else{
+			$('.chanpin').css("color","#000");
+		}
 });
 	function xiala(){
 		$('#url_goods_id').val('');
@@ -265,7 +276,14 @@ $(".chanpin").focus(function(){
 		if(a==''){
 			a=false;
 		}
+		if(a==="无"){
+			$('.chanpin').css("color","red");
+		}else{
+			$('.chanpin').css("color","#000");
+		}
+		console.log(a==="无")
 		ajax(1,a);
+		
 		
 	}
 	
@@ -281,6 +299,12 @@ $(".chanpin").focus(function(){
 		$('.chanpin').val(content);
 		$('#url_goods_id').val(content_id);
 		$('.zhengchang ul').empty();
+
+		if(content=="无"){
+			$('.chanpin').css("color","red");
+		}else{
+			$('.chanpin').css("color","#000");
+		}
 	});
 
 
@@ -318,6 +342,11 @@ $(".chanpin").focus(function(){
 		$('.chanpin1').val(content);
 		$('#url_zz_goods_id').val(content_id);
 		$('.zhezhao ul').empty();
+		if(content=="无"){
+			$('.chanpin1').css("color","red");
+		}else{
+			$('.chanpin1').css("color","#000");
+		}
 	});
 
 </script>

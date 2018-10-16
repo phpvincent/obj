@@ -205,7 +205,7 @@
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>温馨提示：</strong>
 					收到商品后有任何疑问请联系在线客服或发邮件至
-										<a href='https://mail.google.com/mail/' style='color:#F8770E'>hyfhdcjn@gmail.com</a> 。同时请告知您的姓名/联系方式/订单编号，我们会快速的给您及时处理，祝您购物愉快！</div>
+										<a href='mailto:hyfhdcjn@gmail.com' style='color:#F8770E'>hyfhdcjn@gmail.com</a> 。同时请告知您的姓名/联系方式/订单编号，我们会快速的给您及时处理，祝您购物愉快！</div>
 				<p></p>
   			</div>
 		</div>
