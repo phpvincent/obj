@@ -34,10 +34,11 @@ class VisController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('vis')
 	         ->where(function($query){
-	        	if(Auth::user()->is_root!='1'){
-	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
-	        	}
-	        })
+//	        	if(Auth::user()->is_root!='1'){
+//	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+//	        	}
+	        		$query->whereIn('vis_goods_id',admin::get_goods_id());
+             })
 	        ->count();
 	        $newcount=DB::table('vis')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
@@ -88,10 +89,12 @@ class VisController extends Controller
 	        	}
 	        })
 	        ->where(function($query){
-	        		if(Auth::user()->is_root!='1'){
-	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
-	        			}
-	        })
+//	        		if(Auth::user()->is_root!='1'){
+//	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+//	        			}
+                $query->whereIn('vis.vis_goods_id',admin::get_goods_id());
+
+            })
 	        ->count();
 	        $data=DB::table('vis')
 	        ->select('vis.*','goods.goods_real_name')
@@ -142,10 +145,11 @@ class VisController extends Controller
 	        	}
 	        })
 	        ->where(function($query){
-	        		if(Auth::user()->is_root!='1'){
-	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
-	        			}
-	        })
+//	        		if(Auth::user()->is_root!='1'){
+//	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
+//	        			}
+                $query->whereIn('vis.vis_goods_id',admin::get_goods_id());
+            })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
