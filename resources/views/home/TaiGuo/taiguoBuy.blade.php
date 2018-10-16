@@ -813,12 +813,12 @@ jQuery(function(){
 	                       var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		                   var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	                       $('#addcart-quantity-dec').bind('click',function(){
-		                   layer.msg('This item only supports package purchase');
+		                   layer.msg('สินค้านี้รองรับการซื้อเป็นแพคเกจเท่านั้น');
 		                   return false;
 	                       })
 	                       $('#addcart-quantity-inc').bind('click',function(){
 
-		                    layer.msg('This item only supports package purchase');
+		                    layer.msg('สินค้านี้รองรับการซื้อเป็นแพคเกจเท่านั้น');
 		                    return false;
 	                        })
                             $('.addcart-float-buttons-block').children('button').click(function(){    	
@@ -830,7 +830,7 @@ jQuery(function(){
                             		$("[mine_id='"+cuxiao_special_id+"']").show();
                             	}
                             	if(attr=='chose_cart'){
-                            		layer.msg('ได้เลือก ');
+                            		layer.msg('เลือก ');
                             	}else if(attr =='unchose_cart'){
                        		     $('.chose_cart').attr('class','unchose_cart');
                        		     $(this).attr('class','chose_cart');
