@@ -305,7 +305,7 @@
     
     คำเตือน ก็บเงินปลายทางได้+ฟรีค่าขนส่ง+รับคืนหรือเปลี่ยนสินค้าภายใน7วันหลังจากได้รับสินค้าถ้าลูกค้าได้รับสินค้าแล้วมีคำถามหรือข้อสงสัยกับสินค้า สามารถติดต่อสอบถามผ่านระบบบริการลูกค้าออนไลน์หรือส่งอีเมลไปถึงที่
 
-        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
+        <a href="mailto:uoewtnxj@gmail.com" style="color:#F8770E">uoewtnxj@gmail.com</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>

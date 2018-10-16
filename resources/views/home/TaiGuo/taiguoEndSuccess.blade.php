@@ -83,7 +83,7 @@
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
                                             
-                                            กรุณาเปิดโทรศัพท์มือถือไว้ในช่วงการจัดส่งสินค้าเพื่อเจ้าหน้าที่การขนส่งสามารถติดต่อท่านได้ หากท่านมีคำถามหรือข้อสงสัยใดๆเกี่ยวกับสินค้าของเรา กรุณาติดต่อฝ่ายบริการลูกค้า ขอให้ทุกท่านเพลิดเพลินกับการชอปปิง: <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>            </div>
+                                            กรุณาเปิดโทรศัพท์มือถือไว้ในช่วงการจัดส่งสินค้าเพื่อเจ้าหน้าที่การขนส่งสามารถติดต่อท่านได้ หากท่านมีคำถามหรือข้อสงสัยใดๆเกี่ยวกับสินค้าของเรา กรุณาติดต่อฝ่ายบริการลูกค้า ขอให้ทุกท่านเพลิดเพลินกับการชอปปิง: <a href="mailto:uoewtnxj@gmail.com" style="color:#F8770E">uoewtnxj@gmail.com</a>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">กลับหน้าหลัก&gt;&gt;</button>
             </div>
