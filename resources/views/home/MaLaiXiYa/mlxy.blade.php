@@ -283,7 +283,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else Leave us a message   @endif        </a>
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    write a customer review    @else Leave us a message   @endif        </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -301,10 +301,10 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>
-                1.Free shipping+Cash on delivery+Items can be returned freely within 7 days after delivery <br>
-                2.If you have any questions, please contact us via email(
+                Return available within 7 days after acquired.We will process it ASAP. <br>
+                If you have any questions, please feel free to contact our Customer Care Team(
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                        )  with name, contact info. and order No.. We will deal it ASAP.</p>
+                                        ) for assistance. </p>
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
@@ -340,12 +340,12 @@
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Returns & Replacements Procedures</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">RETURENS  POLICY</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
-                <p>Please specify: Order no, customer name, and customer contact no.</p>
+                <p>Please attach: order No.; customer name, contact No.</p>
             </td>
 
         </tr>
@@ -372,7 +372,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-                <p>ZSSSHOP believes in the “attitude of quality”. It selects from worldwide for high quality products such as clothing, shoes, bags, homeware, kitchenware, sportswear, etc. It ensures the quality of craft, regional origin and raw materials of the products according to strict criteria in order to bring the best products for you.</p>
+                <p>ZSSHOP, known as "Strictly Selected Mall", insist on its usual strict attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products with excellent quality.</p>
             </td>
 
         </tr>
