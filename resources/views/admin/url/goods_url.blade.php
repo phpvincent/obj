@@ -27,7 +27,7 @@
 @section('js')
 <script type="text/javascript">
 	$.tablesetting={
-	"lengthMenu": [[5,10,20],[5,10,20]],
+	"lengthMenu": [[10,20,30],[10,20,30]],
 		"paging": true,
 		"info":   true,	
 		"searching": true,
