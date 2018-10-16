@@ -204,7 +204,7 @@
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>kindly reminder :</strong>
-					If you have any questions about your product, please contact online customer service or send an email to<a href='https://mail.google.com/mail/' style='color:#F8770E'>hyfhdcjn@gmail.com</a>.At the same time, please inform your name / contact information / order number, we will quickly give you timely processing, I wish you a good shopping!			</div>
+					If you have any questions about your product, please contact online customer service or send an email to<a href='mailto:yejforlh@gmail.com' style='color:#F8770E'>yejforlh@gmail.com</a>.At the same time, please inform your name / contact information / order number, we will quickly give you timely processing, I wish you a good shopping!			</div>
 				<p></p>
   			</div>
 		</div>

@@ -311,7 +311,7 @@
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
     Warm Tips: available for Free shipping+ Cash on delivery + Return or exchange of goods without reasons by 7 days after acquired. If you have any questions about our products, please contact our online Customer Service Team, or send email to 
-        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
+        <a href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>

@@ -302,7 +302,7 @@
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
     Peringatan: untuk metode cash on delivery + gratis pengiriman + 7 hari penerimaan tidak ada alasan untuk return produk ! Jika ada pertanyaan terkait produk setelah menerima barang, silahkan hubungi chat online kami atau kirim email ke 
-        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
+        <a href="mailto:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>
