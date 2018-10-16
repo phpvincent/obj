@@ -210,10 +210,9 @@
 <!--table begin-->
     <div class="secure secure_03"><img src="/images/secure_03.jpg" /></div>
 <div class="mui-input-group">
-    <input type="hidden" name="firstname">
     <div class="mui-input-row">
         <label><span class="require">*</span>First Name:</label>
-        <input type="text" name="firstname1" datatype="s1-30" placeholder="required:Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        <input type="text" name="firstname" datatype="s1-30" placeholder="required:Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Last Name:</label>
@@ -318,11 +317,7 @@
 
 
 // 拼接名字
-$('input[name="lastname"]').blur(function(){
-    var a=$('input[name="firstname1"]').val();
-    var b=$('input[name="lastname"]').val();
-    $('input[name="firstname"]').val(a+'\u0020'+b);
-});
+
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
@@ -394,11 +389,11 @@ $('input[name="lastname"]').blur(function(){
                 return false;
             }*/
                 var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
-                if(vname.test(jQuery("input[name='firstname1']").val())){
+                if(vname.test(jQuery("input[name='firstname']").val())){
                     /*layer.msg("請填寫您的真實姓名");
                     return false;*/
                 }
-                if(_checkBlackName(jQuery("input[name='firstname1']").val())){
+                if(_checkBlackName(jQuery("input[name='firstname']").val())){
                     layer.msg("無效的名字");
                     return false;
                 }
@@ -456,7 +451,11 @@ $('#pay').bind('click',function(){
         layer.msg('This is a required field.');
         return false;
     }
-    if(datasObj.firstname1==null||datasObj.firstname1==''){
+    if(datasObj.firstname==null||datasObj.firstname==''){
+        layer.msg("Please fill in the consignee's name.");
+        return false;
+    }
+    if(datasObj.lastname==null||datasObj.lastname==''){
         layer.msg("Please fill in the consignee's name.");
         return false;
     }
@@ -483,6 +482,7 @@ $('#pay').bind('click',function(){
     //     layer.msg('Please fill in the valid cell phone number.');
     //     return false;
     // }
+    datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 

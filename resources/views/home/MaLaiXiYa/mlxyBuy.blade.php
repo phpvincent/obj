@@ -210,7 +210,6 @@
 <!--table begin-->
     <div class="secure secure_03"><img src="/images/secure_03.jpg" /></div>
 <div class="mui-input-group">
-    <input type="hidden" name="firstname">
     <div class="mui-input-row">
         <label><span class="require">*</span>First Name:</label>
         <input type="text" name="firstname" datatype="s1-30" placeholder="required:Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
@@ -307,12 +306,6 @@
     
 
 <script>
-// 拼接名字
-// $('input[name="lastname"]').blur(function(){
-//     var a=$('input[name="firstname1"]').val();
-//     var b=$('input[name="lastname"]').val();
-//     $('input[name="firstname"]').val(a+'\u0020'+b);
-// });
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
