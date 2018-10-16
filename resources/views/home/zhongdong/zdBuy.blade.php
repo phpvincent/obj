@@ -355,7 +355,7 @@ $('input[name="lastname"]').blur(function(){
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'"><div><strong>No.'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'"><div><strong>item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }

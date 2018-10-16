@@ -1,11 +1,14 @@
 @extends('admin.father.css')
 @section('content')
 <div class="page-container">
-	<!-- <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a class="btn btn-primary radius" href="javascript:;" onclick="url_add('添加域名','{{url("admin/url/url_add")}}',100,400)"><i class="Hui-iconfont">&#xe600;</i> 添加域名</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+	<!-- <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a class="btn btn-primary radius" href="javascript:;" onclick="url_add('添加域名','{{url("admin/url/url_add")}}',100,400)"><i class="Hui-iconfont">&#xe600;</i> 添加域名</a> </span>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="add_account" name=""><i class="Hui-iconfont"></i> 添加广告账户</button>
+		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="update_account" name=""><i class="Hui-iconfont">&#xe60c;</i> 修改广告账户</button>
+	 <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-hover table-bg" id="url_goods">
 		<thead>
 			<tr>
-				<th scope="col" colspan="6">域名分配</th>
+				<th scope="col" colspan="7">域名分配</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
@@ -13,6 +16,7 @@
 				<th width="200">正常单品</th>
 				<th width="200">遮罩单品</th>
 				<th width="40">状态</th>
+				<th width="80">标记</th>
 				<th width="70">操作</th>
 			</tr>
 		</thead>
@@ -48,6 +52,7 @@
 		{"data":'url_zz_goods_id'},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
+		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
 		{'defaultContent':""},
@@ -64,9 +69,25 @@
 				info+='<a title="关闭" href="javascript:;" onclick="close_order(\''+data.url_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6de;</i></a>';
 			}
 			var url='<a href="http://'+data.url_url+'" target="_blank" >'+data.url_url+'</a>';
+			if(data.url_flag[0]!=null&&data.url_flag[0]!=''){
+				var flag='<span style="color:red">已被';
+				if(isInArray(data.url_flag,'0')){
+					flag+=' [FB] ';
+				}
+				if(isInArray(data.url_flag,'1')){
+					flag+=' [Yahoo] ';
+				}
+				if(isInArray(data.url_flag,'2')){
+					flag+=' [Google] ';
+				}
+				flag+='标记</span><br/><button id="clear_flag"  class="btn btn-default" onclick="clear_flag('+data.url_id+')"><i class="Hui-iconfont">&#xe72a;</i></button>';
+			}else{
+				var flag='<span style="color:green">正常</span>';
+			}
 			/*var checkbox='<input type="checkbox" name="" value="">';*/
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(5)').html(info);
+			$(row).find('td:eq(6)').html(info);
+			$(row).find('td:eq(5)').html(flag);
 			$(row).find('td:eq(4)').html(isroot);
 			$(row).find('td:eq(1)').html(url);
 			$(row).addClass('text-c');
@@ -77,6 +98,38 @@
 		}
 	}
  dataTable =$('#url_goods').DataTable($.tablesetting);
+ function isInArray(arr,value){
+    for(var i = 0; i < arr.length; i++){
+        if(value === arr[i]){
+            return true;
+        }
+    }
+    return false;
+}
+function clear_flag(id){
+	var msg =confirm("确定要清除此域名上的标记？");
+	if(msg){
+		layer.msg('清除中');
+        		$.ajax({
+					url:"{{url('admin/url/clear_flag')}}",
+					type:'get',
+					data:{'id':id},
+					datatype:'json',
+					success:function(msg){
+			           if(msg['err']==1){
+			           	 layer.msg(msg.str);
+			           	 $('#url_goods').dataTable().fnClearTable(); 
+			           	 /*$(".del"+id).prev("input").remove();
+        				 $(".del"+id).val('已删除');*/
+			           }else if(msg['err']==0){
+			           	 layer.msg(msg.str);
+			           }else{
+			           	 layer.msg('清除失败！');
+			           }
+					}
+		})
+	}
+}
 function up_order(id){
 	var msg =confirm("确定要启用此商品吗？");
 		if(msg){
@@ -137,5 +190,11 @@ function ch_url(title,url,type,w,h){
 function url_add(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
+$('#add_account').click(function(){
+	layer_show('广告账户添加','{{url("admin/url/add_account")}}',500,300);
+})
+$('#update_account').click(function(){
+	layer_show('广告账户修改','{{url("admin/url/update_account")}}',600,500);
+})
 </script>
 @endsection

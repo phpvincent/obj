@@ -249,7 +249,7 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Postalcode:</label>
-        <input type="text" name="zip" class="mui-input-clear">
+        <input type="text" placeholder="required, Please fill in the zip code" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>
@@ -358,7 +358,7 @@ $('input[name="lastname"]').blur(function(){
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'"><div><strong>No.'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'"><div><strong>item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
@@ -451,7 +451,7 @@ $('#pay').bind('click',function(){
         return false;
     }
     if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct postal code.");
+        layer.msg("Please fill in the correct zip code.");
         return false;
     }
     var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
@@ -459,11 +459,11 @@ $('#pay').bind('click',function(){
         layer.msg('Please fill in the valid postal code.');
         return false;
     }
-    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    if(!re.test(datasObj.telephone)){
-        layer.msg('Please fill in the valid cell phone number.');
-        return false;
-    }
+    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    // if(!re.test(datasObj.telephone)){
+    //     layer.msg('Please fill in the valid cell phone number.');
+    //     return false;
+    // }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
 

@@ -74,6 +74,7 @@ class UrlController extends Controller
             if($url_zz_goods!=null){
               $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
             }
+            $data[$key]->url_flag=explode(',',$v->url_flag);
           }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
@@ -93,6 +94,7 @@ class UrlController extends Controller
         $url->url_zz_level=$data['url_level'];
         $url->url_zz_for=$data['url_for'];
         $url->url_admin_id=Auth::user()->admin_id;
+        $url->url_ad_account_id=implode(',', $data['ad_account']);
         if(isset($data['is_online'])&&$data['is_online']!=null){
           $url->url_type='1';
         }else{
@@ -111,7 +113,16 @@ class UrlController extends Controller
    public function churl(Request $request){
    		
    		$url=url::where('url_id',$request->id)->first();
-   		return view('admin.url.churl')->with(compact('goods','url'));
+      $ad_account=\App\ad_account::all();
+      $belong=explode(',', $url['url_ad_account_id']);
+      foreach($ad_account as $k => $v){
+        if( in_array($v->ad_account_id, $belong)){
+          $ad_account[$k]->is_belong=true;
+        }else{
+          $ad_account[$k]->is_belong=false;
+        }
+      }
+   		return view('admin.url.churl')->with(compact('goods','url','ad_account'));
    }
    public function ajaxup(Request $request){
       //修改域名配置信息
@@ -215,6 +226,7 @@ class UrlController extends Controller
           $url->url_zz_level=$msg['url_zz_level'];
    	    	$url->url_zz_for=$msg['url_zz_for'];
           $url->url_admin_id=Auth::user()->admin_id;
+          $url->url_ad_account_id=isset($msg['ad_account'])?implode(',', $msg['ad_account']):null;
    	    	$msg=$url->save();
    	    	if($msg)
          {
@@ -224,6 +236,93 @@ class UrlController extends Controller
          }
    	    }
    }
-
-
+   public function add_account(Request $request)
+   {
+    if($request->isMethod('get')){
+      return view('admin.url.add_account');
+    }else if($request->isMethod('post')){
+      $data=$request->all();
+      if($data['ad_account_name']==null||$data['ad_account_type']==null||$data['ad_account_belong']==null){
+                  return response()->json(['err'=>0,'str'=>'数据非法！']);
+      }
+      if(\App\ad_account::where('ad_account_name',$data['ad_account_name'])->first()!=null){
+                  return response()->json(['err'=>0,'str'=>'账户名已存在！']);
+      }
+      $ad_account=new \App\ad_account;
+      $ad_account->ad_account_name=$data['ad_account_name'];
+      $ad_account->ad_account_type=$data['ad_account_type'];
+      $ad_account->ad_account_belong=$data['ad_account_belong'];
+      $msg=$ad_account->save();
+      if($msg)
+         {
+                  return response()->json(['err'=>1,'str'=>'更改成功！']);
+         }else{
+                  return response()->json(['err'=>0,'str'=>'更改失败！']);
+         }
+    }
+   }
+   public function update_account(Request $request)
+   {
+    if($request->isMethod('get')){
+      return view('admin.url.update_account');
+    }elseif($request->isMethod('post')){
+      $data=$request->all();
+      if(!isset($data['ad_account_id'])||!isset($data['ad_account_name'])||!isset($data['ad_account_belong'])||!isset($data['ad_account_type'])){
+                  return response()->json(['err'=>0,'str'=>'数据非法！']);
+      }
+      $ad_account=\App\ad_account::where('ad_account_id',$data['ad_account_id'])->first();
+      $old_type=$ad_account->ad_account_type;
+      if($data['ad_account_type']==1){
+        if($old_type==0||$ad_account->ad_account_belong!=$data['ad_account_belong']){
+          foreach(\App\url::all() as $k => $v){
+            $arr=explode(',', $v->url_ad_account_id);
+            if(in_array($data['ad_account_id'], $arr)){
+             $arr1=explode(',', $v->url_flag);
+             if(!in_array($data['ad_account_belong'],$arr1)){
+              array_push($arr1, $data['ad_account_belong']);
+              sort($arr1);
+              $v->url_flag=ltrim(implode(',', $arr1),',');
+              $v->save();
+              $change=true;
+             }
+            }
+          }
+        }
+      }
+      $ad_account->ad_account_name=$data['ad_account_name'];
+      $ad_account->ad_account_type=$data['ad_account_type'];
+      $ad_account->ad_account_belong=$data['ad_account_belong'];
+      $msg=$ad_account->save();
+      if($msg)
+         {    
+              if(isset($change)){
+                  return response()->json(['err'=>1,'str'=>'更改成功！关联域名已被标记']);
+              }
+                  return response()->json(['err'=>1,'str'=>'更改成功！']);
+         }else{
+                  return response()->json(['err'=>0,'str'=>'更改失败！']);
+         }
+    }
+   }
+   public function ajax_account(Request $request)
+   {
+      $id=$request->input('id');
+      $ad_account=\App\ad_account::where('ad_account_id',$id)->first();
+      if($ad_account!=null&&$ad_account!=false){
+           return response()->json(['err'=>1,'data'=>$ad_account]);
+      }else{
+           return response()->json(['err'=>0,'data'=>'未找到对应数据！']);
+      }
+   }
+   public function clear_flag(Request $request)
+   {
+    $id=$request->input('id');
+    $msg=\App\url::where('url_id',$id)->update(['url_flag'=>null]);
+       if($msg)
+         {
+                  return response()->json(['err'=>1,'str'=>'清除成功！']);
+         }else{
+                  return response()->json(['err'=>0,'str'=>'清除失败！']);
+         }
+   }
 }

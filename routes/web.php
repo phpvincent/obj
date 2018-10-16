@@ -94,6 +94,10 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/url/churl','admin\UrlController@churl');
 	Route::post('/admin/url/ajaxup','admin\UrlController@ajaxup');
 	Route::any('/admin/url/url_add','admin\UrlController@url_add');
+	Route::match(['get', 'post'],'admin/url/add_account','admin\UrlController@add_account');
+	Route::match(['get', 'post'],'admin/url/update_account','admin\UrlController@update_account');
+	Route::match(['post'],'admin/url/ajax_account','admin\UrlController@ajax_account');
+	Route::match(['get'],'admin/url/clear_flag','admin\UrlController@clear_flag');
 	//评论相关
 	Route::get('/admin/comment/index','admin\CommentController@index');
 	Route::post('/admin/comment/getindex','admin\CommentController@getindex');

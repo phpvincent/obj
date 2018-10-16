@@ -3,6 +3,7 @@
 		font-size:18px;
 		display: inline-block;
     	padding-left: 10px;
+		cursor:pointer;
 	}
 </style>
 	<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; " id="pzhtml">
