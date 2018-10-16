@@ -207,28 +207,29 @@ function ajax(type,msg,defaults){
 				var wu=false;
 				var wu1=false;
 				jQuery.each(data.data,function(key,value){ 
-					console.log(value)
+					// console.log(value)
 
 					str+='<li data-id="'+value.goods_id+'">'+value.goods_real_name+'</li>' 
 					
-					console.log(defaults,value.is_check)
+					
 					if(defaults==true&&value.is_check==true&&type==1){
-						$('.chanpin').val(goods_real_name);
+						$('.chanpin').val(value.goods_real_name);
 						$('#url_goods_id').val(value.goods_id);
 						wu=true;
 					}
 					if(defaults==true&&value.is_check==true&&type==2){
-						$('.chanpin1').val(goods_real_name);
+						$('.chanpin1').val(value.goods_real_name);
 						$('#url_zz_goods_id').val(value.goods_id);
 						wu1=true;
+
 					}
 				}) 
 				if(defaults){
-					if(!wu){
+					if(!wu&&type==1){
 					$('.chanpin').val('无');
 					$('#url_goods_id').val(null);
 				}
-				if(!wu1){
+				if(!wu1&&type==2){
 					$('.chanpin1').val('无');
 					$('#url_zz_goods_id').val(null);
 				}
