@@ -28,7 +28,7 @@
         {{csrf_field()}}
         <div class="riqi">
             <div>请选择日期</div>
-            <div id="date"></div>
+            <div id="date" style=" position: relative;  z-index: 2;"></div>
         </div>
         
         <div style="" class="neirong">
@@ -251,6 +251,11 @@
                       maxDate: '%y-%M-#{%d-2}',
                        minDate: data.goods_up_time
                 })
+                //默认日期选中，背景色；
+                setTimeout(() => {
+                    $("#date iframe").contents().find(".WdayTable td.WspecialDay:last").attr({onmouseout:"this.className='WdayOn'",class:'WdayOn'})
+                },100)
+
                 
             } else {
                 window.location = window.location;
@@ -342,6 +347,8 @@
 
     //选择查看花费时间
     function selectDatediff(a, id, bool,c){
+        console.log(a,id,bool,c)
+        //td点击添加背景色；
         setTimeout(() => {
             // console.log($("#date iframe").contents().find(".WdayTable td.WdayOn"))
             $("#date iframe").contents().find(".WdayTable td.WdayOn").attr("onmouseout","this.className='WdayOn'")

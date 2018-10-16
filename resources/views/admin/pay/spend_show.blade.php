@@ -134,6 +134,12 @@
 
         //选择查看花费时间
         function selectDatediff(a, id, bool){
+        //td点击添加背景色；
+        setTimeout(() => {
+            // console.log($("#date iframe").contents().find(".WdayTable td.WdayOn"))
+            $("#date iframe").contents().find(".WdayTable td.WdayOn").attr("onmouseout","this.className='WdayOn'")
+            $("#date iframe").contents().find(".WdayTable td.WwdayOn").attr("onmouseout","this.className='WdayOn'")
+                        }, 30);
             if(!bool){
                 layer.msg('抱歉，暂时未到录入花费时间');
                 return false;
@@ -159,6 +165,10 @@
                                     selectDatediff(dp.cal.getDateStr(), id, data.bool);
                                 }, specialDates: c, maxDate: '%y-%M-#{%d-2}', minDate: data.goods_up_time
                             })
+                           //默认日期选中，背景色；
+                           setTimeout(() => {
+                               $("#date iframe").contents().find(".WdayTable td.WspecialDay:last").attr({onmouseout:"this.className='WdayOn'",class:'WdayOn'})
+                           },100)
                     } else {
                         window.location = window.location;
                     }
