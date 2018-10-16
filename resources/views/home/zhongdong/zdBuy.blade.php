@@ -223,11 +223,11 @@
 <div class="mui-input-group">
     <div class="mui-input-row">
         <label><span class="require">*</span>First Name:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="required:Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        <input type="text" name="firstname" datatype="s1-30" placeholder="Required: please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Last Name:</label>
-        <input type="text" name="lastname" placeholder="required:Please enter your last name" class="mui-input-clear">
+        <input type="text" name="lastname" placeholder="Required: please enter your last name" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Phone No.:</label>
@@ -259,7 +259,7 @@
     </div>
     <div class="mui-input-row" style="">
         <label>Zip:</label>
-        <input type="text" name="zip"placeholder="required: Please fill in the zip code" class="mui-input-clear">
+        <input type="text" name="zip"placeholder="Required: please fill in the zip code" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>

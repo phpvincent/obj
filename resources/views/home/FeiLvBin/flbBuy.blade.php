@@ -259,7 +259,7 @@
     </div>
     <div class="mui-input-row"style="" >
         <label><span class="require">*</span>Zip:</label>
-        <input type="text" placeholder="required, Please fill in the zip code" name="zip" class="mui-input-clear">
+        <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>

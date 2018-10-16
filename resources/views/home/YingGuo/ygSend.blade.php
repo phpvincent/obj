@@ -145,7 +145,7 @@
 
 <div class="fixed">
   <h4> <a href="javascript:history.go(-1);"></a>
-  Order inquiry</h4>
+  Order Inquiry</h4>
 </div>
 
 <div class="mui-content" style="background:#fff">
@@ -155,7 +155,7 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	Order number / Logistics order number (please fill in one entry) 		<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	Order Number / Logistics Order Number (please fill in for query) 		<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
@@ -203,12 +203,12 @@
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-					<strong>kindly reminder :</strong>
-					If you have any questions about your product, please contact online customer service or send an email to<a href='mailto:isnfclpo@gmail.com' style='color:#F8770E'>isnfclpo@gmail.com</a>.At the same time, please inform your name / contact information / order number, we will quickly give you timely processing, I wish you a good shopping!			</div>
+					<strong>Kindly Reminder :</strong>
+					If you have any questions about our product, please contact our online Customer Service Team or send email to hyfhdcjn@gmail.com attached your name, contacts and order number. We will process it ASAP. Wish you a pleasant shopping here.			</div>
 				<p></p>
   			</div>
 		</div>
-        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">Return to the home page </a></div>
+        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">Back </a></div>
   </div>
 
   <script src="https://d1lnephkr7mkjn.cloudfront.net/skin/default/js/jquery.min.js"></script>
