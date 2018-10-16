@@ -17,7 +17,7 @@ class ManagerController extends Controller
         	$validator=Validator::make($request->all(),[
 	           "username"=>"required|min:2|max:16",
 	           "password"=>"required|between:4,20",
-	           "captcha"=>"required|size:4|captcha",
+	           "captcha"=>"required|size:3|captcha",
 	         	]);
         	 if($validator->fails()){
 	         	return redirect('/admin/login')->withErrors($validator)->withInput();

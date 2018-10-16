@@ -325,4 +325,30 @@ class UrlController extends Controller
                   return response()->json(['err'=>0,'str'=>'清除失败！']);
          }
    }
+   public function url_goods_ajax(Request $request)
+   {
+    if(!$request->has('url_id')||!$request->has('type')){
+       return response()->json(['err'=>0,'data'=>'缺少参数！']);
+    }
+    $type=$request->input('type');
+    $url=\App\url::where('url_id',$request->input('url_id'))->first();
+    $arr=\App\admin::get_goods_id();
+    $goods=\App\goods::whereIn('goods_id',$arr)->get(['goods_id','goods_name']);
+    foreach ($goods as $key => $value) {
+      if($type==1){
+        if($value->goods_id==$url->url_goods_id){
+          $goods[$key]->is_check=true;
+        }else{
+          $goods[$key]->is_check=false;
+        }
+      }elseif($type==2){
+        if($value->goods_id==$url->url_zz_goods_id){
+          $goods[$key]->is_check=true;
+        }else{
+          $goods[$key]->is_check=false;
+        }
+      }
+    }
+     return response()->json(['err'=>1,'data'=>$goods]);
+   }
 }
