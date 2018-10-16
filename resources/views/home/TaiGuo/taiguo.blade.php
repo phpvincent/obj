@@ -158,17 +158,17 @@
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">จัดส่งฟรี</span>
+        <span class="flag" style="font-size: 12px;">ฟรีค่าขนส่ง</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
         <span class="flag" style="font-size: 12px;">เก็บเงินปลายทาง</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">รับประกันคืนสินค้าภายใน7วันหากไม่พอใจ</span>
+        <span class="flag" style="font-size: 12px;background:#000;">คืนสินค้าได้ภายใน 7 วัน</span>
     @endif
 </div>
 @endif
-<div class="clear"></div><button type="button" class='mui-btn mui-btn-danger mui-action-back'>关闭</button>
+
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
@@ -180,10 +180,10 @@
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text">จำนวนที่เหลือ:<span>{{$goods->goods_num}}</span></div>
+    <div class="text">จำนวนที่เลือ:<span>{{$goods->goods_num}}</span>รายการ</div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font>ระยะเวลาที่เหลือของโปรโมชั่น:</font>
+        <font>โปรโมชั่นจะสิ้นสุดใน:</font>
     </div>
 </div>
 @endif
@@ -209,7 +209,7 @@
     @if(in_array('specifications',$templets))
     <li>
         <span href="#detial-params" class="scrollBar" scroll-y="50">
-        ขนาดสินค้า               </span>
+        สเปคสินค้า               </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
@@ -247,7 +247,7 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>ความคิดเห็นล่าสุด</h4>
+                        <h4>รีวิวล่าสุด</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -282,7 +282,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else แสดงความคิดเห็น   @endif        </a>
+                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    เขียนรีวิว    @else ฝากข้อความให้เรา   @endif        </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -295,29 +295,26 @@
     <tbody>
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">นโยบายการเปลี่ยนคืนสินค้า</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">ข้อมูลที่ต้องรู้</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-            สินค้าที่ท่านซื้อสามารถคืนหรือเปลี่ยนภายใน 7 วันนับตั้งแต่ได้รับสินค้า กรุณาติดต่อฝ่ายบริการลูกค้าของเราภายในระยะเวลาที่กำหนด ทางเราจะรีบติดต่อท่านกลับไปเร็วที่สุด
+                ผลการใช้จริงของผลิตภัณฑ์นี้ขึ้นอยู่กับแต่ละสถานการณ์ของแต่ละคน ไม่รับรองว่าถูกคนจะได้มีผลการใช้ตามการโฆษณา าลูกค้าได้รับสินค้าแล้วมีคำถามหรือข้อสงสัยกับสินค้า สามารถติดต่อสอบถามผ่านระบบบริการลูกค้าออนไลน์หรือส่งอีเมลไปถึงที่<a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>และบริษัทมีสิทธิอธิบายสุดท้าย
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">ติดต่อเรา</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">วิธีการคืนสินค้า</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-                <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
-                <br>Email: -->
-
+                1.หากลูกค้ามีความประสงค์ที่จะขอคืนเปลี่ยนสินค้าเพราะสาเหตุสว่นตัว สามารถทำได้ภายใน 7 วันหลังจากได้รับสินค้าและสภาพสินค้าต้องสมบูรณ์ไม่มีผลกระทบต่อการขายคร้งที่สอง กรุณาติดต่อฝ่ายบริการลูกค้าผ่านระบบบริการลูกค้าออนไลน์หรือส่งอีเมลไปถึงที่
                                 <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
-                                <br>
-                
-            หากมีข้อสงสัยใดๆหลังได้รับสินค้า ท่านสามารถติดต่อฝ่ายบริการลูกค้าออนไลน์หรือส่งอีเมล์มาท
+                                ภายในเวลาที่ระบุไว้ เจ้าหน้าที่ของเราจะติดต่อกลับภายใน1-3 วันทำการและลูกค้าต้องรับผิดชอบค่าขนส่งในการคืนสินค้าเอง
             </p>
+            2. หากลูกค้ามีความประสงค์ที่จะขอคืนเปลี่ยนสินค้าเพราะสาเหตุคุณภาพสินค้า สามารถทำได้ภายใน 7 วันหลังจากได้รับสินค้า กรุณาติดต่อฝ่ายบริการลูกค้าผ่านระบบบริการลูกค้าออนไลน์หรือส่งอีเมลไปถึงที่<a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>ภายในเวลาที่ระบุไว้ เจ้าหน้าที่ของเราจะติดต่อกลับภายใน1-3 วันทำการและทางบริษัทจะรับผิดชอบค่าขนส่งในการคืนสินค้า
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
@@ -337,25 +334,37 @@
                 </p> -->
             </td></tr>
         @endif
-        <!-- <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">ขั้นตอนการคืนเปลี่ยนสินค้า</th>
         </tr>
         <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <!-- <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td> -->
             <td colspan="2">
                
                
-                <p>確認收貨—申請退換貨—客服審核通過—用戶寄回商品—倉庫簽收驗貨—退
-
-                    換貨審核—退款/換貨；</p>
-                <p>退換貨請註明：訂單號、姓名、電話。</p>
+                <p>ยืนยันได้รับสินค้าแล้ว—ขอคืนเปลี่ยนสินค้า—เจ้าหน้าที่อนุมัติ—ลูกค้าส่งสินค้ากลับ—คลังสินค้าบันทึกการรับ—ตรวจสินค้า—คืนเงืนหรือเปลี่ยนสินค้า</p>
+                <p>เพื่อประโยชน์ในการขอคืนเปลี่ยนสินค้า กรุณาระบุเลขที่การสั่งซื้อสินค้า ชื่อนามสกุลและหมายเลขโทรศัพท์มือถืออย่างชัดเจน</p>
                 
             </td>
 
-        </tr> -->
+        </tr>
                 <tr class="first odd"></tr>
+                <tr class="first odd">
+            
+            <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+           <td colspan="2">
+                <p>ZSSHOP ช้อปปิ้งมอลล์ ถึอทัศนคติที่เคร่งครัดสม่ำเสมอ เข้าสู่ทั่วโลก ควบคุมแหล่งการผลิต กระบวนการผลิต วัตถุดิบของสินค้าทุกประเภท
+อย่างเข้มงวด จัดเสื้อผ้า รองเท้า ของใช้ในบ้าน เครื่องครัว สินค้ากีฬาและสินค้าอื่นๆอีกมากมาย มุ่งมั่นที่จะให้ผลิตภัณฑ์ที่มีคุณภาพดีที่สุดให้กับลูกค้าทุกท่าน
+
+               </p>
+            </td>
+
+        </tr>
+        <tr class="first odd"></tr>
+        <tr class="first odd"></tr>
             </tbody>
         @endif
+        
 </table>
 <style>
     .footer2{
@@ -398,7 +407,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">การปรึกษาใบสั่ง<br>สินค้าออนไลน์</span>
+        <span style="line-height:14px;">คำสั่งซื้อ<br>เช็ค</span>
       </a>
     </span>
     @endif
@@ -406,7 +415,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>ซื้อทันที</span>
+			<span>ซื้อเลย</span>
 		</a>
 	</span>
     @endif
@@ -437,8 +446,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                 <div class="closeBtn">
                     <img src="/img/close.png">
                 </div>
-                <div class="buyinfo_hd">
-                    ฝากข้อความออนไลน์                </div>
+                <div class="buyinfo_hd">เขียนรีวิว</div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -448,10 +456,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    ชื่อ:
+                                    ชื่อ-นามสกุล:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="ชื่อ" class="mui-input-clear input01"
+                                    <input type="text" placeholder="ชื่อ-นามสกุล" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -460,10 +468,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    โทรศัพท์:
+                                    เบอร์โทรศัพท์:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="โทรศัพท์" class="input01" name="phone"
+                                    <input type="text" placeholder="เบอร์โทรศัพท์" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
@@ -495,17 +503,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                ฝากข้อความไว้:
+                                ฝากข้อความ:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="Online message " name="content" class="textarea_style">
+                                    <textarea placeholder="ฝากข้อความออนไลน์" name="content" class="textarea_style">
                                     </textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="ส่งคำประเมิน" style="color:white">
+                                    value="ส่งข้อมูล" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -710,11 +718,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("ชื่อ");
+                $2.toast("ช่องชื่อ-นามสกุลไม่สามารถเว้นว่างได้");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("โทรศัพท์");
+                $2.toast("ช่องเบอร์โทรศัพท์ไม่สามารถเว้นว่างได้");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -737,7 +745,7 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("ขอบคุณสำหรับความคิดเห็นของคุณ !");
+                    $2.toast("ขอบคุณที่ให้ความคิดเห็น !");
                 }
                 else
                 {
