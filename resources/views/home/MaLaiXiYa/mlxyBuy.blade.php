@@ -446,6 +446,10 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the consignee's name.");
         return false;
     }
+    if(datasObj.lastname==null||datasObj.lastname==''){
+        layer.msg("Please fill in the consignee's name.");
+        return false;
+    }
     if(datasObj.telephone==null||datasObj.telephone==''){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
