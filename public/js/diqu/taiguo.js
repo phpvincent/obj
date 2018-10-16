@@ -1185,7 +1185,7 @@
                 county = '',
                 list = {
                     'county': '<option value="">- - กรุณาเลือกจังหวัด - -</option>',
-                    'district': '<option value="">- - กรุณาเลือกเขต/อำเภอ - -</option>'
+                    'district': '<option value="">- - กรุณาเลือกอำเภอ/เขต  - -</option>'
                 },
                 tpl = [];
 

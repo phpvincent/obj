@@ -587,12 +587,12 @@ jQuery(function(){
     jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="Email" nullmsg="กรอกอีเมลผู้รับ" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+        html1 += ' <label><span style="color:red;">*</span>อีเมล:</label>';
+        html1 +='<input type="text" placeholder="กรุณาระบุอีเมลของผู้รับของ" nullmsg="กรอกอีเมลผู้รับ" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label>อีเมล:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="กรอกอีเมลผู้รับ" class="mui-input-clear">';
+        html2 += '<input type="text" name="email" placeholder="กรุณาระบุอีเมลของผู้รับของ" class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();
         if(payty==7||payty==2){
