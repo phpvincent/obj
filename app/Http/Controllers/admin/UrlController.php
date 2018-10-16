@@ -330,10 +330,13 @@ class UrlController extends Controller
     if(!$request->has('url_id')||!$request->has('type')){
        return response()->json(['err'=>0,'data'=>'缺少参数！']);
     }
+    if($request->input('url_id')==null||$request->input('type')==null){
+       return response()->json(['err'=>0,'data'=>'缺少参数！']);
+    }
     $type=$request->input('type');
     $url=\App\url::where('url_id',$request->input('url_id'))->first();
     $arr=\App\admin::get_goods_id();
-    $goods=\App\goods::whereIn('goods_id',$arr)->get(['goods_id','goods_name']);
+    $goods=\App\goods::whereIn('goods_id',$arr)->get(['goods_id','goods_real_name']);
     foreach ($goods as $key => $value) {
       if($type==1){
         if($value->goods_id==$url->url_goods_id){
