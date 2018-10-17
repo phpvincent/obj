@@ -22,6 +22,7 @@
 				<option value="5" @if($order->order_type==5) selected @endif >退货未退款</option>
 				<option value="6" @if($order->order_type==6) selected @endif >退货并已退款</option>
 				<option value="7" @if($order->order_type==7) selected @endif >未退货已退款</option>
+				<option value="14" @if($order->order_type==14) selected @endif >问题订单</option>
 				<option value="8" @if($order->order_type==8) selected @endif ><span style='color:red;'>拒签</span></option>
 			</select>
 			</span> </div>
@@ -51,14 +52,14 @@
 <script type="text/javascript">
 	$(function(){
 			var order_type= $('#order_type_select').val();
-			if(order_type>=3){
+			if(order_type>=3&&order_type!=14){
 				$('#order_send').parent().parent().show();
 			}
 	})
 		$('#order_type_select').bind('change',function(){
 			var order_type= $(this).val();
 
-			if(order_type>=3){
+			if(order_type>=3&&order_type!=14){
 				$('#order_send').parent().parent().show();
 			}else{
 				$('#order_send').parent().parent().val('');
