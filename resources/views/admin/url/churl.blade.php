@@ -15,7 +15,9 @@
 	border: 1px solid #ddd;
 }
 .box ul{
-
+    border: 1px solid #ddd;
+    height: 132px;
+    background-color: #fff;
 }
 .box li{
     padding: 0 15px;
