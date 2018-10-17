@@ -53,6 +53,12 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">评论时间：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<input type="text" class="Wdate" id="d122" name="com_time" value="{{$comment->com_time}}" onclick="WdatePicker({isShowWeek:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d',onpicked:function() {$dp.$('d122_1').value=$dp.cal.getP('W','W');$dp.$('d122_2').value=$dp.cal.getP('W','WW');}})"/>
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">缩略图：	</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<div class="uploader-thum-container">
@@ -84,7 +90,7 @@
 			com_name:{
 				required:true,
 				minlength:2,
-				maxlength:10,
+				maxlength:50,
 			},
 			com_phone:{
 				required:true,

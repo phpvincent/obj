@@ -116,7 +116,11 @@ class UrlController extends Controller
         $url->url_zz_level=$data['url_level'];
         $url->url_zz_for=$data['url_for'];
         $url->url_admin_id=Auth::user()->admin_id;
-        $url->url_ad_account_id=implode(',', $data['ad_account']);
+        if(isset($data['ad_account'])){
+            $url->url_ad_account_id=implode(',', $data['ad_account']);
+        }else{
+           $url->url_ad_account_id=null;
+        }
         if(isset($data['is_online'])&&$data['is_online']!=null){
           $url->url_type='1';
         }else{

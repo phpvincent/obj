@@ -1,6 +1,9 @@
 /node_modules
 /public/hot
 /public/storage
+/public/images
+/public/upload
+.gitignore
 /storage/*.key
 /.idea
 /.vagrant

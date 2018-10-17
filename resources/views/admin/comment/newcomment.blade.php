@@ -53,6 +53,12 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">评论时间：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<input type="text" class="Wdate" id="d122" name="com_time" value="2018-10-1 23:00:50" onclick="WdatePicker({isShowWeek:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d',onpicked:function() {$dp.$('d122_1').value=$dp.cal.getP('W','W');$dp.$('d122_2').value=$dp.cal.getP('W','WW');}})"/>
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">缩略图：	</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<div class="uploader-thum-container">
@@ -77,7 +83,35 @@
 @endsection
 @section('js')
 <script type="text/javascript">
-
+	$(function(){
+	 var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    
+         var second=date.getSeconds().toString();
+         if(second.length<=1){
+         	second='0'+second;
+         }
+         var hour=date.getHours().toString();
+         if(hour.length<=1){
+         	hour='0'+hour;
+         }
+         var minute=date.getMinutes().toString();
+         if(minute.length<=1){
+         	minute='0'+minute;
+         }
+         var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + hour + seperator2 + minute + seperator2+second;
+		$('#d122').attr('value',currentdate);
+	})
 	//表单验证
 	$("#form-addcomment-add").validate({
 		rules:{
