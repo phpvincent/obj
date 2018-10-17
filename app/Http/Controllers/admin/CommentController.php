@@ -184,17 +184,18 @@ class CommentController extends Controller
    		foreach($imgs as $k => $v){
    			@unlink($v->com_url);
    		}
-   		\App\com_img::where('com_primary_id',$request->input('id'))->delete();
+   		
    		$comment->com_name=$request->input('com_name');
    		$comment->com_phone=$request->input('com_phone');
    		$comment->com_order=$request->input('com_order');
    		$comment->com_msg=$request->input('com_msg');
    		$comment->com_star=$request->input('com_star');
    		$comment->com_isshow=$request->input('com_isshow');
-   		$comment->com_time=date('Y-m-d H:i:s',time());
+   		$comment->com_time=$request->input('com_time');
    		$comment->com_isuser='0';
    		$msg=$comment->save();
    		if($request->file('com_img')!=null){
+   			\App\com_img::where('com_primary_id',$request->input('id'))->delete();
    			 foreach($request->file('com_img') as $pic) {
                  $size = filesize($pic);
                  //这里可根据配置文件的设置，做得更灵活一点
@@ -233,7 +234,7 @@ class CommentController extends Controller
    		$comment->com_star=$request->input('com_star');
    		$comment->com_isshow=$request->input('com_isshow');
    		$comment->com_goods_id=$request->input('goods_id');
-   		$comment->com_time=date('Y-m-d H:i:s',time());
+   		$comment->com_time=$request->input('com_time');
    		$comment->com_isuser='0';
    			$msg=$comment->save();
    		if($request->file('com_img')!=null){

@@ -593,11 +593,11 @@ jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="Optional,Please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+        html1 +='<input type="text" placeholder="Optional: please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
         html2 += "<label>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">';
+        html2 += '<input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();
         if(payty==7||payty==2){

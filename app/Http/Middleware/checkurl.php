@@ -67,6 +67,62 @@ class checkurl
                       $is_zz=true;
                     }
                 break;
+            case '5':
+                if($arr['country']!='泰国'&&$arr['region']!='泰国'&&$arr['country']!='泰国'&&$arr['region']!='泰国'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
+            case '6':
+                if($arr['country']!='菲律宾'&&$arr['region']!='菲律宾'&&$arr['country']!='菲律宾'&&$arr['region']!='菲律宾'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
+            case '7':
+                if($arr['country']!='日本'&&$arr['region']!='日本'&&$arr['country']!='日本'&&$arr['region']!='日本'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
+            case '8':
+                if($arr['country']!='马来西亚'&&$arr['region']!='马来西亚'&&$arr['country']!='马来西亚'&&$arr['region']!='马来西亚'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
+            case '9':
+                if($arr['country']!='英国'&&$arr['region']!='英国'&&$arr['country']!='英国'&&$arr['region']!='英国'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
+            case '10':
+                if($arr['country']!='印度尼西亚'&&$arr['region']!='印度尼西亚'&&$arr['country']!='印度尼西亚'&&$arr['region']!='印度尼西亚'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
+            case '11':
+                if($arr['country']!='阿联酋'&&$arr['region']!='阿联酋'&&$arr['country']!='阿联酋'&&$arr['region']!='阿联酋'){
+                     $is_zz=true;
+                }
+                 if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+                      $is_zz=true;
+                    }
+                break;
             case '4':
                 $is_zz=true;
             break;

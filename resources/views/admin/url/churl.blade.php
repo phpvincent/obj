@@ -14,7 +14,7 @@
 }
 .box ul{
     border: 1px solid #ddd;
-    height: 128px;
+    height: 132px;
     background-color: #fff;
 }
 .box li{
@@ -54,6 +54,13 @@
 				<option value="1" @if($url!=null && $url->url_zz_level==1)selected='selected'@endif>屏蔽美国fb人员</option>
 				<option value="2" @if($url!=null && $url->url_zz_level==2)selected='selected'@endif>屏蔽所有fb人员</option>
 				<option value="3" @if($url!=null && $url->url_zz_level==3)selected='selected'@endif>屏蔽除台湾外所有人员</option>
+				<option value="5" @if($url!=null && $url->url_zz_level==5)selected='selected'@endif>屏蔽除泰国外所有人员</option>
+				<option value="6" @if($url!=null && $url->url_zz_level==6)selected='selected'@endif>屏蔽除菲律宾外所有人员</option>
+				<option value="7" @if($url!=null && $url->url_zz_level==7)selected='selected'@endif>屏蔽除日本外所有人员</option>
+				<option value="8" @if($url!=null && $url->url_zz_level==8)selected='selected'@endif>屏蔽除马来西亚外所有人员</option>
+				<option value="9" @if($url!=null && $url->url_zz_level==9)selected='selected'@endif>屏蔽除英国外所有人员</option>
+				<option value="10" @if($url!=null && $url->url_zz_level==10)selected='selected'@endif>屏蔽除印度尼西亚外所有人员</option>
+				<option value="11" @if($url!=null && $url->url_zz_level==11)selected='selected'@endif>屏蔽除阿联酋外所有人员</option>
 				<option value="4" @if($url!=null && $url->url_zz_level==4)selected='selected'@endif>屏蔽所有人员</option>
 				</select>
 				</span>

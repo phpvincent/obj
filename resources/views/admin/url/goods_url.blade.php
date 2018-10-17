@@ -4,6 +4,33 @@
 	<!-- <div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> --> <a class="btn btn-primary radius" href="javascript:;" onclick="url_add('添加域名','{{url("admin/url/url_add")}}',100,400)"><i class="Hui-iconfont">&#xe600;</i> 添加域名</a> </span>
 		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="add_account" name=""><i class="Hui-iconfont"></i> 添加广告账户</button>
 		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="update_account" name=""><i class="Hui-iconfont">&#xe60c;</i> 修改广告账户</button>
+		<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="geturl_type" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
+
+		<div class="row cl" style="margin-top: 20px;display: none;" id="change_type">
+			<label class="form-label col-xs-1 col-sm-1">FB标记：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="url_flag_fb" id="url_flag_fb" class="select">
+						<option value="0">无</option>
+						<option value="1">FB标记</option>s
+					</select>
+					</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">Google标记：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="url_flag_google" id="url_flag_google" class="select">
+						<option value="0">无</option>
+						<option value="1">Google标记</option>
+					</select>
+					</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">YaHoo标记：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="url_flag_yahoo" id="url_flag_yahoo" class="select">
+						<option value="0">无</option>
+						<option value="1">YaHoo标记</option>
+					</select>
+					</span> </div>
+		</div>
 	 <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-hover table-bg" id="url_goods">
 		<thead>
@@ -42,6 +69,11 @@
 		"serverSide": true,
 		"ajax": {
 		"url": "{{url('admin/url/get_url')}}",
+		"data":{
+			url_flag_fb:function(){return $('#url_flag_fb').val()},
+			url_flag_google:function(){return $('#url_flag_google').val()},
+			url_flag_yahoo:function(){return $('#url_flag_yahoo').val()},
+		},
 		"type": "POST",
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
 		},
@@ -59,6 +91,7 @@
 		{'data':'created_at'},
 		{'defaultContent':"","className":"td-manager"},*/
 		],
+		
 		"createdRow":function(row,data,dataIndex){
 			var info='<a title="配置域名" href="javascript:;" onclick="ch_url(\'配置域名\',\'/admin/url/churl?id='+data.url_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe62e;</i></a>';
 			if(data.url_type==0){
@@ -106,6 +139,18 @@
     }
     return false;
 }
+$('#url_flag_google').on('click',function(){
+	               			 $('#url_goods').dataTable().fnClearTable(); 
+
+})
+$('#url_flag_fb').on('click',function(){
+	               			 $('#url_goods').dataTable().fnClearTable(); 
+
+})
+$('#url_flag_yahoo').on('click',function(){
+	               			 $('#url_goods').dataTable().fnClearTable(); 
+
+})
 function clear_flag(id){
 	var msg =confirm("确定要清除此域名上的标记？");
 	if(msg){
@@ -195,6 +240,9 @@ $('#add_account').click(function(){
 })
 $('#update_account').click(function(){
 	layer_show('广告账户修改','{{url("admin/url/update_account")}}',600,500);
+})
+$('#geturl_type').on('click',function(){
+	$('#change_type').toggle(200);
 })
 </script>
 @endsection
