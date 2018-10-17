@@ -37,6 +37,17 @@ class UrlController extends Controller
               $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
             });
           })
+          ->where(function($query)use($request){
+            if($request->input('url_flag_fb')!=0){
+              $query->where('url.url_flag','like',"%0%");
+            }
+            if($request->input('url_flag_yahoo')!=0){
+              $query->where('url.url_flag','like',"%1%");
+            }
+            if($request->input('url_flag_google')!=0){
+              $query->where('url.url_flag','like',"%2%");
+            }
+          })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
               $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
@@ -54,6 +65,17 @@ class UrlController extends Controller
             $query->orWhere(function($query)use($search){
               $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
             });
+          })
+          ->where(function($query)use($request){
+            if($request->input('url_flag_fb')!=0){
+              $query->where('url.url_flag','like',"%0%");
+            }
+            if($request->input('url_flag_yahoo')!=0){
+              $query->where('url.url_flag','like',"%1%");
+            }
+            if($request->input('url_flag_google')!=0){
+              $query->where('url.url_flag','like',"%2%");
+            }
           })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
