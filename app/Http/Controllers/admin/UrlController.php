@@ -326,6 +326,7 @@ class UrlController extends Controller
          }
    }
    public function url_goods_ajax(Request $request)
+   //域名下拉列表ajax接口
    {
     if(!$request->has('url_id')||!$request->has('type')||!$request->has('msg')){
        return response()->json(['err'=>0,'data'=>'缺少参数！']);
@@ -344,6 +345,9 @@ class UrlController extends Controller
     $goods=\App\goods::whereIn('goods_id',$arr)
     ->where(function($query)use($msg){
       $query->where('goods_real_name','like',"%$msg%");
+    })
+    ->where(function($query){
+      $query->where('is_del','0');
     })
     ->get(['goods_id','goods_real_name']);
     foreach ($goods as $key => $value) {

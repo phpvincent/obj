@@ -223,11 +223,11 @@
 <div class="mui-input-group">
     <div class="mui-input-row">
         <label><span class="require">*</span>First Name:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="required:Please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        <input type="text" name="firstname" datatype="s1-30" placeholder="Required: please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Last Name:</label>
-        <input type="text" name="lastname" placeholder="required:Please enter your last name" class="mui-input-clear">
+        <input type="text" name="lastname" placeholder="Required:please enter your last name" class="mui-input-clear">
     </div>
     
     <!--<div class="mui-input-row" style="display:none;">-->
@@ -244,7 +244,7 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Detailed Address:</label>
-        <input type="text" datatype="z1-300" placeholder="required:Please fill in the full address" nullmsg="address_not_correct" errormsg="address_not_correct" name="address1" class="mui-input-clear">
+        <input type="text" datatype="z1-300" placeholder="Required:please fill in the full address" nullmsg="address_not_correct" errormsg="address_not_correct" name="address1" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>City:</label>
@@ -252,7 +252,7 @@
     </div>
     <div class="mui-input-row" style="">
         <label><span class="require">*</span>Zip:</label>
-        <input type="text" name="zip" placeholder="required: Please fill in the zip code" class="mui-input-clear">
+        <input type="text" name="zip" placeholder="Required: please fill in the zip code" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>country:</label>
@@ -274,7 +274,7 @@
     </div>
     <div class="mui-input-row">
         <label>Phone No.:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="required:Please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <input type="text" datatype="/^\d+$/" placeholder="Required:please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>Message:</label>

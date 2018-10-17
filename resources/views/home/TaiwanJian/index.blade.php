@@ -335,7 +335,7 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>本产品的实际使用效果根据个人情况决定，不保证每位用户都能享受到宣传的效果。若有疑问请咨询在线客服或通过电子邮箱(
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         )联络我们，本公司享有最终解释权。</p>
             </td></tr>
         @endif
@@ -346,12 +346,12 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>1.由于个人原因产生的退换货：至收到商品起7天内，在不影响二次销售的情况下请联系我们的在线客服或发邮件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费需自行承担。
                 </p>
                 <p>
                    2.由于质量原因产生的退换货：至收到商品之日起7天内，向售后服务中心发送邮件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费由我方承担。
                 </p>
             </td></tr>

@@ -571,7 +571,11 @@ class OrderController extends Controller
                   break;
             }
            }
-         $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
+         if($request->has('min')&&$request->has('max')){
+          $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d h:i:s',time()).'.xls';
+         }else{
+            $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
+         }
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
          $zdname=['下单时间','产品名称','型号/尺寸/颜色','数量','币种','销售单价','总金额','客户名字','客户电话','邮寄地址','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
