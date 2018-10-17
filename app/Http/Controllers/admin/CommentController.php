@@ -184,7 +184,7 @@ class CommentController extends Controller
    		foreach($imgs as $k => $v){
    			@unlink($v->com_url);
    		}
-   		\App\com_img::where('com_primary_id',$request->input('id'))->delete();
+   		
    		$comment->com_name=$request->input('com_name');
    		$comment->com_phone=$request->input('com_phone');
    		$comment->com_order=$request->input('com_order');
@@ -195,6 +195,7 @@ class CommentController extends Controller
    		$comment->com_isuser='0';
    		$msg=$comment->save();
    		if($request->file('com_img')!=null){
+   			\App\com_img::where('com_primary_id',$request->input('id'))->delete();
    			 foreach($request->file('com_img') as $pic) {
                  $size = filesize($pic);
                  //这里可根据配置文件的设置，做得更灵活一点

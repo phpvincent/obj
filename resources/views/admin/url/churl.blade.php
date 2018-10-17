@@ -14,7 +14,7 @@
 }
 .box ul{
     border: 1px solid #ddd;
-    height: 128px;
+    height: 132px;
     background-color: #fff;
 }
 .box li{
