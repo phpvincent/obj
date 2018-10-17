@@ -204,7 +204,7 @@
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>溫馨提示：：</strong>
-										收到商品後有任何疑問請聯繫在線客服或發郵件至<a href='https://mail.google.com/mail/' style='color:#F8770E'>hyfhdcjn@gmail.com</a> 。同時請告知您的姓名/聯繫方式/訂單編號，我們會快速的給您及時處理，祝您購物愉快！				</div>
+										收到商品後有任何疑問請聯繫在線客服或發郵件至<a href='mailto:hyfhdcjn@gmail.com' style='color:#F8770E'>hyfhdcjn@gmail.com</a> 。同時請告知您的姓名/聯繫方式/訂單編號，我們會快速的給您及時處理，祝您購物愉快！				</div>
 				<p></p>
   			</div>
 		</div>

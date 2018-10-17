@@ -55,6 +55,7 @@
 					<option value="11">支付成功</option>
 					<option value="12">支付失败</option>
 					<option value="13">支付成功但无paypal数据</option>
+					<option value="14">问题订单</option>
 				</select>
 				</span>
 			</div>
@@ -299,6 +300,10 @@
 				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功</span></a>';
 			}else if(data.order_type==12){
 				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付失败</span></a>';
+			}else if(data.order_type==13){
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功但无paypal数据</span></a>';
+			}else if(data.order_type==14){
+				var isroot='<a href="javascript:;" 	onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:red;">问题订单</span></a>';
 			}
 			if(data.order_pay_type!='0'){
 				isroot+='<a href="javascript:;" onclick="order_payinfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:white;">支付信息</span></a>';

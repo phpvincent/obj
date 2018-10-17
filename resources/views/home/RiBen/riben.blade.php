@@ -83,6 +83,18 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -300,8 +312,8 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>
-１、個人的な理由で返品・交換をご希望される場合：商品が到着する7日以内、しかも再び販売することができる場合ならば、オンラインチャットあるいはメール（hyfhdcjn@gmail.com）により、当社にご連絡してください。アフターサービスセンターは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料はお客様が支払いいただきます。<br>
-２、商品の品質問題で返品・交換をご希望される場合：商品が到着する7日以内にメール(hyfhdcjn@gmail.com)でアフターサービスセンターにご連絡してください。こちらは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料は当社が支払います。
+１、個人的な理由で返品・交換をご希望される場合：商品が到着する7日以内、しかも再び販売することができる場合ならば、オンラインチャットあるいはメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）により、当社にご連絡してください。アフターサービスセンターは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料はお客様が支払いいただきます。<br>
+２、商品の品質問題で返品・交換をご希望される場合：商品が到着する7日以内にメール(esdkhjies@gmail.com)でアフターサービスセンターにご連絡してください。こちらは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料は当社が支払います。
 
             </td></tr>
         @endif
@@ -315,13 +327,13 @@
                 <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email: -->
                 商品の実際使用効果は個人によって、違います。全てのお客様は宣伝する効果を楽しむことが保証できない。ご疑問があれば、オンラインチャットあるいはメール
-                                <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                <a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
                                 で当社にご連絡してください。
             </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
                                         ，售後
 
                     客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
@@ -330,7 +342,7 @@
                     2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
 
                     發送郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
                                         ，客服會在收到郵件後的1-3個工作日內受
 
                     理您的請求，退換貨所產生的運費由我方承擔。

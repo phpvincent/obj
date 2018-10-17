@@ -24,6 +24,7 @@
 				<option value="5" >退货未退款</option>
 				<option value="6" >退货并已退款</option>
 				<option value="7" >未退货已退款</option>
+				<option value="14" >问题订单</option>
 				<option value="8" ><span style='color:red;'>拒签</span></option>
 			</select>
 			</span> </div>
@@ -53,14 +54,14 @@
 <script type="text/javascript">
 	$(function(){
 			var order_type= $('#order_type_select').val();
-			if(order_type>=3){
+			if(order_type>=3&&order_type!=14){
 				$('#order_send').parent().parent().show();
 			}
 	})
 		$('#order_type_select').bind('change',function(){
 			var order_type= $(this).val();
 
-			if(order_type>=3){
+			if(order_type>=3&&order_type!=14){
 				$('#order_send').parent().parent().show();
 			}else{
 				$('#order_send').parent().parent().val('');

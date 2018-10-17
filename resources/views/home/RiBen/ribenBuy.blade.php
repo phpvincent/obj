@@ -155,7 +155,18 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
-    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
 
 </head>
 <body style="">
@@ -291,7 +302,7 @@
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-    お知らせ：到着払い＋送料無料＋７日以内返品・交換可能！　商品到着後、いかなる問題があれば、オンラインチャットまたメール（hyfhdcjn@gmail.com）により当社にご連絡してください。
+    お知らせ：到着払い＋送料無料＋７日以内返品・交換可能！　商品到着後、いかなる問題があれば、オンラインチャットまたメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）により当社にご連絡してください。
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>

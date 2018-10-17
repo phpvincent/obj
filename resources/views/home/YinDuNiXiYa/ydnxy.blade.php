@@ -83,6 +83,18 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -299,7 +311,7 @@
             <td colspan="2">
                 <p>
                 Hasil dari penggunaan produk ini sesuai dengan kondisi masing-masing pelanggan dan tidak menjamin bahwa setiap pelanggan dapat mencapai hasil sesuai di promosi. Jika Anda memiliki pertanyaan, silakan hubungi layanan pelanggan online kami atau hubungi kami melalui e-mail(
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mail:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a>
                                         ) perusahaan kami memiliki hak interpretasi akhir.</p>
             </td></tr>
         @endif
@@ -310,14 +322,14 @@
         <tr class="first odd">
             <td colspan="2">
             <p>
-            1. Pengembalian karena alasan pribadi: dalam 7 hari dari tanggal penerimaan barang silakan hubungi layanan pelanggan online kami atau kirim email ke <a  href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a> tanpa mempengaruhi penjualan kedua. Permintaan Anda akan diterima dalam waktu 1-3 hari kerja oleh bagian layanan customer service dan biaya pengiriman yang dikenakan akan ditanggung oleh pelanggan.<br>
+            1. Pengembalian karena alasan pribadi: dalam 7 hari dari tanggal penerimaan barang silakan hubungi layanan pelanggan online kami atau kirim email ke <a  href="mail:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a> tanpa mempengaruhi penjualan kedua. Permintaan Anda akan diterima dalam waktu 1-3 hari kerja oleh bagian layanan customer service dan biaya pengiriman yang dikenakan akan ditanggung oleh pelanggan.<br>
 
 
-             2.Pengembalian karena alasan kualitas: dalam 7 hari dari tanggal penerimaan barang silahkan mengirim email ke ke pusat layanan customer service kami <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>, Customer service kami akan merespon permintaan Anda dalam waktu 1-3 hari, biaya pengiriman atas pengembalian barang akan ditanggung oleh pihak kami.</p>
+             2.Pengembalian karena alasan kualitas: dalam 7 hari dari tanggal penerimaan barang silahkan mengirim email ke ke pusat layanan customer service kami <a href="mail:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a>, Customer service kami akan merespon permintaan Anda dalam waktu 1-3 hari, biaya pengiriman atas pengembalian barang akan ditanggung oleh pihak kami.</p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mail:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a>
                                         ，售後
 
                     客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
@@ -326,7 +338,7 @@
                     2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
 
                     發送郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mail:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a>
                                         ，客服會在收到郵件後的1-3個工作日內受
 
                     理您的請求，退換貨所產生的運費由我方承擔。

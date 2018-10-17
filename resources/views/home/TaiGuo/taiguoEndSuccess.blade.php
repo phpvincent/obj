@@ -52,28 +52,40 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
 @endif
 </head>
 <body style="">
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-        <h1 class="mui-title">การยืนยันสั่งซื้อ </h1>
+        <h1 class="mui-title">ยืนยันการสั่งซื้อ </h1>
 </header>
     <div class="mui-content">
     <div class="pay_image"><span class="sico"><i class="mui-icon mui-icon-checkmarkempty"></i></span></div>
     <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">สั่งซื้อสินค้าเรียบร้อยแล้ว！</h2>
+            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">สั่งซื้อสินค้าสำเร็จ！</h2>
                             <div style="padding:15px;">        
-                หมายเลขการสั่งซื้อของคุณ:<font color="red">{{$order->order_single_id}}</font><br>
-                จะต้องจ่าย：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
+                            เลขที่คำสั่งซื้อของท่าน:<font color="red">{{$order->order_single_id}}</font><br>
+                            ยอดเงินต้องชำระ：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
                                             
-ลูกค้าสวัสดีค่ะ คุณสั่งซื้อสำเร็จแล้ว สินค้าจะส่งไปถึงให้คุณโดยรวจเร็วที่สุด  กรุณาเปิดโทรศัพท์ไว้ให้ผู้ส่งของจะติดต่อคุณได้กรุณาอย่าสั่งซ้ำ ถ้ามีคำถามเกี่นวกับการสั่งซื้อ กรุณาติดต่อe-mail: <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>            </div>
+                                            กรุณาเปิดโทรศัพท์มือถือไว้ในช่วงการจัดส่งสินค้าเพื่อเจ้าหน้าที่การขนส่งสามารถติดต่อท่านได้ หากท่านมีคำถามหรือข้อสงสัยใดๆเกี่ยวกับสินค้าของเรา กรุณาติดต่อฝ่ายบริการลูกค้า ขอให้ทุกท่านเพลิดเพลินกับการชอปปิง: <a href="mailto:uoewtnxj@gmail.com" style="color:#F8770E">uoewtnxj@gmail.com</a>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">กลับไปที่หน้าแรก&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">กลับหน้าหลัก&gt;&gt;</button>
             </div>
     </div>
 </div>

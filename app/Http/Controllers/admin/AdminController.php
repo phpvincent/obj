@@ -218,6 +218,7 @@ class AdminController extends Controller
     		}
     		if($data['password']!=''&&$data['password']!=null){
     			$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
+                 \Log::notice(\Auth::user()->admin_name.'于'.date('Y-m-d H:i:s',time()).'修改了'.$admin->admin_name.'['.$admin->admin_id.']的密码，新密码为:'.$data['password']);
     		}
     		$msg=$admin->save();
     		if($msg){

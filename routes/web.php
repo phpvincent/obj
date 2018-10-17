@@ -98,6 +98,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::match(['get', 'post'],'admin/url/update_account','admin\UrlController@update_account');
 	Route::match(['post'],'admin/url/ajax_account','admin\UrlController@ajax_account');
 	Route::match(['get'],'admin/url/clear_flag','admin\UrlController@clear_flag');
+	Route::match(['get'],'admin/url/url_goods_ajax','admin\UrlController@url_goods_ajax');
 	//评论相关
 	Route::get('/admin/comment/index','admin\CommentController@index');
 	Route::post('/admin/comment/getindex','admin\CommentController@getindex');

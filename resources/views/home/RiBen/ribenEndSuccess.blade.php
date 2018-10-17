@@ -52,6 +52,18 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
 @endif
 </head>
 <body style="">
@@ -70,7 +82,7 @@
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            ご携帯電話はオンモードにしてください。配達員がご連絡を取れるようにお願いします。いかなる問題があれば、オンラインチャットにより当社にご連絡してください。お買い物を楽しみにしてください。           </div>
+                                            ご携帯電話はオンモードにしてください。配達員がご連絡を取れるようにお願いします。いかなる問題があれば、オンラインチャットにより当社にご連絡してください。お買い物を楽しみにしてください。           </div><a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">ホームページへ返す&gt;&gt;</button>
             </div>

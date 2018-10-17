@@ -60,6 +60,55 @@ class url extends Model
                     $goods_id=$url->url_goods_id;
                 }
                 break;
+            case '5':
+                if($arr['country']!='泰国'&&$arr['region']!='泰国'&&$arr['country']!='泰国'&&$arr['region']!='泰国'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
+            case '6':
+                if($arr['country']!='菲律宾'&&$arr['region']!='菲律宾'&&$arr['country']!='菲律宾'&&$arr['region']!='菲律宾'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
+            case '7':
+                if($arr['country']!='日本'&&$arr['region']!='日本'&&$arr['country']!='日本'&&$arr['region']!='日本'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
+            case '8':
+                if($arr['country']!='马来西亚'&&$arr['region']!='马来西亚'&&$arr['country']!='马来西亚'&&$arr['region']!='马来西亚'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
+            case '9':
+                if($arr['country']!='英国'&&$arr['region']!='英国'&&$arr['country']!='英国'&&$arr['region']!='英国'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
+            case '10':
+                if($arr['country']!='印度尼西亚'&&$arr['region']!='印度尼西亚'&&$arr['country']!='印度尼西亚'&&$arr['region']!='印度尼西亚'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
+            case '11':
+                if($arr['country']!='阿联酋'&&$arr['region']!='阿联酋'&&$arr['country']!='阿联酋'&&$arr['region']!='阿联酋'){
+                    $goods_id=$url->url_zz_goods_id;
+                }else{
+                    $goods_id=$url->url_goods_id;
+                }
+                break;
             case '4':
                 try{
                      $goods_id=$url->url_zz_goods_id;

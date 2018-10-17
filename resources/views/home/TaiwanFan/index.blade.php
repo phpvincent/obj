@@ -335,7 +335,7 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>本產品的實際使用效果根據個人情況決定，不保證每位用戶都能享受到所宣傳的效果。若有疑問請諮詢在線客服或通過電子郵箱(
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         )聯絡我們，本公司享有最終解釋權。</p>
             </td></tr>
         @endif
@@ -347,7 +347,7 @@
             <td colspan="2">
                 <p>1.由於個人原因產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         ，售後
 
                     客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
@@ -357,7 +357,7 @@
                     2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
 
                     發送郵件至
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                                        <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         ，客服會在收到郵件後的1-3個工作日內受
 
                     理您的請求，退換貨所產生的運費由我方承擔。

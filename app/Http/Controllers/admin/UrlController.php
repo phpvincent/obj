@@ -37,6 +37,17 @@ class UrlController extends Controller
               $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
             });
           })
+          ->where(function($query)use($request){
+            if($request->input('url_flag_fb')!=0){
+              $query->where('url.url_flag','like',"%0%");
+            }
+            if($request->input('url_flag_yahoo')!=0){
+              $query->where('url.url_flag','like',"%1%");
+            }
+            if($request->input('url_flag_google')!=0){
+              $query->where('url.url_flag','like',"%2%");
+            }
+          })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
               $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
@@ -54,6 +65,17 @@ class UrlController extends Controller
             $query->orWhere(function($query)use($search){
               $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
             });
+          })
+          ->where(function($query)use($request){
+            if($request->input('url_flag_fb')!=0){
+              $query->where('url.url_flag','like',"%0%");
+            }
+            if($request->input('url_flag_yahoo')!=0){
+              $query->where('url.url_flag','like',"%1%");
+            }
+            if($request->input('url_flag_google')!=0){
+              $query->where('url.url_flag','like',"%2%");
+            }
           })
           ->where(function($query){
              if(Auth::user()->is_root!='1'){
@@ -94,7 +116,11 @@ class UrlController extends Controller
         $url->url_zz_level=$data['url_level'];
         $url->url_zz_for=$data['url_for'];
         $url->url_admin_id=Auth::user()->admin_id;
-        $url->url_ad_account_id=implode(',', $data['ad_account']);
+        if(isset($data['ad_account'])){
+            $url->url_ad_account_id=implode(',', $data['ad_account']);
+        }else{
+           $url->url_ad_account_id=null;
+        }
         if(isset($data['is_online'])&&$data['is_online']!=null){
           $url->url_type='1';
         }else{
@@ -324,5 +350,47 @@ class UrlController extends Controller
          }else{
                   return response()->json(['err'=>0,'str'=>'清除失败！']);
          }
+   }
+   public function url_goods_ajax(Request $request)
+   //域名下拉列表ajax接口
+   {
+    if(!$request->has('url_id')||!$request->has('type')||!$request->has('msg')){
+       return response()->json(['err'=>0,'data'=>'缺少参数！']);
+    }
+    if($request->input('url_id')==null||$request->input('type')==null||$request->input('msg')==null){
+       return response()->json(['err'=>0,'data'=>'缺少参数！']);
+    }
+    $type=$request->input('type');
+    if($request->input('msg')=='false'){
+      $msg='';
+    }else{
+      $msg=$request->input('msg');
+    }
+    $url=\App\url::where('url_id',$request->input('url_id'))->first();
+    $arr=\App\admin::get_goods_id();
+    $goods=\App\goods::whereIn('goods_id',$arr)
+    ->where(function($query)use($msg){
+      $query->where('goods_real_name','like',"%$msg%");
+    })
+    ->where(function($query){
+      $query->where('is_del','0');
+    })
+    ->get(['goods_id','goods_real_name']);
+    foreach ($goods as $key => $value) {
+      if($type==1){
+        if($value->goods_id==$url->url_goods_id){
+          $goods[$key]->is_check=true;
+        }else{
+          $goods[$key]->is_check=false;
+        }
+      }elseif($type==2){
+        if($value->goods_id==$url->url_zz_goods_id){
+          $goods[$key]->is_check=true;
+        }else{
+          $goods[$key]->is_check=false;
+        }
+      }
+    }
+     return response()->json(['err'=>1,'data'=>$goods]);
    }
 }

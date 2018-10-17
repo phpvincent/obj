@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Order status query </title>
+    <title>ตรวจสถานะคำสั่งซื้อ</title>
 	  	  <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">
@@ -145,7 +145,7 @@
 
 <div class="fixed">
   <h4> <a href="javascript:history.go(-1);"></a>
-  ติดตามสถานะสินค้า</h4>
+  ตรวจสอบรายการสั่งซื้อ</h4>
 </div>
 
 <div class="mui-content" style="background:#fff">
@@ -155,14 +155,14 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	หมายเลขสั่งซื้อ/หมายเลขใบนำส่งสินค้า(เลือกกรอกอย่างใดอย่างหนึ่ง)				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	เลขที่คำสั่งซื้อ/ เลขพัสดุ(กรอกอย่างเดียวก็เช็คได้)				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
-			<input name="queryNo" value="" id="txtkey" class="text"  type="text">
+			<input name="queryNo" placeholder="กรอกข้อมูลเกี่ยวข้องเช็ครายการที่สั่งซื้อ" value="" id="txtkey" class="text"  type="text">
 		</form>
 	</div>
-	<a id="btnQuery">สอบถามทันที</a>
+	<a id="btnQuery">เช็ค</a>
 	<div class="clearfix"></div>
   </div>
 
@@ -206,11 +206,11 @@
 					<strong>คำเตือน:</strong>
 					
 
-                หลังจากลูกค้าได้รับสินค้าแล้ว ถ้ามีข้อสงสัยใดๆ  กรุณาติดต่อเจ้าหน้าที่ฝ่ายบริการลูกค้าโดยตรงหรือทางe-mail:<a href='https://mail.google.com/mail/' style='color:#F8770E'>hyfhdcjn@gmail.com</a>.</div>
+                ถ้าลูกค้าได้รับสินค้าแล้วมีคำถามหรือข้อสงสัยกับสินค้า สามารถติดต่อสอบถามผ่านระบบบริการลูกค้าออนไลน์หรือส่งอีเมลไปถึงที่<a href='mailto:uoewtnxj@gmail.com' style='color:#F8770E'>uoewtnxj@gmail.com</a>โดยระบุชื่อ-นามสกุล เบอร์โทรศัพท์และเลขที่การสั่งซื้อสินค้า หลังจากได้รับข้อมูลเจ้าหน้าจะติดต่อกลับโดยเร็วที่สุด ขอให้ทุกท่านเพลิดเพลินกับการชอปปิง</div>
 				<p></p>
   			</div>
 		</div>
-        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">กลับไปหน้าแรก</a></div>
+        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">กลับหน้าหลัก</a></div>
   </div>
 
   <script src="https://d1lnephkr7mkjn.cloudfront.net/skin/default/js/jquery.min.js"></script>
@@ -219,7 +219,7 @@
     	
 		$("#btnQuery").click(function(e) {
 			if($("input[name='queryNo']").val()==''){
-				alert(' 		หมายเลขสั่งซื้อ/หมายเลขใบนำส่งสินค้า(เลือกกรอกอย่างใดอย่างหนึ่ง)		');
+				alert('เลขที่คำสั่งซื้อ/ เลขพัสดุ(กรอกอย่างเดียวก็เช็คได้)');
 				return;
 			}
             $("#queryForm").submit();
@@ -240,7 +240,7 @@
                 	if(msg!='false'){
                 		  $('.details').html(msg);
                 	}else{
-                		  $('.details').html("<span style='color:#f00;'>โปรดระบุหมายเลขโลจิสติกส์ที่ถูกต้อง</span>");
+                		  $('.details').html("<span style='color:#f00;'>เลขที่คำสั่งซื้อไม่ถูกต้อง ไม่พบข้อมูลเกี่ยวข้อง กรุณากรอกใหม่</span>");
                 	}
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }

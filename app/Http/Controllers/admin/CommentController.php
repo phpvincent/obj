@@ -191,7 +191,7 @@ class CommentController extends Controller
    		$comment->com_msg=$request->input('com_msg');
    		$comment->com_star=$request->input('com_star');
    		$comment->com_isshow=$request->input('com_isshow');
-   		$comment->com_time=date('Y-m-d H:i:s',time());
+   		$comment->com_time=$request->input('com_time');
    		$comment->com_isuser='0';
    		$msg=$comment->save();
    		if($request->file('com_img')!=null){
@@ -233,7 +233,7 @@ class CommentController extends Controller
    		$comment->com_star=$request->input('com_star');
    		$comment->com_isshow=$request->input('com_isshow');
    		$comment->com_goods_id=$request->input('goods_id');
-   		$comment->com_time=date('Y-m-d H:i:s',time());
+   		$comment->com_time=$request->input('com_time');
    		$comment->com_isuser='0';
    			$msg=$comment->save();
    		if($request->file('com_img')!=null){
