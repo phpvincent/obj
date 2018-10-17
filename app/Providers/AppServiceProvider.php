@@ -13,9 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       date_default_timezone_set('PRC'); 
-  /*     //记录sql语句
-        \DB::listen(
+       date_default_timezone_set('PRC');
+    //记录sql语句
+        /*\DB::listen(
             function ($sql) {
                 // $sql is an object with the properties:
                 //  sql: The query

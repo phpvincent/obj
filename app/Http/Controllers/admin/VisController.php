@@ -4,7 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use App\admin;
 use App\goods;
+use App\order;
 use App\special;
+use App\spend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\vis;
@@ -792,4 +794,150 @@ class VisController extends Controller
    		
    	
    }
+
+    /** 花费统计
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+   public function pay_money(Request $request)
+   {
+       if($request->isMethod('get')) {
+           $goods = \App\goods::whereIn('goods_admin_id', admin::get_admins_id())->where('is_del', '0')->get();
+           $admins = admin::whereIn('admin_id', admin::get_admins_id())->get();
+           return view('admin.vis.pay_money')->with(compact('goods', 'admins'));
+       }elseif($request->isMethod('post')){
+           //时间筛选（默认七天，按天）
+           $start_time = $request->input('mintime');
+           $end_time = $request->input('maxtime');
+           $goods_id = $request->input('id');
+           $user_id = $request->input('user_id');
+           $time = [];
+           //选择时间超过7天
+           if(!$start_time || !$end_time){ //没有选择时间
+               $leng = 6;
+               $use_end_time = time()-8*24*3600;
+           }else{                          //选择时间超过7天
+               $leng = intval((strtotime($end_time)-strtotime($start_time))/3600/24);
+               $use_end_time =  strtotime($start_time);
+           }
+           $admin_ids = admin::get_admins_id();
+           for($i=0; $i <=$leng; $i++)
+           {
+               $day = 3600*24;
+               $today = date('Y-m-d',$use_end_time+$i*$day);
+               //获取管理员花费金额
+               $count = spend::whereIn('spend_admin_id',$admin_ids)
+                   ->where('spend_time','like','%'.$today.'%')
+                   ->where(function ($query)use($user_id,$goods_id){
+                       if($user_id){
+                           $query->where('spend_admin_id',$user_id);
+                       }
+                       if($goods_id){
+                           $query->where('spend_goods_id',$goods_id);
+                       }
+                   })
+                   ->sum('spend_money');
+               $data1['name']='花费金额';
+               $data1['data'][$i] = $count;
+               $time[] = $today;
+           }
+           //折线图
+           $data[]=$data1;
+           //柱状图
+           $datacount[]=$data1;
+           return response()->json(['data'=>$data,'datacount'=>$datacount,'time'=>$time]);
+       }
+   }
+
+    /** 获取花费数据
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+   public function pay_table(Request $request)
+   {
+       //时间筛选（默认七天，按天）
+       $start_time = $request->input('mintime');
+       $end_time = $request->input('maxtime');
+       $goods_id = $request->input('id');
+       $user_id = $request->input('user_id');
+       $time = [];
+       //选择时间超过7天
+       if(!$start_time || !$end_time){ //没有选择时间
+           $leng = 6;
+           $use_end_time = time()-8*24*3600;
+       }else{                          //选择时间超过7天
+           $leng = intval((strtotime($end_time)-strtotime($start_time))/3600/24);
+           $use_end_time =  strtotime($start_time);
+       }
+       $admin_ids = admin::get_admins_id();
+       for($i=0; $i <=$leng; $i++)
+       {
+           $day = 3600*24;
+           $today = date('Y-m-d',$use_end_time+$i*$day);
+           //获取管理员花费金额
+           $count = spend::whereIn('spend_admin_id',$admin_ids)
+               ->where('spend_time','like','%'.$today.'%')
+               ->where(function ($query)use($user_id,$goods_id){
+                   if($user_id){
+                       $query->where('spend_admin_id',$user_id);
+                   }
+                   if($goods_id){
+                       $query->where('spend_goods_id',$goods_id);
+                   }
+               })
+               ->sum('spend_money');
+           $data1[] = $count;
+           $time[] = $today;
+       }
+       //table
+       $data['pay']=$data1;
+       return view('admin.vis.pay_table')->with(compact('data','time'));
+   }
+
+   public function get_ajaxtop(Request $request)
+   {
+       //时间筛选（默认七天，按天）
+       $start_time = $request->input('mintime');
+       $end_time = $request->input('maxtime');
+       //选择时间超过7天
+       if(!$start_time || !$end_time){ //没有选择时间
+           $start_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
+           $end_time = date('Y-m-d',time()-2*24*3600).' 00:00:00';
+       }else{                          //选择时间超过7天
+           $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
+           $end_time = date('Y-m-d',strtotime($end_time)).' 00:00:00';
+       }
+
+       $array = [];
+       $admins = admin::whereIn('admin_id',admin::get_admins_id())->get();
+       //计算商品销售额度
+       foreach ($admins as $admin)
+       {
+           $sale_total = order::get_sale_total($admin->admin_id,$start_time,$end_time);
+           $arr['admin_name'] = $admin->admin_name;
+           $arr['sale_total'] = $sale_total;
+           array_push($array,$arr);
+       }
+//       //计算用户花费额度(不可以直接用，需要算汇率转换人民币)
+//       if(!$admins->isEmpty()){
+//           foreach ($admins as $item)
+//           {
+//               $spend = spend::select(DB::raw('SUM(spend_money) as spend_money'))->whereBetween('spend_time',[$start_time,$end_time])->where('spend_admin_id',$item->admin_id)->first();
+//               $arr['admin_name'] = $item->admin_name;
+//               if($spend){
+//                   $arr['spend_money'] = $spend->spend_money ? $spend->spend_money : 0;
+//               }
+//               array_push($array,$arr);
+//           }
+//       }
+       //组内成员按照销售额排序
+       if(!empty($array)){
+           $sort = array_column($array, 'sale_total');
+           array_multisort($sort, SORT_DESC, $array);
+           //获取销售额前10的数据
+           $array = array_slice($array,0,10);
+       }
+       //table
+       return view('admin.vis.ajaxtop')->with(compact('array'));
+    }
 }

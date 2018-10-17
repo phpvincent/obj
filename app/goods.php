@@ -13,6 +13,14 @@ class goods extends Model
     	return $this->hasMany('App\comment','com_goods_id','goods_id');
     }
 
+    /**
+     *  模型关联表(币种与商品关联)
+     */
+    public function currency_has_goods()
+    {
+        return $this->hasOne('App\currency_type', 'currency_type_id', 'goods_currency_id');
+    }
+
     public static function get_ownid($admin_id){
         $admin_ids=\App\admin::get_group_ids($admin_id);
     	$arr=self::whereIn('goods_admin_id',$admin_ids)->get(['goods_id'])->toArray();
