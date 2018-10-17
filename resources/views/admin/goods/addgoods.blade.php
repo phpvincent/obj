@@ -618,7 +618,7 @@
 			return true;
 		}
 	}
-	$('body').on('click','.box li',function(){
+	$('body').on('mousedown','.box li',function(){
 
 		$('.box').hide(400);
 		var content=$(this).text();

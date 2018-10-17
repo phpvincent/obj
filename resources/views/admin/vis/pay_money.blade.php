@@ -4,9 +4,9 @@
     <script type="text/javascript" src="{{asset('/admin/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js')}}"></script>
     <!-- 时间选择 -->
     <div class="text-c"style="margin:10px 0;overflow: hidden" > 日期范围：
-        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-#{%d-2} %H:%m:%s\'}',minDate:'%y-%M-#{%d-42} '})" id="datemin" class="input-text Wdate" style="width:120px;">
+        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}',minDate:'%y-%M-#{%d-40} '})" id="datemin" class="input-text Wdate" style="width:120px;">
         -
-        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'datemin\')||\'%y-%M-#{%d-42}\'}',maxDate:'%y-%M-#{%d-2} %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
+        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'datemin\')||\'%y-%M-#{%d-40}\'}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
         <!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
         <button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
         &nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
