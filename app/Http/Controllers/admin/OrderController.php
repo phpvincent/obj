@@ -34,7 +34,11 @@ class OrderController extends Controller
      })
      ->whereIn('order_goods_id',admin::get_goods_id())
      ->count();
-     return view('admin.order.index')->with(compact('counts','admins'));
+     if(\Auth::user()->admin_is_order!='1'){
+      return view('admin.order.index_notroot')->with(compact('counts','admins'));
+     }else{
+      return view('admin.order.index')->with(compact('counts','admins'));
+     }
 //     }
     
    }
