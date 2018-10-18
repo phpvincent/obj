@@ -155,7 +155,7 @@
             padding: 5px 20px 20px;
             min-height: 167px;
             margin-bottom: 13px;
-            background: url(//img.alicdn.com/tfs/TB1Gyt8Hf1TBuNjy0FjXXajyXXa-1036-385.png) no-repeat right bottom #eee;
+            background: url("/img/pc_bg.png") no-repeat right bottom #eee;
             background-size: 100%;
         }
         .pc_money{
@@ -576,7 +576,7 @@
                 </div>
                 <div class="pc_body">
                     <div class="pc_flow">
-                        <img src="//img.alicdn.com/tps/i4/TB1WimyFVXXXXb1XVXXrF.AGVXX-938-54.png" alt="">
+                        <img src="/img/pc_kuaidi.jpg" alt="">
                     </div>
                     <div class="pc_addition">
                         {{--中部导航--}}
@@ -613,14 +613,14 @@
                             <div class="pc_detail_tab_3"style="display: none;">
                                     {{-- @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
                                     @if(in_array('commit',$templets))
-                                    <h4>最新评价</h4>
+                                    <!-- <h4>最新评价</h4> -->
                                     <div id="mq">
                                         <div id="mq1">        
                                             @foreach($comment as $v)
                                                 <div class="appr-title mqc">
                                                     <span style="color:red">*****{{substr($v->com_phone,-4)}}</span>
                                                     <span style="color:red; margin:0px 3px">{{$v->com_name}}</span>
-                                                    <span>满意度：<font color="red"> @for($i=0;$i<$v->com_star;$i++)★@endfor</span>
+                                                    <span>Rating:<font color="red"> @for($i=0;$i<$v->com_star;$i++)★@endfor</span>
                                                     <span style="margin-left:3px; font-size:12px">{{$v->com_time}}</span>
                                                 </div>
                                                 <div class="mqc">
@@ -775,7 +775,7 @@
         </div>
         <div class="pc_bottom">
                 <div class="pc_bottom_logo">
-                        <img src="/images/footer.jpg" alt="">
+                        <img src="/img/pc_fuwu.jpg" alt="">
                 </div>
                 <div  class="AfterSale">
                     <div class="AfterSale_1">
