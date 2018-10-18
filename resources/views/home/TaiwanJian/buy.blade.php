@@ -336,7 +336,15 @@
     </div><!--footer end-->
 
 <script>
-
+    function captureImage(a) {
+    a.pause(); 
+    };
+    var videos=$("#detial-context video");
+    for(var i=0;i<videos.length;i++){
+    videos[i].setAttribute("autoplay","autoplay");
+    videos[i].setAttribute("preload","auto");
+    videos[i].addEventListener('canplay',captureImage(videos[i]));
+    }
     // 内嵌表单提交
     $("#tijiao").click(function () {
     $.ajax({  

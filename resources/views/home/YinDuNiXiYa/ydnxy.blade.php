@@ -522,6 +522,15 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     </div>
 </div>
 <script language="javascript">
+    function captureImage(a) {
+    a.pause(); 
+    };
+    var videos=$("#detial-context video");
+    for(var i=0;i<videos.length;i++){
+    videos[i].setAttribute("autoplay","autoplay");
+    videos[i].setAttribute("preload","auto");
+    videos[i].addEventListener('canplay',captureImage(videos[i]));
+    }
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
         var endDate = new Date('2018/07/16');
