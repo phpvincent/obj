@@ -288,6 +288,7 @@
     <ul>
 
         <li>
+            @if(in_array('0',$goods->goods_pay_type))
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
@@ -296,6 +297,7 @@
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
           </div>
+          @endif
           @if(in_array('1',$goods->goods_pay_type))
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
             <input name="pay_type" id="pay_2" value="2" type="radio">
