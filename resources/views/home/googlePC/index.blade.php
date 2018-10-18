@@ -168,6 +168,9 @@
             margin-right: 10px;
             margin-left: 50px;
             line-height: 46px;
+            width: 92px;
+            display: inline-block;
+            text-align: right;
         }
         .pc_money_1 .title{
             line-height: 49px;
@@ -591,7 +594,7 @@
                                 <li id="tab2">Details</li>
                             @endif
                             @if(in_array('evaluate',$templets))
-                            <li id="tab3">Reviews({{$goods->goods_comment_num}}+)</li>
+                            <!-- <li id="tab3">Reviews({{$goods->goods_comment_num}}+)</li> -->
                             @endif
                         </ul>
                         @endif
