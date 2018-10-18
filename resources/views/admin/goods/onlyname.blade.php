@@ -7,8 +7,27 @@
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>单商品名称：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="" placeholder="" id="goods_price" name="goods_name">
-                    <input type="text" class="input-text" style="display: none" value="{{$id}}" placeholder="" id="goods_price" name="id">
+                    <input type="text" class="input-text" style="display: none" value="{{$goods->goods_id}}" placeholder="" id="goods_price" name="id">
                 </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>支付方式：</label>
+                <div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
+                    <label for="delivery">货到付款</label>
+                    <input type="checkbox" id="pay_type" @if(in_array('0',$goods->goods_pay_type)) checked="checked"  @endif  name="pay_type[]" value="0">
+                    <label for="pay_type">paypal支付</label>
+                    <input type="checkbox" id="pay_type" @if(in_array('1',$goods->goods_pay_type)) checked="checked"  @endif  name="pay_type[]" value="1">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
+                <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="currency_type" id="currency_type" class="select">
+						@foreach($currency_type as $item)
+                            <option value="{{$item->currency_type_id}}" {{$item->currency_type_id == $goods->goods_currency_id ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
+                        @endforeach
+					</select>
+					</span> </div>
             </div>
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
@@ -20,13 +39,24 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        //表单验证
-        $("#form-goods-update").validate({
-            rules: {
+        function pay_type(){
+            $('#pay_type').rules('add', {
+                required:true
+            });
+
+        }
+        $(function () {
+            //在线支付
+            pay_type();
+        });
+        var rules = {
                 goods_name: {
                     required: true,
                 }
-            },
+            };
+        //表单验证
+        $("#form-goods-update").validate({
+            rules: rules,
             onkeyup: false,
             focusCleanup: true,
             success: "valid",

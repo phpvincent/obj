@@ -1042,7 +1042,10 @@ class GoodsController extends Controller
     public function only_name(Request $request)
     {
         $id = $request->input('id');
-        return view('admin.goods.onlyname')->with(compact('id'));
+        $goods = goods::where('goods_id',$id)->first();
+        $goods->goods_pay_type = explode(',',$goods->goods_pay_type);
+        $currency_type = \App\currency_type::all();
+        return view('admin.goods.onlyname')->with(compact('goods','currency_type'));
     }
 
     /** 复制商品
@@ -1071,6 +1074,20 @@ class GoodsController extends Controller
         $goods = $goods->toArray();
         unset($goods['goods_id']);
         $goods['bd_type'] = 0;
+        $currency_type = $request->input('currency_type');
+        $goods['goods_currency_id'] = $currency_type;//商品币种
+
+        //在线支付不支持币种问题
+        $pay_type = $request->input('pay_type') ? $request->input('pay_type') : ['0'];
+        $goods['goods_pay_type']= implode(',',$pay_type);
+        if(in_array('1',$pay_type)){
+            //paypal不支持的币种
+            $currency_type = \App\currency_type::where('currency_type_id',$currency_type)->value('currency_english_name');
+            if(!in_array($currency_type, \App\currency_type::$CURRENCY_TYPE)){
+                return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
+            }
+        }
+
         $goods['goods_real_name'] = $request->input('goods_name');  //单品名称
         $goods['goods_admin_id'] = Auth::user()->admin_id;     //复制人
         $goods['goods_up_time'] = date('Y-m-d H:i:s',time());  // 操作时间
