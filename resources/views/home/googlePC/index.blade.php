@@ -155,7 +155,7 @@
             padding: 5px 20px 20px;
             min-height: 167px;
             margin-bottom: 13px;
-            background: url(//img.alicdn.com/tfs/TB1Gyt8Hf1TBuNjy0FjXXajyXXa-1036-385.png) no-repeat right bottom #eee;
+            background: url("/img/pc_bg.png") no-repeat right bottom #eee;
             background-size: 100%;
         }
         .pc_money{
@@ -168,6 +168,9 @@
             margin-right: 10px;
             margin-left: 50px;
             line-height: 46px;
+            width: 92px;
+            display: inline-block;
+            text-align: right;
         }
         .pc_money_1 .title{
             line-height: 49px;
@@ -524,15 +527,17 @@
                         <div class="pc_operation">
                             <div class="pc_money">
                                 @if(in_array('original',$templets))
-                                <span class="title">Original price</span>
+                                <span class="title"><strong>Original price</strong></span>
                                 <span class="money">
                                    {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}     
                                 </span>
+                                @else
+                                <span class="money">{{$goods->goods_name}}</span>
                                 @endif
 
                             </div>
                             <div class="pc_money_1">
-                                <span class="title">Price</span>
+                                <span class="title"><strong>Price</strong></span>
                                 <span class="money">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}</span>
                             </div>
                             <div class="pc_submit">
@@ -553,7 +558,7 @@
                         <div class="pc_service">
                             <div class="detail-7day" style="height:auto; overflow:hidden;font-size: 16px;margin-top: 10px;">
                                 @if(in_array('express',$templets))
-                                <span style="font-size:14px;color:#333;line-height:22px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑猫宅急便配送</span>
+                                <span style="font-size:14px;color:#333;line-height:22px;padding:2px 0 2px 30px; background:url(/img/DHL.png) 2px center no-repeat;background-size:34px 18px;"> &nbsp;&nbsp;&nbsp;DHL</span>
                                 @endif
                             </div>
                                 
@@ -576,7 +581,7 @@
                 </div>
                 <div class="pc_body">
                     <div class="pc_flow">
-                        <img src="//img.alicdn.com/tps/i4/TB1WimyFVXXXXb1XVXXrF.AGVXX-938-54.png" alt="">
+                        <img src="/img/pc_kuaidi.jpg" alt="">
                     </div>
                     <div class="pc_addition">
                         {{--中部导航--}}
@@ -589,7 +594,7 @@
                                 <li id="tab2">Details</li>
                             @endif
                             @if(in_array('evaluate',$templets))
-                            <li id="tab3">Reviews({{$goods->goods_comment_num}}+)</li>
+                            <!-- <li id="tab3">Reviews({{$goods->goods_comment_num}}+)</li> -->
                             @endif
                         </ul>
                         @endif
@@ -613,14 +618,14 @@
                             <div class="pc_detail_tab_3"style="display: none;">
                                     {{-- @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
                                     @if(in_array('commit',$templets))
-                                    <h4>最新评价</h4>
+                                    <!-- <h4>最新评价</h4> -->
                                     <div id="mq">
                                         <div id="mq1">        
                                             @foreach($comment as $v)
                                                 <div class="appr-title mqc">
                                                     <span style="color:red">*****{{substr($v->com_phone,-4)}}</span>
                                                     <span style="color:red; margin:0px 3px">{{$v->com_name}}</span>
-                                                    <span>满意度：<font color="red"> @for($i=0;$i<$v->com_star;$i++)★@endfor</span>
+                                                    <span>Rating:<font color="red"> @for($i=0;$i<$v->com_star;$i++)★@endfor</span>
                                                     <span style="margin-left:3px; font-size:12px">{{$v->com_time}}</span>
                                                 </div>
                                                 <div class="mqc">
@@ -775,7 +780,7 @@
         </div>
         <div class="pc_bottom">
                 <div class="pc_bottom_logo">
-                        <img src="/images/footer.jpg" alt="">
+                        <img src="/img/pc_fuwu.jpg" alt="">
                 </div>
                 <div  class="AfterSale">
                     <div class="AfterSale_1">

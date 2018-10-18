@@ -118,6 +118,9 @@ class IndexController extends Controller
             case '8':
             return view('home.YingGuo.yg')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
             break;
+            case '9':
+            return view('home.googlePC.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
             default:
                 # code...
                 break;
@@ -240,6 +243,9 @@ class IndexController extends Controller
         }
         if($blade_type==8){
             return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
+        if($blade_type==9){
+            return view('home.googlePC.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
     	return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
@@ -558,6 +564,9 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 8){
             return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
+        if($goods->goods_blade_type == 9){
+            return view('home.googlePC.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+        }
         return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
@@ -599,6 +608,9 @@ class IndexController extends Controller
             if($goods_blade_type == 8){
                 return view('home.YingGuo.ygSend');
             }
+            if($goods_blade_type == 9){
+                return view('home.googlePC.send');
+            }
         }
         return view('home.TaiwanFan.send');
     }
@@ -639,6 +651,9 @@ class IndexController extends Controller
         }
         if($goods->goods_blade_type == 8){
             return view('home.YingGuo.ygSendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 9){
+            return view('home.googlePC.sendmsg')->with(compact('order','goods'));
         }
         return view('home.TaiwanFan.sendmsg')->with(compact('order','goods'));
     }
