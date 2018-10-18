@@ -7,10 +7,12 @@
     top: 36px;
     z-index: 999;
     width: 100%;
-    overflow-y: auto;
+	overflow-y: auto;
     padding-right: 30px;
     box-sizing: border-box;
-    background-color: #fff;
+	height: 134px;
+	background-color: #fff;
+	border: 1px solid #ddd;
 }
 .box ul{
     border: 1px solid #ddd;
@@ -20,6 +22,7 @@
 .box li{
     padding: 0 15px;
     cursor:pointer;
+	z-index: 9999;
 }
 .box li:first-child{
 	color:red;
@@ -294,11 +297,9 @@ $(".chanpin").focus(function(){
 		
 	}
 	
-	$('.chanpin').on('blur',function(){
-		 $('.zhengchang').hide(400);
-	});
+
 	
-	$('body').on('click','.zhengchang li',function(){
+	$('body').on('mousedown','.zhengchang li',function(){
 
 		$('.zhengchang').hide(400);
 		var content=$(this).text();
@@ -313,6 +314,9 @@ $(".chanpin").focus(function(){
 			$('.chanpin').css("color","#000");
 		}
 	});
+    $('.chanpin').on('blur',function(){
+        $('.zhengchang').hide(400);
+    });
 
 
 
@@ -338,11 +342,9 @@ $(".chanpin").focus(function(){
 
 	}
 
-	$('.chanpin1').on('blur',function(){
-		$('.zhezhao').hide(400);
-	});
 
-	$('body').on('click','.zhezhao li',function(){
+
+	$('body').on('mousedown','.zhezhao li',function(){
 		$('.zhezhao').hide(400);
 		var content=$(this).text();
 		var content_id=$(this).attr('data-id');
@@ -355,6 +357,9 @@ $(".chanpin").focus(function(){
 			$('.chanpin1').css("color","#000");
 		}
 	});
+    $('.chanpin1').on('blur',function(){
+        $('.zhezhao').hide(400);
+    });
 
 </script>
 @endsection

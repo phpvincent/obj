@@ -287,8 +287,9 @@
 <div class="paymentbox">
     <ul>
 
-            <li>
-          <div class="mui-input-row mui-radio mui-left cash-on-delivery">
+        <li>
+            @if(in_array('0',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
             cash_on_delivery         </label>
@@ -296,6 +297,17 @@
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
           </div>
+          @endif
+          @if(in_array('1',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+            <input name="pay_type"  id="pay_2" value="2" type="radio">
+              <label>
+              PayPal            </label>
+            <span style="width:100px;">
+                                  <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
+                                                </span>
+          </div>
+          @endif
         </li>
             </ul>
 </div>
@@ -496,9 +508,10 @@ $('#pay').bind('click',function(){
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Please wait for the order submitted");
-
+    var payType=$(".paymentbox input:checked").val();
     if(issubmit){
         issubmit=false;
+        if(payType==1){
         $.ajax({
            type: "POST",    
            url: "/saveform",
@@ -515,6 +528,30 @@ $('#pay').bind('click',function(){
                layer.msg('The order submission failed. Please check the network condition.');
            }
         }) ; 
+        }else{
+                      // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+              $.ajax({
+              type: "POST",
+              url: "/paypal_pay",
+              data:datasObj,
+              success: function (data) {
+                  if(data.err=='0'){
+                      layer.msg('Paypal payment failed, please choose another payment mode!');
+                       issubmit=true;
+                  }else{
+                      var btime=getNowDate();
+                      try{fbq('track', 'InitiateCheckout')}catch(e){};
+                      $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                      location.href=data.url;
+                  }
+              },
+
+
+              error: function(data) {
+                  layer.msg('Order submitted failed, please check the network');
+                }
+            }) ;
+        }
         
     }else{
         layer.msg('Orders have been submitted, not submitted repeatedly.');
@@ -558,6 +595,7 @@ $('#pay').bind('click',function(){
          var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds;
          return currentdate;
         }
+    
 </script>
 
 <script>
@@ -618,7 +656,7 @@ jQuery(function(){
     });
 </script>
 
-<script>
+<!-- <script>
     jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
@@ -650,7 +688,7 @@ jQuery(function(){
 
     });
 
-</script>
+</script> -->
 
 <script type="text/javascript">
     $(function(){
@@ -926,6 +964,10 @@ jQuery(function(){
              $(this).next().attr("class",'ischeck');  
     })*/
 });
+//支付方式默认选中第一个；
+$(function(){
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+})
 </script>
         <script>
         jQuery(function(){setFrom();});
