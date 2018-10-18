@@ -300,7 +300,7 @@
           @endif
           @if(in_array('1',$goods->goods_pay_type))
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
-            <input name="pay_type" id="pay_2" value="2" type="radio">
+            <input name="pay_type"  id="pay_2" value="2" type="radio">
               <label>
               PayPal            </label>
             <span style="width:100px;">
@@ -964,6 +964,10 @@ jQuery(function(){
              $(this).next().attr("class",'ischeck');  
     })*/
 });
+//支付方式默认选中第一个；
+$(function(){
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+})
 </script>
         <script>
         jQuery(function(){setFrom();});
