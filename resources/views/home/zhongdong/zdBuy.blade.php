@@ -314,6 +314,15 @@
     
 
 <script>
+    function captureImage(a) {
+    a.pause(); 
+    };
+    var videos=$("#detial-context video");
+    for(var i=0;i<videos.length;i++){
+    videos[i].setAttribute("autoplay","autoplay");
+    videos[i].setAttribute("preload","auto");
+    videos[i].addEventListener('canplay',captureImage(videos[i]));
+    }
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；

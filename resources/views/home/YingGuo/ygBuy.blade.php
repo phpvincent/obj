@@ -288,6 +288,7 @@
     <ul>
 
         <li>
+            @if(in_array('0',$goods->goods_pay_type))
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
@@ -296,9 +297,10 @@
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
           </div>
+          @endif
           @if(in_array('1',$goods->goods_pay_type))
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
-            <input name="pay_type" id="pay_2" value="2" type="radio">
+            <input name="pay_type"  id="pay_2" value="2" type="radio">
               <label>
               PayPal            </label>
             <span style="width:100px;">
@@ -593,6 +595,7 @@ $('#pay').bind('click',function(){
          var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds;
          return currentdate;
         }
+    
 </script>
 
 <script>
@@ -961,6 +964,10 @@ jQuery(function(){
              $(this).next().attr("class",'ischeck');  
     })*/
 });
+//支付方式默认选中第一个；
+$(function(){
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+})
 </script>
         <script>
         jQuery(function(){setFrom();});

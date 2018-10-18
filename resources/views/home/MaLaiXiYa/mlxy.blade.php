@@ -645,6 +645,15 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
+    function captureImage(a) {
+    a.pause(); 
+    };
+    var videos=$("#detial-context video");
+    for(var i=0;i<videos.length;i++){
+    videos[i].setAttribute("autoplay","autoplay");
+    videos[i].setAttribute("preload","auto");
+    videos[i].addEventListener('canplay',captureImage(videos[i]));
+    }
     $2(function() {
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
