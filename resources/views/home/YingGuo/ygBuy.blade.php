@@ -288,7 +288,7 @@
     <ul>
 
         <li>
-          <div class="mui-input-row mui-radio mui-left cash-on-delivery">
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
             cash_on_delivery         </label>
