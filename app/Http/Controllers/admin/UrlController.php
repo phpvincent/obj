@@ -26,7 +26,7 @@ class UrlController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('url')
 	        ->count();
-        $datas=DB::table('url')
+            $newcount=DB::table('url')
             ->select('url.*')
             ->where(function($query)use($search){
                 $query->where('url.url_url','like',"%$search%");
@@ -47,11 +47,30 @@ class UrlController extends Controller
                 if($request->input('url_flag_google')!=0){
                     $query->where('url.url_flag','like',"%2%");
                 }
+                $bind_status = $request->input('bind_status');
+                switch ($bind_status){
+                    case '1': //绑定单品
+                        $query->whereNotNull('url.url_goods_id');
+                        $query->whereNull('url.url_zz_goods_id');
+                        break;
+                    case '2': //绑定遮罩
+                        $query->whereNull('url.url_goods_id');
+                        $query->whereNotNull('url.url_zz_goods_id');
+                        break;
+                    case '3': //绑定遮罩和域名
+                        $query->whereNotNull('url.url_goods_id');
+                        $query->whereNotNull('url.url_zz_goods_id');
+                        break;
+                    case '4': //未绑定商品
+                        $query->whereNull('url.url_goods_id');
+                        $query->whereNull('url.url_zz_goods_id');
+                        break;
+                }
             })
             ->where(function($query){
                 $query->whereIn('url.url_admin_id',admin::get_admins_id());
             })
-            ->get();
+            ->count();
 
 
 	        $data=DB::table('url')
@@ -75,69 +94,48 @@ class UrlController extends Controller
               if($request->input('url_flag_google')!=0){
                 $query->where('url.url_flag','like',"%2%");
               }
+              $bind_status = $request->input('bind_status');
+              switch ($bind_status){
+                  case '1': //绑定单品
+                      $query->whereNotNull('url.url_goods_id');
+                      $query->whereNull('url.url_zz_goods_id');
+                      break;
+                  case '2': //绑定遮罩
+                      $query->whereNull('url.url_goods_id');
+                      $query->whereNotNull('url.url_zz_goods_id');
+                      break;
+                  case '3': //绑定遮罩和域名
+                      $query->whereNotNull('url.url_goods_id');
+                      $query->whereNotNull('url.url_zz_goods_id');
+                      break;
+                  case '4': //未绑定商品
+                      $query->whereNull('url.url_goods_id');
+                      $query->whereNull('url.url_zz_goods_id');
+                      break;
+                }
             })
             ->where(function($query){
-//                if(Auth::user()->is_root!='1'){
-//                $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
                 $query->whereIn('url.url_admin_id',admin::get_admins_id());
-//            }
             })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
 	        ->get();
-            $bind_status = $request->input('bind_status');
-            $data = $this->url_data($data,$bind_status);
-            $array = $this->url_data($datas,$bind_status);
-            $newcount = count($array);
+	        if(!$data->isEmpty()){
+                foreach($data as $key => $v) {
+                    $url_goods=\App\goods::where('goods_id',$v->url_goods_id)->first();
+                    $url_zz_goods=\App\goods::where('goods_id',$v->url_zz_goods_id)->first();
+                    if($url_goods!=null){
+                        $data[$key]->url_goods_id=$url_goods->goods_real_name;
+                    }
+                    if($url_zz_goods!=null){
+                        $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
+                    }
+                    $data[$key]->url_flag=explode(',',$v->url_flag);
+                }
+            }
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
-    }
-    private function url_data($data,$bind_status)
-    {
-        $array = [];
-        foreach($data as $key => $v){
-            $status = 0;
-            switch ($bind_status){
-                case '1': //绑定单品
-                    if($v->url_zz_goods_id || (!$v->url_goods_id && !$v->url_zz_goods_id)){
-                        unset($data[$key]);
-                        $status = 1;
-                    }
-                    break;
-                case '2': //绑定遮罩
-                    if($v->url_goods_id || (!$v->url_goods_id && !$v->url_zz_goods_id)){
-                        unset($data[$key]);
-                        $status = 1;
-                    }
-                    break;
-                case '3': //绑定遮罩和域名
-                    if(!$v->url_goods_id || !$v->url_zz_goods_id){
-                        unset($data[$key]);
-                        $status = 1;
-                    }
-                    break;
-                case '4': //未绑定商品
-                    if($v->url_goods_id || $v->url_zz_goods_id){
-                        unset($data[$key]);
-                        $status = 1;
-                    }
-                    break;
-            }
-            if($status == 0){
-                $url_goods=\App\goods::where('goods_id',$v->url_goods_id)->first();
-                $url_zz_goods=\App\goods::where('goods_id',$v->url_zz_goods_id)->first();
-                if($url_goods!=null){
-                    $data[$key]->url_goods_id=$url_goods->goods_real_name;
-                }
-                if($url_zz_goods!=null){
-                    $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
-                }
-                $data[$key]->url_flag=explode(',',$v->url_flag);
-                array_push($array,$data[$key]);
-            }
-        }
-        return $array;
     }
     public function url_add(Request $request){
       //添加域名

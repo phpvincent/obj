@@ -150,6 +150,16 @@
 						</span> 
 				</div>
 			</div>
+			{{--在线支付--}}
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择支付方式：</label>
+				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
+					<label for="delivery">货到付款</label>
+					<input type="checkbox" checked class="pay_type" id="pay_type" name="pay_type[]" value="0">
+					<label for="pay_type">paypal支付</label>
+					<input type="checkbox" class="pay_type" id="pay_type" name="pay_type[]" value="1">
+				</div>
+			</div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">单品采购备注：</label>
 				<div class="formControls col-xs-8 col-sm-9">
@@ -445,26 +455,6 @@
 				</div>
 			</div>
 		</div>
-		{{--在线支付--}}
-		{{--<div class="row cl">--}}
-			{{--<div class="clearfix">--}}
-				{{--<label class="form-label col-xs-4 col-sm-2">在线支付：</label>--}}
-				{{--<div class="formControls col-xs-8 col-sm-9 skin-minimal">--}}
-					{{--<div class="check-box">--}}
-						{{--是 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1"  value="1">--}}
-						{{--否 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1" checked="checked" value="0">--}}
-						{{--<label for="checkbox-pinglun">&nbsp;</label>--}}
-					{{--</div>--}}
-				{{--</div>--}}
-			{{--</div>--}}
-			{{--<div class="clearfix templet_show" style="display: none;">--}}
-				{{--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择在线支付方式：</label>--}}
-				{{--<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">--}}
-					{{--<label for="pay_type">paypal支付</label>--}}
-					{{--<input type="checkbox" id="pay_type" name="pay_type[]" value="1">--}}
-				{{--</div>--}}
-			{{--</div>--}}
-		{{--</div>--}}
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
 			<div class="formControls col-xs-8 col-sm-9"> 
@@ -745,12 +735,11 @@
     var rules={
         goods_name:{
             required:true,
+            maxlength:100,
         },
         goods_real_name:{
             required:true,
-        },
-        pay_type:{
-            required:true,
+            maxlength:100,
         },
         goods_real_price:{
             required:true,
@@ -781,7 +770,7 @@
     };
 
     //验证函数(价格)
-    function price(){
+    // function price(){
         // if($('input[name="price_1"]:checked').val() == 1){
         //     $('#price').rules('add', {
         //         required:true
@@ -791,7 +780,7 @@
         //         required:false
         //     });
         // }
-    }
+    // }
 
     //验证函数(倒计时)
     function count_down(){
@@ -827,7 +816,7 @@
     //加载完成事件
     $(function(){
         //价格
-        price();
+        // price();
         //倒计时
         count_down();
         //促销活动模块
@@ -860,15 +849,10 @@
 
     //在线支付
     function  pay_type(){
-        if($('input[name="pay_type_1"]:checked').val()==1){
             $('#pay_type').rules('add', {
                 required:true
             });
-        }else{
-            $('#pay_type').rules('add', {
-                required:false
-            });
-        }
+
     }
 
     //中间导航
@@ -975,9 +959,9 @@
     });
 
     //单击事件触发（在线支付）
-    $('.pay_type_1').on('click',function(){
-       pay_type();
-    });
+    // $('.pay_type_1').on('click',function(){
+    //    pay_type();
+    // });
 
     //单击事件触发（轮播）
     $('.broadcast_1').on('click',function(){

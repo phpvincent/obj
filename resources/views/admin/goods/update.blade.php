@@ -140,15 +140,16 @@
 					</select>
 					</span> </div>
 			</div>
-			{{--<div class="clearfix">--}}
-				{{--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择支付方式：</label>--}}
-				{{--<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">--}}
-					{{--<label for="pay_type">货到付款</label>--}}
-					{{--<input type="checkbox" {{in_array('0',$goods['goods_pay_type']) ? 'checked="checked"' : ''}} id="pay_type" name="pay_type[]" value="0">--}}
-					{{--<label for="uesr_help">paypal在线支付</label>--}}
-					{{--<input type="checkbox" {{in_array('1',$goods['goods_pay_type']) ? 'checked="checked"' : ''}} id="pay_type" name="pay_type[]" value="1">--}}
-				{{--</div>--}}
-			{{--</div>--}}
+			{{--在线支付--}}
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择支付方式：</label>
+				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
+					<label for="delivery">货到付款</label>
+					<input type="checkbox" id="pay_type" @if(in_array('0',$goods['goods_pay_type'])) checked="checked"  @endif  name="pay_type[]" value="0">
+					<label for="pay_type">paypal支付</label>
+					<input type="checkbox" id="pay_type" @if(in_array('1',$goods['goods_pay_type'])) checked="checked"  @endif  name="pay_type[]" value="1">
+				</div>
+			</div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>
 				<div class="formControls col-xs-8 col-sm-9">
@@ -498,26 +499,6 @@
 				</div>
 			</div>
 		</div>
-		{{--在线支付--}}
-		{{--<div class="row cl">--}}
-			{{--<div class="clearfix">--}}
-				{{--<label class="form-label col-xs-4 col-sm-2">在线支付：</label>--}}
-				{{--<div class="formControls col-xs-8 col-sm-9 skin-minimal">--}}
-					{{--<div class="check-box">--}}
-						{{--是 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1"  @if(in_array('pay_type',$goods_templet)) checked="checked"  @endif   value="1">--}}
-						{{--否 <input type="radio" id="pay_type_1" class="is_nav pay_type_1" name="pay_type_1"  @if(!in_array('pay_type',$goods_templet)) checked="checked" @endif  value="0">--}}
-						{{--<label for="checkbox-pinglun">&nbsp;</label>--}}
-					{{--</div>--}}
-				{{--</div>--}}
-			{{--</div>--}}
-			{{--<div class="clearfix templet_show" style="display: {{in_array('pay_type',$goods_templet) ? 'block' : 'none'}}">--}}
-				{{--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择在线支付方式：</label>--}}
-				{{--<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">--}}
-					{{--<label for="pay_type">paypal支付</label>--}}
-					{{--<input type="checkbox" id="pay_type" @if(in_array('1',$goods['goods_pay_type'])) checked="checked"  @endif  name="pay_type[]" value="1">--}}
-				{{--</div>--}}
-			{{--</div>--}}
-		{{--</div>--}}
 
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品描述：</label>
@@ -671,11 +652,12 @@
     	},
         goods_name:{
             required:true,
+            maxlength:100,
         },
         goods_real_name:{
             required:true,
+            maxlength:100,
         },
-
         goods_real_price:{
             required:true,
             number:true,
@@ -765,15 +747,10 @@
 	}
 
     function pay_type(){
-        if($('input[name="pay_type_1"]:checked').val()==1){
             $('#pay_type').rules('add', {
                 required:true
             });
-        }else{
-            $('#pay_type').rules('add', {
-                required:false
-            });
-        }
+
 	}
 
 	//用户帮助
