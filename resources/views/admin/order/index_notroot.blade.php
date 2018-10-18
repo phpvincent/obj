@@ -55,14 +55,14 @@
 			</div>
 		</div>
 		<div class="row cl" style="margin-top: 20px;">
-			<label class="form-label col-xs-1 col-sm-1">ip重复：</label>
+<!-- 			<label class="form-label col-xs-1 col-sm-1">ip重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_ip" id="order_repeat_ip" class="select">
 						<option value="0">无</option>
 						<option value="1">ip</option>s
 					</select>
 					</span>
-			</div>
+			</div> -->
 			<label class="form-label col-xs-1 col-sm-1">姓名重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_name" id="order_repeat_name" class="select">
@@ -71,13 +71,13 @@
 					</select>
 					</span>
 			</div>
-			<label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
+			<!-- <label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_tel" id="order_repeat_tel" class="select">
 						<option value="0">无</option>
 						<option value="1">手机号</option>
 					</select>
-					</span> </div>
+					</span> </div> -->
 		</div>
 	</div>
 	
@@ -85,7 +85,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="20">订单列表</th>
+				<th scope="col" colspan="15">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value=""></th>
@@ -93,21 +93,16 @@
 				<th width="80">订单号</th>
  				<th width="60">单品名</th>
 				<th width="60">收货人</th>
-				<th width="60">收货电话</th>
 				<th width="30">订单价格</th>
 				<th width="30">订单状态</th>
 				<th width="40">下单时间</th>
-				<th width="60">详细地址</th>
 				<th width="60">留言</th>
 				<th width="30">件数</th>
 				<th width="60">快递单号</th>
 				<th width="60">促销信息</th>
 				<th width="60">属性信息</th>
-				<th width="60">收货人邮箱</th>
-				<th width="60">收货人地区</th>
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
-				<th width="130">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -168,26 +163,26 @@
 		"info":   true,					//页脚信息
 		"searching": true,				//搜索
 		"ordering": true,
-		"order": [[ 8, "desc" ]],
+		"order": [[ 7, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19],
+		   "targets": [0,2,3,4,6,8,10,11,12,14],
 		   "orderable": false
 		}],
-		scrollX:        true,
+	/*	scrollX:        true,
         scrollCollapse: true,
         fixedColumns:   {
             leftColumns: 3,
             rightColumns: 1
         },
+        此处因列数没有那么多，不用添加滑动条
+        */
 		"processing": true,
 		"serverSide": true,
 		"ajax": {
 		"data":{
 			goods_search:function(){return $('#admin_name').val()},
-			order_repeat_ip:function(){return $('#order_repeat_ip').val()},
 			order_repeat_name:function(){return $('#order_repeat_name').val()},
-			order_repeat_tel:function(){return $('#order_repeat_tel').val()},
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 			order_type:function(){return $('#order_type').val()},
@@ -202,26 +197,16 @@
 		{"data":'order_single_id'},
 		{'data':'goods_real_name'},
 		{'data':'order_name'},
-		{'data':'order_tel'},
 		{'data':'order_price'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_time'},
-		{'data':'order_add'},
 		{'data':'order_remark'},
 		{'data':'order_num'},
 		{'data':'order_send'},
 		{'data':'order_cuxiao_id'},
 		{'data':'config_msg'},
-		{'data':'order_email'},
-		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_return_time'},
 		{'data':'admin_name'},
-		{'defaultContent':"","className":"td-manager"},
-/*		{'data':'course.profession.pro_name'},
-		{'defaultContent':""},
-		{'defaultContent':""},
-		{'data':'created_at'},
-		{'defaultContent':"","className":"td-manager"},*/
 		],
         //每行回调函数
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -265,7 +250,7 @@
 			}
         },
         "createdRow":function(row,data,dataIndex){
-			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="收货地址"><i class="Hui-iconfont">&#xe643;</span></i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
 			}else if(data.order_type==1){
@@ -288,9 +273,8 @@
 			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(19)').html(info);
-			$(row).find('td:eq(7)').html(isroot);
-			$(row).find('td:eq(16)').html(data.order_state+'-'+data.order_city);
+			$(row).find('td:eq(6)').html(isroot);
+/*			$(row).find('td:eq(16)').html(data.order_state+'-'+data.order_city);*/
 			/*$(row).find('td:eq(0)').html(checkbox);*/
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
