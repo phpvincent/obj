@@ -17,11 +17,11 @@
     overflow-y: auto;
     padding-right: 30px;
     box-sizing: border-box;
-    background-color: #fff;
+    height: 132px;
+    border: 1px solid #ddd;
 }
 .box ul{
-    border: 1px solid #ddd;
-    height: 128px;
+
     background-color: #fff;
 }
 .box li{
