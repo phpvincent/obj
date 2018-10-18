@@ -305,7 +305,7 @@
 			}else if(data.order_type==14){
 				var isroot='<a href="javascript:;" 	onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:red;">问题订单</span></a>';
 			}
-			if(data.order_pay_type!='0'){
+			if(data.order_pay_type.indexOf("1")!=-1){
 				isroot+='<a href="javascript:;" onclick="order_payinfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:white;">支付信息</span></a>';
 			}
 			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
