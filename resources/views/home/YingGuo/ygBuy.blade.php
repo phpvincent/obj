@@ -481,7 +481,7 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the consignee's name.");
         return false;
     }
-    var res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;//邮箱
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
     if(!res.test(datasObj.email)){
         layer.msg("Please enter your email address.");
         return false;
