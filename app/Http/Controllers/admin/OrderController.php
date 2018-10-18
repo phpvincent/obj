@@ -66,9 +66,9 @@ class OrderController extends Controller
          //获取自己名下的单
 //         $admin_id=Auth::user()->admin_id;
 
-           if(Auth::user()->is_root!='1'){//非root 用户
+           if(Auth::user()->is_root!='1'){ //非root 用户
 //            $garr=\App\goods::get_selfid($admin_id);
-            $garr = admin::get_goods_id();
+            $garr = admin::get_order_goods_id();
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
             ->where(function($query){
@@ -323,7 +323,11 @@ class OrderController extends Controller
            }
            //商品附带规格信息
 	        foreach($data as $k => &$v){
-	        $goods_currency_id= \App\goods::where('goods_id',$v->order_goods_id)->value('goods_currency_id');
+	        $goods= \App\goods::where('goods_id',$v->order_goods_id)->first();
+	        $goods_currency_id = $goods->goods_currency_id;
+            if($goods->is_del == '1'){
+                $v->goods_real_name = $v->goods_real_name.'<span style="color: red">(已删除)</span>';
+            }
 	        $currency_type_name = \App\currency_type::where('currency_type_id',$goods_currency_id)->value('currency_type_name');
 	        $v->order_price = $currency_type_name.' '.$v->order_price;
 	        if($v->order_repeat_field){

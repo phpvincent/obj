@@ -101,6 +101,52 @@ class admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
         }
 
     }
+    /** 根据用户不同的权限返回不同的商品信息(此方法仅订单使用，其它不使用此方法)
+     * @param bool $bool
+     * @return string
+     */
+    public static function get_order_goods_id($bool = true)
+    {
+        $auth = Auth::user();
+        $id = $auth->admin_data_rule;//查看数据权限 :0：仅查看自己，1：查看自己与本组，2：查看全体成员，3：root
+        $admin_id = $auth->admin_id;
+        $admin_group = $auth->admin_group;
+        //1.判断分组是否为特殊分组
+        $status = admin_group::where('admin_group_id',$admin_group)->value('admin_group_rule');//是否特殊权限 0：普通分组 1：特殊分组
+        $data = [];
+        if($id == 0){//仅查看自己数据
+            $data = goods::where('goods_admin_id',$admin_id)->pluck('goods_id')->toArray();
+        }
+        if($id == 1){// 查看本组数据
+            $admins = admin::where('admin_group',$admin_group)->pluck('admin_id')->toArray();
+            if(!empty($admins)){
+                $data = goods::whereIn('goods_admin_id',$admins)->pluck('goods_id')->toArray();
+            }
+        }
+        if($status == 0){
+            //查看全体成员信息（不包括status为1的信息）
+            if($id == 2){
+                //获取普通权限用户id
+                $admin_groups = admin_group::where('admin_group_rule','0')->pluck('admin_group_id')->toArray();
+                $admin_ids = admin::whereIn('admin_group',$admin_groups)->pluck('admin_id')->toArray();
+                if(!empty($admin_ids)){
+                    $data = goods::whereIn('goods_admin_id',$admin_ids)->pluck('goods_id')->toArray();
+                }
+            }
+            if($id == 3){ //root用户 查看所以信息
+                $data = goods::pluck('goods_id')->toArray();
+            }
+        }
+        if($auth->is_root == 1){
+            $data = goods::pluck('goods_id')->toArray();
+        }
+        if($bool){
+            return $data;
+        }else{
+            return implode(',',$data);
+        }
+
+    }
 
     /** 根据查看权限，返回可查看管理员id
      * @param bool $bool
