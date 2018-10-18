@@ -593,6 +593,7 @@ $('#pay').bind('click',function(){
          var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds;
          return currentdate;
         }
+    
 </script>
 
 <script>
