@@ -527,7 +527,7 @@
                         <div class="pc_operation">
                             <div class="pc_money">
                                 @if(in_array('original',$templets))
-                                <span class="title">Original price</span>
+                                <span class="title"><strong>Original price</strong></span>
                                 <span class="money">
                                    {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}     
                                 </span>
@@ -537,7 +537,7 @@
 
                             </div>
                             <div class="pc_money_1">
-                                <span class="title">Price</span>
+                                <span class="title"><strong>Price</strong></span>
                                 <span class="money">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}</span>
                             </div>
                             <div class="pc_submit">
@@ -558,7 +558,7 @@
                         <div class="pc_service">
                             <div class="detail-7day" style="height:auto; overflow:hidden;font-size: 16px;margin-top: 10px;">
                                 @if(in_array('express',$templets))
-                                <span style="font-size:14px;color:#333;line-height:22px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑猫宅急便配送</span>
+                                <span style="font-size:14px;color:#333;line-height:22px;padding:2px 0 2px 30px; background:url(/img/DHL.png) 2px center no-repeat;background-size:34px 18px;"> &nbsp;&nbsp;&nbsp;DHL</span>
                                 @endif
                             </div>
                                 
