@@ -653,7 +653,7 @@ jQuery(function(){
     });
 </script>
 
-<script>
+<!-- <script>
     jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
@@ -685,7 +685,7 @@ jQuery(function(){
 
     });
 
-</script>
+</script> -->
 
 <script type="text/javascript">
     $(function(){
