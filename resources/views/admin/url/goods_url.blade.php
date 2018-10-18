@@ -30,6 +30,16 @@
 						<option value="1">YaHoo标记</option>
 					</select>
 					</span> </div>
+			<label class="form-label col-xs-1 col-sm-1">绑定状态：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					<select name="bind_status" id="bind_status" class="select">
+						<option value="0">无</option>
+						<option value="1">仅绑定商品</option>
+						<option value="2">仅绑定遮罩</option>
+						<option value="3">绑定遮罩和商品</option>
+						<option value="4">未绑定域名</option>
+					</select>
+					</span> </div>
 		</div>
 	 <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-hover table-bg" id="url_goods">
@@ -73,6 +83,7 @@
 			url_flag_fb:function(){return $('#url_flag_fb').val()},
 			url_flag_google:function(){return $('#url_flag_google').val()},
 			url_flag_yahoo:function(){return $('#url_flag_yahoo').val()},
+            bind_status:function(){return $('#bind_status').val()},
 		},
 		"type": "POST",
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -149,6 +160,10 @@ $('#url_flag_fb').on('click',function(){
 })
 $('#url_flag_yahoo').on('click',function(){
 	               			 $('#url_goods').dataTable().fnClearTable(); 
+
+})
+$('#bind_status').on('click',function(){
+	               			 $('#url_goods').dataTable().fnClearTable();
 
 })
 function clear_flag(id){
