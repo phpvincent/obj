@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class UrlController extends Controller
 {
     public function goods_url(){
-    
-    	$counts=goods::count();
+        $counts=DB::table('url')->count();
     	return view('admin.url.goods_url')->with('counts',$counts);
     }
     public function get_url(Request $request){
@@ -26,79 +25,83 @@ class UrlController extends Controller
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('url')
 	        ->count();
-	        $newcount=DB::table('url')
-	        ->select('url.*')
-          ->where(function($query)use($search){
-            $query->where('url.url_url','like',"%$search%");
-            $query->orWhere(function($query)use($search){
-              $query->whereIn('url.url_goods_id',\App\goods::get_search_arr($search));
-            });
-            $query->orWhere(function($query)use($search){
-              $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
-            });
-          })
-          ->where(function($query)use($request){
-            if($request->input('url_flag_fb')!=0){
-              $query->where('url.url_flag','like',"%0%");
-            }
-            if($request->input('url_flag_yahoo')!=0){
-              $query->where('url.url_flag','like',"%1%");
-            }
-            if($request->input('url_flag_google')!=0){
-              $query->where('url.url_flag','like',"%2%");
-            }
-          })
-          ->where(function($query){
-             if(Auth::user()->is_root!='1'){
-              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
-              $query->whereIn('url.url_admin_id',$ids);
-            }
-          })
-	        ->count();
 	        $data=DB::table('url')
-	         ->select('url.*')
-          ->where(function($query)use($search){
-            $query->where('url.url_url','like',"%$search%");
-            $query->orWhere(function($query)use($search){
-              $query->whereIn('url.url_goods_id',\App\goods::get_search_arr($search));
-            });
-            $query->orWhere(function($query)use($search){
-              $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
-            });
-          })
-          ->where(function($query)use($request){
-            if($request->input('url_flag_fb')!=0){
-              $query->where('url.url_flag','like',"%0%");
+	        ->select('url.*')
+            ->where(function($query)use($search){
+                $query->where('url.url_url','like',"%$search%");
+                $query->orWhere(function($query)use($search){
+                  $query->whereIn('url.url_goods_id',\App\goods::get_search_arr($search));
+                });
+                $query->orWhere(function($query)use($search){
+                  $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
+                });
+            })
+            ->where(function($query)use($request){
+              if($request->input('url_flag_fb')!=0){
+                $query->where('url.url_flag','like',"%0%");
+              }
+              if($request->input('url_flag_yahoo')!=0){
+                $query->where('url.url_flag','like',"%1%");
+              }
+              if($request->input('url_flag_google')!=0){
+                $query->where('url.url_flag','like',"%2%");
+              }
+            })
+            ->where(function($query){
+                if(Auth::user()->is_root!='1'){
+                $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
+                $query->whereIn('url.url_admin_id',$ids);
             }
-            if($request->input('url_flag_yahoo')!=0){
-              $query->where('url.url_flag','like',"%1%");
-            }
-            if($request->input('url_flag_google')!=0){
-              $query->where('url.url_flag','like',"%2%");
-            }
-          })
-          ->where(function($query){
-             if(Auth::user()->is_root!='1'){
-              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
-              $query->whereIn('url.url_admin_id',$ids);
-            }
-          })
+            })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
 	        ->get();
+	        $array = [];
           foreach($data as $key => $v){
-            $url_goods=\App\goods::where('goods_id',$v->url_goods_id)->first();
-            $url_zz_goods=\App\goods::where('goods_id',$v->url_zz_goods_id)->first();
-            if($url_goods!=null){
-              $data[$key]->url_goods_id=$url_goods->goods_real_name;
-            }
-            if($url_zz_goods!=null){
-              $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
-            }
-            $data[$key]->url_flag=explode(',',$v->url_flag);
+          $bind_status = $request->input('bind_status');
+          $status = 0;
+              switch ($bind_status){
+                  case '1': //绑定单品
+                      if($v->url_zz_goods_id || (!$v->url_goods_id && !$v->url_zz_goods_id)){
+                          unset($data[$key]);
+                          $status = 1;
+                      }
+                      break;
+                  case '2': //绑定遮罩
+                      if($v->url_goods_id || (!$v->url_goods_id && !$v->url_zz_goods_id)){
+                          unset($data[$key]);
+                          $status = 1;
+                      }
+                      break;
+                  case '3': //绑定遮罩和域名
+                      if(!$v->url_goods_id || !$v->url_zz_goods_id){
+                          unset($data[$key]);
+                          $status = 1;
+                      }
+                      break;
+                  case '4': //未绑定商品
+                      if($v->url_goods_id || $v->url_zz_goods_id){
+                          unset($data[$key]);
+                          $status = 1;
+                      }
+                      break;
+              }
+              if($status == 0){
+                  $url_goods=\App\goods::where('goods_id',$v->url_goods_id)->first();
+                  $url_zz_goods=\App\goods::where('goods_id',$v->url_zz_goods_id)->first();
+                  if($url_goods!=null){
+                      $data[$key]->url_goods_id=$url_goods->goods_real_name;
+                  }
+                  if($url_zz_goods!=null){
+                      $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
+                  }
+                  $data[$key]->url_flag=explode(',',$v->url_flag);
+                  array_push($array,$data[$key]);
+              }
           }
-	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
+            $newcount = count($array);
+	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$array];
 	        return response()->json($arr);
     }
     public function url_add(Request $request){
