@@ -171,9 +171,26 @@ class CommentController extends Controller
    	 return view('admin.comment.usercomment')->with(compact('comment','id'));
    }
    public function newcomment(Request $request){
-   	$fname=\App\comment::get_fakercom();
-   	$fphone=\App\comment::get_phone(9);
    	$id=$request->input('id');
+   	$goods=\App\goods::where('goods_id',$id)->first();
+   	if($goods->goods_blade_type=='0'||$goods->goods_blade_type=='1'){
+   		$fname=\App\comment::get_fakercom();
+   		$fphone=\App\comment::get_phone(9);
+   	}elseif(in_array($goods->goods_blade_type,['2','3','7','8','9'])){
+   		$faker=\Faker\Factory::create();
+   		$fname= $faker->name;
+   		$fphone=\App\comment::get_phone(11);
+		/*return [
+           'name' => $faker->name,    //用户名
+           'email' => $faker->safeEmail,     //邮箱
+           'age' => $faker->numberBetween(10,120),   //年龄
+           'account' => $faker->bankAccountNumber,   //账户
+           'address'=> $faker->address               //地址
+       ];*/
+   	}else{
+   		$fname="";
+   		$fphone=\App\comment::get_phone(11);
+   	}
    	return view('admin.comment.newcomment')->with(compact('fname','fphone','id'));
    }
    public function save_com(Request $request){
