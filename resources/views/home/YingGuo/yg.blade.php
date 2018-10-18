@@ -163,64 +163,86 @@
 	jQuery("#payForm").attr('action', u);
 	});
 	</script>
-    <div class="Popup">
+    <div class="Popup Popup_1">
         <div>
-        <div>
-            <h3>PRIVACY POLICY</h3>
             <div>
-                <strong> What personal data do we collect about you?</strong>
-                <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
-                <p>
-                •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
-                </p>
-                <p>
-                •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
-                </p>
-                <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
-                <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
-                <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
+                <h3>PRIVACY POLICY</h3>
+                <div>
+                    <strong> What personal data do we collect about you?</strong>
+                    <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
+                    <p>
+                    •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
+                    </p>
+                    <p>
+                    •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
+                    </p>
+                    <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
+                    <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
+                    <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
+                </div>
+                <div>
+                    <strong>What do we use this personal data for?</strong>
+                    <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
+                    <p>•    To fulfill your order </p>
+                    <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
+                    <p>•    To improve and maintain the Site, and monitor its usage.</p>
+                    <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
+                    <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
+                    <p>•    To comply with our legal and regulatory obligations.</p>
+                    <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
+                    <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
+                    <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
+                </div>
+                <div>
+                    <strong>Who do we share this personal data with?</strong>
+                    <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
+                    <p>•   Permitted or required by law; or,</p>
+                    <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
+                    <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
+                    <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
+                    <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
+                    <p>•  Protect and defend the rights or property of the Site;</p>
+                    <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
+                </div>
+                <div>
+                    <strong>Security </strong>
+                    <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
+                    <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
+                    
+                </div>
+                <div>
+                    <strong>Cookies</strong>
+                    <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
+                    
+                </div>
+                <div>
+                    <strong>Contact Us</strong>
+                    <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
+                </div>
+                <div class="Close Close_1">Close</div>
             </div>
-            <div>
-                <strong>What do we use this personal data for?</strong>
-                <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
-                <p>•    To fulfill your order </p>
-                <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
-                <p>•    To improve and maintain the Site, and monitor its usage.</p>
-                <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
-                <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
-                <p>•    To comply with our legal and regulatory obligations.</p>
-                <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
-                <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
-                <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
-            </div>
-            <div>
-                <strong>Who do we share this personal data with?</strong>
-                <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
-                <p>•   Permitted or required by law; or,</p>
-                <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
-                <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
-                <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
-                <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
-                <p>•  Protect and defend the rights or property of the Site;</p>
-                <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
-            </div>
-            <div>
-                <strong>Security </strong>
-                <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
-                <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
-                
-            </div>
-            <div>
-                <strong>Cookies</strong>
-                <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
-                
-            </div>
-            <div>
-                <strong>Contact Us</strong>
-                <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
-            </div>
-            <div class="Close">Close</div>
         </div>
+    </div>
+    <div class="Popup Popup_2">
+        <div>
+            <div>
+                <h3>&nbsp;</h3>
+                <div>
+                    <p>Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product.</p>
+                    <p>
+                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn’t returned, then we reserve the right to deduct the value of the free gift from your refund.
+                    </p>
+                    <p>
+                    We recommend a photograph is taken of the item prior to returning it if you are concerned about damage during its return journey.
+                    </p>
+                    <p>Please note that we do not accept returns of personalised products. </p>
+                    <p><strong>Please note the order number needs to be entered without any letter at the end.</strong> If you do not have your dispatch note or invoice, please include an explanatory note quoting your order number and reason for return.</p>
+                    <p>Your refund will be processed, once it has been delivered to our warehouse and within 3 working days of arriving back to our us. Refunds can take up to 1 week to show on your account; this is due to the time taken by some banks to process the payment.</p>
+                    <p>We will refund you by the same payment method used to make the original order (e.g. if you have paid by PayPal, we will reimburse your PayPal account). If you have not received your refund after this time, please contact our <strong> Customer Care Team</strong> and we will be happy assist you.</p>
+                </div>
+                
+                <div class="Close_2 Close">Close</div>
+            </div>
         </div>
     </div>
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
@@ -361,8 +383,8 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>
-                        Recent Reviews           </h4>
+                        <!-- <h4>
+                        Recent Reviews           </h4> -->
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -372,7 +394,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            evaluate:
+                            Rating:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -396,8 +418,7 @@
                 </div>
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
-                <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    write a customer review    @else Leave us a message   @endif        </a>
+                <a id="btnAppr" style=" color:#fff; width:300px;">CREATE A REVIEW</a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -422,7 +443,7 @@
             </td></tr> -->
         @endif
         <tr class="first odd">
-            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(Click and view)</span></Click></th>
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(CLICK HERE FOR DETAILS)</span></Click></th>
         </tr>
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
@@ -436,7 +457,7 @@
 
                                 <a  href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>
                                 <br>
-                If you have any questions please call us or contact us online. Thanks for your cooperation.</p>
+                                Questions, comments and requests regarding the website policies are welcomed and should be addressed to isnfclpo@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
@@ -457,12 +478,12 @@
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">RETURENS  POLICY</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">RETURENS POLICY <span style="font-size:12px;text-decoration:underline" class="privacyPolicy_1">(CLICK HERE FOR DETAILS)</span></th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-                <p>Confirm receipt – Request for returns/exchanges – Request approved by customer service – Ship the item back – Acknowledge receipt by warehouse – Review for returns/replacements – Refund/exchange</p>
-                <p>Please attach: order No.; customer name, contact No.</p>
+                <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.</p>
+                <p>Please attach with the Order No., Contact No., and Customer name.</p>
             </td>
 
         </tr>
@@ -471,7 +492,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-                <p>ZSSHOP, known as "Strictly Selected Mall", insist on its usual strict attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products with excellent quality.</p>
+                <p>ZSSHOP, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
             </td>
 
         </tr>
@@ -591,7 +612,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                evaluate:
+                                Rating:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -682,10 +703,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 $(function(){
     // 增加弹窗
     $('.privacyPolicy').click(function(){
-        $('.Popup').show();
+        $('.Popup_1').show();
     })
-    $('.Close').click(function(){
-        $('.Popup').hide();
+    $('.Close_1').click(function(){
+        $('.Popup_1').hide();
+    })
+    // 第二个弹窗
+    $('.privacyPolicy_1').click(function(){
+        $('.Popup_2').show();
+    })
+    $('.Close_2').click(function(){
+        $('.Popup_2').hide();
     })
 
 
