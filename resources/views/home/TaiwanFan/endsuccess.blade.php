@@ -80,7 +80,7 @@
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-請您保持手機暢通，方便快遞員能及時與您取得聯繫，如有任何疑問， 請及時聯繫我們在線客服。 祝您購物愉快！            </div><a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>            </div>
+請您保持手機暢通，方便快遞員能及時與您取得聯繫，如有任何疑問， 請及時聯繫我們在線客服。 祝您購物愉快！    <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>        </div>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">返回首頁&gt;&gt;</button>
             </div>
