@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
                 $filePath='/logs/time.txt';
                  $schedule->call(function(){
                     \Log::notice('test time 1');
+                    return 'over';
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
     }
 
