@@ -15,15 +15,15 @@
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="order_type_now" size="1" id="order_type_select">
 				<option value="0" @if($order->order_type==0) selected @endif >未核审</option>
-				<option value="1" @if($order->order_type==1) selected @endif >通过核审</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="1" @if($order->order_type==1) selected @endif >通过核审</option>
 				<option value="2" @if($order->order_type==2) selected @endif >拒绝核审</option>
-				<option value="3" @if($order->order_type==3) selected @endif >已发货</option>
-				<option value="4" @if($order->order_type==4) selected @endif >已签收</option>
-				<option value="5" @if($order->order_type==5) selected @endif >退货未退款</option>
-				<option value="6" @if($order->order_type==6) selected @endif >退货并已退款</option>
-				<option value="7" @if($order->order_type==7) selected @endif >未退货已退款</option>
-				<option value="14" @if($order->order_type==14) selected @endif >问题订单</option>
-				<option value="8" @if($order->order_type==8) selected @endif ><span style='color:red;'>拒签</span></option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="3" @if($order->order_type==3) selected @endif >已发货</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="4" @if($order->order_type==4) selected @endif >已签收</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="5" @if($order->order_type==5) selected @endif >退货未退款</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="6" @if($order->order_type==6) selected @endif >退货并已退款</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="7" @if($order->order_type==7) selected @endif >未退货已退款</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="14" @if($order->order_type==14) selected @endif >问题订单</option>
+				<option style="display: {{$order->order_type == 9 ? 'none' : 'block'}}" value="8" @if($order->order_type==8) selected @endif ><span style='color:red;'>拒签</span></option>
 			</select>
 			</span> </div>
 	</div>
