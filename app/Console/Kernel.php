@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
                         $query->where('order_time','>',$order_ltime);
                     })
                     ->orderBy('order_time','asc')
-                    ->all();
+                    ->get();
                     $new_time='';
                     foreach($orders as $k => $v){
                         $order_time=$v->order_time;
