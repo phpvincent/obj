@@ -126,17 +126,18 @@
                 padding:10px;
                 padding-bottom:30px;
             }
-            .Popup>div .Close{
+            .Popup> .Close{
                 height:30px;
                 line-height:30px;
-                width:100%;
-                left:0;
+                width:80%;
+                left:10%;
                 text-align: center;
                 position: absolute;
-                bottom:0;
+                bottom:10%;
                 background: #6b6868;
                 color:#fff;
                 cursor:pointer;
+                margin:0;
             }
             .Popup>div h3,.Popup>div h6{
                 text-align: center;
@@ -219,9 +220,10 @@
                     <strong>Contact Us</strong>
                     <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
                 </div>
-                <div class="Close Close_1">Close</div>
+                
             </div>
         </div>
+        <p class="Close Close_1">Close</p>
     </div>
     <div class="Popup Popup_2">
         <div>
@@ -244,6 +246,7 @@
                 <div class="Close_2 Close">Close</div>
             </div>
         </div>
+        <p class="Close_2 Close">Close</p>
     </div>
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content">
@@ -443,7 +446,7 @@
             </td></tr> -->
         @endif
         <tr class="first odd">
-            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(CLICK HERE FOR DETAILS)</span></Click></th>
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline" class="privacyPolicy">(CLICK HERE FOR DETAILS)</span></Click></th>
         </tr>
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
