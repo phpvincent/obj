@@ -345,7 +345,7 @@
                             @if(in_array('user_know',$templets))
                                 <div>
                                     <h4>Contact Us</h4>
-                                    <p> 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                                    <p> 24H Online Customer Service: <a href="javascript:void(0);"><img src="/img/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email:
 
                                 <a  href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>
@@ -477,9 +477,13 @@ function updateNavPosition() {
             
             $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"h"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
            time=time-1000;
-            setTimeout(function(){
-                countDown();
-            }, 1000);
+            if(h==0&&m==0&&s==0){
+                
+            }else{
+                setTimeout(function(){
+                    countDown();
+                }, 1000);
+            }
         }
     })(jQuery);
     var nav=$(".detail_bars");
