@@ -57,15 +57,24 @@ class Kernel extends ConsoleKernel
                         if($new_time==''){
                             if($herbmaster==null){
                                 $newherbmaster=new \App\herbmaster();
-                                $newherbmaster->herbmaster_type=null;
+                                $newherbmaster->herbmaster_type='0';
+                                $newherbmaster->herbmaster_msg=null;
                                 $newherbmaster->save();
                             }else{
                                 $herbmaster->herbmaster_msg=date("Y-m-d H:i:s",time());
                                 $herbmaster->save();
                             }
                         }else{
-                            $herbmaster->herbmaster_msg=$new_time;
-                            $herbmaster->save();
+                             if($herbmaster==null){
+                                $newherbmaster=new \App\herbmaster();
+                                $newherbmaster->herbmaster_type='0';
+                                $newherbmaster->herbmaster_msg=$new_time;
+                                $newherbmaster->save();
+                            }else{
+                                $herbmaster->herbmaster_msg=$new_time;
+                                $herbmaster->herbmaster_type='0';
+                                $herbmaster->save();
+                         }
                         }
                     }
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
