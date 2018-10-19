@@ -1004,9 +1004,6 @@ jQuery('input[name=pay_type]').change(function(){
     }
 });
 </script>
-<script>
-   $(document).ready(function(){$("#divVideo").css("height","inherit")}) //改变轮播图video高度；
-</script>
 <style>
     .detail-bars li {
         width: {{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '32%') }} !important;
