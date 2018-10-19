@@ -22,20 +22,7 @@
 	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
 	<div style="display: none" id="select-admin">
-		@if(Auth::user()->is_root=='1')
-		<div class="row cl">
-			<label class="form-label col-xs-1 col-sm-1">账户名：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="admin_name" id="admin_name" class="select">
-					<option value="0">所有</option>
-					@foreach($admins as $val)
-					<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
-					@endforeach
-				</select>
-				</span>
-			</div>
-		</div>
-		@endif
+		
 		<div class="row cl">
 			<label class="form-label col-xs-1 col-sm-1">订单核审状态：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -181,7 +168,6 @@
 		"serverSide": true,
 		"ajax": {
 		"data":{
-			goods_search:function(){return $('#admin_name').val()},
 			order_repeat_name:function(){return $('#order_repeat_name').val()},
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
