@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
                         $query->where('order_pay_type','1');
                         $query->where('order_time','>',$order_ltime);
                     })
-                    ->orderBy('order_time','asc');
+                    ->orderBy('order_time','asc')
                     ->all();
                     $new_time='';
                     foreach($orders as $k => $v){
@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
                             $new_time=$v->order_time;
                             $msg=$v->update(['is_del'=>'1']);
                             if($msg){
-                                \Log::notice($v->order_id.'号订单预付款订单超时'.$maxtime.'被删除')；
+                                \Log::notice($v->order_id.'号订单预付款订单超时'.$maxtime.'被删除');
                             }else{
                                 \Log::notice($v->order_id."号订单删除失败");
                             }
