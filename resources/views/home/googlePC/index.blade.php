@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>{{$goods->goods_name}}</title>
     <link href="/css/base.css" rel="stylesheet">
     <link href="/css/timer.css" rel="stylesheet">
     <link href="/css/googlePC_index.css" rel="stylesheet">
@@ -86,6 +86,8 @@
                     <div class="pc_head_right">
                         <h1>{{$goods->goods_name}}</h1>
                         <div class="pc_status">
+                        {{--抢购模块--}}
+                        @if(in_array('count_down',$templets))
                             <div class="timebox">
                                 <div class="text">Stock:<span>{{$goods->goods_num}}</span></div>
                                 <div class="boxtime">
@@ -93,6 +95,7 @@
                                     <font>End:</font>
                                 </div>
                             </div>
+                        @endif
                         </div>
                         <div class="pc_operation">
                             <div class="pc_money">
@@ -102,13 +105,19 @@
                                    {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}     
                                 </span>
                                 @else
-                                <span class="money">{{$goods->goods_name}}</span>
+                                <span class="money"style="padding-left: 55px;">{{$goods->goods_real_name}}</span>
                                 @endif
 
                             </div>
                             <div class="pc_money_1">
+                                @if(in_array('original',$templets))
                                 <span class="title"><strong>Price</strong></span>
                                 <span class="money">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}</span>
+                                @else
+                                <span class="title" style="    width: 42px;"><strong>Price</strong></span>
+                                <span class="money">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}</span>
+                                @endif
+                                
                             </div>
                             <div class="pc_submit">
                                 <a href="/pay" class="pc_button">
