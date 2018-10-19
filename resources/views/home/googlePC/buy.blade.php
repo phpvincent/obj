@@ -80,6 +80,25 @@
                 transform: scale(1, 1);
                 display: inline-block;
             }
+            /* 层叠掉样式 */
+            body .mui-content .pro_info{
+                background: url("");
+                background-color: #fff;
+            }
+            body .mui-content .pro_info:after{
+                background: url("");
+                content:none;
+            }
+            #addcart .chose_cart{
+                background-color: white;
+                color: black !important;
+                border: 2px dashed red !important;
+
+            }
+            #addcart .unchose_cart{
+                border: none !important;
+            }
+
         
         </style>
         <!-- 弹窗样式 -->
@@ -310,7 +329,7 @@
 
 
 <!--product info begin-->
-<div class="pro_info" style="height:">
+<div class="pro_info" style=" border: 1px solid #dddddd;height:">
     <div class="ctxthead" style="width: 30%;">
        {{-- <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)
@@ -355,59 +374,75 @@
     <div class="secure secure_03"><img src="/images/secure_03.jpg" /></div>
 <div class="mui-input-group" style="width: 70%;float: right;">
     <div class="mui-input-row">
-        <label><span class="require">*</span>First Name:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="Required: please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Last Name:</label>
-        <input type="text" name="lastname" placeholder="Required: please enter your last name" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Phone No.:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
-    </div>
-    <!--<div class="mui-input-row" style="display:none;">-->
-        <!--<label>Country / Region:</label>-->
-        <!---->
-    <!--</div>-->
-    <div class="mui-input-row" style="display:none;">
-        <label>State:</label>
-        <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
-    </div>
-    <div class="mui-input-row" style="display:none;">
-        <label>City:</label>
-        <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
-    </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span></label>
-        <div id="twzipcode"></div>
-    </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Detailed Address:</label>
-        <input type="text" datatype="z1-300" placeholder=" Required: please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row" style="display:none;">
-        <label>Address Line2:</label>
-        <input type="text" name="address2" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row" style="">
-        <label>Zip:</label>
-        <input type="text" name="zip"placeholder="Required: please fill in the zip code" class="mui-input-clear">
-    </div>
-        <div class="mui-input-row need_email">
-        <label>Email:</label>
-        <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row" style=" height:66px">
-        <label>Message:</label>
-        <textarea name="notes" placeholder="Optional: such as other phone number, product specification or delivery time, etc. "></textarea>
-    </div>
+            <label><span class="require">*</span>First Name:</label>
+            <input type="text" name="firstname" datatype="s1-30" placeholder="Required: please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label><span class="require">*</span>Last Name:</label>
+            <input type="text" name="lastname" placeholder="Required:please enter your last name" class="mui-input-clear">
+        </div>
+        
+        <!--<div class="mui-input-row" style="display:none;">-->
+            <!--<label>Country / Region:</label>-->
+            <!---->
+        <!--</div>-->
+        <div class="mui-input-row" style="display:none;">
+            <label>State:</label>
+            <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
+        </div>
+        <div class="mui-input-row" style="display:none;">
+            <label>City:</label>
+            <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
+        </div>
+        <div class="mui-input-row">
+            <label><span class="require">*</span>Detailed Address:</label>
+            <input type="text" datatype="z1-300" placeholder="Required:please fill in the full address" nullmsg="address_not_correct" errormsg="address_not_correct" name="address1" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label><span class="require">*</span>City:</label>
+            <input type="text" datatype="z1-300" placeholder="Please fill in the city" nullmsg="" errormsg="Please fill in the city" name="city" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row" style="">
+            <label><span class="require">*</span>Zip:</label>
+            <input type="text" name="zip" placeholder="Required: please fill in the zip code" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label><span class="require">*</span>country:</label>
+            <select name="state" style="margin-right:4.7%;float: left;width: 72%!important;">
+                <option value="">- - Select an option - -</option>
+            </select>
+        </div>
+        
+        
+        <div class="mui-input-row" style="display:none;">
+            <label>Address Line2:</label>
+            <input type="text" name="address2" class="mui-input-clear">
+        </div>
+        
+            <div class="mui-input-row need_email">
+            <label><span class="require">*</span>Email:</label>
+            <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
+            <input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row">
+            <label>Phone No.:</label>
+            <input type="text" datatype="/^\d+$/" placeholder="Required:please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        </div>
+        <div class="mui-input-row" style=" height:66px">
+            <label>Message:</label>
+            <textarea name="notes" placeholder=" Optional: such as other phone number, product specification or delivery time, etc. "></textarea>
+        </div>
 
 </div>
 <div style="float: left;width: 30%;">
-<p class="privacyPolicy" style="background-color: #d2d2d2;text-align: left;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(CLICK HERE FOR DETAILS)</span></p>
-<p class="privacyPolicy_1" style="background-color: #d2d2d2;text-align: left;cursor:pointer;">RETURENS POLICY <span style="font-size:12px;text-decoration:underline" >(CLICK HERE FOR DETAILS)</span></p>
+<p  style="background-color: #d2d2d2;text-align: left;">·PRIVACY POLICY </p>
+<p><strong> What personal data do we collect about you?</strong></p>
+We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:
+    •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site)......
+<span class="privacyPolicy" style="font-size:12px;text-decoration:underline ;cursor:pointer;color: #007aff;">CLICK HERE FOR DETAILS</span>
+<p  style="background-color: #d2d2d2;text-align: left;cursor:pointer;">RETURENS POLICY </p>
+Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product......
+<span class="privacyPolicy_1" style="font-size:12px;text-decoration:underline ;cursor:pointer; color: #007aff;" >CLICK HERE FOR DETAILS</span>
 </div>
 <!--table end-->
 <!--paypal begin-->
@@ -438,9 +473,10 @@
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-    Warm Tips: available for Free shipping+ Cash on delivery + Return or exchange of goods without reasons by 7 days after acquired. If you have any questions about our products, please contact our online Customer Service Team, or send email to 
-        <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>.
-    </div><!--footer end-->
+    <!-- Warm Tips: available for Free shipping+ Cash on delivery + Return or exchange of goods without reasons by 7 days after acquired. If you have any questions about our products, please contact our online Customer Service Team, or send email to 
+        <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>. -->
+    </div>
+    <!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>
 <input type="hidden" name="append" value="0"/>
@@ -471,7 +507,12 @@
                $("#goods_config_div form").hide()  //点击对应li 显示对应form；
                 $("#"+formNum).show();
                 $(this).siblings().css("background-color","");
-                $(this).css("background-color","#b2d1ff");
+                setTimeout(() => {
+                    $(this).css("background-color","#eee");
+                }, 250);
+                //动画效果；
+                $("#goods_config_div form").css({ 'position':' relative','left':'10px'});
+                $("#goods_config_div form").animate({'left':' 0'});
         })
     })()
    
@@ -499,21 +540,21 @@
                 }        
               }else{
                 if(j===0){
-                    colorBut= '<label style="display:inline-block"><input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
+                    colorBut= '<label style="display:inline-block"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }else{
-                    colorBut+= '<label style="display:inline-block"><input type="radio"  class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
+                    colorBut+= '<label style="display:inline-block"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }
               }
                
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dd><strong>'+val[0].goods_config_msg+'：</strong>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'" style="display: none;padding: 5px 0; min-height: 150px;background-color: #b2d1ff; box-shadow: rgb(136, 136, 136) 5px 5px 5px;overflow: auto;"><div><strong style="display: none;">item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'" style="display: none;padding: 5px 0; min-height: 150px;    background: url(/img/pc_bg.png) no-repeat right bottom #eee; box-shadow: rgb(136, 136, 136) 5px 5px 5px;overflow: auto;"><div><strong style="display: none;">item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          var tabLi='<li style="float: left;padding: 5px 10px; border-radius: 5px 5px 0px 0px; cursor: pointer;" formNum="'+e+'">item'+eNum+'</li>'
          if(flag){ $("#goods_config_div ul").append(tabLi); }
          $("#goods_config_div form:first").show();
-         $("#goods_config_div ul li:first").css("background-color","#b2d1ff");
+         $("#goods_config_div ul li:first").css("background-color","#eee");
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
      addform("f1");                                          //默认一组商品的所有属性fromid为f1；
@@ -562,94 +603,132 @@
 
 $('#pay').bind('click',function(){
      
-    //整理表单数据；
-    var dataArr=$("form#f1").serializeArray();
-    var dataObj={};
-    var datasObj={};
-    var fromArr=$("#goods_config_div").children("form").serializeArray();
-
-    $.each(dataArr,function(i,val){
-        dataObj[val.name]=[];
-    })
-    // console.log(dataObj);
-    $.each(fromArr,function(j,item){
-        $.each(dataObj,function(k,tol){
-          if(item.name==k){
-              tol.push(item.value)
-          }
-        })
-   })
-
-    console.log(dataObj);
-    var fromArr2=$("form#save").serializeArray();
-    $.each(fromArr2,function(i,val){
-        datasObj[val.name]=val.value;
-    })
-    datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
-    datasObj.goodsAtt=dataObj;                             //商品属性；
-    console.log('zuihou',datasObj);
-    /*$('#save').submit();*/
-    if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('The detailed address can not be empty.');
-        return false;
-    }
-    if(datasObj.city==null||datasObj.city==''){
-        layer.msg('Please select area information.');
-        return false;
-    }
-    if(datasObj.firstname==null||datasObj.firstname==''){
-        layer.msg("Please fill in the consignee's name.");
-        return false;
-    }
-    if(datasObj.lastname==null||datasObj.lastname==''){
-        layer.msg("Please fill in the consignee's name.");
-        return false;
-    }
-    if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg("Please fill in the consignee's cell phone number.");
-        return false;
-    }
-    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    // if(!re.test(datasObj.telephone)){
-    //     layer.msg('Please fill in the valid cell phone number.');
-    //     return false;
-    // }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct zip code.");
-        return false;
-    }
-    datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
-    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
-
-    layer.msg("Please wait for the order submitted");
-
-    if(issubmit){
-        issubmit=false;
-        $.ajax({
-           type: "POST",    
-           url: "/saveform",
-           data:datasObj,
-           success: function (data) {
-            var btime=getNowDate();
-                    try{fbq('track', 'InitiateCheckout')}catch(e){};
-                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            location.href=data.url;
-                       },
-          
-                    
-           error: function(data) {
-               layer.msg('The order submission failed. Please check the network condition.');
+     //整理表单数据；
+     var dataArr=$("form#f1").serializeArray();
+     var dataObj={};
+     var datasObj={};
+     var fromArr=$("#goods_config_div").children("form").serializeArray();
+ 
+     $.each(dataArr,function(i,val){
+         dataObj[val.name]=[];
+     })
+     // console.log(dataObj);
+     $.each(fromArr,function(j,item){
+         $.each(dataObj,function(k,tol){
+           if(item.name==k){
+               tol.push(item.value)
            }
-        }) ; 
-        
-    }else{
-        layer.msg('Orders have been submitted, not submitted repeatedly.');
-    }
-   
+         })
+    })
+ 
+     console.log(dataObj);
+     var fromArr2=$("form#save").serializeArray();
+     $.each(fromArr2,function(i,val){
+         datasObj[val.name]=val.value;
+     })
+     datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
+     datasObj.goodsAtt=dataObj;                             //商品属性；
+     console.log('zuihou',datasObj);
+     /*$('#save').submit();*/
+     if(datasObj.address1==null||datasObj.address1==''){
+         layer.msg('The detailed address can not be empty.');
+         return false;
+     }
+     if(datasObj.state==null||datasObj.state==''){
+         layer.msg('Please select an option.');
+         return false;
+     }
+     if(datasObj.city==null||datasObj.city==''){
+         layer.msg('This is a required field.');
+         return false;
+     }
+     if(datasObj.firstname==null||datasObj.firstname==''){
+         layer.msg("Please fill in the consignee's name.");
+         return false;
+     }
+     if(datasObj.lastname==null||datasObj.lastname==''){
+         layer.msg("Please fill in the consignee's name.");
+         return false;
+     }
+     var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+     if(!res.test(datasObj.email)){
+         layer.msg("Please enter your email address.");
+         return false;
+     }
+     // if(datasObj.telephone==null||datasObj.telephone==''){
+     //     layer.msg("Please fill in the consignee's cell phone number.");
+     //     return false;
+     // }
+     if(datasObj.zip==null||datasObj.zip==''){
+         layer.msg("Please fill in the correct zip code.");
+         return false;
+     }
+     // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+     // if(!zipre.test(datasObj.zip)){
+     //     layer.msg('Please fill in the valid postal code.');
+     //     return false;
+     // }
+     // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+     // if(!re.test(datasObj.telephone)){
+     //     layer.msg('Please fill in the valid cell phone number.');
+     //     return false;
+     // }
+     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
+     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+     layer.msg("Please wait for the order submitted");
+     var payType=$(".paymentbox input:checked").val();
+     if(issubmit){
+         issubmit=false;
+         if(payType==1){
+         $.ajax({
+            type: "POST",    
+            url: "/saveform",
+            data:datasObj,
+            success: function (data) {
+             var btime=getNowDate();
+                     try{fbq('track', 'InitiateCheckout')}catch(e){};
+                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                             location.href=data.url;
+                        },
+           
+                     
+            error: function(data) {
+                layer.msg('The order submission failed. Please check the network condition.');
+            }
+         }) ; 
+         }else{
+                       // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+               $.ajax({
+               type: "POST",
+               url: "/paypal_pay",
+               data:datasObj,
+               success: function (data) {
+                   if(data.err=='0'){
+                       layer.msg('Paypal payment failed, please choose another payment mode!');
+                        issubmit=true;
+                   }else{
+                       var btime=getNowDate();
+                       try{fbq('track', 'InitiateCheckout')}catch(e){};
+                       $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                       location.href=data.url;
+                   }
+               },
+ 
+ 
+               error: function(data) {
+                   layer.msg('Order submitted failed, please check the network');
+                 }
+             }) ;
+         }
+         
+     }else{
+         layer.msg('Orders have been submitted, not submitted repeatedly.');
+     }
     
-            //记录购买事件
-            
-})
+     
+             //记录购买事件
+             
+ })
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -690,17 +769,27 @@ $('#pay').bind('click',function(){
     // $(document).scroll(function () {
     //     $("#navigationBox").css('top', $(document).scrollTop());
     // });
-</script><script>
+</script>
+
+<script>
 jQuery(function(){
     jQuery("#coll_id").val(getQueryString('coll_id'));
 });
 </script>
 
-    <script>
+<script>
+                // 添加城市下拉
+    var country = ['Austria','Belgium','Bulgaria','Cyprus','Croatia','CzechRepublic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Ireland','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden','United Kingdom'];
+    var str='';
+    for (let i = 0; i < country.length; i++) {
+         str+=' <option value="'+country[i]+'">'+country[i]+'</option>';   
+    }
+    $('select').append(str);
+    
     jQuery(function(){
         jQuery("#pay_1").click();                                        
     });
-    </script>
+</script>
 
 <script type="text/javascript">
     jQuery(document).ready(function(e) {
@@ -741,7 +830,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
         html1 +='<input type="text" placeholder="Optional,Please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label><span style='color:red;'>*</span>Email:</label>";
 
         html2 += '<input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">';
 
@@ -941,7 +1030,7 @@ jQuery(function(){
                             var chose_cart='chose_cart';
                             var unchose_cart='unchose_cart';
                             $.each(msg.cuxiao,function(j,val){
-                                  buttonHtml+='<div class="addcart-group-buttons"  style="width: 30%;float: right;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
+                                  buttonHtml+='<div class="addcart-group-buttons"  style="float: right;font-size: 16px; cursor:pointer; margin: 5px;" ><div class="addcart-float-buttons-block"  data-id="7022"><span style="padding: 0 30px;"cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'"  num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</span></div></div>'
                             })
                             $("#addcart").append('<div style="overflow: hidden;">'+buttonHtml+'</div>');
                             var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Total Quantity:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>, Gift : <font>0</font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
@@ -973,7 +1062,7 @@ jQuery(function(){
 		                    layer.msg('This item only supports package purchase');
 		                    return false;
 	                        })
-                            $('.addcart-float-buttons-block').children('button').click(function(){    	
+                            $('.addcart-float-buttons-block').children('span').click(function(){    	
                             	$('form').children('[name="cuxiao_id"]').val($(this).attr('cuxiao_id'));
                             	var attr=$(this).attr('class');
                             	var cuxiao_special_id=$(this).attr('cuxiao_special_id');
