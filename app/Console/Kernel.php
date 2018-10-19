@@ -26,11 +26,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-                $filePath='/time.txt';
+              /*  $filePath='/time.txt';
                  $schedule->call(function(){
                     \Log::notice('test time 1');
                     return 'over';
-                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
+                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);*/
     }
 
     /**
