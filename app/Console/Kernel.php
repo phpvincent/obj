@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
                     }else{
                         $order_ltime=$herbmaster['herbmaster_msg'];
                     }
-                    $orders=\App\order::where(function($query){
+                    $orders=\App\order::where(function($query)use($order_ltime){
                         $query->where('order_pay_type','1');
                         $query->where('order_time','>',$order_ltime);
                     })
