@@ -82,6 +82,51 @@
             }
         
         </style>
+        <!-- 弹窗样式 -->
+        <style>
+            .Popup{
+                display: none;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                z-index:9999999999;
+                position:fixed;
+                background-color:rgba(0,0,0,0.3)
+            }
+            .Popup>div{
+                height:80%;
+                width:1190px;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+            }
+            .Popup>div>div{
+                height:100%;
+                width:100%;
+                overflow-y: auto;
+                
+                background: #fff;
+                padding:10px;
+                padding-bottom:30px;
+            }
+            .Popup>div .Close{
+                height:30px;
+                line-height:30px;
+                width:100%;
+                left:0;
+                text-align: center;
+                position: absolute;
+                bottom:0;
+                background: #6b6868;
+                color:#fff;
+                cursor:pointer;
+            }
+            .Popup>div h3,.Popup>div h6{
+                text-align: center;
+            }
+        </style>
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
@@ -169,41 +214,129 @@
         <!-- End Google Pixel Code -->
 
 </head>
-<body style="">
+<body style="min-width: 1190px">
 
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
-<header class="mui-bar mui-bar-nav" style="background:#fff;">
-    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
-    <h1 class="mui-title">Checkout</h1>
+<header class="" style="background:#fff;min-width: 1190px;overflow: hidden;height: 51px;">
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333; padding-top: 15px;" onclick="javascript :history.back(-1);"></a>
+    <img src="/img/pc_kuaidi.jpg" alt=""style="    width: 70%;">
+    <!-- <h1 class="mui-title">Checkout</h1> -->
 </header>
+<div class="Popup Popup_1">
+        <div>
+            <div>
+                <h3>PRIVACY POLICY</h3>
+                <div>
+                    <strong> What personal data do we collect about you?</strong>
+                    <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
+                    <p>
+                    •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
+                    </p>
+                    <p>
+                    •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
+                    </p>
+                    <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
+                    <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
+                    <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
+                </div>
+                <div>
+                    <strong>What do we use this personal data for?</strong>
+                    <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
+                    <p>•    To fulfill your order </p>
+                    <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
+                    <p>•    To improve and maintain the Site, and monitor its usage.</p>
+                    <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
+                    <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
+                    <p>•    To comply with our legal and regulatory obligations.</p>
+                    <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
+                    <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
+                    <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
+                </div>
+                <div>
+                    <strong>Who do we share this personal data with?</strong>
+                    <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
+                    <p>•   Permitted or required by law; or,</p>
+                    <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
+                    <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
+                    <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
+                    <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
+                    <p>•  Protect and defend the rights or property of the Site;</p>
+                    <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
+                </div>
+                <div>
+                    <strong>Security </strong>
+                    <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
+                    <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
+                    
+                </div>
+                <div>
+                    <strong>Cookies</strong>
+                    <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
+                    
+                </div>
+                <div>
+                    <strong>Contact Us</strong>
+                    <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
+                </div>
+                <div class="Close Close_1">Close</div>
+            </div>
+        </div>
+    </div>
+    <div class="Popup Popup_2">
+        <div>
+            <div>
+                <h3>&nbsp;</h3>
+                <div>
+                    <p>Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product.</p>
+                    <p>
+                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn’t returned, then we reserve the right to deduct the value of the free gift from your refund.
+                    </p>
+                    <p>
+                    We recommend a photograph is taken of the item prior to returning it if you are concerned about damage during its return journey.
+                    </p>
+                    <p>Please note that we do not accept returns of personalised products. </p>
+                    <p><strong>Please note the order number needs to be entered without any letter at the end.</strong> If you do not have your dispatch note or invoice, please include an explanatory note quoting your order number and reason for return.</p>
+                    <p>Your refund will be processed, once it has been delivered to our warehouse and within 3 working days of arriving back to our us. Refunds can take up to 1 week to show on your account; this is due to the time taken by some banks to process the payment.</p>
+                    <p>We will refund you by the same payment method used to make the original order (e.g. if you have paid by PayPal, we will reimburse your PayPal account). If you have not received your refund after this time, please contact our <strong> Customer Care Team</strong> and we will be happy assist you.</p>
+                </div>
+                
+                <div class="Close_2 Close">Close</div>
+            </div>
+        </div>
+    </div>
 
 <div class="mui-content">
 
 
 <!--product info begin-->
-<div class="pro_info">
-    <div class="ctxthead">
-{{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
+<div class="pro_info" style="height:">
+    <div class="ctxthead" style="width: 30%;">
+       {{-- <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)
         <div class="limgbox"><img src="{{$goods->img}}"/></div>
         @endif
-        <div class="rpricebox" style="{{$goods->img ? '' : 'margin-top:60px;'}}">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="price">{{$goods->goods_price}}</span></div>
     </div>
-
-    <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
+    <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}; width: 70%;">
         <h1>{{$goods->goods_name}}</h1>
         <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
-            </div>
+        <div class="rpricebox" style="{{$goods->img ? '' : 'margin-top:60px;'}}">
+        {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}
+        <span id="price">{{$goods->goods_price}}</span></div>
+    </div>
+    <div id="goods_config_div" style="width: 70%;float: left;font-size: 12px; padding: 0px 0 0 2%;">
+         <ul style=" overflow: hidden;font-size: 14px;">
+         </ul>
+    </div>
+    <div id="addcart" style="margin-bottom: 26px;">
+   
+    </div>
 </div>
+
 <!--product info end-->
 <!--size begin-->  
-<div id="goods_config_div">
 
-</div>
-<div id="addcart">
-   
-</div>
+
 <form class="mui-content" id="save" >
     <input type="hidden" name="cuxiao_id" @if($goods->goods_cuxiao_type=='2') value="{{\App\cuxiao::where('cuxiao_goods_id',$goods->goods_id)->first()->cuxiao_id}}" @endif >
 <input type='hidden' name='_auth_token_' value='1531802224'><input type="hidden" name="coll_id" id="coll_id" value=""/>
@@ -220,7 +353,7 @@
 <!--qty total end-->
 <!--table begin-->
     <div class="secure secure_03"><img src="/images/secure_03.jpg" /></div>
-<div class="mui-input-group">
+<div class="mui-input-group" style="width: 70%;float: right;">
     <div class="mui-input-row">
         <label><span class="require">*</span>First Name:</label>
         <input type="text" name="firstname" datatype="s1-30" placeholder="Required: please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
@@ -272,13 +405,16 @@
     </div>
 
 </div>
+<div style="float: left;width: 30%;">
+<p class="privacyPolicy" style="background-color: #d2d2d2;text-align: left;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline">(CLICK HERE FOR DETAILS)</span></p>
+<p class="privacyPolicy_1" style="background-color: #d2d2d2;text-align: left;cursor:pointer;">RETURENS POLICY <span style="font-size:12px;text-decoration:underline" >(CLICK HERE FOR DETAILS)</span></p>
+</div>
 <!--table end-->
 <!--paypal begin-->
-<div class="paymentbox">
-    <ul>
-
+<div class="paymentbox" style="">
+    <ul style="border: none;">
             <li>
-          <div class="mui-input-row mui-radio mui-left cash-on-delivery">
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="float: right;width: 25%;">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
             cash_on_delivery         </label>
@@ -287,15 +423,17 @@
                                                   </span>
           </div>
         </li>
-            </ul>
+    </ul>
 </div>
 <!--paypal end-->
     <!--把货到付款费用添加抽象到cash_on_delivery中-->
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;">Start Order</button>
+    <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;float: right;width: 25%;">Start Order</button>
 </div>
+
+
 <!--button end-->
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
@@ -325,6 +463,17 @@
           })
         }
          addClickEven(); 
+    //商品li点击监听；
+    (function toggleLi(){
+        $("#goods_config_div ul").on('click',"li",function(){
+            console.log($(this).attr("formNum"))
+               var formNum= $(this).attr("formNum");
+               $("#goods_config_div form").hide()  //点击对应li 显示对应form；
+                $("#"+formNum).show();
+                $(this).siblings().css("background-color","");
+                $(this).css("background-color","#b2d1ff");
+        })
+    })()
    
     if( cuxiao_num !=null && typeof(cuxiao_num) !='undefinde' && cuxiao_num !=''){
         formnum=Number(cuxiao_num);  //如果有默认数量；
@@ -344,9 +493,9 @@
             $.each(val,function(j,item){
              if(item.config_val_img){     //如果是展示图片的话显示这一组HTML；
                 if(j===0){
-                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="width: 30%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
+                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="width: 20%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }else{
-                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="width: 30%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
+                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="width: 20%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }        
               }else{
                 if(j===0){
@@ -357,10 +506,14 @@
               }
                
             })
-            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
+            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dd><strong>'+val[0].goods_config_msg+'：</strong>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'"><div><strong>item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'" style="display: none;padding: 5px 0;background-color: #b2d1ff; box-shadow: rgb(136, 136, 136) 5px 5px 5px;overflow: auto;height: 230px;"><div><strong style="display: none;">item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
+         var tabLi='<li style="float: left;padding: 5px 10px; border-radius: 5px 5px 0px 0px; cursor: pointer;" formNum="'+e+'">item'+eNum+'</li>'
+         if(flag){ $("#goods_config_div ul").append(tabLi); }
+         $("#goods_config_div form:first").show();
+         $("#goods_config_div ul li:first").css("background-color","#b2d1ff");
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
      addform("f1");                                          //默认一组商品的所有属性fromid为f1；
@@ -368,6 +521,7 @@
      var removeform= function(){
          if($("#goods_config_div").children("form").length > 1){
             $("#goods_config_div").children("form:last-child").remove();
+            $("#goods_config_div ul>li:last").remove();  //移除最后一个 li标签；
             formnum--
          }else {return  }
      }
@@ -533,9 +687,9 @@ $('#pay').bind('click',function(){
 </script>
 
 <script>
-    $(document).scroll(function () {
-        $("#navigationBox").css('top', $(document).scrollTop());
-    });
+    // $(document).scroll(function () {
+    //     $("#navigationBox").css('top', $(document).scrollTop());
+    // });
 </script><script>
 jQuery(function(){
     jQuery("#coll_id").val(getQueryString('coll_id'));
@@ -787,13 +941,14 @@ jQuery(function(){
                             var chose_cart='chose_cart';
                             var unchose_cart='unchose_cart';
                             $.each(msg.cuxiao,function(j,val){
-                                  buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
+                                  buttonHtml+='<div class="addcart-group-buttons"  style="width: 30%;float: right;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
-                            $("#addcart").append(buttonHtml);
+                            $("#addcart").append('<div style="overflow: hidden;">'+buttonHtml+'</div>');
                             var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Total Quantity:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>, Gift : <font>0</font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
+                            $("#goods_config_div ul li").remove()
 		                   	var num1=$("#addcart-quantity-val").val()-0;
 		                   	formnum=0;
 		                   	for(var i=1;i<=num1;i++){
@@ -842,6 +997,7 @@ jQuery(function(){
                                    $('div.unfold .addcart-specs-title-name').html("Total Quantity:"+num);
 		                        console.log(num);
 		                        $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
+                                $("#goods_config_div ul li").remove()
 		                        formnum=0;
 		                        for(var i=1;i<=num;i++){
 		                        	formnum+=1
@@ -858,6 +1014,23 @@ jQuery(function(){
 </script>
 
 <script>
+$(function(){
+        // 增加弹窗
+        $('.privacyPolicy').click(function(){
+        $('.Popup_1').show();
+    })
+    $('.Close_1').click(function(){
+        $('.Popup_1').hide();
+    })
+    // 第二个弹窗
+    $('.privacyPolicy_1').click(function(){
+        $('.Popup_2').show();
+    })
+    $('.Close_2').click(function(){
+        $('.Popup_2').hide();
+    })
+
+})
     var isuse =true;
 jQuery(function(){
        $('#save input').on('input',function(){
