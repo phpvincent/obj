@@ -68,6 +68,7 @@
                                         <div class="swiper-wrapper">
                                             @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
                                             <div class="swiper-slide slide6" id="output">
+                                                <i></i>
                                                     <!-- <img src="/images/ydzs.png" alt=""> -->
                                             </div>
                                             @endif
@@ -238,7 +239,7 @@
                         </div>
                     </div>
                     <div class="pc_query_content">
-                        <div class="pc_query_content_1">
+                        <div class="pc_query_content_1"style="display:none">
                                 
                         </div>
 
@@ -344,7 +345,7 @@
                             @if(in_array('user_know',$templets))
                                 <div>
                                     <h4>Contact Us</h4>
-                                    <p> 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                                    <p> 24H Online Customer Service: <a href="javascript:void(0);"><img src="/img/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email:
 
                                 <a  href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>
@@ -476,9 +477,13 @@ function updateNavPosition() {
             
             $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"h"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
            time=time-1000;
-            setTimeout(function(){
-                countDown();
-            }, 1000);
+            if(h==0&&m==0&&s==0){
+                
+            }else{
+                setTimeout(function(){
+                    countDown();
+                }, 1000);
+            }
         }
     })(jQuery);
     var nav=$(".detail_bars");
@@ -621,12 +626,15 @@ function updateNavPosition() {
                 data:{'msg':$("input[name='queryNo']").val(),'_token':"{{csrf_token()}}"},
                 datatype:'html',
                 success:function(msg){
-
+                    
                 	if(msg!='false'){
-                		  $('.pc_query_content_1').html(msg);
+                          $('.pc_query_content_1').html(msg);
+                          
+                        $('.pc_query_content_1').show(800);
                 	}else{
                 		  $('.pc_query_content_1').html("<span style='color:#f00;'>Order number error, no corresponding information, please re-enter</span>");
-                	}
+                          $('.pc_query_content_1').show(800);
+                        }
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }
             })

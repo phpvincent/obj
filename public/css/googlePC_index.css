@@ -444,3 +444,19 @@ body{
 .pc_query_content_1{
     /* height: 384px; */
 }
+#output{
+    position: relative;
+}
+#output>i{
+    position: absolute;
+    background-image: url(/img/bofang.png);
+    background-repeat: no-repeat;
+    background-position: 11px 11px;
+    width: 50px;
+    height: 50px;
+    background-size: 30px 30px;
+}
+.pc_main .pc_submit .pc_button:hover{
+    box-shadow: 1px 2px 2px #b67070;
+    background-color: #e43854;
+}

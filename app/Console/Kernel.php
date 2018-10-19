@@ -26,6 +26,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+                $filePath='/logs/time.txt';
+                 $schedule->call(function(){
+                    \Log::notice('test time 1');
+                 })->everyMinute()->evenInMaintenanceMode()->withoutOverlapping()->appendOutputTo($filePath);
     }
 
     /**
