@@ -238,7 +238,7 @@
                         </div>
                     </div>
                     <div class="pc_query_content">
-                        <div class="pc_query_content_1">
+                        <div class="pc_query_content_1"style="display:none">
                                 
                         </div>
 
@@ -623,7 +623,9 @@ function updateNavPosition() {
                 success:function(msg){
 
                 	if(msg!='false'){
-                		  $('.pc_query_content_1').html(msg);
+                          $('.pc_query_content_1').html(msg);
+                          
+                        $('.pc_query_content_1').show(800);
                 	}else{
                 		  $('.pc_query_content_1').html("<span style='color:#f00;'>Order number error, no corresponding information, please re-enter</span>");
                 	}
