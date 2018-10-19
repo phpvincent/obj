@@ -243,7 +243,7 @@
                     <p>We will refund you by the same payment method used to make the original order (e.g. if you have paid by PayPal, we will reimburse your PayPal account). If you have not received your refund after this time, please contact our <strong> Customer Care Team</strong> and we will be happy assist you.</p>
                 </div>
                 
-                <div class="Close_2 Close">Close</div>
+               
             </div>
         </div>
         <p class="Close_2 Close">Close</p>
