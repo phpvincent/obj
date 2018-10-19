@@ -68,6 +68,7 @@
                                         <div class="swiper-wrapper">
                                             @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
                                             <div class="swiper-slide slide6" id="output">
+                                                <i></i>
                                                     <!-- <img src="/images/ydzs.png" alt=""> -->
                                             </div>
                                             @endif
