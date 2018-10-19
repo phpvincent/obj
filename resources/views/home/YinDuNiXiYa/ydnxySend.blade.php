@@ -204,7 +204,7 @@
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>Peringatan :</strong>
-					 Jika ada masalah setelah penerimaan barang, silahkan hubungi layanan chat online kami atau kirim email ke <a href='mail:rbzjlpra@gmail.com' style='color:#F8770E'>rbzjlpra@gmail.com</a>. Harap informasikan juga nama dan nomor contact yang dapat dihubungi atau nomer pesanan, Kami akan segera tindak lanjutti. Semoga belanja Anda menyenangkan.</div>
+					 Jika ada masalah setelah penerimaan barang, silahkan hubungi layanan chat online kami atau kirim email ke <a href='mail:rbzjlprc@gmail.com' style='color:#F8770E'>rbzjlprc@gmail.com</a>. Harap informasikan juga nama dan nomor contact yang dapat dihubungi atau nomer pesanan, Kami akan segera tindak lanjutti. Semoga belanja Anda menyenangkan.</div>
 				<p></p>
   			</div>
 		</div>

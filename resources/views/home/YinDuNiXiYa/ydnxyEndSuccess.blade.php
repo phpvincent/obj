@@ -82,7 +82,7 @@
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            Mohon agar HP Anda tetap aktif, supaya mempermudah kurir untuk menghubungi Anda. Jika ada pertanyaan, silahkan menghubungi layanan chat online kami. Semoga belanja Anda menyenangkan !     <a href="mailto:rbzjlpra@gmail.com" style="color:#F8770E">rbzjlpra@gmail.com</a>        </div>            </div>
+                                            Mohon agar HP Anda tetap aktif, supaya mempermudah kurir untuk menghubungi Anda. Jika ada pertanyaan, silahkan menghubungi layanan chat online kami. Semoga belanja Anda menyenangkan !     <a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>        </div>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">kembali ke beranda&gt;&gt;</button>
             </div>
