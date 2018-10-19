@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-                 $filePath='./time.log';
+                /* $filePath='./time.log';
                  $schedule->call(function(){
                     $maxtime=2400;
                     $herbmaster=\App\herbmaster::where('herbmaster_type','0')->first();
@@ -77,7 +77,7 @@ class Kernel extends ConsoleKernel
                          }
                         }
                     }
-                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
+                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);*/
     }
 
     /**
