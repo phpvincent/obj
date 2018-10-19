@@ -205,8 +205,8 @@ body{
 }
 .pc_button .img{
     position: absolute;
-    left: 132px;
-    bottom: 16px;
+    left: 106px;
+    bottom: -3px;
 }
 .pc_activity_title{
     margin: 10px 20px 0;
@@ -459,4 +459,7 @@ body{
 .pc_main .pc_submit .pc_button:hover{
     box-shadow: 1px 2px 2px #b67070;
     background-color: #e43854;
+}
+.pc_submit{
+    position: relative;
 }
