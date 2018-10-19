@@ -621,14 +621,15 @@ function updateNavPosition() {
                 data:{'msg':$("input[name='queryNo']").val(),'_token':"{{csrf_token()}}"},
                 datatype:'html',
                 success:function(msg){
-
+                    
                 	if(msg!='false'){
                           $('.pc_query_content_1').html(msg);
                           
                         $('.pc_query_content_1').show(800);
                 	}else{
                 		  $('.pc_query_content_1').html("<span style='color:#f00;'>Order number error, no corresponding information, please re-enter</span>");
-                	}
+                          $('.pc_query_content_1').show(800);
+                        }
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }
             })
