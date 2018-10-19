@@ -280,7 +280,7 @@ body{
 .pc_body #tab3  {
     background-image: url("/img/new.gif");
     background-repeat: no-repeat;
-    background-position: 150px 2px;
+    background-position: right 2px;
 }
 .pc_body .pc_detail_tab{
     padding: 0 20px 20px;
@@ -398,6 +398,7 @@ body{
 }
 .pc_sub .liuyan{
     padding: 12px;
+    padding-bottom: 28px;
 }
 .pc_sub .buyinfo_hd{
     font-size: 20px;

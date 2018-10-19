@@ -49,7 +49,7 @@
                                         <div class="swiper-wrapper">
                                             @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
                                             <div class="swiper-slide" id="swiper-slide">
-                                                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
+                                                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;margin-top:0;">
                                                     <source src="{{$goods->goods_fm_video}}" type="video/mp4">
                                                 </video>
                                             </div>
@@ -110,7 +110,7 @@
                                 <span class="money">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}</span>
                             </div>
                             <div class="pc_submit">
-                                <a href="#" class="pc_button">
+                                <a href="/pay" class="pc_button">
                                     <span class="img"><img src="/images/buy2.png"></span>
                                     <span>Buy Now</span>
                                 </a>
@@ -131,17 +131,17 @@
                                 @endif
                             </div>
                                 
-                            <div style="height: 27px;margin-top: 5px;line-height: 27px">
+                            <div style="height: 27px;margin-top: 5px;">
                                 <div class="detail-context" style="">
                                         
                                         @if(in_array('free_freight',$templets))
-                                        <span class="flag" style="font-size: 14px;">Free shipping</span>&nbsp;&nbsp;
+                                        <span class="flag" style="font-size: 14px;padding: 3px 6px;display: inline-block;background-color: #C41B36;border-radius: 8px;color: #fff;">Free shipping</span>&nbsp;&nbsp;
                                         @endif
                                         @if(in_array('cash_on_delivery',$templets))
-                                        <span class="flag" style="font-size: 14px;">Cash on delivery</span>&nbsp;&nbsp;
+                                        <span class="flag" style="font-size: 14px;padding: 3px 6px;display: inline-block;background-color: #C41B36;border-radius: 8px;color: #fff;">Cash on delivery</span>&nbsp;&nbsp;
                                         @endif
                                         @if(in_array('seven_days',$templets))
-                                        <span class="flag" style="font-size: 14px;">14 days appreciation period</span>
+                                        <span class="flag" style="font-size: 14px;padding: 3px 6px;display: inline-block;background-color: #C41B36;border-radius: 8px;color: #fff;">14 days appreciation period</span>
                                         @endif
                                     </div>
                             </div>
@@ -239,21 +239,7 @@
                     </div>
                     <div class="pc_query_content">
                         <div class="pc_query_content_1">
-                                <div class="product_image">
-                                        <!-- <img src=""> -->
-                                    </div>
-                                    <div class="check_show">
-                                        <h4>Product Name:</h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Your order number:</b></h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Your order status:</b></h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Logistics Company:</b></h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Order number / Logistics order number (please fill in one entry for enquiries):</b></h4>
-                                        <p>&nbsp;</p>
-                                    </div>
+                                
                         </div>
 
                         <div class="tihsi">
