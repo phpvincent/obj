@@ -771,7 +771,7 @@
     };
 
     //验证函数(价格)
-    // function price(){
+    function price(){
         // if($('input[name="price_1"]:checked').val() == 1){
         //     $('#price').rules('add', {
         //         required:true
@@ -781,7 +781,7 @@
         //         required:false
         //     });
         // }
-    // }
+    }
 
     //验证函数(倒计时)
     function count_down(){
@@ -817,7 +817,7 @@
     //加载完成事件
     $(function(){
         //价格
-        // price();
+        price();
         //倒计时
         count_down();
         //促销活动模块
