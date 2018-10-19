@@ -46,7 +46,8 @@ class Kernel extends ConsoleKernel
                         $order_time=$v->order_time;
                         if(time()-strtotime($order_time)>=2400&&$v->order_type==9){
                             $new_time=$v->order_time;
-                            $msg=$v->update(['is_del'=>'1']);
+                            $v->is_del='1';
+                            $msg=$v->save();
                             if($msg){
                                 \Log::notice($v->order_id.'号订单预付款订单超时'.$maxtime.'被删除');
                             }else{
