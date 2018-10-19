@@ -104,34 +104,38 @@ class OrderController extends Controller
            })
             ->where(function($query)use($request){
               $order_type=$request->input('order_type');
+              $pay_type=$request->input('pay_type');
               if($order_type!='#'){
                 $query->where('order.order_type',$order_type);
+              }
+              if($pay_type!='#'){
+                  $query->where('order.order_pay_type',$pay_type);
               }
             })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
             })->where(function ($query)use($order_repeat_ip){
-                     if($order_repeat_ip == 1){
-                         $query->where('order_repeat_field','1');
-                         $query->orWhere('order_repeat_field','1,2');
-                         $query->orWhere('order_repeat_field','1,3');
-                         $query->orWhere('order_repeat_field','1,2,3');
-                     }
-                 })->where(function ($query)use($order_repeat_name){
-                     if($order_repeat_name == 1){
-                         $query->where('order_repeat_field','2');
-                         $query->orWhere('order_repeat_field','1,2');
-                         $query->orWhere('order_repeat_field','2,3');
-                         $query->orWhere('order_repeat_field','1,2,3');
-                     }
-                 })->where(function ($query)use($order_repeat_tel){
-                     if($order_repeat_tel == 1){
-                         $query->where('order_repeat_field','3');
-                         $query->orWhere('order_repeat_field','1,3');
-                         $query->orWhere('order_repeat_field','2,3');
-                         $query->orWhere('order_repeat_field','1,2,3');
-                     }
-                 })
+                 if($order_repeat_ip == 1){
+                     $query->where('order_repeat_field','1');
+                     $query->orWhere('order_repeat_field','1,2');
+                     $query->orWhere('order_repeat_field','1,3');
+                     $query->orWhere('order_repeat_field','1,2,3');
+                 }
+            })->where(function ($query)use($order_repeat_name){
+                 if($order_repeat_name == 1){
+                     $query->where('order_repeat_field','2');
+                     $query->orWhere('order_repeat_field','1,2');
+                     $query->orWhere('order_repeat_field','2,3');
+                     $query->orWhere('order_repeat_field','1,2,3');
+                 }
+             })->where(function ($query)use($order_repeat_tel){
+                 if($order_repeat_tel == 1){
+                     $query->where('order_repeat_field','3');
+                     $query->orWhere('order_repeat_field','1,3');
+                     $query->orWhere('order_repeat_field','2,3');
+                     $query->orWhere('order_repeat_field','1,2,3');
+                 }
+             })
             ->count();
 
              //列表数据
@@ -161,8 +165,12 @@ class OrderController extends Controller
           })
               ->where(function($query)use($request){
               $order_type=$request->input('order_type');
+              $pay_type=$request->input('pay_type');
               if($order_type!='#'){
                 $query->where('order.order_type',$order_type);
+              }
+              if($pay_type!='#'){
+                   $query->where('order.order_pay_type',$pay_type);
               }
             })
             ->where(function($query)use($garr){
@@ -250,8 +258,12 @@ class OrderController extends Controller
           })
               ->where(function($query)use($request){
               $order_type=$request->input('order_type');
+              $pay_type=$request->input('pay_type');
               if($order_type!='#'){
                 $query->where('order.order_type',$order_type);
+              }
+              if($pay_type!='#'){
+                  $query->where('order.order_pay_type',$pay_type);
               }
             })
             ->count();
@@ -316,8 +328,12 @@ class OrderController extends Controller
           })
              ->where(function($query)use($request){
               $order_type=$request->input('order_type');
+              $pay_type=$request->input('pay_type');
               if($order_type!='#'){
                 $query->where('order.order_type',$order_type);
+              }
+              if($pay_type!='#'){
+                 $query->where('order.order_pay_type',$pay_type);
               }
             })
             ->orderBy($order,$dsc)

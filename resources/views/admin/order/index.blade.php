@@ -22,23 +22,21 @@
 	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
 	<div style="display: none" id="select-admin">
-		@if(Auth::user()->is_root=='1')
 		<div class="row cl">
-			<label class="form-label col-xs-1 col-sm-1">账户名：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+			@if(Auth::user()->is_root=='1')
+				<label class="form-label col-xs-1 col-sm-1">账户名：</label>
+				<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="admin_name" id="admin_name" class="select">
 					<option value="0">所有</option>
 					@foreach($admins as $val)
-					<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
+						<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
 					@endforeach
 				</select>
 				</span>
-			</div>
-		</div>
-		@endif
-		<div class="row cl">
+				</div>
+			@endif
 			<label class="form-label col-xs-1 col-sm-1">订单核审状态：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="order_type" id="order_type" class="select">
 					<option value="#">所有</option>
 					<option value="0">未核审</option>
@@ -58,6 +56,15 @@
 					<option value="14">问题订单</option>
 				</select>
 				</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">支付方式：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+				<select name="pay_type" id="pay_type" class="select">
+					<option value="#">所有</option>
+					<option value="0">货到付款</option>
+					<option value="1">在线支付</option>
+				</select>
+			</span>
 			</div>
 		</div>
 		<div class="row cl" style="margin-top: 20px;">
@@ -198,6 +205,7 @@
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 			order_type:function(){return $('#order_type').val()},
+            pay_type:function(){return $('#pay_type').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -479,6 +487,10 @@ $('#admin_name').on('change',function(){
 $('#order_type').on('change',function(){
 	dataTable.ajax.reload();
 	
+})
+$('#pay_type').on('change',function(){
+	dataTable.ajax.reload();
+
 })
 $('#order_repeat_ip').on('change',function(){
 	dataTable.ajax.reload();
