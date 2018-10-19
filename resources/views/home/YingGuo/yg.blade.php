@@ -481,7 +481,7 @@
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">RETURENS POLICY <span style="font-size:12px;text-decoration:underline" class="privacyPolicy_1">(CLICK HERE FOR DETAILS)</span></th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.RETURENS POLICY <span style="font-size:12px;text-decoration:underline" class="privacyPolicy_1">(CLICK HERE FOR DETAILS)</span></th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
