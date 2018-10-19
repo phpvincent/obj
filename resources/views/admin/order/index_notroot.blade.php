@@ -71,6 +71,15 @@
 					</select>
 					</span>
 			</div>
+			<label class="form-label col-xs-1 col-sm-1">支付方式：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+				<select name="pay_type" id="pay_type" class="select">
+					<option value="#">所有</option>
+					<option value="0">货到付款</option>
+					<option value="1">在线支付</option>
+				</select>
+			</span>
+			</div>
 			<!-- <label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_tel" id="order_repeat_tel" class="select">
@@ -186,7 +195,8 @@
 			mintime:function(){return $('#datemin').val()},
 			maxtime:function(){return $('#datemax').val()},
 			order_type:function(){return $('#order_type').val()},
-		},
+            pay_type:function(){return $('#pay_type').val()},
+        },
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -444,7 +454,9 @@ $('#order_repeat_ip').on('change',function(){
 })
 $('#order_repeat_name').on('change',function(){
 	dataTable.ajax.reload();
-	
+})
+$('#pay_type').on('change',function(){
+     dataTable.ajax.reload();
 })
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
