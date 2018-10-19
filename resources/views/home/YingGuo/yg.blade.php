@@ -126,7 +126,7 @@
                 padding:10px;
                 padding-bottom:30px;
             }
-            .Popup> .Close{
+            .Popup .Close{
                 height:30px;
                 line-height:30px;
                 width:80%;
@@ -446,7 +446,7 @@
             </td></tr> -->
         @endif
         <tr class="first odd">
-            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;text-decoration:underline" class="privacyPolicy">(CLICK HERE FOR DETAILS)</span></Click></th>
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
         </tr>
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
@@ -481,7 +481,7 @@
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.RETURENS POLICY <span style="font-size:12px;text-decoration:underline" class="privacyPolicy_1">(CLICK HERE FOR DETAILS)</span></th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.RETURENS POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy_1">CLICK HERE FOR DETAILS</span></th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
