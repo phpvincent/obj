@@ -67,8 +67,8 @@
                                     <div class="swiper-container">
                                         <div class="swiper-wrapper">
                                             @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
-                                            <div class="swiper-slide slide6">
-                                                    <img src="/images/ydzs.png" alt="">
+                                            <div class="swiper-slide slide6" id="output">
+                                                    <!-- <img src="/images/ydzs.png" alt=""> -->
                                             </div>
                                             @endif
                                             @foreach($imgs as $key)
@@ -405,8 +405,30 @@
 <script src='/js/client.js'></script>
 <script type="text/javascript" src="/js/video.js"></script>
 <script>
+(function(){
+    var video, output;
+    var scale = 0.8;
+    var initialize = function() {
+    output = document.getElementById("output");
+    video = document.getElementById("divVideo");
+    video.addEventListener('loadeddata',captureImage);
+    };
+
+    var captureImage = function() {
+            var canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth * scale;
+            canvas.height = video.videoHeight * scale;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            var img = document.createElement("img");
+            img.src = canvas.toDataURL("image/png");
+            output.appendChild(img);
+    };
+
+    initialize();
+})();
     // 轮播图
-    var viewSwiper = new Swiper('.view .swiper-container', {
+var viewSwiper = new Swiper('.view .swiper-container', {
 	onSlideChangeStart: function() {
 		    updateNavPosition()
 	}
