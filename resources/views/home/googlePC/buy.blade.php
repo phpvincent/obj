@@ -508,7 +508,7 @@
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dd><strong>'+val[0].goods_config_msg+'：</strong>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'" style="display: none;padding: 5px 0;background-color: #b2d1ff; box-shadow: rgb(136, 136, 136) 5px 5px 5px;overflow: auto;height: 230px;"><div><strong style="display: none;">item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'" style="display: none;padding: 5px 0; min-height: 150px;background-color: #b2d1ff; box-shadow: rgb(136, 136, 136) 5px 5px 5px;overflow: auto;"><div><strong style="display: none;">item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          var tabLi='<li style="float: left;padding: 5px 10px; border-radius: 5px 5px 0px 0px; cursor: pointer;" formNum="'+e+'">item'+eNum+'</li>'
          if(flag){ $("#goods_config_div ul").append(tabLi); }

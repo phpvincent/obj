@@ -52,11 +52,10 @@ jQuery(document).ready(function() {
 					scroll_showVideo();
 				});
 				if(imgl){
-					var banhj = jQuery("#swiper-slide").height()-60;
-//					jQuery("#divVideo").attr("style","margin:0 auto;max-width: 100%;height: "+banhj+"px;");
+					var banhj = jQuery("#swiper-slide").height();
+					jQuery("#divVideo").attr("style","margin:0 auto;max-width: 100%;height: "+banhj+"px;");
 //					var voidhei = jQuery("#divVideo").height();
 //					var banhjh = (banhj/(15/16)-voidhei)/2-30;
-					jQuery("#divVideo").attr("style","margin:0 auto;max-width: 100%;height: inherit;background-color:#000;width:100%;"); // 高度改了"+banhj+"
 //					$('#temp').css('margin-top',-50+banhjh);
 					var mySwiper1 = new Swiper('#mySwiper1', {
 						pagination: '.swiper-pagination',

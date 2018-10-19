@@ -7,453 +7,11 @@
     <title>Document</title>
     <link href="/css/base.css" rel="stylesheet">
     <link href="/css/timer.css" rel="stylesheet">
+    <link href="/css/googlePC_index.css" rel="stylesheet">
     <script src="/js/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
-    
     <script type="text/javascript" src="/js/resizeDIV.js"></script>
     <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-    <style>
-        .fixed {
-            position: fixed !important;
-            z-index: 999999999 !important;
-            top: 0px !important;
-        }
-        body{
-            max-width: 100%;
-        }
-        .content{
-            margin: 0 auto;
-            width: 1190px;
-            position: relative;
-            zoom: 1;
-            overflow: hidden;
-        }
-        .pc_main {
-            color: #666;
-            width: 940px;
-            float: left;
-            margin-top: 20px;
-        }
-        .pc_sub {
-            float: left;
-            width: 249px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-left-width: 0;
-            background: #f0f0f0;
-            color:#333;
-        }
-        .pc_main .pc_body{
-            border-left: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            border-right: 1px solid #ccc;
-        }
-        .pc_head{
-            border: 1px solid #ccc;
-            zoom: 1;
-            overflow: hidden;
-        }
-        .pc_head_left{
-            margin-left: 20px;
-            width: 400px;
-            float: left;
-        }
-        .pc_head_right{
-            float: left;
-            width: 518px;
-        }
-        /* 轮播图 */
-        .pc_slide {
-            margin-top: 20px;
-            width: 400px;
-        }
-        .view .swiper-container {
-            width: 400px;
-            height: 400px;
-        }
-        .view .swiper-container img {
-            width: 400px;
-            height: 400px;
-        }
-        .preview {
-            margin: 20px 0 25px 0;
-            position: relative;
-        }
-        .preview .swiper-container {
-            margin-left: 35px;
-        }
-        .preview .swiper-slide {
-            width: 50px;
-            height: 50px;
-            cursor:pointer;
-            margin-right: 10px;
-        }
-        .preview .swiper-slide img{
-            width: 50px;
-            height: 50px;
-        }
-        .preview .slide6 {
-            width: 50px;
-        }
-        .preview img {
-            padding: 1px;
-        }
-
-        .preview .active-nav img {
-            padding: 0;
-            border: 1px solid #F00;
-        }
-
-        .pc_main h1 {
-            margin-top: 25px;
-            margin-bottom: 7px;
-            margin-left: 20px;
-            width: 450px;
-            line-height: 24px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #1b1b1b;
-        }
-        .pc_main .pc_status {
-            position: relative;
-            margin-left: 20px;
-        }
-        .timebox {
-            margin: 0px;
-            overflow: hidden;
-            line-height: 36px;
-            background: #fff;
-            border-top: none;
-            font-family: "微软雅黑";
-            font-size: 14px;
-            color: #333333;
-            padding-right: 20px;
-        }
-        .timebox .text {
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff;
-            float: left;
-            padding: 0 10px;
-            background: #ff5500;
-            text-align: center;
-            height: 36px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 100px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 100px;
-        }
-        .boxtime font{
-            font-size: 14px;
-        }
-        #timer{
-            font-size: 14px;
-        }
-        .pc_main .pc_operation {
-            position: relative;
-            margin-top: 20px;
-            padding: 5px 20px 20px;
-            min-height: 167px;
-            margin-bottom: 13px;
-            background: url("/img/pc_bg.png") no-repeat right bottom #eee;
-            background-size: 100%;
-        }
-        .pc_money{
-            overflow: hidden;
-        }
-        .pc_money >span{
-            float: left;
-        }
-        .pc_money_1 .title, .pc_money .title {
-            margin-right: 10px;
-            margin-left: 50px;
-            line-height: 46px;
-            width: 110px;
-            display: inline-block;
-            text-align: right;
-        }
-        .pc_money_1 .title{
-            line-height: 49px;
-        }
-        .pc_operation .pc_money .money {
-            font-size: 30px;
-            color: #1b1b1b;
-            font-weight: 700;
-            position: relative;
-            top: 5px;
-            font-family: Tahoma;
-            vertical-align: middle;
-        }
-        .pc_operation .pc_money_1 .money {
-            font-size: 32px;
-            color: #8e011d;
-            font-weight: 700;
-            font-family: Tahoma;
-            vertical-align: middle;
-        }
-        .pc_operation .pc_money_1{
-            margin-top: 11px;
-            margin-bottom: 15px;
-        }
-        .pc_main .pc_submit .pc_button span img{
-            width: 20px;
-            height: 20px;
-        }
-        .pc_main .pc_submit .pc_button {
-            display: inline-block;
-            color: #fff;
-            background-color: #C41B36;
-            border: 1px solid #C41B36;
-            width: 240px;
-            height: 44px;
-            line-height: 44px;
-            text-align: center;
-            margin-left: 50px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 27px;
-            text-decoration: none;
-        }
-        .pc_button .img{
-            position: absolute;
-            left: 132px;
-            bottom: 16px;
-        }
-        .pc_activity_title{
-            margin: 10px 20px 0;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #EEE;
-            font-size: 20px;
-        }
-        .pc_activity_content{
-            margin: 10px 20px 0;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            height: 60px;   
-        }
-        .pc_activity_content div{
-            height: 60px;
-            text-indent: 2em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-        .pc_service{
-            margin-left: 20px;
-        }
-
-
-
-        .pc_body .pc_flow {
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid #ccc;
-            bottom: -1px;
-            z-index: 12;
-            height: 55px;
-        }
-        .pc_body .pc_addition {
-            position: relative;
-        }
-        .pc_addition .detail_bars{
-            height: 61px;
-            z-index: 161;
-            width: 938px;
-            background-color: #f6f6f6;
-            border-bottom: 1px solid #e6e6e6;
-            border-top: 1px solid #e6e6e6;
-        }
-        .pc_body .detail_bars li {
-            float: left;
-            display: inline;
-            position: relative;
-            top: 1px;
-            font-weight: 700;
-            font-size: 14px;
-            padding: 20px 35px;
-            border-right: 1px solid #e6e6e6;
-            cursor: pointer;
-        }
-        .pc_body .detail_bars li.current {
-            background-color: #fff;
-            color: #7f0019;
-            border-top: 2px solid #7f0019;
-            box-sizing: border-box;
-        }
-        .pc_body #tab1:hover,.pc_body #tab2:hover,.pc_body #tab3:hover{
-            background-color: #fff;
-            color: #7f0019;
-            border-top: 2px solid #7f0019;
-            box-sizing: border-box;
-        }
-        .pc_body #tab3  {
-            background-image: url(//img.alicdn.com/tps/i4/TB1Bin3HXXXXXbRXXXXdyKUFVXX-27-20.gif);
-            background-repeat: no-repeat;
-            background-position: right 2px;
-        }
-        .pc_body .pc_detail_tab{
-            padding: 0 20px 20px;
-        }
-        .pc_detail_tab_1 p{
-            text-align: center;
-        }
-        .pc_bottom_logo{
-            margin: 0 auto;
-            height: 95px;
-            width: 990px;
-        }
-        .pc_bottom_logo img{
-            height: 100%;
-            width: 100%;
-        }
-        .footer{
-            width: 1190px;
-            margin: 0 auto;
-            height: 80px;
-        }
-        .AfterSale{
-            background-color: #e8e8e8;
-        }
-        .AfterSale_1{
-            width: 1190px;
-            margin: 0 auto;
-            
-            padding: 20px 60px;
-            box-sizing: border-box;
-        }
-        .AfterSale h4{
-            text-align: center;
-            padding: 10px 0;
-            font-size: 18px;
-            color: #C41B36
-        }
-        .AfterSale p{
-            text-align: center;
-            line-height: 26px;
-        }
-        .pc_bottom{
-            border-top: 3px solid #808080;
-            margin-top: 35px;
-            color:#333;
-        }
-        .footer{
-            position: relative;
-        }
-        .footer img{
-            width: 60px;
-            margin-top: 10px;
-        }
-        .footer p{
-            position: absolute;
-            top: 10px;
-            left: 74px;
-            line-height: 26px;
-            font-size: 12px;
-        }
-
-
-        .pc_sub .pc_query>h4 {
-            padding: 12px 0;
-            text-align: center;
-            font-size: 20px
-        }
-        .pc_sub input{
-            float: left;
-            padding: 4px 4px;
-            font-size: 12px;
-        }
-        .pc_sub .textbox{
-            overflow: hidden;
-            padding: 10px;
-            padding-left: 12px;
-            padding-right: 0;
-        }
-        .pc_sub .textbox a{
-            float: left;
-            display: block;
-            height: 26px;
-            line-height: 26px;
-            text-align:center;
-            width: 56px;
-            background-color: #C41B36;
-            border-radius: 10px;
-            color:#fff;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        .pc_query_content{
-            padding: 10px;
-            /* height: 572px; */
-        }
-        .pc_query_content h4{
-            font-size: 14px
-        }
-        .pc_query_content p{
-            font-size: 12px;
-            padding: 6px 0;
-        }
-        .pc_query_content .product_image{
-            width: 130px;
-            height: 130px;
-            margin: 0 auto;
-        }
-        .pc_query_content .product_image img{
-            width: 130px;
-            height: 130px;
-        }
-        .tihsi{
-            margin-top: 14px
-        }
-        .pc_sub .liuyan{
-            padding: 12px;
-        }
-        .pc_sub .buyinfo_hd{
-            font-size: 20px;
-            text-align: center;
-            font-weight: 900;
-            padding-bottom: 6px;
-        }
-        .pc_sub #stars span{
-            color: #f00;
-            font-size: 20px;
-            cursor: pointer
-        }
-        .pc_sub .require{
-            color: #f00;
-        }
-        .pc_sub .input01{
-            margin-bottom: 14px
-        }
-        .pc_sub .table_td,.pc_sub #stars{
-            padding-bottom: 14px;
-        }
-        .pc_sub .input_btn01{
-            margin-left: 74px;
-        }
-        .pc_sub .buyinfo_table_box{
-            padding-top: 10px;
-        }
-        .to_top{
-            position: fixed;
-            bottom: 120px;
-            margin-left: auto!important;
-            z-index: 11000;
-            background-color: #f5f5f5;
-            border: 1px solid #ebebeb;
-            color: red;
-            cursor: pointer;
-            display: block;
-            width: 38px;
-            line-height: 38px;
-            text-align: center;
-            right: 288px;
-        }
-        .pc_query_content_1{
-            /* height: 384px; */
-        }
-    </style>
 </head>
 <body>
     <div id="page">
@@ -489,6 +47,13 @@
                                 <div class="view">
                                     <div class="swiper-container">
                                         <div class="swiper-wrapper">
+                                            @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+                                            <div class="swiper-slide" id="swiper-slide">
+                                                <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;margin-top:0;">
+                                                    <source src="{{$goods->goods_fm_video}}" type="video/mp4">
+                                                </video>
+                                            </div>
+                                            @endif
                                             @foreach($imgs as $key)
                                             <div class="swiper-slide">
                                                 <img src="{{$key->img_url}}" alt="">
@@ -501,11 +66,15 @@
                                 <div class="preview">
                                     <div class="swiper-container">
                                         <div class="swiper-wrapper">
-                                            
+                                            @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+                                            <div class="swiper-slide slide6" id="output">
+                                                    <!-- <img src="/images/ydzs.png" alt=""> -->
+                                            </div>
+                                            @endif
                                             @foreach($imgs as $key)
                                             <div class="swiper-slide slide6">
                                                     <img src="{{$key->img_url}}" alt="">
-                                                </div>
+                                            </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -541,7 +110,7 @@
                                 <span class="money">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}</span>
                             </div>
                             <div class="pc_submit">
-                                <a href="#" class="pc_button">
+                                <a href="/pay" class="pc_button">
                                     <span class="img"><img src="/images/buy2.png"></span>
                                     <span>Buy Now</span>
                                 </a>
@@ -562,17 +131,17 @@
                                 @endif
                             </div>
                                 
-                            <div style="height: 27px;margin-top: 5px;line-height: 27px">
+                            <div style="height: 27px;margin-top: 5px;">
                                 <div class="detail-context" style="">
                                         
                                         @if(in_array('free_freight',$templets))
-                                        <span class="flag" style="font-size: 14px;">Free shipping</span>&nbsp;&nbsp;
+                                        <span class="flag" style="font-size: 14px;padding: 3px 6px;display: inline-block;background-color: #C41B36;border-radius: 8px;color: #fff;">Free shipping</span>&nbsp;&nbsp;
                                         @endif
                                         @if(in_array('cash_on_delivery',$templets))
-                                        <span class="flag" style="font-size: 14px;">Cash on delivery</span>&nbsp;&nbsp;
+                                        <span class="flag" style="font-size: 14px;padding: 3px 6px;display: inline-block;background-color: #C41B36;border-radius: 8px;color: #fff;">Cash on delivery</span>&nbsp;&nbsp;
                                         @endif
                                         @if(in_array('seven_days',$templets))
-                                        <span class="flag" style="font-size: 14px;">14 days appreciation period</span>
+                                        <span class="flag" style="font-size: 14px;padding: 3px 6px;display: inline-block;background-color: #C41B36;border-radius: 8px;color: #fff;">14 days appreciation period</span>
                                         @endif
                                     </div>
                             </div>
@@ -594,7 +163,7 @@
                                 <li id="tab2">Details</li>
                             @endif
                             @if(in_array('evaluate',$templets))
-                            <!-- <li id="tab3">Reviews({{$goods->goods_comment_num}}+)</li> -->
+                            <li id="tab3">Reviews({{$goods->goods_comment_num}}+)</li>
                             @endif
                         </ul>
                         @endif
@@ -670,21 +239,7 @@
                     </div>
                     <div class="pc_query_content">
                         <div class="pc_query_content_1">
-                                <div class="product_image">
-                                        <!-- <img src=""> -->
-                                    </div>
-                                    <div class="check_show">
-                                        <h4>Product Name:</h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Your order number:</b></h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Your order status:</b></h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Logistics Company:</b></h4>
-                                        <p>&nbsp;</p>
-                                        <h4><b>Order number / Logistics order number (please fill in one entry for enquiries):</b></h4>
-                                        <p>&nbsp;</p>
-                                    </div>
+                                
                         </div>
 
                         <div class="tihsi">
@@ -836,8 +391,30 @@
 <script src='/js/client.js'></script>
 <script type="text/javascript" src="/js/video.js"></script>
 <script>
+(function(){
+    var video, output;
+    var scale = 0.8;
+    var initialize = function() {
+    output = document.getElementById("output");
+    video = document.getElementById("divVideo");
+    video.addEventListener('loadeddata',captureImage);
+    };
+
+    var captureImage = function() {
+            var canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth * scale;
+            canvas.height = video.videoHeight * scale;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            var img = document.createElement("img");
+            img.src = canvas.toDataURL("image/png");
+            output.appendChild(img);
+    };
+
+    initialize();
+})();
     // 轮播图
-    var viewSwiper = new Swiper('.view .swiper-container', {
+var viewSwiper = new Swiper('.view .swiper-container', {
 	onSlideChangeStart: function() {
 		    updateNavPosition()
 	}
