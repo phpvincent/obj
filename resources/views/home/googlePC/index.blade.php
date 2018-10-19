@@ -168,7 +168,7 @@
             margin-right: 10px;
             margin-left: 50px;
             line-height: 46px;
-            width: 92px;
+            width: 110px;
             display: inline-block;
             text-align: right;
         }
@@ -349,7 +349,7 @@
             position: absolute;
             top: 10px;
             left: 74px;
-            line-height: 60px;
+            line-height: 26px;
             font-size: 12px;
         }
 
@@ -698,10 +698,11 @@
                         <input type="hidden" name="goods_id" value="{{$goods->goods_id}}">
                         {{csrf_field()}}
                         <div class="buyinfo_table">
+                        <hr class="seperator">
                             <div class="buyinfo_hd">
                                 Online message                
                             </div>
-                            <hr class="seperator">
+                            
                             <div class="buyinfo_table_box">
                                 <table>
                                     <tbody>
@@ -787,14 +788,17 @@
                         @if(in_array('user_help',$templets))
                             @if(in_array('user_know',$templets))
                                 <div>
-                                    <h4>用户须知</h4>
-                                    <p>本产品的实际使用效果根据个人情况决定，不保证每位用户都能享受到宣传的效果。若有疑问请咨询在线客服或通过电子邮箱(
-                                            <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>)联络我们，本公司享有最终解释权。
-                                    </p>
-                                </div>
+                                    <h4>Contact Us</h4>
+                                    <p> 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                <br>Email:
+
+                                <a  href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>
+                                <br>
+                                Questions, comments and requests regarding the website policies are welcomed and should be addressed to isnfclpo@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
+                                </p></div>
                             @endif
                             @if(in_array('apply_goods',$templets))
-                                <div>
+                                <!-- <div>
                                     <h4>如何申请退换货</h4>
                                     <p>1.由于个人原因产生的退换货：至收到商品起7天内，在不影响二次销售的情况下请联系我们的在线客服或发邮件至
                                             <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
@@ -805,14 +809,14 @@
                                                             <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                                             ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费由我方承担。
                                     </p>
-                                </div>
+                                </div> -->
                             @endif
                             @if(in_array('exchange_of_goods',$templets))
                                 <div>
-                                    <h4>退换货流程</h4>
-                                    <p>确认收货-申请退换货-客服审核通过-用户寄回商品-仓库签收验货-退换货审核-退款/换货；
+                                    <h4>RETURENS POLICY </h4>
+                                    <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.
                                     </p>
-                                    <p>退换货请注明：订单号、姓名、电话。</p>
+                                    <p>Please attach with the Order No., Contact No., and Customer name.</p>
                                 </div>
                             @endif
                         @endif
@@ -820,7 +824,7 @@
                 </div>
                 <div class="footer">
                     <img src="/images/ydzs.png" alt="">
-                    <p>ZSSSHOP严选商城，秉承一贯的严谨态度，深入世界各地，严格把关所有商品的产地、工艺、原材料，甄选服饰、鞋包、居家、厨房、运动等各类商品，力求给你最优质的商品。</p>
+                    <p>ZSSHOP, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
                 </div>
             </div>
     </div>
@@ -990,7 +994,7 @@ function updateNavPosition() {
                 
                 return false;
             }
-            var res = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;//邮箱
+            var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
             if(!res.test($("input[name='phone']").val())){
                 alert("Please enter your email address.");
                 return false;
