@@ -419,39 +419,51 @@ class OrderController extends Controller
     //订单批量核审
      $data=$request->all();
      $msg=false;
+     $msg_content = false;
      foreach ($data['order_ids'] as $key => $val) {
-      $order=order::where('order_single_id',$val)->first();
-       if($request->has('order_send')&&$request->input('order_send')!=null){ 
-        if(count(explode(';', $data['order_send']))!=count($data['order_ids'])){
-          //检查快递单号数目是否有错
-            return response()->json(['err'=>0,'str'=>'快递单号数目错误']);
-        }
-        $admin=Auth::user()->admin_name;
-        $date=date('Y-m-d h:i:s',time());
-        $oldmsg=$order->order_return;
-        $order_send_now=explode(';',$data['order_send'])[$key];
-        if($order_send_now=='暂无'){
-          $order_send_now=null;
-        }
-        $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_send'=>$order_send_now,'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
-        if($err===false){
-          $msg.=$val.',';
-        }
-       }else{
-        $admin=Auth::user()->admin_name;
-        $date=date('Y-m-d h:i:s',time());
-        $oldmsg=$order->order_return;
-        $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
-        if($err===false){
-          $msg.=$val.',';
-        }
-       }
-     }
-     if($msg!==false){
-            return response()->json(['err'=>0,'str'=>rtrim($err,',').'号订单核审失败']);
+          $order=order::where('order_single_id',$val)->first();
+          if($order->order_type == '9'){
+              $msg_content.=$val.',';
           }else{
-            return response()->json(['err'=>1,'str'=>'核审成功']);
+              if($request->has('order_send')&&$request->input('order_send')!=null){
+                  if(count(explode(';', $data['order_send']))!=count($data['order_ids'])){
+                      //检查快递单号数目是否有错
+                      return response()->json(['err'=>0,'str'=>'快递单号数目错误']);
+                  }
+                  $admin=Auth::user()->admin_name;
+                  $date=date('Y-m-d h:i:s',time());
+                  $oldmsg=$order->order_return;
+                  $order_send_now=explode(';',$data['order_send'])[$key];
+                  if($order_send_now=='暂无'){
+                      $order_send_now=null;
+                  }
+                  $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_send'=>$order_send_now,'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+                  if($err===false){
+                      $msg.=$val.',';
+                  }
+              }else{
+                  $admin=Auth::user()->admin_name;
+                  $date=date('Y-m-d h:i:s',time());
+                  $oldmsg=$order->order_return;
+                  $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+                  if($err===false){
+                      $msg.=$val.',';
+                  }
+              }
           }
+     }
+     if($msg!==false || $msg_content!==false){
+            if($msg!==false && $msg_content===false){
+                $str = rtrim($msg,',').'号订单核审失败';
+            }elseif($msg===false && $msg_content!==false){
+                $str = rtrim($msg_content,',').'号订单为预支付订单，不能审核';
+            }else{
+                $str = rtrim($msg_content,',').'号订单为预支付订单，不能审核\n'.rtrim($msg,',').'号订单核审失败';
+            }
+            return response()->json(['err'=>0,'str'=>$str]);
+      }else{
+            return response()->json(['err'=>1,'str'=>'核审成功']);
+      }
    }
    public function order_type_change(Request $request){
    	  $data=$request->all();
@@ -512,8 +524,8 @@ class OrderController extends Controller
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
            ->where(function($query){
             if(Auth::user()->is_root!='1'){
-              $goods=\App\goods::get_ownid(Auth::user()->admin_id);
-              $query->whereIn('goods_admin_id', $goods);
+//              $goods=\App\goods::get_ownid(Auth::user()->admin_id);
+              $query->whereIn('goods_admin_id', admin::get_admins_id());
             }
            })
            ->where(function($query){

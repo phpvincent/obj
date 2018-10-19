@@ -97,7 +97,13 @@
                         	window.parent.location.reload();
 						});
 					}else{
-						layer.msg(data.str);
+                        layer.msg(data.str,{time:3*1000},function() {
+                            //回调
+                            index = parent.layer.getFrameIndex(window.name);
+                            setTimeout("parent.layer.close(index);",2000);
+                            window.parent.location.reload();
+                        });
+						// layer.msg(data.str);
 					}
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
