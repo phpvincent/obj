@@ -64,16 +64,29 @@ class vis extends Model
      */
     public static function visOrderCount($today,$goods_id,$user_id,$goods_arr)
     {
-        $count =  \App\vis::where('vis_ordertime','like',$today.'%')
-            ->whereIn('vis_goods_id',$goods_arr)
+//        $count =  \App\vis::where('vis_ordertime','like',$today.'%')
+//            ->whereIn('vis_goods_id',$goods_arr)
+//            ->where(function($query)use($goods_id){
+//                if($goods_id){
+//                    $query->where('vis_goods_id',$goods_id);
+//                }
+//            })->where(function($query)use($user_id){
+//                $goods_ids = \App\goods::where('goods_admin_id',$user_id)->pluck('goods_id')->toArray();
+//                if($user_id){
+//                    $query->whereIn('vis_goods_id',$goods_ids);
+//                }
+//            })->count();
+        $count = \App\order::where('order_time','like',$today.'%')
+            ->whereIn('order_goods_id',$goods_arr)
+            ->where('is_del','0')
             ->where(function($query)use($goods_id){
                 if($goods_id){
-                    $query->where('vis_goods_id',$goods_id);
+                    $query->where('order_goods_id',$goods_id);
                 }
             })->where(function($query)use($user_id){
                 $goods_ids = \App\goods::where('goods_admin_id',$user_id)->pluck('goods_id')->toArray();
                 if($user_id){
-                    $query->whereIn('vis_goods_id',$goods_ids);
+                    $query->whereIn('order_goods_id',$goods_ids);
                 }
             })->count();
         return $count;
