@@ -338,7 +338,7 @@
 <!--product info begin-->
 <div class="pro_info" style=" border: 1px solid #dddddd;height:">
     <div class="ctxthead" style="width: 30%;">
-       {{-- <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
+       {{-- <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->orderBy('img_id','asc')->first()->img_url}}"/></div>--}}
         @if($goods->img)
         <div class="limgbox"><img src="{{$goods->img}}"/></div>
         @endif
