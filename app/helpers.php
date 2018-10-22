@@ -324,4 +324,3 @@ if (!function_exists('out_excil')){
       }
     }
 
-}
