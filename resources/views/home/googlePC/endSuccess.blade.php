@@ -69,7 +69,7 @@
 <body style="max-width: 1190px;">
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;    max-width: 1190px;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="url_href()"></a>
         <h1 class="mui-title">Firm order</h1>
 </header>
     <div class="mui-content">
@@ -89,6 +89,10 @@
     </div>
 </div>
 <script language="javascript">
+function url_href()
+{
+    window.location.href = '/pay';
+}
     function goHome(){
         var u = 'http://{{$url}}';
     location.href=u;
