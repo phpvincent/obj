@@ -429,11 +429,11 @@
             <div class="mui-input-row need_email">
             <label><span class="require">*</span>Email:</label>
             <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-            <input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">
+            <input type="text" name="email" placeholder="Required: please fill in email" class="mui-input-clear">
         </div>
         <div class="mui-input-row">
             <label>Phone No.:</label>
-            <input type="text" datatype="/^\d+$/" placeholder="Required:please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+            <input type="text" datatype="/^\d+$/" placeholder="Optional:please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
         </div>
         <div class="mui-input-row" style=" height:66px">
             <label>Message:</label>
@@ -855,36 +855,36 @@ jQuery(function(){
 </script>
 
 <script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="Optional,Please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
-        html2 += "<label><span style='color:red;'>*</span>Email:</label>";
+//     jQuery(function(){
+//         var html1 ='';
+// //        html +='<div class="mui-input-row need_email">';
+//         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
+//         html1 +='<input type="text" placeholder="Optional,Please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         var html2 = '';
+//         html2 += "<label><span style='color:red;'>*</span>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">';
 
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
+//         var payty =  jQuery('input[name=pay_type]:checked').val();
+//         if(payty==7||payty==2){
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html1);
+//         }else{
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html2);
+//         }
+//         jQuery('input[name=pay_type]').click(function(){
+//             if(jQuery(this).val()==7 || jQuery(this).val()==2){
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html1);
+//             }else{
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html2);
+//             }
 
-        });
+//         });
 
-    });
+//     });
 
 </script>
 
