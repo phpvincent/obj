@@ -269,7 +269,7 @@ if (!function_exists('out_excil')){
  if (!function_exists('check_pay_order')){
       function check_pay_order(){ 
             //在线支付订单超时时间（秒），小于2592000
-                    $maxtime=2400;
+                    $maxtime=300;
                     $herbmaster=\App\herbmaster::where('herbmaster_type','0')->first();
                     if($herbmaster==null||strtotime($herbmaster['herbmaster_msg'])==false||strtotime($herbmaster['herbmaster_msg'])<time()-2592000){
                         $order_ltime=date("Y-m-d H:i:s",time()-2592000);
@@ -277,7 +277,7 @@ if (!function_exists('out_excil')){
                         $order_ltime=$herbmaster['herbmaster_msg'];
                     }
                     $orders=\App\order::where(function($query)use($order_ltime){
-                        $query->where('order_pay_type','1');
+                        $query->where('order_type','9');
                         $query->where('order_time','>',$order_ltime);
                     })
                     ->orderBy('order_time','asc')
@@ -285,7 +285,7 @@ if (!function_exists('out_excil')){
                     $new_time='';
                     foreach($orders as $k => $v){
                         $order_time=$v->order_time;
-                        if($v->order_type==9&&time()-strtotime($order_time)>=2400){
+                        if(time()-strtotime($order_time)>=$maxtime){
                             //当订单时间已经超过超时时间时，自动删除订单
                             $new_time=$v->order_time;
                             $v->is_del='1';
@@ -307,7 +307,7 @@ if (!function_exists('out_excil')){
                                 $newherbmaster->save();
                             }else{
                               if(strtotime($herbmaster->herbmaster_msg)<time()-2592000){
-                                $herbmaster->herbmaster_msg=date("Y-m-d H:i:s",time()-2592000);
+                                $herbmaster->herbmaster_msg=date("Y-m-d H:i:s",time()-$maxtime);
                                 $herbmaster->save();
                               }
                             }
