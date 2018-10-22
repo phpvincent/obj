@@ -431,7 +431,7 @@ body{
     bottom: 120px;
     margin-left: auto!important;
     z-index: 11000;
-    background-color: #f5f5f5;
+    background-color: #ccc9c9;
     /* border: 1px solid #ebebeb; */
     color: red;
     cursor: pointer;
@@ -442,8 +442,8 @@ body{
     right: 288px;
 }
 .to_top:hover{
-    background-color: #ccc9c9;
-    box-shadow: 1px 2px 2px #b9b5b5;
+    background-color: #f5f5f5;
+    box-shadow: 1px 2px 2px #d4cece;
 }
 .pc_query_content_1{
     /* height: 384px; */
