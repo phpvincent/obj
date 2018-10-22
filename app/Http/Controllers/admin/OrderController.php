@@ -544,7 +544,10 @@ class OrderController extends Controller
           $exdata=[];
            foreach($data as $k => $v){
             $exdata[$k]['order_time']=$v['order_time'];
+            //产品名
             $exdata[$k]['goods_real_name']=\App\goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');
+            //商品名
+            $exdata[$k]['goods_name']=\App\goods::where('goods_id',$v['order_goods_id'])->first()['goods_real_name'];
             //尺寸信息
              $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
             if($order_config->count()>0){ 
@@ -614,7 +617,7 @@ class OrderController extends Controller
             $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
          }
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-         $zdname=['下单时间','产品名称','型号/尺寸/颜色','数量','币种','销售单价','总金额','支付方式','客户名字','客户电话','邮寄地址','备注'];
+         $zdname=['下单时间','商品名','产品名称','型号/尺寸/颜色','数量','币种','销售单价','总金额','支付方式','客户名字','客户电话','邮寄地址','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
