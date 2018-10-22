@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                    check_pay_order();
                      
-                       }
+                       
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
     }
 
