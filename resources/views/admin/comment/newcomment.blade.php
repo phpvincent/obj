@@ -52,7 +52,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row cl">
+		<div class="row cl" style="display: none;">
 			<label class="form-label col-xs-4 col-sm-2">评论时间：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<input type="text" class="Wdate" id="d122" name="com_time" value="2018-10-1 23:00:50" onclick="WdatePicker({isShowWeek:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d',onpicked:function() {$dp.$('d122_1').value=$dp.cal.getP('W','W');$dp.$('d122_2').value=$dp.cal.getP('W','WW');}})"/>
