@@ -287,40 +287,36 @@
 <input type="hidden" name="currency_id" value="1"/>
 <input type="hidden" name="amount" value="0"/>
 </form>
+<!--paypal begin-->
 <div class="paymentbox">
     <ul>
 
-    <li>
-         <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
-          <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
-            <label>
-            货到付款            </label>
-          <span style="width:100px;">
-                                <img src="/images/cash.jpg" alt="" id="cash"/>
-                                              </span>
-      </div>
-    @if(in_array('1',$goods->goods_pay_type))
-    <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
-          <input name="pay_type" id="pay_2" value="2" type="radio">
-            <label>
-            PayPal            </label>
-          <span style="width:100px;">
-                                <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
-                                              </span>
-      </div>
-    @endif
-    </li>
         <li>
-     <!--    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="neiqian_biaodan">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="774VHA45GXWLS">
-            <input type="image" src="https://www.paypalobjects.com/en_GB/SG/i/btn/btn_buynowCC_LG.gif" border="0" name="" onclick="pay_submit();return false;" alt="PayPal – The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
-        </form> -->
-        
+            @if(in_array('0',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+              <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
+            <label>
+            cash_on_delivery         </label>
+              <span style="width:100px;">
+                                    <img src="/images/cash.jpg" alt="" id="cash"/>
+                                                  </span>
+          </div>
+          @endif
+          @if(in_array('1',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+            <input name="pay_type"  id="pay_2" value="2" type="radio">
+              <label>
+              PayPal            </label>
+            <span style="width:100px;">
+                                  <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
+                                                </span>
+          </div>
+          @endif
         </li>
             </ul>
 </div>
+<!--paypal end-->
+<!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">提交订单</button>
@@ -948,6 +944,10 @@ jQuery(function(){
            // $('#radiobox').find('span').each().attr('class','uncheck')
              $(this).next().attr("class",'ischeck');  
     })*/
+ //支付方式默认选中第一个；
+$(function(){
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+})
 });
 </script>
         <script>

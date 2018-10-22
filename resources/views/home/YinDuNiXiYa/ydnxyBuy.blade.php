@@ -278,20 +278,32 @@
 <div class="paymentbox">
     <ul>
 
-            <li>
-          <div class="mui-input-row mui-radio mui-left cash-on-delivery">
+        <li>
+            @if(in_array('0',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-            cash on delivery         </label>
+            cash_on_delivery         </label>
               <span style="width:100px;">
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
           </div>
+          @endif
+          @if(in_array('1',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
+            <input name="pay_type"  id="pay_2" value="2" type="radio">
+              <label>
+              PayPal            </label>
+            <span style="width:100px;">
+                                  <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
+                                                </span>
+          </div>
+          @endif
         </li>
             </ul>
 </div>
 <!--paypal end-->
-    <!--把货到付款费用添加抽象到cash_on_delivery中-->
+<!--把货到付款费用添加抽象到cash_on_delivery中-->
     
 <!--button begin-->
 <div class="btndiv">
@@ -463,9 +475,10 @@ $('#pay').bind('click',function(){
     }
     datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
     layer.msg("Pesanan sedang dikirim, Silahkan menunggu");
-
+    var payType=$(".paymentbox input:checked").val();
     if(issubmit){
         issubmit=false;
+        if(payType==1){
         $.ajax({
            type: "POST",    
            url: "/saveform",
@@ -482,6 +495,31 @@ $('#pay').bind('click',function(){
                layer.msg('Pesanan gagal dikirim, Silahkan cek jaringan internet Anda');
            }
         }) ; 
+        }else{
+               // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+               $.ajax({
+               type: "POST",
+               url: "/paypal_pay",
+               data:datasObj,
+               success: function (data) {
+                   if(data.err=='0'){
+                       layer.msg('pembayaran paypal gagal,silakan pilih cara yang lain!');
+                        issubmit=true;
+                   }else{
+                       var btime=getNowDate();
+                       try{fbq('track', 'InitiateCheckout')}catch(e){};
+                       $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                       location.href=data.url;
+                   }
+               },
+ 
+ 
+               error: function(data) {
+                   layer.msg('Pesanan gagal dikirim, Silahkan cek jaringan internet Anda');
+                 }
+             }) ;
+
+        }
         
     }else{
         layer.msg('Pesanan berhasil terkirim, jangan dikirim ulang');
@@ -881,6 +919,10 @@ jQuery(function(){
            // $('#radiobox').find('span').each().attr('class','uncheck')
              $(this).next().attr("class",'ischeck');  
     })*/
+//支付方式默认选中第一个；
+$(function(){
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+})
 });
 </script>
         <script>
