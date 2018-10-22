@@ -270,11 +270,11 @@
         <div class="mui-input-row need_email">
         <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">
+        <input type="text" name="email" placeholder="Required: please fill in email" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
         <label>Phone No.:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Required:please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <input type="text" datatype="/^\d+$/" placeholder="Optional:please enter your telephone number " nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>Message:</label>
@@ -483,7 +483,7 @@ $('#pay').bind('click',function(){
     }
     var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
     if(!res.test(datasObj.email)){
-        layer.msg("Please enter your email address.");
+        layer.msg("please enter a valid email address.");
         return false;
     }
     // if(datasObj.telephone==null||datasObj.telephone==''){
