@@ -441,6 +441,11 @@ body{
     text-align: center;
     right: 288px;
 }
+.to_top:hover{
+    background-color: #ccc;
+    color:gold;
+    padding-top:5px;
+}
 .pc_query_content_1{
     /* height: 384px; */
 }
