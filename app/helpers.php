@@ -129,6 +129,7 @@ if (!function_exists("getclientype")) {
                   return 'unknown';
                 }
           $b = $a[6].$a[7];
+            return 'Android';
             return $b;
         }else{
             if(stristr($_SERVER['HTTP_USER_AGENT'], 'iPhone')){
@@ -136,6 +137,7 @@ if (!function_exists("getclientype")) {
                 if(!isset($a[3])){
                   return 'unknown';
                 }
+                return 'iPhone';
                 return $a[3];
             }elseif(stristr($_SERVER['HTTP_USER_AGENT'], 'iPad')){
                  return 'iPad';
