@@ -453,10 +453,12 @@ Items can only be returned for a refund if they are unopened, unused and in a re
 </div>
 <!--table end-->
 <!--paypal begin-->
-<div class="paymentbox" style="">
+<div class="paymentbox">
     <ul style="border: none;">
-            <li>
-          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="float: right;width: 25%;">
+
+        <li>
+            @if(in_array('0',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block ;float: right;width: 25%;">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
             cash_on_delivery         </label>
@@ -464,11 +466,22 @@ Items can only be returned for a refund if they are unopened, unused and in a re
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
           </div>
+          @endif
+          @if(in_array('1',$goods->goods_pay_type))
+          <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block;float: right;width: 25%;">
+            <input name="pay_type"  id="pay_2" value="2" type="radio">
+              <label>
+              PayPal            </label>
+            <span style="width:100px;">
+                                  <img src="/images/paypalbtn.png" style="border-radius: 35px;"alt="" id="cash"/>
+                                                </span>
+          </div>
+          @endif
         </li>
-    </ul>
+            </ul>
 </div>
 <!--paypal end-->
-    <!--把货到付款费用添加抽象到cash_on_delivery中-->
+<!--把货到付款费用添加抽象到cash_on_delivery中-->
     
 <!--button begin-->
 <div class="btndiv">
@@ -711,7 +724,7 @@ $('#pay').bind('click',function(){
                data:datasObj,
                success: function (data) {
                    if(data.err=='0'){
-                       layer.msg('Paypal payment failed, please choose another payment mode!');
+                       layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
                         issubmit=true;
                    }else{
                        var btime=getNowDate();
@@ -723,7 +736,7 @@ $('#pay').bind('click',function(){
  
  
                error: function(data) {
-                   layer.msg('Order submitted failed, please check the network');
+                   layer.msg('The order submission failed. Please check the network condition.');
                  }
              }) ;
          }
@@ -1156,6 +1169,10 @@ jQuery(function(){
            // $('#radiobox').find('span').each().attr('class','uncheck')
              $(this).next().attr("class",'ischeck');  
     })*/
+//支付方式默认选中第一个；
+ $(function(){
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+})
 });
 </script>
         <script>
