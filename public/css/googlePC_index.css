@@ -285,7 +285,7 @@ body{
 .pc_body .pc_detail_tab{
     padding: 0 20px 20px;
 }
-.pc_detail_tab_1 p{
+.pc_detail_tab_1 p,.pc_detail_tab_2 p{
     text-align: center;
     font-size:0;
 }

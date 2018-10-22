@@ -316,7 +316,7 @@
                 <div>
                     <p>Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product.</p>
                     <p>
-                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn’t returned, then we reserve the right to deduct the value of the free gift from your refund.
+                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn't returned, then we reserve the right to deduct the value of the free gift from your refund.
                     </p>
                     <p>
                     We recommend a photograph is taken of the item prior to returning it if you are concerned about damage during its return journey.
