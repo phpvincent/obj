@@ -518,7 +518,7 @@ class OrderController extends Controller
    	     
    }
    public function outorder(Request $request){
-      $data=order::select('order.order_id','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_price','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+      $data=order::select('order.order_id','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_price','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -547,7 +547,7 @@ class OrderController extends Controller
             //产品名
             $exdata[$k]['goods_real_name']=\App\goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');
             //商品名
-            $exdata[$k]['goods_name']=\App\goods::where('goods_id',$v['order_goods_id'])->first()['goods_real_name'];
+            $exdata[$k]['goods_name']=$v['goods_real_name'];
             //尺寸信息
              $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
             if($order_config->count()>0){ 
