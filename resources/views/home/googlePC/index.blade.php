@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="preview">
                                     <div class="swiper-container">
-                                        <div class="swiper-wrapper">
+                                        <div class="swiper-wrapper xiaotu">
                                             @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
                                             <div class="swiper-slide slide6" id="output">
                                                 <i></i>
@@ -402,6 +402,7 @@
 <script type="text/javascript" src="/js/video.js"></script>
 <script>
 (function(){
+    
     @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
     var video, output;
     var scale = 0.8;
@@ -529,6 +530,7 @@ function updateNavPosition() {
                 }
             }
         });
+        $(".xiaotu").find("div").first().addClass("active-nav");
     });
     $("#tab1").on("click",function(){
         $(".detail_bars li").removeClass("current");

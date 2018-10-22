@@ -432,7 +432,7 @@ body{
     margin-left: auto!important;
     z-index: 11000;
     background-color: #f5f5f5;
-    border: 1px solid #ebebeb;
+    /* border: 1px solid #ebebeb; */
     color: red;
     cursor: pointer;
     display: block;
@@ -442,9 +442,8 @@ body{
     right: 288px;
 }
 .to_top:hover{
-    background-color: #ccc;
-    color:gold;
-    padding-top:5px;
+    background-color: #ccc9c9;
+    box-shadow: 1px 2px 2px #b9b5b5;
 }
 .pc_query_content_1{
     /* height: 384px; */
