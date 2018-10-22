@@ -565,7 +565,7 @@ class IndexController extends Controller
             return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         if($goods->goods_blade_type == 9){
-            return view('home.googlePC.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.googlePC.endSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
