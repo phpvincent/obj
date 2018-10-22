@@ -181,7 +181,7 @@ class IndexController extends Controller
         }
     	$goods=goods::where('goods_id',$goods_id)->first();
         //处理图片
-        $img = \App\img::where('img_goods_id',$goods_id)->first();
+        $img = \App\img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->first();
         $str = $goods->goods_des_html;
         $imgpreg = "/<img src=\"(.+?)\" (.*?)>/";
         preg_match($imgpreg,$str,$imgs);
