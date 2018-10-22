@@ -242,13 +242,13 @@
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="" style="background:#fff;min-width: 1190px;overflow: hidden;height: 51px;">
-    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333; padding-top: 15px;" onclick="url_href()"></a>
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333; padding-top: 15px; " onclick="url_href()"></a>
     <img src="/img/pc_kuaidi.jpg" alt=""style="    width: 70%;">
     <!-- <h1 class="mui-title">Checkout</h1> -->
 </header>
 <div class="Popup Popup_1">
         <div>
-        <span class=" Close_1"  ><img style="width:22px;position: absolute;top: 3%;left: 95%;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE0SURBVDhPtdLbcoMgFAXQ/v8/Il5DtNZ7mg5J3AWFFLloHtI9cx7EM0vw8IE35z/BGWPFUA439bwf3jCwxu1V4IxrlYISAhIlYOO8LgfC2wJxJHoJRW6hApzBv/IV07WD8u6EZMF0URTdQ71V4O3Socyo0STKg94HZmER4rzCxP/6nkc+Ql2MgFqYzGYoQbS2jymwzMVkDFBGoi3ONmpVCJOxQBmJ1mCpH93DZDygzAPXWl0js6JY/NO76vHHv8PujJRamC6a4vP75R0KbChdzBoIoRnqn8N/6MeihKEZaxRJtFkPoQoU2OTDTmiXAayDctHcQQV4hOm8hi4gF0fNDNDFdOTHLVQMqTQm/zyyRsOYjkQr5LFABVZN22u0GQofewyB6W0j0R79xb2TBvievBkEfgEk9VPLGAMbXwAAAABJRU5ErkJggg==" alt=""></span>
+        <span class=" Close_1"  ><img style="width:22px;position: absolute;top: 3%;left: 95%;cursor: pointer;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE0SURBVDhPtdLbcoMgFAXQ/v8/Il5DtNZ7mg5J3AWFFLloHtI9cx7EM0vw8IE35z/BGWPFUA439bwf3jCwxu1V4IxrlYISAhIlYOO8LgfC2wJxJHoJRW6hApzBv/IV07WD8u6EZMF0URTdQ71V4O3Socyo0STKg94HZmER4rzCxP/6nkc+Ql2MgFqYzGYoQbS2jymwzMVkDFBGoi3ONmpVCJOxQBmJ1mCpH93DZDygzAPXWl0js6JY/NO76vHHv8PujJRamC6a4vP75R0KbChdzBoIoRnqn8N/6MeihKEZaxRJtFkPoQoU2OTDTmiXAayDctHcQQV4hOm8hi4gF0fNDNDFdOTHLVQMqTQm/zyyRsOYjkQr5LFABVZN22u0GQofewyB6W0j0R79xb2TBvievBkEfgEk9VPLGAMbXwAAAABJRU5ErkJggg==" alt=""></span>
             <div>
                 <h3>PRIVACY POLICY</h3>
                 <div>
@@ -310,7 +310,7 @@
     </div>
     <div class="Popup Popup_2">
         <div>
-        <span class=" Close_2"  ><img style="width:22px;position: absolute;top: 3%;left: 95%;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE0SURBVDhPtdLbcoMgFAXQ/v8/Il5DtNZ7mg5J3AWFFLloHtI9cx7EM0vw8IE35z/BGWPFUA439bwf3jCwxu1V4IxrlYISAhIlYOO8LgfC2wJxJHoJRW6hApzBv/IV07WD8u6EZMF0URTdQ71V4O3Socyo0STKg94HZmER4rzCxP/6nkc+Ql2MgFqYzGYoQbS2jymwzMVkDFBGoi3ONmpVCJOxQBmJ1mCpH93DZDygzAPXWl0js6JY/NO76vHHv8PujJRamC6a4vP75R0KbChdzBoIoRnqn8N/6MeihKEZaxRJtFkPoQoU2OTDTmiXAayDctHcQQV4hOm8hi4gF0fNDNDFdOTHLVQMqTQm/zyyRsOYjkQr5LFABVZN22u0GQofewyB6W0j0R79xb2TBvievBkEfgEk9VPLGAMbXwAAAABJRU5ErkJggg==" alt=""></span>
+        <span class=" Close_2"  ><img style="cursor: pointer;width:22px;position: absolute;top: 3%;left: 95%;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE0SURBVDhPtdLbcoMgFAXQ/v8/Il5DtNZ7mg5J3AWFFLloHtI9cx7EM0vw8IE35z/BGWPFUA439bwf3jCwxu1V4IxrlYISAhIlYOO8LgfC2wJxJHoJRW6hApzBv/IV07WD8u6EZMF0URTdQ71V4O3Socyo0STKg94HZmER4rzCxP/6nkc+Ql2MgFqYzGYoQbS2jymwzMVkDFBGoi3ONmpVCJOxQBmJ1mCpH93DZDygzAPXWl0js6JY/NO76vHHv8PujJRamC6a4vP75R0KbChdzBoIoRnqn8N/6MeihKEZaxRJtFkPoQoU2OTDTmiXAayDctHcQQV4hOm8hi4gF0fNDNDFdOTHLVQMqTQm/zyyRsOYjkQr5LFABVZN22u0GQofewyB6W0j0R79xb2TBvievBkEfgEk9VPLGAMbXwAAAABJRU5ErkJggg==" alt=""></span>
             <div>
                 <h3>RETURENS POLICY </h3>
                 <div>
@@ -508,6 +508,10 @@ Items can only be returned for a refund if they are unopened, unused and in a re
     
 
 <script>
+function url_href()
+{
+    window.location.href = '/';
+}
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
@@ -633,7 +637,7 @@ Items can only be returned for a refund if they are unopened, unused and in a re
 
 
 $('#pay').bind('click',function(){
-     
+    
      //整理表单数据；
      var dataArr=$("form#f1").serializeArray();
      var dataObj={};
@@ -706,7 +710,10 @@ $('#pay').bind('click',function(){
      // }
      datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
      datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
-     layer.msg("Please wait for the order submitted");
+    //  layer.msg("Please wait for the order submitted");
+     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
+    }})
      var payType=$(".paymentbox input:checked").val();
      if(issubmit){
          issubmit=false;
@@ -716,6 +723,7 @@ $('#pay').bind('click',function(){
             url: "/saveform",
             data:datasObj,
             success: function (data) {
+                layer.close(index);
              var btime=getNowDate();
                      try{fbq('track', 'InitiateCheckout')}catch(e){};
                              $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
@@ -734,6 +742,7 @@ $('#pay').bind('click',function(){
                url: "/paypal_pay",
                data:datasObj,
                success: function (data) {
+                layer.close(index);
                    if(data.err=='0'){
                        layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
                         issubmit=true;
@@ -1200,10 +1209,7 @@ jQuery(function(){
  $(function(){
     $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
 })
-function url_href()
-{
-    window.location.href = '/';
-}
+
 });
 </script>
         <script>
