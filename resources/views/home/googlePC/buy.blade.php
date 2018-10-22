@@ -242,7 +242,7 @@
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="" style="background:#fff;min-width: 1190px;overflow: hidden;height: 51px;">
-    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333; padding-top: 15px;" onclick="javascript :history.back(-1);"></a>
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333; padding-top: 15px;" onclick="url_href()"></a>
     <img src="/img/pc_kuaidi.jpg" alt=""style="    width: 70%;">
     <!-- <h1 class="mui-title">Checkout</h1> -->
 </header>
@@ -1151,6 +1151,11 @@ $(function(){
     })
 
 })
+function url_href()
+{
+    console.log('11111');
+    window.location.href = '/';
+}
     var isuse =true;
 jQuery(function(){
        $('#save input').on('input',function(){
@@ -1173,8 +1178,6 @@ jQuery(function(){
             }
        });
     });
-   
-    
 /*$('.radiobox').children().find('input').on('click',function(){alert('?');
             $(this).parent().parent().find('span').attr('class','uncheck')
            // $('#radiobox').find('span').each().attr('class','uncheck')
