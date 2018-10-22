@@ -322,6 +322,6 @@ if (!function_exists('out_excil')){
                                 $herbmaster->herbmaster_type='0';
                                 $herbmaster->save();
                          }
-
+                       }
       }
 }
