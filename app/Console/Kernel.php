@@ -26,8 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-                /* $filePath='./time.log';
+                 $filePath='./time.log';
                  $schedule->call(function(){
+                    //在线支付订单超时时间（秒）
                     $maxtime=2400;
                     $herbmaster=\App\herbmaster::where('herbmaster_type','0')->first();
                     if($herbmaster==null||strtotime($herbmaster['herbmaster_msg'])==false||strtotime($herbmaster['herbmaster_msg'])<time()-2592000){
@@ -44,7 +45,8 @@ class Kernel extends ConsoleKernel
                     $new_time='';
                     foreach($orders as $k => $v){
                         $order_time=$v->order_time;
-                        if(time()-strtotime($order_time)>=2400&&$v->order_type==9){
+                        if($v->order_type==9&&time()-strtotime($order_time)>=2400){
+                            //当订单时间已经超过超时时间时，自动删除订单
                             $new_time=$v->order_time;
                             $v->is_del='1';
                             $msg=$v->save();
@@ -54,8 +56,11 @@ class Kernel extends ConsoleKernel
                                 \Log::notice($v->order_id."号订单删除失败");
                             }
                         }
+                        
+                        }
                         if($new_time==''){
                             if($herbmaster==null){
+                                //设置新的订单核审节点
                                 $newherbmaster=new \App\herbmaster();
                                 $newherbmaster->herbmaster_type='0';
                                 $newherbmaster->herbmaster_msg=null;
@@ -76,8 +81,7 @@ class Kernel extends ConsoleKernel
                                 $herbmaster->save();
                          }
                         }
-                    }
-                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);*/
+                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
     }
 
     /**
