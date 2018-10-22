@@ -402,6 +402,7 @@
 <script type="text/javascript" src="/js/video.js"></script>
 <script>
 (function(){
+    @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
     var video, output;
     var scale = 0.8;
     var initialize = function() {
@@ -409,6 +410,7 @@
     video = document.getElementById("divVideo");
     video.addEventListener('loadeddata',captureImage);
     };
+
 
     var captureImage = function() {
             var canvas = document.createElement("canvas");
@@ -422,6 +424,7 @@
     };
 
     initialize();
+    @endif
 })();
     // 轮播图
 var viewSwiper = new Swiper('.view .swiper-container', {
