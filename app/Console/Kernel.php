@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
                  $filePath='./time.log';
                  $schedule->call(function(){
-                    //在线支付订单超时时间（秒）
+                    //在线支付订单超时时间（秒），小于2592000
                     $maxtime=2400;
                     $herbmaster=\App\herbmaster::where('herbmaster_type','0')->first();
                     if($herbmaster==null||strtotime($herbmaster['herbmaster_msg'])==false||strtotime($herbmaster['herbmaster_msg'])<time()-2592000){
@@ -66,7 +66,7 @@ class Kernel extends ConsoleKernel
                                 $newherbmaster->herbmaster_msg=null;
                                 $newherbmaster->save();
                             }else{
-                                $herbmaster->herbmaster_msg=date("Y-m-d H:i:s",time());
+                                $herbmaster->herbmaster_msg=date("Y-m-d H:i:s",time()-2592000);
                                 $herbmaster->save();
                             }
                         }else{
