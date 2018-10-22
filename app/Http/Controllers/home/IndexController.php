@@ -1005,6 +1005,7 @@ class IndexController extends Controller
             try{
                  $order=\App\order::where('order_id',$invoice_id)->update(['order_type'=>'12']);
                 }catch(Exception $e){
+                     \Log::notice("[".date('Y-m-d H:i:s',time())."]".$invoice_id."号订单修改状态为(支付失败)操作失败".$e);
                 }
             return redirect('/endfail?type=0');
         }
@@ -1024,15 +1025,27 @@ class IndexController extends Controller
         $paypal->paypal_lastname=$response['LASTNAME'];
         $paypal->paypal_order_id=$invoice_id;
         $paypal->paypal_desc=$response['DESC'];
-        $msg=$paypal->save();
+        try{
+              $msg=$paypal->save();
+          }catch(\Exception $e){
+            \Log::notice("[".date('Y-m-d H:i:s',time())."]".$invoice_id."号订单支付回调信息存储失败".$e);
+          }
         if($msg){
             $order->order_type='11';
+            if($order->is_del=='1'){
+                \Log::notice("[".date('Y-m-d H:i:s',time())."]".$order->order_id."号订单取消删除并修改为支付成功状态！");
+                $order->is_del='0';
+            }
             $order->save();
             $goods_id=$order->order_goods_id;
             $order_id=$order->order_id;
             return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }else{
             $order->order_type='13';
+            if($order->is_del=='1'){
+                \Log::notice("[".date('Y-m-d H:i:s',time())."]".$order->order_id."号订单取消删除并修改为支付成功状态！但支付数据存储失败");
+                $order->is_del='0';
+            }
             $order->save();
             $goods_id=$order->order_goods_id;
             $order_id=$order->order_id;

@@ -269,7 +269,7 @@ if (!function_exists('out_excil')){
  if (!function_exists('check_pay_order')){
       function check_pay_order(){ 
             //在线支付订单超时时间（秒），小于2592000
-                    $maxtime=300;
+                    $maxtime=3600;
                     $herbmaster=\App\herbmaster::where('herbmaster_type','0')->first();
                     if($herbmaster==null||strtotime($herbmaster['herbmaster_msg'])==false||strtotime($herbmaster['herbmaster_msg'])<time()-2592000){
                         $order_ltime=date("Y-m-d H:i:s",time()-2592000);
