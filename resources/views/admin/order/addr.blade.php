@@ -25,11 +25,11 @@
 			</tr>
 			<tr class="text-c">
 				<td>城市</td>
-				<td>{!!$order->order_state==''?"<span style='color:red'>没有填写</span>":$order->order_state!!}</td>
+				<td>{!!$order->order_city==''?"<span style='color:red'>没有填写</span>":$order->order_city!!}</td>
 			</tr>
 			<tr class="text-c">
 				<td>地区</td>
-				<td>{!!$order->order_city==''?"<span style='color:red'>没有填写</span>":$order->order_city!!}</td>
+				<td>{!!$order->order_state==''?"<span style='color:red'>没有填写</span>":$order->order_state!!}</td>
 			</tr>
 			<tr class="text-c">
 				<td>详细信息</td>
