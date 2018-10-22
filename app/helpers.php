@@ -325,3 +325,20 @@ if (!function_exists('out_excil')){
                        }
       }
 }
+ if (!function_exists('get_user_new_type')){
+      function get_user_new_type(){ 
+        $agent       = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+        $device_type = 'unknown';
+
+        $device_type = (strpos($agent, 'windows nt')) ? 'pc' : $device_type;
+
+        $device_type = (strpos($agent, 'iphone')) ? 'iPhone' : $device_type;
+
+        $device_type = (strpos($agent, 'ipad')) ? 'iPad' : $device_type;
+
+        $device_type = (strpos($agent, 'android')) ? 'Android' : $device_type;
+
+        return $device_type;
+      }
+  }
