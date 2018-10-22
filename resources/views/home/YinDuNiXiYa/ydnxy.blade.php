@@ -39,6 +39,12 @@
         <script type="text/javascript" src="/js/conversion.js"></script>
        <script type="text/javascript" src="/js/resizeDIV.js"></script>
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
+        <style>
+            .table_cell {
+                width: 62%;
+                padding-left: 1%;
+            }
+        </style>
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -267,7 +273,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            evaluate:
+                            Tingkat kepuasan:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>

@@ -647,7 +647,7 @@ jQuery(function(){
 	                        	addform(formName); //增加一组商品属性；
 	                        	var num=parseInt($(this).prev().val());
 	                        	if(num>={{$goods->goods_num}}){
-	                        		layer.msg('low stocks!');
+	                        		layer.msg('在庫不足');
 	                        		return false;
 	                        	}
 	                        	$(this).prev().val(num+1);
@@ -718,7 +718,7 @@ jQuery(function(){
 	                            	var num = Number($('#addcart-quantity-val').val())
 	                            	console.log(num)
 	                            	if(num>= msg.goods.goods_num){
-	                            		layer.msg('low stocks!');
+	                            		layer.msg('在庫不足');
 	                            		return false;
 	                            	}
 	                            	// $(this).prev().val(num+1);
