@@ -287,6 +287,7 @@ body{
 }
 .pc_detail_tab_1 p{
     text-align: center;
+    font-size:0;
 }
 .pc_bottom_logo{
     margin: 0 auto;
