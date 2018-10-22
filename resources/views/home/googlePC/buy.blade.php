@@ -316,7 +316,7 @@
                 <div>
                     <p>Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product.</p>
                     <p>
-                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn't returned, then we reserve the right to deduct the value of the free gift from your refund.
+                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn’t returned, then we reserve the right to deduct the value of the free gift from your refund.
                     </p>
                     <p>
                     We recommend a photograph is taken of the item prior to returning it if you are concerned about damage during its return journey.
@@ -897,7 +897,22 @@ jQuery(function(){
                 datatype:'html',
                 success:function(msg){
                 //  $('#addcart').html(msg);
-                 console.log('123',msg)
+                 console.log('123',msg);
+                     function returnFloat(value){
+                      var value=Math.round(parseFloat(value)*100)/100;
+                      var xsd=value.toString().split(".");
+                      if(xsd.length==1){
+                      value=value.toString()+".00";
+                      return value;
+                      }
+                      if(xsd.length>1){
+                      if(xsd[1].length<2){
+                      value=value.toString()+"0";
+                      }
+                      return value;
+                      }
+                     };
+                 
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
@@ -914,8 +929,8 @@ jQuery(function(){
 	                        	$(this).next().val(num-1);
 	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
 	                        	$('.addcart-footer-number-total').children('font:first').html(num-1);
-	                        	$('#realprice').html((num-1)*price+".00");
-	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num-1)*price+'.00');
+	                        	$('#realprice').html(returnFloat((num-1)*price));
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num-1)*price));
 	                        })
 	                        $('#addcart-quantity-inc').bind('click',function(){
 	                        	formnum+=1
@@ -929,8 +944,8 @@ jQuery(function(){
 	                        	$(this).prev().val(num+1);
 	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
 	                            $('.addcart-footer-number-total').children('font:first').html(num+1);
-	                            $('#realprice').html((num+1)*price+".00");
-	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num+1)*price+'.00');
+	                            $('#realprice').html( returnFloat((num+1)*price));
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num+1)*price));
 	                        })
                          })
 
@@ -955,12 +970,12 @@ jQuery(function(){
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	num=num-1;
 	                            	var confignum=$('.radiobox').length;console.log(confignum);
-	                            	var price=parseInt(msg.goods.goods_price);
+	                            	var price=msg.goods.goods_price;
 	                            	var end_price=price*num;
 	                            	if(num<config_arr[0]){
 	                            		var end_price=price*num;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}else{
 	                            		var jp=price*(parseInt(config_arr[0])-1);
 	                            		var jjp=0;
@@ -979,7 +994,7 @@ jQuery(function(){
 	                            			}
 	                            		 end_price=jp+jjp;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}
 	                            		
 	                            })
@@ -1004,12 +1019,13 @@ jQuery(function(){
 	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                num=num+1;
 	                                var confignum=$('.radiobox').length;console.log(confignum);
-	                            var price=parseInt(msg.goods.goods_price);
+	                            var price=msg.goods.goods_price;
 	                            	var end_price=price*num;
+                                    console.log('price',end_price,price,num)
 	                            	if(num<config_arr[0]){
 	                            		var end_price=price*num;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}else{
 	                            		var jp=price*(parseInt(config_arr[0])-1);
 	                            		var jjp=0;
@@ -1029,7 +1045,7 @@ jQuery(function(){
 	                            			}
 	                            		 end_price=jp+jjp;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}	
 	                            }
                             
@@ -1151,11 +1167,6 @@ $(function(){
     })
 
 })
-function url_href()
-{
-    console.log('11111');
-    window.location.href = '/';
-}
     var isuse =true;
 jQuery(function(){
        $('#save input').on('input',function(){
@@ -1178,6 +1189,8 @@ jQuery(function(){
             }
        });
     });
+   
+    
 /*$('.radiobox').children().find('input').on('click',function(){alert('?');
             $(this).parent().parent().find('span').attr('class','uncheck')
            // $('#radiobox').find('span').each().attr('class','uncheck')
@@ -1187,6 +1200,10 @@ jQuery(function(){
  $(function(){
     $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
 })
+function url_href()
+{
+    window.location.href = '/';
+}
 });
 </script>
         <script>
