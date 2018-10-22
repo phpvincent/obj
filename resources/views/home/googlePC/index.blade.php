@@ -105,7 +105,7 @@
                                    {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}     
                                 </span>
                                 @else
-                                <span class="money"style="padding-left: 55px;">{{$goods->goods_real_name}}</span>
+                                <span class="money"style="padding-left: 55px;    padding-bottom: 10px;">{{$goods->goods_real_name}}</span>
                                 @endif
 
                             </div>
