@@ -501,7 +501,7 @@ class IndexController extends Controller
     * 下单失败
     */
     public function endfail(Request $request){
-        return view('home.zhongdong.zdEndfail');    
+        return view('home.zhongdong.zdEndFail');    
     }
 
     public function endsuccess(Request $request){
