@@ -29,7 +29,8 @@ class Kernel extends ConsoleKernel
                  $filePath='./time.log';
                  $schedule->call(function(){
                    check_pay_order();
-                        
+                     
+                       }
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
     }
 
