@@ -660,6 +660,21 @@ jQuery(function(){
                 data:{'id':{{$goods->goods_id}},'_token':"{{csrf_token()}}"},
                 datatype:'html',
                 success:function(msg){ 
+                    console.log('123',msg)
+                 function returnFloat(value){
+                      var value=Math.round(parseFloat(value)*100)/100;
+                      var xsd=value.toString().split(".");
+                      if(xsd.length==1){
+                      value=value.toString()+".00";
+                      return value;
+                      }
+                      if(xsd.length>1){
+                      if(xsd[1].length<2){
+                      value=value.toString()+"0";
+                      }
+                      return value;
+                      }
+                     };
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
                             var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  Only left:'+msg.goods.goods_num+'\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font>,   Gift : <font>0</font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
@@ -675,8 +690,8 @@ jQuery(function(){
 	                        	$(this).next().val(num-1);
 	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
 	                        	$('.addcart-footer-number-total').children('font:first').html(num-1);
-	                        	$('#realprice').html((num-1)*price+".00");
-	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num-1)*price+'.00');
+	                        	$('#realprice').html( returnFloat((num-1)*price));
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num-1)*price));
 	                        })
 	                        $('#addcart-quantity-inc').bind('click',function(){
 	                        	formnum+=1
@@ -690,8 +705,8 @@ jQuery(function(){
 	                        	$(this).prev().val(num+1);
 	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
 	                            $('.addcart-footer-number-total').children('font:first').html(num+1);
-	                            $('#realprice').html((num+1)*price+".00");
-	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+(num+1)*price+'.00');
+	                            $('#realprice').html( returnFloat((num+1)*price));
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num+1)*price));
 	                        })
                          })
 
@@ -716,12 +731,12 @@ jQuery(function(){
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	num=num-1;
 	                            	var confignum=$('.radiobox').length;console.log(confignum);
-	                            	var price=parseInt(msg.goods.goods_price);
+	                            	var price= msg.goods.goods_price;
 	                            	var end_price=price*num;
 	                            	if(num<config_arr[0]){
 	                            		var end_price=price*num;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}else{
 	                            		var jp=price*(parseInt(config_arr[0])-1);
 	                            		var jjp=0;
@@ -740,7 +755,7 @@ jQuery(function(){
 	                            			}
 	                            		 end_price=jp+jjp;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}
 	                            		
 	                            })
@@ -765,12 +780,12 @@ jQuery(function(){
 	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                num=num+1;
 	                                var confignum=$('.radiobox').length;console.log(confignum);
-	                            var price=parseInt(msg.goods.goods_price);
+	                            var price= msg.goods.goods_price;
 	                            	var end_price=price*num;
 	                            	if(num<config_arr[0]){
 	                            		var end_price=price*num;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}else{
 	                            		var jp=price*(parseInt(config_arr[0])-1);
 	                            		var jjp=0;
@@ -790,7 +805,7 @@ jQuery(function(){
 	                            			}
 	                            		 end_price=jp+jjp;
 	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+end_price+".00");
+	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
 	                            	}	
 	                            }
                             
