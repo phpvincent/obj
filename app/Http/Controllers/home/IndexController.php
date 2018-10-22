@@ -250,6 +250,7 @@ class IndexController extends Controller
             return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
         if($blade_type==9){
+             $user_type=getclientype();
             if(in_array($user_type,['Android','iPhone','iPad'])){
             return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
             }
@@ -573,6 +574,7 @@ class IndexController extends Controller
             return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         if($goods->goods_blade_type == 9){
+             $user_type=getclientype();
             if(in_array($user_type,['Android','iPhone','iPad'])){
             return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
             }
@@ -667,6 +669,7 @@ class IndexController extends Controller
             return view('home.YingGuo.ygSendmsg')->with(compact('order','goods'));
         }
         if($goods->goods_blade_type == 9){
+             $user_type=getclientype();
              if(in_array($user_type,['Android','iPhone','iPad'])){
             return view('home.YingGuo.ygSendmsg')->with(compact('order','goods'));
                 }
