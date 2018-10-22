@@ -304,8 +304,10 @@ if (!function_exists('out_excil')){
                                 $newherbmaster->herbmaster_msg=null;
                                 $newherbmaster->save();
                             }else{
+                              if(strtotime($herbmaster->herbmaster_msg)<time()-2592000){
                                 $herbmaster->herbmaster_msg=date("Y-m-d H:i:s",time()-2592000);
                                 $herbmaster->save();
+                              }
                             }
                         }else{
                              if($herbmaster==null){
@@ -318,6 +320,7 @@ if (!function_exists('out_excil')){
                                 $herbmaster->herbmaster_type='0';
                                 $herbmaster->save();
                          }
+                       }
       }
     }
 
