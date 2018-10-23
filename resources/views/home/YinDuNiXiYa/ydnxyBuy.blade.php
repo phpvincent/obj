@@ -174,7 +174,7 @@
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/';})()"></a>
     <h1 class="mui-title">Konfirmasi pesanan</h1>
 </header>
 
@@ -619,36 +619,36 @@ jQuery(function(){
 </script>
 
 <script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="Optional: please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
-        html2 += "<label>Email:</label>";
+//     jQuery(function(){
+//         var html1 ='';
+// //        html +='<div class="mui-input-row need_email">';
+//         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
+//         html1 +='<input type="text" placeholder="Optional: please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         var html2 = '';
+//         html2 += "<label>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">';
 
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
+//         var payty =  jQuery('input[name=pay_type]:checked').val();
+//         if(payty==7||payty==2){
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html1);
+//         }else{
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html2);
+//         }
+//         jQuery('input[name=pay_type]').click(function(){
+//             if(jQuery(this).val()==7 || jQuery(this).val()==2){
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html1);
+//             }else{
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html2);
+//             }
 
-        });
+//         });
 
-    });
+//     });
 
 </script>
 
