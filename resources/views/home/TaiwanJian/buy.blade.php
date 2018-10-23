@@ -744,7 +744,37 @@ jQuery(function(){
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
 	                            	var price=pricehtml.html().replace(/[^0-9]/ig,"");
-	                            	var config_arr=String(msg.cuxiao[0].cuxiao_config).split(',');
+                                    var config_arr=String(msg.cuxiao[0].cuxiao_config).split(',');
+                                    
+                                    function priceMath(num){
+                                            var confignum=$('.radiobox').length;console.log(confignum);
+	                            	        var price=msg.goods.goods_price;
+	                            	        var end_price=price*num;
+	                            	        if(num<config_arr[0]){
+	                            	        	var end_price=price*num;
+	                            	        	$('#realprice').html( returnFloat(end_price));
+	                            	        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
+	                            	        }else{
+	                            	        	var jp=price*(parseInt(config_arr[0])-1);
+	                            	        	var jjp=0;
+	                            	        	var len=config_arr.length;
+	                            	        	for(var i = 0; i < config_arr.length/2; i++){
+	                            	        			if(num>=parseInt(config_arr[i*2])){
+	                            	        				if(num<parseInt(config_arr[i*2+2])){
+	                            	        					jjp+=(num-(parseInt(config_arr[i*2])-1))*(price-(config_arr[i*2+1]));
+	                            	        					break;
+	                            	        				}else if(num>=parseInt(config_arr[i*2+2])){
+	                            	        					jjp+=(parseInt(config_arr[i*2+2])-parseInt(config_arr[i*2]))*(price-config_arr[i*2+1]);
+	                            	        				}else{
+	                            	        					jjp+=(num-parseInt(config_arr[i*2])+1)*(price-config_arr[i*2+1]);
+	                            	        				}
+	                            	        			}
+	                            	        		}
+	                            	        	 end_price=jp+jjp;
+	                            	        	$('#realprice').html(returnFloat(end_price) );
+	                            	        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price));
+	                            	        }
+                                    }
 	                            
 	                                $('#addcart-quantity-dec').bind('click',function(){
 	                            	removeform();
@@ -757,33 +787,7 @@ jQuery(function(){
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	num=num-1;
-	                            	var confignum=$('.radiobox').length;console.log(confignum);
-	                            	var price= msg.goods.goods_price;
-	                            	var end_price=price*num;
-	                            	if(num<config_arr[0]){
-	                            		var end_price=price*num;
-	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price) );
-	                            	}else{
-	                            		var jp=price*(parseInt(config_arr[0])-1);
-	                            		var jjp=0;
-	                            		var len=config_arr.length;
-	                            		for(var i = 0; i < config_arr.length/2; i++){
-	                            				if(num>=parseInt(config_arr[i*2])){
-	                            					if(num<parseInt(config_arr[i*2+2])){
-	                            						jjp+=(num-(parseInt(config_arr[i*2])-1))*(price-(parseInt(config_arr[i*2+1])));
-	                            						break;
-	                            					}else if(num>=parseInt(config_arr[i*2+2])){
-	                            						jjp+=(parseInt(config_arr[i*2+2])-parseInt(config_arr[i*2]))*(price-parseInt(config_arr[i*2+1]));
-	                            					}else{
-	                            						jjp+=(num-parseInt(config_arr[i*2])+1)*(price-parseInt(config_arr[i*2+1]));
-	                            					}
-	                            				}
-	                            			}
-	                            		 end_price=jp+jjp;
-	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price) );
-	                            	}
+                                    priceMath(num)
 	                            		
 	                            })
 	                            
@@ -806,34 +810,7 @@ jQuery(function(){
 	                            	$('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                num=num+1;
-	                                var confignum=$('.radiobox').length;console.log(confignum);
-	                            var price= msg.goods.goods_price;
-	                            	var end_price=price*num;
-	                            	if(num<config_arr[0]){
-	                            		var end_price=price*num;
-	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price) );
-	                            	}else{
-	                            		var jp=price*(parseInt(config_arr[0])-1);
-	                            		var jjp=0;
-	                            		var len=config_arr.length;
-	                            		for(var i = 0; i < config_arr.length/2; i++){
-	                            	
-	                            				if(num>=parseInt(config_arr[i*2])){
-	                            					if(num<parseInt(config_arr[i*2+2])){
-	                            						jjp+=(num-(parseInt(config_arr[i*2])-1))*(price-(parseInt(config_arr[i*2+1])));
-	                            						break;
-	                            					}else if(num>=parseInt(config_arr[i*2+2])){
-	                            						jjp+=(parseInt(config_arr[i*2+2])-parseInt(config_arr[i*2]))*(price-parseInt(config_arr[i*2+1]));
-	                            					}else{
-	                            						jjp+=(num-parseInt(config_arr[i*2])+1)*(price-parseInt(config_arr[i*2+1]));
-	                            					}
-	                            				}
-	                            			}
-	                            		 end_price=jp+jjp;
-	                            		$('#realprice').html(end_price);
-	                            		pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat(end_price) );
-	                            	}	
+                                    priceMath(num)
 	                            }
                             
 	                            var shuliang = formnum;
