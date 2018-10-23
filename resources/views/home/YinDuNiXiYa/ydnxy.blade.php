@@ -198,7 +198,7 @@
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text"> sisa:<span>{{$goods->goods_num}}grup</span></div>
+    <div class="text"> sisa:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
         <font> sampai akhir:</font>
