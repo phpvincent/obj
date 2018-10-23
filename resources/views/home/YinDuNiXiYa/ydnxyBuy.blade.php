@@ -488,7 +488,7 @@ $('#pay').bind('click',function(){
            url: "/saveform",
            data:datasObj,
            success: function (data) {
-               larer.close(index);
+               layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
