@@ -1073,7 +1073,7 @@ class IndexController extends Controller
         }
    }
    public function sendmail(Request $request)
-   {        dd('?');
+   {       
            $name = '学院君';
            $order=\App\order::where('order_id','39')->first();
            $goods=\App\goods::where('goods_id','1')->first();
