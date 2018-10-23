@@ -447,7 +447,8 @@
     form.tipmsg.r="订单提交中...";
 
 
-
+layer.load(2);
+layer.closeAll();
 $('#pay').bind('click',function(){
      
     //整理表单数据；
@@ -497,7 +498,10 @@ $('#pay').bind('click',function(){
         layer.msg('请输入有效手机号');
         return false;
     }
-    layer.msg("订单提交中，请稍等...");
+    // layer.msg("订单提交中，请稍等...");
+    var index = layer.load(2, {shade: [0.15, '#393D49'],content:'订单提交中，请稍等',success: function(layero){
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
+    }})
     var payType=$(".paymentbox input:checked").val();
     if(issubmit){
         issubmit=false;
@@ -507,6 +511,7 @@ $('#pay').bind('click',function(){
            url: "/saveform",
            data:datasObj,
            success: function (data) {
+               layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
@@ -525,6 +530,7 @@ $('#pay').bind('click',function(){
                 url: "/paypal_pay",
                 data:datasObj,
                 success: function (data) {
+                    layer.close(index);
                     if(data.err=='0'){
                         layer.msg('paypal支付失败，请选择其他支付方式！');
                          issubmit=true;

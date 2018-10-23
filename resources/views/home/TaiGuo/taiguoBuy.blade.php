@@ -420,7 +420,8 @@
     form.tipmsg.r="訂單提交中...";
 
 
-
+layer.load(2);
+layer.closeAll();
 $('#pay').bind('click',function(){
      
     //整理表单数据；
@@ -481,7 +482,10 @@ $('#pay').bind('click',function(){
     //     return false;
     // }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
-    layer.msg("ำลังยื่นเสนอคำสั่งซื้อ กรุณารอสักครู่");
+    // layer.msg("ำลังยื่นเสนอคำสั่งซื้อ กรุณารอสักครู่");
+    var index = layer.load(2, {shade: [0.15, '#393D49'],content:"ำลังยื่นเสนอคำสั่งซื้อ กรุณารอสักครู่",success: function(layero){
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
+    }})
     var payType=$(".paymentbox input:checked").val();
 
     if(issubmit){
@@ -492,6 +496,7 @@ $('#pay').bind('click',function(){
            url: "/saveform",
            data:datasObj,
            success: function (data) {
+               layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
@@ -510,6 +515,7 @@ $('#pay').bind('click',function(){
                url: "/paypal_pay",
                data:datasObj,
                success: function (data) {
+                   layer.close(index);
                    if(data.err=='0'){
                        layer.msg('การชำระเงินผ่าน Paypal ล้มเหลว โปรดเลือกวิธีการชำระเงินอื่น!');
                         issubmit=true;
