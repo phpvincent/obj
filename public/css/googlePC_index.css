@@ -222,7 +222,6 @@ body{
 }
 .pc_activity_content div{
     height: 60px;
-    text-indent: 2em;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
