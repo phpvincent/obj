@@ -77,12 +77,12 @@
     <div class="pay_success">
             <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">Pesanan berhasil !</h2>
                             <div style="padding:15px;">
-                            Nomer pesanan Anda :<font color="red">{{$order->order_single_id}}</font><br>
+                            Nomor pesanan Anda:<font color="red">{{$order->order_single_id}}</font><br>
                             Yang harus dibayar :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            Mohon agar HP Anda tetap aktif, supaya mempermudah kurir untuk menghubungi Anda. Jika ada pertanyaan, silahkan menghubungi layanan chat online kami. Semoga belanja Anda menyenangkan !     <a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>        </div>            </div>
+                                            Mohon menjaga HP Anda tetap aktif, supaya pengirim mudah hubungi Anda. Jika ada pertanyaan, silakan hubungi layanan pelanggan online kami. Semoga belanja Anda menyenangkan !<a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>        </div>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">kembali ke beranda&gt;&gt;</button>
             </div>

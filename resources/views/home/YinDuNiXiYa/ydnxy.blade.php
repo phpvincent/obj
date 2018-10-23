@@ -179,10 +179,10 @@
         <span class="flag" style="font-size: 12px;">Gratis biaya pengiriman</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
+        <span class="flag" style="font-size: 12px;">Bayar setelah terima barang</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">7 hari masa garansi</span>
+        <span class="flag" style="font-size: 12px;background:#000;">masa garansi 7 Hari</span>
     @endif
 </div>
 @endif
@@ -201,7 +201,7 @@
     <div class="text"> Hitung mundur:<span>{{$goods->goods_num}}grup</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>Jam<span id="m" class="colon"></span>menit<span id="s" class="colon"></span>detik</div>
-        <font>Batas akhir:</font>
+        <font>sampai akhir:</font>
     </div>
 </div>
 @endif
@@ -231,7 +231,7 @@
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        ulasan ({{$goods->goods_comment_num}}+)
+        penilaian ({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
@@ -263,7 +263,7 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>Ulasan terakhir</h4>
+                        <h4>penilaian terbaru</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -273,7 +273,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            Tingkat kepuasan:
+                            kepuasan:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -298,7 +298,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    Ulasan Saya    @else Pesan   @endif        </a>
+                  penilaian saya       </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -311,27 +311,28 @@
     <tbody>
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Informasi</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.peringatan</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-                Hasil dari penggunaan produk ini sesuai dengan kondisi masing-masing pelanggan dan tidak menjamin bahwa setiap pelanggan dapat mencapai hasil sesuai di promosi. Jika Anda memiliki pertanyaan, silakan hubungi layanan pelanggan online kami atau hubungi kami melalui e-mail(
+                Hasil penggunaan sebenarnya produk ini ditentukan oleh keadaan pribadi, tidak bisa menjamin semua pengguna dapat menikmati efek promosi.Kalau ada pertanyaan,bisa hubungi kami via layanan pengguna online atau email(
                                         <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
-                                        ) perusahaan kami memiliki hak interpretasi akhir.</p>
+                                        ),perusahaan kami memiliki hak interpretasi akhir.</p>
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Cara mengajukan pengambalian barang</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.cara penggantian dan pengembalian</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-            1. Pengembalian karena alasan pribadi: dalam 7 hari dari tanggal penerimaan barang silakan hubungi layanan pelanggan online kami atau kirim email ke <a  href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a> tanpa mempengaruhi penjualan kedua. Permintaan Anda akan diterima dalam waktu 1-3 hari kerja oleh bagian layanan customer service dan biaya pengiriman yang dikenakan akan ditanggung oleh pelanggan.<br>
+            1.	Alasan pribadi:Dalam 7 hari dari tanggal penerimaan barang dan tidak mempengaruhi penjualan lagi.Silakan hubungi layanan pelanggan online kami atau kirim email ke<a  href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>. Setelah terima permintaan Anda,bagian layanan pelanggan kami akan mengurus dalam 1-3 hari kerja,ongkos penggantian dan pengembalian dibayarkan oleh pelanggan sendiri.<br>
 
 
-             2.Pengembalian karena alasan kualitas: dalam 7 hari dari tanggal penerimaan barang silahkan mengirim email ke ke pusat layanan customer service kami <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>, Customer service kami akan merespon permintaan Anda dalam waktu 1-3 hari, biaya pengiriman atas pengembalian barang akan ditanggung oleh pihak kami.</p>
+             2.Alasan kualitas:
+Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layanan pelanggan kami <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>, bagian layanan pelanggan kami akan mengurus permintaan Anda dalam 1-3 hari kerja,ongkos penggantian dan pengembalian dibayarkan oleh perusahaan kami.</p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
@@ -352,15 +353,24 @@
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.Alur Pengembalian barang</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.alur penggantian dan pengembalian</th>
+        </tr>
+        <tr class="first odd">
+            <td colspan="2">
+               
+               
+                <p>Konfirmasi terima barang–minta ganti dan kembali barang–setuju oleh pelayan pelanggan–pelanggan kirim barang –gudang terima dan periksa barang–periksa ganti dan kembali barang –kembali uang/ganti barang</p>
+                <p>Silakan isi : Nomor pesanan, nama dan no HP.</p>
+                
+            </td>
+
         </tr>
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
                
                
-                <p>Konfirmasi penerimaan barang – Pengajuan pengembalian barang – Berhasil verifikasi – pelanggan mengirim produk return – Produk return diterima di gudang – verfikasi produk return – Pengembalian dana / penggantian produk</p>
-                <p>Pengembalian atau penggantian produk silahkan mengisi : Nomor Order, nama lengkap dan nomor HP.</p>
+                <p>ZSSSHOP adalah online mall yang memilih produk dengan sikap yang ketat mengikuti secara konsisten, Menyebar ke seluruh dunia, secara ketat mengontrol asal produk, baik komoditas kerajinan, bahan baku, pakaian, tas dan sepatu, peralatan rumah tangga,  peralatan dapur, olahraga dll. Kami berusaha memberikan produk kualitas terbaik kepada Anda .</p>
                 
             </td>
 
@@ -449,8 +459,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                 <div class="closeBtn">
                     <img src="/img/close.png">
                 </div>
-                <div class="buyinfo_hd">
-                Pesan online                </div>
+                <div class="buyinfo_hd">Penilaian online </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -472,7 +481,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    No. Hanphone:
+                                    No.HP:
                                 </td>
                                 <td class="table_cell">
                                     <input type="text" placeholder="No. Hanphone" class="input01" name="phone"
@@ -482,7 +491,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                Tingkat kepuasan:
+                                kepuasan:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -507,17 +516,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                Pesan:
+                                Penilaian:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="Pesan online" name="content" class="textarea_style">
+                                    <textarea placeholder="Penilaian online" name="content" class="textarea_style">
                                     </textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="Kirim ulasan" style="color:white">
+                                    value="penilaian sekarang" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -723,7 +732,7 @@ $(function(){
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("No. Handphone tidak boleh kosong");
+                $2.toast("No.HP tidak boleh kosong");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;

@@ -145,7 +145,7 @@
 
 <div class="fixed">
   <h4> <a href="javascript:history.go(-1);"></a>
-  Cek pesanan</h4>
+  Cari pesanan</h4>
 </div>
 
 <div class="mui-content" style="background:#fff">
@@ -155,14 +155,14 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	nomor pesanan / nomor resi pengiriman  (isikan salah satu informasi)	<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	nomor pesanan / nomor logistik  (isi salah satu)	<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
-			<input name="queryNo" value="" id="txtkey" class="text" placeholder="Isikan informasi terkait	" type="text">
+			<input name="queryNo" value="" id="txtkey" class="text" placeholder="Isi informasi terkaitan" type="text">
 		</form>
 	</div>
-	<a id="btnQuery">Cari</a>
+	<a id="btnQuery">Cari sekarang</a>
 	<div class="clearfix"></div>
   </div>
 
@@ -204,7 +204,7 @@
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>Peringatan :</strong>
-					 Jika ada masalah setelah penerimaan barang, silahkan hubungi layanan chat online kami atau kirim email ke <a href='mail:rbzjlprc@gmail.com' style='color:#F8770E'>rbzjlprc@gmail.com</a>. Harap informasikan juga nama dan nomor contact yang dapat dihubungi atau nomer pesanan, Kami akan segera tindak lanjutti. Semoga belanja Anda menyenangkan.</div>
+					Jika ada pertanyaan setelah terima barang, silakan hubungi layanan pelanggan online kami atau kirim email ke<a href='mail:rbzjlprc@gmail.com' style='color:#F8770E'>rbzjlprc@gmail.com</a>.Harap informasikan juga nama/ nomor HP/nomor pesanan,kami akan segera memecahkan pertanyaan Anda. Semoga belanja Anda menyenangkan.</div>
 				<p></p>
   			</div>
 		</div>
@@ -217,7 +217,7 @@
     	
 		$("#btnQuery").click(function(e) {
 			if($("input[name='queryNo']").val()==''){
-				alert('Nomer pesanan / nomer resi (isikan salah satu)');
+				alert('nomor pesanan / nomor logistik  (isi salah satu)');
 				return;
 			}
             $("#queryForm").submit();
@@ -238,7 +238,7 @@
                 	if(msg!='false'){
                 		  $('.details').html(msg);
                 	}else{
-                		  $('.details').html("<span style='color:#f00;'>Nomer pesanan tidak sesuai, tidak ada informasi terkait, silahkan input ulang</span>");
+                		  $('.details').html("<span style='color:#f00;'>Nomor pesanan salah, tidak ada informasi terkaitan, silakan isi ulang</span>");
                 	}
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }

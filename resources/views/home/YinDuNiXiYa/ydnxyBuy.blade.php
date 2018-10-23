@@ -269,7 +269,7 @@
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>Pesan :</label>
-        <textarea name="notes" placeholder="Optinal, misal isi nomor telepon umum, spesifikasi produk atau waktu pengiriman dll"></textarea>
+        <textarea name="notes" placeholder="optinal, misalnya isi nomor telepon umum, spesifikasi produk atau waktu pengiriman dll"></textarea>
     </div>
 
 </div>
@@ -282,8 +282,7 @@
             @if(in_array('0',$goods->goods_pay_type))
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
-            <label>
-            cash_on_delivery         </label>
+            <label>bayar setelah terima barang</label>
               <span style="width:100px;">
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
@@ -307,13 +306,13 @@
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01" style="">Kirim Pesanan</button>
+    <button id="pay" type="button" class="btnstyle01" style="">pesan sekarang</button>
 </div>
 <!--button end-->
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-    Peringatan: untuk metode cash on delivery + gratis pengiriman + 7 hari penerimaan tidak ada alasan untuk return produk ! Jika ada pertanyaan terkait produk setelah menerima barang, silahkan hubungi chat online kami atau kirim email ke 
+    Peringatan: Bisa bayar setelah terima barang + gratis bayar pengiriman + penggantian dan pengembalian barang 7 hari ! Jika ada pertanyaan setelah terima barang, silakan hubungi layanan pelanggan online kami atau kirim email ke 
         <a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>.
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
@@ -407,7 +406,7 @@
                     return false;
                 }
                         if(jQuery("select[name='state6']").val()==""){
-                alert('Silahkan pilih area');
+                alert('Silakan pilih lokasi');
                 return false;
             }
             jQuery('#pay').attr('disabled',true);
@@ -415,7 +414,7 @@
         },
         tipSweep:true
     });
-    form.tipmsg.r="Pesanan sedang dikirim, Silahkan menunggu";
+    form.tipmsg.r="Pesanan sedang dikirim, Silakan tunggu";
 
 
 layer.load(2);
@@ -454,7 +453,7 @@ $('#pay').bind('click',function(){
         return false;
     }
     if(datasObj.city==null||datasObj.city==''){
-        layer.msg('Silahkan pilih area');
+        layer.msg('Silakan pilih lokasi');
         return false;
     }
     if(datasObj.firstname==null||datasObj.firstname==''){
@@ -476,7 +475,7 @@ $('#pay').bind('click',function(){
     }
     datasObj.address1=datasObj.address1+"Zip:"+datasObj.zip;//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Pesanan sedang dikirim, Silahkan menunggu");
-    var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Pesanan sedang dikirim, Silahkan menunggu',success: function(layero){
+    var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Pesanan sedang dikirim, Silakan tunggu',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
     }})
     var payType=$(".paymentbox input:checked").val();
