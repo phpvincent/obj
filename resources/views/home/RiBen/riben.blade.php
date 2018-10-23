@@ -353,10 +353,16 @@
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品・交換の流れ:</th>
         </tr>
         <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
             商品到着の確認　　返品・交換を申し込みます　 　アフターサービスセンターが確認します　 お客様が商品を返送します 　倉庫側は返送する商品を確認します 　商品の返品・交換の確認 　返金/交換します
                 
+            </td>
+
+        </tr>
+        <tr class="first odd">
+            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <td colspan="2">
+            ZSSHOP厳選マーケットは一貫としての周到また厳密な態度を持っていて、世界各地で、商品の産地、技術、原材料を厳格に考察します。服装、靴、カバン、家具、キッチン用品、運動用品などの各種の商品を厳選して、お客様に最高の商品をさしあげます
             </td>
 
         </tr>

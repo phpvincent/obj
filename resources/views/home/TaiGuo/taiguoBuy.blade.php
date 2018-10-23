@@ -259,7 +259,7 @@
         <input type="text" name="address2" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="">
-        <label>รหัสไปรษณีย์:</label>
+        <label><span class="require">*</span>รหัสไปรษณีย์:</label>
         <input type="text" name="zip" placeholder="กรุณาระบุรหัสไปรษณีย์ของผู้รับ" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
