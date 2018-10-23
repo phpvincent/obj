@@ -468,3 +468,6 @@ body{
 .pc_submit{
     position: relative;
 }
+.preview .swiper-slide{
+    height: 52px;
+}
