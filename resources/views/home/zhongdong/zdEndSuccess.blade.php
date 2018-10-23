@@ -69,7 +69,7 @@
 <body style="">
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay';})()"></a>
         <h1 class="mui-title">Firm order</h1>
 </header>
     <div class="mui-content">
@@ -84,7 +84,7 @@
                                             <!--同一个币种不同团队的邮箱不一样-->
                                             Please keep your mobile phone unblocked, so that the courier can contact you in time. If you have any questions, please contact our online customer service in time. Have fun shopping!    <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>         </div>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">Return to the home page&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">Return to the home page&gt;&gt;</button>
             </div>
     </div>
 </div>

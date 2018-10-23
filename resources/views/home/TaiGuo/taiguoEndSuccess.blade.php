@@ -69,7 +69,7 @@
 <body style="">
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay';})()"></a>
         <h1 class="mui-title">ยืนยันการสั่งซื้อ </h1>
 </header>
     <div class="mui-content">
@@ -85,7 +85,7 @@
                                             
                                             กรุณาเปิดโทรศัพท์มือถือไว้ในช่วงการจัดส่งสินค้าเพื่อเจ้าหน้าที่การขนส่งสามารถติดต่อท่านได้ หากท่านมีคำถามหรือข้อสงสัยใดๆเกี่ยวกับสินค้าของเรา กรุณาติดต่อฝ่ายบริการลูกค้า ขอให้ทุกท่านเพลิดเพลินกับการชอปปิง: <a href="mailto:uoewtnxj@gmail.com" style="color:#F8770E">uoewtnxj@gmail.com</a>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="javascript:history.go(-2);">กลับหน้าหลัก&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">กลับหน้าหลัก&gt;&gt;</button>
             </div>
     </div>
 </div>
