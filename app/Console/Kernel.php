@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
                  $schedule->call(function(){
                     get_new_currency_rate();
-                 })->->dailyAt('03:00')->evenInMaintenanceMode();
+                 })->dailyAt('03:00')->evenInMaintenanceMode();
     }
     /**
      * Register the commands for the application.
