@@ -567,8 +567,9 @@ class GoodsController extends Controller
          }
    }
    public function close(Request $request){
-         $url=url::where('url_url',$request->input('id'))->first();
+         $url=url::where('url_id',$request->input('id'))->first();
          $url->url_type='0';
+         $url_url=null;
          if($url->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'下线成功']);
          }else{
