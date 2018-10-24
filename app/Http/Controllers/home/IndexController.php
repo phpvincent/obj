@@ -622,6 +622,7 @@ class IndexController extends Controller
                 return view('home.YingGuo.ygSend');
             }
             if($goods_blade_type == 9){
+                $user_type=get_user_new_type();
                 if(in_array($user_type,['Android','iPhone','iPad'])){
                 return view('home.YingGuo.ygSend');
                 }
