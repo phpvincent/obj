@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                    check_pay_order();    
                     \Log::notice('test');
-                 })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
+                 })->everyMinute()->appendOutputTo($filePath);
                  /*$schedule->call(function(){
                     //get_new_currency_rate();
                     \Log::notice(1);
