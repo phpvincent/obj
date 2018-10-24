@@ -31,7 +31,8 @@ class Kernel extends ConsoleKernel
                    check_pay_order();    
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
                  $schedule->call(function(){
-                    get_new_currency_rate();
+                    //get_new_currency_rate();
+                    \Log::notice(1);
                  })->dailyAt('03:00')->evenInMaintenanceMode();
     }
     /**
