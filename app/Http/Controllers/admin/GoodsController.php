@@ -556,7 +556,7 @@ class GoodsController extends Controller
    }
    public function online(Request $request){
          $url=url::where('url_url',$request->input('id'))->first();
-         if($url==null){
+         if($url==null||$url==''){
                return response()->json(['err'=>0,'str'=>'启动失败,需先绑定域名']);
          }
          $url->url_type='1';
