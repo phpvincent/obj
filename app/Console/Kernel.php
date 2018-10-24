@@ -30,10 +30,10 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                    check_pay_order();    
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
-                 $schedule->call(function(){
+                 /*$schedule->call(function(){
                     //get_new_currency_rate();
                     \Log::notice(1);
-                 })->dailyAt('03:00')->evenInMaintenanceMode();
+                 })->dailyAt('03:00')->evenInMaintenanceMode();*/
     }
     /**
      * Register the commands for the application.
