@@ -31,10 +31,10 @@ class Kernel extends ConsoleKernel
                    check_pay_order();    
                     \Log::notice('test');
                  })->everyMinute()->appendOutputTo($filePath);
-                 /*$schedule->call(function(){
+                 $schedule->call(function(){
                     //get_new_currency_rate();
-                    \Log::notice(1);
-                 })->dailyAt('03:00')->evenInMaintenanceMode();*/
+                    \Log::notice('check');
+                 })->dailyAt('03:00');
     }
     /**
      * Register the commands for the application.
