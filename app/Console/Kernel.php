@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
                  $filePath='./time.log';
                  $schedule->call(function(){
                    check_pay_order();    
-                    \Log::notice('test');
+                    /*\Log::notice('test');*/
                  })->everyMinute()->appendOutputTo($filePath);
                  $schedule->call(function(){
                     get_new_currency_rate();
