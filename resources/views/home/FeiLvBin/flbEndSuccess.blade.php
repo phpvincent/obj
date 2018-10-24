@@ -77,7 +77,7 @@
     <div class="pay_success">
             <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">Success!</h2>
                             <div style="padding:15px;">
-                        Your order number :<font color="red">{{$order->order_single_id}}</font><br>
+                        Your order number :<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
                         Payable :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
