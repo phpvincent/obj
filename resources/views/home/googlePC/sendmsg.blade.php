@@ -1,7 +1,7 @@
 <div class="product_image">
     <img src="{{\App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}">
 </div>
-<div class="check_show">
+<div class="check_show"style=" user-select: text;">
     <h4>Product Name:</h4>
     <p>{{$goods->goods_name}}</p>
     <h4><b>Your order number:</b></h4>

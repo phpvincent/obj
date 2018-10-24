@@ -291,8 +291,7 @@
                                                 Email:
                                             </td>
                                             <td class="table_cell">
-                                                <input type="text" placeholder="required:Please fill in email" class="input01" name="phone"
-                                                maxlength="20">
+                                                <input type="text" placeholder="required:Please fill in email" class="input01" name="phone"/>
                                                 <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                             </td>
                                         </tr>
