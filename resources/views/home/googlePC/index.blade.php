@@ -280,7 +280,7 @@
                                             </td>
                                             <td class="table_cell">
                                                 <input type="text" placeholder="Name" class=" input01"
-                                                name="name" maxlength="10">
+                                                name="name">
                                             </td>
                                         </tr>
                                                                     <tr>
