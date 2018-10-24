@@ -3,18 +3,18 @@
 <html>
   <head>
     <title>Cek status pesanan </title>
-	  	  <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
+	  	  <link rel="shortcut icon" href="/images/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <link href="https://d1lnephkr7mkjn.cloudfront.net/skin/default/css/mui.min.css" rel="stylesheet" />
-    <link href="https://d1lnephkr7mkjn.cloudfront.net/skin/default/css/iconfont.css" rel="stylesheet" />
-    <link href="https://d1lnephkr7mkjn.cloudfront.net/skin/default/css/base.css" rel="stylesheet">
-    <link href="https://d1lnephkr7mkjn.cloudfront.net/skin/default/css/component.css" rel="stylesheet" />
-    <link href="https://d1lnephkr7mkjn.cloudfront.net/skin/default/css/detail.css" rel="stylesheet" />
+    <link href="/css/mui.min.css" rel="stylesheet" />
+    <link href="/css/iconfont.css" rel="stylesheet" />
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/component.css" rel="stylesheet" />
+    <link href="/css/detail.css" rel="stylesheet" />
 
     <style type="text/css">
 	<!--
@@ -33,7 +33,7 @@
 			height: 40px;
 		}
 		 .fixed a {
-			background-image: url("https://d1lnephkr7mkjn.cloudfront.net/skin/default/images/zuo.png");
+			background-image: url("/images/zuo.png");
 			background-size: 30px auto;
 			display: block;
 			width: 30px;
@@ -211,7 +211,7 @@
         <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">Kembali ke beranda </a></div>
   </div>
 
-  <script src="https://d1lnephkr7mkjn.cloudfront.net/skin/default/js/jquery.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     $(function (){
     	

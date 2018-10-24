@@ -126,4 +126,7 @@ img{
 	background:linear-gradient(#ff8040, #FF6A1E);
 }
 
+.check_show h4,.check_show p,.check_show b,.check_show h2{
+	user-select: text!important;
+}
 
