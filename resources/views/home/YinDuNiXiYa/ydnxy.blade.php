@@ -182,7 +182,7 @@
         <span class="flag" style="font-size: 12px;">Bayar setelah terima barang</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">masa garansi 7 Hari</span>
+        <span class="flag" style="font-size: 12px;background:#000;">penggantian dan pengembalian 7 hari</span>
     @endif
 </div>
 @endif
@@ -420,7 +420,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Pesanan<br>Cari</span>
+        <span style="line-height:14px;">Cari<br>pesanan</span>
       </a>
     </span>
     @endif

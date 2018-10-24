@@ -260,7 +260,7 @@
     </div>
     <div class="mui-input-row" style="">
         <label><span class="require">*</span>Kode pos:</label>
-        <input type="text" placeholder="Diperlukan isi kode pesan" name="zip" class="mui-input-clear">
+        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>
@@ -269,7 +269,7 @@
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>Pesan :</label>
-        <textarea name="notes" placeholder="optinal, misalnya isi nomor telepon umum, spesifikasi produk atau waktu pengiriman dll"></textarea>
+        <textarea name="notes" placeholder="optional, misalnya isi nomor telepon umum, spesifikasi produk atau waktu pengiriman dll"></textarea>
     </div>
 
 </div>
