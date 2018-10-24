@@ -28,12 +28,12 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
                  $filePath='./time.log';
                  $schedule->call(function(){
-                   check_pay_order();
-                     
-                       
+                   check_pay_order();    
                  })->everyMinute()->evenInMaintenanceMode()->appendOutputTo($filePath);
+                 $schedule->call(function(){
+                    get_new_currency_rate();
+                 })->->dailyAt('03:00')->evenInMaintenanceMode();
     }
-
     /**
      * Register the commands for the application.
      *
