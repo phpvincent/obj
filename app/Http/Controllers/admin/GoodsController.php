@@ -569,7 +569,7 @@ class GoodsController extends Controller
    public function close(Request $request){
          $url=url::where('url_id',$request->input('id'))->first();
          $url->url_type='0';
-         $url->url_url=null;
+         $url->url_url='';
          if($url->save()){
 	   	    	return response()->json(['err'=>1,'str'=>'下线成功']);
          }else{
