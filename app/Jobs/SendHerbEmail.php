@@ -18,7 +18,7 @@ class SendHerbEmail implements ShouldQueue
      * @return void
      */
     protected $order;
-    public function __construct(Order $order)
+    public function __construct(order $order)
     {
         $this->order=$order;
     }
