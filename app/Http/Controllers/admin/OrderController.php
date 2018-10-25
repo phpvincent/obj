@@ -581,7 +581,8 @@ class OrderController extends Controller
               $exdata[$k]['order_pay_type']= $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
               $exdata[$k]['name']=$v['order_name'];
               $exdata[$k]['tel']=$v['order_tel'];
-              $exdata[$k]['area']=$v['order_state'].$v['order_city'].'('.$v['order_add'].')';
+              $exdata[$k]['area']=$v['order_state'].$v['order_city'];
+              $exdata[$k]['area_info']=$v['order_add'];
               $exdata[$k]['remark']=$v['order_remark'];
             switch ($v['order_type']) {
                case '0':
@@ -622,7 +623,7 @@ class OrderController extends Controller
             $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
          }
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-         $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','销售单价','总金额','支付方式','客户名字','客户电话','邮寄地址','备注'];
+         $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','销售单价','总金额','支付方式','客户名字','客户电话','邮寄地址','详细地址','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
