@@ -469,16 +469,7 @@ class IndexController extends Controller
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
-        if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
-            //推送到发送邮件队列
-                    $emailsend=SendHerbEmail::dispatch($order);
-                    $order->order_isemail='1';
-                    \Log::notice($order_email."是合法邮箱，推送至队列中");
-        }else{
-            //邮件不合法,不发送
-                     $order->order_isemail='0';
-                     \Log::notice($order_email."不是合法邮箱，取消推送至队列中");
-        }
+        $order->order_isemail='0';
         $msg=$order->save();
         if($request->has('goodsAtt')){
          $order_id=$order->order_id;
@@ -538,6 +529,17 @@ class IndexController extends Controller
                 $order['order_isfirst']='0';
                 $order->save();  
                 $order['pix_event']=true;//首次展示，触发像素成功结算事件
+                //首次展示，触发邮件推送
+                if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
+                    //推送到发送邮件队列
+                            $emailsend=SendHerbEmail::dispatch($order);
+                            $order->order_isemail='1';
+                            \Log::notice($order_email."是合法邮箱，推送至队列中");
+                }else{
+                    //邮件不合法,不发送
+                             $order->order_isemail='0';
+                             \Log::notice($order_email."不是合法邮箱，取消推送至队列中");
+                }
              }else{
                 $order['pix_event']=false;//非首次展示，不触发像素事件
              }
