@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                     get_new_currency_rate();
                    /* \Log::notice('check');*/
-                 })->dailyAt('07:49');
+                 })->dailyAt('16:00');
     }
     /**
      * Register the commands for the application.
