@@ -242,7 +242,7 @@
                     <div>
                         <div class="textbox">
                             <form id="queryForm" action="/product/trackingform" method="post">
-                                <input name="queryNo" value="" id="txtkey" class="" placeholder="" type="text">
+                                <input name="queryNo" value="" style="width: 154px;" id="txtkey" class="" placeholder="" type="text">
                             </form>
                             <a id="btnQuery">Query</a>
                         </div>
@@ -273,25 +273,19 @@
                                     <tbody>
                                         <tr>
                                             <td class="table_td">
-                                                <span class="require">
-                                                    *
-                                                </span>
-                                                Name:
+                                                <div style="width:56px"><span class="require">*</span>Name:</div>
                                             </td>
                                             <td class="table_cell">
-                                                <input type="text" placeholder="Name" class=" input01"
+                                                <input type="text"style="width: 158px;" placeholder="Name" class=" input01"
                                                 name="name">
                                             </td>
                                         </tr>
                                                                     <tr>
                                             <td class="table_td">
-                                                <span class="require">
-                                                    *
-                                                </span>
-                                                Email:
+                                                <div style="width:56px"><span class="require">*</span>Email:</div>
                                             </td>
                                             <td class="table_cell">
-                                                <input type="text" placeholder="required:Please fill in email" class="input01" name="phone"/>
+                                                <input type="text"style="width: 154px;" placeholder="required:Please fill in email" class="input01" name="phone"/>
                                                 <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                             </td>
                                         </tr>
