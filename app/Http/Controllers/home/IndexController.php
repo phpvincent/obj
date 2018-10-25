@@ -534,10 +534,12 @@ class IndexController extends Controller
                     //推送到发送邮件队列
                             $emailsend=SendHerbEmail::dispatch($order);
                             $order->order_isemail='1';
+                            $order->save();
                             \Log::notice($order->$order_email."是合法邮箱，推送至队列中");
                 }else{
                     //邮件不合法,不发送
                              $order->order_isemail='0';
+                             $order->save();
                              \Log::notice($order->$order_email."不是合法邮箱，取消推送至队列中");
                 }
              }else{
