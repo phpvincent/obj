@@ -58,7 +58,7 @@ class SendHerbEmail implements ShouldQueue
                 $to = $email;
                 $message ->to($to)->subject('order notice');
             });
-        if(\Mail::failures()!=[]){
+        if(\Mail::failures()==[]){
             $order->order_isemail='1';
             $order->save();
             \Log::notice('为'.$order->order_id.'发送邮件成功！邮件地址:'.$email);
