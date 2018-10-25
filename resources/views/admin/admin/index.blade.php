@@ -130,7 +130,7 @@
 		}
 	dataTable=$('#admin_index_table').DataTable($.tablesetting);
 		$('#addadmin').on('click',function(){
-				layer_show('添加账户',"{{url('admin/admin/addadmin')}}",500,400);
+				layer_show('添加账户',"{{url('admin/admin/addadmin')}}",500,440);
 		});
 		$('#addgroup').on('click',function(){
 				layer_show('添加分组',"{{url('admin/admin/addgroup')}}",500,220);

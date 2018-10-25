@@ -27,10 +27,11 @@ class GoodsController extends Controller
 //       }else{
 //        $counts=goods::where('goods_admin_id',Auth::user()->admin_id)->count();
 //       }
+       $languages = \App\admin::$LANGUAGES;
        $counts=goods::whereIn('goods_admin_id',admin::get_admins_id())->count();
        $type=\App\goods_type::get();
 
-   	  return view('admin.goods.index')->with(compact('counts','type'));
+   	  return view('admin.goods.index')->with(compact('counts','type','languages'));
    }
 
     /** 商品信息
@@ -115,6 +116,13 @@ class GoodsController extends Controller
                 //按币种查询
               $query->where('goods.goods_currency_id',$request->input('pay_type'));
               }
+              if($request->has('languages')&&$request->input('languages')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_blade($request->input('languages'));
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
+                  }
+              }
           })
 	        ->count();
 	        $data=DB::table('goods')
@@ -130,8 +138,6 @@ class GoodsController extends Controller
           })
           ->where(function($query){
            if(Auth::user()->is_root!='1'){
-//              $ids=\App\admin::get_group_ids(Auth::user()->admin_id);
-//              $query->whereIn('goods.goods_admin_id',$ids);
               $query->whereIn('goods.goods_admin_id',admin::get_admins_id());
             }
           })
@@ -168,12 +174,18 @@ class GoodsController extends Controller
                 //按币种查询
               $query->where('goods.goods_currency_id',$request->input('pay_type'));
               }
+              if($request->has('languages')&&$request->input('languages')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_blade($request->input('languages'));
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
+                  }
+              }
           })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
 	        ->limit($len)
 	        ->get();
-	         
            foreach($data as $key => $v){
             $url=\App\url::where('url_zz_goods_id',$v->goods_id)->first();
             if($url!=null){

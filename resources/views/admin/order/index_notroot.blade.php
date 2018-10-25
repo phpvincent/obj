@@ -67,6 +67,20 @@
 				</select>
 			</span>
 			</div>
+			<label class="form-label col-xs-1 col-sm-1">语种：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					@if(Auth::user()->languages == 0)
+						<select name="languages" id="languages" class="select">
+							<option value="0">所有</option>
+							@foreach($languages as $k => $v)
+								<option value="{{$k}}">{{$v}}</option>
+							@endforeach
+						</select>
+					@else
+						<div><input readonly name="languages" id="languages" style="display: none" value="{{Auth::user()->languages}}" type="text">{{$languages[Auth::user()->languages]}}</div>
+					@endif
+			</span>
+			</div>
 			<!-- <label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_tel" id="order_repeat_tel" class="select">
@@ -182,6 +196,7 @@
 			maxtime:function(){return $('#datemax').val()},
 			order_type:function(){return $('#order_type').val()},
             pay_type:function(){return $('#pay_type').val()},
+            languages:function(){return $('#languages').val()},
         },
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -442,6 +457,10 @@ $('#order_repeat_name').on('change',function(){
 	dataTable.ajax.reload();
 })
 $('#pay_type').on('change',function(){
+     dataTable.ajax.reload();
+})
+//根据语言进行搜索
+$('#languages').on('change',function(){
      dataTable.ajax.reload();
 })
 $('#order_repeat_tel').on('change',function(){

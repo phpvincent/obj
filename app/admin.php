@@ -11,6 +11,7 @@ class admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     protected $table = 'admin';
     protected $primaryKey ='admin_id';
     public $timestamps=false;
+    public static $LANGUAGES = [1=>'中文',2=>'阿拉伯语',3=>'马来语',4=>'泰语',5=>'日语',6=>'印尼语',7=>'英语'];
     public static function getrole($admin_role_id){
         App\role::where()->first();
     }

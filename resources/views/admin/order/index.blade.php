@@ -92,6 +92,22 @@
 					</select>
 					</span> </div>
 		</div>
+		<div class="row cl" style="margin-top: 20px;">
+			<label class="form-label col-xs-1 col-sm-1">语种：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+					@if(Auth::user()->languages == 0)
+						<select name="languages" id="languages" class="select">
+							<option value="0">所有</option>
+							@foreach($languages as $k => $v)
+								<option value="{{$k}}">{{$v}}</option>
+							@endforeach
+						</select>
+					@else
+						<div><input readonly name="languages" id="languages" style="display: none" value="{{Auth::user()->languages}}" type="text">{{$languages[Auth::user()->languages]}}</div>
+					@endif
+					</span>
+			</div>
+		</div>
 	</div>
 	
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
@@ -206,6 +222,7 @@
 			maxtime:function(){return $('#datemax').val()},
 			order_type:function(){return $('#order_type').val()},
             pay_type:function(){return $('#pay_type').val()},
+            languages:function(){return $('#languages').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -483,26 +500,25 @@ $('#getadmin').on('click',function(){
 $('#admin_name').on('change',function(){
 	dataTable.ajax.reload();
 	var args = dataTable.ajax.params();
-})
+});
 $('#order_type').on('change',function(){
 	dataTable.ajax.reload();
-	
-})
+});
 $('#pay_type').on('change',function(){
 	dataTable.ajax.reload();
-
-})
+});
+//根据语言搜索
+$('#languages').on('change',function(){
+	dataTable.ajax.reload();
+});
 $('#order_repeat_ip').on('change',function(){
 	dataTable.ajax.reload();
-	
 })
 $('#order_repeat_name').on('change',function(){
 	dataTable.ajax.reload();
-	
 })
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
-	
 })
 var allcheckedflag=true;
 $("body").on("click",".allchecked",function(){

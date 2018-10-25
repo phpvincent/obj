@@ -14,7 +14,8 @@
 		<button type="button" class="btn btn-warning radius" style="border-radius: 8%;" id="addgoods_type" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品种类</button>
 		<button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
-		<div style="width: 100%"><div class="row cl">
+		<div style="width: 100%;">
+			<div style="margin-bottom: 20px" class="row cl">
 			<label class="form-label col-xs-1 col-sm-1">单品类型：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="goods_type" id="goods_type" class="select">
@@ -45,8 +46,22 @@
 						<option value="{{$v->currency_type_id}}">{{$v->currency_type_name}}</option>
 					@endforeach
 				</select>
+				</span>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1">语种：</label>
+				<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+						@if(Auth::user()->languages == 0)
+						<select name="languages" id="languages" class="select">
+							<option value="0">所有</option>
+							@foreach($languages as $k => $v)
+								<option value="{{$k}}">{{$v}}</option>
+							@endforeach
+						</select>
+						@else
+						<div><input readonly name="languages" id="languages" style="display: none" value="{{Auth::user()->languages}}" type="text">{{$languages[Auth::user()->languages]}}</div>
+						@endif
 				</span> </div>
-		</div><br/></div>
+				<br/></div>
 	
 	<table class="table table-border table-bordered table-bg" id="goods_index_table">
 		<thead>
@@ -110,6 +125,7 @@
 			maxtime:function(){return $('#datemax').val()},
 			check_type:function(){return $('#check_type').val()},
 			pay_type:function(){return $('#pay_type').val()},
+            languages:function(){return $('#languages').val()},
 		},
 		"url": "{{url('admin/goods/get_table')}}",
 		"type": "POST",
@@ -193,6 +209,9 @@
  }) 
  $('#pay_type').on('change',function(){
 	$('#goods_index_table').dataTable().fnClearTable(); 
+ })
+ $('#languages').on('change',function(){
+	$('#goods_index_table').dataTable().fnClearTable();
  })
 function del_goods(id){
 		var msg =confirm("确定要删除此商品吗？");
