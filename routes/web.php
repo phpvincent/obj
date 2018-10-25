@@ -18,7 +18,6 @@ use App\Jobs\SendHerbEmail;
 	Route::any('/paypal',function(Request $request){
 		$order=\App\order::first();
 		$msg=SendHerbEmail::dispatch($order);
-		dd($msg);
 		/*get_new_currency_rate();*/
 		/*$time=date('Y-m-d H:i:s',time());
 		$data=$request->all();
