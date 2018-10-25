@@ -49,6 +49,11 @@ class OrderController extends Controller
      */
    public function get_table(Request $request){
       		$info=$request->all();
+          if(!isset($info['order'])){
+            $arr=['err'=>'缺少order参数'];
+            \Log::notice('获取order缺少datatable参数');
+          return response()->json($arr);
+          }
         	$cm=$info['order'][0]['column'];
 	        $dsc=$info['order'][0]['dir'];
 	        $order=$info['columns']["$cm"]['data'];
