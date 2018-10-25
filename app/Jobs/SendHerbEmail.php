@@ -31,10 +31,15 @@ class SendHerbEmail implements ShouldQueue
     public function handle()
     {
          $order=$this->order;
-       $flag = \Mail::raw('server test'.$order->id,function($message){
-            $to = 'wxhwxhwxh@qq.com';
-            $message ->to('wxhwxhwxh@qq.com')->subject('order notice');
-        });
+         try{
+                $flag = \Mail::raw('server test'.$order->id,function($message){
+                $to = 'wxhwxhwxh@qq.com';
+                $message ->to('wxhwxhwxh@qq.com')->subject('order notice');
+            });
+            }catch(\Exception $e){
+             \Log::notice($e);
+            }
+       
         if(\Mail::failures()==[]){
             \Log::notice('发送邮件成功，请查收！');
         }else{
