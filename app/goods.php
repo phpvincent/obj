@@ -60,10 +60,15 @@ class goods extends Model
         return $ids;
     }
 
-    public static function get_blade($languages){
-        switch ($languages){
+    /** 根据语言返回商品模板
+     * @param $languages
+     * @return array
+     */
+    public static function get_blade($languages)
+    {
+        switch ($languages) {
             case '1':
-                $band = [0,1];
+                $band = [0, 1];
                 break;
             case '2':
                 $band = [2];
@@ -81,12 +86,52 @@ class goods extends Model
                 $band = [6];
                 break;
             case '7':
-                $band = [7,8,9];
+                $band = [7, 8, 9];
                 break;
             default:
                 $band = false;
                 break;
         }
         return $band;
+    }
+    public static function get_success_blade($goods){
+        $blade_id=$goods->goods_blade_type;
+        switch ($blade_id) {
+            case '0':
+                $blade_name='home.TaiwanFan.endsuccess';
+                break;
+            case '1':
+                $blade_name='home.TaiwanJian.endsuccess';
+                break;
+            case '2':
+                $blade_name='home.zhongdong.zdEndSuccess';
+                break;
+            case '3':
+                $blade_name='home.MaLaiXiYa.mlxyEndSuccess';
+                break;
+            case '4':
+                $blade_name='home.TaiGuo.taiguoEndSuccess';
+                break;
+            case '5':
+                $blade_name='home.RiBen.ribenEndSuccess';
+                break;
+            case '6':
+                $blade_name='home.YinDuNiXiYa.ydnxyEndSuccess';
+                break;
+            case '7':
+                $blade_name='home.FeiLvBin.flbEndSuccess';
+                break;
+            case '8':
+                $blade_name='home.YingGuo.ygEndSuccess';
+                break;
+            case '9':
+                $blade_name='home.googlePC.endSuccess';
+                break;
+            
+            default:
+                $blade_name='home.TaiwanFan.endsuccess';
+                break;
+        }
+        return $blade_name;
     }
 }

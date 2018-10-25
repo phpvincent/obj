@@ -11,9 +11,10 @@
 |
 */
 use Illuminate\Http\Request;
+use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
-	/*Route::get('/index/sendemail','home\IndexController@sendmail');*/
+/*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
 		/*get_new_currency_rate();*/
 		/*$time=date('Y-m-d H:i:s',time());
