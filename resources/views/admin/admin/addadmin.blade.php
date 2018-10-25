@@ -67,6 +67,18 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>语种权限：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="languages" class="select admin_data_rule">
+						<option value="0">所有语种</option>
+						@foreach($languages as $k => $val)
+						<option value="{{$k}}">{{$val}}</option>
+						@endforeach
+				</select>
+				</span> </div>
+		</div>
+
+		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
 				<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
 				<!-- <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>

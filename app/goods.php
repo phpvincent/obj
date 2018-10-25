@@ -59,6 +59,41 @@ class goods extends Model
         }
         return $ids;
     }
+
+    /** 根据语言返回商品模板
+     * @param $languages
+     * @return array
+     */
+    public static function get_blade($languages)
+    {
+        switch ($languages) {
+            case '1':
+                $band = [0, 1];
+                break;
+            case '2':
+                $band = [2];
+                break;
+            case '3':
+                $band = [3];
+                break;
+            case '4':
+                $band = [4];
+                break;
+            case '5':
+                $band = [5];
+                break;
+            case '6':
+                $band = [6];
+                break;
+            case '7':
+                $band = [7, 8, 9];
+                break;
+            default:
+                $band = false;
+                break;
+        }
+        return $band;
+    }
     public static function get_success_blade($goods){
         $blade_id=$goods->goods_blade_type;
         switch ($blade_id) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\admin;
+use App\goods;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\order;
@@ -34,10 +35,11 @@ class OrderController extends Controller
      })
      ->whereIn('order_goods_id',admin::get_goods_id())
      ->count();
+     $languages = admin::$LANGUAGES;
      if(\Auth::user()->admin_is_order!='1'){
-      return view('admin.order.index_notroot')->with(compact('counts','admins'));
+      return view('admin.order.index_notroot')->with(compact('counts','admins','languages'));
      }else{
-      return view('admin.order.index')->with(compact('counts','admins'));
+      return view('admin.order.index')->with(compact('counts','admins','languages'));
      }
 //     }
     
@@ -116,6 +118,14 @@ class OrderController extends Controller
               if($pay_type!='#'){
                   $query->where('order.order_pay_type',$pay_type);
               }
+              //根据语言搜索
+              if($request->has('languages')&&$request->input('languages')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_blade($request->input('languages'));
+                  if($band){
+                       $query->whereIn('goods.goods_blade_type',$band);
+                  }
+              }
             })
             ->where(function($query)use($garr){
               $query->whereIn('order_goods_id',$garr);
@@ -176,6 +186,14 @@ class OrderController extends Controller
               }
               if($pay_type!='#'){
                    $query->where('order.order_pay_type',$pay_type);
+              }
+              //根据语言搜索
+              if($request->has('languages')&&$request->input('languages')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_blade($request->input('languages'));
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
+                  }
               }
             })
             ->where(function($query)use($garr){
@@ -270,6 +288,14 @@ class OrderController extends Controller
               if($pay_type!='#'){
                   $query->where('order.order_pay_type',$pay_type);
               }
+              //根据语言搜索
+              if($request->has('languages')&&$request->input('languages')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_blade($request->input('languages'));
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
+                  }
+              }
             })
             ->count();
 
@@ -340,6 +366,14 @@ class OrderController extends Controller
               if($pay_type!='#'){
                  $query->where('order.order_pay_type',$pay_type);
               }
+             //根据语言搜索
+             if($request->has('languages')&&$request->input('languages')!='0'){
+                 //按语言查询（根据模板置换语言）
+                 $band = goods::get_blade($request->input('languages'));
+                 if($band){
+                     $query->whereIn('goods.goods_blade_type',$band);
+                 }
+             }
             })
             ->orderBy($order,$dsc)
             ->offset($start)

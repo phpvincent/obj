@@ -17,7 +17,8 @@ class AdminController extends Controller
     public function addadmin(Request $request){
     	if($request->isMethod('get')){
     		$roles=\App\role::get();
-    		return view('admin.admin.addadmin')->with(compact('roles'));
+            $languages = admin::$LANGUAGES;
+    		return view('admin.admin.addadmin')->with(compact('roles','languages'));
     	}elseif($request->isMethod('post')){
     		$data=$request->all();
     		$isuse=\App\admin::where('admin_name',$data['admin_name'])->first();
@@ -29,6 +30,7 @@ class AdminController extends Controller
     		$admin->admin_is_order=$data['admin_is_order'];
     		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
             $admin->admin_group=$data['admin_group_id'];
+            $admin->languages=$data['languages'];
             if($data['attr'] == 0){
                 $admin->admin_data_rule= $data['admin_data_rule0'];
             }else{
@@ -197,8 +199,9 @@ class AdminController extends Controller
     }
     public function upadmin(Request $request){
     	if($request->isMethod('get')){
-    		$admin=\App\admin::where('admin_id',$request->input('id'))->first();
-    		return view('admin.admin.upadmin')->with(compact('admin'));
+            $languages = admin::$LANGUAGES;
+            $admin=\App\admin::where('admin_id',$request->input('id'))->first();
+    		return view('admin.admin.upadmin')->with(compact('admin','languages'));
     	}else if($request->isMethod('post')){
     		$data=$request->all();
             $id=$request->input('admin_id');
@@ -206,6 +209,7 @@ class AdminController extends Controller
     		$admin->admin_name=$data['admin_name'];
     		$admin->admin_is_order=$data['admin_is_order'];
             $admin->admin_group=$data['admin_group_id'];
+            $admin->languages=$data['languages'];
             if($data['attr'] == 0){
                 $admin->admin_data_rule= $data['admin_data_rule0'];
             }else{
