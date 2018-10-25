@@ -1073,7 +1073,7 @@ class IndexController extends Controller
             return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }
    }
-  /* public function sendmail(Request $request)
+   public function sendmail(Request $request)
    {       
            $name = '学院君';
            $order=\App\order::where('order_id','39')->first();
@@ -1091,5 +1091,5 @@ class IndexController extends Controller
             }else{
                 echo '发送邮件失败，请重试！';
             }
-   }*/
+   }
 }
