@@ -17,7 +17,7 @@ use App\vis;
 use DB;
 use App\channel\cuxiaoSDK;
 use Srmklive\PayPal\Services\ExpressCheckout;
-
+use App\Jobs\SendHerbEmail;
 class IndexController extends Controller
 {
     protected $provider;
