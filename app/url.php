@@ -122,6 +122,9 @@ class url extends Model
             default:
                 break;
         };
+        if($url==null||$url_zz_goods_id==false){
+            return 4;
+        }
         if($url->url_zz_goods_id==null){
             $goods_id=$url->url_goods_id;
         }
