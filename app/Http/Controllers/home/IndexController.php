@@ -469,6 +469,14 @@ class IndexController extends Controller
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
+        if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
+            //推送到发送邮件队列
+                    $emailsend=SendHerbEmail::dispatch($order);
+                    $order->order_isemail='1';
+        }else{
+            //邮件不合法,不发送
+                     $order->order_isemail='0';
+        }
         $msg=$order->save();
         if($request->has('goodsAtt')){
          $order_id=$order->order_id;
@@ -1073,7 +1081,7 @@ class IndexController extends Controller
             return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }
    }
-   public function sendmail(Request $request)
+/*   public function sendmail(Request $request)
    {       
            $name = '学院君';
            $order=\App\order::where('order_id','39')->first();
@@ -1091,5 +1099,5 @@ class IndexController extends Controller
             }else{
                 echo '发送邮件失败，请重试！';
             }
-   }
+   }*/
 }

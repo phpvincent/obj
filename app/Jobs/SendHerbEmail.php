@@ -31,19 +31,40 @@ class SendHerbEmail implements ShouldQueue
     public function handle()
     {
          $order=$this->order;
-         try{
+         $email=$order->order_email;
+         if(checkdnsrr(array_pop(explode("@",$email)),"MX")==false){
+            $order->order_isemail='2';
+            \Log::notice($order->order_isemail.'-发送邮件ping失败；');
+            return;
+         }
+         /*try{
                 $flag = \Mail::raw('server test'.$order->id,function($message){
                 $to = 'wxhwxhwxh@qq.com';
                 $message ->to('wxhwxhwxh@qq.com')->subject('order notice');
             });
             }catch(\Exception $e){
              \Log::notice($e);
-            }
-       
-        if(\Mail::failures()==[]){
-            \Log::notice('发送邮件成功，请查收！');
+            }*/
+            $name = 'ZSSHOP';
+            $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
+           $url=url::where(function($query)use($goods){
+               $query->where('url_goods_id',$goods->goods_id);
+               $query->orWhere('url_zz_goods_id',$goods->goods_id);
+           })->first();
+           $blade_name=\App\goods::get_success_blade($goods);
+            $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
+                $to = $email;
+                $message ->to($to)->subject('order notice');
+            });
+        if(count(\Mail::failures())>0){
+            $order->order_isemail='1';
+            $order->save();
+            \Log::notice('为'.$order->order_id.'发送邮件成功！邮件地址:'.$email);
         }else{
-            \Log::notice('发送邮件失败，请重试！');
+           //发送失败,更改标记 
+            $order->order_isemail='2';
+            $order->save();
+            \Log::notice('为'.$order->order_id.'发送邮件失败！邮件地址:'.$email.'错误:'.json_encode(\Mail::failures()));
         }
     }
 }
