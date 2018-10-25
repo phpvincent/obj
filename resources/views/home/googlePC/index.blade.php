@@ -84,7 +84,7 @@
                         @endif
                     </div>
                     <div class="pc_head_right">
-                        <h1>{{$goods->goods_name}}</h1>
+                        <!-- <h1>{{$goods->goods_name}}</h1> -->
                         <div class="pc_status">
                         {{--抢购模块--}}
                         @if(in_array('count_down',$templets))
