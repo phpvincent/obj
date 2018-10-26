@@ -25,6 +25,10 @@ class url extends Model
     }
     public static function get_goods(Request $request){
     	$url=$_SERVER['SERVER_NAME'];
+                //将www二级域名去除
+        if(substr($url,0,4)=='www.'){
+            $url=substr($url, 4);
+        }
         $level=self::where('url_url',$url)->first(['url_zz_level']);
         if($level==null){
             $level='4';
@@ -135,16 +139,28 @@ class url extends Model
     }
     public static function getlevel(){
         $url=$_SERVER['SERVER_NAME'];
+          //将www二级域名去除
+        if(substr($url,0,4)=='www.'){
+            $url=substr($url, 4);
+        }
         $level=self::where('url_url',$url)->first(['url_zz_level']);
         return $level->url_zz_level;
     }
     public static function getzzfor(){
         $url=$_SERVER['SERVER_NAME'];
+          //将www二级域名去除
+        if(substr($url,0,4)=='www.'){
+            $url=substr($url, 4);
+        }
         $for=self::where('url_url',$url)->first(['url_zz_for']);
         return $for->url_zz_for;
     }
     public static function get_zz_id(){
         $url=$_SERVER['SERVER_NAME'];
+          //将www二级域名去除
+        if(substr($url,0,4)=='www.'){
+            $url=substr($url, 4);
+        }
         $goods_zz_id=self::where('url_url',$url)->first();
         if($goods_zz_id==null||$goods_zz_id==''){
             //如果没有绑定遮罩单品，则自动返回正常单品的id
@@ -154,6 +170,10 @@ class url extends Model
     }
     public static function get_id(){
         $url=$_SERVER['SERVER_NAME'];
+          //将www二级域名去除
+        if(substr($url,0,4)=='www.'){
+            $url=substr($url, 4);
+        }
         $goods_id=self::where('url_url',$url)->first();
         /*if(($goods_id==null||$goods_id=='')&&($goods_zz_id==null||$goods_zz_id=='')){
             return redirect('index/fb');
