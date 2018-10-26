@@ -683,6 +683,7 @@ class OrderController extends Controller
           $start=$info['start'];
           $len=$info['length'];
           $search=trim($info['search']['value']);
+          $goods_ids=\App\admin::get_goods_id();
           $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
             $newcount=DB::table('goods')
             ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
