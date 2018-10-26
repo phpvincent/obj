@@ -117,11 +117,12 @@ class AdminController extends Controller
                     //1.获取今天数据订单
                     $orders = \App\order::where('order_time','like',$time.'%')->whereIn('order_goods_id',$goodsidarr)->where(function($query){
                         $query->whereIn('order.order_type',\App\order::get_sale_type());
+                        $query->where('order.is_del','0');
                     })->get();
                     $day_sales = 0;
                     if(!$orders->isEmpty()){
                         foreach ($orders as $item)
-                        {
+                        {   
                             $day_sales += $item->order_price * $item->currency_has_order->exchange_rate;
                         }
                     }
