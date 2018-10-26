@@ -672,7 +672,7 @@ class OrderController extends Controller
    {
     if($request->isMethod('get')){
         $goods_ids=\App\admin::get_goods_id();
-        $counts=\App\goods::whereIn('goods_admin_id',$goods_ids)->where('is_del','0')->count();
+        $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
         return view('admin.order.count')->with(compact('counts'));
       }elseif($request->isMethod('post')){
         $info=$request->all();
