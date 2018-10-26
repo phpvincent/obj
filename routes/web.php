@@ -164,7 +164,14 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/pay/spend_entry','admin\PayController@spend_entry');//未添加花费日期
 	Route::get('/admin/pay/spend_show','admin\PayController@spend_show');//花费详情
 	Route::post('/admin/pay/get_show_table','admin\PayController@get_show_table');//花费列表信息
-
 	Route::any('/admin/pay/del_spend','admin\PayController@del_spend');//删除商品花费
+    //产品相关
+    Route::get('/admin/kind/index','admin\KindController@index');//产品首页
+    Route::post('/admin/kind/get_table','admin\KindController@get_table');//产品列表
+    Route::get('/admin/kind/delkind','admin\KindController@delkind');//删除产品
+    Route::get('/admin/kind/show','admin\KindController@show');//产品详情
+    Route::get('/admin/kind/upgoods_kind','admin\KindController@upgoods_kind');//修改产品
+    Route::any('/admin/kind/post_update','admin\KindController@post_update');//修改产品
+    Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
 
 });

@@ -41,8 +41,9 @@ class cuxiaoSDK{
 		$goods=$this->goods;
            switch ($type) {
            	case '0':
-           		$price=$num*$goods->goods_price;
-           		return $price;
+           		$goods_price=$num*$goods->goods_price;
+//           		$price=$num*$goods->goods_price;
+//           		return $price;
            		break;
            	case '2':
            		$cuxiao=$this->cuxiao;
@@ -51,7 +52,8 @@ class cuxiaoSDK{
            		$end_price=$price*$num;
            		$jjp=0;
            		if($num<$arr[0]){
-           			return $num*$price;
+//           			return $num*$price;
+                    $goods_price = $num*$price;
            		}
            		$jp=$price*($arr[0]-1);
            		for ($i=0; $i <count($arr)/2; $i++) { 
@@ -66,8 +68,9 @@ class cuxiaoSDK{
 						}
 					}
            		}
-           		$end_price=$jjp+$jp;
-           		return $end_price;
+                $goods_price=$jjp+$jp;
+//           		$end_price=$jjp+$jp;
+//           		return $end_price;
            		break;
 
            	case '3':
@@ -75,7 +78,9 @@ class cuxiaoSDK{
            	     foreach($cuxiao as $v){
                      $msg=explode(',', $v->cuxiao_config);
                      if($num==$msg[0]){
-                     	return $msg[1];
+//                     	return $msg[1];
+                         $goods_price =  $msg[1];
+                         break;
                      }
            	     }
            	     return false;
@@ -84,6 +89,7 @@ class cuxiaoSDK{
            		return false;
            		break;
            }
+           return sprintf('%.2f',$goods_price) ;
 	}
 
 	
