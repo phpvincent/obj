@@ -135,7 +135,7 @@ class AdminController extends Controller
 */           	
                 $goods_num=DB::table('goods')->where([['goods.goods_admin_id',$v->admin_id],['goods.is_del','0']])->count();
                 $data[$key]->goods_num=$goods_num;
-                $orders_num=DB::table('order')->whereIn('order.order_goods_id',$goodsidarr)->count();
+                $orders_num=DB::table('order')->whereIn('order.order_goods_id',$goodsidarr)->where('order.is_del','0')->count();
                 $data[$key]->orders_num=$orders_num;
                 if($v->is_root=='1'){
                 	$data[$key]->role_name="超级管理员";
