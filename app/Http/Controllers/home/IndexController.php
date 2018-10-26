@@ -532,7 +532,11 @@ class IndexController extends Controller
                 //首次展示，触发邮件推送
                 if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
                     //推送到发送邮件队列
-                            $emailsend=SendHerbEmail::dispatch($order);
+                            if(config('queue')['default']!='sync'){
+                                  try{$emailsend=SendHerbEmail::dispatch($order);}catch(\Exception $e){\Log::notice(json_encode($e));};
+                            }else{
+                                \Log::notice('队列驱动为同步驱动，取消发送邮件');
+                            }
                             \App\order::where('order_id',$request->order_id)->update(['order_isemail'=>'1']);
                             \Log::notice($order['order_email']."是合法邮箱，推送至队列中");
                 }else{

@@ -73,4 +73,25 @@ class order extends Model
 //       }
        return $total;
    }
+   public static function get_goods_total($goods_id,$start_time,$end_time)
+   {  
+       $total = 0;
+       $goods=\App\goods::where('goods_id',$goods_id)->first();
+       if($goods_id!=null){
+               $sale_num = order::whereBetween('order_time',[$start_time,$end_time])->where('order_goods_id',$goods_id)->where(function($query){
+                   $query->whereIn('order.order_type',self::get_sale_type());
+               })->sum('order_price');
+               $total += $sale_num * $goods->currency_has_goods->exchange_rate;
+       }
+       //1.获取今天数据订单
+//       $orders = order::select(DB::raw('SUM(order_price) as order_price'))->whereBetween('order_time',[$start_time,$end_time])->whereIn('order_goods_id',$goods_ids)->where(function($query){
+//           $query->whereIn('order.order_type',self::get_sale_type());
+//       })->first();
+//       if($orders->order_price){
+//           return $orders->order_price;
+//       }else{
+//           return 0;
+//       }
+       return $total;
+   }
 }

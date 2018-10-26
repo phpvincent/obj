@@ -12,6 +12,59 @@
     <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
     <script type="text/javascript" src="/js/resizeDIV.js"></script>
     <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+
+         <!-- Facebook Pixel Code -->
+        @if($goods->goods_pix!=null&&$goods->goods_pix!='')
+        <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '{{$goods->goods_pix}}'); 
+        fbq('track', 'PageView');
+        </script>
+        <noscript>
+         <img height="1" width="1" 
+        src="https://www.facebook.com/tr?id={{$goods->goods_pix}}&ev=PageView
+        &noscript=1"/>
+        </noscript>
+        @endif
+        <!-- End Facebook Pixel Code -->
+         <!-- YaHoo Pixel Code -->
+        @if($goods->goods_yahoo_pix!=null&&$goods->goods_yahoo_pix!='')
+        <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'{{$goods->goods_yahoo_pix}}'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+        <script>
+            window.dotq = window.dotq || [];
+            window.dotq.push(
+            {
+            'projectId':'10000',
+            'properties':{
+                'pixelId':'{{$goods->goods_yahoo_pix}}',
+                'qstrings':{
+                'et':'custom',
+                'ea':'ViewProduct',
+                'product_id': '{{$goods->goods_id}}',
+                }
+            }});
+        </script>
+        @endif
+        <!-- End YaHoo Pixel Code -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{$goods->goods_google_pix}}');
+        </script>
+        @endif 
+        <!-- End Google Pixel Code -->
 </head>
 <body>
     <div id="page">
@@ -647,5 +700,8 @@ function updateNavPosition() {
             })
         	 return false;
     })
+    $('.pc_button').bind('click',function(){fbq('track', 'AddToCart');
+        try{fbq('track', 'AddToCart');}catch(e){};
+     })
 </script>
 </html>
