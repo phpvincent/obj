@@ -484,7 +484,7 @@ $('#pay').bind('click',function(){
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("ำลังยื่นเสนอคำสั่งซื้อ กรุณารอสักครู่");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:"ำลังยื่นเสนอคำสั่งซื้อ กรุณารอสักครู่",success: function(layero){
-        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red', 'margin-left':' -80px','background-position-x': '106px'});
     }})
     var payType=$(".paymentbox input:checked").val();
 
@@ -505,6 +505,7 @@ $('#pay').bind('click',function(){
           
                     
            error: function(data) {
+               layer.close(index);
                layer.msg('ยื่นคำสั่งซื้อผิดพลาด โปรดตรวจสอบสถานะเครือข่าย');
            }
         }) 
@@ -529,6 +530,7 @@ $('#pay').bind('click',function(){
  
  
                error: function(data) {
+                   layer.close(index);
                    layer.msg('ยื่นคำสั่งซื้อผิดพลาด โปรดตรวจสอบสถานะเครือข่าย');
                  }
              }) ;

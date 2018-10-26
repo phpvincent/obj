@@ -492,7 +492,7 @@ $('#pay').bind('click',function(){
     }
     // layer.msg("訂單提交中，請稍等");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'訂單提交中，請稍等',success: function(layero){
-        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',   'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
     }})
     var payType=$(".paymentbox input:checked").val();
     if(issubmit){
@@ -512,6 +512,7 @@ $('#pay').bind('click',function(){
           
                     
            error: function(data) {
+               layer.close(index);
                layer.msg('訂單提交失敗，請檢查網絡情況');
            }
         }) ; 
@@ -536,6 +537,7 @@ $('#pay').bind('click',function(){
 
 
                 error: function(data) {
+                    layer.close(index);
                     layer.msg('訂單提交失敗，請檢查網絡情況');
                 }
             }) ;
