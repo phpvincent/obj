@@ -694,6 +694,7 @@ class OrderController extends Controller
                 $query->orWhere('goods.goods_real_name','like',"%$search%");
                 $query->orWhere('admin.admin_name','like',"%$search%");
             })
+            ->whereIn('goods_id',\App\goods::get_goods_id())
             ->count();
           $data=DB::table('goods')
           ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
@@ -703,6 +704,7 @@ class OrderController extends Controller
                 $query->orWhere('goods.goods_real_name','like',"%$search%");
                 $query->orWhere('admin.admin_name','like',"%$search%");
             })
+            ->whereIn('goods_id',\App\goods::get_goods_id())
           ->orderBy($order,$dsc)
           ->offset($start)
           ->limit($len)
