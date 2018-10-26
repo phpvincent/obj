@@ -712,7 +712,11 @@ class IndexController extends Controller
         if($request->input('id')==0){
             return response('test',200);
         }
-        $data=json_decode($request->input('data'));
+        try{
+             $data=json_decode($request->input('data'));
+        }catch(\Exception $e){
+            \Log::notice('settime方法出现错误，传来数据为：'.json_encode($request->input('data')).'错误为：'.json_encode($e));
+        }
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
         
@@ -730,7 +734,11 @@ class IndexController extends Controller
         }
     $id=$request->input('id');
     $vis=\App\vis::where('vis_id',$id)->first();
-    $time=$request->input('date');
+    try{
+            $time=$request->input('date');
+    }catch(\Exception $e){
+        $change=time();
+    }
     $change=strtotime($time);
     $time=date('Y-m-d H:i:s',$change);
  /*   $data=date('Y-m-d H:i:s',$time);*/
