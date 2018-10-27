@@ -206,6 +206,21 @@
 @section('js')
 
 <script type="text/javascript">
+	var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+ 
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height()-600)
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
 	$.tablesetting={
 		"pagingType": "input",
 	"lengthMenu": [[10,20,30,40],[10,20,30,40]],//每页显示条数
@@ -495,21 +510,7 @@ function pl_del(){
 
 
 }
- var backButton=$('.back_to_top');
-    function backToTop() {
-        $('html,body').animate({
-            scrollTop: 0
-        }, 800);
-    }
-    backButton.on('click', backToTop);
  
-    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
-        if ($(window).scrollTop() > $(window).height()-600)
-            backButton.fadeIn();
-        else
-            backButton.fadeOut();
-    });
-    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
 
 function pl_update(){
 	var msg =confirm("确定要批量核审这些订单吗？");
