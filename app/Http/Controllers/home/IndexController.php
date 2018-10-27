@@ -348,7 +348,7 @@ class IndexController extends Controller
     	$order->order_ip=$ip;
     	$order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
-    	if($order_goods_id==false){dd('?');
+    	if($order_goods_id==false){
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_goods_id=$order_goods_id;
