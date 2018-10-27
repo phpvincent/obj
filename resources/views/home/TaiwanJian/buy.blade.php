@@ -500,7 +500,7 @@ $('#pay').bind('click',function(){
     }
     // layer.msg("订单提交中，请稍等...");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'订单提交中，请稍等',success: function(layero){
-        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',    'margin-left':' -80px','background-position-x': '106px'});
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px', 'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
     }})
     var payType=$(".paymentbox input:checked").val();
     if(issubmit){
@@ -520,6 +520,7 @@ $('#pay').bind('click',function(){
           
                     
            error: function(data) {
+               layer.close(index);
                layer.msg('订单提交失败，请检查网络情况');
            }
         }) ; 
@@ -544,6 +545,8 @@ $('#pay').bind('click',function(){
 
 
                 error: function(data) {
+                    layer.close(index);
+
                     layer.msg('订单提交失败，请检查网络情况');
                 }
             }) ;
@@ -552,6 +555,7 @@ $('#pay').bind('click',function(){
 
         
     }else{
+        layer.close(index);
         layer.msg('订单已提交，不要重复提交');
     }
    

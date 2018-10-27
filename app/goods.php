@@ -95,6 +95,7 @@ class goods extends Model
         return $band;
     }
     public static function get_success_blade($goods){
+        //根据商品类返回所属成功页面模板
         $blade_id=$goods->goods_blade_type;
         switch ($blade_id) {
             case '0':

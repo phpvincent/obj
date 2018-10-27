@@ -15,10 +15,10 @@
 				<td>paypal订单号</td>
 				<td>{{$paypal['paypal_corre_id']}}</td>
 			</tr>
-			<!-- <tr>
+			<tr>
 				<td>paypal返回金额(实际支付)</td>
 				<td>{{$paypal['paypal_amount']}}</td>
-			</tr> -->
+			</tr>
 			<tr>
 				<td>币种</td>
 				<td>{{$paypal['paypal_currency']}}</td>

@@ -26,6 +26,10 @@ class checkurl
     }   
     //判断是否有此域名是否正在使用
         $url=$_SERVER['SERVER_NAME'];
+        //将www二级域名去除
+        if(substr($url,0,4)=='www.'){
+            $url=substr($url, 4);
+        }
          $is_use=url::is_use($url);
         if(!$is_use){
          return redirect('index/fb');

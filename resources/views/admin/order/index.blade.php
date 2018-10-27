@@ -8,6 +8,12 @@
  #order_index_table_wrapper .dataTables_scroll .dataTables_scrollHead table thead th{
 	border-left: none;   
  }
+ .paginate_input{
+	width: 60px;
+    text-align: center;
+    border: solid 1px #ddd;
+    padding: 5px;
+ }
 </style>
 <!-- 上面样式解决dataTable;border-left错开BUG -->
 <div class="page-container">
@@ -155,7 +161,7 @@
 		</tbody>
 	</table>
 </div>
-<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
+<!-- <div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#FFE4E1;display: inline-block;"></div>
 		<div style="display:inline;">ip重复</div>
@@ -187,12 +193,13 @@
 		<div style="display:inline;">ip、姓名、电话重复</div>
 	</div>
 </div>
-</div>
+</div> -->
 @endsection
 @section('js')
 
 <script type="text/javascript">
 	$.tablesetting={
+		"pagingType": "input",
 	"lengthMenu": [[10,20],[10,20]],//每页显示条数
 		"paging": true,					//是否分页。
 		"info":   true,					//页脚信息
@@ -261,29 +268,50 @@
             //改行满足的条件
 			if(aData.order_repeat_field){
 				if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
-                        //设置满足条件行的背景颜色
-                        $(nRow).css("background", "#FFE4E1");
+                        //设置满足条件行的背景颜色,ip
+                        //$(nRow).css("background", "#FFE4E1");
+                        $(nRow).find('td:eq(3)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(3)').css('font-weight',"bold");
 				}
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '2'){
-                    	//     //设置满足条件行的背景颜色
-                        $(nRow).css("background", "#CAE1FF");
+                    	//     //设置满足条件行的背景颜色,姓名
+                        //$(nRow).css("background", "#CAE1FF");
+                        $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(5)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '3'){
-                    //     //设置满足条件行的背景颜色
-                        $(nRow).css("background", "#00cc66");
+                    //     //设置满足条件行的背景颜色,电话
+                        //$(nRow).css("background", "#00cc66");
+                        $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 3){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#FFFACD");
+                   // $(nRow).css("background", "#FFFACD");
                     $('.dataTable td.sorting_1').removeClass('sorting_1');
+                        $(nRow).find('td:eq(3)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(3)').css('font-weight',"bold");
+                        $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(5)').css('font-weight',"bold");
+                        $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('2')>=0){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#d7dde4");
+                    //$(nRow).css("background", "#d7dde4");
+                        $(nRow).find('td:eq(3)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(3)').css('font-weight',"bold");
+                        $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+                        $(nRow).find('td:eq(5)').css('font-weight',"bold");
+
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#ff9900");
+                    //$(nRow).css("background", "#ff9900");
+                    $(nRow).find('td:eq(3)').css('color',"#FF69B4");
+                    $(nRow).find('td:eq(3)').css('font-weight',"bold");
+                    $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+                    $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
 /*                console.log("======================");
                 console.log(aData.order_repeat_field.length);
@@ -293,7 +321,11 @@
                 console.log("=======================");*/
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
-                    $(nRow).css("background", "#FFE4C4");
+                    //$(nRow).css("background", "#FFE4C4");
+                    $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+                    $(nRow).find('td:eq(5)').css('font-weight',"bold");
+                    $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+                    $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
 			}
         },
