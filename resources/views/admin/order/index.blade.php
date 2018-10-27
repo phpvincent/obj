@@ -215,7 +215,7 @@
     backButton.on('click', backToTop);
  
     $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
-        if ($(window).scrollTop() > $(window).height())
+        if ($(window).scrollTop() > $(window).height()-300)
             backButton.fadeIn();
         else
             backButton.fadeOut();
