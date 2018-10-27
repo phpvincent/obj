@@ -546,6 +546,7 @@ $('#pay').bind('click',function(){
 
         
     }else{
+        layer.close(index);
         layer.msg('訂單已提交，不要重複提交');
     }
    

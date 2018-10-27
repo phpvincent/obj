@@ -540,6 +540,7 @@ $('#pay').bind('click',function(){
          }
          
      }else{
+        layer.close(index);
          layer.msg('Orders have been submitted, not submitted repeatedly.');
      }
     

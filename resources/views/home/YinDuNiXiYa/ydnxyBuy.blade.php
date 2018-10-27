@@ -529,6 +529,7 @@ $('#pay').bind('click',function(){
         }
         
     }else{
+        layer.close(index);
         layer.msg('Pesanan berhasil terkirim, jangan dikirim ulang');
     }
     

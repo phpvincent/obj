@@ -538,6 +538,7 @@ $('#pay').bind('click',function(){
 ; 
         
     }else{
+        layer.close(index);
         layer.msg('คุณได้ยื่นคำสั่งซื้อเรียบร้อยแล้ว ไม่ต้องยื่นซ้ำ');
     }
    

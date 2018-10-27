@@ -531,6 +531,7 @@ $('#pay').bind('click',function(){
         }
         
     }else{
+        layer.close(index);
         layer.msg('ご購入の手続きは完了しました。繰り返して提出しないでください。');
     }
    
