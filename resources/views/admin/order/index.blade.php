@@ -263,47 +263,47 @@
 				if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
                         //设置满足条件行的背景颜色,ip
                         //$(nRow).css("background", "#FFE4E1");
-                        $(nRow).find('td:eq(3)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(3)').css('font-weight',"bold");
 				}
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '2'){
                     	//     //设置满足条件行的背景颜色,姓名
                         //$(nRow).css("background", "#CAE1FF");
-                        $(nRow).find('td:eq(5)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(5)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(5)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '3'){
                     //     //设置满足条件行的背景颜色,电话
                         //$(nRow).css("background", "#00cc66");
-                        $(nRow).find('td:eq(6)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(6)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 3){
                     //     //设置满足条件行的背景颜色
                    // $(nRow).css("background", "#FFFACD");
                     $('.dataTable td.sorting_1').removeClass('sorting_1');
-                        $(nRow).find('td:eq(3)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(3)').css('font-weight',"bold");
-                        $(nRow).find('td:eq(5)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(5)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(5)').css('font-weight',"bold");
-                        $(nRow).find('td:eq(6)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(6)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('2')>=0){
                     //     //设置满足条件行的背景颜色
                     //$(nRow).css("background", "#d7dde4");
-                        $(nRow).find('td:eq(3)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(3)').css('font-weight',"bold");
-                        $(nRow).find('td:eq(5)').css('color',"#FF00FF");
+                        $(nRow).find('td:eq(5)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(5)').css('font-weight',"bold");
 
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     //$(nRow).css("background", "#ff9900");
-                    $(nRow).find('td:eq(3)').css('color',"#FF00FF");
+                    $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                     $(nRow).find('td:eq(3)').css('font-weight',"bold");
-                    $(nRow).find('td:eq(6)').css('color',"#FF00FF");
+                    $(nRow).find('td:eq(6)').css('color',"#FF69B4");
                     $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
 /*                console.log("======================");
@@ -315,9 +315,9 @@
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     //$(nRow).css("background", "#FFE4C4");
-                    $(nRow).find('td:eq(5)').css('color',"#FF00FF");
+                    $(nRow).find('td:eq(5)').css('color',"#FF69B4");
                     $(nRow).find('td:eq(5)').css('font-weight',"bold");
-                    $(nRow).find('td:eq(6)').css('color',"#FF00FF");
+                    $(nRow).find('td:eq(6)').css('color',"#FF69B4");
                     $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
 			}
