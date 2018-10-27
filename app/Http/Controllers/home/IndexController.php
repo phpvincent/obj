@@ -367,7 +367,7 @@ class IndexController extends Controller
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
 
         //判断金额合法性
-    	if($price==false||$price<=0){dd($price);
+    	if($price==false||$price<=0){
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
         $order_Array = [];

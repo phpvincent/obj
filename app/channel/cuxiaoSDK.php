@@ -39,6 +39,7 @@ class cuxiaoSDK{
 	public function get_price($num){
 		$type=$this->goods->goods_cuxiao_type;
 		$goods=$this->goods;
+		dd($type,$goods);
            switch ($type) {
            	case '0':
            		$goods_price=$num*$goods->goods_price;
