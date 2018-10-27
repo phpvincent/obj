@@ -62,7 +62,22 @@
 						@endif
 				</span> </div>
 				<br/></div>
-	
+			<div style="margin-bottom: 20px" class="row cl">
+			<label class="form-label col-xs-1 col-sm-1">产品名称：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+						<select name="goods_kind" id="goods_kind" class="select">
+							<option value="0">所有</option>
+							@foreach($goods_kind as  $v)
+								@if(isset($_GET['id']))
+									<option @if($_GET['id'] == $v->goods_kind_id) selected @endif  value="{{$v->goods_kind_id}}">{{$v->goods_kind_name}}</option>
+								@else
+									<option  value="{{$v->goods_kind_id}}">{{$v->goods_kind_name}}</option>
+								@endif
+							@endforeach
+						</select>
+				</span> </div>
+			<br/></div>
+
 	<table class="table table-border table-bordered table-bg" id="goods_index_table">
 		<thead>
 			<tr>
@@ -108,7 +123,7 @@
 	$.tablesetting={
 	"lengthMenu": [[10,20],[10,20]],
 		"paging": true,
-		"info":   true,	
+		"info":   true,
 		"searching": true,
 		"ordering": true,
 		"order": [[ 1, "desc" ]],
@@ -126,6 +141,7 @@
 			check_type:function(){return $('#check_type').val()},
 			pay_type:function(){return $('#pay_type').val()},
             languages:function(){return $('#languages').val()},
+            goods_kind:function(){return $('#goods_kind').val()},
 		},
 		"url": "{{url('admin/goods/get_table')}}",
 		"type": "POST",
@@ -161,7 +177,7 @@
 				}else{
 					info+='<a title="域名绑定" href="{{url("admin/url/goods_url")}}"  class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="域名绑定"><i class="Hui-iconfont">&#xe601;</i></span></a>'
 				}
-				
+
 			}else{
 				var isroot='<span class="label label-success radius">√</span>';
 				info+='<a title="停止" href="javascript:;" onclick="goods_close(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="停止"><i class="Hui-iconfont">&#xe6e4;</i></span></a>'
@@ -202,17 +218,20 @@
 	}
  dataTable =$('#goods_index_table').DataTable($.tablesetting);
  $('#seavis2').on('click',function(){
-	$('#goods_index_table').dataTable().fnClearTable(); 
-})
+	$('#goods_index_table').dataTable().fnClearTable();
+});
  $('#check_type').on('change',function(){
-	$('#goods_index_table').dataTable().fnClearTable(); 
- }) 
+	$('#goods_index_table').dataTable().fnClearTable();
+ });
  $('#pay_type').on('change',function(){
-	$('#goods_index_table').dataTable().fnClearTable(); 
- })
+	$('#goods_index_table').dataTable().fnClearTable();
+ });
  $('#languages').on('change',function(){
 	$('#goods_index_table').dataTable().fnClearTable();
- })
+ });
+ $('#goods_kind').on('change',function(){
+	$('#goods_index_table').dataTable().fnClearTable();
+ });
 function del_goods(id){
 		var msg =confirm("确定要删除此商品吗？");
 		if(msg){
@@ -231,7 +250,7 @@ function del_goods(id){
                			 dataTable = $("#goods_index_table").dataTable($.tablesetting);*/
                			 //搜索后跳转到第一页
                			 //dataTable.fnPageChange(0);
-               			 $('#goods_index_table').dataTable().fnClearTable(); 
+               			 $('#goods_index_table').dataTable().fnClearTable();
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{
@@ -240,7 +259,7 @@ function del_goods(id){
 					}
 				})
         	}else{
-                
+
         	}
 	}
 function goods_online(id){
@@ -255,7 +274,7 @@ function goods_online(id){
 					success:function(msg){
 			           if(msg['err']==1){
 			           	 layer.msg(msg.str);
-			           	 $('#goods_index_table').dataTable().fnClearTable(); 
+			           	 $('#goods_index_table').dataTable().fnClearTable();
 			           	 /*$(".del"+id).prev("input").remove();
         				 $(".del"+id).val('已删除');*/
 			           }else if(msg['err']==0){
@@ -339,7 +358,7 @@ $('#addgoods_type').on('click',function(){
 	layer_show('种类添加','{{url("admin/goods/addgoods_type")}}',400,300);
 })
 $('#addgoods_kind').on('click',function(){
-	layer_show('产品添加','{{url("admin/goods/addgoods_kind")}}',400,300);
+	layer_show('产品添加','{{url("admin/kind/addkind")}}',600,500);
 })
 function goods_update(title,url,type,w,h){
 			@if(\App\goods_check::first()['goods_is_check']==0)

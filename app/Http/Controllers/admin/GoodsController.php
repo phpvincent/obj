@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\admin;
 use App\com_img;
+use App\goods_kind;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +31,8 @@ class GoodsController extends Controller
        $languages = \App\admin::$LANGUAGES;
        $counts=goods::whereIn('goods_admin_id',admin::get_admins_id())->count();
        $type=\App\goods_type::get();
-
-   	  return view('admin.goods.index')->with(compact('counts','type','languages'));
+       $goods_kind = goods_kind::all();
+   	  return view('admin.goods.index')->with(compact('counts','type','languages','goods_kind'));
    }
 
     /** 商品信息
@@ -123,6 +124,9 @@ class GoodsController extends Controller
                       $query->whereIn('goods.goods_blade_type',$band);
                   }
               }
+              if($request->has('goods_kind')&&$request->input('goods_kind')!='0'){
+                  $query->where('goods.goods_kind_id',$request->input('goods_kind'));
+              }
           })
 	        ->count();
 	        $data=DB::table('goods')
@@ -180,6 +184,9 @@ class GoodsController extends Controller
                   if($band){
                       $query->whereIn('goods.goods_blade_type',$band);
                   }
+              }
+              if($request->has('goods_kind')&&$request->input('goods_kind')!='0'){
+                  $query->where('goods.goods_kind_id',$request->input('goods_kind'));
               }
           })
 	        ->orderBy($order,$dsc)
@@ -392,7 +399,6 @@ class GoodsController extends Controller
                 $goods->goods_comment_num=$data['goods_comment_num'] ? $data['goods_comment_num'] : 0 ;
             }
         }
-
 
          $goods->goods_name=$data['goods_name'];
          $goods->goods_currency_id=$data['currency_type'];

@@ -14,6 +14,9 @@
             <th width="40">ID</th>
             <th width="110">产品名</th>
             <th width="110">属性</th>
+            <th width="110">绑定商品个数</th>
+            <th width="110">供应商</th>
+            <th width="110">供应链接</th>
             <th width="70">添加时间</th>
             <th width="100">操作</th>
         </tr>
@@ -31,7 +34,7 @@
             "order": [[ 1, "desc" ]],
             "stateSave": false,
             "columnDefs": [{
-                "targets": [0,2,3,4],
+                "targets": [0,2,3,4,5,6,7],
                 "orderable": false
             }],
             "processing": true,
@@ -46,14 +49,20 @@
                 {"data":'goods_kind_id'},
                 {'data':'goods_kind_name'},
                 {'defaultContent':"","className":"td-manager"},
+                {'defaultContent':"","className":"td-manager"},
+                {'data':'goods_buy_msg'},
+                {'data':'goods_buy_url'},
                 {'data':'goods_kind_time'},
                 {'defaultContent':"","className":"td-manager"},
             ],
             "createdRow":function(row,data,dataIndex){
+                // {'data':'num'},
                 var info='<a title="修改产品属性" href="javascript:;" onclick="goods_show(\'修改产品属性\',\'{{url("admin/kind/upgoods_kind")}}?id='+data.goods_kind_id+'\',\'2\',\'600\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改产品属性"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除产品" href="javascript:;" onclick="del_goods('+data.goods_kind_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除产品"><i class="Hui-iconfont">&#xe6e2;</i></span></a>';
                 var check='<a title="属性详情" href="javascript:;" onclick="goods_show(\'查看属性详情\',\'{{url("admin/kind/show")}}?id='+data.goods_kind_id+'\',\'2\',\'600\',\'500\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:green;">查看属性详情</span></a>';
-                $(row).find('td:eq(5)').html(info);
+                var num='<a title="商品列表" href="javascript:;" onclick="goods_info(\'{{url("admin/goods/index")}}?id='+data.goods_kind_id+'\',\''+ data.num + '\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:red;">'+ data.num +'</span></a>';
+                $(row).find('td:eq(8)').html(info);
                 $(row).find('td:eq(3)').html(check);
+                $(row).find('td:eq(4)').html(num);
                 $(row).addClass('text-c');
             }
         };
@@ -80,6 +89,16 @@
                 })
             }else{
 
+            }
+        }
+
+        //跳转到商品列表页
+        function  goods_info(url,num)
+        {
+            if(num == 0){
+                layer.msg('该产品无商品绑定');
+            }else{
+                window.location.href = url;
             }
         }
 

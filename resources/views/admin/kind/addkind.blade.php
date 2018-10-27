@@ -46,6 +46,18 @@
                 </div>
             </div>
             <div class="row cl">
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应商：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应链接：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="" placeholder="" id="goods_buy_url" name="goods_buy_url">
+                </div>
+            </div>
+            <div class="row cl">
                 <div class="formControls" style="margin-left: 2%;margin-right: 2%">
                     <input type="button" class="btn btn-default" value="移除商品附加属性" id="addcon" isalive='on'/>
                     <input type="button" class="btn btn-default" style="display: none" value="0" id="num"/>

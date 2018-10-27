@@ -41,9 +41,11 @@ class KindController extends Controller
         $len=$info['length'];
         $search=trim($info['search']['value']);
         $counts = goods_kind::count();
+        //产品个数
         $newcount = goods_kind::where(function($query)use($search){
             $query->where('goods_kind_name','like',"%$search%");
         })->count();
+        //产品信息
         $data = goods_kind::where(function($query)use($search){
             $query->where('goods_kind_name','like',"%$search%");
         })
@@ -51,6 +53,12 @@ class KindController extends Controller
         ->offset($start)
         ->limit($len)
         ->get();
+        if(!$data->isEmpty()){
+            foreach ($data as &$item)
+            {
+                $item->num = goods::where('goods_kind_id',$item->goods_kind_id)->count();
+            }
+        }
         $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
         return response()->json($arr);
     }
@@ -111,10 +119,13 @@ class KindController extends Controller
             //3.新增产品
             $goods_kind=new \App\goods_kind;
             $goods_kind->goods_kind_name=$goods_kind_name;
+            $goods_kind->goods_buy_url=$request->input('goods_buy_url');
+            $goods_kind->goods_buy_msg=$request->input('goods_buy_msg');
+            $goods_kind->goods_kind_admin=Auth::user()->admin_id;
             $goods_kind->goods_kind_time=date("Y-m-d H:i:s",time());
             $msg=$goods_kind->save();
             $kind_primary_id = $goods_kind->goods_kind_id;
-            if($msg && !$data_null){
+            if($msg && !$data_null && $goods_config_name){
                 //添加产品属性和产品属性值
                 foreach ($goods_config_name as $item)
                 {
@@ -138,6 +149,7 @@ class KindController extends Controller
                 }
             }
             if($msg){
+                //加log日志
                 return response()->json(['err' => '1', 'msg' => '添加成功!']);
             }else{
                 return response()->json(['err' => '0', 'msg' => '添加失败!']);
@@ -165,6 +177,7 @@ class KindController extends Controller
     {
         if($request->isMethod('get')) {
             $goods_kinds_id = $request->input('id');
+            $goods_kinds = goods_kind::where('goods_kind_id',$goods_kinds_id)->first();
             $goods_config=\App\kind_config::where('kind_primary_id',$goods_kinds_id)->get();
             if($goods_config!=null){
                 foreach($goods_config as $k => $v){
@@ -172,8 +185,16 @@ class KindController extends Controller
                     $goods_config[$k]->config_msg=$arr;
                 }
             }
-            return view('admin.kind.kind_config_val')->with(compact('goods_kinds_id','goods_config'));
+            return view('admin.kind.kind_config_val')->with(compact('goods_kinds','goods_config'));
         }else if($request->isMethod('post')){
+            //修改产品信息
+            $kind_primary_id = $request->input('goods_kind_id');
+            $goods_kind = goods_kind::where('goods_kind_id',$kind_primary_id)->first();
+            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
+            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
+            $goods_kind->goods_kind_admin = Auth::user()->admin_id;
+            $goods_kind->save();
+
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
@@ -201,8 +222,7 @@ class KindController extends Controller
                     }
                 }
             }
-            $kind_primary_id = $request->input('goods_kind_id');
-            if(!$data_null){ //产品属性不为空
+            if(!$data_null && $goods_config_name){ //产品属性不为空
                 //添加产品属性和产品属性值
                 foreach ($goods_config_name as $item)
                 {

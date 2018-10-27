@@ -1,6 +1,6 @@
 @extends('admin.father.css')
 @section('content')
-    <article class="page-container">
+    <article class="page-container" style="padding-top:0;">
         {{--商品属性信息--}}
         <div class="config" attr="newConfig" style="display: none;" id="configclo">
             <div class="row" style="margin-left: 0px;">
@@ -28,9 +28,21 @@
         <form class="form form-horizontal" id="form-goodskind-add" method="post" enctype="multipart/form-data" action="{{url('admin/goods/kind_config_val')}}">
             {{csrf_field()}}
             <input type="text" style="display: none" id="name" name="name" value="1">
+            <div class="row cl">
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应商：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应链接：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
+                </div>
+            </div>
             {{--隐藏产品名称--}}
              <div class="row cl">
-                @if(\App\kind_config::where('kind_primary_id',$goods_kinds_id)->count()<=0)
+                @if(\App\kind_config::where('kind_primary_id',$goods_kinds->goods_kind_id)->count()<=0)
                     <div class="formControls" style="margin-left: 2%;margin-right: 2%">
                         <input type="button" class="btn btn-default" value="移除商品附加属性" id="addcon" isalive='on'/>
                         <input class="btn btn-default" style="display: none" value="0" id="num"/>
@@ -106,7 +118,7 @@
             @endif
             </div>
             <div class="row cl">
-                <input type="text" style="display: none" id="goods_kind_id" name="goods_kind_id" value="{{$goods_kinds_id}}">
+                <input type="text" style="display: none" id="goods_kind_id" name="goods_kind_id" value="{{$goods_kinds->goods_kind_id}}">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button class="btn btn-primary radius"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
                 </div>
