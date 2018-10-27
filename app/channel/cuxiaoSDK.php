@@ -82,8 +82,8 @@ class cuxiaoSDK{
                          $goods_price =  $msg[1];
                          break;
                      }
-           	     }dd($goods_price);
-           	     return false;
+           	     }
+           	     //return false;
            	     break;
            	default:
            		return false;
