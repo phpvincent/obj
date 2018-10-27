@@ -58,13 +58,13 @@
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品原价：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{{$goods->goods_real_price}}" placeholder="" id="goods_real_price" name="goods_real_price">
+					<input type="text" class="input-text" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([1-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" value="{{$goods->goods_real_price}}" placeholder="" id="goods_real_price" name="goods_real_price">
 				</div>
 			</div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品定价：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{{$goods->goods_price}}" placeholder="" id="goods_price" name="goods_price">
+					<input type="text" class="input-text" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([1-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" value="{{$goods->goods_price}}" placeholder="" id="goods_price" name="goods_price">
 				</div>
 			</div>
 			<div class="clearfix">

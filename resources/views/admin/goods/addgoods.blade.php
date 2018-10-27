@@ -91,18 +91,6 @@
 				
             </div>
 			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
-				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-					<select name="currency_type" id="currency_type" class="select">
-						@foreach($currency_type as $item)
-						<option value="{{$item->currency_type_id}}" {{$item->currency_type_id == 1 ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
-						@endforeach
-						{{--<option value="1">1--中东模板</option>--}}
-						{{--<option value="2">2--无倒计时模板</option>--}}
-					</select>
-					</span> </div>
-			</div>
-			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
@@ -116,6 +104,18 @@
 						<option value="7">7--菲律宾</option>
 						<option value="8">8--英国</option>
 						<option value="9">9--Google-PC(调试中)</option>
+						{{--<option value="2">2--无倒计时模板</option>--}}
+					</select>
+					</span> </div>
+			</div>
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select name="currency_type" id="currency_type" class="select">
+						@foreach($currency_type as $item)
+							<option value="{{$item->currency_type_id}}" {{$item->currency_type_id == 1 ? 'selected' : '' }} >{{$item->currency_type_name}}</option>
+						@endforeach
+						{{--<option value="1">1--中东模板</option>--}}
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -1118,5 +1118,42 @@
 	$('#addgoods_kind').on('click',function(){
 	layer_show('产品添加','{{url("admin/goods/addgoods_kind")}}',400,300);
 	})
+
+    //模板、币种联动
+    $('#goods_blade_type').on('change',function () {
+		var tab = $(this).val();
+        switch (tab) {
+            case '0':
+                $('#currency_type').val(1);
+                break;
+            case '1':
+                $('#currency_type').val(1);
+                break;
+            case '2':
+                $('#currency_type').val(3);
+                break;
+            case '3':
+                $('#currency_type').val(4);
+                break;
+            case '4':
+                $('#currency_type').val(6);
+                break;
+            case '5':
+                $('#currency_type').val(5);
+                break;
+            case '6':
+                $('#currency_type').val(10);
+                break;
+            case '7':
+                $('#currency_type').val(7);
+                break;
+            case '8':
+                $('#currency_type').val(8);
+                break;
+            case '9':
+                $('#currency_type').val(8);
+                break;
+        }
+	});
 </script>
 @endsection

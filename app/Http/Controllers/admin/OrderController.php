@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\admin;
 use App\goods;
+use App\kind_val;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\order;
@@ -42,7 +43,7 @@ class OrderController extends Controller
       return view('admin.order.index')->with(compact('counts','admins','languages'));
      }
 //     }
-    
+
    }
 
     /** 订单列表数据
@@ -73,7 +74,7 @@ class OrderController extends Controller
             $query->where('is_del','0');
           })
 	        ->count();
-         
+
          //获取自己名下的单
 //         $admin_id=Auth::user()->admin_id;
 
@@ -554,11 +555,11 @@ class OrderController extends Controller
    	     $id=$request->input('id');
    	     $order=order::where('order_id',$id)->first();
          return view('admin.order.addr')->with(compact('order'));
-   	     
+
    }
    public function outorder(Request $request){
-    //订单导出
-      $data=order::select('order.order_id','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_price','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       //订单导出
+       $data=order::select('order.order_id','order.order_zip','goods.goods_id','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -590,7 +591,7 @@ class OrderController extends Controller
             $exdata[$k]['goods_name']=$v['goods_real_name'];
             //尺寸信息
              $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
-            if($order_config->count()>0){ 
+            if($order_config->count()>0){
                 $config_msg='';
                 $i=0;
                 foreach($order_config  as  $va){
@@ -599,7 +600,12 @@ class OrderController extends Controller
                   $orderarr=explode(',',$va['order_config']);
                   foreach($orderarr as $key => $val){
                     $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                    $config_msg.=$conmsg['config_val_msg'].'-';
+                    if($conmsg->kind_val_id){
+                        $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
+                    }else{
+                        $config_val_msg = $conmsg['config_val_msg'];
+                    }
+                    $config_msg.= $config_val_msg.'-';
                   }
                   $config_msg=rtrim($config_msg,'-');
                   $config_msg.='<br/>';
@@ -611,15 +617,28 @@ class OrderController extends Controller
               }
               $exdata[$k]['order_num']=$v['order_num'];
               $exdata[$k]['payof']=\App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
-              $exdata[$k]['goods_price']=$v['goods_price'];
               $exdata[$k]['order_price']=$v['order_price'];
               $exdata[$k]['order_pay_type']= $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
               $exdata[$k]['name']=$v['order_name'];
               $exdata[$k]['tel']=$v['order_tel'];
               $exdata[$k]['order_state']=$v['order_state'];
               $exdata[$k]['order_city']=$v['order_city'];
-              $exdata[$k]['area_info']=$v['order_state'].$v['order_city'].'('.$v['order_add'].')';
-              $exdata[$k]['remark']=$v['order_remark'];
+              if($v['order_zip']){
+                  $str=$v['order_add'];
+                  $pattern='/(.*)\(Zip:(.*?)\)/';
+                  preg_match_all($pattern,$str,$p);
+                  $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                  $exdata[$k]['area_data_info']=$v['order_state'].$v['order_city'].'('.$exdata[$k]['area_info'].')';
+                  $exdata[$k]['order_zip'] = $v['order_zip'];
+              }else{
+                  $str=$v['order_add'];
+                  $pattern='/(.*)\(Zip:(.*?)\)/';
+                  preg_match_all($pattern,$str,$p);
+                  $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                  $exdata[$k]['area_data_info']=$v['order_state'].$v['order_city'].'('.$exdata[$k]['area_info'].')';
+                  $exdata[$k]['order_zip']=isset($p[2][0]) ? $p[2][0] : '';
+              }
+               $exdata[$k]['remark']=$v['order_remark'];
             switch ($v['order_type']) {
                case '0':
                  $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
@@ -659,7 +678,7 @@ class OrderController extends Controller
             $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
          }
          $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-         $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','销售单价','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','备注'];
+         $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
