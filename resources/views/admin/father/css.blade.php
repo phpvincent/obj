@@ -23,6 +23,7 @@
 <script type="text/javascript" src="{{asset('/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js')}}"></script>
 
 <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+<script src="{{asset('/js/input.js')}}"></script>
 <script type="text/javascript" src="{{asset('/admin/datatables/dataTables.fixedColumns.min.js')}}"></script>
 
 @yield('js')

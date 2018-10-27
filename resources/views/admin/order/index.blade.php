@@ -8,6 +8,12 @@
  #order_index_table_wrapper .dataTables_scroll .dataTables_scrollHead table thead th{
 	border-left: none;   
  }
+ .paginate_input{
+	width: 60px;
+    text-align: center;
+    border: solid 1px #ddd;
+    padding: 5px;
+ }
 </style>
 <!-- 上面样式解决dataTable;border-left错开BUG -->
 <div class="page-container">
@@ -193,6 +199,7 @@
 
 <script type="text/javascript">
 	$.tablesetting={
+		"pagingType": "input",
 	"lengthMenu": [[10,20],[10,20]],//每页显示条数
 		"paging": true,					//是否分页。
 		"info":   true,					//页脚信息
