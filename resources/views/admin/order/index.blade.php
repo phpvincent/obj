@@ -14,6 +14,13 @@
     border: solid 1px #ddd;
     padding: 5px;
  }
+ .back_to_top{
+    position: fixed;
+    bottom:5%;
+    right: 50%;
+    border:1px solid #888;
+    z-index:1000;
+}
 </style>
 <!-- 上面样式解决dataTable;border-left错开BUG -->
 <div class="page-container">
@@ -27,6 +34,7 @@
 	</div>
 	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
+	<button class="back_to_top btn">返回顶部</button>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
 			@if(Auth::user()->is_root=='1')
@@ -487,6 +495,22 @@ function pl_del(){
 
 
 }
+ var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+ 
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height()-600)
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
+
 function pl_update(){
 	var msg =confirm("确定要批量核审这些订单吗？");
 	if(!msg){
