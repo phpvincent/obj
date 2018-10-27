@@ -17,7 +17,7 @@
 			<label for="radio-2" style="color: red;">已被屏蔽</label>
 		  </div>
 		
-  @if(\Auth::user()->is_root=='1)
+  @if(\Auth::user()->is_root=='1')
   <div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getvis" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i>过滤</a></div><br/>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
