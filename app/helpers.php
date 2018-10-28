@@ -355,7 +355,6 @@ if (!function_exists('out_excil')){
                     $currencys=\App\currency_type::get();
                     foreach($currencys as $k => $v){
                          $from=$v->currency_english_name;
-                         $to='RMB';
                          $cnt=0;
 
 
@@ -363,6 +362,7 @@ if (!function_exists('out_excil')){
                           $to='CNY';
                           while($cnt<3 && ($bb=file_get_contents('http://api.k780.com/?app=finance.rate&scur='.$from.'&tcur='.$to.'&appkey=37627&sign=7cbd07d00c92cf942fb7c3d4b4bc4d7b', false, stream_context_create($opts)))===FALSE) $cnt++;
                          }else{
+                          $to='RMB';
                           while($cnt<3 && ($bb=file_get_contents('http://op.juhe.cn/onebox/exchange/currency?key=29e07833e480a84e60052a25d13e0ffa&from='.$from.'&to='.$to, false, stream_context_create($opts)))===FALSE) $cnt++;
                          }
 
