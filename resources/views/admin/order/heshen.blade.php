@@ -91,8 +91,8 @@
 						layer.msg('更改成功!',{time:2*1000},function() {
 						//回调
 							index = parent.layer.getFrameIndex(window.name);
-							setTimeout("parent.layer.close(index);",2000);
-                        	window.parent.location.reload();
+							setTimeout("parent.layer.close(index);",500);
+							parent.shuaxin(); 
 						});
 					}else{
 						layer.msg('更改失败!');
