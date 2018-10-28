@@ -719,8 +719,14 @@ class IndexController extends Controller
         }
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
-        
-        $time=time()-strtotime(($vis->vis_time));
+        if($vis==null||$vis==false){
+            return false;
+        }
+        if(is_array($vis)){
+         $time=time()-strtotime(($vis['vis_time']));
+        }else{
+         $time=time()-strtotime(($vis->vis_time));
+        }
         if($vis->vis_staytime==0){
                     $vis->vis_staytime=$time;
         }else{

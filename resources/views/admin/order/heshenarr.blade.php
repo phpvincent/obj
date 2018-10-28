@@ -71,11 +71,12 @@
 		$('#order_type_change').submit(function(){
 			var order_type= $('#order_type_select').val();
 			var order_send_val=$('#order_send').val();
-			if(order_type>=3&&isNull(order_send_val)){
+			var is_send=!$("#order_send").is(":hidden");
+			if(order_type>=3&&isNull(order_send_val)&&is_send){
 				layer.msg("请填写快递单号！");
 				return false;
 			}
-			if(order_type>=3){
+			if(order_type>=3&&is_send){
 				if(order_send_val.length<8){
 					layer.msg("订单编号长度不合法！");
 					return false;

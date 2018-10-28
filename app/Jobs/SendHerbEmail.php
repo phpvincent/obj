@@ -36,7 +36,7 @@ class SendHerbEmail implements ShouldQueue
          if(checkdnsrr(explode("@",$email)[1],"MX")==false){
             $order->order_isemail='2';
             $order->save();
-            \Log::notice($order->order_isemail.'-发送邮件ping失败；');
+            \Log::notice($order->order_email.'-发送邮件ping失败；');
             return;
          }
          /*try{
