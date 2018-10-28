@@ -394,8 +394,13 @@ class cuxiaoSDK{
 				
 				break;
 			case '2':
+				if(!$request->has('cuxiao_msg')||$request->input('cuxiao_msg')==null){
+					$is_fine=false;
+					break;
+				}
 				if(!$request->has('cuxiao_num')&&!$request->has('new_cuxiao')){
 					$is_fine=false;
+					break;
 				}
 				$data=$request->all();
 				if($request->has('cuxiao_num')){
@@ -423,7 +428,7 @@ class cuxiaoSDK{
 				break;
 			case '3':
 				if(!$request->has('cuxiao_num')&&!$request->has('new_cuxiao')){
-					$is_fine=false;
+					$is_fine=false;break;
 				}
 				$data=$request->all();
 				if($request->has('cuxiao_num')){
@@ -432,7 +437,7 @@ class cuxiaoSDK{
 					}
 					foreach($request->input('cuxiao_num') as $k => $v){
 						if($v==null||$data['cuxiao_msg'][$k]==null||$data['cuxiao_prize']==null){
-							$is_fine=false;
+							$is_fine=false;break;
 						}
 					}
 				}
@@ -442,7 +447,7 @@ class cuxiaoSDK{
 					}
 					foreach($request->input('new_cuxiao') as $k => $v){
 						if($v['msg']==null||$v['num']==null||$v['price']==null){
-							$is_fine=false;
+							$is_fine=false;break;
 						}
 					}
 				}

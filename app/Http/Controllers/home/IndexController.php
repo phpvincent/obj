@@ -303,11 +303,14 @@ class IndexController extends Controller
         $order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
         if($order_goods_id==false){
-          return response('error',200);
+          return response('order id miss',200);
         }
         $order->order_goods_id=$order_goods_id;
         /*$goods=goods::where('goods_id',$order_goods_id)->first();*/
         $url=url::where('url_goods_id',$order_goods_id)->first()->url_url;
+        if($url==null){
+          return response('url error',200);
+        }
         $price=0;
         $order->order_price=$price;
         $order_num=0;
@@ -704,6 +707,9 @@ class IndexController extends Controller
     $id=$request->input('id');
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
+    if($vis==null){
+        return false;
+    }
     $vis->vis_from=$from;
     $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
     $vis->save();
