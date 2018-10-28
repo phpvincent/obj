@@ -312,8 +312,8 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>
-１、個人的な理由で返品・交換をご希望される場合：商品が到着する7日以内、しかも再び販売することができる場合ならば、オンラインチャットあるいはメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）により、当社にご連絡してください。アフターサービスセンターは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料はお客様が支払いいただきます。<br>
-２、商品の品質問題で返品・交換をご希望される場合：商品が到着する7日以内にメール(esdkhjies@gmail.com)でアフターサービスセンターにご連絡してください。こちらは三日間の営業日のうちに、お申し込みを受け付けます。返品・交換の送料は当社が支払います。
+１、お客様の理由の場合：お届け日より７日以内に、しか再販売することができる場合ならば、オンラインチャットあるいはメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）により、当社にご連絡ください。こちらは三日間営業日の内に、お申し込みをお受け付けいたします。なお、返品時の配送料は、お客様負担とさせていただきます。また、お届け時の配送料はご返金いたしません。<br>
+２、当店の不手際により不備が発生した場合：商品の破損など、当店の不手際により不備が発生した場合は、代品がある場合には交換、無い場合にはご返品（ご返金）として対応いたします。お届け日より７日以内に、オンラインチャットあるいはメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)により、当社にご連絡ください。当社は三日間の営業日のうちに、お申し込みをお受け付けいたします。この場合は、当社が配送料金負担します。
 
             </td></tr>
         @endif
@@ -326,9 +326,9 @@
             <p>
                 <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email: -->
-                商品の実際使用効果は個人によって、違います。全てのお客様は宣伝する効果を楽しむことが保証できない。ご疑問があれば、オンラインチャットあるいはメール
+                商品について、実際使用効果に個人差がありますが、当社として、一人でも多くの方に商品を喜んでご利用して頂けたいです。何かありましたら、是非オンラインチャットあるいはメール
                                 <a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
-                                で当社にご連絡してください。
+                                で当社にご連絡ください。
             </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
@@ -354,7 +354,7 @@
         </tr>
         <tr class="first odd">
             <td colspan="2">
-            商品到着の確認　　返品・交換を申し込みます　 　アフターサービスセンターが確認します　 お客様が商品を返送します 　倉庫側は返送する商品を確認します 　商品の返品・交換の確認 　返金/交換します
+            商品が到着後一週間以内に、返品・交換をオンラインチャットまたメール（esdkhjies@gmail.com）で申込みして、こちらが確認したら、商品を返送していただきます。返品が到着次第、交換または返金をいたします。
                 
             </td>
 
@@ -362,7 +362,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-            ZSSHOP厳選マーケットは一貫としての周到また厳密な態度を持っていて、世界各地で、商品の産地、技術、原材料を厳格に考察します。服装、靴、カバン、家具、キッチン用品、運動用品などの各種の商品を厳選して、お客様に最高の商品をさしあげます
+            ZSSHOPは、商品の産地、技術、原材料の厳格に選び、服装、靴、カバン、家具、キッチン用品、運動用品などの各種の商品が揃えており、お客様に最高ショッピング体験をして頂けます。
             </td>
 
         </tr>
@@ -419,7 +419,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>いま買い物する</span>
+			<span>カートに入れる</span>
 		</a>
 	</span>
     @endif
