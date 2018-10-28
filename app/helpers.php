@@ -329,7 +329,7 @@ if (!function_exists('out_excil')){
 }
  if (!function_exists('get_user_new_type')){
       function get_user_new_type(){ 
-        $agent       = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $agent       = strtolower(isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'unknow');
 
         $device_type = 'unknown';
 
