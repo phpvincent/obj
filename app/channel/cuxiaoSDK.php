@@ -83,6 +83,9 @@ class cuxiaoSDK{
                          break;
                      }
            	     }
+           	     if(!isset($goods_price)){
+           	     	return false;
+           	     }
            	     //return false;
            	     break;
            	default:
