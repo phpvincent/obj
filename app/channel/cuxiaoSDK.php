@@ -380,5 +380,78 @@ class cuxiaoSDK{
 				break;
 		}
 	}
+	public static function check_role(Request $request)
+	{
+		//验证商品促销信息是否合法
+		$data=$request->all();
+		$cuxiao_type=$request->goods_cuxiao_type;
+		$is_fine=true;
+		switch ($cuxiao_type) {
+			case '0':
+				
+				break;
+			case '1':
+				
+				break;
+			case '2':
+				if(!$request->has('cuxiao_num')&&!$request->has('new_cuxiao')){
+					$is_fine=false;
+				}
+				$data=$request->all();
+				if($request->has('cuxiao_num')){
+					if($data['cuxiao_num']==null){
+						$is_fine=false;break;
+					}
+					foreach($data['cuxiao_num'] as $k => $v){
+						if($v==null||$data['cuxiao_prize'][$k]==null){
+							$is_fine=false;
+							break;
+						}
+					}
+				}
+				if($request->has('new_cuxiao')){
+					if($data['new_cuxiao']==null){
+						$is_fine=false;break;
+					}
+					foreach($data['new_cuxiao'] as $k => $v){
+						if($v['num']==null||$v['price']==null){
+							$is_fine=false;
+							break;
+						}
+					}
+				}
+				break;
+			case '3':
+				if(!$request->has('cuxiao_num')&&!$request->has('new_cuxiao')){
+					$is_fine=false;
+				}
+				$data=$request->all();
+				if($request->has('cuxiao_num')){
+					if($data['cuxiao_num']==null){
+						$is_fine=false;break;
+					}
+					foreach($request->input('cuxiao_num') as $k => $v){
+						if($v==null||$data['cuxiao_msg'][$k]==null||$data['cuxiao_prize']==null){
+							$is_fine=false;
+						}
+					}
+				}
+				if($request->has('new_cuxiao')){
+					if($data['new_cuxiao']==null){
+						$is_fine=false;break;
+					}
+					foreach($request->input('new_cuxiao') as $k => $v){
+						if($v['msg']==null||$v['num']==null||$v['price']==null){
+							$is_fine=false;
+						}
+					}
+				}
+				break;
+			default:
+				$is_fine=false;
+				break;
+		}
+		return $is_fine;
+	}
 
 }
