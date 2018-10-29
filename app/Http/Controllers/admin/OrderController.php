@@ -705,21 +705,21 @@ class OrderController extends Controller
           $goods_ids=\App\admin::get_goods_id();
           $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
             $newcount=DB::table('goods')
-            ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
+            ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
-                $query->orWhere('goods.goods_real_name','like',"%$search%");
+                $query->orWhere('goods.goods_name','like',"%$search%");
                 $query->orWhere('admin.admin_show_name','like',"%$search%");
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())
             ->count();
           $data=DB::table('goods')
-          ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
+          ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
-                $query->orWhere('goods.goods_real_name','like',"%$search%");
+                $query->orWhere('goods.goods_name','like',"%$search%");
                 $query->orWhere('admin.admin_show_name','like',"%$search%");
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())

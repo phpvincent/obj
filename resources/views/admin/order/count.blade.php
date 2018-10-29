@@ -53,7 +53,7 @@
 			</tr>
 			<tr class="text-c">
  				<th width="10%">单品id</th>
- 				<th width="10%">单品名</th>
+ 				<th width="10%">单品展示名</th>
  				<th width="10%">单数</th>
  				<th width="10%">有效单数</th>
  				<th width="10%">销售额(元)</th>
@@ -148,7 +148,7 @@
 		},
 		"columns": [
 		{"data":'goods_id'},
-		{"data":'goods_real_name'},
+		{"data":'goods_name'},
 		{'data':'order_counts'},
 		{'data':'order_real_counts'},
 		{'data':'day_sales'},
