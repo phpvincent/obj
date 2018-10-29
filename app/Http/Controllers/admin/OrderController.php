@@ -89,7 +89,7 @@ class OrderController extends Controller
             ->count();
 
              $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -99,7 +99,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($request){
             if($request->input('mintime')!=null&&$request->input('maxtime')==null){
@@ -156,7 +156,7 @@ class OrderController extends Controller
 
              //列表数据
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -166,7 +166,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -230,7 +230,7 @@ class OrderController extends Controller
            }else{ //root用户
 
             $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -240,7 +240,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -302,7 +302,7 @@ class OrderController extends Controller
 
             //table表格数据
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
            ->where(function($query)use($search){
@@ -312,7 +312,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -733,15 +733,27 @@ class OrderController extends Controller
      */
    public function count(Request $request)
    {
+
     if($request->isMethod('get')){
         $goods_ids=\App\admin::get_goods_id();
         $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
         return view('admin.order.count')->with(compact('counts'));
       }elseif($request->isMethod('post')){
+         if($request->input('mintime')!=null&&$request->input('maxtime')!=null){
+            if(strtotime($request->input('maxtime'))-strtotime($request->input('mintime'))>432000){
+              return response()->json(['error'=>'所选时间范围不得超过五天']);
+            }
+         }
         $info=$request->all();
           $cm=$info['order'][0]['column'];
-          $dsc=$info['order'][0]['dir'];
-          $order=$info['columns']["$cm"]['data'];
+          if($info['columns']["$cm"]['data']=='order_counts'){
+            //当已单数统计时使用默认排序
+            $order='goods_up_time';
+            $dsc='desc';
+          }else{
+            $dsc=$info['order'][0]['dir'];
+            $order=$info['columns']["$cm"]['data'];
+          }
           $draw=$info['draw'];
           $start=$info['start'];
           $len=$info['length'];
@@ -749,76 +761,56 @@ class OrderController extends Controller
           $goods_ids=\App\admin::get_goods_id();
           $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
             $newcount=DB::table('goods')
-            ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
+            ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
-                $query->orWhere('goods.goods_real_name','like',"%$search%");
-                $query->orWhere('admin.admin_name','like',"%$search%");
+                $query->orWhere('goods.goods_name','like',"%$search%");
+                $query->orWhere('admin.admin_show_name','like',"%$search%");
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())
             ->count();
-            if($order == 'order_counts'){
-                $data=DB::table('goods')
-                    ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
-                    ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-                    ->where(function($query)use($search){
-                        $query->where('goods.goods_id','like',"%$search%");
-                        $query->orWhere('goods.goods_real_name','like',"%$search%");
-                        $query->orWhere('admin.admin_name','like',"%$search%");
-                    })
-                    ->whereIn('goods_id',\App\admin::get_goods_id())
-                    ->get();
-//                dd($data, $start, $len);
-//                $data = array_slice($data, $start, $len);
-            }else{
-                $data=DB::table('goods')
-                    ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
-                    ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-                    ->where(function($query)use($search){
-                        $query->where('goods.goods_id','like',"%$search%");
-                        $query->orWhere('goods.goods_real_name','like',"%$search%");
-                        $query->orWhere('admin.admin_name','like',"%$search%");
-                    })
-                    ->whereIn('goods_id',\App\admin::get_goods_id())
-                    ->orderBy($order,$dsc)
-                    ->offset($start)
-                    ->limit($len)
-                    ->get();
-            }
-          if(!$data->isEmpty()){
+          $data=DB::table('goods')
+          ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
+            ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
+            ->where(function($query)use($search){
+                $query->where('goods.goods_id','like',"%$search%");
+                $query->orWhere('goods.goods_name','like',"%$search%");
+                $query->orWhere('admin.admin_show_name','like',"%$search%");
+            })
+            ->whereIn('goods_id',\App\admin::get_goods_id())
+          ->orderBy($order,$dsc)
+          ->get()->toArray();
+        if($request->input('mintime')==null&&$request->input('maxtime')==null){
+            $order=\App\order::where(function($query){
+                      $time=date('Y-m-d',time());
+                      $query->where('order.order_time','like',$time."%");
+                     })
+                     ->where('order.is_del','0')
+                     ->get();;
+        }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
+                    return response()->json(['err'=>'time unknow']);
+        }else{
+          $order=\App\order::where(function($query)use($request){
+                      $query->where('order.order_time','>',$request->input('mintime'));
+                      $query->where('order.order_time','<',$request->input('maxtime'));
+                     })
+                     ->where('order.is_del','0')
+                     ->get();
+        }
+          if(count($data)>0){
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
                      $goods_id=$v->goods_id;
-                     $data[$key]->order_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query){
-                      $time=date('Y-m-d',time());
-                      $query->where('order.order_time','like',$time."%");
-                     })
-                     ->where('order.is_del','0')
+                     $data[$key]->order_counts=$order->where('order.order_goods_id',$goods_id)
                      ->count();
-                     $data[$key]->order_real_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query){
-                      $time=date('Y-m-d',time());
-                      $query->where('order.order_time','like',$time."%");
-                     })
-                     ->where('order.is_del','0')
+                     $data[$key]->order_real_counts=$order->where('order.order_goods_id',$goods_id)
                      ->whereIn('order.order_type',\App\order::get_sale_type())
                      ->count();
-                     $data[$key]->order_hdfk_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query){
-                      $time=date('Y-m-d',time());
-                      $query->where('order.order_time','like',$time."%");
-                     })
-                     ->where('order.is_del','0')
+                     $data[$key]->order_hdfk_counts=$order->where('order.order_goods_id',$goods_id)
                      ->where('order.order_pay_type','0')
                      ->count();
-                     $data[$key]->order_zxzf_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query){
-                      $time=date('Y-m-d',time());
-                      $query->where('order.order_time','like',$time."%");
-                     })
-                     ->where('order.is_del','0')
+                     $data[$key]->order_zxzf_counts=$order->where('order.order_goods_id',$goods_id)
                      ->where('order.order_pay_type','<>','0')
                      ->count();
                   }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
@@ -826,42 +818,23 @@ class OrderController extends Controller
                   }else{
                      $goods_id=$v->goods_id;
                      $data[$key]->order_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query)use($request){
-                      $query->where('order.order_time','>',$request->input('mintime'));
-                      $query->where('order.order_time','<',$request->input('maxtime'));
-                     })
-                     ->where('order.is_del','0')
                      ->count();
                      $data[$key]->order_real_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query)use($request){
-                      $query->where('order.order_time','>',$request->input('mintime'));
-                      $query->where('order.order_time','<',$request->input('maxtime'));
-                     })
-                     ->where('order.is_del','0')
                      ->whereIn('order.order_type',\App\order::get_sale_type())
                      ->count();
                      $data[$key]->order_hdfk_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query)use($request){
-                      $query->where('order.order_time','>',$request->input('mintime'));
-                      $query->where('order.order_time','<',$request->input('maxtime'));
-                     })
-                     ->where('order.is_del','0')
                      ->where('order.order_pay_type','0')
                      ->count();
                      $data[$key]->order_zxzf_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where(function($query)use($request){
-                      $query->where('order.order_time','>',$request->input('mintime'));
-                      $query->where('order.order_time','<',$request->input('maxtime'));
-                     })
-                     ->where('order.is_del','0')
                      ->where('order.order_pay_type','<>','0')
                      ->count();
                   }
-
                    if($request->input('mintime')==null&&$request->input('maxtime')==null){
                     $time = date('Y-m-d',time()).' 00:00:00';
                     $endtime=date('Y-m-d H:i:s',time());
-                    $data[$key]->day_sales=\App\order::get_goods_total($goods_id,$time,$endtime);
+                    $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
+                    ->whereIn('order.order_type',\App\order::get_sale_type())
+                    ->sum('order_price');
                    /* //1.获取今天数据订单
                     $orders = \App\order::where('order_time','like',$time.'%')->where(function($query){
                         $query->whereIn('order.order_type',\App\order::get_sale_type());
@@ -872,7 +845,9 @@ class OrderController extends Controller
                   }else{
                     $time=$request->input('mintime');
                     $endtime=$request->input('maxtime');
-                    $data[$key]->day_sales=\App\order::get_goods_total($goods_id,$time,$endtime);
+                    $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
+                    ->whereIn('order.order_type',\App\order::get_sale_type())
+                    ->sum('order_price');
                     /* $orders = \App\order::where('order_time','>',$request->input('mintime'))
                      ->where('order_time','<',$request->input('maxtime'))
                      ->where(function($query){
@@ -890,8 +865,15 @@ class OrderController extends Controller
                     $data[$key]->day_sales=$day_sales;*/
                 }
             }
+        }
+        if($info['columns']["$cm"]['data']=='order_counts'&&$info['order'][0]['dir']=='desc'){
+            array_multisort(array_column($data,'order_counts'),SORT_DESC,$data);
+          }else{
+            array_multisort(array_column($data,'order_counts'),SORT_ASC,$data);
+          }
+          $data=array_slice($data,$start,$len);
           $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
           return response()->json($arr);
       }
-   }
+   
 }

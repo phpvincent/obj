@@ -155,7 +155,7 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	注文番号/郵便番号（一つの項目を書けば、お問合せられます。）				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	オーダーナンバーまた郵便番号（上記の内容少なくとも1つを、お問い合わせフォームに記入）				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
@@ -203,7 +203,7 @@
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-					<strong>お知らせ:</strong>商品到着後、いかなる問題があれば、オンラインチャットまたメール<a href='mailto:esdkhjies@gmail.com' style='color:#F8770E'>esdkhjies@gmail.com</a>により当社にご連絡してください。同時に、お客様のお名前/連絡先/注文番号をお知らせてください。早速に対応させていただきます。お買い物を楽しみにしてください。</div>
+					<strong>お知らせ:</strong>商品到着後、オーダーについての問題があれば、お客様のお名前/連絡先/オーダーナンバーをご記入の上、オンラインチャットまたメール<a href='mailto:esdkhjies@gmail.com' style='color:#F8770E'>esdkhjies@gmail.com</a>により当社にご連絡ください。早速に対応させて頂きます、では、お買い物を楽しみにしてください。</div>
 				<p></p>
   			</div>
 		</div>

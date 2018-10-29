@@ -329,7 +329,7 @@ if (!function_exists('out_excil')){
 }
  if (!function_exists('get_user_new_type')){
       function get_user_new_type(){ 
-        $agent       = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $agent       = strtolower(isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'unknow');
 
         $device_type = 'unknown';
 
@@ -355,26 +355,23 @@ if (!function_exists('out_excil')){
                     $currencys=\App\currency_type::get();
                     foreach($currencys as $k => $v){
                          $from=$v->currency_english_name;
-                         $to='RMB';
                          $cnt=0;
-
-
+                         $to='CNY';
                          if($v->exchange_rate<0.01){
-                          $to='CNY';
-                          while($cnt<3 && ($bb=file_get_contents('http://api.k780.com/?app=finance.rate&scur='.$from.'&tcur='.$to.'&appkey=37627&sign=7cbd07d00c92cf942fb7c3d4b4bc4d7b', false, stream_context_create($opts)))===FALSE) $cnt++;
+                          $url='http://api.k780.com/?app=finance.rate&scur='.$from.'&tcur='.$to.'&appkey=37627&sign=7cbd07d00c92cf942fb7c3d4b4bc4d7b';
+                          while($cnt<3 && ($bb=file_get_contents($url, false, stream_context_create($opts)))===FALSE) $cnt++;
                          }else{
-                          while($cnt<3 && ($bb=file_get_contents('http://op.juhe.cn/onebox/exchange/currency?key=29e07833e480a84e60052a25d13e0ffa&from='.$from.'&to='.$to, false, stream_context_create($opts)))===FALSE) $cnt++;
+                          $url='http://op.juhe.cn/onebox/exchange/currency?key=29e07833e480a84e60052a25d13e0ffa&from='.$from.'&to='.$to;
+                          while($cnt<3 && ($bb=file_get_contents($url, false, stream_context_create($opts)))===FALSE) $cnt++;
                          }
-
-
                          $res=json_decode($bb,true);
                          if($v->exchange_rate>=0.01&&($res==false||!isset($res['error_code'])||$res['error_code']!='0')){
                           //接口返回错误
                             $reason=isset($res['reason'])?$res['reason']:'';
-                            \Log::notice(\Carbon\Carbon::now().'-'.$from.'汇率获取失败,'.$reason);
+                            \Log::notice(\Carbon\Carbon::now().'-'.$url.'汇率获取失败,'.$reason);
                          }elseif($v->exchange_rate<0.01&&($res==false||!isset($res['success'])||$res['success']!='1')){
                             $reason=isset($res['msg'])?$res['msg']:'';
-                            \Log::notice(\Carbon\Carbon::now().'-'.$from.'汇率获取失败,'.$reason);
+                            \Log::notice(\Carbon\Carbon::now().'-'.$url.'汇率获取失败,'.$reason);
                          }else{
                            if($v->exchange_rate<0.01){
                               $cur=$res['result']['rate'];

@@ -303,11 +303,14 @@ class IndexController extends Controller
         $order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
         if($order_goods_id==false){
-          return response('error',200);
+          return response('order id miss',200);
         }
         $order->order_goods_id=$order_goods_id;
         /*$goods=goods::where('goods_id',$order_goods_id)->first();*/
         $url=url::where('url_goods_id',$order_goods_id)->first()->url_url;
+        if($url==null){
+          return response('url error',200);
+        }
         $price=0;
         $order->order_price=$price;
         $order_num=0;
@@ -361,7 +364,8 @@ class IndexController extends Controller
             $url=$urls->url_url;
         }
         if($url==null){
-            return false;
+            \Log::notcie('下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
@@ -560,7 +564,7 @@ class IndexController extends Controller
             $url=$urls->url_url;
         }
         if($url==null){
-            return false;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
         if($goods->goods_blade_type == 0){
             return view('home.TaiwanFan.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
@@ -704,6 +708,9 @@ class IndexController extends Controller
     $id=$request->input('id');
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
+    if($vis==null){
+        return;
+    }
     $vis->vis_from=$from;
     $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
     $vis->save();
@@ -719,8 +726,14 @@ class IndexController extends Controller
         }
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
-        
-        $time=time()-strtotime(($vis->vis_time));
+        if($vis==null||$vis==false){
+            return;
+        }
+        if(is_array($vis)){
+         $time=time()-strtotime(($vis['vis_time']));
+        }else{
+         $time=time()-strtotime(($vis->vis_time));
+        }
         if($vis->vis_staytime==0){
                     $vis->vis_staytime=$time;
         }else{
@@ -798,7 +811,7 @@ class IndexController extends Controller
            $url=$urls->url_url;
        }
        if($url==null){
-           return false;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'));
@@ -951,7 +964,7 @@ class IndexController extends Controller
            // if there is no link redirect back with error message
            if (!$response['paypal_link']) {
             \App\order::where('order_id',$order_id)->delete();
-             return false;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
                //return redirect('/pay')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
                // For the actual error message dump out $response and see what's in there
            }

@@ -30,6 +30,7 @@
 			<tr class="text-c">
 				<th width="40">ID</th>
 				<th width="110">账户名</th>
+				<th width="110">所有人</th>
 				<th width="110">上次登录IP</th>
 				<th width="70">上次登陆时间</th>
 				<th width="70">登陆次数</th>
@@ -61,7 +62,7 @@
 		"order": [[ 0, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [1,2,3,5,6,7,8,10,11,12],
+		   "targets": [1,2,3,5,6,7,8,9,11,12,13],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -79,6 +80,7 @@
 		"columns": [
 		{"data":'admin_id'},
 		{'data':'admin_name'},
+		{'data':'admin_show_name'},
 		{'data':'admin_ip'},
 		{'data':'admin_time'},
 		{'data':'admin_num'},

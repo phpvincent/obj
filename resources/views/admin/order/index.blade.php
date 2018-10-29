@@ -14,6 +14,13 @@
     border: solid 1px #ddd;
     padding: 5px;
  }
+ .back_to_top{
+    position: fixed;
+    bottom:5%;
+    right: 50%;
+    border:1px solid #888;
+    z-index:1000;
+}
 </style>
 <!-- 上面样式解决dataTable;border-left错开BUG -->
 <div class="page-container">
@@ -27,6 +34,7 @@
 	</div>
 	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
+	<button class="back_to_top btn">返回顶部</button>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
 			@if(Auth::user()->is_root=='1')
@@ -123,7 +131,7 @@
 				<th scope="col" colspan="21" style="white-space: nowrap">订单列表</th>
 			</tr>
 			<tr class="text-c">
-				<th width="25"><input type="checkbox" class="allchecked" name="" value=""></th>
+				<th width="25"><input type="checkbox" class="allchecked" name="" value="0"></th>
 				<th width="40">ID</th>
 				<th width="80">订单号</th>
 				<th width="60">下单者ip</th>
@@ -198,6 +206,67 @@
 @section('js')
 
 <script type="text/javascript">
+var checkboxs=[];
+function shuaxin(){
+	
+	$("#order_index_table").DataTable().draw(false);
+}
+function fuxuan(){
+	checkboxs=''
+}
+function quanxuan(){
+	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
+	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(){
+            // $(this).on('click',function(){
+                var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
+                if(selectedLength==allLength){
+                    $('.allchecked').prop("checked",true);//全选按钮
+                    }else{
+                        $('.allchecked').prop("checked",false);
+                        }
+            
+                // })
+                
+            })
+}
+$('body').on('click',".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']",function(){
+	console.log(1)
+	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
+	var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
+                if(selectedLength==allLength){
+                    $('.allchecked').prop("checked",true);//全选按钮
+                    }else{
+                        $('.allchecked').prop("checked",false);
+                        }
+            
+})
+// 复选框选择
+function states(){
+	$("input[type='checkbox']").each(function() {
+				for(var i=0;i<=checkboxs.length;i++){
+					if($(this).val()==checkboxs[i]){
+						$(this).prop("checked", true);
+					}
+				}
+	});
+	quanxuan()
+}
+
+	var backButton=$('.back_to_top');
+    function backToTop() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 800);
+    }
+    backButton.on('click', backToTop);
+ 
+    $(window).on('scroll', function () {/*当滚动条的垂直位置大于浏览器所能看到的页面的那部分的高度时，回到顶部按钮就显示 */
+        if ($(window).scrollTop() > $(window).height()-300)
+            backButton.fadeIn();
+        else
+            backButton.fadeOut();
+    });
+    $(window).trigger('scroll');/*触发滚动事件，避免刷新的时候显示回到顶部按钮*/
 	$.tablesetting={
 		"pagingType": "input",
 	"lengthMenu": [[10,20,30,40],[10,20,30,40]],//每页显示条数
@@ -255,7 +324,7 @@
 		{'data':'order_email'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_return_time'},
-		{'data':'admin_name'},
+		{'data':'admin_show_name'},
 		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
@@ -377,11 +446,15 @@
 			$(row).find('td:eq(5)').html(img);*/
 			/*var video_btn='<input class="btn btn-success-outline radius" onClick="start_play('+data.lesson_id+')" type="button" value="播放视频">';
 			$(row).find('td:eq(6)').html(video_btn);*/
+		},
+		"fnDrawCallback": function () {
+			states();
+
 		}
 	}
  dataTable =$('#order_index_table').DataTable($.tablesetting);
 $('#seavis1').on('click',function(){
-	               			 $('#order_index_table').dataTable().fnClearTable(); 
+	$('#order_index_table').dataTable().fnClearTable(); 
 
 })
 function del_order(id){
@@ -433,9 +506,10 @@ function order_up(title,url,type,w,h){
 	for (var i = a.length - 1; i >= 0; i--) {
 		if(a[i].value!=''&&a[i].value!=null){
 					b+=a[i].value+',';
+					checkboxs.push(a[i].value)
 		}
 	}
-	url=url+'&id='+b;
+	url=url+'&id='+checkboxs;
 	layer_show(title,url,w,h);
 }
 $('#outorder').on('click',function(){
@@ -464,14 +538,15 @@ function pl_del(){
 	}
 	for (var i = a.length - 1; i >= 0; i--) {
 		if(a[i].value!=''&&a[i].value!=null){
-					b.push(a[i].value);
+					// b.push(a[i].value);
+					checkboxs.push(a[i].value)
 		}
 	}
-	layer.msg('删除中，请稍等!');
+	layer.msg('删除中，请稍等!'); 
 	$.ajax({
 					url:"{{url('admin/order/delorder')}}",
 					type:'get',
-					data:{'id':b,'type':'all'},
+					data:{'id':checkboxs,'type':'all'},
 					datatype:'json',
 					success:function(msg){
 			           if(msg['err']==1){
@@ -487,6 +562,8 @@ function pl_del(){
 
 
 }
+ 
+
 function pl_update(){
 	var msg =confirm("确定要批量核审这些订单吗？");
 	if(!msg){
@@ -551,7 +628,8 @@ $('#order_repeat_name').on('change',function(){
 })
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
-})
+});
+
 var allcheckedflag=true;
 $("body").on("click",".allchecked",function(){
     if(allcheckedflag){
@@ -563,6 +641,82 @@ $("body").on("click",".allchecked",function(){
 	}
 	
 })
+function xuanzhe(){
+	// console.log(checkboxs)
+	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {	
+			if(!this.checked){
+				var a=checkboxs.indexOf( $(this).val() )
+				if(a>=0){
+					checkboxs.splice( a, 1 );
+				}
+			}
+		});
+	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
+		
+		if(this.checked){
+			var a=checkboxs.indexOf( $(this).val() )
+				if(a<0){
+					checkboxs.push($(this).val());
+				}
+			
+		}
+
+	});
+}
+// 上一页
+	$('body').on('click','#order_index_table_previous',function(){
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
+		// });
+		xuanzhe()
+	});
+	// 下一页
+	$('body').on('click','#order_index_table_next',function(){
+		// $(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {	
+		// 	if(!this.checked){
+		// 		checkboxs.splice( checkboxs.indexOf( $(this).val() ), 1 );
+		// 	}
+		// });
+		// $(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
+			
+		// 	if(this.checked){
+		// 		checkboxs.push($(this).val());
+		// 	}
+		// });
+		xuanzhe()
+	})
+	// 第一页
+	$('body').on('click','#order_index_table_first',function(){
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
+
+		// });
+		xuanzhe()
+	});
+	// 最后一页
+	$('body').on('click','#order_index_table_last',function(){
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
+
+		// });
+		xuanzhe()
+	});
+	// 自定义页
+	$('body').on('input propertychange','.paginate_input',function(){
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
+
+		// });
+		xuanzhe();
+	})
 </script>
 
 @endsection

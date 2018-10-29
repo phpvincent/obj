@@ -67,7 +67,7 @@ class GoodsController extends Controller
             $where=['goods.goods_id','>',0];
            }
 	        $newcount=DB::table('goods')
-	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
+	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name','admin.admin_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
           ->where(function($query)use($where,$search){
@@ -76,6 +76,7 @@ class GoodsController extends Controller
              $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where]);
              $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where]);
              $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+             $query->orWhere([['admin.admin_show_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
           })
           ->where(function($query){
             if(Auth::user()->is_root!='1'){
@@ -130,7 +131,7 @@ class GoodsController extends Controller
           })
 	        ->count();
 	        $data=DB::table('goods')
-	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
+	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name','admin.admin_show_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
           ->where(function($query)use($where,$search){
@@ -139,6 +140,7 @@ class GoodsController extends Controller
             $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where]);
             $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where]);
             $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+            $query->orWhere([['admin.admin_show_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
           })
           ->where(function($query){
            if(Auth::user()->is_root!='1'){
@@ -280,13 +282,18 @@ class GoodsController extends Controller
        if(!empty($array_goods_config)){
            return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
        }
-
+       //验证促销活动信息是否合法
+       $cuxiao_check=cuxiaoSDK::check_role($request);
+       if(!$cuxiao_check){
+              return response()->json(['err'=>0,'str'=>'促销信息配置错误!请勿留空或填写非法数据!']);
+       }
+      
        $goods=new \App\goods();
        $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
        if($isset!=null){
               return response()->json(['err'=>0,'str'=>'添加失败！该单品名已被使用！']);
        }
-
+      
        $templets = []; //首页显示内容
        $array = [];    //模块显示数组
 
@@ -803,8 +810,11 @@ class GoodsController extends Controller
                 }
             }
         }
-
-
+       //验证促销活动信息是否合法
+       $cuxiao_check=cuxiaoSDK::check_role($request);
+       if(!$cuxiao_check){
+              return response()->json(['err'=>0,'str'=>'促销信息配置错误!请勿留空或填写非法数据!']);
+       }
        //倒计时模块
        if($data['count_down_1'] == 1){
            if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){

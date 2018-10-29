@@ -29,12 +29,11 @@ class Kernel extends ConsoleKernel
                  $filePath='./time.log';
                  $schedule->call(function(){
                    check_pay_order();    
-                    /*\Log::notice('test');*/
                  })->everyMinute()->appendOutputTo($filePath);
                  $schedule->call(function(){
                     get_new_currency_rate();
                    /* \Log::notice('check');*/
-                 })->dailyAt('03:00');
+                 })->dailyAt('3:00');
     }
     /**
      * Register the commands for the application.

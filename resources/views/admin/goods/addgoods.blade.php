@@ -1116,7 +1116,7 @@
 	}
 	//增加新产品
 	$('#addgoods_kind').on('click',function(){
-	layer_show('产品添加','{{url("admin/goods/addgoods_kind")}}',400,300);
+	layer_show('产品添加','{{url("admin/kind/addkind")}}',600,500);
 	})
 
     //模板、币种联动
