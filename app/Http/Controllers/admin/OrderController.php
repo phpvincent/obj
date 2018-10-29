@@ -696,7 +696,7 @@ class OrderController extends Controller
         return view('admin.order.count')->with(compact('counts'));
       }elseif($request->isMethod('post')){
          if($request->input('mintime')==null&&$request->input('maxtime')==null){
-            if(strtotime($request->input('maxtime')-strtotime($request->('mintime'))>172800){
+            if(strtotime($request->input('maxtime'))-strtotime($request->('mintime'))>172800){
               return response()->json(['error'=>'date to long']);
             }
          }
