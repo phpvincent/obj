@@ -116,7 +116,7 @@
 
 <script type="text/javascript">
 	$.tablesetting={
-	"lengthMenu": [[10,20],[10,20]],//每页显示条数
+	"lengthMenu": [[20,30],[20,30]],//每页显示条数
 		"paging": true,					//是否分页。
 		"info":   true,					//页脚信息
 		"searching": true,				//搜索
