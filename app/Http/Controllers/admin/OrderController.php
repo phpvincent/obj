@@ -835,18 +835,4 @@ class OrderController extends Controller
           return response()->json($arr);
       }
    }
-   public function changename(Request $request)
-   {
-    $admin=\App\admin::all();
-    foreach($admin as $k => $v){
-      $name=$v->admin_name;
-      $v->admin_show_name=$name;
-      $msg=$v->save();
-      if($msg){
-
-      }else{
-        \Log::notice($name.'更改名字失败！');
-      }
-    }
-   }
 }
