@@ -214,6 +214,32 @@ function shuaxin(){
 function fuxuan(){
 	checkboxs=''
 }
+function quanxuan(){
+	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
+	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(){
+            // $(this).on('click',function(){
+                var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
+                if(selectedLength==allLength){
+                    $('.allchecked').prop("checked",true);//全选按钮
+                    }else{
+                        $('.allchecked').prop("checked",false);
+                        }
+            
+                // })
+                
+            })
+}
+$('body').on('click',".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']",function(){
+	console.log(1)
+	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
+	var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
+                if(selectedLength==allLength){
+                    $('.allchecked').prop("checked",true);//全选按钮
+                    }else{
+                        $('.allchecked').prop("checked",false);
+                        }
+            
+})
 // 复选框选择
 function states(){
 	$("input[type='checkbox']").each(function() {
@@ -223,7 +249,9 @@ function states(){
 					}
 				}
 	});
+	quanxuan()
 }
+
 	var backButton=$('.back_to_top');
     function backToTop() {
         $('html,body').animate({
@@ -514,7 +542,7 @@ function pl_del(){
 					checkboxs.push(a[i].value)
 		}
 	}
-	layer.msg('删除中，请稍等!');
+	layer.msg('删除中，请稍等!'); 
 	$.ajax({
 					url:"{{url('admin/order/delorder')}}",
 					type:'get',
@@ -613,49 +641,81 @@ $("body").on("click",".allchecked",function(){
 	}
 	
 })
-
-// 上一页
-	$('body').on('click','#order_index_table_previous',function(){
-		$("input[type='checkbox']:checked").each(function(j) {
-			if (j >= 0) {
-				checkboxs.push($(this).val());
+function xuanzhe(){
+	// console.log(checkboxs)
+	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {	
+			if(!this.checked){
+				var a=checkboxs.indexOf( $(this).val() )
+				if(a>=0){
+					checkboxs.splice( a, 1 );
+				}
 			}
 		});
+	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
+		
+		if(this.checked){
+			var a=checkboxs.indexOf( $(this).val() )
+				if(a<0){
+					checkboxs.push($(this).val());
+				}
+			
+		}
+
+	});
+}
+// 上一页
+	$('body').on('click','#order_index_table_previous',function(){
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
+		// });
+		xuanzhe()
 	});
 	// 下一页
 	$('body').on('click','#order_index_table_next',function(){
-		$("input[type='checkbox']:checked").each(function(j) {
-			if (j >= 0) {
-				checkboxs.push($(this).val());
-			}
-		});
+		// $(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {	
+		// 	if(!this.checked){
+		// 		checkboxs.splice( checkboxs.indexOf( $(this).val() ), 1 );
+		// 	}
+		// });
+		// $(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
+			
+		// 	if(this.checked){
+		// 		checkboxs.push($(this).val());
+		// 	}
+		// });
+		xuanzhe()
 	})
 	// 第一页
 	$('body').on('click','#order_index_table_first',function(){
-		$("input[type='checkbox']:checked").each(function(j) {
-			if (j >= 0) {
-				checkboxs.push($(this).val());
-			}
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
 
-		});
+		// });
+		xuanzhe()
 	});
 	// 最后一页
 	$('body').on('click','#order_index_table_last',function(){
-		$("input[type='checkbox']:checked").each(function(j) {
-			if (j >= 0) {
-				checkboxs.push($(this).val());
-			}
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
 
-		});
+		// });
+		xuanzhe()
 	});
 	// 自定义页
 	$('body').on('input propertychange','.paginate_input',function(){
-		$("input[type='checkbox']:checked").each(function(j) {
-			if (j >= 0) {
-				checkboxs.push($(this).val());
-			}
+		// $("input[type='checkbox']:checked").each(function(j) {
+		// 	if (j >= 0) {
+		// 		checkboxs.push($(this).val());
+		// 	}
 
-		});
+		// });
+		xuanzhe();
 	})
 </script>
 
