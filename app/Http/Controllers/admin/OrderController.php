@@ -731,9 +731,9 @@ class OrderController extends Controller
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())
           ->orderBy($order,$dsc)
-          ->offset($start)
-          ->limit($len)
+         
           ->get()->toArray();
+
           if(count($data)>0){
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
@@ -843,6 +843,7 @@ class OrderController extends Controller
           }else{
             array_multisort(array_column($data,'order_counts'),SORT_ASC,$data);
           }
+          $data=array_slice($data,$start,$len);
           $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
           return response()->json($arr);
       }
