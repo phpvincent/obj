@@ -695,6 +695,11 @@ class OrderController extends Controller
         $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
         return view('admin.order.count')->with(compact('counts'));
       }elseif($request->isMethod('post')){
+         if($request->input('mintime')==null&&$request->input('maxtime')==null){
+            if(strtotime($request->input('maxtime')-strtotime($request->('mintime'))>172800){
+              return response()->json(['error'=>'date to long']);
+            }
+         }
         $info=$request->all();
           $cm=$info['order'][0]['column'];
           if($info['columns']["$cm"]['data']=='order_counts'){
