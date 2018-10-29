@@ -121,7 +121,7 @@
 		"info":   true,					//页脚信息
 		"searching": true,				//搜索
 		"ordering": true,
-		"order": [[ 8, "desc" ]],
+		"order": [[ 2, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
 		   "targets": [0,1,3,4,5,6,7],
