@@ -234,7 +234,8 @@ class GoodsController extends Controller
      */
    public function post_add(Request $request){
     //修改单品
-        $data=$request->all();
+//        $data=$request->all();
+        $data=$request->except('_token');
         $array_goods_config = [];
         $array_config_val = [];
         if(isset($data['goods_config_name'])){
@@ -549,6 +550,9 @@ class GoodsController extends Controller
          }
          if($msg1&&$msg2)
          {
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'新增单品成功,单品名称：'.$data['goods_real_name'],json_encode($data));
             if(\App\goods_check::first()['goods_is_check']==0){
               return response()->json(['err'=>1,'str'=>'保存成功！请留意核审状态！']);
             }else{
@@ -574,23 +578,38 @@ class GoodsController extends Controller
             $v->save();
          }
          if($goods->save()){
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'删除单品成功,单品名称：'.$goods->goods_real_name);
 	   	    	return response()->json(['err'=>1,'str'=>'删除成功']);
          }else{
 	   	    	return response()->json(['err'=>0,'str'=>'删除失败']);
          }
    }
+    /** 商品上架
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function online(Request $request){
-         $url=url::where('url_url',$request->input('id'))->first();
+         $url=url::where('url_id',$request->input('id'))->first();
          if($url==null||$url==''){
                return response()->json(['err'=>0,'str'=>'启动失败,需先绑定域名']);
          }
          $url->url_type='1';
          if($url->save()){
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'单品上线,域名：'.$url->url_url.', 单品名称：'.goods::where('goods_id',$url->url_goods_id)->value('goods_name'));
 	   	    	return response()->json(['err'=>1,'str'=>'启动成功']);
          }else{
 	   	    	return response()->json(['err'=>0,'str'=>'启动失败']);
          }
    }
+
+    /** 商品下架
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function close(Request $request){
          $url=url::where('url_id',$request->input('id'))->first();
          $url->url_type='0';
@@ -603,11 +622,18 @@ class GoodsController extends Controller
          $url->url_goods_id=null;
          $url->url_zz_goods_id=null;
          if($url->save()){
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'单品下线,域名：'.$url->url_url);
 	   	    	return response()->json(['err'=>1,'str'=>'下线成功']);
          }else{
 	   	    	return response()->json(['err'=>0,'str'=>'下线失败']);
          }
    }
+
+    /** 导出excel 商品信息
+     * @param Request $request
+     */
    public function outgoods(Request $request){
     //下载Excel
    		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time','goods_pix','goods_buy_url')
@@ -663,7 +689,8 @@ class GoodsController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
    public function post_update(Request $request){
-       $data=$request->all();
+//       $data=$request->all();
+       $data=$request->except('_token');
 
        //字段验证（属性值，属性名，属性照片）
        $array_goods_config = [];
@@ -1050,13 +1077,18 @@ class GoodsController extends Controller
                $goods_config->goods_primary_id = $data['goods_id'];
                $goods_config->is_img = 0;
                $goods_config->save();
-               $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $data['goods_id']);
-               if ($con_val === false) {
-                   return response()->json(['err' => 0, 'str' => '保存失败！']);
+               if(isset($item['msg'])){
+                   $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $data['goods_id']);
+                   if ($con_val === false) {
+                       return response()->json(['err' => 0, 'str' => '保存失败！']);
+                   }
                }
            }
        }
        if ($msg1 && $msg2) {
+           $ip = $request->getClientIp();
+           //加log日志
+           operation_log($ip,'修改单品成功,单品名称：'.$data['goods_real_name'],json_encode($data));
            if (\App\goods_check::first()['goods_is_check'] == 0) {
                return response()->json(['err' => 1, 'str' => '保存成功！请留意核审状态！']);
            } else {
@@ -1096,7 +1128,7 @@ class GoodsController extends Controller
             return response()->json(['err'=>0,'str'=>'单品名已被使用，请重新命名！']);
         }
         $goods = \App\goods::where('goods_id',$id)->first();
-
+        $goods_real_name = $goods['goods_real_name'];
         //复制商品是否存在
         if(!$goods){
             return response()->json(['err'=>0,'str'=>'请选择复制商品！']);
@@ -1331,7 +1363,9 @@ class GoodsController extends Controller
             }
         }
 
-
+        $ip = $request->getClientIp();
+        //加log日志
+        operation_log($ip,'复制单品成功,原单品名称：'.$goods_real_name.'===>新单品名称：'.$request->input('goods_name'));
         return response()->json(['err'=>1,'str'=>'复制成功！']);
     }
     //商品预览
@@ -1405,6 +1439,9 @@ class GoodsController extends Controller
         }
         $msg=$goods_new_type->save();
         if($msg){
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'添加单品种类成功,种类名称：'.$request->input('goods_type_name'));
             return response()->json(['err' => '1', 'msg' => '添加成功!']);
         }else{
            return response()->json(['err' => '0', 'msg' => '添加失败!']);

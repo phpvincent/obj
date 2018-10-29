@@ -234,6 +234,9 @@ class PayController extends Controller
               $spend->is_impload = '1';
               $spend_save = $spend->save();
               if($spend_save){
+                  $ip = $request->getClientIp();
+                  //加log日志
+                  operation_log($ip,'新增花费成功',json_encode($data));
                   return response()->json(['err'=>'1','msg'=>'新增花费成功']);
               }
               return response()->json(['err'=>'0','msg'=>'新增花费失败']);
@@ -255,6 +258,9 @@ class PayController extends Controller
             $data = $request->except('_token');
             $pay_number = ad_info::insert($data);
             if($pay_number){
+                $ip = $request->getClientIp();
+                //加log日志
+                operation_log($ip,'新增广告编号成功',json_encode($data));
                 return response()->json(['err'=>'1','msg'=>'新增广告编号成功']);
             }
             return response()->json(['err'=>'0','msg'=>'新增广告编号失败']);
@@ -355,8 +361,15 @@ class PayController extends Controller
       public function del_spend(Request $request)
       {
           $id = $request->input('id');
+          $data = spend::where('spend_id',$id)->first();
+          if($data){
+              $data = $data->toArray();
+          }
           $spend_bool = spend::where('spend_id',$id)->delete();
           if($spend_bool){
+              $ip = $request->getClientIp();
+              //加log日志
+              operation_log($ip,'删除商品花费成功',json_encode($data));
               return response()->json(['err'=>1,'msg'=>'删除成功']);
           }else{
               return response()->json(['err'=>0,'msg'=>'删除失败']);

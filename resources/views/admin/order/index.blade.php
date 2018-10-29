@@ -210,6 +210,7 @@ var checkboxs=[];
 function shuaxin(){
 	
 	$("#order_index_table").DataTable().draw(false);
+	// quanxuan()
 }
 function fuxuan(){
 	checkboxs=''
@@ -221,7 +222,10 @@ function quanxuan(){
                 var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
                 if(selectedLength==allLength){
                     $('.allchecked').prop("checked",true);//全选按钮
+					console.log(1)
+
                     }else{
+					console.log(2)
                         $('.allchecked').prop("checked",false);
                         }
             
@@ -230,14 +234,15 @@ function quanxuan(){
             })
 }
 $('body').on('click',".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']",function(){
-	console.log(1)
 	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
 	var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
                 if(selectedLength==allLength){
+					console.log(1)
                     $('.allchecked').prop("checked",true);//全选按钮
                     }else{
+						console.log(2)
                         $('.allchecked').prop("checked",false);
-                        }
+                }
             
 })
 // 复选框选择
@@ -249,7 +254,7 @@ function states(){
 					}
 				}
 	});
-	quanxuan()
+	// quanxuan()
 }
 
 	var backButton=$('.back_to_top');
@@ -449,7 +454,9 @@ function states(){
 		},
 		"fnDrawCallback": function () {
 			states();
-
+		},
+		"fnPreDrawCallback":function(){
+			setTimeout(function(){ quanxuan(); }, 500);
 		}
 	}
  dataTable =$('#order_index_table').DataTable($.tablesetting);
@@ -497,18 +504,19 @@ function goods_edit(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 function order_up(title,url,type,w,h){
+	xuanzhe()
 	var b='';
 	var a=$('input[type="checkbox"]:checked');
 	if(a.length<=0){
 		layer.msg('无选中项');
 		return false;
 	}
-	for (var i = a.length - 1; i >= 0; i--) {
-		if(a[i].value!=''&&a[i].value!=null){
-					b+=a[i].value+',';
-					checkboxs.push(a[i].value)
-		}
-	}
+	// for (var i = a.length - 1; i >= 0; i--) {
+	// 	if(a[i].value!=''&&a[i].value!=null){
+	// 				b+=a[i].value+',';
+	// 				checkboxs.push(a[i].value)
+	// 	}
+	// }
 	url=url+'&id='+checkboxs;
 	layer_show(title,url,w,h);
 }
@@ -526,6 +534,7 @@ $('#outorder').on('click',function(){
 	}
 })
 function pl_del(){
+	xuanzhe()
 	var msg =confirm("确定要批量删除这些订单吗？");
 	if(!msg){
 		return false;
@@ -536,12 +545,12 @@ function pl_del(){
 		layer.msg('无选中项');
 		return false;
 	}
-	for (var i = a.length - 1; i >= 0; i--) {
-		if(a[i].value!=''&&a[i].value!=null){
-					// b.push(a[i].value);
-					checkboxs.push(a[i].value)
-		}
-	}
+	// for (var i = a.length - 1; i >= 0; i--) {
+	// 	if(a[i].value!=''&&a[i].value!=null){
+	// 				// b.push(a[i].value);
+	// 				checkboxs.push(a[i].value)
+	// 	}
+	// }
 	layer.msg('删除中，请稍等!'); 
 	$.ajax({
 					url:"{{url('admin/order/delorder')}}",

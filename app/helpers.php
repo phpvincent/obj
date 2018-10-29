@@ -398,3 +398,24 @@ if (!function_exists('out_excil')){
                     }
       }
   }
+
+if (!function_exists('operation_log')){
+    function operation_log($ip,$log,$data_json=false){
+        $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.Auth::user()->admin_name .' '.$log. "\r\n";
+        if($data_json){
+            $log_content .= 'JSON数据：'. $data_json ."\r\n";
+        }
+        if(!\Illuminate\Support\Facades\File::isDirectory(storage_path('logs\beiguo'))){
+            \Illuminate\Support\Facades\Storage::disk('log')->makeDirectory('beiguo');
+        }
+        $name = 'beiguo\\'.date('Y-m-d').'OperationLog.log';
+        $filepath = storage_path('logs\\'.$name);
+        if(\Illuminate\Support\Facades\Storage::disk('log')->exists($name)){
+            @file_put_contents($filepath, $log_content, FILE_APPEND);
+        }else{
+            @file_put_contents($filepath, $log_content);
+        }
+    }
+}
+
+

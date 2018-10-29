@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\role;
+use App\rule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\admin;
@@ -14,13 +16,18 @@ class AdminController extends Controller
     	$counts=admin::count();
     	return view('admin.admin.index')->with(compact('counts'));
     }
+
+    /** 添加账户
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function addadmin(Request $request){
     	if($request->isMethod('get')){
     		$roles=\App\role::get();
             $languages = admin::$LANGUAGES;
     		return view('admin.admin.addadmin')->with(compact('roles','languages'));
     	}elseif($request->isMethod('post')){
-    		$data=$request->all();
+    	    $data=$request->except('_token');
     		$isuse=\App\admin::where('admin_name',$data['admin_name'])->first();
     		if($isuse!=null){
 	                    return response()->json(['err'=>0,'str'=>'添加失败,账户名已被使用!']);
@@ -48,12 +55,18 @@ class AdminController extends Controller
     			 $ip=$request->getClientIp(); 
     			$time=date('Y-m-d H:i:s',time());
     			\Log::notice("【".$ip."】".Auth::user()->admin_name."于【".$time."]添加了".$data['admin_name'].'-'.\App\role::where('role_id',$data['admin_role_id'])->first()['role_name']."账户");
-                    return response()->json(['err'=>1,'str'=>'添加成功']);
+                operation_log($ip,"添加账户成功，账户名称：".$data['admin_name'],json_encode($data));
+    			return response()->json(['err'=>1,'str'=>'添加成功']);
 	        }else{
-	                    return response()->json(['err'=>0,'str'=>'添加失败']);
+    		    return response()->json(['err'=>0,'str'=>'添加失败']);
 	        }
     	}
     }
+
+    /** list列表信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_table(Request $request){
     		$info=$request->all();
         	$cm=$info['order'][0]['column'];
@@ -146,66 +159,117 @@ class AdminController extends Controller
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
     }
+
+    /** 删除商户
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deladmin(Request $request){
     	$id=$request->input('id');
+    	$admin_name  = admin::where('admin_id',$id)->value('admin_name');
     	$msg=\App\admin::where('admin_id',$id)->delete();
     	if($msg){
-	   	    	return response()->json(['err'=>1,'str'=>'删除成功']);
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'删除账户成功,账户名称：'.$admin_name);
+            return response()->json(['err'=>1,'str'=>'删除成功']);
 	   	}else{
-		   	    	return response()->json(['err'=>0,'str'=>'删除失败']);
+		   	return response()->json(['err'=>0,'str'=>'删除失败']);
 	   	}
     }
+
+    /** 账户设置为超管
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function ch_root(Request $request){
     	$id=$request->input('id');
-    	$msg=\App\admin::where('admin_id',$id)->first();
+        $admin_name = admin::where('admin_id',$id)->value('admin_name');
+        $msg=\App\admin::where('admin_id',$id)->first();
     	$msg->is_root='1';
     	$msg1=$msg->save();
     	if($msg){
-	   	    	return response()->json(['err'=>1,'str'=>'更改成功']);
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'设置账户超管权限,账户名称：'.$admin_name);
+	   	    return response()->json(['err'=>1,'str'=>'更改成功']);
 	   	}else{
 		   	    	return response()->json(['err'=>0,'str'=>'更改失败']);
 	   	}
     }
+
+    /** 取消账户超管权限
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function cl_root(Request $request){
     	$id=$request->input('id');
+    	$admin_name = admin::where('admin_id',$id)->value('admin_name');
     	$msg=\App\admin::where('admin_id',$id)->first();
     	$msg->is_root='0';
     	$msg1=$msg->save();
     	if($msg){
-	   	    	return response()->json(['err'=>1,'str'=>'更改成功']);
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'取消账户超管权限,账户名称：'.$admin_name);
+	   	    return response()->json(['err'=>1,'str'=>'更改成功']);
 	   	}else{
 		   	    	return response()->json(['err'=>0,'str'=>'更改失败']);
 	   	}
     }
+
+    /** 禁用账户
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function unuse(Request $request){
     	$id=$request->input('id');
-    	$msg=\App\admin::where('admin_id',$id)->first();
+        $admin_name = admin::where('admin_id',$id)->value('admin_name');
+        $msg=\App\admin::where('admin_id',$id)->first();
     	$msg->admin_use='0';
     	$msg1=$msg->save();
     	if($msg){
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'禁用账户成功,账户名称：'.$admin_name);
 	   	    	return response()->json(['err'=>1,'str'=>'更改成功']);
 	   	}else{
-		   	    	return response()->json(['err'=>0,'str'=>'更改失败']);
+		   	    return response()->json(['err'=>0,'str'=>'更改失败']);
 	   	}
     }
+
+    /** 启用账户
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function opuse(Request $request){
     	$id=$request->input('id');
-    	$msg=\App\admin::where('admin_id',$id)->first();
+        $admin_name = admin::where('admin_id',$id)->value('admin_name');
+        $msg=\App\admin::where('admin_id',$id)->first();
     	$msg->admin_use='1';
-    	$msg1=$msg->save();
+    	$msg=$msg->save();
     	if($msg){
-	   	    	return response()->json(['err'=>1,'str'=>'更改成功']);
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'启用账户成功,账户名称：'.$admin_name);
+	   	    return response()->json(['err'=>1,'str'=>'更改成功']);
 	   	}else{
 		   	    	return response()->json(['err'=>0,'str'=>'更改失败']);
 	   	}
     }
+
+    /** 修改账户信息
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function upadmin(Request $request){
     	if($request->isMethod('get')){
             $languages = admin::$LANGUAGES;
             $admin=\App\admin::where('admin_id',$request->input('id'))->first();
     		return view('admin.admin.upadmin')->with(compact('admin','languages'));
     	}else if($request->isMethod('post')){
-    		$data=$request->all();
+//    		$data=$request->all();
+    		$data=$request->except('_token');
             $id=$request->input('admin_id');
     		$admin=\App\admin::where('admin_id',$id)->first();
     		$admin->admin_name=$data['admin_name'];
@@ -231,12 +295,20 @@ class AdminController extends Controller
     		}
     		$msg=$admin->save();
     		if($msg){
+                $ip = $request->getClientIp();
+                //加log日志
+                operation_log($ip,'修改账户信息成功,账户名称：'.$data['admin_name'],json_encode($data));
 	   	    	return response()->json(['err'=>1,'str'=>'更改成功']);
 		   	}else{
 			   	    	return response()->json(['err'=>0,'str'=>'更改失败']);
 		   	}
     	}
     }
+
+    /** 添加角色
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function addrole(Request $request){
     	if($request->isMethod('get')){
     		return view('admin.admin.addrole');
@@ -245,12 +317,20 @@ class AdminController extends Controller
     		$role->role_name=$request->input('role_name');
     		$msg=$role->save();
     		if($msg){
+                $ip = $request->getClientIp();
+                //加log日志
+                operation_log($ip,'新增角色,角色名称：'.$request->input('role_name'));
 	   	    	return response()->json(['err'=>1,'str'=>'添加成功']);
 		   	}else{
 			   	    	return response()->json(['err'=>0,'str'=>'添加失败']);
 		   	}
     	}
     }
+
+    /** 权限分配
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function chrole(Request $request){
     	if($request->isMethod('get')){
     		return view('admin.admin.chrole');
@@ -271,18 +351,31 @@ class AdminController extends Controller
     		return view('admin.admin.ajaxrole')->with(compact('rules','allrule','useid'));
     	}
     }
+
+    /** 分配角色权限
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function checkbox(Request $request){
     	$data=$request->all();
     	$id=$request->input('role_id');
     	\App\role_rule::where('roleid',$id)->delete();
+    	$array = '';
     	foreach($data['rules'] as $v){
     		$role_rule=new \App\role_rule;
     		$role_rule->roleid=$id;
     		$role_rule->ruleid=$v;
-    		$role_rule->save();
+    		$role = $role_rule->save();
+    		if($role){
+    		    $array .= rule::where('rule_id',$v)->value('rule_name') .',';
+            }
     	}
-	   	    	return response()->json(['err'=>1,'str'=>'分配成功']);
+        $ip = $request->getClientIp();
+        //加log日志
+        operation_log($ip,role::where('role_id',$id)->value('role_name').' 权限配置成功,拥有权限：'.$array);
+	   	return response()->json(['err'=>1,'str'=>'分配成功']);
     }
+
     //个人信息弹窗
     public function layershow(){
     	$admin=\App\admin::where('admin_id',Auth::user()->admin_id)->first();
@@ -309,6 +402,11 @@ class AdminController extends Controller
     	
     	return view('admin.admin.layershow')->with(compact('admin','admin_goods_count','daysale'));
     }
+
+    /** 添加分组
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function addgroup(Request $request){
         if($request->isMethod('get')){
             $group=\App\admin_group::get();
@@ -319,9 +417,12 @@ class AdminController extends Controller
             $group->admin_group_rule=$request->input('admin_group_rule');
             $msg=$group->save();
             if($msg){
+                $ip = $request->getClientIp();
+                //加log日志
+                operation_log($ip,'添加分组成功,新组名：'.$request->input('admin_group_name'));
                 return response()->json(['err'=>1,'str'=>'添加成功']);
             }else{
-                        return response()->json(['err'=>0,'str'=>'添加失败']);
+                return response()->json(['err'=>0,'str'=>'添加失败']);
             }
         }
     }
