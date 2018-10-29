@@ -206,8 +206,13 @@
 @section('js')
 
 <script type="text/javascript">
+var checkboxs=[];
 function shuaxin(){
+	
 	$("#order_index_table").DataTable().draw(false);
+}
+function fuxuan(){
+	checkboxs=''
 }
 // 复选框选择
 function states(){
@@ -473,9 +478,10 @@ function order_up(title,url,type,w,h){
 	for (var i = a.length - 1; i >= 0; i--) {
 		if(a[i].value!=''&&a[i].value!=null){
 					b+=a[i].value+',';
+					checkboxs.push(a[i].value)
 		}
 	}
-	url=url+'&id='+b;
+	url=url+'&id='+checkboxs;
 	layer_show(title,url,w,h);
 }
 $('#outorder').on('click',function(){
@@ -504,14 +510,15 @@ function pl_del(){
 	}
 	for (var i = a.length - 1; i >= 0; i--) {
 		if(a[i].value!=''&&a[i].value!=null){
-					b.push(a[i].value);
+					// b.push(a[i].value);
+					checkboxs.push(a[i].value)
 		}
 	}
 	layer.msg('删除中，请稍等!');
 	$.ajax({
 					url:"{{url('admin/order/delorder')}}",
 					type:'get',
-					data:{'id':b,'type':'all'},
+					data:{'id':checkboxs,'type':'all'},
 					datatype:'json',
 					success:function(msg){
 			           if(msg['err']==1){
@@ -594,7 +601,7 @@ $('#order_repeat_name').on('change',function(){
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
 });
-var checkboxs=[];
+
 var allcheckedflag=true;
 $("body").on("click",".allchecked",function(){
     if(allcheckedflag){

@@ -84,15 +84,17 @@
 				layer.msg("请填写核审记录");
 				return false;
 			}
+			var indexs = layer.load(2, {shade: [0.15, '#393D49']})
 			$('#order_type_change').ajaxSubmit({
 				type: 'post',
 				url: "{{url('admin/order/order_type_change')}}",
 				success: function(data){
+					layer.close(indexs);
 					if(data.msg==0){
 						layer.msg('更改成功!',{time:2*1000},function() {
 						//回调
 							index = parent.layer.getFrameIndex(window.name);
-							setTimeout("parent.layer.close(index);",500);
+							setTimeout("parent.layer.close(index);",100);
 							parent.shuaxin(); 
 						});
 					}else{
@@ -100,6 +102,7 @@
 					}
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
+					layer.close(indexs);
 					layer.msg('error!');
 				}
 			});
