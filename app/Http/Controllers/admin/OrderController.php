@@ -761,7 +761,7 @@ class OrderController extends Controller
           $goods_ids=\App\admin::get_goods_id();
           $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
             $newcount=DB::table('goods')
-            ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
+            ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','goods.goods_currency_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
@@ -771,7 +771,7 @@ class OrderController extends Controller
             ->whereIn('goods_id',\App\admin::get_goods_id())
             ->count();
           $data=DB::table('goods')
-          ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
+          ->select('goods.goods_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','goods.goods_currency_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
@@ -829,12 +829,13 @@ class OrderController extends Controller
                      ->where('order_pay_type','<>','0')
                      ->count();
                   }
+                  //计算销售额
                    if($request->input('mintime')==null&&$request->input('maxtime')==null){
                     $time = date('Y-m-d',time()).' 00:00:00';
                     $endtime=date('Y-m-d H:i:s',time());
                     $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
                     ->whereIn('order_type',\App\order::get_sale_type())
-                    ->sum('order_price');
+                    ->sum('order_price')*\App\currency_type::where('currency_type_id',$v->goods_currency_id)->first()['exchange_rate'];
                    /* //1.获取今天数据订单
                     $orders = \App\order::where('order_time','like',$time.'%')->where(function($query){
                         $query->whereIn('order.order_type',\App\order::get_sale_type());
@@ -847,7 +848,7 @@ class OrderController extends Controller
                     $endtime=$request->input('maxtime');
                     $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
                     ->whereIn('order_type',\App\order::get_sale_type())
-                    ->sum('order_price');
+                    ->sum('order_price')*\App\currency_type::where('currency_type_id',$v->goods_currency_id)->first()['exchange_rate'];
                     /* $orders = \App\order::where('order_time','>',$request->input('mintime'))
                      ->where('order_time','<',$request->input('maxtime'))
                      ->where(function($query){
