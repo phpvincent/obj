@@ -405,12 +405,13 @@ if (!function_exists('operation_log')){
         if($data_json){
             $log_content .= 'JSON数据：'. $data_json ."\r\n";
         }
+        @mkdir(storage_path('logs\beiguo'));
         if(!\Illuminate\Support\Facades\File::isDirectory(storage_path('logs\beiguo'))){
-            \Illuminate\Support\Facades\Storage::disk('log')->makeDirectory('beiguo');
+            \Illuminate\Support\Facades\Storage::disk('local')->makeDirectory('beiguo');
         }
-        $name = 'beiguo\\'.date('Y-m-d').'OperationLog.log';
+        $name ='beiguo\\'.date('Y-m-d').'OperationLog.log';
         $filepath = storage_path('logs\\'.$name);
-        if(\Illuminate\Support\Facades\Storage::disk('log')->exists($name)){
+        if(\Illuminate\Support\Facades\Storage::disk('local')->exists($name)){
             @file_put_contents($filepath, $log_content, FILE_APPEND);
         }else{
             @file_put_contents($filepath, $log_content);
