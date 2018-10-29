@@ -401,7 +401,7 @@ if (!function_exists('out_excil')){
 
 if (!function_exists('operation_log')){
     function operation_log($ip,$log,$data_json=false){
-        $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.Auth::user()->admin_name .' '.$log. "\r\n";
+    /*    $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.Auth::user()->admin_name .' '.$log. "\r\n";
         if($data_json){
             $log_content .= 'JSON数据：'. $data_json ."\r\n";
         }
@@ -419,7 +419,7 @@ if (!function_exists('operation_log')){
           }
         }catch(\Exception $e){
           \Log::notice('sadasdsadasdasdsad--'.$e);
-        }
+        }*/
         
     }
 }
