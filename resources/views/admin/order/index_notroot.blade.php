@@ -17,7 +17,7 @@
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
 		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
-		&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
+		&nbsp;&nbsp;&nbsp;
 	</div>
 	
 	<div style="margin:0px 45%;"><br/><a href="javascript:0;" id="getadmin" class="btn btn-primary radius"><i class="icon Hui-iconfont"></i> 筛选</a></div><br/>
@@ -91,7 +91,7 @@
 		</div>
 	</div>
 	
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
+
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
@@ -130,7 +130,7 @@
 		</tbody>
 	</table>
 </div>
-<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
+<!-- <div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#FFE4E1;display: inline-block;"></div>
 		<div style="display:inline;">ip重复</div>
@@ -161,7 +161,7 @@
 		<div style="width: 20px;height: 20px;background-color:#FFFACD;display: inline-block;"></div>
 		<div style="display:inline;">ip、姓名、电话重复</div>
 	</div>
-</div>
+</div> -->
 </div>
 @endsection
 @section('js')
@@ -222,7 +222,7 @@
         //每行回调函数
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             //改行满足的条件
-			if(aData.order_repeat_field){
+			/*if(aData.order_repeat_field){
 				if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
                         //设置满足条件行的背景颜色
                         $(nRow).css("background", "#FFE4E1");
@@ -247,18 +247,18 @@
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#ff9900");
-                }
+                }*/
 /*                console.log("======================");
                 console.log(aData.order_repeat_field.length);
                 console.log(aData.order_repeat_field.indexOf('3'));
                 console.log(aData.order_repeat_field.indexOf('2'));
                 console.log(aData.order_repeat_field);
                 console.log("=======================");*/
-                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
+              /*  if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#FFE4C4");
                 }
-			}
+			}*/
         },
         "createdRow":function(row,data,dataIndex){
 			

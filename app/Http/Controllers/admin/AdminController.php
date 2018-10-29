@@ -287,7 +287,7 @@ class AdminController extends Controller
     public function layershow(){
     	$admin=\App\admin::where('admin_id',Auth::user()->admin_id)->first();
     	$admin->admin_role_id=\App\role::where('role_id',$admin->admin_role_id)->first()['role_name'];
-    	$admin_goods_count=\App\goods::where('goods_admin_id',$admin['admin_id'])->count();
+    	$admin_goods_count=\App\goods::where('goods_admin_id',$admin['admin_id'])->where('is_del','0')->count();
     	$id=Auth::user()->admin_id;
     	$goodsids=DB::table('goods')->where('goods_admin_id',$id)->get(['goods_id'])->toArray();
     	$newids='';

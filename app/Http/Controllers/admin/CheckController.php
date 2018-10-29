@@ -202,7 +202,7 @@ class CheckController extends Controller
     			$goods_check->goods_is_check=1;
     		}
     		$msg=$goods_check->save();
-        if($old_status==0&&$goods_is_check==1){
+        if($old_status==0&&$goods_check->goods_is_check==1){
           \Log::notice(Auth::user()->admin_name.'于'.date('Y-m-d H:i:s',time()).'在'.$request->getClientIp().'开启了核审机制');
         }
     		if($msg){
