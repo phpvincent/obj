@@ -11,10 +11,18 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 class UrlController extends Controller
 {
+    /** 域名首页
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function goods_url(){
         $counts=DB::table('url')->count();
     	return view('admin.url.goods_url')->with('counts',$counts);
     }
+
+    /** url链接列表
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_url(Request $request){
     		$info=$request->all();
         	$cm=$info['order'][0]['column'];
@@ -137,6 +145,11 @@ class UrlController extends Controller
 	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
     }
+
+    /** 添加域名
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function url_add(Request $request){
       //添加域名
       if($request->isMethod('get')){
@@ -165,6 +178,9 @@ class UrlController extends Controller
         $msg=$url->save();
         if($msg)
          {
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'添加域名成功,域名：'.$data['url_url']);
                   return response()->json(['err'=>1,'str'=>'添加成功！']);
          }else{
                   return response()->json(['err'=>0,'str'=>'添加失败！']);
@@ -172,6 +188,11 @@ class UrlController extends Controller
       }
       
     }
+
+    /** 域名配置弹框页面
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
    public function churl(Request $request){
    		
    		$url=url::where('url_id',$request->id)->first();
@@ -186,9 +207,15 @@ class UrlController extends Controller
       }
    		return view('admin.url.churl')->with(compact('goods','url','ad_account'));
    }
+
+    /** 域名配置操作
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function ajaxup(Request $request){
       //修改域名配置信息
-   	    $msg=$request->all();
+//   	    $msg=$request->all();
+   	    $msg=$request->except('_token');
         if(isset($msg['url_goods_id'])&&$msg['url_goods_id']=='null'){
           unset($msg['url_goods_id']);
         }
@@ -289,15 +316,23 @@ class UrlController extends Controller
    	    	$url->url_zz_for=$msg['url_zz_for'];
           $url->url_admin_id=Auth::user()->admin_id;
           $url->url_ad_account_id=isset($msg['ad_account'])?implode(',', $msg['ad_account']):null;
-   	    	$msg=$url->save();
-   	    	if($msg)
+   	    	$bool=$url->save();
+   	    	if($bool)
          {
-                  return response()->json(['err'=>1,'str'=>'更改成功！']);
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'域名配置成功,域名：'.$msg['url_url'].', 绑定商品：'.(isset($msg['url_goods_id']) ? goods::where('goods_id',$msg['url_goods_id'])->value('goods_name') : '---').', 遮罩商品'.(isset($msg['url_zz_goods_id']) ? goods::where('goods_id',$msg['url_zz_goods_id'])->value('goods_name') : '---'),json_encode($msg));
+             return response()->json(['err'=>1,'str'=>'更改成功！']);
          }else{
-                  return response()->json(['err'=>0,'str'=>'更改失败！']);
+             return response()->json(['err'=>0,'str'=>'更改失败！']);
          }
    	    }
    }
+
+    /** 添加广告账户
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
    public function add_account(Request $request)
    {
     if($request->isMethod('get')){
@@ -317,12 +352,20 @@ class UrlController extends Controller
       $msg=$ad_account->save();
       if($msg)
          {
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'添加广告账户成功,账户名：'.$data['ad_account_name']);
                   return response()->json(['err'=>1,'str'=>'更改成功！']);
          }else{
                   return response()->json(['err'=>0,'str'=>'更改失败！']);
          }
     }
    }
+
+    /** 修改广告账户
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
    public function update_account(Request $request)
    {
     if($request->isMethod('get')){
@@ -356,7 +399,10 @@ class UrlController extends Controller
       $ad_account->ad_account_belong=$data['ad_account_belong'];
       $msg=$ad_account->save();
       if($msg)
-         {    
+         {
+             $ip = $request->getClientIp();
+             //加log日志
+             operation_log($ip,'修改广告账户成功,账户名：'.$data['ad_account_name']);
               if(isset($change)){
                   return response()->json(['err'=>1,'str'=>'更改成功！关联域名已被标记']);
               }
@@ -366,6 +412,7 @@ class UrlController extends Controller
          }
     }
    }
+
    public function ajax_account(Request $request)
    {
       $id=$request->input('id');

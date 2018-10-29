@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\admin;
+use App\goods;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -152,30 +153,53 @@ class CheckController extends Controller
 	      $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
 	        return response()->json($arr);
     }
+
+    /** 单品审核
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function go_check(Request $request)
     {
     	$id=$request->input('id');
+        $goods_name = goods::where('goods_id',$id)->value('goods_real_name');
     	$msg=\App\goods::where('goods_id',$id)->update(['goods_heshen'=>'1']);
     	if($msg){
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'单品审核通过,单品名称：'.$goods_name);
     		  return response()->json(['err'=>1,'str'=>'更改成功！']);
     	}else{
     		  return response()->json(['err'=>0,'str'=>'更改失败！']);
     	}
     }
+
+    /** 拒绝单品审核
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function no_check(Request $request)
     {
     	$id=$request->input('id');
-    	$msg=\App\goods::where('goods_id',$id)->update(['goods_heshen'=>'2']);
+        $goods_name = goods::where('goods_id',$id)->value('goods_real_name');
+        $msg=\App\goods::where('goods_id',$id)->update(['goods_heshen'=>'2']);
     	if($msg==0){
     		  return response()->json(['err'=>0,'str'=>'更改失败！单品已为拒绝核审状态！']);
     	}
     	$msg2=\App\goods::where('goods_id',$id)->update(['goods_check_time'=>date("Y-m-d H:i:s",time())]);
     	if($msg&&$msg2){
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'单品审核被拒绝,商品审核时间被刷新,单品名称：'.$goods_name);
     		  return response()->json(['err'=>1,'str'=>'更改成功！']);
     	}else{
     		  return response()->json(['err'=>0,'str'=>'更改失败！']);
     	}
     }
+
+    /** 重置保护时间
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function re_check(Request $request)
     {
     	$id=$request->input('id');
@@ -186,12 +210,18 @@ class CheckController extends Controller
     		  return response()->json(['err'=>0,'str'=>'更改失败！']);
     	}
     }
+
+    /** 核审配置
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function set(Request $request)
     {
     	if($request->isMethod('get')){
     		return view('admin.check.set')->with('goods_check',\App\goods_check::first());
     	}elseif($request->isMethod('post')){
-    		$data=$request->all();
+//    		$data=$request->all();
+    		$data=$request->except('_token');
     		$goods_check=\App\goods_check::first();
         $old_status=$goods_check->goods_is_check;
     		$goods_check->goods_check_second=$data['goods_check_second'];
@@ -202,10 +232,18 @@ class CheckController extends Controller
     			$goods_check->goods_is_check=1;
     		}
     		$msg=$goods_check->save();
-        if($old_status==0&&$goods_is_check==1){
+        if($old_status==0&&$goods_check->goods_is_check==1){
           \Log::notice(Auth::user()->admin_name.'于'.date('Y-m-d H:i:s',time()).'在'.$request->getClientIp().'开启了核审机制');
         }
     		if($msg){
+              $ip = $request->getClientIp();
+              if($goods_check->goods_is_check==1){
+                  $content = '关闭商品核审成功';
+              }else{
+                  $content = '开启商品核审成功';
+              }
+              //加log日志
+              operation_log($ip,$content,json_encode($data));
     		  return response()->json(['err'=>1,'str'=>'更改成功！']);
 	    	}else{
 	    		  return response()->json(['err'=>0,'str'=>'更改失败！']);

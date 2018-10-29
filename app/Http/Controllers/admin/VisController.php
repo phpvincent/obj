@@ -185,11 +185,20 @@ class VisController extends Controller
 		   	    	return response()->json(['err'=>0,'str'=>'解封失败']);
 	   	}
     }
+
+    /** 区域屏蔽页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function prea(){
     	$msg=\App\pb::first();
     	$msg->area=explode(';', $msg->pb_ziduan);
     	return view('admin.vis.prea')->with('msg',$msg);
     }
+
+    /** 区域屏蔽
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function chvis(Request $request){
     	if(substr($request->input('msg'),-1)==';'){
     		$inmsg=rtrim($request->input('msg'),';');
@@ -198,6 +207,9 @@ class VisController extends Controller
     	}
        $msg=DB::table('pb')->where('pb_id',1)->update(['pb_ziduan'=>$inmsg]);
         if($msg){
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'修改区域屏蔽,屏蔽区域：'.$inmsg);
 	   	    	return response()->json(['err'=>1,'str'=>'修改成功']);
 	   	}else{
 		   	    return response()->json(['err'=>0,'str'=>'修改失败']);
@@ -308,14 +320,7 @@ class VisController extends Controller
         if(Auth::user()->is_root!='1'){
             $user_id = 0;//非root不能通过用户筛选
         }
-//        $goods_arr = goods::where('goods_admin_id',admin::get_admins_id())->pluck('goods_id')->toArray();
         $goods_arr = admin::get_goods_id();
-//        if(Auth::user()->is_root!='1'){
-//            $user_id = 0;//非root不能通过用户筛选
-//            $goods_arr = goods::where('goods_admin_id',Auth::user()->admin_id)->pluck('goods_id')->toArray();
-//        }else{
-//            $goods_arr = goods::pluck('goods_id')->toArray();
-//        }
         $time = [];
         if((!$start_time || !$end_time) || strtotime($end_time)-strtotime($start_time) > 3600*24*3){
             //超过3天或者没有选择时间，所以转化率按照天计算
@@ -362,22 +367,6 @@ class VisController extends Controller
                 $data6['name']='点击购买并下单';
                 $data6['data'][$i] = $ordercount;
             }
-//            for ($i=0; $i <=$leng; $i++) {
-//                $day = 3600*24;
-//                $today = date('Y-m-d',$use_end_time+$i*$day);
-//                //获取用户访问量
-//                $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
-//                //获取用户评论量
-//                $comcount = \App\vis::visComCount($today,$goods_id,$user_id,$goods_arr);
-//                $data3['name']='评论转化';
-//                if($count==0){
-//                    $data3['data'][$i]=0;
-//                }else{
-//                    $data3['data'][$i]=sprintf("%.6f",$comcount/$count);
-//                }
-//                $data7['name']='评论者';
-//                $data7['data'][$i] = $comcount;
-//            }
         }else{
                 $leng =intval((strtotime($end_time)-strtotime($start_time)) / 3600)+23;
                 for($i=0; $i <=$leng ; $i++)
@@ -421,129 +410,15 @@ class VisController extends Controller
                         $data6['data'][$i] = $ordercount;
                     }
                 }
-//                for ($i=0; $i <=$leng; $i++) {
-//                    $day = 3600;
-//                    $today = date('Y-m-d H', strtotime($end_time) + $i * $day);
-//                    if (strtotime($start_time) + $i * $day <= time()) {
-//                        //获取用户访问量
-//                        $count = \App\vis::visCount($today, $goods_id, $user_id, $goods_arr);
-//                        //获取用户评论量
-//                        $comcount = \App\vis::visComCount($today, $goods_id, $user_id, $goods_arr);
-//                        $data3['name'] = '评论转化';
-//                        if ($count == 0) {
-//                            $data3['data'][$i] = 0;
-//                        } else {
-//                            $data3['data'][$i] = sprintf("%.6f", $comcount / $count);
-//                        }
-//                        $data7['name'] = '评论者';
-//                        $data7['data'][$i] = $comcount;
-//                    }
-//                }
         }
         //折线图
         $data[]=$data1;
         $data[]=$data2;
-//        $data[]=$data3;
         //柱状图
         $datacount[]=$data4;
         $datacount[]=$data5;
         $datacount[]=$data6;
-//        $datacount[]=$data7;
         return response()->json(['data'=>$data,'datacount'=>$datacount,'time'=>$time]);
-
-
-//   		if($request->has('id')){
-//   			$id=$request->input('id');
-//   		}else{
-//   			$id=0;
-//   		}
-//        if($id!=0){
-//   				for ($i=0; $i <7 ; $i++) {
-//   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
-//   				$count=$count[0]->counts;
-//	   			$data1['name']='购买转化';
-//	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null and vis.vis_goods_id=$id");
-//	   			if($count==0){
-//	   				$data1['data'][$i]=0;
-//	   			}else{
-//	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
-//	   			}
-//
-//	   		}
-//	   		for ($i=0; $i <7 ; $i++) {
-//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
-//	   			$count=$count[0]->counts;
-//	   			$data2['name']='下单转化';
-//	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null and vis.vis_goods_id=$id");
-//	   			if($count==0){
-//	   				$data2['data'][$i]=0;
-//	   			}else{
-//	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
-//	   			}
-//
-//
-//	   		}
-//	   		for ($i=0; $i <7 ; $i++) {
-//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_goods_id=$id");
-//	   			$count=$count[0]->counts;
-//	   			$data3['name']='评论转化';
-//	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null and vis.vis_goods_id=$id");
-//	   			if($count==0){
-//	   				$data3['data'][$i]=0;
-//	   			}else{
-//	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
-//	   			}
-//
-//	   		}
-//	   		$data[]=$data1;
-//	   		$data[]=$data2;
-//	   		$data[]=$data3;
-//	   		 return response()->json($data);
-//   		}else{
-//   			//$count=DB::select("select count(*) from vis where DateDiff(dd,vis_time,getdate())={$i}");
-//   			for ($i=0; $i <7 ; $i++) {
-//   				$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
-//   				$count=$count[0]->counts;
-//	   			$data1['name']='购买转化';
-//	   			$buycount=DB::select("select count(*) as buycount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_buytime is not null");
-//	   			if($count==0){
-//	   				$data1['data'][$i]=0;
-//	   			}else{
-//	   				$data1['data'][$i]=$buycount[0]->buycount/$count;
-//	   			}
-//
-//	   		}
-//	   		for ($i=0; $i <7 ; $i++) {
-//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
-//	   			$count=$count[0]->counts;
-//	   			$data2['name']='下单转化';
-//	   			$ordercount=DB::select("select count(*) as ordercount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_ordertime is not null");
-//	   			if($count==0){
-//	   				$data2['data'][$i]=0;
-//	   			}else{
-//	   				$data2['data'][$i]=$ordercount[0]->ordercount/$count;
-//	   			}
-//
-//
-//	   		}
-//	   		for ($i=0; $i <7 ; $i++) {
-//	   			$count=DB::select("select count(*) as counts from vis where DateDiff(vis.vis_time,now())=-$i");
-//	   			$count=$count[0]->counts;
-//	   			$data3['name']='评论转化';
-//	   			$comcount=DB::select("select count(*) as comcount from vis where DateDiff(vis.vis_time,now())=-$i and vis.vis_comtime is not null");
-//	   			if($count==0){
-//	   				$data3['data'][$i]=0;
-//	   			}else{
-//	   				$data3['data'][$i]=$comcount[0]->comcount/$count;
-//	   			}
-//
-//	   		}
-//	   		$data[]=$data1;
-//	   		$data[]=$data2;
-//	   		$data[]=$data3;
-//	   		 return response()->json($data);
-//   		}
-//
    	}
    }
    public function statistic_b(Request $request){

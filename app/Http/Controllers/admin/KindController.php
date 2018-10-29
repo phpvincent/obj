@@ -15,6 +15,9 @@ use App\Http\Controllers\Controller;
 use App\vis;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 class KindController extends Controller
 {
     /** 列表页
@@ -149,7 +152,9 @@ class KindController extends Controller
                 }
             }
             if($msg){
+                $ip = $request->getClientIp();
                 //加log日志
+                operation_log($ip,'新增产品成功,产品名称：'.$goods_kind_name);
                 return response()->json(['err' => '1', 'msg' => '添加成功!']);
             }else{
                 return response()->json(['err' => '0', 'msg' => '添加失败!']);
@@ -252,6 +257,9 @@ class KindController extends Controller
                     }
                 }
             }
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,$goods_kind->goods_kind_name.'产品修改成功');
             return response()->json(['err' => '1', 'msg' => '产品属性修改成功!']);
         }
     }
@@ -273,6 +281,9 @@ class KindController extends Controller
         }
         $goods_kind = goods_kind::where('goods_kind_id',$id)->delete();
         if($goods_kind){
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,$goods_kinds->goods_kind_name.'产品删除成功');
             return response()->json(['err' => '1', 'str' => '删除成功!']);
         }else{
             return response()->json(['err' => '0', 'str' => '删除失败!']);

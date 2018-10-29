@@ -433,6 +433,11 @@ class OrderController extends Controller
       $html=$msg->order_return;
       return $html;
    }
+
+    /** 订单审核页面
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
    public function heshen(Request $request){
     if($request->has('type')&&$request->input('type')=='all'){
       $id=explode(',',$request->input('id'));
@@ -455,11 +460,17 @@ class OrderController extends Controller
       return view('admin/order/heshen')->with(compact('order','goods'));
     }
    }
+
+    /** 订单批量审核
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function order_arr_change(Request $request){
     //订单批量核审
      $data=$request->all();
      $msg=false;
      $msg_content = false;
+     $order_single = false;
      foreach ($data['order_ids'] as $key => $val) {
           $order=order::where('order_single_id',$val)->first();
           if($order->order_type == '9'){
@@ -480,6 +491,8 @@ class OrderController extends Controller
                   $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_send'=>$order_send_now,'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
                   if($err===false){
                       $msg.=$val.',';
+                  }else{
+                      $order_single.=$val.',';
                   }
               }else{
                   $admin=Auth::user()->admin_name;
@@ -488,9 +501,16 @@ class OrderController extends Controller
                   $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
                   if($err===false){
                       $msg.=$val.',';
+                  }else{
+                      $order_single.=$val.',';
                   }
               }
           }
+     }
+     if($order_single!==false){
+         $ip = $request->getClientIp();
+         //加log日志
+         operation_log($ip,'订单审核成功,订单编号：'.$order_single);
      }
      if($msg!==false || $msg_content!==false){
             if($msg!==false && $msg_content===false){
@@ -505,6 +525,11 @@ class OrderController extends Controller
             return response()->json(['err'=>1,'str'=>'核审成功']);
       }
    }
+
+    /** 审核订单
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function order_type_change(Request $request){
    	  $data=$request->all();
    	  $order=order::where('order_id',$data['id'])->first();
@@ -519,6 +544,9 @@ class OrderController extends Controller
         $order->order_admin_id=Auth::user()->admin_id;
    	  $msg=$order->save();
    	  if($msg){
+          $ip = $request->getClientIp();
+          //加log日志
+          operation_log($ip,'订单审核成功,订单号：'.$order['order_single_id']);
    	  	    $arr=['msg'=>0];
 	        return response()->json($arr);
    	  }else{
@@ -526,27 +554,38 @@ class OrderController extends Controller
 	        return response()->json($arr);
    	  }
    }
+
+    /** 删除订单（软删除）
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function delorder(Request $request){
-         if($request->has('type')&&$request->input('type')=='all'){
+       $ip = $request->getClientIp();
+       if($request->has('type')&&$request->input('type')=='all'){
           $ids=$request->input('id');
           $err=null;
+          $order_single=null;
            foreach($ids as $k => $v){
             if($v==null){break;}
             $msg=order::where('order_id',$v)->update(['is_del'=>'1']);
             if(!$msg){
               $err.=$v.',';
             }
+            $order_single.=order::where('order_id',$v)->value('order_single_id').',';
            }
            if($err!=null){
-            return response()->json(['err'=>0,'str'=>rtrim($err,',').'号订单删除失败']);
+               return response()->json(['err'=>0,'str'=>rtrim($err,',').'号订单删除失败']);
            }else{
-            return response()->json(['err'=>1,'str'=>'删除成功']);
+               operation_log($ip,'订单删除成功,订单号：'.$order_single);
+               return response()->json(['err'=>1,'str'=>'删除成功']);
            }
          }
    	     $order=order::where('order_id',$request->input('id'))->first();
          $order->is_del='1';
          if($order->save()){
-	   	    	return response()->json(['err'=>1,'str'=>'删除成功']);
+             //加log日志
+             operation_log($ip,'订单删除成功,订单号：'.$order->order_single_id);
+             return response()->json(['err'=>1,'str'=>'删除成功']);
          }else{
 	   	    	return response()->json(['err'=>0,'str'=>'删除失败']);
          }
@@ -687,6 +726,11 @@ class OrderController extends Controller
     $paypal=\App\paypal::where('paypal_order_id',$id)->first();
     return view('admin.order.paypal')->with(compact('paypal'));
    }
+
+    /** 订单统计页面
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
    public function count(Request $request)
    {
     if($request->isMethod('get')){
@@ -714,19 +758,34 @@ class OrderController extends Controller
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())
             ->count();
-          $data=DB::table('goods')
-          ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
-            ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
-            ->where(function($query)use($search){
-                $query->where('goods.goods_id','like',"%$search%");
-                $query->orWhere('goods.goods_real_name','like',"%$search%");
-                $query->orWhere('admin.admin_name','like',"%$search%");
-            })
-            ->whereIn('goods_id',\App\admin::get_goods_id())
-          ->orderBy($order,$dsc)
-          ->offset($start)
-          ->limit($len)
-          ->get();
+            if($order == 'order_counts'){
+                $data=DB::table('goods')
+                    ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
+                    ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
+                    ->where(function($query)use($search){
+                        $query->where('goods.goods_id','like',"%$search%");
+                        $query->orWhere('goods.goods_real_name','like',"%$search%");
+                        $query->orWhere('admin.admin_name','like',"%$search%");
+                    })
+                    ->whereIn('goods_id',\App\admin::get_goods_id())
+                    ->get();
+//                dd($data, $start, $len);
+//                $data = array_slice($data, $start, $len);
+            }else{
+                $data=DB::table('goods')
+                    ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
+                    ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
+                    ->where(function($query)use($search){
+                        $query->where('goods.goods_id','like',"%$search%");
+                        $query->orWhere('goods.goods_real_name','like',"%$search%");
+                        $query->orWhere('admin.admin_name','like',"%$search%");
+                    })
+                    ->whereIn('goods_id',\App\admin::get_goods_id())
+                    ->orderBy($order,$dsc)
+                    ->offset($start)
+                    ->limit($len)
+                    ->get();
+            }
           if(!$data->isEmpty()){
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
@@ -798,7 +857,7 @@ class OrderController extends Controller
                      ->where('order.order_pay_type','<>','0')
                      ->count();
                   }
-                   
+
                    if($request->input('mintime')==null&&$request->input('maxtime')==null){
                     $time = date('Y-m-d',time()).' 00:00:00';
                     $endtime=date('Y-m-d H:i:s',time());
@@ -824,7 +883,7 @@ class OrderController extends Controller
                     /*$day_sales = 0;
                     if(!$orders->isEmpty()){
                         foreach ($orders as $item)
-                        {   
+                        {
                             $day_sales += $item->order_price * $item->currency_has_order->exchange_rate;
                         }
                     }
