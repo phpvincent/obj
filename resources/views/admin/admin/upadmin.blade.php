@@ -12,6 +12,13 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>真实姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$admin->admin_show_name}}" placeholder="" id="admin_show_name" name="admin_show_name" >
+				<input type="text" class="input-text" value="" placeholder="" id="attr" name="attr" style="display: none">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>账户密码：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="password" class="input-text" value="" placeholder="请输入新密码" id="password" name="password">
@@ -133,7 +140,10 @@
 				required:true,
 				rangelength:[4,15]
 			},
-			
+			admin_show_name:{
+				required:true,
+				rangelength:[2,15]
+			},
 			role_id:{
 				required:true,
 			}

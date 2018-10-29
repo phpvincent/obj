@@ -158,7 +158,7 @@
 		{'defaultContent':"","className":"td-manager"},
 
 		{'data':'goods_up_time'},
-		{'data':'admin_name'},
+		{'data':'admin_show_name'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':"less_time"},
 		{'defaultContent':"","className":"td-manager"},

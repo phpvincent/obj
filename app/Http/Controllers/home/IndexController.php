@@ -364,7 +364,8 @@ class IndexController extends Controller
             $url=$urls->url_url;
         }
         if($url==null){
-            return false;
+            \Log::notcie('下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
@@ -563,7 +564,7 @@ class IndexController extends Controller
             $url=$urls->url_url;
         }
         if($url==null){
-            return false;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
         if($goods->goods_blade_type == 0){
             return view('home.TaiwanFan.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
@@ -708,7 +709,7 @@ class IndexController extends Controller
     $from=$request->input('from');
     $vis=\App\vis::where('vis_id',$id)->first();
     if($vis==null){
-        return false;
+        return;
     }
     $vis->vis_from=$from;
     $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
@@ -726,7 +727,7 @@ class IndexController extends Controller
         $id=$request->input('id');
         $vis=\App\vis::where('vis_id',$id)->first();
         if($vis==null||$vis==false){
-            return false;
+            return;
         }
         if(is_array($vis)){
          $time=time()-strtotime(($vis['vis_time']));
@@ -810,7 +811,7 @@ class IndexController extends Controller
            $url=$urls->url_url;
        }
        if($url==null){
-           return false;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'));
@@ -963,7 +964,7 @@ class IndexController extends Controller
            // if there is no link redirect back with error message
            if (!$response['paypal_link']) {
             \App\order::where('order_id',$order_id)->delete();
-             return false;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
                //return redirect('/pay')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
                // For the actual error message dump out $response and see what's in there
            }

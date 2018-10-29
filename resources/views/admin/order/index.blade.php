@@ -296,7 +296,7 @@ function states(){
 		{'data':'order_email'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_return_time'},
-		{'data':'admin_name'},
+		{'data':'admin_show_name'},
 		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},

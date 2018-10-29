@@ -52,6 +52,13 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>真实姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="admin_show_name" name="admin_show_name">
+				<input type="text" class="input-text" style="display: none;" value="" placeholder="" id="attr" name="attr">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>密码：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="password" class="input-text" value="" placeholder="" id="password" name="password">
@@ -123,9 +130,13 @@
 				return false;
 			}
 		}
-		
+			
 			if($('#admin_name').val()==''||$('#admin_name').val()==null){
 				layer.msg('账户名不得为空！');
+				return false;
+			}
+			if($('#admin_show_name').val()==''||$('#admin_show_name').val()==null){
+				layer.msg('真实姓名不得为空！');
 				return false;
 			}
 			if($('#password').val()==''||$('#password').val()==null){

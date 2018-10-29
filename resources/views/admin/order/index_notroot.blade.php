@@ -217,7 +217,7 @@
 		{'data':'order_cuxiao_id'},
 		{'data':'config_msg'},
 		{'data':'order_return_time'},
-		{'data':'admin_name'},
+		{'data':'admin_show_name'},
 		],
         //每行回调函数
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {

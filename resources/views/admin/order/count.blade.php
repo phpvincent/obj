@@ -154,7 +154,7 @@
 		{'data':'day_sales'},
 		{'data':'order_hdfk_counts'},
 		{'data':'order_zxzf_counts'},
-		{'data':'admin_name'},
+		{'data':'admin_show_name'},
 		{'data':'goods_up_time'},
 		],
         //每行回调函数

@@ -18,6 +18,10 @@
 				<td>{{Auth::user()->admin_name}}</td>
 			</tr>
 			<tr>
+				<td>所有人</td>
+				<td>{{Auth::user()->admin_show_name}}</td>
+			</tr>
+			<tr>
 				<td>所属角色</td>
 				<td>@if($admin['is_root']=='1')超级管理员@else {{$admin->admin_role_id}} @endif</td>
 			</tr>

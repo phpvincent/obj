@@ -89,7 +89,7 @@ class OrderController extends Controller
             ->count();
 
              $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -99,7 +99,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($request){
             if($request->input('mintime')!=null&&$request->input('maxtime')==null){
@@ -156,7 +156,7 @@ class OrderController extends Controller
 
              //列表数据
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -166,7 +166,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -230,7 +230,7 @@ class OrderController extends Controller
            }else{ //root用户
 
             $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -240,7 +240,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -302,7 +302,7 @@ class OrderController extends Controller
 
             //table表格数据
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
            ->where(function($query)use($search){
@@ -312,7 +312,7 @@ class OrderController extends Controller
                 $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_name','like',"%$search%"],['order.is_del','=','0']]);
+                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
@@ -705,22 +705,22 @@ class OrderController extends Controller
           $goods_ids=\App\admin::get_goods_id();
           $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
             $newcount=DB::table('goods')
-            ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
+            ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
                 $query->orWhere('goods.goods_real_name','like',"%$search%");
-                $query->orWhere('admin.admin_name','like',"%$search%");
+                $query->orWhere('admin.admin_show_name','like',"%$search%");
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())
             ->count();
           $data=DB::table('goods')
-          ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_name')
+          ->select('goods.goods_real_name','goods.goods_up_time','goods.goods_admin_id','goods.goods_id','admin.admin_show_name')
             ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
                 $query->where('goods.goods_id','like',"%$search%");
                 $query->orWhere('goods.goods_real_name','like',"%$search%");
-                $query->orWhere('admin.admin_name','like',"%$search%");
+                $query->orWhere('admin.admin_show_name','like',"%$search%");
             })
             ->whereIn('goods_id',\App\admin::get_goods_id())
           ->orderBy($order,$dsc)
@@ -834,5 +834,19 @@ class OrderController extends Controller
           $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
           return response()->json($arr);
       }
+   }
+   public function changename(Request $request)
+   {
+    $admin=\App\admin::all();
+    foreach($admin as $k => $v){
+      $name=$v->admin_name;
+      $v->admin_show_name=$name;
+      $msg=$v->save();
+      if($msg){
+
+      }else{
+        \Log::notice($name.'更改名字失败！');
+      }
+    }
    }
 }

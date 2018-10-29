@@ -67,7 +67,7 @@ class GoodsController extends Controller
             $where=['goods.goods_id','>',0];
            }
 	        $newcount=DB::table('goods')
-	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
+	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name','admin.admin_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
           ->where(function($query)use($where,$search){
@@ -76,6 +76,7 @@ class GoodsController extends Controller
              $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where]);
              $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where]);
              $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+             $query->orWhere([['admin.admin_show_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
           })
           ->where(function($query){
             if(Auth::user()->is_root!='1'){
@@ -130,7 +131,7 @@ class GoodsController extends Controller
           })
 	        ->count();
 	        $data=DB::table('goods')
-	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name')
+	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name','admin.admin_show_name')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
           ->where(function($query)use($where,$search){
@@ -139,6 +140,7 @@ class GoodsController extends Controller
             $query->orWhere([['goods.goods_msg','like',"%$search%"],['goods.is_del','=','0'],$where]);
             $query->orWhere([['url.url_url','like',"%$search%"],['goods.is_del','=','0'],$where]);
             $query->orWhere([['admin.admin_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
+            $query->orWhere([['admin.admin_show_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
           })
           ->where(function($query){
            if(Auth::user()->is_root!='1'){
