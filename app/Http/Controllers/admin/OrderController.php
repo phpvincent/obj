@@ -739,11 +739,11 @@ class OrderController extends Controller
           ->get()->toArray();
         if($request->input('mintime')==null&&$request->input('maxtime')==null){
             $order=\App\order::where(function($query){
-                      $time=date('Y-m-d',time());
-                      $query->where('order.order_time','like',$time."%");
+                      $time=date('Y-m-d',time()).' 00:00:00';
+                      $query->where('order.order_time','>',$time);
                      })
                      ->where('order.is_del','0')
-                     ->get();;
+                     ->get();
         }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
                     return response()->json(['err'=>'time unknow']);
         }else{
@@ -758,38 +758,38 @@ class OrderController extends Controller
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
                      $goods_id=$v->goods_id;
-                     $data[$key]->order_counts=$order->where('order.order_goods_id',$goods_id)
+                     $data[$key]->order_counts=$order->where('order_goods_id',$goods_id)
                      ->count();
-                     $data[$key]->order_real_counts=$order->where('order.order_goods_id',$goods_id)
-                     ->whereIn('order.order_type',\App\order::get_sale_type())
+                     $data[$key]->order_real_counts=$order->where('order_goods_id',$goods_id)
+                     ->whereIn('order_type',\App\order::get_sale_type())
                      ->count();
-                     $data[$key]->order_hdfk_counts=$order->where('order.order_goods_id',$goods_id)
-                     ->where('order.order_pay_type','0')
+                     $data[$key]->order_hdfk_counts=$order->where('order_goods_id',$goods_id)
+                     ->where('order_pay_type','0')
                      ->count();
-                     $data[$key]->order_zxzf_counts=$order->where('order.order_goods_id',$goods_id)
-                     ->where('order.order_pay_type','<>','0')
+                     $data[$key]->order_zxzf_counts=$order->where('order_goods_id',$goods_id)
+                     ->where('order_pay_type','<>','0')
                      ->count();
                   }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
                     return response()->json(['err'=>'time unknow']);
                   }else{
                      $goods_id=$v->goods_id;
-                     $data[$key]->order_counts=\App\order::where('order.order_goods_id',$goods_id)
+                     $data[$key]->order_counts=\App\order::where('order_goods_id',$goods_id)
                      ->count();
-                     $data[$key]->order_real_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->whereIn('order.order_type',\App\order::get_sale_type())
+                     $data[$key]->order_real_counts=\App\order::where('order_goods_id',$goods_id)
+                     ->whereIn('order_type',\App\order::get_sale_type())
                      ->count();
-                     $data[$key]->order_hdfk_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where('order.order_pay_type','0')
+                     $data[$key]->order_hdfk_counts=\App\order::where('order_goods_id',$goods_id)
+                     ->where('order_pay_type','0')
                      ->count();
-                     $data[$key]->order_zxzf_counts=\App\order::where('order.order_goods_id',$goods_id)
-                     ->where('order.order_pay_type','<>','0')
+                     $data[$key]->order_zxzf_counts=\App\order::where('order_goods_id',$goods_id)
+                     ->where('order_pay_type','<>','0')
                      ->count();
                   }
                    if($request->input('mintime')==null&&$request->input('maxtime')==null){
                     $time = date('Y-m-d',time()).' 00:00:00';
                     $endtime=date('Y-m-d H:i:s',time());
                     $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
-                    ->whereIn('order.order_type',\App\order::get_sale_type())
+                    ->whereIn('order_type',\App\order::get_sale_type())
                     ->sum('order_price');
                    /* //1.获取今天数据订单
                     $orders = \App\order::where('order_time','like',$time.'%')->where(function($query){
@@ -802,7 +802,7 @@ class OrderController extends Controller
                     $time=$request->input('mintime');
                     $endtime=$request->input('maxtime');
                     $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
-                    ->whereIn('order.order_type',\App\order::get_sale_type())
+                    ->whereIn('order_type',\App\order::get_sale_type())
                     ->sum('order_price');
                     /* $orders = \App\order::where('order_time','>',$request->input('mintime'))
                      ->where('order_time','<',$request->input('maxtime'))
