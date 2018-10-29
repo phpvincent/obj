@@ -130,7 +130,7 @@
 		</tbody>
 	</table>
 </div>
-<div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
+<!-- <div style="width: 200px;height: 150px;position: absolute;margin-top:20px;z-index: 1000;top:0;right: 0;">
 	<div>
 		<div style="width: 20px;height: 20px;background-color:#FFE4E1;display: inline-block;"></div>
 		<div style="display:inline;">ip重复</div>
@@ -161,7 +161,7 @@
 		<div style="width: 20px;height: 20px;background-color:#FFFACD;display: inline-block;"></div>
 		<div style="display:inline;">ip、姓名、电话重复</div>
 	</div>
-</div>
+</div> -->
 </div>
 @endsection
 @section('js')
@@ -222,7 +222,7 @@
         //每行回调函数
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             //改行满足的条件
-			if(aData.order_repeat_field){
+			/*if(aData.order_repeat_field){
 				if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
                         //设置满足条件行的背景颜色
                         $(nRow).css("background", "#FFE4E1");
@@ -247,18 +247,18 @@
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#ff9900");
-                }
+                }*/
 /*                console.log("======================");
                 console.log(aData.order_repeat_field.length);
                 console.log(aData.order_repeat_field.indexOf('3'));
                 console.log(aData.order_repeat_field.indexOf('2'));
                 console.log(aData.order_repeat_field);
                 console.log("=======================");*/
-                if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
+              /*  if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
                     $(nRow).css("background", "#FFE4C4");
                 }
-			}
+			}*/
         },
         "createdRow":function(row,data,dataIndex){
 			
