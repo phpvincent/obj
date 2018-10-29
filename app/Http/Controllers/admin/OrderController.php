@@ -689,6 +689,7 @@ class OrderController extends Controller
    }
    public function count(Request $request)
    {
+
     if($request->isMethod('get')){
         $goods_ids=\App\admin::get_goods_id();
         $counts=\App\goods::whereIn('goods_id',$goods_ids)->where('is_del','0')->count();
@@ -696,8 +697,14 @@ class OrderController extends Controller
       }elseif($request->isMethod('post')){
         $info=$request->all();
           $cm=$info['order'][0]['column'];
-          $dsc=$info['order'][0]['dir'];
-          $order=$info['columns']["$cm"]['data'];
+          if($info['columns']["$cm"]['data']=='order_counts'){
+            //当已单数统计时使用默认排序
+            $order='goods_up_time';
+            $dsc='desc';
+          }else{
+            $dsc=$info['order'][0]['dir'];
+            $order=$info['columns']["$cm"]['data'];
+          }
           $draw=$info['draw'];
           $start=$info['start'];
           $len=$info['length'];
@@ -726,8 +733,8 @@ class OrderController extends Controller
           ->orderBy($order,$dsc)
           ->offset($start)
           ->limit($len)
-          ->get();
-          if(!$data->isEmpty()){
+          ->get()->toArray();
+          if(count($data)>0){
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
                      $goods_id=$v->goods_id;
@@ -831,6 +838,11 @@ class OrderController extends Controller
                     $data[$key]->day_sales=$day_sales;*/
                 }
             }
+        if($info['columns']["$cm"]['data']=='order_counts'&&$info['order'][0]['dir']=='desc'){
+            array_multisort(array_column($data,'order_counts'),SORT_DESC,$data);
+          }else{
+            array_multisort(array_column($data,'order_counts'),SORT_ASC,$data);
+          }
           $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
           return response()->json($arr);
       }
