@@ -58,7 +58,7 @@ return [
         'log' => [
             'driver' => 'local',
             'root' => storage_path('logs'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage/logs',
             'visibility' => 'public',
         ],
 
