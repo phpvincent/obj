@@ -401,26 +401,21 @@ if (!function_exists('out_excil')){
 
 if (!function_exists('operation_log')){
     function operation_log($ip,$log,$data_json=false){
-    /*    $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.Auth::user()->admin_name .' '.$log. "\r\n";
+    $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.Auth::user()->admin_name .' '.$log. "\r\n";
         if($data_json){
             $log_content .= 'JSON数据：'. $data_json ."\r\n";
         }
         try{
-          mkdir(storage_path('logs\beiguo'));
-          if(!\Illuminate\Support\Facades\File::isDirectory(storage_path('logs\beiguo'))){
-              \Illuminate\Support\Facades\Storage::disk('local')->makeDirectory('beiguo');
-          }
-          $name ='beiguo\\'.date('Y-m-d').'OperationLog.log';
-          $filepath = storage_path('logs\\'.$name);
-          if(\Illuminate\Support\Facades\Storage::disk('local')->exists($name)){
-              file_put_contents($filepath, $log_content, FILE_APPEND);
-          }else{
-              file_put_contents($filepath, $log_content);
-          }
+            $name = date('Y-m-d').'OperationLog.log';
+            $filepath = __DIR__.'/../storage/logs/beiGuo/' . $name;
+            if(file_exists($filepath)){
+                @file_put_contents($filepath, $log_content, FILE_APPEND);
+            }else{
+                @file_put_contents($filepath, $log_content);
+            }
         }catch(\Exception $e){
-          \Log::notice('sadasdsadasdasdsad--'.$e);
-        }*/
-        
+            \Log::notice('操作日志记录报错--'.$e);
+        }
     }
 }
 

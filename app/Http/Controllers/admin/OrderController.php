@@ -617,6 +617,9 @@ class OrderController extends Controller
            ->where(function($query)use($request){
               if($request->has('min')&&$request->has('max')){
                 $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
+              }else{
+                $now_date=date('Y-m-d',time()).' 00:00:00';
+                $query->where('order.order_time','>',$now_date);
               }
            })
            ->orderBy('order.order_time','desc')
@@ -716,8 +719,9 @@ class OrderController extends Controller
          }else{
             $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
          }
-         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-         $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
+/*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
+*/
+        $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
         out_excil($exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
