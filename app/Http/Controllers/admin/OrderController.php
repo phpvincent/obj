@@ -812,8 +812,8 @@ class OrderController extends Controller
                      })
                      ->where('order.is_del','0')
                      ->get();
-        }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
-                    return response()->json(['err'=>'time unknow']);
+        }elseif(($request->input('mintime')!=null&&$request->input('maxtime')==null)||($request->input('mintime')==null&&$request->input('maxtime')!=null)){
+              return response()->json(['error'=>'日期选择不规范']);
         }else{
           $order=\App\order::where(function($query)use($request){
                       $query->where('order.order_time','>',$request->input('mintime'));
@@ -842,19 +842,19 @@ class OrderController extends Controller
                      ->count(); 
                     $allcount+=$data[$key]->order_counts;
                     $allprecount+=$data[$key]->order_real_counts;
-                  }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
-                    return response()->json(['err'=>'time unknow']);
+                  }elseif(($request->input('mintime')!=null&&$request->input('maxtime')==null)||($request->input('mintime')==null&&$request->input('maxtime')!=null)){
+                         return response()->json(['error'=>'日期选择不规范']);
                   }else{
                      $goods_id=$v->goods_id;
-                     $data[$key]->order_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_counts=$order->where('order_goods_id',$goods_id)
                      ->count();
-                     $data[$key]->order_real_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_real_counts=$order->where('order_goods_id',$goods_id)
                      ->whereIn('order_type',\App\order::get_sale_type())
                      ->count();
-                     $data[$key]->order_hdfk_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_hdfk_counts=$order->where('order_goods_id',$goods_id)
                      ->where('order_pay_type','0')
                      ->count();
-                     $data[$key]->order_zxzf_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_zxzf_counts=$order->where('order_goods_id',$goods_id)
                      ->where('order_pay_type','<>','0')
                      ->count();
                     $allcount+=$data[$key]->order_counts;
@@ -873,8 +873,8 @@ class OrderController extends Controller
                         $query->whereIn('order.order_type',\App\order::get_sale_type());
                         $query->where('order.is_del','0');
                     })->get();*/
-                  }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
-                    return response()->json(['err'=>'time unknow']);
+                  }elseif(($request->input('mintime')!=null&&$request->input('maxtime')==null)||($request->input('mintime')==null&&$request->input('maxtime')!=null)){
+                         return response()->json(['error'=>'日期选择不规范']);
                   }else{
                     $time=$request->input('mintime');
                     $endtime=$request->input('maxtime');
