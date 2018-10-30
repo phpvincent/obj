@@ -70,21 +70,21 @@
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay';})()"></a>
-        <h1 class="mui-title">ご注文を確認する </h1>
+        <h1 class="mui-title">オーダー確認 </h1>
 </header>
     <div class="mui-content">
     <div class="pay_image"><span class="sico"><i class="mui-icon mui-icon-checkmarkempty"></i></span></div>
     <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">ご購入が成功しました</h2>
+            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">オーダーできました！</h2>
                             <div style="padding:15px;">        
-                            注文番号:<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
-                            支払金額：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
+                            あなたのオーダーナンバー:<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
+                            支払い金額:<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            ご携帯電話はオンモードにしてください。配達員がご連絡を取れるようにお願いします。いかなる問題があれば、オンラインチャットにより当社にご連絡してください。お買い物を楽しみにしてください。     <a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>      </div>            </div>
+                                            配送する時、携帯電話が掛かるようにお願いします、何か質問があれば、オンラインサービスまでご連絡ください。では、お買い物を楽しみに<a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>      </div>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">ホームページへ返す&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">ホームへ戻る&gt;&gt;</button>
             </div>
     </div>
 </div>

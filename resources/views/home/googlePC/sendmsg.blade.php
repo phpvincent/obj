@@ -7,7 +7,7 @@
     <h4><b>Your order number:</b></h4>
     <p>{{$order->order_single_id}}</p>
     <h4><b>Your order status:</b></h4>
-    <p>@if($order->order_type==0)Not checked @elseif($order->order_type==1)Nuclear approval @elseif($order->order_type==2)<span style="color: red;">Nuclear trial failure</span>@elseif($order->order_type==3)Has been sent to express company. elseif($order->order_type==4)Signed elseif($order->order_type==5||$order->order_type==6||$order->order_type==7)<span style="color: red;">Withdrawal processing</span>@elseif($order->order_type==8)<span style="color: red;">Signature rejected</span>@else &nbsp; @endif</p>
+    <p>@if($order->order_type==0)Not checked @elseif($order->order_type==1)Nuclear approval @elseif($order->order_type==2)<span style="color: red;">confirm failed</span>@elseif($order->order_type==3)despatched to the Express company elseif($order->order_type==4)Signed elseif($order->order_type==5||$order->order_type==6||$order->order_type==7)<span style="color: red;">returns processing</span>@elseif($order->order_type==8)<span style="color: red;">signature rejected</span>@else &nbsp; @endif</p>
     <h4><b>Logistics Company:</b></h4>
     <p>@if($order->order_send_type==null)No express company information @else{{$order->order_send_type}}@endif</p>
     <h4><b>Order number / Logistics order number (please fill in one entry for enquiries):</b></h4>
