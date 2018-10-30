@@ -532,6 +532,10 @@ class OrderController extends Controller
      */
    public function order_type_change(Request $request){
    	  $data=$request->all();
+      if(!isset($data['id'])){
+        $arr=['msg'=>'err'];
+        return response()->json($arr);
+      }
    	  $order=order::where('order_id',$data['id'])->first();
    	  $oldmsg=$order->order_return;
    	  $date=date('Y-m-d h:i:s',time());
