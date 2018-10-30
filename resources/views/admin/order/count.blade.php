@@ -174,7 +174,7 @@
 				var tr=$('#all_table');
 				tr.find('td:eq(0)').html('总件数：'+e.json.allcount);
 				tr.find('td:eq(1)').html('总有效件数：'+e.json.allprecount);
-				tr.find('td:eq(2)').html('总销售额：'+e.json.allaccount);
+				tr.find('td:eq(2)').html('总销售额(￥)：'+e.json.allaccount);
 			}
         },
 	}

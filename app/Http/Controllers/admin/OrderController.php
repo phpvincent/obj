@@ -671,14 +671,14 @@ class OrderController extends Controller
                   $pattern='/(.*)\(Zip:(.*?)\)/';
                   preg_match_all($pattern,$str,$p);
                   $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                  $exdata[$k]['area_data_info']=$v['order_state'].$v['order_city'].'('.$exdata[$k]['area_info'].')';
+                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
                   $exdata[$k]['order_zip'] = $v['order_zip'];
               }else{
                   $str=$v['order_add'];
                   $pattern='/(.*)\(Zip:(.*?)\)/';
                   preg_match_all($pattern,$str,$p);
                   $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                  $exdata[$k]['area_data_info']=$v['order_state'].$v['order_city'].'('.$exdata[$k]['area_info'].')';
+                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
                   $exdata[$k]['order_zip']=isset($p[2][0]) ? $p[2][0] : '';
               }
                $exdata[$k]['remark']=$v['order_remark'];
