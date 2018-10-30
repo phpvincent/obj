@@ -307,7 +307,7 @@ class IndexController extends Controller
         }
         $order->order_goods_id=$order_goods_id;
         /*$goods=goods::where('goods_id',$order_goods_id)->first();*/
-        $url=url::where('url_goods_id',$order_goods_id)->first()->url_url;
+        $url=url::where('url_goods_id',$order_goods_id)->first()['url_url'];
         if($url==null){
           return response('url error',200);
         }
