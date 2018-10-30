@@ -25,7 +25,7 @@
 	<table class="table table-border table-bordered table-bg" id="admin_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="13">账户列表</th>
+				<th scope="col" colspan="14">账户列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
