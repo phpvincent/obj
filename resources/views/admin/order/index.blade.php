@@ -213,7 +213,7 @@ function shuaxin(){
 	// quanxuan()
 }
 function fuxuan(){
-	checkboxs=''
+	checkboxs=[];
 }
 function quanxuan(){
 	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
@@ -665,6 +665,8 @@ function xuanzhe(){
 		if(this.checked){
 			var a=checkboxs.indexOf( $(this).val() )
 				if(a<0){
+					console.log(checkboxs)
+					console.log($(this).val())
 					checkboxs.push($(this).val());
 				}
 			
