@@ -267,7 +267,6 @@
 			}*/
         },
         "createdRow":function(row,data,dataIndex){
-			
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
 			}else if(data.order_type==1){

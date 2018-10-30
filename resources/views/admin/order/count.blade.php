@@ -44,7 +44,13 @@
 		</div>
 		
 	</div> -->
-	
+	<table class="table table-border table-bordered table-bg" >
+		<tr id="all_table">
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">  <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
 	<table class="table table-border table-bordered table-bg" id="order_count_table">
 		<thead>
@@ -161,8 +167,16 @@
        
         "createdRow":function(row,data,dataIndex){
 			
-			
-		}
+		},
+		//重绘表回调函数
+		'fnPreDrawCallback':function(e,oSettings){
+			if(e.json!=undefined){
+				var tr=$('#all_table');
+				tr.find('td:eq(0)').html('总件数：'+e.json.allcount);
+				tr.find('td:eq(1)').html('总有效件数：'+e.json.allprecount);
+				tr.find('td:eq(2)').html('总销售额：'+e.json.allaccount);
+			}
+        },
 	}
  dataTable =$('#order_count_table').DataTable($.tablesetting);
 $('#seavis1').on('click',function(){
