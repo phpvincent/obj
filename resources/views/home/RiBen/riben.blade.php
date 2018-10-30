@@ -173,10 +173,10 @@
         <span class="flag" style="font-size: 12px;">送料無料</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">到着払い</span>
+        <span class="flag" style="font-size: 12px;">代金引換</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">７日以内返品・交換可能</span>
+        <span class="flag" style="font-size: 12px;background:#000;">7日内返品・交換可</span>
     @endif
 </div>
 @endif
@@ -185,17 +185,17 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">การจัดส่งทางkerry</span>
+   <!-- <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">การจัดส่งทางkerry</span> -->
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text"><span>{{$goods->goods_num}}組限定</span></div>
+    <div class="text"><span>カウントダウン：{{$goods->goods_num}}組</span></div>
     <div class="boxtime">
-        <div class="time" id="timer"><span id="h" class="colon"></span>時<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
-        <font>終了まで:</font>
+        <div class="time" id="timer"><span id="h" class="colon"></span>時間<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
+        <font>残り時間:</font>
     </div>
 </div>
 @endif
@@ -215,7 +215,7 @@
     @if(in_array('introduce',$templets))
     <li>
         <span href="#detial-context" class="scrollBar" scroll-y="0">
-        商品の紹介              </span>
+        商品の情報              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
@@ -227,7 +227,7 @@
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        評価({{$goods->goods_comment_num}}+)
+        カスタマーレビュー({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
@@ -259,7 +259,7 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>最新の評価</h4>
+                        <h4>最新レビュー</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -269,7 +269,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            evaluate:
+                            満足度:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -294,7 +294,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)    I want to evaluate    @else 評価する   @endif        </a>
+                レビュー書く        </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -307,13 +307,13 @@
     <tbody>
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品・交換について</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品のついて</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-１、お客様の理由の場合：お届け日より７日以内に、しか再販売することができる場合ならば、オンラインチャットあるいはメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）により、当社にご連絡ください。こちらは三日間営業日の内に、お申し込みをお受け付けいたします。なお、返品時の配送料は、お客様負担とさせていただきます。また、お届け時の配送料はご返金いたしません。<br>
-２、当店の不手際により不備が発生した場合：商品の破損など、当店の不手際により不備が発生した場合は、代品がある場合には交換、無い場合にはご返品（ご返金）として対応いたします。お届け日より７日以内に、オンラインチャットあるいはメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)により、当社にご連絡ください。当社は三日間の営業日のうちに、お申し込みをお受け付けいたします。この場合は、当社が配送料金負担します。
+１、お客様の理由の場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。なお、往復の配送料金はお客様負担とさせていただきます。<br>
+２、品質に問題がある場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。この場合、当社が返品の配送料金はを負担します。
 
             </td></tr>
         @endif
@@ -326,9 +326,9 @@
             <p>
                 <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email: -->
-                商品について、実際使用効果に個人差がありますが、当社として、一人でも多くの方に商品を喜んでご利用して頂けたいです。何かありましたら、是非オンラインチャットあるいはメール
+                商品について、実際使用効果に個人差がありますが、全ての方に商品を喜んで頂けかねます。何かあれば、是非オンラインチャットまたはメール
                                 <a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
-                                で当社にご連絡ください。
+                                でご連絡ください。尚、当社は最終的な解釈権を持っています。
             </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
@@ -350,11 +350,12 @@
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品・交換の流れ:</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品.交換の流れ</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-            商品が到着後一週間以内に、返品・交換をオンラインチャットまたメール（esdkhjies@gmail.com）で申込みして、こちらが確認したら、商品を返送していただきます。返品が到着次第、交換または返金をいたします。
+            オーダー完成させ―返品申し込みー査定通るー返品を送るー倉庫返品到着確認―返品・交換査定―返金/交換<br/>
+            返品・交換記入事項：オーダーナンバー、名前、電話番号
                 
             </td>
 
@@ -362,7 +363,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-            ZSSHOPは、商品の産地、技術、原材料の厳格に選び、服装、靴、カバン、家具、キッチン用品、運動用品などの各種の商品が揃えており、お客様に最高ショッピング体験をして頂けます。
+            ZSSHOPショッピングストアは、世界各地で衣類、靴、カバン、キッチン、スポーツ用品などの商品を厳選し、また商品の原産地、工芸品、原材料を厳密に管理し、お客様に最高品質の商品を提供できるよう努力します！
             </td>
 
         </tr>
@@ -409,9 +410,9 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
-      <img src="/images/filter-2.png" style="margin-left:0;margin-right:0;">
-      <a href="javascript:void(0);" style="margin-left:0;">
-        <span style="line-height:14px;margin-left:0;">ご注文の<br/>お問い合わせ</span>
+      <img src="/images/filter-2.png">
+      <a href="javascript:void(0);">
+        <span>オーダー<br/>検索</span>
       </a>
     </span>
     @endif
@@ -419,7 +420,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>カートに入れる</span>
+			<span>すぐ購入</span>
 		</a>
 	</span>
     @endif
@@ -451,7 +452,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                オンライン　コメント                </div>
+                オンラインーコメント                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -483,7 +484,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                カスタマーレビュー:
+                                満足度:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -508,17 +509,16 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                コメント：オンラインコメント:
+                                コメント：
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="" name="content" class="textarea_style">
-                                    </textarea>
+                                    <textarea placeholder="オンラインコメント" name="content" class="textarea_style"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="評価する" style="color:white">
+                                    value="レビューを出す" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -720,11 +720,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("「お名前」は空欄にできません");
+                $2.toast("名前は必ず記入する");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("「電話番号」は空欄にできません");
+                $2.toast("携帯は必ず記入する");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -747,11 +747,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("ご来店ありがとうございます ");
+                    $2.toast("ご意見ありがとうございます！");
                 }
                 else
                 {
-                    $2.toast("การส่งล้มเหลว！");
+                    $2.toast("提出失敗しました");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);

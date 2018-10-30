@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ご注文のお問い合わせ</title>
+    <title>オーダー状況検索</title>
 	  	  <link rel="shortcut icon" href="/images/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">
@@ -145,7 +145,7 @@
 
 <div class="fixed">
   <h4> <a href="javascript:history.go(-1);"></a>
-  ご注文のお問い合わせ</h4>
+  オーダートラッキング</h4>
 </div>
 
 <div class="mui-content" style="background:#fff">
@@ -155,14 +155,14 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	オーダーナンバーまた郵便番号（上記の内容少なくとも1つを、お問い合わせフォームに記入）				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	オーダーナンバー/トラッキングナンバー/（上記の項目1つだけ入力すれば、検索できます）				<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
-			<input name="queryNo" placeholder="番号を書いてください" value="" id="txtkey" class="text"  type="text">
+			<input name="queryNo" placeholder="関係ある内容を記入　" value="" id="txtkey" class="text"  type="text">
 		</form>
 	</div>
-	<a id="btnQuery">問い合わせる</a>
+	<a id="btnQuery">直ちに検索</a>
 	<div class="clearfix"></div>
   </div>
 
@@ -203,11 +203,11 @@
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-					<strong>お知らせ:</strong>商品到着後、オーダーについての問題があれば、お客様のお名前/連絡先/オーダーナンバーをご記入の上、オンラインチャットまたメール<a href='mailto:esdkhjies@gmail.com' style='color:#F8770E'>esdkhjies@gmail.com</a>により当社にご連絡ください。早速に対応させて頂きます、では、お買い物を楽しみにしてください。</div>
+					<strong>お知らせ:</strong>商品到着後何か質問があれば、オンラインチャットまたはメールください（）。同時に、受取人の名前/電話番号/オーダーナンバーを教えて、直ちに対応いたします、ではお買い物をお楽しみに！</div>
 				<p></p>
   			</div>
 		</div>
-        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">ホームページへ返す</a></div>
+        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">ホームへ戻る</a></div>
   </div>
 
   <script src="/js/jquery.min.js"></script>
@@ -216,7 +216,7 @@
     	
 		$("#btnQuery").click(function(e) {
 			if($("input[name='queryNo']").val()==''){
-				alert('一つの項目を書けば、お問合せられる');
+				alert('オーダーナンバー/トラッキングナンバー（上記のは、1つだけ記入すれば、検索できる）');
 				return;
 			}
             $("#queryForm").submit();
@@ -237,7 +237,7 @@
                 	if(msg!='false'){
                 		  $('.details').html(msg);
                 	}else{
-                		  $('.details').html("<span style='color:#f00;'>注文番号は違っていて、対応するデータはない。改めて入力してください。</span>");
+                		  $('.details').html("<span style='color:#f00;'>オーダーナンバー間違えた、再度入力してください</span>");
                 	}
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }
