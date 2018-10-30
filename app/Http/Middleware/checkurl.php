@@ -166,7 +166,7 @@ class checkurl
                     return redirect('index/fb');
                     break;
                 case '2':
-                    return back();
+                    abort(404, 'nothing to show');
                     break;
                 default:
                     break;

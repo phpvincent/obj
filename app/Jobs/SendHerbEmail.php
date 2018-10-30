@@ -54,19 +54,26 @@ class SendHerbEmail implements ShouldQueue
                $query->orWhere('url_zz_goods_id',$goods->goods_id);
            })->first();
            $blade_name=\App\goods::get_success_blade($goods);
+           try{
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
             });
-        if(\Mail::failures()==[]){
-            $order->order_isemail='1';
-            $order->save();
-            \Log::notice('为'.$order->order_id.'发送邮件成功！邮件地址:'.$email);
-        }else{
-           //发送失败,更改标记
-            $order->order_isemail='2';
-            $order->save();
-            \Log::notice('为'.$order->order_id.'发送邮件失败！邮件地址:'.$email.'错误:'.json_encode(\Mail::failures()));
-        }
+            }catch(\Exception $e){
+                $order->order_isemail='2';
+                $order->save();
+                \Log::notice('为'.$order->order_id.'发送邮件失败！邮件地址:'.$email.'错误:'.json_encode($e));
+                return;
+            }
+            if(\Mail::failures()==[]){
+                $order->order_isemail='1';
+                $order->save();
+                \Log::notice('为'.$order->order_id.'发送邮件成功！邮件地址:'.$email);
+            }else{
+               //发送失败,更改标记
+                $order->order_isemail='2';
+                $order->save();
+                \Log::notice('为'.$order->order_id.'发送邮件失败！邮件地址:'.$email.'错误:'.json_encode(\Mail::failures()));
+            }
     }
 }
