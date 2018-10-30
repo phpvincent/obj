@@ -405,15 +405,16 @@ if (!function_exists('operation_log')){
         if($data_json){
             $log_content .= 'JSON数据：'. $data_json ."\r\n";
         }
-        if(!\Illuminate\Support\Facades\File::isDirectory(storage_path('logs\beiguo'))){
-            \Illuminate\Support\Facades\Storage::disk('log')->makeDirectory('beiguo');
-        }
-        $name = 'beiguo\\'.date('Y-m-d').'OperationLog.log';
-        $filepath = storage_path('logs\\'.$name);
-        if(\Illuminate\Support\Facades\Storage::disk('log')->exists($name)){
-            @file_put_contents($filepath, $log_content, FILE_APPEND);
-        }else{
-            @file_put_contents($filepath, $log_content);
+        try{
+            $name = date('Y-m-d').'OperationLog.log';
+            $filepath = __DIR__.'/../storage/logs/beiGuo/' . $name;
+            if(file_exists($filepath)){
+                @file_put_contents($filepath, $log_content, FILE_APPEND);
+            }else{
+                @file_put_contents($filepath, $log_content);
+            }
+        }catch(\Exception $e){
+            \Log::notice('操作日志记录报错--'.$e);
         }
     }
 }
