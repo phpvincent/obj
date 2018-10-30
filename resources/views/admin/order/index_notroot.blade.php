@@ -37,6 +37,12 @@
 					<option value="6">退货并已退款</option>
 					<option value="7">未退货已退款</option>
 					<option value="8">拒签</option>
+					<option value="9">预支付</option>
+					<option value="10">取消支付</option>
+					<option value="11">支付成功</option>
+					<option value="12">支付失败</option>
+					<option value="13">支付成功但无paypal数据</option>
+					<option value="14">问题订单</option>
 				</select>
 				</span>
 			</div>
@@ -280,6 +286,21 @@
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">未退货并已退款</span></a>';
 			}else if(data.order_type==8){
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">拒签</span></a>';
+			}else if(data.order_type==9){
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">预支付</span></a>';
+			}else if(data.order_type==10){
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">取消支付</span></a>';
+			}else if(data.order_type==11){
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功</span></a>';
+			}else if(data.order_type==12){
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付失败</span></a>';
+			}else if(data.order_type==13){
+				var isroot='<a href="javascript:;"  <span class="label label-default radius" style="color:black;background-color:#ccc;">支付成功但无paypal数据</span></a>';
+			}else if(data.order_type==14){
+				var isroot='<a href="javascript:;" 	onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:red;">问题订单</span></a>';
+			}
+			if(data.order_pay_type.indexOf("1")!=-1){
+				isroot+='<a href="javascript:;" onclick="" <span class="label label-default radius" style="color:black;background-color:white;">在线支付</span></a>';
 			}
 			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
