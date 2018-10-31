@@ -83,9 +83,8 @@ use App\Jobs\SendHerbEmail;
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
-                dd($flag);
             });
-          
+            dd($flag);
 		/*$order=\App\order::first();
 		$goods=\App\goods::where('goods_id','43')->first();
 		$url=\App\url::first();
