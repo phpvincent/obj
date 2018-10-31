@@ -39,6 +39,51 @@
         <script type="text/javascript" src="/js/conversion.js"></script>
        <script type="text/javascript" src="/js/resizeDIV.js"></script>
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
+        <style>
+            .Popup{
+                display: none;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                z-index:9999999999;
+                position:fixed;
+                background-color:rgba(0,0,0,0.3)
+            }
+            .Popup>div{
+                height:80%;
+                width:80%;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+            }
+            .Popup>div>div{
+                height:100%;
+                width:100%;
+                overflow-y: auto;
+                
+                background: #fff;
+                padding:10px;
+                padding-bottom:30px;
+            }
+            .Popup> .Close{
+                height:30px;
+                line-height:30px;
+                width:80%;
+                left:10%;
+                text-align: center;
+                position: absolute;
+                bottom:10%;
+                background: #6b6868;
+                color:#fff;
+                cursor:pointer;
+                margin:0;
+            }
+            .Popup>div h3,.Popup>div h6{
+                text-align: center;
+            }
+        </style>
         <script>
         jQuery(function(){setFrom();});
         </script>
@@ -101,6 +146,90 @@
 
 	</head>
 	<body style="">
+    <div class="Popup Popup_1">
+        <div>
+            <div>
+                <h3>PRIVACY POLICY</h3>
+                <div>
+                    <strong> What personal data do we collect about you?</strong>
+                    <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
+                    <p>
+                    •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
+                    </p>
+                    <p>
+                    •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
+                    </p>
+                    <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
+                    <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
+                    <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
+                </div>
+                <div>
+                    <strong>What do we use this personal data for?</strong>
+                    <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
+                    <p>•    To fulfill your order </p>
+                    <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
+                    <p>•    To improve and maintain the Site, and monitor its usage.</p>
+                    <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
+                    <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
+                    <p>•    To comply with our legal and regulatory obligations.</p>
+                    <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
+                    <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
+                    <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
+                </div>
+                <div>
+                    <strong>Who do we share this personal data with?</strong>
+                    <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
+                    <p>•   Permitted or required by law; or,</p>
+                    <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
+                    <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
+                    <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
+                    <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
+                    <p>•  Protect and defend the rights or property of the Site;</p>
+                    <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
+                </div>
+                <div>
+                    <strong>Security </strong>
+                    <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
+                    <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
+                    
+                </div>
+                <div>
+                    <strong>Cookies</strong>
+                    <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
+                    
+                </div>
+                <div>
+                    <strong>Contact Us</strong>
+                    <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
+                </div>
+                
+            </div>
+        </div>
+        <p class="Close Close_1">Close</p>
+    </div>
+    <div class="Popup Popup_2">
+        <div>
+            <div>
+                <h3>&nbsp;</h3>
+                <div>
+                    <p>Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product.</p>
+                    <p>
+                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn't returned, then we reserve the right to deduct the value of the free gift from your refund.
+                    </p>
+                    <p>
+                    We recommend a photograph is taken of the item prior to returning it if you are concerned about damage during its return journey.
+                    </p>
+                    <p>Please note that we do not accept returns of personalised products. </p>
+                    <p><strong>Please note the order number needs to be entered without any letter at the end.</strong> If you do not have your dispatch note or invoice, please include an explanatory note quoting your order number and reason for return.</p>
+                    <p>Your refund will be processed, once it has been delivered to our warehouse and within 3 working days of arriving back to our us. Refunds can take up to 1 week to show on your account; this is due to the time taken by some banks to process the payment.</p>
+                    <p>We will refund you by the same payment method used to make the original order (e.g. if you have paid by PayPal, we will reimburse your PayPal account). If you have not received your refund after this time, please contact our <strong> Customer Care Team</strong> and we will be happy assist you.</p>
+                </div>
+                
+               
+            </div>
+        </div>
+        <p class="Close_2 Close">Close</p>
+    </div>
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
@@ -144,8 +273,8 @@
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">視頻</li>
-        <li class="bannerqli">圖片</li>
+        <li class="bannerqli bactive">video</li>
+        <li class="bannerqli">image</li>
     </ul>
 </div>
 @endif
@@ -170,13 +299,13 @@
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">送料無料</span>
+        <span class="flag" style="font-size: 12px;">Free shipping</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">代金引換</span>
+        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <!-- <span class="flag" style="font-size: 12px;background:#000;">7日内返品・交換可</span> -->
+        <span class="flag" style="font-size: 12px;background:#000;">7 days appreciation period</span>
     @endif
 </div>
 @endif
@@ -185,17 +314,17 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <!-- <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">การจัดส่งทางkerry</span> -->
+   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 70px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:70px 60px;"> <b>DHL</b></span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text"><span>カウントダウン：{{$goods->goods_num}}組</span></div>
+    <div class="text">Sold:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
-        <div class="time" id="timer"><span id="h" class="colon"></span>時間<span id="m" class="colon"></span>分<span id="s" class="colon"></span>秒</div>
-        <font>残り時間:</font>
+        <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
+        <font>End:</font>
     </div>
 </div>
 @endif
@@ -215,19 +344,19 @@
     @if(in_array('introduce',$templets))
     <li>
         <span href="#detial-context" class="scrollBar" scroll-y="0">
-        商品の情報              </span>
+        Overview              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
         <span href="#detial-params" class="scrollBar" scroll-y="50">
-        商品の規格               </span>
+        Details               </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-            レビュー({{$goods->goods_comment_num}})
+        Reviews ({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
@@ -259,7 +388,7 @@
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>最新レビュー</h4>
+                        <h4>&nbsp;</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -269,7 +398,7 @@
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            満足度:
+                            Rating:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -294,7 +423,7 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                レビュー書く        </a>
+                 CREATE A REVIEW    </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -306,52 +435,57 @@
     @if(in_array('user_help',$templets))
     <tbody>
         @if(in_array('user_know',$templets))
-        <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品のついて</th>
+        <!-- <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-１.お客様の理由の場合：お届け日より７日以内に、再び販売に支障がない場合、当社のアフターサービスにメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。なお、往復の配送料金はお客様負担とさせていただきます。<br>
-２.品質に問題がある場合：当社の原因で商品に品質があり、お届け日より７日以内に、当社のアフターサービスにメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)をください、こちらは1～3日間営業日の内に、お申し込みをお受け付し、返品また交換を行います。この場合、当社が返品また交換の発送料金はを負担します。<br/>
-3.到着日確認ー返品申し込みー審査通過ー返品発送ー倉庫返品到着確認ー返品・交換審査ー返金/交換<br/>
-4.返品・交換記入事項：オーダーナンバー、名前、電話番号
-            </td></tr>
+                Return available within 14 days after acquired.We will process it ASAP. <br>
+                If you have any questions, please feel free to contact our Customer Care Team(
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">isnfclpo@gmail.com</a>
+                                        ) for assistance. </p>
+            </td></tr> -->
         @endif
+        <tr class="first odd">
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
+        </tr>
         @if(in_array('apply_goods',$templets))
-        <!-- <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">代金引換について</th>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-                1.誰が手数料負担する：お客様が代金引換手数料を負担する。<br/>
-                2.以下は詳細手数料：1万円以下、324円；3万円以下、432円；10万円以下、648円；10万円以上はカスタマーサービースにお問い合わせくだだい。<br/>
-                3.受け取る時、配送係に商品代、送料、代金引換を合わせて、支払ってください。
-            </p>
-            </td></tr> -->
+                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                <br>Email:
+
+                                <a  href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>
+                                <br>
+                                Questions, comments and requests regarding the website policies are welcomed and should be addressed to isnfclpo@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
+            </td></tr>
         @endif
-        <!-- <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品.交換の流れ</th>
+        <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.RETURENS POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy_1">CLICK HERE FOR DETAILS</span></th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-            到着日確認ー返品申し込みー査定通るー返品を送るー倉庫返品到着確認ー返品・交換査定ー返金/交換<br/>
-            返品・交換記入事項：オーダーナンバー、名前、電話番号
-                
-            </td>
-
-        </tr> -->
-        <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
-            <td colspan="2">
-            ZSSHOPショッピングストアは、世界各地で衣類、靴、カバン、キッチン、スポーツ用品などの商品を厳選し、また商品の原産地、工芸品、原材料を厳密に管理し、お客様に最高品質の商品を提供できるよう努力します！
+                <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.</p>
+                <p>Please attach with the Order No., Contact No., and Customer name.</p>
             </td>
 
         </tr>
                 <tr class="first odd"></tr>
-            </tbody>
         @endif
+        <tr class="first odd">
+            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <td colspan="2">
+                <p>ZSSHOP, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
+            </td>
+
+        </tr>
+        <tr class="first odd"></tr>
+        </tbody>
 </table>
 <style>
     .footer2{
@@ -392,9 +526,9 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
-      <img src="/images/filter-2.png">
+      <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
-        <span>オーダー<br/>検索</span>
+        <span style="line-height:14px;">Order<br>Enquiry</span>
       </a>
     </span>
     @endif
@@ -402,7 +536,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>すぐ購入</span>
+			<span>Buy Now</span>
 		</a>
 	</span>
     @endif
@@ -434,7 +568,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                     <img src="/img/close.png">
                 </div>
                 <div class="buyinfo_hd">
-                オンラインーコメント                </div>
+                Online message                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -444,10 +578,10 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    お名前:
+                                    Name:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="お名前" class="mui-input-clear input01"
+                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
                             </tr>
@@ -456,17 +590,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    携帯番号:
+                                    Phone:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="携帯番号" class="input01" name="phone"
+                                    <input type="text" placeholder="Phone" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                満足度:
+                                Rating:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -491,16 +625,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                コメント：
+                                leave word:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="オンラインコメント" name="content" class="textarea_style"></textarea>
+                                    <textarea placeholder="Online message " name="content" class="textarea_style">
+                                    </textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="レビューを出す" style="color:white">
+                                    value="Submit" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -553,6 +688,22 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+
+    // 增加弹窗
+    $('.privacyPolicy').click(function(){
+        $('.Popup_1').show();
+    })
+    $('.Close_1').click(function(){
+        $('.Popup_1').hide();
+    })
+    // 第二个弹窗
+    $('.privacyPolicy_1').click(function(){
+        $('.Popup_2').show();
+    })
+    $('.Close_2').click(function(){
+        $('.Popup_2').hide();
+    })
+
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
@@ -702,11 +853,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("名前は必ず記入する");
+                $2.toast("Name cannot be empty");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("携帯は必ず記入する");
+                $2.toast("Mobile number cannot be empty");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -729,11 +880,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("ご意見ありがとうございます！");
+                    $2.toast("Thanks For Your Review！");
                 }
                 else
                 {
-                    $2.toast("提出失敗しました");
+                    $2.toast("Submission fails！");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);

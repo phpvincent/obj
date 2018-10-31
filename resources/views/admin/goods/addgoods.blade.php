@@ -104,6 +104,7 @@
 						<option value="7">7--菲律宾</option>
 						<option value="8">8--英国</option>
 						<option value="9">9--Google-PC(调试中)</option>
+						<option value="10">10--美国(调试中)</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
