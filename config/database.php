@@ -38,7 +38,12 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
-
+        'read' => [
+            'host' => '172.31.32.12'
+        ],
+        'write' => [
+            'host' => '172.31.37.203'
+        ],
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
