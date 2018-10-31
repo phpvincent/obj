@@ -47,26 +47,42 @@ class SendHerbEmail implements ShouldQueue
            })->first();
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
+           //获取商品图片
+            $img = \App\img::where('img_goods_id',$goods->goods_id;)->orderBy('img_id','asc')->first();
+            $str = $goods->goods_des_html;
+            $imgpreg = "/<img src=\"(.+?)\" (.*?)>/";
+            preg_match($imgpreg,$str,$imgs);
+            $mycount=count($imgs)-2;
+            if($img){
+                $goods->img = $img->img_url;
+            }else if(count($imgs)>0){
+                $goods->img = $imgs[$mycount];
+            }else{
+                $goods->img = '';
+            } 
             //拼装订单属性信息
-            $order_config=\App\order_config::where('order_primary_id',$order->order_id)->get();
-                if($order_config->count()>0){
-                    $config_msg=[];
-                    $i=0;
-                    foreach($order_config  as  $va){
-                      $i++;
-                      $config_msg[$i]=[];
-                      $orderarr=explode(',',$va['order_config']);
-                      foreach($orderarr as $key => $val){
-                        $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                        $type_name=\App\goods_config::where('goods_config_id',$conmsg['config_type_id'])->first()['goods_config_msg'];
-                        $config_msg[$i][$key]= $type_name.':'.$conmsg['config_val_msg'];
+               $order_config=\App\order_config::where('order_primary_id',$order->order_id)->get();
+                    if($order_config->count()>0){
+                        $config_msg=[];
+                        $i=0;
+                        foreach($order_config  as  $va){
+                          $i++;
+                          $config_msg[$i]=[];
+                          $orderarr=explode(',',$va['order_config']);
+                          foreach($orderarr as $key => $val){
+                            $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                            $type_name=\App\goods_config::where('goods_config_id',$conmsg['config_type_id'])->first()['goods_config_msg'];
+                            $config_msg[$i][$key]= $type_name.':'.$conmsg['config_val_msg'];
+                          }
+                          //$config_msg[$i]=rtrim($config_msg[$i],'-');
+                        }
+                          $order->config_msg=$config_msg;
+                      }else{
+                        $order->config_msg=null;
                       }
-                      //$config_msg[$i]=rtrim($config_msg[$i],'-');
-                    }
-                      $order->config_msg=$config_msg;
-                  }else{
-                    $order->config_msg=null;
-                  }
+             //为订单价格加上货币
+             $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
+             //发送邮件
            try{
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;

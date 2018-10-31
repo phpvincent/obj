@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{$goods->goods_name}}</title>
+    <style type="text/css">
+      a:hover{
+        color: #bcd4ec !important;
+        border-radius: 5%;
+      }
+    </style>
 </head>
 <body >
         
@@ -13,7 +19,7 @@
             <td height="21" colspan="3"><table width="800" border="0" align="center" cellpadding="0" cellspacing="2">
               <tbody><tr>
                 
-                <td width="204" rowspan="3"><img src="{{$url->url}}/images/ydzs.png" width="100"></td>
+                <td width="204" rowspan="3"><img  style="border: 1px solid #F29400; border-radius: 8%;" src="{{$url->url}}/images/ydzs.png" width="100"></td>
                 <td width="179" height="21">&nbsp;</td>
                 <!-- <td width="409"><div align="right"><font style="vertical-align: inherit; font-size: 32px;font-weight: bold; color: #F29400;">订单通知</font></div></td> -->
               </tr>
@@ -34,7 +40,7 @@
           font-size: 14px;
           line-height: 24px;">
             <td height="78" colspan="3"><span class="STYLE1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">亲爱的 [{{$order->order_name}}]</font></font><br>
-                非常感谢您在我们网上商店从{{$url->url_url}}开始的订单。我们将尽快执行您的订单号为{{$order->order_single_id}}的订单。
+                非常感谢您在我们网上商店从<a style="color:#F8770E" target="_blank" href="http://{{$url->url_url}}">{{$url->url_url}}</a>开始的订单。我们将尽快执行您的订单号为<b><u>{{$order->order_single_id}}</u></b>的订单。
             </font></font></span></td>
           </tr>
           <tr>
@@ -103,7 +109,7 @@
             <td colspan="3"    style=" padding: 20px 0 0 20px;color:#666;font-size:14px">
                 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="2">
                                 <tbody><tr>
-                        <td width="100" height="100"  style="vertical-align: top;"><div align="center"><a href="{{$url->url_url}}"><img src="{{$goods->img}}" width="100" height="100"></a></div></td>
+                        <td width="100" height="100"  style="vertical-align: top;"><div align="center"><a target="_blank" href="http://{{$url->url_url}}"><img src="{{$goods->img}}" width="100" height="100"></a></div></td>
                         <td width="585" colspan="2" style=" padding-left: 20px;">
                             <p style="margin:6px 0 10px 0; "><font style="vertical-align: inherit;color:#333"><font style="vertical-align: inherit;">{{$goods->goods_name}}</font></font></p>
                             
@@ -139,6 +145,7 @@
           </tr>
           <tr>
             <td height="40" colspan="3">
+              @if(($goods->goods_price*$order->order_num)-($order->order_price)>0)
               <div align="right"style=" padding: 20px 0 0 20px;color:#666;font-size:14px;margin-bottom:30px">
                 <!-- <p align="right">
                     件数：<font style="color:red">{{$order->order_num}}</font> </font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
@@ -146,27 +153,45 @@
                     小计：<font style="color:red">{{$order->order_price}}</font></font>
                 </p> -->
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">单价 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">asdas</p>
+                  <p style="display:inline-block;margin: 6px 0;">单价 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">{{$order->order_currency}}{{$goods->goods_price}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">213</p>
+                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">优惠价格 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">321</p>
+                  <p style="display:inline-block;margin: 6px 0;">优惠价格 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{($goods->goods_price*$order->order_num)-($order->order_price)}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">免费送货 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">3213</p>
+                  <p style="display:inline-block;margin: 6px 0;">免费送货 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">总计 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">321312</p>
+                  <p style="display:inline-block;margin: 6px 0;">总计 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
                 </div>
               </div>
+              @else
+              <div align="right"style=" padding: 20px 0 0 20px;color:#666;font-size:14px;margin-bottom:30px">
+                <!-- <p align="right">
+                    件数：<font style="color:red">{{$order->order_num}}</font> </font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                    订单价格：   <font style="color:red">{{$order->order_price}}</font>        </font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                    小计：<font style="color:red">{{$order->order_price}}</font></font>
+                </p> -->
+                <div style="text-align: right;">
+                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
+                </div>
+                <div style="text-align: right;">
+                  <p style="display:inline-block;margin: 6px 0;">免费送货 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
+                </div>
+                <div style="text-align: right;">
+                  <p style="display:inline-block;margin: 6px 0;">总计 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
+                </div>
+              </div>
+              @endif
             </td>
           </tr>
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px;border-top: 1px solid #F29400;"><p style="
               margin-top: 48px;
-          "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此电子邮件仅用于确认您在</font></font><a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$url->url_url}}</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上的 
+          "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此电子邮件仅用于确认您在</font></font><a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url->url_url}}">{{$url->url_url}}</a></font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上的 
                  </font><a><font style="vertical-align: inherit;">订单</font></a><font style="vertical-align: inherit;">。</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                 这是一个自动回复电子邮件，您不必回复。</font><font style="vertical-align: inherit;">如果您还有其他问题，请发送电子邮件至 
         
@@ -176,7 +201,7 @@
           </tr>
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">期待您的下次访问。</font></font><br>
-            <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$url->url_url}}</font></font></a>
+            <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url->url_url}}">{{$url->url_url}}</a></font></font></a>
             </p></td>
           </tr>
         </tbody></table>

@@ -17,6 +17,8 @@ use App\Jobs\SendHerbEmail;
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
 		$order=\App\order::first();
+		SendHerbEmail::dispatch($order);
+		/*$order=\App\order::first();
 		$goods=\App\goods::where('goods_id','43')->first();
 		$url=\App\url::first();
 		$goods_id=$goods->goods_id;
@@ -52,8 +54,8 @@ use App\Jobs\SendHerbEmail;
                     $order->config_msg=null;
                   }
          //为订单价格加上货币
-         $order->order_price=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'].$order->order_price;
-		return view('home.TaiwanJian.sendmail')->with(compact('order','goods','url'));
+         $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
+		return view('home.TaiwanJian.sendmail')->with(compact('order','goods','url'));*/
 		/*get_new_currency_rate();*/
 		/*$time=date('Y-m-d H:i:s',time());
 		$data=$request->all();
