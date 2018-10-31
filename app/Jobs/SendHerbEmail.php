@@ -91,7 +91,6 @@ class SendHerbEmail implements ShouldQueue
              //为订单价格加上货币
              $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
              //发送邮件
-             \Log::notice(json_encode($order));
            try{
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
