@@ -102,7 +102,7 @@ class goods extends Model
                 $blade_name='home.TaiwanFan.endsuccess';
                 break;
             case '1':
-                $blade_name='home.TaiwanJian.endsuccess';
+                $blade_name='home.TaiwanJian.sendmail';
                 break;
             case '2':
                 $blade_name='home.zhongdong.zdEndSuccess';
