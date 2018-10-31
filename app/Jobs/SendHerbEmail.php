@@ -94,7 +94,7 @@ class SendHerbEmail implements ShouldQueue
                 $order=\App\order::where('order_id',$now_order_id)->first();
                 $order->order_isemail='2';
                 $order->save();
-                \Log::notice('为'.$order->order_id.'发送邮件失败！邮件地址:'.$email.'错误:'.json_encode($e));
+                \Log::notice('为'.$order->order_id.'发送邮件方法失败！邮件地址:'.$email.'错误:'.json_encode($e));
                 return;
             }
             if(\Mail::failures()==[]){
