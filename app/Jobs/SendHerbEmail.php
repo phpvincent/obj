@@ -48,7 +48,7 @@ class SendHerbEmail implements ShouldQueue
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
            //获取商品图片
-            $img = \App\img::where('img_goods_id',$goods->goods_id;)->orderBy('img_id','asc')->first();
+            $img = \App\img::where('img_goods_id',$goods->goods_id)->orderBy('img_id','asc')->first();
             $str = $goods->goods_des_html;
             $imgpreg = "/<img src=\"(.+?)\" (.*?)>/";
             preg_match($imgpreg,$str,$imgs);
