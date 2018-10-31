@@ -39,7 +39,7 @@ use App\Jobs\SendHerbEmail;
            if($url==null){
            	$url=new \App\url();
            	$url->url_url='xsxxh.xyz';
-           	$url='xsxxh.xyz';
+/*           	$url='xsxxh.xyz';*/
            }
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
@@ -84,7 +84,6 @@ use App\Jobs\SendHerbEmail;
                 $to = $email;
                 $message ->to($to)->subject('order notice');
             });
-            dd($flag);
 		/*$order=\App\order::first();
 		$goods=\App\goods::where('goods_id','43')->first();
 		$url=\App\url::first();
