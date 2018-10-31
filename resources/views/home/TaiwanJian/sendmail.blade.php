@@ -130,6 +130,11 @@
                                 
                               <a href="mailto:hyfhdcjn@gmail.com"  >hyfhdcjn@gmail.com</a>
                                 </p>
+                                @if($order->order_cuxiao_id!='暂无促销信息')
+                                <p>
+                                  促销活动：{{$order->order_cuxiao_id}}
+                                </p>
+                                @endif
                         </td>
                     </tr>
                             </tbody></table></td>

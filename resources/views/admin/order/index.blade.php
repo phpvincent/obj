@@ -128,7 +128,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="21" style="white-space: nowrap">订单列表</th>
+				<th scope="col" colspan="22" style="white-space: nowrap">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value="0"></th>
@@ -151,6 +151,7 @@
 				<th width="60">收货人地区</th>
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
+				<th width="40">邮件通知</th>
 				<th width="130">操作</th>
 			</tr>
 		</thead>
@@ -224,10 +225,7 @@ function quanxuan(){
                     $('.allchecked').prop("checked",true);//全选按钮
                 }else{
                         $('.allchecked').prop("checked",false);
-                }
-            
-                // })
-                
+                }  
             })
 }
 $('body').on('click',".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']",function(){
@@ -278,7 +276,7 @@ function states(){
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20],
+		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21],
 		   "orderable": false
 		}],
 		scrollX:        true,
@@ -326,6 +324,7 @@ function states(){
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_return_time'},
 		{'data':'admin_show_name'},
+		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
@@ -451,10 +450,18 @@ function states(){
 			if(data.order_pay_type.indexOf("1")!=-1){
 				isroot+='<a href="javascript:;" onclick="order_payinfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:white;">支付信息</span></a>';
 			}
+			if(data.order_isemail==0){
+				var emailsend='未发送';
+			}else if(data.order_isemail==1){
+				var emailsend='<span style="color:green;">发送成功</span>';
+			}else{
+				var emailsend='<span style="color:red;">发送失败</span>';
+			}
 			var checkbox='<input type="checkbox" name="aaaa" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(20)').html(info);
+			$(row).find('td:eq(21)').html(info);
+			$(row).find('td:eq(20)').html(emailsend);
 			$(row).find('td:eq(8)').html(isroot);
 			$(row).find('td:eq(17)').html(data.order_state+'-'+data.order_city);
 			/*$(row).find('td:eq(0)').html(checkbox);*/
