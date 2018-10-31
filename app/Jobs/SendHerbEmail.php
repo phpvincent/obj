@@ -39,21 +39,34 @@ class SendHerbEmail implements ShouldQueue
             \Log::notice($order->order_email.'-发送邮件ping失败；');
             return;
          }
-         /*try{
-                $flag = \Mail::raw('server test'.$order->id,function($message){
-                $to = 'wxhwxhwxh@qq.com';
-                $message ->to('wxhwxhwxh@qq.com')->subject('order notice');
-            });
-            }catch(\Exception $e){
-             \Log::notice($e);
-            }*/
             $name = 'ZSSHOP';
             $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
            $url=url::where(function($query)use($goods){
                $query->where('url_goods_id',$goods->goods_id);
                $query->orWhere('url_zz_goods_id',$goods->goods_id);
            })->first();
+           //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
+            //拼装订单属性信息
+            $order_config=\App\order_config::where('order_primary_id',$order->order_id)->get();
+                if($order_config->count()>0){
+                    $config_msg=[];
+                    $i=0;
+                    foreach($order_config  as  $va){
+                      $i++;
+                      $config_msg[$i]=[];
+                      $orderarr=explode(',',$va['order_config']);
+                      foreach($orderarr as $key => $val){
+                        $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                        $type_name=\App\goods_config::where('goods_config_id',$conmsg['config_type_id'])->first()['goods_config_msg'];
+                        $config_msg[$i][$key]= $type_name.':'.$conmsg['config_val_msg'];
+                      }
+                      //$config_msg[$i]=rtrim($config_msg[$i],'-');
+                    }
+                      $order->config_msg=$config_msg;
+                  }else{
+                    $order->config_msg=null;
+                  }
            try{
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;

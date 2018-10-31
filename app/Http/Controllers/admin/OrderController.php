@@ -384,6 +384,7 @@ class OrderController extends Controller
            //商品附带规格信息
 	        foreach($data as $k => &$v){
 	        $goods= \App\goods::where('goods_id',$v->order_goods_id)->first();
+            //订单价格换算为人民币
 	        $goods_currency_id = $goods->goods_currency_id;
             if($goods->is_del == '1'){
                 $v->goods_real_name = $v->goods_real_name.'<span style="color: red">(已删除)</span>';
