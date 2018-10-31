@@ -16,8 +16,8 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
-		$order=\App\order::first();
-		$goods=\App\goods::where('goods_id','43')->first();
+		$order=\App\order::where('order_id','189')->first();
+		$goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
 		$url=\App\url::first();
 		$goods_id=$goods->goods_id;
 		$img = \App\img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->first();
