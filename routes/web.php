@@ -18,54 +18,10 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
+	/*Route::any('/paypal',function(Request $request){
 		$order=\App\order::first();
 		SendHerbEmail::dispatch($order);
-		/*$order=\App\order::first();
-		$goods=\App\goods::where('goods_id','43')->first();
-		$url=\App\url::first();
-		$goods_id=$goods->goods_id;
-		$img = \App\img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->first();
-        $str = $goods->goods_des_html;
-        $imgpreg = "/<img src=\"(.+?)\" (.*?)>/";
-        preg_match($imgpreg,$str,$imgs);
-        $mycount=count($imgs)-2;
-        if($img){
-            $goods->img = $img->img_url;
-        }else if(count($imgs)>0){
-            $goods->img = $imgs[$mycount];
-        }else{
-            $goods->img = '';
-        }
-           $order_config=\App\order_config::where('order_primary_id',$order->order_id)->get();
-                if($order_config->count()>0){
-                    $config_msg=[];
-                    $i=0;
-                    foreach($order_config  as  $va){
-                      $i++;
-                      $config_msg[$i]=[];
-                      $orderarr=explode(',',$va['order_config']);
-                      foreach($orderarr as $key => $val){
-                        $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                        $type_name=\App\goods_config::where('goods_config_id',$conmsg['config_type_id'])->first()['goods_config_msg'];
-                        $config_msg[$i][$key]= $type_name.':'.$conmsg['config_val_msg'];
-                      }
-                      //$config_msg[$i]=rtrim($config_msg[$i],'-');
-                    }
-                      $order->config_msg=$config_msg;
-                  }else{
-                    $order->config_msg=null;
-                  }
-         //为订单价格加上货币
-         $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
-		return view('home.TaiwanJian.sendmail')->with(compact('order','goods','url'));*/
-		/*get_new_currency_rate();*/
-		/*$time=date('Y-m-d H:i:s',time());
-		$data=$request->all();
-		$data=json_encode($data);
-		$ip=$request->getClientIp();
-		\Log::notice('['.$time.']ip:'.$ip.'____数据：'.$data);*/
-	});
+	});*/
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
