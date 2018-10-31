@@ -313,7 +313,7 @@
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-    お知らせ：代金引換+配送無料+7日以内返品・交換可！到着後何か質問あれば、当社にオンラインチャット、またメールください。（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）
+    お知らせ：代金引換+配送無料！到着後何か質問あれば、当社にオンラインチャット、またメールください。（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）
     </div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>
