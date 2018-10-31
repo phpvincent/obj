@@ -224,7 +224,7 @@
     
     <div class="mui-input-row">
         <label><span class="require">*</span>名前:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="必須、受取人名前と" nullmsg="「名前」は空欄にできません" class="mui-input-clear">
+        <input type="text" name="firstname" datatype="s1-30" placeholder="必須、受取人名前" nullmsg="「名前」は空欄にできません" class="mui-input-clear">
     </div>
     <!-- <div class="mui-input-row">
         <label><span class="require">*</span>Last name:</label>
@@ -232,7 +232,7 @@
     </div> -->
     <div class="mui-input-row">
         <label><span class="require">*</span>携帯電話:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="必須、受取人名前と電話番号" nullmsg="「電話番号」は空欄にできません" errormsg="「電話番号」は空欄にできません" name="telephone" class="mui-input-clear">
+        <input type="text" datatype="/^\d+$/" placeholder="必須、受取人電話番号" nullmsg="「電話番号」は空欄にできません" errormsg="「電話番号」は空欄にできません" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -265,7 +265,7 @@
         <div class="mui-input-row need_email">
         <label>メールアドレス:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email"errormsg="" placeholder="必要であれば、書く" class="mui-input-clear">
+        <input type="text" name="email"errormsg="" placeholder="必要であれば、書く。受取人のメールアドレス" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>コメント:</label>
@@ -631,11 +631,11 @@ jQuery(function(){
         var html1 ='';
 //        html +='<div class="mui-input-row need_email">';
         html1 += ' <label><span style="color:red;">*</span>メールアドレス:</label>';
-        html1 +='<input type="text" placeholder="書くかまいか構わない　受取人のメールアドレス" nullmsg="" errormsg="" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+        html1 +='<input type="text" placeholder="必要であれば、書く。受取人のメールアドレス" nullmsg="" errormsg="" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
         html2 += "<label>メールアドレス:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="書くかまいか構わない　受取人のメールアドレス" class="mui-input-clear">';
+        html2 += '<input type="text" name="email" placeholder="必要であれば、書く。受取人のメールアドレス" class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();
         if(payty==7||payty==2){
