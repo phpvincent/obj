@@ -40,12 +40,6 @@ return [
         ],
 
         'mysql' => [
-            'read' => [
-                'host' => '172.31.32.12',
-            ],
-            'write' => [
-                'host' => '172.31.37.203',
-            ],
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
