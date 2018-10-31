@@ -312,26 +312,24 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>
-１.お客様の理由の場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。なお、往復の配送料金はお客様負担とさせていただきます。<br>
+１.お客様の理由の場合：お届け日より７日以内に、再び販売に支障がない場合、当社のアフターサービスにメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。なお、往復の配送料金はお客様負担とさせていただきます。<br>
 ２.品質に問題がある場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。この場合、当社が返品の配送料金はを負担します。<br/>
-3.到着日確認ー返品申し込みー査定通るー返品を送るー倉庫返品到着確認ー返品・交換査定ー返金/交換<br/>
+3.到着日確認ー返品申し込みー審査通過ー返品発送ー倉庫返品到着確認ー返品・交換審査ー返金/交換<br/>
 4.返品・交換記入事項：オーダーナンバー、名前、電話番号
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
-        <tr class="first odd">
+        <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">代金引換について</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-                <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
-                <br>Email: -->
                 1.誰が手数料負担する：お客様が代金引換手数料を負担する。<br/>
                 2.以下は詳細手数料：1万円以下、324円；3万円以下、432円；10万円以下、648円；10万円以上はカスタマーサービースにお問い合わせくだだい。<br/>
                 3.受け取る時、配送係に商品代、送料、代金引換を合わせて、支払ってください。
             </p>
-            </td></tr>
+            </td></tr> -->
         @endif
         <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品.交換の流れ</th>
