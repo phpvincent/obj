@@ -72,12 +72,12 @@ use App\Jobs\SendHerbEmail;
              $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
              //发送邮件
              \Log::notice(json_encode($order));
-           try{
+         
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
             });
-            }
+          
 		/*$order=\App\order::first();
 		$goods=\App\goods::where('goods_id','43')->first();
 		$url=\App\url::first();
