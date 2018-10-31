@@ -39,6 +39,7 @@ use App\Jobs\SendHerbEmail;
            if($url==null){
            	$url=new \App\url();
            	$url->url_url='xsxxh.xyz';
+           	$url='xsxxh.xyz';
            }
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
