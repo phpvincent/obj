@@ -80,7 +80,7 @@ use App\Jobs\SendHerbEmail;
              $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
              //发送邮件
              \Log::notice(json_encode($order));
-         
+         dd($blade_name);
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
