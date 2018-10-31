@@ -37,9 +37,11 @@ use App\Jobs\SendHerbEmail;
                $query->orWhere('url_zz_goods_id',$goods->goods_id);
            })->first();
            if($url==null){
-           	$url=new \App\url();
-           	$url->url_url='xsxxh.xyz';
-/*           	$url='xsxxh.xyz';*/
+           	/*$url=new \App\url();
+           	$url->url_url='xsxxh.xyz';*/
+           	$url='xsxxh.xyz';
+           }else{
+           	$url=$url->url_url;
            }
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
