@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\home;
 
 use App\currency_type;
+use App\templet_show;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\goods;
@@ -67,27 +68,30 @@ class IndexController extends Controller
         $parsed = date_parse($timer);
         $goods->goods_end=$parsed['hour'] * 3600+$parsed['minute'] * 60+$parsed['second'];
 
-        //获取页面显示内容
-        $goods_templet = \App\goods_templet::where('goods_id',$goods_id)->get();
-        $templets = [];
-        $center_nav = 0;  //中部导航显示个数
-        if(!$goods_templet->isEmpty()){
-            foreach ($goods_templet as $item)
-            {
-                if(isset($item->templet_has_show->templet_english_name)){
-                    if($item->templet_has_show->templet_english_name == 'introduce'){
-                        $center_nav++;
-                    }
-                    if($item->templet_has_show->templet_english_name == 'specifications'){
-                        $center_nav++;
-                    }
-                    if($item->templet_has_show->templet_english_name == 'evaluate'){
-                        $center_nav++;
-                    }
-                    array_push($templets,$item->templet_has_show->templet_english_name);
-                }
-            }
-        }
+        //获取页面显示内容(2018-10-31 修改代码)
+        $goods_templet_ids = \App\goods_templet::where('goods_id',$goods_id)->pluck('templet_id')->toArray();
+        $templets = templet_show::whereIn('templet_show_id',$goods_templet_ids)->pluck('templet_english_name')->toArray();
+        $center_nav = count($templets);
+//        $goods_templet = \App\goods_templet::where('goods_id',$goods_id)->get();
+//        $templets = [];
+//        $center_nav = 0;  //中部导航显示个数
+//        if(!$goods_templet->isEmpty()){
+//            foreach ($goods_templet as $item)
+//            {
+//                if(isset($item->templet_has_show->templet_english_name)){
+//                    if($item->templet_has_show->templet_english_name == 'introduce'){
+//                        $center_nav++;
+//                    }
+//                    if($item->templet_has_show->templet_english_name == 'specifications'){
+//                        $center_nav++;
+//                    }
+//                    if($item->templet_has_show->templet_english_name == 'evaluate'){
+//                        $center_nav++;
+//                    }
+//                    array_push($templets,$item->templet_has_show->templet_english_name);
+//                }
+//            }
+//        }
 
         //模板渲染
         $blade_type=$goods->goods_blade_type;
@@ -356,6 +360,7 @@ class IndexController extends Controller
     	}
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
+        $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
 //         dd($goods);
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){

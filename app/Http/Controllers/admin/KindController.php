@@ -307,7 +307,10 @@ class KindController extends Controller
         return view('admin.kind.show')->with(compact('goods_config'));
     }
 
-
+    public function test()
+    {
+        get_browse_info();
+    }
 
 
 
