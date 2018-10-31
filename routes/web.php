@@ -18,7 +18,7 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
+	/*Route::any('/paypal',function(Request $request){
 		 $url=$_SERVER['SERVER_NAME'];
         if($url!='52.14.183.239'){
             return redirect('index/fb');
@@ -28,7 +28,7 @@ use App\Jobs\SendHerbEmail;
 			SendHerbEmail::dispatch($value);
 		}
 		//SendHerbEmail::dispatch($order);
-	});
+	});*/
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
