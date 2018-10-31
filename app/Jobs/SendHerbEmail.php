@@ -88,6 +88,7 @@ class SendHerbEmail implements ShouldQueue
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
+                \Log::notice(json_encode($flag));
             });
             }catch(\Exception $e){
                 $order=\App\order::where('order_id',$now_order_id)->first();
