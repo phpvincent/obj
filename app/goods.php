@@ -128,9 +128,12 @@ class goods extends Model
             case '9':
                 $blade_name='home.googlePC.endSuccess';
                 break;
+            case '10':
+                $blade_name='home.MeiGuo.usEndSuccess';
+                break;
             
             default:
-                $blade_name='home.TaiwanFan.endsuccess';
+                $blade_name='home.YingGuo.ygEndSuccess';
                 break;
         }
         return $blade_name;
