@@ -87,7 +87,7 @@
                             <p><font style="font-size:14px;color:red">【】</font></p>
                             @endif
                                 -->
-                            @if($order->order_cuxiao_id!=null)
+                            @if($order->config_msg!=null)
                             <div>                
                               @foreach($order->config_msg as $k => $v)        
                                 <p class="STYLE1">
