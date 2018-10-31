@@ -93,9 +93,8 @@
                                 <p class="STYLE1">
                                         <strong>item.{{$k}}</strong><br>
                                         @foreach($v as $key => $val)
-                                    &nbsp;&nbsp;<font style="vertical-align: inherit;">                              
-                                    {{$val}}</font>
-                                    
+                                    <font style="vertical-align: inherit;">                              
+                                    {{$val}}</font>@if($key!=count($v)-1)<span>&nbsp;/</span>@endif
                                         @endforeach
                                         <br>
                                 </p>
