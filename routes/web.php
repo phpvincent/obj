@@ -11,6 +11,9 @@
 |
 */
 use Illuminate\Http\Request;
+use App\url;
+use App\goods;
+use App\order;
 use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
