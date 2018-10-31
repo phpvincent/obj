@@ -46,6 +46,13 @@ class SendHerbEmail implements ShouldQueue
                $query->where('url_goods_id',$goods->goods_id);
                $query->orWhere('url_zz_goods_id',$goods->goods_id);
            })->first();
+           if($url==null){
+            /*$url=new \App\url();
+            $url->url_url='xsxxh.xyz';*/
+            $url='xsxxh.xyz';
+           }else{
+            $url=$url->url_url;
+           }
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
            //获取商品图片
