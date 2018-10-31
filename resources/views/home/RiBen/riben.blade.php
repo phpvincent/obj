@@ -176,7 +176,7 @@
         <span class="flag" style="font-size: 12px;">代金引換</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">7日内返品・交換可</span>
+        <!-- <span class="flag" style="font-size: 12px;background:#000;">7日内返品・交換可</span> -->
     @endif
 </div>
 @endif
@@ -227,7 +227,7 @@
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        カスタマーレビュー({{$goods->goods_comment_num}}+)
+            レビュー({{$goods->goods_comment_num}})
         </span>
     </li>
     @endif
@@ -312,44 +312,28 @@
         <tr class="first odd">
             <td colspan="2">
                 <p>
-１、お客様の理由の場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。なお、往復の配送料金はお客様負担とさせていただきます。<br>
-２、品質に問題がある場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。この場合、当社が返品の配送料金はを負担します。
-
+１.お客様の理由の場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。なお、往復の配送料金はお客様負担とさせていただきます。<br>
+２.品質に問題がある場合：お届け日より７日以内に、なお再び販売に支障がない場合、当社のアフターサービスにメール(<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>)をください、こちらは1～3日間営業日の内に、お申し込みをお受け付します。この場合、当社が返品の配送料金はを負担します。<br/>
+3.到着日確認ー返品申し込みー査定通るー返品を送るー倉庫返品到着確認ー返品・交換査定ー返金/交換<br/>
+4.返品・交換記入事項：オーダーナンバー、名前、電話番号
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">お知らせ</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">代金引換について</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
                 <!-- 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email: -->
-                商品について、実際使用効果に個人差がありますが、全ての方に商品を喜んで頂けかねます。何かあれば、是非オンラインチャットまたはメール
-                                <a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
-                                でご連絡ください。尚、当社は最終的な解釈権を持っています。
+                1.誰が手数料負担する：お客様が代金引換手数料を負担する。<br/>
+                2.以下は詳細手数料：1万円以下、324円；3万円以下、432円；10万円以下、648円；10万円以上はカスタマーサービースにお問い合わせくだだい。<br/>
+                3.受け取る時、配送係に商品代、送料、代金引換を合わせて、支払ってください。
             </p>
-                <!-- <p>1.由於個人原因
-                    需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
-                    售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
-                                        ，售後
-
-                    客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
-
-                <p>
-                    2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
-
-                    發送郵件至
-                                        <a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>
-                                        ，客服會在收到郵件後的1-3個工作日內受
-
-                    理您的請求，退換貨所產生的運費由我方承擔。
-                </p> -->
             </td></tr>
         @endif
-        <tr class="first odd">
+        <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品.交換の流れ</th>
         </tr>
         <tr class="first odd">
@@ -359,7 +343,7 @@
                 
             </td>
 
-        </tr>
+        </tr> -->
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
