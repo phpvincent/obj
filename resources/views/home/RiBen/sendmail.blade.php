@@ -195,11 +195,11 @@
                  </font><a><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;">。</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                  自動返信メールであり、返信する必要はありません。 ご不明な点がございましたら、</font><font style="vertical-align: inherit;">
         
-                 </font></font><a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> にメールしてください。</font></font></p></td>
+                 </font></font><a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> にメールしてください。</font></font></p></td>
           </tr>
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">では、またのご訪問をお待ちしております。</font></font><br>
-            <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
+            <a href="mailto:esdkhjies@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
             </p></td>
           </tr>
         </tbody></table>
