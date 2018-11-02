@@ -192,7 +192,7 @@
             <td height="40" colspan="3"style="color:#666;font-size:14px;border-top: 1px solid #F29400;"><p style="
               margin-top: 48px;
           "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此電子郵件僅用于確認您在</font></font><a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上的 
-                 </font><a><font style="vertical-align: inherit;">订单</font></a><font style="vertical-align: inherit;">。</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                 </font><a><font style="vertical-align: inherit;">訂單</font></a><font style="vertical-align: inherit;">。</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                  這是一個自動回複電子郵件，您不必回複。</font><font style="vertical-align: inherit;">如果您還有其他問題，請發送電子郵件至 
         
                  </font></font><a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
