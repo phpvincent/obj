@@ -83,7 +83,7 @@ use App\Jobs\SendHerbEmail;
             $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
-            
+            }
 		/* $url=$_SERVER['SERVER_NAME'];
         if($url!='52.14.183.239'){
             return redirect('index/fb');
