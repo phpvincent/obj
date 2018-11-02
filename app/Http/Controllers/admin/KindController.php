@@ -309,6 +309,7 @@ class KindController extends Controller
 
     public function test()
     {
+        ini_set('memory_limit', '256M');
         get_browse_info();
     }
 
