@@ -751,10 +751,12 @@
         goods_real_price:{
             required:true,
             number:true,
+            maxlength:12,
         },
         goods_price:{
             required:true,
             number:true,
+            maxlength:12,
         },
         admin_name:{
             required:true,
