@@ -443,6 +443,7 @@ if (!function_exists('get_browse_info')){
             $data = \App\vis::visBrowseCount($start,$end);
 //            \App\data_log::insert($data);
         }
+
     }
 }
 

@@ -32,15 +32,15 @@
             </tbody></table></td>
           </tr>
           <tr>
-          <td ><div style="text-align:  center;"><font style="vertical-align: inherit; font-size: 32px;font-weight: bold; color: #F29400;">訂單通知</font></div></td>
+          <td ><div style="text-align:  center;"><font style="vertical-align: inherit; font-size: 32px;font-weight: bold; color: #F29400;">Pemberitahuan pesanan</font></div></td>
           </tr>
         
           <tr style="
           color: #666;
           font-size: 14px;
           line-height: 24px;">
-            <td height="78" colspan="3"><span class="STYLE1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">親愛的 [{{$order->order_name}}]</font></font><br>
-            非常感謝您在我們網上商店從<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>開始的訂單。我們將盡快執行您的訂單號爲<b><u>{{$order->order_single_id}}</u></b>的訂單。
+            <td height="78" colspan="3"><span class="STYLE1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Planggan yang terhormat: [{{$order->order_name}}]</font></font><br>
+            Terima kasih atas belanja Anda di toko online<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>kami.Kami akan segera proses pesanan<b><u>{{$order->order_single_id}}</u></b>Anda.
             </font></font></span></td>
           </tr>
           <tr>
@@ -75,17 +75,17 @@
               font-size: 14px;
               line-height: 28px;">
                 <div style="width:70%;margin:0 auto;    text-align: center;">
-                    <p style="margin:0"><font style="vertical-align: inherit;">訂單創建時間 : {{$order->order_time}}</font></p>
+                    <p style="margin:0"><font style="vertical-align: inherit;">Waktu pembuatan pesanan : {{$order->order_time}}</font></p>
                     <!-- <p style="margin:0"><span style="border-bottom:1px dashed #ccc;" t="5" times=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$order->order_time}}</font></font></span></p> -->
-                    <p style="margin:0"><font style="vertical-align: inherit;">支付方式 : @if($order->order_pay_type=='0')貨到付款 @else 在線支付 @endif</font></p>
-                    <p style="margin:0"><font style="vertical-align: inherit;">備注 : @if($order->order_remark!=null){{$order->order_remark}}@endif</font></p>
+                    <p style="margin:0"><font style="vertical-align: inherit;">Cara pembayaran : @if($order->order_pay_type=='0')bayar setelah terima barang @else bayar online @endif</font></p>
+                    <p style="margin:0"><font style="vertical-align: inherit;">Catatan : @if($order->order_remark!=null){{$order->order_remark}}@endif</font></p>
                 </div>
                 <div style="width:70%;margin:0 auto;    text-align: center;">
-                  <p style="margin:0">收貨地區 :&nbsp;{{$order->order_state}} {{$order->order_city}}</p>
-                  <p style="margin:0">詳細地址 :&nbsp;{{$order->order_add}}</p>
-                  <p style="margin:0">聯系電話 :&nbsp;{{$order->order_tel}} </p>
+                  <p style="margin:0">Lokasi :&nbsp;{{$order->order_state}} {{$order->order_city}}</p>
+                  <p style="margin:0">Alamat :&nbsp;{{$order->order_add}}</p>
+                  <p style="margin:0">No.HP :&nbsp;{{$order->order_tel}} </p>
                   @if($order->order_email!=null)
-                  <p style="margin:0">聯系郵箱 : {{$order->order_email}}</p>
+                  <p style="margin:0">Email : {{$order->order_email}}</p>
                   @endif
                   @if($order->order_zip!=null)
                   <p style="margin:0">ZIP :&nbsp;{{$order->order_zip}} </p>
@@ -97,7 +97,7 @@
             <td height="3" colspan="3" background=""></td>
           </tr>
           <tr>
-            <td height="20" colspan="3" style=" border-top: 1px solid #F29400; color: #F29400;"><p style="    text-align: center;"><strong><font style="vertical-align: inherit;">産品詳細信息</font></strong></p></td>
+            <td height="20" colspan="3" style=" border-top: 1px solid #F29400; color: #F29400;"><p style="    text-align: center;"><strong><font style="vertical-align: inherit;">informasi rinci produk</font></strong></p></td>
           </tr>
           <!-- <tr>
             <td height="20" colspan="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">订单号：</font></font><span style="border-bottom:1px dashed #ccc;z-index:1" t="7" onclick="return false;" data="{{$order->order_single_id}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color: red;">{{$order->order_single_id}}</font></font></span></td>
@@ -115,7 +115,7 @@
                             
                             @if($order->order_cuxiao_id!='暂无促销信息')
                             <p style="margin: 0; ">
-                            促銷活動：{{$order->order_cuxiao_id}}
+                            Promosi sekarang : {{$order->order_cuxiao_id}}
                             </p>
                             @endif
                         </td>
@@ -153,19 +153,19 @@
                     小计：<font style="color:red">{{$order->order_price}}</font></font>
                 </p> -->
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">單價 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">{{$order->order_currency}}{{$goods->goods_price}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Harga satuan :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">{{$order->order_currency}}{{$goods->goods_price}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">件數 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Qty :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">優惠價格 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{($goods->goods_price*$order->order_num)-($order->order_price)}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Harga promosi :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{($goods->goods_price*$order->order_num)-($order->order_price)}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">免費送貨 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
+                  <p style="display:inline-block;margin: 6px 0;">Ongkos kirim gratis :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">總計 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Total :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
                 </div>
               </div>
               @else
@@ -176,13 +176,13 @@
                     小计：<font style="color:red">{{$order->order_price}}</font></font>
                 </p> -->
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">件數 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Qty :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">免費送貨 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
+                  <p style="display:inline-block;margin: 6px 0;">Ongkos kirim gratis :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">總計 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Total :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
                 </div>
               </div>
               @endif
@@ -191,16 +191,16 @@
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px;border-top: 1px solid #F29400;"><p style="
               margin-top: 48px;
-          "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">此電子郵件僅用于確認您在</font></font><a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上的 
-                 </font><a><font style="vertical-align: inherit;">訂單</font></a><font style="vertical-align: inherit;">。</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                 這是一個自動回複電子郵件，您不必回複。</font><font style="vertical-align: inherit;">如果您還有其他問題，請發送電子郵件至 
+          "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Email ini hanya digunakan untuk mengkonfirmasi pesanan Anda di</font></font><a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                 </font><a><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;">。</font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                 Balasan email Ini otomatis, Anda tidak perlu membalas.Kalau ada masalah lain,silakan kirim email ke
         
                  </font></font><a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
         
                 。</font></font></p></td>
           </tr>
           <tr>
-            <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">期待您的下次訪問。</font></font><br>
+            <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selamat datang atas kedatangan lagi.</font></font><br>
             <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
             </p></td>
           </tr>

@@ -48,21 +48,21 @@
 		<tr id="all_table">
 			<td></td>
 			<td></td>
-			<td></td>
+			<!-- <td></td> -->
 		</tr>
 	</table>
 	<div class="cl pd-5 bg-1 bk-gray mt-20">  <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
 	<table class="table table-border table-bordered table-bg" id="order_count_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="9">订单统计</th>
+				<th scope="col" colspan="8">订单统计</th>
 			</tr>
 			<tr class="text-c">
  				<th width="10%">单品id</th>
  				<th width="10%">单品展示名</th>
  				<th width="10%">单数</th>
  				<th width="10%">有效单数</th>
- 				<th width="10%">销售额(元)</th>
+ 				<!-- <th width="10%">销售额(元)</th> -->
 				<th width="10%">货到付款单数</th>
 				<th width="10%">在线支付单数</th>
 				<th width="10%">所属人员</th>
@@ -130,7 +130,7 @@
 		"order": [[ 2, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,3,4,5,6,7],
+		   "targets": [0,1,3,4,5,6,],
 		   "orderable": false
 		}],
 	/*	scrollX:        true,
@@ -157,7 +157,7 @@
 		{"data":'goods_name'},
 		{'data':'order_counts'},
 		{'data':'order_real_counts'},
-		{'data':'day_sales'},
+		/*{'data':'day_sales'},*/
 		{'data':'order_hdfk_counts'},
 		{'data':'order_zxzf_counts'},
 		{'data':'admin_show_name'},
@@ -174,7 +174,7 @@
 				var tr=$('#all_table');
 				tr.find('td:eq(0)').html('总件数：'+e.json.allcount);
 				tr.find('td:eq(1)').html('总有效件数：'+e.json.allprecount);
-				tr.find('td:eq(2)').html('总销售额(￥)：'+e.json.allaccount);
+				//tr.find('td:eq(2)').html('总销售额(￥)：'+e.json.allaccount);
 			}
         },
 	}
