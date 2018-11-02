@@ -483,6 +483,7 @@ class IndexController extends Controller
         $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
+        $order->order_village=$request->input('order_village');
         $order->order_email=$request->input('email');
         $order->order_isemail='0';
         $msg=$order->save();
@@ -822,7 +823,7 @@ class IndexController extends Controller
        }
        $order->order_goods_id=$order_goods_id;
        $goods=goods::where('goods_id',$order_goods_id)->first();
-       $urls=url::where('url_goods_id',$goods->goods_id)->first();
+       $urls=url::where('url_goods_id',$order_goods_id)->first();
        if($urls==null){
            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
        }else{
@@ -831,6 +832,7 @@ class IndexController extends Controller
        if($url==null){
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
+       $order->order_goods_url= $url;
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'));
 
@@ -928,6 +930,7 @@ class IndexController extends Controller
        $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
        $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
        $order->order_add=$request->input('address1');
+       $order->order_village=$request->input('order_village');
        $order->order_email=$request->input('email');
        $msg=$order->save();
        if($request->has('goodsAtt')){
