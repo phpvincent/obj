@@ -105,35 +105,35 @@ class goods extends Model
                 $blade_name='home.TaiwanJian.sendmail';
                 break;
             case '2':
-                $blade_name='home.zhongdong.zdEndSuccess';
+                $blade_name='home.zhongdong.sendmail';
                 break;
             case '3':
-                $blade_name='home.MaLaiXiYa.mlxyEndSuccess';
+                $blade_name='home.MaLaiXiYa.sendmail';
                 break;
             case '4':
-                $blade_name='home.TaiGuo.taiguoEndSuccess';
+                $blade_name='home.TaiGuo.sendmail';
                 break;
             case '5':
-                $blade_name='home.RiBen.ribenEndSuccess';
+                $blade_name='home.RiBen.sendmail';
                 break;
             case '6':
-                $blade_name='home.YinDuNiXiYa.ydnxyEndSuccess';
+                $blade_name='home.YinDuNiXiYa.sendmail';
                 break;
             case '7':
-                $blade_name='home.FeiLvBin.flbEndSuccess';
+                $blade_name='home.FeiLvBin.sendmail';
                 break;
             case '8':
-                $blade_name='home.YingGuo.ygEndSuccess';
+                $blade_name='home.YingGuo.sendmail';
                 break;
             case '9':
-                $blade_name='home.googlePC.endSuccess';
+                $blade_name='home.googlePC.sendmail';
                 break;
             case '10':
-                $blade_name='home.MeiGuo.usEndSuccess';
+                $blade_name='home.MeiGuo.sendmail';
                 break;
             
             default:
-                $blade_name='home.YingGuo.ygEndSuccess';
+                $blade_name='home.YingGuo.sendmail';
                 break;
         }
         return $blade_name;
