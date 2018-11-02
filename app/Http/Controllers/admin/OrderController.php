@@ -603,7 +603,7 @@ class OrderController extends Controller
    }
    public function outorder(Request $request){
        //订单导出
-       $data=order::select('order.order_id','order.order_zip','goods.goods_id','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       $data=order::select('order.order_id','order.order_zip','order.order_single_id','goods.goods_id','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -663,6 +663,7 @@ class OrderController extends Controller
               }else{
                 $exdata[$k]['config_msg']="暂无属性信息";
               }
+              $exdata[$k]['order_single_id']=$v['order_single_id'];
               $exdata[$k]['order_num']=$v['order_num'];
               $exdata[$k]['payof']=\App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
               $exdata[$k]['order_price']=$v['order_price'];
@@ -721,6 +722,7 @@ class OrderController extends Controller
             }
             //重组新格式
               $new_exdata[$k]['order_time']=$exdata[$k]['order_time'];
+              $new_exdata[$k]['order_single_id']=$v['order_single_id'];
               $new_exdata[$k]['name']=$exdata[$k]['name'];
               $new_exdata[$k]['tel']=$exdata[$k]['tel'];
               $new_exdata[$k]['area_data_info']=$exdata[$k]['area_data_info'];
@@ -746,7 +748,7 @@ class OrderController extends Controller
 */
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
-        $zdname=['下单时间','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','属性信息','备注','支付方式'];
+        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','属性信息','备注','支付方式'];
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
@@ -826,11 +828,11 @@ class OrderController extends Controller
                      })
                      ->where('order.is_del','0')
                      ->get();
-        }
-          if(count($data)>0){
+        } 
             $allcount=0;
             $allprecount=0;
             $allaccount=0;
+          if(count($data)>0){
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
                      $goods_id=$v->goods_id;

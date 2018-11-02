@@ -4,9 +4,9 @@
 <script type="text/javascript" src="{{asset('/admin/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js')}}"></script>
 <!-- 时间选择 -->
 <div class="text-c"style="margin:10px 0;overflow: hidden" > 日期范围：
-	<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}',minDate:'%y-%M-#{%d-40} '})" id="datemin" class="input-text Wdate" style="width:120px;">
+	<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}',minDate:'%y-%M-#{%d-6} '})" id="datemin" class="input-text Wdate" style="width:120px;">
 	-
-	<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'datemin\')||\'%y-%M-#{%d-40}\'}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
+	<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'datemin\')||\'%y-%M-#{%d-6}\'}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
 	<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
 	<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
 	&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
@@ -20,20 +20,6 @@
 					<option value="0">所有</option>
 					@foreach($goods as $val)
 					<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
-					@endforeach
-				</select>
-				</span> </div>
-	</div>
-</div>
-<!-- 账号 -->
-<div id="select-box"style="margin:10px 0;overflow: hidden">
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-2"style="text-align: right;">账号：</label>
-		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="user_name" id="user_name" class="select">
-					<option value="0">所有</option>
-					@foreach($admins as $val)
-						<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
 					@endforeach
 				</select>
 				</span> </div>
@@ -146,7 +132,7 @@
         })
     }
 	function get_zhexian(datemin,datemax,goods_name,user_name){
-		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
+		var indexs=layer.load(2, {shade: [0.15, '#393D49']});
         var data = {};
         data.mintime = datemin;
         data.maxtime = datemax;
@@ -171,6 +157,15 @@
 					data[i]['data']=result;
 
 				   }
+				   var datacount = msg.datacount;
+                    for (var i = msg.datacount.length - 1; i >= 0; i--) {
+                        var result=[];
+                        for(var s in datacount[i]['data']){
+                            result.push(Number((datacount[i]['data'][s]).toFixed(4)))
+                        }
+                        datacount[i]['data']=result;
+
+                    }
 				   Highcharts.chart('container', {
 					title: {
 						text: '浏览状态趋势图',
@@ -214,86 +209,87 @@
 					},
 					series: data,
 				});
+				Highcharts.chart('container_1',{
+					chart: {
+						type: 'column'
+					},
+					lang: {
+						printChart: '打印图表',
+						downloadPNG: '下载JPEG 图片',
+						downloadJPEG: '下载JPEG文档',
+						downloadPDF: '下载PDF 文件',
+						downloadSVG: '下载SVG 矢量图'
+					},
+					credits: {
+						text: '一代宗师海外事业部'
+					},
+					title: {
+						text: '浏览状态分布图'
+					},
+					xAxis: {
+						categories: msg.time
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: '次数'
+						},
+						labels: {
+							formatter: function () {
+								return this.value;
+							}
+						},
+						opposite: false //反转
+					},
+					legend: { //是否显示底注
+						enabled: true
+					},
+					tooltip: {
+						shared: true,
+						useHTML: true
+					},
+					plotOptions: {
+						column: {
+							pointPadding: 0.2,
+							borderWidth: 0
+						}
+					},
+					series: datacount
+				})
 			},
 		})
 	}
 
 	// 柱状图
 	function zhuzhuangtu(datemin,datemax,goods_name,user_name) {
-		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
-        var data = {};
-        data.mintime = datemin;
-        data.maxtime = datemax;
-        data.id = goods_name;
-        data.user_id = user_name;
-        data._token = "{{csrf_token()}}";
-        $.ajax({
-            url:"{{url('admin/vis/statistic')}}",
-            type:'post',
-            data:data,
-            datatype:'json',
-            success:function(msg){
-				layer.close(indexs);
-                var data=msg.datacount;
-                /*console.log(eval('('+msg[0]['data']+')'));*/
+		{{--var indexs=layer.load(2, {shade: [0.15, '#393D49']});--}}
+        {{--var data = {};--}}
+        {{--data.mintime = datemin;--}}
+        {{--data.maxtime = datemax;--}}
+        {{--data.id = goods_name;--}}
+        {{--data.user_id = user_name;--}}
+        {{--data._token = "{{csrf_token()}}";--}}
+        {{--$.ajax({--}}
+            {{--url:"{{url('admin/vis/statistic')}}",--}}
+            {{--type:'post',--}}
+            {{--data:data,--}}
+            {{--datatype:'json',--}}
+            {{--success:function(msg){--}}
+				{{--layer.close(indexs);--}}
+                {{--var data=msg.datacount;--}}
+                {{--/*console.log(eval('('+msg[0]['data']+')'));*/--}}
 
-                for (var i = msg.datacount.length - 1; i >= 0; i--) {
-                    var result=[];
-                    for(var s in data[i]['data']){
-                        result.push(data[i]['data'][s])
-                    }
-                    data[i]['data']=result;
+                {{--for (var i = msg.datacount.length - 1; i >= 0; i--) {--}}
+                    {{--var result=[];--}}
+                    {{--for(var s in data[i]['data']){--}}
+                        {{--result.push(data[i]['data'][s])--}}
+                    {{--}--}}
+                    {{--data[i]['data']=result;--}}
 
-                }
-                Highcharts.chart('container_1',{
-                    chart: {
-                        type: 'column'
-                    },
-                    lang: {
-                        printChart: '打印图表',
-                        downloadPNG: '下载JPEG 图片',
-                        downloadJPEG: '下载JPEG文档',
-                        downloadPDF: '下载PDF 文件',
-                        downloadSVG: '下载SVG 矢量图'
-                    },
-                    credits: {
-                        text: '一代宗师海外事业部'
-                    },
-                    title: {
-                                text: '浏览状态分布图'
-                             },
-                    xAxis: {
-                        categories: msg.time
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: '次数'
-                        },
-                        labels: {
-                            formatter: function () {
-                                return this.value;
-                            }
-                        },
-                        opposite: false //反转
-                    },
-                    legend: { //是否显示底注
-                        enabled: true
-                    },
-                    tooltip: {
-                        shared: true,
-                        useHTML: true
-                    },
-                    plotOptions: {
-                        column: {
-                            pointPadding: 0.2,
-                            borderWidth: 0
-                        }
-                    },
-                    series: data
-                })
-            },
-        })
+                {{--}--}}
+
+            {{--},--}}
+        {{--})--}}
     }
 	{{--function getbin(id){--}}
 		{{--$.ajax({--}}

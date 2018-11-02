@@ -1159,6 +1159,9 @@
             case '9':
                 $('#currency_type').val(8);
                 break;
+            case '10':
+                $('#currency_type').val(2);
+                break;
         }
 	});
 </script>

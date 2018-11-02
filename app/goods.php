@@ -86,7 +86,7 @@ class goods extends Model
                 $band = [6];
                 break;
             case '7':
-                $band = [7, 8, 9];
+                $band = [7, 8, 9, 10];
                 break;
             default:
                 $band = false;
