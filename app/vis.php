@@ -311,6 +311,7 @@ class vis extends Model
             }
             $data_info['data_time'] = $start_time;
             $data_info['data_browse'] = json_encode($arrayBrowse);
+            unset($arrayBrowse);
 
             //购买量
             $arrBuy = [];
@@ -328,7 +329,7 @@ class vis extends Model
                 }
             }
             $data_info['data_buy'] = json_encode($arrayBuy);
-
+            unset($arrayBrowse);
             //下单量
             $arrOrder = [];
             foreach ($visOrder as $item)
@@ -346,6 +347,7 @@ class vis extends Model
             }
             $data_info['data_order'] = json_encode($arrayOrder);
             array_push($data,$data_info);
+            unset($arrayOrder);
         }
         return $data;
     }
