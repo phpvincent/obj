@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class vis extends Model
 {
@@ -86,27 +87,103 @@ class vis extends Model
                 }
             }
         }else if($data->isEmpty()){ //1天 今天 默认
-            $start_time = date('Y-m-d',time()).' 00:00:00';
-            $end_time = date('Y-m-d H:i:s',time());
-            $array = self::visBrowseCount($start_time,$end_time);
-            foreach ($array as $vals)
+            $start = date('Y-m-d',time()).' 00:00:00';
+            $end = date('Y-m-d H:i:s',time());
+            $visBrowse = vis::whereBetween('vis_time',[$start,$end])->get();
+            $visBuy = vis::whereBetween('vis_buytime',[$start,$end])->get();
+            $visOrder = order::whereBetween('order_time',[$start,$end])->get();
+            $leng = date('H');
+            //分24小时
+            $times = strtotime($start);
+            for ($i = 0; $i <= $leng; $i++)
             {
-                $times = $vals['data_time'];
-                $data_browse = json_decode($vals['data_browse']);
-                $data_buy = json_decode($vals['data_buy']);
-                $data_order = json_decode($vals['data_order']);
-                for ($i = 1; $i<=24;$i++)
+                $start_time = date('Y-m-d H:i:s',$times + $i*3600);
+                $end_time = date('Y-m-d H:i:s',$times + ($i+1)*3600);
+                $time[] = date('Y-m-d H',$times + $i*3600);
+                $arrBrowse = [];
+                foreach ($visBrowse as $item)
                 {
-                    if(strtotime($start_time)+($i-1)*3600 <= strtotime($times) && strtotime($times) < strtotime($start_time)+$i*3600 && strtotime($start_time)+($i-1)*3600 <= time()) {
-                        $time[] = date('Y-m-d H',strtotime($start_time)+($i-1)*3600);
-                        $get_data = self::get_data($data_browse,$data_buy,$data_order,$goods_id);
-                        isset($data4['data'][$i]) ? $data4['data'][$i] += $get_data['browse_count'] : $data4['data'][$i] = $get_data['browse_count'];
-                        isset($data5['data'][$i]) ? $data5['data'][$i] += $get_data['buy_count'] : $data5['data'][$i] = $get_data['buy_count'];
-                        isset($data6['data'][$i]) ? $data6['data'][$i] += $get_data['order_count'] : $data6['data'][$i] = $get_data['order_count'];
+                    if($start_time <= $item->vis_time && $end_time > $item->vis_time){
+                        $arrBrowse[$item->vis_goods_id][] = $item;
                     }
                 }
+                $arrayIds = [];
+                $data4['data'][$i] = 0;
+                if(!empty($arrBrowse)){
+                    foreach ($arrBrowse as $key=>$value)
+                    {
+                        if(!in_array($key,$arrayIds)){
+                            array_push($arrayIds,$key);
+                            if($goods_id){
+                                $vis_count = ($key == $goods_id) ? count($value) : 0;
+                            }else{
+                                $vis_count = count($value);
+                            }
+                            isset($data4['data'][$i]) ? $data4['data'][$i] += $vis_count : $data4['data'][$i] = $vis_count;
+                        }
+
+                    }
+                }
+                unset($arrBrowse);
+                unset($arrayIds);
+
+                //购买量
+                $arrBuy = [];
+                foreach ($visBuy as $item)
+                {
+                    if($start_time <= $item->vis_buytime && $end_time > $item->vis_buytime){
+                        $arrBuy[$item->vis_goods_id][] = $item;
+                    }
+                }
+
+                $arrayBuy = [];
+                $data5['data'][$i] = 0;
+                if(!empty($arrBuy)){
+                    foreach ($arrBuy as $key=>$value)
+                    {
+                        if(!in_array($key,$arrayBuy)){
+                            array_push($arrayBuy,$key);
+                            if($goods_id){
+                                $vis_count = ($key == $goods_id) ? count($value) : 0;
+                            }else{
+                                $vis_count = count($value);
+                            }
+                            isset($data5['data'][$i]) ? $data5['data'][$i] += $vis_count : $data5['data'][$i] = $vis_count;
+                        }
+                    }
+                }
+                unset($arrayBuy);
+                unset($arrBuy);
+
+                //下单量
+                $arrOrder = [];
+                foreach ($visOrder as $item)
+                {
+                    if($start_time <= $item->order_time && $end_time > $item->order_time){
+                        $arrOrder[$item->order_goods_id][] = $item;
+                    }
+                }
+                $arrayOrder = [];
+                $data6['data'][$i] = 0;
+                if(!empty($arrOrder)){
+                    foreach ($arrOrder as $key=>$value)
+                    {
+                        if(!in_array($key,$arrayOrder)){
+                            array_push($arrayOrder,$key);
+                            if($goods_id){
+                                $vis_count = ($key == $goods_id) ? count($value) : 0;
+                            }else{
+                                $vis_count = count($value);
+                            }
+                            isset($data6['data'][$i]) ? $data6['data'][$i] += $vis_count : $data6['data'][$i] = $vis_count;
+                        }
+                    }
+                }
+                unset($arrOrder);
+                unset($arrayOrder);
             }
         }
+
         $data1['name'] = '购买转化率';
         //浏览转化率
         foreach ($data4['data'] as $key => $item)
@@ -138,6 +215,7 @@ class vis extends Model
                 }
             }
         }
+
 
         //折线图
         $datas[]=$data1;  //购买转化率
@@ -288,7 +366,7 @@ class vis extends Model
         $visBrowse = vis::whereBetween('vis_time',[$start,$end])->get();
         $visBuy = vis::whereBetween('vis_buytime',[$start,$end])->get();
         $visOrder = order::whereBetween('order_time',[$start,$end])->get();
-        $data = [];
+//        $data = [];
         //分24小时
         $time = strtotime($start);
         for ($i = 0; $i < 24; $i++)
@@ -311,7 +389,8 @@ class vis extends Model
             }
             $data_info['data_time'] = $start_time;
             $data_info['data_browse'] = json_encode($arrayBrowse);
-
+            unset($arrayBrowse);
+            unset($arrBrowse);
             //购买量
             $arrBuy = [];
             foreach ($visBuy as $item)
@@ -328,6 +407,8 @@ class vis extends Model
                 }
             }
             $data_info['data_buy'] = json_encode($arrayBuy);
+            unset($arrayBuy);
+            unset($arrBuy);
 
             //下单量
             $arrOrder = [];
@@ -345,8 +426,16 @@ class vis extends Model
                 }
             }
             $data_info['data_order'] = json_encode($arrayOrder);
-            array_push($data,$data_info);
+            unset($arrOrder);
+            unset($arrayOrder);
+
+            $bool = \App\data_log::insert($data_info);  //data_log插入昨天浏览量、购买量、下单量
+            if(!$bool){
+                Log::error('插入数据失败');
+            }
+            unset($data_info);
+//            array_push($data,$data_info);
         }
-        return $data;
+//        return $data;
     }
 }
