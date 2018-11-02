@@ -11,18 +11,17 @@
 |
 */
 use Illuminate\Http\Request;
+use App\url;
+use App\goods;
+use App\order;
 use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
-		/*get_new_currency_rate();*/
-		/*$time=date('Y-m-d H:i:s',time());
-		$data=$request->all();
-		$data=json_encode($data);
-		$ip=$request->getClientIp();
-		\Log::notice('['.$time.']ip:'.$ip.'____数据：'.$data);*/
-	});
+	/*Route::any('/paypal',function(Request $request){
+		$order=\App\order::first();
+		SendHerbEmail::dispatch($order);
+	});*/
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/

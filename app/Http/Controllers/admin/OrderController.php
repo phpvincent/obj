@@ -384,6 +384,7 @@ class OrderController extends Controller
            //商品附带规格信息
 	        foreach($data as $k => &$v){
 	        $goods= \App\goods::where('goods_id',$v->order_goods_id)->first();
+            //订单价格换算为人民币
 	        $goods_currency_id = $goods->goods_currency_id;
             if($goods->is_del == '1'){
                 $v->goods_real_name = $v->goods_real_name.'<span style="color: red">(已删除)</span>';
@@ -532,6 +533,10 @@ class OrderController extends Controller
      */
    public function order_type_change(Request $request){
    	  $data=$request->all();
+      if(!isset($data['id'])){
+        $arr=['msg'=>'err'];
+        return response()->json($arr);
+      }
    	  $order=order::where('order_id',$data['id'])->first();
    	  $oldmsg=$order->order_return;
    	  $date=date('Y-m-d h:i:s',time());
@@ -617,11 +622,15 @@ class OrderController extends Controller
            ->where(function($query)use($request){
               if($request->has('min')&&$request->has('max')){
                 $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
+              }else{
+                $now_date=date('Y-m-d',time()).' 00:00:00';
+                $query->where('order.order_time','>',$now_date);
               }
            })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
           $exdata=[];
+          $new_exdata=[];
            foreach($data as $k => $v){
             $exdata[$k]['order_time']=$v['order_time'];
             //产品名
@@ -667,14 +676,14 @@ class OrderController extends Controller
                   $pattern='/(.*)\(Zip:(.*?)\)/';
                   preg_match_all($pattern,$str,$p);
                   $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                  $exdata[$k]['area_data_info']=$v['order_state'].$v['order_city'].'('.$exdata[$k]['area_info'].')';
+                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
                   $exdata[$k]['order_zip'] = $v['order_zip'];
               }else{
                   $str=$v['order_add'];
                   $pattern='/(.*)\(Zip:(.*?)\)/';
                   preg_match_all($pattern,$str,$p);
                   $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                  $exdata[$k]['area_data_info']=$v['order_state'].$v['order_city'].'('.$exdata[$k]['area_info'].')';
+                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
                   $exdata[$k]['order_zip']=isset($p[2][0]) ? $p[2][0] : '';
               }
                $exdata[$k]['remark']=$v['order_remark'];
@@ -710,15 +719,35 @@ class OrderController extends Controller
                   $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
                   break;
             }
+            //重组新格式
+              $new_exdata[$k]['order_time']=$exdata[$k]['order_time'];
+              $new_exdata[$k]['name']=$exdata[$k]['name'];
+              $new_exdata[$k]['tel']=$exdata[$k]['tel'];
+              $new_exdata[$k]['area_data_info']=$exdata[$k]['area_data_info'];
+              $new_exdata[$k]['order_state']=$exdata[$k]['order_state'];
+              $new_exdata[$k]['order_city']=$exdata[$k]['order_city'];
+              $new_exdata[$k]['area_info']=$exdata[$k]['area_info'];
+              $new_exdata[$k]['order_zip']=$exdata[$k]['order_zip'];
+              $new_exdata[$k]['goods_real_name']=$exdata[$k]['goods_real_name'];
+              $new_exdata[$k]['goods_name']=$exdata[$k]['goods_name'];
+              $new_exdata[$k]['payof']=$exdata[$k]['payof'];
+              $new_exdata[$k]['order_price']=$exdata[$k]['order_price'];
+              $new_exdata[$k]['order_num']=$exdata[$k]['order_num'];
+              $new_exdata[$k]['config_msg']=$exdata[$k]['config_msg'];
+              $new_exdata[$k]['remark']=$exdata[$k]['remark'];
+              $new_exdata[$k]['order_pay_type']=$exdata[$k]['order_pay_type'];
            }
          if($request->has('min')&&$request->has('max')){
           $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d h:i:s',time()).'.xls';
          }else{
             $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
          }
-         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-         $zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
-        out_excil($exdata,$zdname,'訂單信息记录表',$filename);
+/*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
+*/
+/*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
+        //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
+        $zdname=['下单时间','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','属性信息','备注','支付方式'];
+        out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
    {
@@ -788,8 +817,8 @@ class OrderController extends Controller
                      })
                      ->where('order.is_del','0')
                      ->get();
-        }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
-                    return response()->json(['err'=>'time unknow']);
+        }elseif(($request->input('mintime')!=null&&$request->input('maxtime')==null)||($request->input('mintime')==null&&$request->input('maxtime')!=null)){
+              return response()->json(['error'=>'日期选择不规范']);
         }else{
           $order=\App\order::where(function($query)use($request){
                       $query->where('order.order_time','>',$request->input('mintime'));
@@ -799,6 +828,9 @@ class OrderController extends Controller
                      ->get();
         }
           if(count($data)>0){
+            $allcount=0;
+            $allprecount=0;
+            $allaccount=0;
                 foreach($data as $key => $v) {
                   if($request->input('mintime')==null&&$request->input('maxtime')==null){
                      $goods_id=$v->goods_id;
@@ -812,22 +844,26 @@ class OrderController extends Controller
                      ->count();
                      $data[$key]->order_zxzf_counts=$order->where('order_goods_id',$goods_id)
                      ->where('order_pay_type','<>','0')
-                     ->count();
-                  }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
-                    return response()->json(['err'=>'time unknow']);
+                     ->count(); 
+                    $allcount+=$data[$key]->order_counts;
+                    $allprecount+=$data[$key]->order_real_counts;
+                  }elseif(($request->input('mintime')!=null&&$request->input('maxtime')==null)||($request->input('mintime')==null&&$request->input('maxtime')!=null)){
+                         return response()->json(['error'=>'日期选择不规范']);
                   }else{
                      $goods_id=$v->goods_id;
-                     $data[$key]->order_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_counts=$order->where('order_goods_id',$goods_id)
                      ->count();
-                     $data[$key]->order_real_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_real_counts=$order->where('order_goods_id',$goods_id)
                      ->whereIn('order_type',\App\order::get_sale_type())
                      ->count();
-                     $data[$key]->order_hdfk_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_hdfk_counts=$order->where('order_goods_id',$goods_id)
                      ->where('order_pay_type','0')
                      ->count();
-                     $data[$key]->order_zxzf_counts=\App\order::where('order_goods_id',$goods_id)
+                     $data[$key]->order_zxzf_counts=$order->where('order_goods_id',$goods_id)
                      ->where('order_pay_type','<>','0')
                      ->count();
+                    $allcount+=$data[$key]->order_counts;
+                    $allprecount+=$data[$key]->order_real_counts;
                   }
                   //计算销售额
                    if($request->input('mintime')==null&&$request->input('maxtime')==null){
@@ -836,19 +872,21 @@ class OrderController extends Controller
                     $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
                     ->whereIn('order_type',\App\order::get_sale_type())
                     ->sum('order_price')*\App\currency_type::where('currency_type_id',$v->goods_currency_id)->first()['exchange_rate'];
+                    $allaccount+=$data[$key]->day_sales;
                    /* //1.获取今天数据订单
                     $orders = \App\order::where('order_time','like',$time.'%')->where(function($query){
                         $query->whereIn('order.order_type',\App\order::get_sale_type());
                         $query->where('order.is_del','0');
                     })->get();*/
-                  }elseif($request->input('mintime')==null||$request->input('maxtime')==null){
-                    return response()->json(['err'=>'time unknow']);
+                  }elseif(($request->input('mintime')!=null&&$request->input('maxtime')==null)||($request->input('mintime')==null&&$request->input('maxtime')!=null)){
+                         return response()->json(['error'=>'日期选择不规范']);
                   }else{
                     $time=$request->input('mintime');
                     $endtime=$request->input('maxtime');
                     $data[$key]->day_sales=$order->where('order_time','>',$time)->where('order_time','<',$endtime)->where('order_goods_id',$v->goods_id)
                     ->whereIn('order_type',\App\order::get_sale_type())
                     ->sum('order_price')*\App\currency_type::where('currency_type_id',$v->goods_currency_id)->first()['exchange_rate'];
+                    $allaccount+=$data[$key]->day_sales;
                     /* $orders = \App\order::where('order_time','>',$request->input('mintime'))
                      ->where('order_time','<',$request->input('maxtime'))
                      ->where(function($query){
@@ -873,7 +911,10 @@ class OrderController extends Controller
             array_multisort(array_column($data,'order_counts'),SORT_ASC,$data);
           }
           $data=array_slice($data,$start,$len);
-          $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
+        /*  $data['allaccount']=$allaccount;
+          $data['allcount']=$allcount;
+          $data['allprecount']=$allprecount;*/
+          $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data,'allaccount'=>$allaccount,'allcount'=>$allcount,'allprecount'=>$allprecount];
           return response()->json($arr);
       }
    

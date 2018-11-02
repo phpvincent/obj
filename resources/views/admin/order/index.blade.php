@@ -128,7 +128,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="21" style="white-space: nowrap">订单列表</th>
+				<th scope="col" colspan="22" style="white-space: nowrap">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value="0"></th>
@@ -151,6 +151,7 @@
 				<th width="60">收货人地区</th>
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
+				<th width="40">邮件通知</th>
 				<th width="130">操作</th>
 			</tr>
 		</thead>
@@ -213,34 +214,27 @@ function shuaxin(){
 	// quanxuan()
 }
 function fuxuan(){
-	checkboxs=''
+	checkboxs=[];
 }
 function quanxuan(){
-	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
+	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[name='aaaa']").length; //所有的checkbox的长度
 	$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(){
             // $(this).on('click',function(){
-                var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
-                if(selectedLength==allLength){
+                var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[name='aaaa']:checked").length;//所有的选中的checkbox的长度
+				if((selectedLength==allLength)&&(selectedLength!=0)){
                     $('.allchecked').prop("checked",true);//全选按钮
-					console.log(1)
-
-                    }else{
-					console.log(2)
+                }else{
                         $('.allchecked').prop("checked",false);
-                        }
-            
-                // })
-                
+                }  
             })
 }
 $('body').on('click',".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']",function(){
 	var allLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").length; //所有的checkbox的长度
+	
 	var selectedLength=$(".DTFC_LeftBodyWrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']:checked").length;//所有的选中的checkbox的长度
                 if(selectedLength==allLength){
-					console.log(1)
                     $('.allchecked').prop("checked",true);//全选按钮
                     }else{
-						console.log(2)
                         $('.allchecked').prop("checked",false);
                 }
             
@@ -282,7 +276,7 @@ function states(){
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20],
+		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21],
 		   "orderable": false
 		}],
 		scrollX:        true,
@@ -331,6 +325,7 @@ function states(){
 		{'data':'order_return_time'},
 		{'data':'admin_show_name'},
 		{'defaultContent':"","className":"td-manager"},
+		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
 		{'defaultContent':""},
@@ -346,20 +341,29 @@ function states(){
                         //$(nRow).css("background", "#FFE4E1");
                         $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(3)').css('font-weight',"bold");
+						
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
+
 				}
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '2'){
                     	//     //设置满足条件行的背景颜色,姓名
                         //$(nRow).css("background", "#CAE1FF");
+						
+
                         $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
                         $(nRow).find('td:eq(5)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '3'){
+					
                     //     //设置满足条件行的背景颜色,电话
                         //$(nRow).css("background", "#00cc66");
                         $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
                         $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 3){
+					
                     //     //设置满足条件行的背景颜色
                    // $(nRow).css("background", "#FFFACD");
                     $('.dataTable td.sorting_1').removeClass('sorting_1');
@@ -368,23 +372,28 @@ function states(){
                         $(nRow).find('td:eq(5)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(5)').css('font-weight',"bold");
                         $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
                         $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('2')>=0){
                     //     //设置满足条件行的背景颜色
+					
                     //$(nRow).css("background", "#d7dde4");
                         $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                         $(nRow).find('td:eq(3)').css('font-weight',"bold");
                         $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
                         $(nRow).find('td:eq(5)').css('font-weight',"bold");
 
                 }
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('1')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
+					
                     //$(nRow).css("background", "#ff9900");
                     $(nRow).find('td:eq(3)').css('color',"#FF69B4");
                     $(nRow).find('td:eq(3)').css('font-weight',"bold");
                     $(nRow).find('td:eq(6)').css('color',"#FF69B4");
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
                     $(nRow).find('td:eq(6)').css('font-weight',"bold");
                 }
 /*                console.log("======================");
@@ -395,8 +404,10 @@ function states(){
                 console.log("=======================");*/
                 if(aData.order_repeat_field.length == 2 && aData.order_repeat_field.indexOf('2')>=0 &&  aData.order_repeat_field.indexOf('3')>=0){
                     //     //设置满足条件行的背景颜色
+					
                     //$(nRow).css("background", "#FFE4C4");
                     $(nRow).find('td:eq(5)').css('color',"#FF69B4");
+						$(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
                     $(nRow).find('td:eq(5)').css('font-weight',"bold");
                     $(nRow).find('td:eq(6)').css('color',"#FF69B4");
                     $(nRow).find('td:eq(6)').css('font-weight',"bold");
@@ -439,10 +450,18 @@ function states(){
 			if(data.order_pay_type.indexOf("1")!=-1){
 				isroot+='<a href="javascript:;" onclick="order_payinfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:white;">支付信息</span></a>';
 			}
-			var checkbox='<input type="checkbox" name="" value="'+data.order_id+'">';
+			if(data.order_isemail==0){
+				var emailsend='未发送';
+			}else if(data.order_isemail==1){
+				var emailsend='<span style="color:green;">发送成功</span>';
+			}else{
+				var emailsend='<span style="color:red;">发送失败</span>';
+			}
+			var checkbox='<input type="checkbox" name="aaaa" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(20)').html(info);
+			$(row).find('td:eq(21)').html(info);
+			$(row).find('td:eq(20)').html(emailsend);
 			$(row).find('td:eq(8)').html(isroot);
 			$(row).find('td:eq(17)').html(data.order_state+'-'+data.order_city);
 			/*$(row).find('td:eq(0)').html(checkbox);*/
@@ -507,7 +526,7 @@ function order_up(title,url,type,w,h){
 	xuanzhe()
 	var b='';
 	var a=$('input[type="checkbox"]:checked');
-	if(a.length<=0){
+	if(checkboxs.length==0){
 		layer.msg('无选中项');
 		return false;
 	}
@@ -541,7 +560,7 @@ function pl_del(){
 	}
 	var b=[];
 	var a=$('input[type="checkbox"]:checked');
-	if(a.length<=0){
+	if(checkboxs.length==0){
 		layer.msg('无选中项');
 		return false;
 	}
@@ -642,7 +661,8 @@ $('#order_repeat_tel').on('change',function(){
 var allcheckedflag=true;
 $("body").on("click",".allchecked",function(){
     if(allcheckedflag){
-		$("div.DTFC_LeftWrapper :checkbox").prop("checked", true);
+		$("div.DTFC_LeftWrapper input[name='aaaa']").prop("checked", true);
+		// $("div.DTFC_LeftWrapper .repeat").prop("checked", false);
 		allcheckedflag=false;
 	}else{
 		$("div.DTFC_LeftWrapper :checkbox").prop("checked", false);
@@ -665,6 +685,8 @@ function xuanzhe(){
 		if(this.checked){
 			var a=checkboxs.indexOf( $(this).val() )
 				if(a<0){
+					console.log(checkboxs)
+					console.log($(this).val())
 					checkboxs.push($(this).val());
 				}
 			

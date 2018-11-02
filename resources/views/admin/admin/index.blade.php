@@ -25,7 +25,7 @@
 	<table class="table table-border table-bordered table-bg" id="admin_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="13">账户列表</th>
+				<th scope="col" colspan="14">账户列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
@@ -117,9 +117,9 @@
 					info+='<a title="启用" href="javascript:;" onclick="opuse(\''+data.admin_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="启用"><i class="Hui-iconfont">&#xe601;</i></span></a>'
 			}
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(9)').html(isroot);
-			$(row).find('td:eq(11)').html(bd_type);
-			$(row).find('td:eq(12)').html(info);
+			$(row).find('td:eq(10)').html(isroot);
+			$(row).find('td:eq(12)').html(bd_type);
+			$(row).find('td:eq(13)').html(info);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/

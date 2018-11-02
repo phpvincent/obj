@@ -90,7 +90,7 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/riben.js"></script>
+        <script src="/js/diqu/us.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <link href="/css/addcart.css" rel="stylesheet">
@@ -155,7 +155,7 @@
         </script>
         @endif
         <!-- End YaHoo Pixel Code -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
           @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
         <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
         <script>
@@ -175,7 +175,7 @@
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
     <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/';})()"></a>
-    <h1 class="mui-title">オーダー確認</h1>
+    <h1 class="mui-title">Checkout</h1>
 </header>
 
 <div class="mui-content">
@@ -221,18 +221,17 @@
 <!--table begin-->
     <div class="secure secure_03"><img src="/images/secure_03.jpg" /></div>
 <div class="mui-input-group">
-    
     <div class="mui-input-row">
-        <label><span class="require">*</span>名前:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="必須、受取人名前" nullmsg="「名前」は空欄にできません" class="mui-input-clear">
+        <label><span class="require">*</span>First Name:</label>
+        <input type="text" name="firstname" datatype="s1-30" placeholder="Required: please enter your first name" nullmsg="填寫收件人姓名" class="mui-input-clear">
     </div>
-    <!-- <div class="mui-input-row">
-        <label><span class="require">*</span>Last name:</label>
-        <input type="text" name="lastname" placeholder="required,Please enter your last name" class="mui-input-clear">
-    </div> -->
     <div class="mui-input-row">
-        <label><span class="require">*</span>携帯電話:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="必須、受取人電話番号" nullmsg="「電話番号」は空欄にできません" errormsg="「電話番号」は空欄にできません" name="telephone" class="mui-input-clear">
+        <label><span class="require">*</span>Last Name:</label>
+        <input type="text" name="lastname" placeholder="Required: please enter your last name" class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label><span class="require">*</span>Phone:</label>
+        <input type="text" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -251,25 +250,25 @@
         <div id="twzipcode"></div>
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span>詳しい住所:</label>
-        <input type="text" datatype="z1-300" placeholder="必須、町及びアパート名まで" nullmsg="は空欄にできません" errormsg="は空欄にできません" name="address1" class="mui-input-clear">
+        <label><span class="require">*</span>Detailed Address:</label>
+        <input type="text" datatype="z1-300" placeholder="Detailed Address: Required: please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="">
-        <label><span class="require">*</span>郵便番号:</label>
-        <input type="text" name="zip" placeholder="必須、受取人郵便番号" class="mui-input-clear">
+    <div class="mui-input-row"style="" >
+        <label><span class="require">*</span>Zip:</label>
+        <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>メールアドレス:</label>
+        <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email"errormsg="" placeholder="必要であれば、書く。受取人のメールアドレス" class="mui-input-clear">
+        <input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
-        <label>コメント:</label>
-        <textarea name="notes" placeholder="必要であれば、書く。例：固定電話、商品規格、配送時間帯など"></textarea>
+        <label>Message:</label>
+        <textarea name="notes" placeholder="Optional: such as other phone number, product specification or delivery time, etc."></textarea>
     </div>
 
 </div>
@@ -283,7 +282,7 @@
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-            代金引換          </label>
+            cash_on_delivery         </label>
               <span style="width:100px;">
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
@@ -307,14 +306,15 @@
     
 <!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01" style="">オーダー提出</button>
+ <!-- <strong>Tips:</strong> Delivery can't be arranged  to the  areas which are invalid for selection in Sarawak .Please choose the available ones for shipment -->
+</div>
+<div class="btndiv">
+    <button id="pay" type="button" class="btnstyle01" style="">Start Order</button>
 </div>
 <!--button end-->
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
-    <div class="newfooter">
-    お知らせ：代金引換+配送無料！到着後何か質問あれば、当社にオンラインチャット、またメールください。（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）
-    </div><!--footer end-->
+    <div class="newfooter"></div><!--footer end-->
 <input type="hidden" name="id" value="103107897"/>
 <input type="hidden" name="poid" value=""/>
 <input type="hidden" name="append" value="0"/>
@@ -326,6 +326,8 @@
     
 
 <script>
+// 拼接名字
+
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
     var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
@@ -371,7 +373,7 @@
             })
             color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
-         addhtml='<form id="'+e+'"><div><strong>第'+eNum+'個目</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
+         addhtml='<form id="'+e+'"><div><strong>item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
          // addClickEven()                                           //每增加一組屬性節點，監聽一次ischeck；
           }
@@ -397,11 +399,11 @@
                 return false;
             }*/
                 var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
-                if(vname.test(jQuery("input[name='firstname']").val())){
+                if(vname.test(jQuery("input[name='firstname1']").val())){
                     /*layer.msg("請填寫您的真實姓名");
                     return false;*/
                 }
-                if(_checkBlackName(jQuery("input[name='firstname']").val())){
+                if(_checkBlackName(jQuery("input[name='firstname1']").val())){
                     layer.msg("無效的名字");
                     return false;
                 }
@@ -414,7 +416,7 @@
         },
         tipSweep:true
     });
-    form.tipmsg.r="ご購入の手続きは提出中。少々お待ちください。";
+    form.tipmsg.r="訂單提交中...";
 
 
 layer.load(2);
@@ -439,7 +441,7 @@ $('#pay').bind('click',function(){
         })
    })
 
-    console.log(dataObj);
+   console.log(dataObj);
     var fromArr2=$("form#save").serializeArray();
     $.each(fromArr2,function(i,val){
         datasObj[val.name]=val.value;
@@ -449,61 +451,69 @@ $('#pay').bind('click',function(){
     console.log('zuihou',datasObj);
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('詳細住所は必ず記入する ');
+        layer.msg('The detailed address can not be empty.');
         return false;
     }
     if(datasObj.city==null||datasObj.city==''){
-        layer.msg('都道府県を選択する');
+        layer.msg('Please select area information.');
         return false;
     }
     if(datasObj.firstname==null||datasObj.firstname==''){
-        layer.msg('名前は必ず記入する');
+        layer.msg("Please fill in the consignee's name.");
+        return false;
+    }
+    if(datasObj.lastname==null||datasObj.lastname==''){
+        layer.msg("Please fill in the consignee's name.");
         return false;
     }
     if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg('携帯は必ず記入する');
+        layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    // if(!re.test(datasObj.telephone)){
-    //     layer.msg('正しい携帯番号を書いてください');
+    if(datasObj.zip==null||datasObj.zip==''){
+        layer.msg("Please fill in the correct zip code.");
+        return false;
+    }
+    // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+    // if(!zipre.test(datasObj.zip)){
+    //     layer.msg('Please fill in the valid postal code.');
     //     return false;
     // }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("郵便番号は必ず記入する");
-        return false;
-    }
-    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
-    // layer.msg("ご購入の手続きは提出中。少々お待ちください。");
-    var index = layer.load(2, {shade: [0.15, '#393D49'],content:'オーダー提出中、少々お待ちください',success: function(layero){
-        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
+    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    // if(!re.test(datasObj.telephone)){
+    //     layer.msg('Please fill in the valid cell phone number.');
+    //     return false;
+    // }
+    datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
+     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    // layer.msg("Please wait for the order submitted");
+    var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',   'margin-left':' -80px','background-position-x': '106px'});
     }})
-    var payType=$(".paymentbox input:checked").val();
-
-    if(issubmit){
-        issubmit=false;
-        if(payType==1){
-            $.ajax({
-           type: "POST",    
-           url: "/saveform",
-           data:datasObj,
-           success: function (data) {
+     var payType=$(".paymentbox input:checked").val();
+     if(issubmit){
+         issubmit=false;
+         if(payType==1){
+         $.ajax({
+            type: "POST",    
+            url: "/saveform",
+            data:datasObj,
+            success: function (data) {
             layer.close(index);
-            var btime=getNowDate();
-                    try{fbq('track', 'InitiateCheckout')}catch(e){};
-                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            location.href=data.url;
-                       },
-          
-                    
-           error: function(data) {
-               layer.close(index);
-               layer.msg('オーダー提出失敗、ネット環境を調べてください');
-           }
-        }) ; 
-
-        }else{
-               // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+             var btime=getNowDate();
+                     try{fbq('track', 'InitiateCheckout')}catch(e){};
+                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                             location.href=data.url;
+                        },
+           
+                     
+            error: function(data) {
+                layer.close(index);
+                layer.msg('The order submission failed. Please check the network condition.');
+            }
+         }) ; 
+         }else{
+                       // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
                $.ajax({
                type: "POST",
                url: "/paypal_pay",
@@ -511,7 +521,7 @@ $('#pay').bind('click',function(){
                success: function (data) {
                    layer.close(index);
                    if(data.err=='0'){
-                       layer.msg('paypay支払い失敗しました。ほかの支払い方を使用してください。');
+                       layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
                         issubmit=true;
                    }else{
                        var btime=getNowDate();
@@ -524,17 +534,15 @@ $('#pay').bind('click',function(){
  
                error: function(data) {
                    layer.close(index);
-                   layer.msg('オーダー提出失敗、ネット環境を調べてください');
+                   layer.msg('The order submission failed. Please check the network condition.');
                  }
              }) ;
-
-        }
-        
-    }else{
+         }
+         
+     }else{
         layer.close(index);
-        layer.msg('オーダー提出した、２次提出しないでください');
-    }
-   
+         layer.msg('Orders have been submitted, not submitted repeatedly.');
+     }
     
             //记录购买事件
             
@@ -579,8 +587,7 @@ $('#pay').bind('click',function(){
     $(document).scroll(function () {
         $("#navigationBox").css('top', $(document).scrollTop());
     });
-</script>
-<script>
+</script><script>
 jQuery(function(){
     jQuery("#coll_id").val(getQueryString('coll_id'));
 });
@@ -595,8 +602,6 @@ jQuery(function(){
 <script type="text/javascript">
     jQuery(document).ready(function(e) {
         jQuery('#twzipcode').twzipcode();
-        // var a =jQuery('#twzipcode')
-        // jQuery($.parseHTML(a, document, true)).twzipcode();
         jQuery('input[name="zipcode"]').attr('style','display:none;');
         jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
         jQuery('#twzipcode').find("[name='state']").change(function(){
@@ -627,36 +632,36 @@ jQuery(function(){
 </script>
 
 <script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>メールアドレス:</label>';
-        html1 +='<input type="text" placeholder="必要であれば、書く。受取人のメールアドレス" nullmsg="" errormsg="" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
-        html2 += "<label>メールアドレス:</label>";
+//     jQuery(function(){
+//         var html1 ='';
+// //        html +='<div class="mui-input-row need_email">';
+//         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
+//         html1 +='<input type="text" placeholder="Optional: please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         var html2 = '';
+//         html2 += "<label>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="必要であれば、書く。受取人のメールアドレス" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">';
 
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
+//         var payty =  jQuery('input[name=pay_type]:checked').val();
+//         if(payty==7||payty==2){
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html1);
+//         }else{
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html2);
+//         }
+//         jQuery('input[name=pay_type]').click(function(){
+//             if(jQuery(this).val()==7 || jQuery(this).val()==2){
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html1);
+//             }else{
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html2);
+//             }
 
-        });
+//         });
 
-    });
+//     });
 
 </script>
 
@@ -687,7 +692,7 @@ jQuery(function(){
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
-                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">トータル数:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span> 在庫 '+msg.goods.goods_num+'個\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">トータル数:<font>1</font> <span class="gift" style="display:none;">, プレゼント： <font>0</font>点</span>  </span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  Only left:'+msg.goods.goods_num+'\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
                             $("#addcart").html(addCartHtml1);
                             var pricehtml=$('.addcart-footer-price-total').children('font:first');
 	                        	var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
@@ -698,9 +703,9 @@ jQuery(function(){
 	                        		return false;
 	                        	}
 	                        	$(this).next().val(num-1);
-	                        	$('.addcart-specs-title-name').html("トータル数:"+(num-1)+"");
+	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
 	                        	$('.addcart-footer-number-total').children('font:first').html(num-1);
-	                        	$('#realprice').html(( returnFloat(num-1)*price) );
+	                        	$('#realprice').html( returnFloat((num-1)*price));
 	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num-1)*price));
 	                        })
 	                        $('#addcart-quantity-inc').bind('click',function(){
@@ -709,20 +714,20 @@ jQuery(function(){
 	                        	addform(formName); //增加一组商品属性；
 	                        	var num=parseInt($(this).prev().val());
 	                        	if(num>={{$goods->goods_num}}){
-	                        		layer.msg('在庫不足');
+	                        		layer.msg('low stocks!');
 	                        		return false;
 	                        	}
 	                        	$(this).prev().val(num+1);
-	                        	$('.addcart-specs-title-name').html("トータル数:"+(num+1)+"");
+	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
 	                            $('.addcart-footer-number-total').children('font:first').html(num+1);
-	                            $('#realprice').html( returnFloat((num+1)*price) );
-	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num+1)*price) );
+	                            $('#realprice').html(returnFloat((num+1)*price));
+	                        	pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+returnFloat((num+1)*price));
 	                        })
                          })
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">トータル数:1</span><span class="addcart-specs-arrow"></span><div class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, が選択された【'+msg.cuxiao[0].cuxiao_msg+'】<p style="display: inline-block;">在庫'+msg.goods.goods_num+'個）</p><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">セット数:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">セット数:<font>1</font> <span class="gift" style="display:none;">, プレゼント： <font>0</font>点</span>  </span><span class="addcart-footer-price-total">合計金額:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'】Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -766,7 +771,7 @@ jQuery(function(){
 	                            		return false;
 	                            	}
 	                            	$(this).next().val(num-1);
-	                            	$('.addcart-specs-title-name').html("トータル数:"+(num-1)+"");
+	                            	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	$('.addcart-footer-number-total').children('font:first').html(num-1);
 	                            	num=num-1;
@@ -784,16 +789,16 @@ jQuery(function(){
 	                            	var num = Number($('#addcart-quantity-val').val())
 	                            	console.log(num)
 	                            	if(num>= msg.goods.goods_num){
-	                            		layer.msg('在庫不足');
+	                            		layer.msg('low stocks!');
 	                            		return false;
 	                            	}
 	                            	// $(this).prev().val(num+1);
 	                            	$('#addcart-quantity-val').val(num+1);
-	                            	$('.addcart-specs-title-name').html("トータル数:"+(num+1)+"");
+	                            	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
 	                            	$('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                num=num+1;
-                                    priceMath(num)
+                                    priceMath(num)	
 	                            }
                             
 	                            var shuliang = formnum;
@@ -815,10 +820,10 @@ jQuery(function(){
                         $(function(){
                             var specialHtml='';
                             $.each(msg.special,function(i,item){
-                                specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">プレゼント </span></div></div>'
+                                specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">Gift</span></div></div>'
                             });
                             $("#addcart").append(specialHtml);
-                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">トータル数:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, が選択された 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】在庫 '+msg.goods.goods_num+'個）</span><span class="addcart-specs-status"></span></div>'
+                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, Preferred Selection 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div>'
                             $("#addcart").append(yixuanHtml);
                             var buttonHtml= '';
                             var chose_cart='chose_cart';
@@ -827,7 +832,7 @@ jQuery(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">トータル数:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">, プレゼント： <font>0</font>点</span>  </span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
@@ -849,12 +854,12 @@ jQuery(function(){
 	                       var pricehtml=$('.addcart-footer-price-total').children('font:first');
 		                   var price=pricehtml.html().replace(/[^0-9]/ig,"");
 	                       $('#addcart-quantity-dec').bind('click',function(){
-		                   layer.msg('この商品はセットで購入のみ');
+		                   layer.msg('This item only supports package purchase');
 		                   return false;
 	                       })
 	                       $('#addcart-quantity-inc').bind('click',function(){
 
-		                    layer.msg('この商品はセットで購入のみ');
+		                    layer.msg('This item only supports package purchase');
 		                    return false;
 	                        })
                             $('.addcart-float-buttons-block').children('button').click(function(){    	
@@ -869,7 +874,7 @@ jQuery(function(){
                                     $(".gift font").text($("[mine_id='"+cuxiao_special_id+"'] .addcart-specs-title-number").text().substr(1)) 
                             	}
                             	if(attr=='chose_cart'){
-                            		layer.msg('選択済 ');
+                            		layer.msg('Selected ');
                             	}else if(attr =='unchose_cart'){
                        		     $('.chose_cart').attr('class','unchose_cart');
                        		     $(this).attr('class','chose_cart');
@@ -881,7 +886,7 @@ jQuery(function(){
                                    $('.addcart-footer-number-total').children('font:first').html(num);
                                    $('#addcart-quantity-val').val(num);
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
-                                   $('div.unfold .addcart-specs-title-name').html("トータル数:"+num+"");
+                                   $('div.unfold .addcart-specs-title-name').html("Total Quantity:"+num);
 		                        console.log(num);
 		                        $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;

@@ -105,6 +105,7 @@
 						<option value="7" @if($goods->goods_blade_type=='7') selected="selected" @endif>7--菲律宾</option>
 						<option value="8" @if($goods->goods_blade_type=='8') selected="selected" @endif>8--英国</option>
 						<option value="9" @if($goods->goods_blade_type=='9') selected="selected" @endif>9--Google-PC(调试中)</option>
+						<option value="10" @if($goods->goods_blade_type=='10') selected="selected" @endif>10--美国(调试中)</option>
 						{{--<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
