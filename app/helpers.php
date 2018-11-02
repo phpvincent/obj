@@ -421,7 +421,7 @@ if (!function_exists('operation_log')){
 
 if (!function_exists('get_browse_info')){
     function get_browse_info(){
-  /*      $start = date('Y-m-d',time()-24*3600).' 00:00:00';
+        $start = date('Y-m-d',time()-24*3600).' 00:00:00';
         $end = date('Y-m-d').' 00:00:00';
         $start_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
         $end_time = date('Y-m-d',time()-7*24*3600).' 00:00:00';
@@ -436,14 +436,14 @@ if (!function_exists('get_browse_info')){
             }
         }catch(\Exception $e){
             \Log::notice('操作日志记录报错--'.$e);
-        }*/
-       for ($i = 1; $i <= 2; $i++)
+        }
+       /*for ($i = 1; $i <= 2; $i++)
        {
            $start = date('Y-m-d',time()-$i*24*3600).' 00:00:00';
            $end = date('Y-m-d',time()-($i-1)*24*3600).' 00:00:00';
            $data = \App\vis::visBrowseCount($start,$end);
            \App\data_log::insert($data);
-       }
+       }*/
     }
 }
 
