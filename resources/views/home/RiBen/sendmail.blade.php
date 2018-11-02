@@ -77,7 +77,7 @@
                 <div style="width:70%;margin:0 auto;    text-align: center;">
                     <p style="margin:0"><font style="vertical-align: inherit;">オーダー生成時間 : {{$order->order_time}}</font></p>
                     <!-- <p style="margin:0"><span style="border-bottom:1px dashed #ccc;" t="5" times=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$order->order_time}}</font></font></span></p> -->
-                    <p style="margin:0"><font style="vertical-align: inherit;">支払い方法 : @if($order->order_pay_type=='0')代金引換@elseオンライン支払い@endif</font></p>
+                    <p style="margin:0"><font style="vertical-align: inherit;">支払い方法 : @if($order->order_pay_type=='0')代金引換@else オンライン支払い@endif</font></p>
                     <p style="margin:0"><font style="vertical-align: inherit;">備考 : @if($order->order_remark!=null){{$order->order_remark}}@endif</font></p>
                 </div>
                 <div style="width:70%;margin:0 auto;    text-align: center;">
