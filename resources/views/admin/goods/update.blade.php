@@ -2,6 +2,11 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/css/addgoods.css')}}" />
 @section('content')
 <article class="page-container">
+<style>
+	.uploader-thum-container input{
+		width:100%!important;
+	}
+</style>
     <div class="config" style="display: none;" attr="newConfig" id="configclo">
         <div class="row" style="margin-left: 0px;">
             属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">

@@ -2,6 +2,11 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/css/addgoods.css')}}" />
 @section('content')
 <article class="page-container">
+<style>
+	.uploader-thum-container input{
+		width:100%!important;
+	}
+</style>
 	{{--商品属性信息--}}
 	<div class="config" style="display: none;" id="configclo">
 		<div class="row" style="margin-left: 0px;">
