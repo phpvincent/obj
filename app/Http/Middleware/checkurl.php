@@ -183,6 +183,9 @@ class checkurl
             $vis->vis_type=$type;
             $vis->vis_lan=$lan;
             $vis->vis_time=date('Y-m-d H:i:s',time());
+            if($goods_id==null){
+              $goods_id=0;
+            }
             $vis->vis_goods_id=$goods_id;
             $vis->vis_url=$_SERVER['SERVER_NAME'];
             $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;

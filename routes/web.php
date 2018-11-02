@@ -19,8 +19,15 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
-		$order=\App\order::first();
-		SendHerbEmail::dispatch($order);
+		 $url=$_SERVER['SERVER_NAME'];
+        if($url!='52.14.183.239'){
+            return redirect('index/fb');
+        }
+		$orders=\App\order::where('order_time','>','2018-10-31 06:23:45')->where('order_time','<','2018-11-01 00:20:45')->where('order_isemail','1')->get();
+		foreach ($orders as $key => $value) {
+			SendHerbEmail::dispatch($value);
+		}
+		//SendHerbEmail::dispatch($order);
 	});*/
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');

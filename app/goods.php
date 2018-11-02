@@ -99,7 +99,7 @@ class goods extends Model
         $blade_id=$goods->goods_blade_type;
         switch ($blade_id) {
             case '0':
-                $blade_name='home.TaiwanFan.endsuccess';
+                $blade_name='home.TaiwanFan.sendmail';
                 break;
             case '1':
                 $blade_name='home.TaiwanJian.sendmail';
