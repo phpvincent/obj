@@ -437,7 +437,7 @@ if (!function_exists('get_browse_info')){
 //            \Log::notice('操作日志记录报错--'.$e);
 //        }
 
-        for ($i = 2; $i <= 2; $i++)
+        for ($i = 3; $i <= 3; $i++)
         {
             $start = date('Y-m-d',time()-$i*24*3600).' 00:00:00';
             $end = date('Y-m-d',time()-($i-1)*24*3600).' 00:00:00';
