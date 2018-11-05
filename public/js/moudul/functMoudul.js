@@ -67,7 +67,7 @@ function addAttribu() {
             //循环完的dom里 input默认回选中第一个input，所以让有ischeck的input，click一下；
             $("#goods_config_div .ischeck").parent().find("input").click();
             //循环完前四个from；再到第五个；
-            addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="javascript:void(0)"><strong>第'+eNum+'件</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
+            addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse mui-active"><a class="mui-navigate-right" href="javascript:void(0)"><strong>第'+eNum+'件</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
             if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
 
             $("#goods_config_div img").css("display","none");    //属性第一组显示图片其他不显示
@@ -76,7 +76,7 @@ function addAttribu() {
             $("#goods_config_div ul:first img").parent().css({"width":"30%","margin-left":"","padding":""});
             return;
          }else if($("#goods_config_div form").length>4){
-            addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="javascript:void(0)"><strong>第'+eNum+'件</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
+            addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse mui-active"><a class="mui-navigate-right" href="javascript:void(0)"><strong>第'+eNum+'件</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
             if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
             $("#goods_config_div img").css("display","none");    //属性第一组显示图片其他不显示
             $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
