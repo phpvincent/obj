@@ -57,7 +57,7 @@
 /*控制首页轮播图视频的样式*/
 .mui-slider-indicator{ z-index:9998;}
 .mui-slider-indicator .mui-indicator { z-index:9999; width:60px; height:30px; line-height:30px;}
-.mui-active{background: -webkit-gradient(linear,center top,center bottom,from(#fc8a0e), to(#fe6104)) !important; color:#fff !important;}
+/* .mui-active{background: -webkit-gradient(linear,center top,center bottom,from(#fc8a0e), to(#fe6104)) !important; color:#fff !important;} */
 .edui-upload-video { vertical-align:middle; display:block;}
 .mui-slider .mui-slider-group .mui-slider-item {vertical-align:middle;}
 .mui-slider-indicator .mui-indicator {-webkit-border-radius: 15px; -moz-border-radius: 15px;
