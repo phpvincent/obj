@@ -315,8 +315,13 @@ class VisController extends Controller
             //超过1天或者没有选择时间，所以转化率按照天计算
 //            $leng = intval((strtotime($end_time)-strtotime($start_time))/3600/24);
 //            $use_end_time =  strtotime($start_time);
-            $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
-            $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
+            if($start_time && $end_time){
+                $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
+                $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
+            }else{
+                $start_time = date('Y-m-d',time()-7*24*3600).' 00:00:00';
+                $end_time = date('Y-m-d').' 00:00:00';
+            }
             $count = \App\vis::visCount($start_time,$end_time,$goods_id);
             return response()->json($count);
 
@@ -572,8 +577,15 @@ class VisController extends Controller
        $start_time = $request->input('mintime');
        $end_time = $request->input('maxtime');
        $goods_id = $request->input('id');
-       $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
-       $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
+       if($start_time && $end_time){
+           $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
+           $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
+       }else{
+           $start_time = date('Y-m-d',time()-7*24*3600).' 00:00:00';
+           $end_time = date('Y-m-d').' 00:00:00';
+       }
+//       $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
+//       $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
        $count = \App\vis::visCount($start_time,$end_time,$goods_id);
        foreach ($count['data'] as $item)
        {
@@ -613,6 +625,7 @@ class VisController extends Controller
            }
        }
        $time = $count['time'];
+       rsort($time);
        return view('admin.vis.table')->with(compact('data','time'));
    }
 

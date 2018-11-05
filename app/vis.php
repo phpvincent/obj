@@ -29,6 +29,7 @@ class vis extends Model
         $data5['name'] = '购买量';
         $data6['name'] = '下单量';
         $time = [];
+        //默认7天
         if(!$data->isEmpty()){
             if(strtotime($start_time)+($leng-1)*3600*24 <= time() &&  strtotime($start_time)+$leng*3600*24 > time() && $leng > 1){ //多天，包括今天
                 foreach ($data as $item)
@@ -88,7 +89,7 @@ class vis extends Model
                     }
                 }
             }
-        }else if($data->isEmpty()){ //1天 今天 默认
+        }else if($data->isEmpty()){ //1天 今天
             $start = date('Y-m-d',time()).' 00:00:00';
             $times = strtotime($start);
             $leng = date('H');
@@ -149,7 +150,6 @@ class vis extends Model
                 unset($visOrder);
             }
         }
-
         $data1['name'] = '购买转化率';
         //浏览转化率
         foreach ($data4['data'] as $key => $item)
@@ -168,7 +168,7 @@ class vis extends Model
 
         $data2['name'] = '下单转化率';
         //购买转化率
-        foreach ($data5['data'] as  $key => $item)
+        foreach ($data4['data'] as  $key => $item)
         {
             foreach ($data6['data'] as $k=> $val)
             {
