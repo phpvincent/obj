@@ -139,6 +139,11 @@
         data.id = goods_name;
         data.user_id = user_name;
         data._token = "{{csrf_token()}}";
+        if((!datemin && datemax) || (datemin && !datemax)){
+            layer.msg('搜索时间不能只选择一个');
+            layer.close(indexs);
+            return ;
+        }
 		$.ajax({
 				url:"{{url('admin/vis/statistic')}}",
 				type:'post',
