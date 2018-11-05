@@ -48,6 +48,9 @@ class vis extends Model
                         }
                     }
                 }
+                ksort($data4['data']);
+                ksort($data5['data']);
+                ksort($data6['data']);
                 $get_today_data = self::toDayData($goods_id);
                 isset($data4['data'][$leng]) ? $data4['data'][$leng] += $get_today_data['browse_count'] : $data4['data'][$leng] = $get_today_data['browse_count'];
                 isset($data5['data'][$leng]) ? $data5['data'][$leng] += $get_today_data['buy_count'] : $data5['data'][$leng] = $get_today_data['buy_count'];
@@ -62,7 +65,7 @@ class vis extends Model
                     $data_order = json_decode($item->data_order);
                     for ($i = 1; $i<=$leng;$i++)
                     {
-                        $time[] = date('Y-m-d',strtotime($start_time)+($i-1)*3600*24);
+                        $time[] = date('Y-m-d',strtotime($start_time)+($i - 1) * 3600 * 24);
                         if(strtotime($start_time)+($i-1)*3600*24 <= strtotime($item->data_time) && strtotime($item->data_time) < strtotime($start_time)+$i*3600*24){
                             $get_data = self::get_data($data_browse,$data_buy,$data_order,$goods_id);
                             isset($data4['data'][$i]) ? $data4['data'][$i] += $get_data['browse_count'] : $data4['data'][$i] = $get_data['browse_count'];
@@ -73,6 +76,9 @@ class vis extends Model
                     }
                 }
                 $time = array_slice($time,0,$leng);
+                ksort($data4['data']);
+                ksort($data5['data']);
+                ksort($data6['data']);
             }else{ //1天  不包括今天
                 foreach ($data as $item) {
                     $data_browse = json_decode($item->data_browse);

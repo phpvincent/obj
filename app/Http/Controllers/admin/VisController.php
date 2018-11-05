@@ -319,8 +319,8 @@ class VisController extends Controller
                 $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
                 $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
             }else{
-                $start_time = date('Y-m-d',time()-7*24*3600).' 00:00:00';
-                $end_time = date('Y-m-d').' 00:00:00';
+                $start_time = date('Y-m-d',time()-6*24*3600).' 00:00:00';
+                $end_time = date('Y-m-d',time()+24*3600).' 00:00:00';
             }
             $count = \App\vis::visCount($start_time,$end_time,$goods_id);
             return response()->json($count);
@@ -581,8 +581,8 @@ class VisController extends Controller
            $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
            $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
        }else{
-           $start_time = date('Y-m-d',time()-7*24*3600).' 00:00:00';
-           $end_time = date('Y-m-d').' 00:00:00';
+           $start_time = date('Y-m-d',time()-6*24*3600).' 00:00:00';
+           $end_time = date('Y-m-d',time()+24*3600).' 00:00:00';
        }
 //       $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
 //       $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
@@ -625,7 +625,6 @@ class VisController extends Controller
            }
        }
        $time = $count['time'];
-       rsort($time);
        return view('admin.vis.table')->with(compact('data','time'));
    }
 
