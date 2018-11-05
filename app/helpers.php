@@ -346,56 +346,56 @@ if (!function_exists('out_excil')){
   }
  if (!function_exists('get_new_currency_rate')){
       function get_new_currency_rate(){ 
-                     $opts = array(
-                        'http'=>array(
-                        'method'=>'GET',
-                        'timeout'=>30,//单位秒
-                        )
-                     );
-                    $currencys=\App\currency_type::get();
-                    foreach($currencys as $k => $v){
-                         $from=$v->currency_english_name;
-                         $cnt=0;
-                         $to='CNY';
-                         if($v->exchange_rate<0.01){
-                          $url='http://api.k780.com/?app=finance.rate&scur='.$from.'&tcur='.$to.'&appkey=37627&sign=7cbd07d00c92cf942fb7c3d4b4bc4d7b';
-                          while($cnt<3 && ($bb=file_get_contents($url, false, stream_context_create($opts)))===FALSE) $cnt++;
-                         }else{
-                          $url='http://op.juhe.cn/onebox/exchange/currency?key=29e07833e480a84e60052a25d13e0ffa&from='.$from.'&to='.$to;
-                          while($cnt<3 && ($bb=file_get_contents($url, false, stream_context_create($opts)))===FALSE) $cnt++;
-                         }
-                         $res=json_decode($bb,true);
-                         if($v->exchange_rate>=0.01&&($res==false||!isset($res['error_code'])||$res['error_code']!='0')){
-                          //接口返回错误
-                            $reason=isset($res['reason'])?$res['reason']:'';
-                            \Log::notice(\Carbon\Carbon::now().'-'.$url.'汇率获取失败,'.$reason);
-                         }elseif($v->exchange_rate<0.01&&($res==false||!isset($res['success'])||$res['success']!='1')){
-                            $reason=isset($res['msg'])?$res['msg']:'';
-                            \Log::notice(\Carbon\Carbon::now().'-'.$url.'汇率获取失败,'.$reason);
-                         }else{
-                           if($v->exchange_rate<0.01){
-                              $cur=$res['result']['rate'];
-                            }else{
-                              foreach($res['result'] as $key => $val){
-                                  if($val['currencyF']==$from){
-                                      $cur=$val['exchange'];
-                                      break;
-                                  }else{
-                                      $cur=false;
-                                  }
-                              }
-                            }
-                            if($cur!=false&&abs($cur-$v->exchange_rate)<0.15*($v->exchange_rate)){
-                                $old_rate=$v->exchange_rate;
-                                $v->exchange_rate=$cur;
-                                $v->save();
-                                \Log::notice(\Carbon\Carbon::now().'-'.$from."汇率调整成功，".$old_rate."~".$cur);
-                            }else{
-                                 $old_rate=$v->exchange_rate;
-                                \Log::notice(\Carbon\Carbon::now().'-'.$from."汇率调整失败，".$old_rate."~".$cur);
-                            }
-                         }
+             $opts = array(
+                'http'=>array(
+                'method'=>'GET',
+                'timeout'=>30,//单位秒
+                )
+             );
+            $currencys=\App\currency_type::get();
+            foreach($currencys as $k => $v){
+                 $from=$v->currency_english_name;
+                 $cnt=0;
+                 $to='CNY';
+                 if($v->exchange_rate<0.01){
+                  $url='http://api.k780.com/?app=finance.rate&scur='.$from.'&tcur='.$to.'&appkey=37627&sign=7cbd07d00c92cf942fb7c3d4b4bc4d7b';
+                  while($cnt<3 && ($bb=file_get_contents($url, false, stream_context_create($opts)))===FALSE) $cnt++;
+                 }else{
+                  $url='http://op.juhe.cn/onebox/exchange/currency?key=29e07833e480a84e60052a25d13e0ffa&from='.$from.'&to='.$to;
+                  while($cnt<3 && ($bb=file_get_contents($url, false, stream_context_create($opts)))===FALSE) $cnt++;
+                 }
+                 $res=json_decode($bb,true);
+                 if($v->exchange_rate>=0.01&&($res==false||!isset($res['error_code'])||$res['error_code']!='0')){
+                  //接口返回错误
+                    $reason=isset($res['reason'])?$res['reason']:'';
+                    \Log::notice(\Carbon\Carbon::now().'-'.$url.'汇率获取失败,'.$reason);
+                 }elseif($v->exchange_rate<0.01&&($res==false||!isset($res['success'])||$res['success']!='1')){
+                    $reason=isset($res['msg'])?$res['msg']:'';
+                    \Log::notice(\Carbon\Carbon::now().'-'.$url.'汇率获取失败,'.$reason);
+                 }else{
+                   if($v->exchange_rate<0.01){
+                      $cur=$res['result']['rate'];
+                    }else{
+                      foreach($res['result'] as $key => $val){
+                          if($val['currencyF']==$from){
+                              $cur=$val['exchange'];
+                              break;
+                          }else{
+                              $cur=false;
+                          }
+                      }
                     }
+                    if($cur!=false&&abs($cur-$v->exchange_rate)<0.15*($v->exchange_rate)){
+                        $old_rate=$v->exchange_rate;
+                        $v->exchange_rate=$cur;
+                        $v->save();
+                        \Log::notice(\Carbon\Carbon::now().'-'.$from."汇率调整成功，".$old_rate."~".$cur);
+                    }else{
+                         $old_rate=$v->exchange_rate;
+                        \Log::notice(\Carbon\Carbon::now().'-'.$from."汇率调整失败，".$old_rate."~".$cur);
+                    }
+                 }
+            }
       }
   }
 
@@ -436,12 +436,13 @@ if (!function_exists('get_browse_info')){
 //        }catch(\Exception $e){
 //            \Log::notice('操作日志记录报错--'.$e);
 //        }
+
         for ($i = 1; $i <= 7; $i++)
         {
             $start = date('Y-m-d',time()-$i*24*3600).' 00:00:00';
             $end = date('Y-m-d',time()-($i-1)*24*3600).' 00:00:00';
+//            dd(strtotime(date('Y-m-d').' 00:00:00') + 3600*24);
             $data = \App\vis::visBrowseCount($start,$end);
-//            \App\data_log::insert($data);
         }
 
     }

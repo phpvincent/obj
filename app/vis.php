@@ -43,15 +43,16 @@ class vis extends Model
                             isset($data4['data'][$i]) ? $data4['data'][$i] += $get_data['browse_count'] : $data4['data'][$i] = $get_data['browse_count'];
                             isset($data5['data'][$i]) ? $data5['data'][$i] += $get_data['buy_count'] : $data5['data'][$i] = $get_data['buy_count'];
                             isset($data6['data'][$i]) ? $data6['data'][$i] += $get_data['order_count'] : $data6['data'][$i] = $get_data['order_count'];
+                            unset($get_data);
                         }
                     }
                 }
-
                 $get_today_data = self::toDayData($goods_id);
                 isset($data4['data'][$leng]) ? $data4['data'][$leng] += $get_today_data['browse_count'] : $data4['data'][$leng] = $get_today_data['browse_count'];
                 isset($data5['data'][$leng]) ? $data5['data'][$leng] += $get_today_data['buy_count'] : $data5['data'][$leng] = $get_today_data['buy_count'];
                 isset($data6['data'][$leng]) ? $data6['data'][$leng] += $get_today_data['order_count'] : $data6['data'][$leng] = $get_today_data['order_count'];
                 $time = array_slice($time,0,$leng);
+                unset($get_today_data);
             }else if($leng > 1 && strtotime($start_time)+$leng*3600*24 < time()){ //多天，不包括今天
                 foreach ($data as $item)
                 {
@@ -66,6 +67,7 @@ class vis extends Model
                             isset($data4['data'][$i]) ? $data4['data'][$i] += $get_data['browse_count'] : $data4['data'][$i] = $get_data['browse_count'];
                             isset($data5['data'][$i]) ? $data5['data'][$i] += $get_data['buy_count'] : $data5['data'][$i] = $get_data['buy_count'];
                             isset($data6['data'][$i]) ? $data6['data'][$i] += $get_data['order_count'] : $data6['data'][$i] = $get_data['order_count'];
+                            unset($get_data);
                         }
                     }
                 }
@@ -88,99 +90,63 @@ class vis extends Model
             }
         }else if($data->isEmpty()){ //1天 今天 默认
             $start = date('Y-m-d',time()).' 00:00:00';
-            $end = date('Y-m-d H:i:s',time());
-            $visBrowse = vis::whereBetween('vis_time',[$start,$end])->get();
-            $visBuy = vis::whereBetween('vis_buytime',[$start,$end])->get();
-            $visOrder = order::whereBetween('order_time',[$start,$end])->get();
-            $leng = date('H');
-            //分24小时
             $times = strtotime($start);
+            $leng = date('H');
             for ($i = 0; $i <= $leng; $i++)
             {
                 $start_time = date('Y-m-d H:i:s',$times + $i*3600);
                 $end_time = date('Y-m-d H:i:s',$times + ($i+1)*3600);
                 $time[] = date('Y-m-d H',$times + $i*3600);
-                $arrBrowse = [];
-                foreach ($visBrowse as $item)
-                {
-                    if($start_time <= $item->vis_time && $end_time > $item->vis_time){
-                        $arrBrowse[$item->vis_goods_id][] = $item;
-                    }
-                }
-                $arrayIds = [];
+                $visBrowse = vis::whereBetween('vis_time',[$start_time,$end_time])->select(DB::Raw('COUNT(vis_goods_id) AS count'),'vis_goods_id')->groupBy('vis_goods_id')->get()->toArray();
+                $visBuy = vis::whereBetween('vis_buytime',[$start_time,$end_time])->select(DB::Raw('COUNT(vis_goods_id) AS count'),'vis_goods_id')->groupBy('vis_goods_id')->get()->toArray();
+                $visOrder = order::whereBetween('order_time',[$start_time,$end_time])->select(DB::Raw('COUNT(order_goods_id) AS count'),'order_goods_id')->groupBy('order_goods_id')->get()->toArray();
                 $data4['data'][$i] = 0;
-                if(!empty($arrBrowse)){
-                    foreach ($arrBrowse as $key=>$value)
-                    {
-                        if(!in_array($key,$arrayIds)){
-                            array_push($arrayIds,$key);
-                            if($goods_id){
-                                $vis_count = ($key == $goods_id) ? count($value) : 0;
-                            }else{
-                                $vis_count = count($value);
+                if(!empty($visBrowse)){
+                    foreach ($visBrowse as $key=>$value) {
+                        if ($goods_id) {
+                            if ($value['vis_goods_id'] == $goods_id) {
+                                $data4['data'][$i] = $value['count'] ? $value['count'] : 0;
                             }
-                            isset($data4['data'][$i]) ? $data4['data'][$i] += $vis_count : $data4['data'][$i] = $vis_count;
+                        } else {
+                            $count = $value['count'] ? $value['count'] : 0;
+                            isset($data4['data'][$i]) ? $data4['data'][$i] += $count : $data4['data'][$i] = $count;
                         }
-
                     }
-                }
-                unset($arrBrowse);
-                unset($arrayIds);
-
+                    }
+                unset($visBrowse);
                 //购买量
-                $arrBuy = [];
-                foreach ($visBuy as $item)
-                {
-                    if($start_time <= $item->vis_buytime && $end_time > $item->vis_buytime){
-                        $arrBuy[$item->vis_goods_id][] = $item;
-                    }
-                }
-
-                $arrayBuy = [];
                 $data5['data'][$i] = 0;
-                if(!empty($arrBuy)){
-                    foreach ($arrBuy as $key=>$value)
+                if(!empty($visBuy)){
+                    foreach ($visBuy as $key=>$value)
                     {
-                        if(!in_array($key,$arrayBuy)){
-                            array_push($arrayBuy,$key);
-                            if($goods_id){
-                                $vis_count = ($key == $goods_id) ? count($value) : 0;
-                            }else{
-                                $vis_count = count($value);
+                        if($goods_id){
+                            if ($value['vis_goods_id'] == $goods_id) {
+                                $data5['data'][$i] = $value['count'] ? $value['count'] : 0;
                             }
-                            isset($data5['data'][$i]) ? $data5['data'][$i] += $vis_count : $data5['data'][$i] = $vis_count;
+                        }else{
+                            $count = $value['count'] ? $value['count'] : 0;
+                            isset($data5['data'][$i]) ? $data5['data'][$i] += $count : $data5['data'][$i] = $count;
                         }
                     }
                 }
-                unset($arrayBuy);
-                unset($arrBuy);
+                unset($visBuy);
 
                 //下单量
-                $arrOrder = [];
-                foreach ($visOrder as $item)
-                {
-                    if($start_time <= $item->order_time && $end_time > $item->order_time){
-                        $arrOrder[$item->order_goods_id][] = $item;
-                    }
-                }
-                $arrayOrder = [];
                 $data6['data'][$i] = 0;
-                if(!empty($arrOrder)){
-                    foreach ($arrOrder as $key=>$value)
+                if(!empty($visOrder)){
+                    foreach ($visOrder as $key=>$value)
                     {
-                        if(!in_array($key,$arrayOrder)){
-                            array_push($arrayOrder,$key);
-                            if($goods_id){
-                                $vis_count = ($key == $goods_id) ? count($value) : 0;
-                            }else{
-                                $vis_count = count($value);
+                        if($goods_id){
+                            if ($value['order_goods_id'] == $goods_id) {
+                                $data6['data'][$i] = $value['count'] ? $value['count'] : 0;
                             }
-                            isset($data6['data'][$i]) ? $data6['data'][$i] += $vis_count : $data6['data'][$i] = $vis_count;
+                        }else{
+                            $count = $value['count'] ? $value['count'] : 0;
+                            isset($data6['data'][$i]) ? $data6['data'][$i] += $count : $data6['data'][$i] = $count;
                         }
                     }
                 }
-                unset($arrOrder);
-                unset($arrayOrder);
+                unset($visOrder);
             }
         }
 
@@ -216,7 +182,6 @@ class vis extends Model
             }
         }
 
-
         //折线图
         $datas[]=$data1;  //购买转化率
         $datas[]=$data2;  //下单转化率
@@ -241,31 +206,44 @@ class vis extends Model
         $array['browse_count'] = 0;
         $array['buy_count'] = 0;
         $array['order_count'] = 0;
-        if($goods_id){
-            $array['browse_count'] += isset($data_browse[$goods_id]) ? $data_browse[$goods_id] : 0;
-            $array['buy_count'] += isset($data_buy[$goods_id]) ? $data_buy[$goods_id] : 0;
-            $array['order_count'] += isset($data_order[$goods_id]) ? $data_order[$goods_id] : 0;
-        }else{
-            if(!empty($data_browse)){
-                foreach ($data_browse as $val)
-                {
-                    $array['browse_count'] += $val;
-                }
-            }
-            if(!empty($data_buy)){
-                foreach ($data_buy as $val)
-                {
-                    $array['buy_count'] += $val;
-                }
-            }
-            if(!empty($data_order)){
-                foreach ($data_order as $val)
-                {
-                    $array['order_count'] += $val;
-                }
-            }
 
+        if(!empty($data_browse)){
+            foreach ($data_browse as $val)
+            {
+                if($goods_id){
+                    if($val->vis_goods_id == $goods_id){
+                        $array['browse_count'] += $val->count;
+                    }
+                }else{
+                    $array['browse_count'] += $val->count;
+                }
+            }
         }
+        if(!empty($data_buy)){
+            foreach ($data_buy as $val)
+            {
+                if($goods_id){
+                    if($val->vis_goods_id == $goods_id){
+                        $array['buy_count'] += $val->count;
+                    }
+                }else{
+                    $array['buy_count'] += $val->count;
+                }
+            }
+        }
+        if(!empty($data_order)){
+            foreach ($data_order as $val)
+            {
+                if($goods_id){
+                    if($val->order_goods_id == $goods_id){
+                        $array['order_count'] += $val->count;
+                    }
+                }else{
+                    $array['order_count'] += $val->count;
+                }
+            }
+        }
+
         return $array;
     }
 
@@ -363,9 +341,9 @@ class vis extends Model
      */
     public static function visBrowseCount($start,$end)
     {
-        $visBrowse = vis::whereBetween('vis_time',[$start,$end])->get();
-        $visBuy = vis::whereBetween('vis_buytime',[$start,$end])->get();
-        $visOrder = order::whereBetween('order_time',[$start,$end])->get();
+//        $visBrowse = vis::whereBetween('vis_time',[$start,$end])->get();
+//        $visBuy = vis::whereBetween('vis_buytime',[$start,$end])->get();
+//        $visOrder = order::whereBetween('order_time',[$start,$end])->get();
 //        $data = [];
         //分24小时
         $time = strtotime($start);
@@ -373,61 +351,65 @@ class vis extends Model
         {
             $start_time = date('Y-m-d H:i:s',$time + $i*3600);
             $end_time = date('Y-m-d H:i:s',$time + ($i+1)*3600);
-            $arrBrowse = [];
-            foreach ($visBrowse as $item)
-            {
-                if($start_time <= $item->vis_time && $end_time > $item->vis_time){
-                    $arrBrowse[$item->vis_goods_id][] = $item;
-                }
-            }
-            $arrayBrowse = [];
-            if(!empty($arrBrowse)){
-                foreach ($arrBrowse as $key=>$value)
-                {
-                    $arrayBrowse[$key] = count($value);
-                }
-            }
+            $visBrowse = vis::whereBetween('vis_time',[$start_time,$end_time])->select(DB::Raw('COUNT(vis_goods_id) AS count'),'vis_goods_id')->groupBy('vis_goods_id')->get()->toArray();
+            $visBuy = vis::whereBetween('vis_buytime',[$start_time,$end_time])->select(DB::Raw('COUNT(vis_goods_id) AS count'),'vis_goods_id')->groupBy('vis_goods_id')->get()->toArray();
+            $visOrder = order::whereBetween('order_time',[$start_time,$end_time])->select(DB::Raw('COUNT(order_goods_id) AS count'),'order_goods_id')->groupBy('order_goods_id')->get()->toArray();
+//dd($visBrowse);
+//            $arrBrowse = [];
+//            foreach ($visBrowse as $item)
+//            {
+//                if($start_time <= $item->vis_time && $end_time > $item->vis_time){
+//                    $arrBrowse[$item->vis_goods_id][] = $item;
+//                }
+//            }
+//            $arrayBrowse = [];
+//            if(!empty($arrBrowse)){
+//                foreach ($arrBrowse as $key=>$value)
+//                {
+//                    $arrayBrowse[$key] = count($value);
+//                }
+//            }
             $data_info['data_time'] = $start_time;
-            $data_info['data_browse'] = json_encode($arrayBrowse);
-            unset($arrayBrowse);
-            unset($arrBrowse);
+            $data_info['data_browse'] = json_encode($visBrowse);
+            unset($visBrowse);
             //购买量
-            $arrBuy = [];
-            foreach ($visBuy as $item)
-            {
-                if($start_time <= $item->vis_buytime && $end_time > $item->vis_buytime){
-                    $arrBuy[$item->vis_goods_id][] = $item;
-                }
-            }
-            $arrayBuy = [];
-            if(!empty($arrBuy)){
-                foreach ($arrBuy as $key=>$value)
-                {
-                    $arrayBuy[$key] = count($value);
-                }
-            }
-            $data_info['data_buy'] = json_encode($arrayBuy);
-            unset($arrayBuy);
-            unset($arrBuy);
+//            $arrBuy = [];
+//            foreach ($visBuy as $item)
+//            {
+//                if($start_time <= $item->vis_buytime && $end_time > $item->vis_buytime){
+//                    $arrBuy[$item->vis_goods_id][] = $item;
+//                }
+//            }
+//            $arrayBuy = [];
+//            if(!empty($arrBuy)){
+//                foreach ($arrBuy as $key=>$value)
+//                {
+//                    $arrayBuy[$key] = count($value);
+//                }
+//            }
+            $data_info['data_buy'] = json_encode($visBuy);
+            unset($visBuy);
+//            unset($arrBuy);
 
             //下单量
-            $arrOrder = [];
-            foreach ($visOrder as $item)
-            {
-                if($start_time <= $item->order_time && $end_time > $item->order_time){
-                    $arrOrder[$item->order_goods_id][] = $item;
-                }
-            }
-            $arrayOrder = [];
-            if(!empty($arrOrder)){
-                foreach ($arrOrder as $key=>$value)
-                {
-                    $arrayOrder[$key] = count($value);
-                }
-            }
-            $data_info['data_order'] = json_encode($arrayOrder);
-            unset($arrOrder);
-            unset($arrayOrder);
+//            $arrOrder = [];
+//            foreach ($visOrder as $item)
+//            {
+//                if($start_time <= $item->order_time && $end_time > $item->order_time){
+//                    $arrOrder[$item->order_goods_id][] = $item;
+//                }
+//            }
+//            $arrayOrder = [];
+//            if(!empty($arrOrder)){
+//                foreach ($arrOrder as $key=>$value)
+//                {
+//                    $arrayOrder[$key] = count($value);
+//                }
+//            }
+//            $visOrder = [];
+            $data_info['data_order'] = json_encode($visOrder);
+            unset($visOrder);
+//            unset($arrayOrder);
 
             $bool = \App\data_log::insert($data_info);  //data_log插入昨天浏览量、购买量、下单量
             if(!$bool){
