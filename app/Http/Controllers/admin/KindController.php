@@ -306,4 +306,5 @@ class KindController extends Controller
         }
         return view('admin.kind.show')->with(compact('goods_config'));
     }
+
 }

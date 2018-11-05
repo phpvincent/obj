@@ -436,6 +436,8 @@ if (!function_exists('get_browse_info')){
        }catch(\Exception $e){
            \Log::notice('操作日志记录报错--'.$e);
        }
+
+
     }
 }
 
