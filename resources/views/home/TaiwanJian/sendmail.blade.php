@@ -156,7 +156,7 @@
                   <p style="display:inline-block;margin: 6px 0;">单价 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">{{$order->order_currency}}{{$goods->goods_price}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_num}}</p>
                 </div>
                 <div style="text-align: right;">
                   <p style="display:inline-block;margin: 6px 0;">优惠价格 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{($goods->goods_price*$order->order_num)-($order->order_price)}}</p>
@@ -176,7 +176,7 @@
                     小计：<font style="color:red">{{$order->order_price}}</font></font>
                 </p> -->
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_num}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">件数 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_num}}</p>
                 </div>
                 <div style="text-align: right;">
                   <p style="display:inline-block;margin: 6px 0;">免费送货 :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
