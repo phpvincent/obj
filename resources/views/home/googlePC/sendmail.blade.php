@@ -191,12 +191,12 @@
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px;border-top: 1px solid #F29400;"><p style="
               margin-top: 48px;
-          "><font style="vertical-align: inherit;">This email is only used for confirmation of your order for shopping on this website. This is an auto-generated email. Please DO NOT REPLY. Please contact us with<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>. if you need more assistance. Thanks for contacting.
+          "><font style="vertical-align: inherit;">This email is only used for confirmation of your order for shopping on this website. This is an auto-generated email. Please DO NOT REPLY. Please contact us with<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>. if you need more assistance. Thanks for contacting.
               </font></p></td>
           </tr>
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font><br>
-            <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
+            <a href="mailto:yejforlh@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
             </p></td>
           </tr>
         </tbody></table>
