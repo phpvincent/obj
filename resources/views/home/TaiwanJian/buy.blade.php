@@ -296,7 +296,7 @@
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-            cash_on_delivery         </label>
+            cash on delivery         </label>
               <span style="width:100px;">
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>

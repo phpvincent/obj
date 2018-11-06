@@ -461,7 +461,7 @@ Items can only be returned for a refund if they are unopened, unused and in a re
           <div class="mui-input-row mui-radio mui-left cash-on-delivery" style="display: inline-block ;float: right;width: 25%;">
               <input checked="" name="pay_type" id="pay_1" value="1" type="radio">
             <label>
-            cash_on_delivery         </label>
+            cash on delivery         </label>
               <span style="width:100px;">
                                     <img src="/images/cash.jpg" alt="" id="cash"/>
                                                   </span>
