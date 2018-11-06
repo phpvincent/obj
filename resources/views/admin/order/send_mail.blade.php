@@ -7,7 +7,7 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱地址：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="{{$order->order_mail}}" placeholder="" id="order_mail" name="order_mail">
+			<input type="text" class="input-text" value="{{$order->order_email}}" placeholder="" id="order_mail" name="order_mail">
 		</div>
 	</div>
 	{{csrf_field()}}
