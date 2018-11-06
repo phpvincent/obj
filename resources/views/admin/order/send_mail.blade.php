@@ -23,7 +23,7 @@
 <script type="text/javascript">
 	$('#send_mail').submit(function(){
 			var send_mail=$('#order_mail').val();
-			if(isNull(send_mail)||send_mail.length>=20||send_mail.length<=3){
+			if(isNull(send_mail)||send_mail.length>=40||send_mail.length<=3){
 				layer.msg("请填写合法邮箱！");
 				return false;
 			}
