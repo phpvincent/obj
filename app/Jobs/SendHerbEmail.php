@@ -108,6 +108,7 @@ class SendHerbEmail implements ShouldQueue
                 $order->order_isemail='1';
                 $order->save();
                 \Log::notice('为'.$order->order_id.'发送邮件成功！邮件地址:'.$email);
+                sleep(2);
             }else{
                //发送失败,更改标记
                 $order=\App\order::where('order_id',$now_order_id)->first();
