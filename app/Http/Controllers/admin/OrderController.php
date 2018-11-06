@@ -938,6 +938,7 @@ class OrderController extends Controller
                            $order->order_isemail='1';
                            $order->save();
                            try{$emailsend=SendHerbEmail::dispatch($order);}catch(\Exception $e){\Log::notice(json_encode($e));return response()->json(['msg'=>$email.'队列推送失败']);};
+                           \Log::notice('邮件补发推送：'.$email);
                            return response()->json(['msg'=>0]);
                       }
                 }else{
