@@ -96,6 +96,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/order/order_arr_change','admin\OrderController@order_arr_change');
 	Route::get('/admin/order/payinfo','admin\OrderController@payinfo');//订单支付信息展示
 	Route::match(['get','post'],'/admin/order/count','admin\OrderController@count');
+	Route::match(['get','post'],'/admin/order/send_mail','admin\OrderController@send_mail');
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');
 	Route::post('/admin/url/get_url','admin\UrlController@get_url');
