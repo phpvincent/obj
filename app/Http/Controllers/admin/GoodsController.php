@@ -427,8 +427,8 @@ class GoodsController extends Controller
          $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
          $goods->goods_google_pix=$data['goods_google_pix'];
          $goods->goods_admin_id=$data['admin_id'];
-         $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
-         $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
+//         $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
+//         $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
          $goods->goods_up_time=date('Y-m-d h:i:s',time());
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
@@ -645,7 +645,7 @@ class GoodsController extends Controller
      */
    public function outgoods(Request $request){
     //下载Excel
-   		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time','goods_pix','goods_buy_url')
+   		$data=goods::select('goods.goods_id','goods.goods_name','goods.goods_msg','goods.goods_video','goods.goods_real_price','goods.goods_price','goods.goods_num','goods.goods_end','goods.goods_comment_num','goods.goods_real_name','goods.goods_cuxiao_name','admin.admin_name','goods_online_time','goods_pix')
 	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
 	        ->where('goods.is_del','0')
@@ -658,7 +658,7 @@ class GoodsController extends Controller
 			->orderBy('goods.goods_up_time','desc')
 			->get()->toArray();
    		$filename='商品信息'.date('Y-m-d H:i:s',time()).'.xls';
-   		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间','商品像素','商品采购url'];
+   		$zdname=['商品id','商品名','商品描述','商品视频地址','商品单价','商品现价','商品库存','倒计时','评论数','单品名','促销信息','所属人员','发布时间','商品像素'];
         out_excil($data,$zdname,'单品信息记录表',$filename);
    }
 
@@ -1015,8 +1015,8 @@ class GoodsController extends Controller
        $goods->goods_real_price = $data['goods_real_price'];
        $goods->goods_price = $data['goods_price'];
        $goods->goods_blade_type = $data['goods_blade_type'];
-       $goods->goods_buy_url = $request->has('goods_buy_url') ? $data['goods_buy_url'] : null;
-       $goods->goods_buy_msg = $request->has('goods_buy_msg') ? $data['goods_buy_msg'] : null;
+//       $goods->goods_buy_url = $request->has('goods_buy_url') ? $data['goods_buy_url'] : null;
+//       $goods->goods_buy_msg = $request->has('goods_buy_msg') ? $data['goods_buy_msg'] : null;
        $goods->goods_pix = $data['goods_pix'];
        $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
        $goods->goods_google_pix = $data['goods_google_pix'];

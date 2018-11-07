@@ -64,13 +64,13 @@
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品原价：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([1-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" value="{{$goods->goods_real_price}}" placeholder="" id="goods_real_price" name="goods_real_price">
+					<input type="text" class="input-text" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" value="{{$goods->goods_real_price}}" placeholder="" id="goods_real_price" name="goods_real_price">
 				</div>
 			</div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品定价：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([1-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" value="{{$goods->goods_price}}" placeholder="" id="goods_price" name="goods_price">
+					<input type="text" class="input-text" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" value="{{$goods->goods_price}}" placeholder="" id="goods_price" name="goods_price">
 				</div>
 			</div>
 			<div class="clearfix">
@@ -158,18 +158,18 @@
 					<input type="checkbox" id="pay_type" @if(in_array('1',$goods['goods_pay_type'])) checked="checked"  @endif  name="pay_type[]" value="1">
 				</div>
 			</div>
-			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{{$goods->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
-				</div>
-			</div>
-			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2">单品采购备注：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{{$goods->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
-				</div>
-			</div>
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>--}}
+				{{--<div class="formControls col-xs-8 col-sm-9">--}}
+					{{--<input type="text" class="input-text" value="{{$goods->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">--}}
+				{{--</div>--}}
+			{{--</div>--}}
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2">单品采购备注：</label>--}}
+				{{--<div class="formControls col-xs-8 col-sm-9">--}}
+					{{--<input type="text" class="input-text" value="{{$goods->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">--}}
+				{{--</div>--}}
+			{{--</div>--}}
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">fb像素(没有则留空)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
@@ -189,7 +189,7 @@
 				</div>
 			</div>
 
-		@if(\App\goods_config::where('goods_primary_id',$goods->goods_id)->count()>0)
+		@if(\App\goods_config::where('goods_primary_id',$goods->goods_id)->count()>0 && $goods->goods_is_update == 0)
         {{--商品属性--}}
 		<div class="clearfix" style="margin-left: 2%">
 			<label class="form-label col-xs-4 col-sm-2"> </label>

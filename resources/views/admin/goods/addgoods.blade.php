@@ -66,13 +66,13 @@
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品原价：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="goods_real_price" name="goods_real_price">
+					<input type="text" class="input-text" value="" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" id="goods_real_price" name="goods_real_price">
 				</div>
 			</div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品定价：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="goods_price" name="goods_price">
+					<input type="text" class="input-text" value="" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" id="goods_price" name="goods_price">
 				</div>
 			</div>
             <div class="clearfix">
@@ -167,18 +167,18 @@
 					<input type="checkbox" class="pay_type" id="pay_type" name="pay_type[]" value="1">
 				</div>
 			</div>
-			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2">单品采购备注：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
-				</div>
-			</div>
-			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="goods_buy_url" name="goods_buy_url">
-				</div>
-			</div>
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2">单品采购备注：</label>--}}
+				{{--<div class="formControls col-xs-8 col-sm-9">--}}
+					{{--<input type="text" class="input-text" value="" placeholder="" id="goods_buy_msg" name="goods_buy_msg">--}}
+				{{--</div>--}}
+			{{--</div>--}}
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2">单品采购地址：</label>--}}
+				{{--<div class="formControls col-xs-8 col-sm-9">--}}
+					{{--<input type="text" class="input-text" value="" placeholder="" id="goods_buy_url" name="goods_buy_url">--}}
+				{{--</div>--}}
+			{{--</div>--}}
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">YaHoo像素(没有则留空)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
