@@ -184,6 +184,9 @@ class KindController extends Controller
         if($request->isMethod('get')) {
             $goods_kinds_id = $request->input('id');
             $goods_kinds = goods_kind::where('goods_kind_id',$goods_kinds_id)->first();
+//            if(!$goods_kinds){
+//                return view('admin.kind.kind_config_val')->with(compact('goods_kinds','goods_config'));
+//            }
             $goods_config=\App\kind_config::where('kind_primary_id',$goods_kinds_id)->get();
             if($goods_config!=null){
                 foreach($goods_config as $k => $v){
