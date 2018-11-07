@@ -264,7 +264,7 @@
         <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email" placeholder="Optional: please fill in email" class="mui-input-clear">
+        <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>Message:</label>
