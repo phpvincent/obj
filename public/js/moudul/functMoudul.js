@@ -1,24 +1,10 @@
-function addAttribu() {
+function addAttribu(cuxiao_num,a) {
 
 
     // var issubmit=true;
     // var formnum=1; //商品属性组数计数；
     // var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
-    var  addClickEven= function (){
-         $("#goods_config_div").on('click',"input.radio",function(){
-            $(this).parent().parent().find('label[for]').attr('class','uncheck') ;
-         $(this).next().attr("class",'ischeck');  
-          })
-
-           $("#goods_config_div").on('click',"a.mui-navigate-right",function(){
-            if($(this).parent().hasClass("mui-active")){
-                $(this).parent().removeClass("mui-active")
-            }else{
-                $(this).parent().addClass("mui-active") 
-            }
-           })
-        }
-         addClickEven(); 
+ 
    
     if( cuxiao_num !=null && typeof(cuxiao_num) !='undefinde' && cuxiao_num !=''){
         formnum=Number(cuxiao_num);  //如果有默认数量；
@@ -114,4 +100,34 @@ function addAttribu() {
 
          }else {return  }
      }
+};
+
+function countDiff (a,basePrice,moneycoin){
+    var goodsConfigArr=[];
+    $.each(a,function(i,item){
+    $.each(item,function(j,val){
+        goodsConfigArr.push(val)
+    })
+    });
+    console.log("goodsConfigArr",goodsConfigArr)
+
+    var fromArr=$("#goods_config_div").find("form").serializeArray();
+        $.each(fromArr,function(){
+         this.name=this.name.slice(5);
+        })
+    console.log('fromArr',fromArr)
+    var countDiffPrice=0;
+    $.each(goodsConfigArr,function(i,val){
+        $.each(fromArr,function(j,item){
+            if(item.name==val.config_type_id && item.value==val.config_val_id){
+                countDiffPrice+=(val.goods_diff_price-0)
+            }
+        })
+    });
+    console.log(countDiffPrice);
+    console.log("baseprice",basePrice)
+    console.log("总价",basePrice+countDiffPrice)
+    console.log(moneycoin)
+    $('.addcart-footer-price-total').children('font:first').html(moneycoin+(basePrice+countDiffPrice));
+    $('#realprice').html( basePrice+countDiffPrice);
 }
