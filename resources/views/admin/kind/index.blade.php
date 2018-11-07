@@ -15,8 +15,8 @@
             <th width="110">产品名</th>
             <th width="110">属性</th>
             <th width="110">绑定商品个数</th>
-            <th width="110">供应商</th>
-            <th width="110">供应链接</th>
+            <th width="110">采购备注</th>
+            <th width="110">采购地址</th>
             <th width="70">添加时间</th>
             <th width="100">操作</th>
         </tr>

@@ -1241,41 +1241,43 @@ class GoodsController extends Controller
         }
 
         //处理商品属性名 + 属性值
-        $goods_config = \App\goods_config::where('goods_primary_id', $id)->orderBy('goods_config_id','asc')->get();
-        if (!$goods_config->isEmpty()) {
-            $goods_config = $goods_config->toArray();
-            foreach ($goods_config as $item) {
-                $config_type_id = $item['goods_config_id'];
-                unset($item['goods_config_id']);
-                $item['goods_primary_id'] = $goods_id;
-                //复制新商品属性名
-                $goods_config_id = \App\goods_config::insertGetId($item);
-                if(!$goods_config_id){
-                    return response()->json(['err' => '0', 'msg' => '复制失败!']);
-                }
-                $config_type = \App\config_val::where('config_type_id', $config_type_id)->get();
-                if (!$config_type->isEmpty()) {
-                    $config_type = $config_type->toArray();
-                    foreach ($config_type as $value) {
-                        unset($value['config_val_id']);
-                        $value['config_type_id'] = $goods_config_id;
-                        $value['config_goods_id'] = $goods_id;
-                        //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
-                        if($value['config_val_img']){
-                            $image = substr($value['config_val_img'],6);
-                            $ext = strrchr($value['config_val_img'], '.');
-                            $newImages = '/sx_imgs/fzgoods_'.md5(microtime()).rand(10000,100000).$ext;
-                            if(Storage::disk('public')->exists($image)){
-                                Storage::disk('public')->copy($image, $newImages);
-                                $value['config_val_img'] = 'upload'.$newImages;
-                            }else{
-                                $value['config_val_img'] = '';
+        if($goods['goods_is_update'] == 1){
+            $goods_config = \App\goods_config::where('goods_primary_id', $id)->orderBy('goods_config_id','asc')->get();
+            if (!$goods_config->isEmpty()) {
+                $goods_config = $goods_config->toArray();
+                foreach ($goods_config as $item) {
+                    $config_type_id = $item['goods_config_id'];
+                    unset($item['goods_config_id']);
+                    $item['goods_primary_id'] = $goods_id;
+                    //复制新商品属性名
+                    $goods_config_id = \App\goods_config::insertGetId($item);
+                    if(!$goods_config_id){
+                        return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                    }
+                    $config_type = \App\config_val::where('config_type_id', $config_type_id)->get();
+                    if (!$config_type->isEmpty()) {
+                        $config_type = $config_type->toArray();
+                        foreach ($config_type as $value) {
+                            unset($value['config_val_id']);
+                            $value['config_type_id'] = $goods_config_id;
+                            $value['config_goods_id'] = $goods_id;
+                            //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
+                            if($value['config_val_img']){
+                                $image = substr($value['config_val_img'],6);
+                                $ext = strrchr($value['config_val_img'], '.');
+                                $newImages = '/sx_imgs/fzgoods_'.md5(microtime()).rand(10000,100000).$ext;
+                                if(Storage::disk('public')->exists($image)){
+                                    Storage::disk('public')->copy($image, $newImages);
+                                    $value['config_val_img'] = 'upload'.$newImages;
+                                }else{
+                                    $value['config_val_img'] = '';
+                                }
                             }
-                        }
-                        //复制新商品属性值
-                        $bool = \App\config_val::insert($value);
-                        if(!$bool){
-                            return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                            //复制新商品属性值
+                            $bool = \App\config_val::insert($value);
+                            if(!$bool){
+                                return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                            }
                         }
                     }
                 }

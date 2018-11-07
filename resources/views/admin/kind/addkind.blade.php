@@ -48,13 +48,13 @@
             <div class="row cl">
                 <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">产品采购地址：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
+                    <input type="text" class="input-text" value="" placeholder="" id="goods_buy_url" name="goods_buy_url">
                 </div>
             </div>
             <div class="row cl">
                 <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">产品采购备注：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="goods_buy_url" name="goods_buy_url">
+                    <input type="text" class="input-text" value="" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
                 </div>
             </div>
             <div class="row cl">
