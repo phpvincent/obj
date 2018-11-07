@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\order;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\SendHerbEmail;
 class OrderController extends Controller
 {
    public function index(){
@@ -918,6 +919,35 @@ class OrderController extends Controller
           $data['allprecount']=$allprecount;*/
           $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data,'allaccount'=>$allaccount,'allcount'=>$allcount,'allprecount'=>$allprecount];
           return response()->json($arr);
+      }
+      public function send_mail(Request $request)
+      //邮件补发
+      {
+        if($request->isMethod('get')){
+           $order=\App\order::findorfail($request->input('id'));
+           return view('admin.order.send_mail')->with(compact('order'));
+        }elseif($request->isMethod('post')){
+           $order=\App\order::findorfail($request->input('id'));
+           $email=$request->order_mail;
+            if(filter_var($email,FILTER_VALIDATE_EMAIL)!=false){
+                if(config('queue')['default']!='sync'){
+                       if(checkdnsrr(explode("@",$email)[1],"MX")==false){
+                           return response()->json(['msg'=>'无效邮箱，取消推送']);
+                       }else{
+                           $order->order_email=$email;
+                           $order->order_isemail='1';
+                           $order->save();
+                           try{$emailsend=SendHerbEmail::dispatch($order);}catch(\Exception $e){\Log::notice(json_encode($e));return response()->json(['msg'=>$email.'队列推送失败']);};
+                           \Log::notice('邮件补发推送：'.$email);
+                           return response()->json(['msg'=>0]);
+                      }
+                }else{
+                   return response()->json(['msg'=>'队列任务未开启！推送失败！']);
+                }
+            }else{
+              return response()->json(['msg'=>'无效邮箱，取消推送']);
+            }
+        }
       }
    
 }

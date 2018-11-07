@@ -1133,7 +1133,7 @@ class IndexController extends Controller
    }
 /*   public function sendmail(Request $request)
    {       
-           $name = '学院君';
+           $name = 'test';
            $order=\App\order::where('order_id','39')->first();
            $goods=\App\goods::where('goods_id','1')->first();
            $url=url::where('url_goods_id',$goods->goods_id)->first();

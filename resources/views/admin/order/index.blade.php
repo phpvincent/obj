@@ -451,11 +451,11 @@ function states(){
 				isroot+='<a href="javascript:;" onclick="order_payinfo('+data.order_id+')" <span class="label label-default radius" style="color:black;background-color:white;">支付信息</span></a>';
 			}
 			if(data.order_isemail==0){
-				var emailsend='未发送';
+				var emailsend='未发送<input class="btn btn-secondary-outline radius" onclick="send_mail('+data.order_id+')" type="button" value="补发">';
 			}else if(data.order_isemail==1){
 				var emailsend='<span style="color:green;">发送成功</span>';
 			}else{
-				var emailsend='<span style="color:red;">发送失败</span>';
+				var emailsend='<span style="color:red;">发送失败</span><input class="btn btn-secondary-outline radius" onclick="send_mail('+data.order_id+')" type="button" value="补发">';
 			}
 			var checkbox='<input type="checkbox" name="aaaa" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
@@ -693,6 +693,10 @@ function xuanzhe(){
 		}
 
 	});
+}
+//邮件补发
+function send_mail(id){
+	layer_show('邮件补发','/admin/order/send_mail?id='+id,500,200);
 }
 // 上一页
 	$('body').on('click','#order_index_table_previous',function(){
