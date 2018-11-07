@@ -1545,13 +1545,13 @@ class GoodsController extends Controller
                         $arr=\App\kind_val::where('kind_type_id',$v->kind_config_id)->orderBy('kind_val_id','asc')->get()->toArray();
                         $goods_config[$k]->goods_config_id='';//商品属性id
                         $goods_config[$k]->goods_config_msg=$v->kind_config_msg;//商品属性名
-                        $goods_config[$k]->goods_diff_price='';//商品属性差价
+                        $goods_config[$k]->config_diff_price='';//商品属性差价
                         foreach ($arr as &$item)
                         {
                             $item['config_val_msg'] = $item['kind_val_msg'];
                             $item['config_val_id'] = '';
                             $item['config_isshow'] = 1;
-                            $item['goods_diff_price'] = 0;
+                            $item['config_diff_price'] = 0;
                         }
                         $goods_config[$k]->config_msg=$arr;
                     }
@@ -1571,12 +1571,12 @@ class GoodsController extends Controller
                                 if($kind_val){
                                     $value['config_val_id'] = $kind_val->config_val_id;
                                     $value['config_val_msg'] = $kind_val->config_val_msg;
-                                    $value['goods_diff_price'] = $kind_val->goods_diff_price;
+                                    $value['config_diff_price'] = $kind_val->config_diff_price;
                                     $value['config_isshow'] = $kind_val->config_isshow;
                                 }else{
                                     $value['config_val_id'] = '';
                                     $value['config_val_msg'] = $value['kind_val_msg'];
-                                    $value['goods_diff_price'] = 0;
+                                    $value['config_diff_price'] = 0;
                                     $value['config_isshow'] = 1;
                                 }
                             }
@@ -1588,7 +1588,7 @@ class GoodsController extends Controller
                            {
                                $value['config_val_id'] = '';
                                $value['config_val_msg'] = $value['kind_val_msg'];
-                               $value['goods_diff_price'] = 0;
+                               $value['config_diff_price'] = 0;
                                $value['config_isshow'] = 1;
                            }
                            $goods_config[$key]->config_msg=$arr;
@@ -1643,13 +1643,13 @@ class GoodsController extends Controller
                             if(!$val['id'] && !$val['config_imgs']){
                                 return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
                             }
-                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['goods_diff_price'] && trim($item['goods_diff_price']) != 0)){
+                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['config_diff_price'] && trim($item['config_diff_price']) != 0)){
                                 return response()->json(['err'=>0,'str'=>'属性值或者差值不能为空！']);
                             }
                             if(in_array('1',$goods_pay_type)){
                                 //paypal不支持的币种
                                 if($currency_type == 'THB' || $currency_type == 'JPY'){
-                                    if(intval($val['goods_diff_price']) != $val['goods_diff_price']){
+                                    if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                         return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                     }
                                 }
@@ -1664,13 +1664,13 @@ class GoodsController extends Controller
                             }else{
                                 array_push($array_true,true);
                             }
-                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['goods_diff_price'] && trim($item['goods_diff_price']) != 0)){
+                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['config_diff_price'] && trim($item['config_diff_price']) != 0)){
                                 return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
                             }
                             if(in_array('1',$goods_pay_type)){
                                 //paypal不支持的币种
                                 if($currency_type == 'THB' || $currency_type == 'JPY'){
-                                    if(intval($val['goods_diff_price']) != $val['goods_diff_price']){
+                                    if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                         return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                     }
                                 }
@@ -1688,13 +1688,13 @@ class GoodsController extends Controller
                         }else{
                             array_push($array_true,true);
                         }
-                        if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['goods_diff_price'] && trim($item['goods_diff_price']) != 0)){
+                        if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['config_diff_price'] && trim($item['config_diff_price']) != 0)){
                             return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
                         }
                         if(in_array('1',$goods_pay_type)){
                             //paypal不支持的币种
                             if($currency_type == 'THB' || $currency_type == 'JPY'){
-                                if(intval($val['goods_diff_price']) != $val['goods_diff_price']){
+                                if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                     return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                 }
                             }
