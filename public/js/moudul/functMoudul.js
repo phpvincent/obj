@@ -103,6 +103,20 @@ function addAttribu(cuxiao_num,a) {
 };
 
 function countDiff (a,basePrice,moneycoin){
+     function returnFloat(value){
+        var value=Math.round(parseFloat(value)*100)/100;
+        var xsd=value.toString().split(".");
+        if(xsd.length==1){
+        value=value.toString()+".00";
+        return value;
+        }
+        if(xsd.length>1){
+        if(xsd[1].length<2){
+        value=value.toString()+"0";
+        }
+        return value;
+        }
+       };
     var goodsConfigArr=[];
     $.each(a,function(i,item){
     $.each(item,function(j,val){
@@ -128,6 +142,6 @@ function countDiff (a,basePrice,moneycoin){
     console.log("baseprice",basePrice)
     console.log("总价",basePrice+countDiffPrice)
     console.log(moneycoin)
-    $('.addcart-footer-price-total').children('font:first').html(moneycoin+(basePrice+countDiffPrice));
-    $('#realprice').html( basePrice+countDiffPrice);
+    $('.addcart-footer-price-total').children('font:first').html(moneycoin+ returnFloat(basePrice+countDiffPrice));
+    $('#realprice').html( returnFloat(basePrice+countDiffPrice) );
 }
