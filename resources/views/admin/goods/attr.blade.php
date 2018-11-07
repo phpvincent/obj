@@ -7,6 +7,7 @@
             {{csrf_field()}}
             <input type="text" style="display: none" id="name" name="id" value="{{$id}}">
             {{--隐藏产品名称--}}
+            @if(\App\goods_kind::where('goods_kind_id',$kind_id)->value('goods_kind_name'))
             <div class="row cl">
                 @if(count($goods_config)<=0)
                 <div style="margin: 0 auto;color: red;width: 40%">暂无产品属性，请先添加产品属性</div>
@@ -74,6 +75,9 @@
                     <button class="btn btn-primary radius"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
                 </div>
             </div>
+            @else
+                <div style="margin: 0 auto;color: red;width: 40%">该商品没有产品，请及时联系管理员</div>
+            @endif
         </form>
     </article>
 @endsection
