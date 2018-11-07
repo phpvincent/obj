@@ -658,7 +658,7 @@ class OrderController extends Controller
                     if($conmsg==null){
                        $conmsg=\App\config_val::where('config_val_id',$val)->first();
                     }
-                    if($conmsg->kind_val_id){
+                    if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
                         $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
                     }else{
                         $config_val_msg = $conmsg['config_val_msg'];
