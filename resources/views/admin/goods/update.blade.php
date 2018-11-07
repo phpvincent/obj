@@ -6,6 +6,7 @@
 	.uploader-thum-container input{
 		width:100%!important;
 	}
+	#thisBG{border-radius: 3%;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.3;  opacity:.30;  filter: alpha(opacity=30);}
 </style>
     <div class="config" style="display: none;" attr="newConfig" id="configclo">
         <div class="row" style="margin-left: 0px;">
@@ -196,8 +197,10 @@
 			<input type="button" class="btn btn-default" style="display: none" value="{{count($goods_config)}}" id="num"/>
 		</div>
 
-		<div style="margin:0px auto;margin-bottom:100px;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;" id="conhtml">
-            @foreach($goods_config as $k=>$v)
+		<div style="margin:0px auto;margin-bottom:100px;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;position: relative" id="conhtml">
+
+           <div id="thisBG"></div>
+			@foreach($goods_config as $k=>$v)
 				<div class="config">
                     <div class="row" style="margin-left: 0px;">
                         <label for="goods_config_name">属性名:</label> <input type="text" style="width: 10%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">

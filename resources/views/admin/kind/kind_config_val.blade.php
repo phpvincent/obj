@@ -1,5 +1,3 @@
-@extends('admin.father.css')
-@section('content')
     <article class="page-container" style="padding-top:0;">
         {{--商品属性信息--}}
         <div class="config" attr="newConfig" style="display: none;" id="configclo">
@@ -29,15 +27,15 @@
             {{csrf_field()}}
             <input type="text" style="display: none" id="name" name="name" value="1">
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应商：</label>
+                <label for="goods_kind_name" style="text-align: left" class="form-label col-xs-4 col-sm-3">产品采购地址：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
+                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应链接：</label>
+                <label for="goods_kind_name" style="text-align: left" class="form-label col-xs-4 col-sm-3">产品采购备注：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
+                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
                 </div>
             </div>
             {{--隐藏产品名称--}}
@@ -125,8 +123,6 @@
             </div>
         </form>
     </article>
-@endsection
-@section('js')
     <script type="text/javascript">
         //点击添加商品附加属性
         $('#addcon').on('click',function(){
@@ -228,4 +224,3 @@
             }
         });
     </script>
-@endsection

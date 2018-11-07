@@ -82,7 +82,9 @@
         //添加产品属性
         function addCon(a)
         {
-            window.location.href = '/admin/kind/addkind?id='+a;
+            var url = '/admin/kind/upgoods_kind?id='+a;
+            window.location.href = url;
+            // layer_show('新增产品属性',url,'600','500');
         }
 
         //表单验证、提交

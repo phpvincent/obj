@@ -3,13 +3,13 @@
     <article class="page-container">
         {{--新增产品form--}}
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">产品名称：</label>
+            <label style="text-align: left;" class="form-label col-xs-4 col-sm-3">产品名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
             <input readonly type="text" name="goods_type_chose" id="goods_type_chose" style="display: none"  value="{{$goods_kinds_id}}">
              <div class="select-box">{{$goods_kinds}}</div>
             </div>
         </div>
-        <div id="form-goodskind-update">
+        <div class="row cl" id="form-goodskind-update">
 
         </div>
     </article>
