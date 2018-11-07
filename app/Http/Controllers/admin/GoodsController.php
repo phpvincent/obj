@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\admin;
 use App\com_img;
 use App\config_val;
+use App\goods_config;
 use App\goods_kind;
 use App\kind_config;
 use App\kind_val;
@@ -1549,32 +1550,70 @@ class GoodsController extends Controller
                         {
                             $item['config_val_msg'] = $item['kind_val_msg'];
                             $item['config_val_id'] = '';
-                            $item['config_isshow'] = 0;
+                            $item['config_isshow'] = 1;
                             $item['goods_diff_price'] = 0;
                         }
                         $goods_config[$k]->config_msg=$arr;
                     }
                 }
             }else{ //修改商品属性
-                $goods_config=\App\goods_config::where('goods_primary_id',$id)->get();
-                if($goods_config!=null){
-                    foreach($goods_config as $k => $v){
-                        $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->orderBy('config_val_id','asc')->get()->toArray();
-                        $kind_configs = kind_config::where('kind_config_id',$v->kind_config_id)->first();
-                        if($kind_configs){
-                            $goods_config[$k]->kind_config_id=$kind_configs->kind_config_id;//产品属性id
-                            $goods_config[$k]->kind_config_msg=$kind_configs->kind_config_msg;//产品属性名
+                $goods_config = kind_config::where('kind_primary_id',$kind_id)->get();
+                if(!$goods_config->isEmpty()){
+                    foreach ($goods_config as $key => $item)
+                    {
+                       $arr = kind_val::where('kind_type_id',$item->kind_config_id)->get()->toArray();
+                       $kind_configs = goods_config::where('kind_config_id',$item->kind_config_id)->where('goods_primary_id',$id)->first();
+                       if($kind_configs){
+                            $goods_config[$key]->goods_config_id=$kind_configs->goods_config_id;//商品属性id
+                            $goods_config[$key]->goods_config_msg=$kind_configs->goods_config_msg;//商品属性名
                             foreach ($arr as &$value){
-                                $kind_val = kind_val::where('kind_val_id',$value['kind_val_id'])->first();
-                                $value['kind_val_id'] = $kind_val->kind_val_id;
-                                $value['kind_val_msg'] = $kind_val->kind_val_msg;
+                                $kind_val = config_val::where('kind_val_id',$value['kind_val_id'])->where('config_goods_id',$id)->first();
+                                if($kind_val){
+                                    $value['config_val_id'] = $kind_val->config_val_id;
+                                    $value['config_val_msg'] = $kind_val->config_val_msg;
+                                    $value['goods_diff_price'] = $kind_val->goods_diff_price;
+                                    $value['config_isshow'] = $kind_val->config_isshow;
+                                }else{
+                                    $value['config_val_id'] = '';
+                                    $value['config_val_msg'] = $value['kind_val_msg'];
+                                    $value['goods_diff_price'] = 0;
+                                    $value['config_isshow'] = 1;
+                                }
                             }
-                            $goods_config[$k]->config_msg=$arr;
-                        }else{
-                            unset($goods_config[$k]);
-                        }
+                            $goods_config[$key]->config_msg=$arr;
+                       }else{
+                           $goods_config[$key]->goods_config_id = '';//商品属性id
+                           $goods_config[$key]->goods_config_msg=$item->kind_config_msg;//商品属性名
+                           foreach ($arr as &$value)
+                           {
+                               $value['config_val_id'] = '';
+                               $value['config_val_msg'] = $value['kind_val_msg'];
+                               $value['goods_diff_price'] = 0;
+                               $value['config_isshow'] = 1;
+                           }
+                           $goods_config[$key]->config_msg=$arr;
+                       }
                     }
                 }
+//                $goods_config=\App\goods_config::where('goods_primary_id',$id)->get();
+//                if($goods_config!=null){
+//                    foreach($goods_config as $k => $v){
+//                        $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->orderBy('config_val_id','asc')->get()->toArray();
+//                        $kind_configs = kind_config::where('kind_config_id',$v->kind_config_id)->first();
+//                        if($kind_configs){
+//                            $goods_config[$k]->kind_config_id=$kind_configs->kind_config_id;//产品属性id
+//                            $goods_config[$k]->kind_config_msg=$kind_configs->kind_config_msg;//产品属性名
+//                            foreach ($arr as &$value){
+//                                $kind_val = kind_val::where('kind_val_id',$value['kind_val_id'])->first();
+//                                $value['kind_val_id'] = $kind_val->kind_val_id;
+//                                $value['kind_val_msg'] = $kind_val->kind_val_msg;
+//                            }
+//                            $goods_config[$k]->config_msg=$arr;
+//                        }else{
+//                            unset($goods_config[$k]);
+//                        }
+//                    }
+//                }
             }
             return view('admin.goods.attr')->with(compact('id','goods_config','kind_id'));
         }else if($request->isMethod('post')){

@@ -27,13 +27,13 @@
             {{csrf_field()}}
             <input type="text" style="display: none" id="name" name="name" value="1">
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-3">产品采购地址：</label>
+                <label for="goods_kind_name" style="text-align: left" class="form-label col-xs-4 col-sm-3">产品采购地址：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-3">产品采购备注：</label>
+                <label for="goods_kind_name" style="text-align: left" class="form-label col-xs-4 col-sm-3">产品采购备注：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
                 </div>
