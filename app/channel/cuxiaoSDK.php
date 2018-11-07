@@ -92,6 +92,7 @@ class cuxiaoSDK{
            		return false;
            		break;
            }
+           //计算商品差额
            return sprintf('%.2f',$goods_price) ;
 	}
 
@@ -458,5 +459,14 @@ class cuxiaoSDK{
 		}
 		return $is_fine;
 	}
-
+	public function get_diff_price($attr,$price)
+	//计算差额
+	{
+		foreach($attr as $k =>$v){
+			foreach($v as $key => $val){
+				$price+=\App\config_val::where('config_val_id',$val)->first()['config_diff_price'];
+			}
+		}
+		return $price;
+	}
 }

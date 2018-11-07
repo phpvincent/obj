@@ -604,7 +604,7 @@ class OrderController extends Controller
    }
    public function outorder(Request $request){
        //订单导出
-       $data=order::select('order.order_id','order.order_zip','order.order_single_id','goods.goods_id','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       $data=order::select('order.order_id','order.order_zip','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -648,7 +648,13 @@ class OrderController extends Controller
                   $config_msg.="第".$i."件：";
                   $orderarr=explode(',',$va['order_config']);
                   foreach($orderarr as $key => $val){
-                    $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                    $conmsg=\App\config_val::where('config_val_id',$val)
+                    ->where(function($query)use($v){
+                      if($v['goods_is_update']=='1'){
+                        $query->where('kind_val_id','>',0);
+                      }
+                    })
+                    ->first();
                     if($conmsg->kind_val_id){
                         $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
                     }else{

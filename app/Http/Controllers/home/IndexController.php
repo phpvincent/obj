@@ -221,6 +221,11 @@ class IndexController extends Controller
             $query->where('goods_config.goods_primary_id',$goods_id);
             $query->where('config_val.config_isshow','0');
         })
+        ->where(function($query)use($goods){
+            if($goods->goods_is_update=='1'){
+                $query->where('goods_config.kind_config_id','>','0');
+            }
+        })
         ->orderBy('config_val.config_val_id','asc')
         ->get();
         $goods_config_arr=[];
@@ -380,7 +385,9 @@ class IndexController extends Controller
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
-
+        if($request->has('goodsAtt')&&$request->input('goodsAtt')){
+            $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
+        }
         //判断金额合法性
     	if($price==false||$price<=0){
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
@@ -835,7 +842,9 @@ class IndexController extends Controller
        $order->order_goods_url= $url;
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'));
-
+       if($request->has('goodsAtt')&&$request->input('goodsAtt')){
+            $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
+        }
        //判断金额合法性
        if($price==false||$price<=0){
            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);

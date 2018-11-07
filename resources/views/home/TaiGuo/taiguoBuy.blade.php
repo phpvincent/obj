@@ -265,7 +265,7 @@
         <div class="mui-input-row need_email">
         <label>อีเมล:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
-        <input type="text" name="email"errormsg="อีเมลที่ไม่ถูกต้อง" placeholder="กรุณาระบุอีเมลของผู้รับของ" class="mui-input-clear">
+        <input type="text" name="email"errormsg="อีเมลที่ไม่ถูกต้อง" placeholder=" ทางเราจะใช้E-Mailนี้มาแจ้งข้อมูลการสั่งซื้อ" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>ฝากข้อความ:</label>
@@ -635,11 +635,11 @@ jQuery(function(){
 //         var html1 ='';
 // //        html +='<div class="mui-input-row need_email">';
 //         html1 += ' <label><span style="color:red;">*</span>อีเมล:</label>';
-//         html1 +='<input type="text" placeholder="กรุณาระบุอีเมลของผู้รับของ" nullmsg="กรอกอีเมลผู้รับ" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         html1 +='<input type="text" placeholder=" ทางเราจะใช้E-Mailนี้มาแจ้งข้อมูลการสั่งซื้อ" nullmsg="กรอกอีเมลผู้รับ" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
 //         var html2 = '';
 //         html2 += "<label>อีเมล:</label>";
 
-//         html2 += '<input type="text" name="email" placeholder="กรุณาระบุอีเมลของผู้รับของ" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder=" ทางเราจะใช้E-Mailนี้มาแจ้งข้อมูลการสั่งซื้อ" class="mui-input-clear">';
 
 //         var payty =  jQuery('input[name=pay_type]:checked').val();
 //         if(payty==7||payty==2){
