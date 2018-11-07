@@ -1,7 +1,7 @@
 @extends('admin.father.css')
 @section('content')
     <article class="page-container" style="padding-top:0;">
-        <div style="margin-top: 10px">产品名称：{{\App\goods_kind::where('goods_kind_id',$kind_id)->value('goods_kind_name')}}</div>
+        <div style="margin-top: 10px;font-weight: bold">产品名称：{{\App\goods_kind::where('goods_kind_id',$kind_id)->value('goods_kind_name')}}</div>
         {{--新增产品form--}}
         <form class="form form-horizontal" id="form-goodskind-add" method="post" enctype="multipart/form-data" action="{{url('admin/goods/kind_config_val')}}">
             {{csrf_field()}}
@@ -24,8 +24,8 @@
                         @foreach($goods_config as $k=>$v)
                             <div class="config">
                                 <div class="row" style="margin-left: 0px;">
-                                    <label for="kind_config_name">属性名:</label> <input type="text" readonly style="width: 10%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_msg}}" placeholder="" id="goods_config_name">
-                                    <label for="goods_config_name">展示名:</label> <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
+                                    <label for="kind_config_name" style="font-weight: bold;color: #D43">属性名:</label> <input type="text" readonly style="width: 10%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_msg}}" placeholder="" id="goods_config_name">
+                                    <label for="goods_config_name" style="font-weight: bold;color: #D43">展示名:</label> <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{$v->goods_config_id}}" name="goods_config_name[{{$k}}][id]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{$v->kind_config_id}}" name="goods_config_name[{{$k}}][kind_config_id]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{count($v->config_msg)}}" name="num">
