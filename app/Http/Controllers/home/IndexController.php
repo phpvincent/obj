@@ -215,7 +215,7 @@ class IndexController extends Controller
             $cuxiao_num='null';
         }
         $goods_config=\DB::table('goods_config')
-        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.goods_diff_price','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id','config_val.config_isshow')
+        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_diff_price','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id','config_val.config_isshow')
         ->leftjoin('config_val','goods_config.goods_config_id','config_val.config_type_id')
         ->where(function($query)use($goods_id){
             $query->where('goods_config.goods_primary_id',$goods_id);

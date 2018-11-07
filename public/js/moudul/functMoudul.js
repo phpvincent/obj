@@ -120,7 +120,7 @@ function countDiff (a,basePrice,moneycoin){
     $.each(goodsConfigArr,function(i,val){
         $.each(fromArr,function(j,item){
             if(item.name==val.config_type_id && item.value==val.config_val_id){
-                countDiffPrice+=(val.goods_diff_price-0)
+                countDiffPrice+=(val.config_diff_price-0)
             }
         })
     });
