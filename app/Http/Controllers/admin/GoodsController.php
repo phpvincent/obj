@@ -315,7 +315,7 @@ class GoodsController extends Controller
                return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
            }
            //判断币种金额是否存在限制
-           if($currency_type == 'THB' || $currency_type == 'JPY'){
+           if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
                //满减优惠
                if(isset($data['new_cuxiao'])){
                    foreach ($data['new_cuxiao'] as $item)
@@ -802,7 +802,7 @@ class GoodsController extends Controller
                 return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
             }
             //判断币种金额是否存在限制
-            if($currency_type == 'THB' || $currency_type == 'JPY'){
+            if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
                 //满减优惠
                 if(isset($data['new_cuxiao'])){
                     foreach ($data['new_cuxiao'] as $item)
@@ -1653,7 +1653,7 @@ class GoodsController extends Controller
                             }
                             if(in_array('1',$goods_pay_type)){
                                 //paypal不支持的币种
-                                if($currency_type == 'THB' || $currency_type == 'JPY'){
+                                if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
                                     if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                         return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                     }
@@ -1674,7 +1674,7 @@ class GoodsController extends Controller
                             }
                             if(in_array('1',$goods_pay_type)){
                                 //paypal不支持的币种
-                                if($currency_type == 'THB' || $currency_type == 'JPY'){
+                                if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
                                     if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                         return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                     }
@@ -1698,7 +1698,7 @@ class GoodsController extends Controller
                         }
                         if(in_array('1',$goods_pay_type)){
                             //paypal不支持的币种
-                            if($currency_type == 'THB' || $currency_type == 'JPY'){
+                            if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
                                 if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                     return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                 }
