@@ -129,7 +129,7 @@
 		"order": [[ 1, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,2,3,5,6,7,8,10,11],
+		   "targets": [0,2,3,5,6,7,8,10,11,12],
 		   "orderable": false
 		}],
 		"processing": true,

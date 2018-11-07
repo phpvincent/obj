@@ -45,9 +45,14 @@ class GoodsController extends Controller
      */
    public function get_table(Request $request){
    	$info=$request->all();
-        	$cm=$info['order'][0]['column'];
-	        $dsc=$info['order'][0]['dir'];
-	        $order=$info['columns']["$cm"]['data'];
+          if(isset($info['order'])){
+            $cm=$info['order'][0]['column'];
+            $dsc=$info['order'][0]['dir'];
+            $order=$info['columns']["$cm"]['data'];
+          }else{
+            $dsc='desc';
+            $order='goods_id';
+          }
 	        $draw=$info['draw'];
 	        $start=$info['start'];
 	        $len=$info['length'];

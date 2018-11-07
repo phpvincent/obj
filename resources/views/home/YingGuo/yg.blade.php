@@ -487,6 +487,9 @@
             <td colspan="2">
                 <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.</p>
                 <p>Please attach with the Order No., Contact No., and Customer name.</p>
+                @if(in_array($goods->goods_id,['233','234','235']))
+                <p></p>
+                @endif
             </td>
 
         </tr>
