@@ -6,6 +6,8 @@ use App\admin;
 use App\com_img;
 use App\config_val;
 use App\goods_kind;
+use App\kind_config;
+use App\kind_val;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -237,52 +239,52 @@ class GoodsController extends Controller
     //修改单品
 //        $data=$request->all();
         $data=$request->except('_token');
-        $array_goods_config = [];
-        $array_config_val = [];
-        if(isset($data['goods_config_name'])){
-            if(count($data['goods_config_name']) == 1){
-                foreach ($data['goods_config_name'] as $item)
-                {
-                    if(!$item['goods_config_name']){
-                        $data['goods_config_name'] = [];
-                    }
-                }
-            }
-        }else{
-            $data['goods_config_name'] = [];
-        }
+//        $array_goods_config = [];
+//        $array_config_val = [];
+//        if(isset($data['goods_config_name'])){
+//            if(count($data['goods_config_name']) == 1){
+//                foreach ($data['goods_config_name'] as $item)
+//                {
+//                    if(!$item['goods_config_name']){
+//                        $data['goods_config_name'] = [];
+//                    }
+//                }
+//            }
+//        }else{
+//            $data['goods_config_name'] = [];
+//        }
        //验证属性规则
-        if(!empty($data['goods_config_name'])){
-            foreach ($data['goods_config_name'] as $item)
-            {
-                if(!trim($item['goods_config_name'])){
-                    array_push($array_goods_config,false);
-                }
-                if(!empty($item['msg'])){
-                    $array_true = [];
-                    foreach ($item['msg'] as $val)
-                    {
-                        if(!$val['config_imgs']){
-                            array_push($array_true,false);
-                        }else{
-                            array_push($array_true,true);
-                        }
-                        if(!trim($val['goods_config'])){
-                            array_push($array_config_val,false);
-                        }
-                    }
-                    if(in_array(true,$array_true) && in_array(false,$array_true)){
-                        return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
-                    }
-                }
-            }
-        }
-       if(!empty($array_config_val)){
-           return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-       }
-       if(!empty($array_goods_config)){
-           return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
-       }
+//        if(!empty($data['goods_config_name'])){
+//            foreach ($data['goods_config_name'] as $item)
+//            {
+//                if(!trim($item['goods_config_name'])){
+//                    array_push($array_goods_config,false);
+//                }
+//                if(!empty($item['msg'])){
+//                    $array_true = [];
+//                    foreach ($item['msg'] as $val)
+//                    {
+//                        if(!$val['config_imgs']){
+//                            array_push($array_true,false);
+//                        }else{
+//                            array_push($array_true,true);
+//                        }
+//                        if(!trim($val['goods_config'])){
+//                            array_push($array_config_val,false);
+//                        }
+//                    }
+//                    if(in_array(true,$array_true) && in_array(false,$array_true)){
+//                        return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+//                    }
+//                }
+//            }
+//        }
+//       if(!empty($array_config_val)){
+//           return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+//       }
+//       if(!empty($array_goods_config)){
+//           return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
+//       }
        //验证促销活动信息是否合法
        $cuxiao_check=cuxiaoSDK::check_role($request);
        if(!$cuxiao_check){
@@ -307,7 +309,7 @@ class GoodsController extends Controller
                return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
            }
            //判断币种金额是否存在限制
-           if($currency_type == 'THD' || $currency_type == 'JPY'){
+           if($currency_type == 'THB' || $currency_type == 'JPY'){
                //满减优惠
                if(isset($data['new_cuxiao'])){
                    foreach ($data['new_cuxiao'] as $item)
@@ -529,26 +531,26 @@ class GoodsController extends Controller
          $goods->save();
 
          //新增或修改商品属性名和属性值
-         $goods_attr = isset($data['goods_config_name'])?$data['goods_config_name']:[];
-         if(!empty($goods_attr)){
-             foreach ($goods_attr as $item)
-             {
-                 if(isset($item['id'])){
-                     $goods_config = \App\goods_config::where('goods_config_id',$item['id'])->first();
-                 }else{
-                     $goods_config = new \App\goods_config();
-                 }
-                 $goods_config->goods_config_msg = $item['goods_config_name'];
-                 $goods_config->goods_config_type = 0;
-                 $goods_config->goods_primary_id = $goods_id;
-                 $goods_config->is_img = 0;
-                 $goods_config->save();
-                 $con_val = \App\config_val::createOrSave($item['msg'],$goods_config->goods_config_id,$goods_id);
-                 if($con_val === false){
-                     return response()->json(['err'=>0,'str'=>'保存失败！']);
-                 }
-             }
-         }
+//         $goods_attr = isset($data['goods_config_name'])?$data['goods_config_name']:[];
+//         if(!empty($goods_attr)){
+//             foreach ($goods_attr as $item)
+//             {
+//                 if(isset($item['id'])){
+//                     $goods_config = \App\goods_config::where('goods_config_id',$item['id'])->first();
+//                 }else{
+//                     $goods_config = new \App\goods_config();
+//                 }
+//                 $goods_config->goods_config_msg = $item['goods_config_name'];
+//                 $goods_config->goods_config_type = 0;
+//                 $goods_config->goods_primary_id = $goods_id;
+//                 $goods_config->is_img = 0;
+//                 $goods_config->save();
+//                 $con_val = \App\config_val::createOrSave($item['msg'],$goods_config->goods_config_id,$goods_id);
+//                 if($con_val === false){
+//                     return response()->json(['err'=>0,'str'=>'保存失败！']);
+//                 }
+//             }
+//         }
          if($msg1&&$msg2)
          {
              $ip = $request->getClientIp();
@@ -694,140 +696,88 @@ class GoodsController extends Controller
        $data=$request->except('_token');
 
        //字段验证（属性值，属性名，属性照片）
-       $array_goods_config = [];
-       $array_config_val = [];
-//       $photo = \App\config_val::where('config_goods_id',$data['goods_id'])->pluck('config_val_img')->toArray();
-       if(isset($data['goods_config_name'])){
-           if(count($data['goods_config_name']) == 1){
-               foreach ($data['goods_config_name'] as $item)
-               {
-                   if(!$item['goods_config_name']){
-                       $data['goods_config_name'] = [];
-                   }
-               }
-           }
-       }else{
-           $data['goods_config_name'] = [];
-       }
-       if(!empty($data['goods_config_name'])){
-           foreach ($data['goods_config_name'] as $item)
-           {
-               if(!trim($item['goods_config_name']) && trim($item['goods_config_name']) !== '0'){
-                   return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
-               }
-               if(isset($item['id'])){
-                    $array = config_val::where('config_type_id',$item['id'])->pluck('config_val_img')->toArray();
-                    if(!in_array(null,$array) && !empty($item['msg']) && !empty($array)){//之前数据存在图片
-                        foreach ($item['msg'] as $val)
-                        {
-                            if(!isset($val['id']) && !$val['config_imgs']){
-                                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
-                            }
-                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' ){
-                                return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-                            }
-                        }
-                    }else if(!empty($item['msg'])){//之前数据不存在图片
-                            $array_true = [];
-                            foreach ($item['msg'] as $val)
-                            {
-                                if(!$val['config_imgs']){
-                                    array_push($array_true,false);
-                                }else{
-                                    array_push($array_true,true);
-                                }
-                                if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0'){
-                                    return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-                                }
-                            }
-                            if(in_array(true,$array_true) && in_array(false,$array_true)){
-                                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
-                            }
-                    }else{ //属性值不存在
-                        return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-                    }
-               }else{//新数据
-                   if(!empty($item['msg'])){
-                       $array_true = [];
-                       foreach ($item['msg'] as $val)
-                       {
-                           if(!$val['config_imgs']){
-                               array_push($array_true,false);
-                           }else{
-                               array_push($array_true,true);
-                           }
-                           if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0'){
-                               return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-                           }
-                       }
-                       if(in_array(true,$array_true) && in_array(false,$array_true)){
-                           return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
-                       }
-                   }else{
-                       return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-                   }
-               }
-           }
-       }
-//   		if(empty($photo) || in_array(null,$photo)){
-//            if(!empty($data['goods_config_name'])){
-//                foreach ($data['goods_config_name'] as $item)
-//                {
-//                    if(!trim($item['goods_config_name'])){
-//                        array_push($array_goods_config,false);
-//                    }
-//                    if(!empty($item['msg'])){
-//                        $array_true = [];
+//       $array_goods_config = [];
+//       $array_config_val = [];
+////       $photo = \App\config_val::where('config_goods_id',$data['goods_id'])->pluck('config_val_img')->toArray();
+//       if(isset($data['goods_config_name'])){
+//           if(count($data['goods_config_name']) == 1){
+//               foreach ($data['goods_config_name'] as $item)
+//               {
+//                   if(!$item['goods_config_name']){
+//                       $data['goods_config_name'] = [];
+//                   }
+//               }
+//           }
+//       }else{
+//           $data['goods_config_name'] = [];
+//       }
+//       if(!empty($data['goods_config_name'])){
+//           foreach ($data['goods_config_name'] as $item)
+//           {
+//               if(!trim($item['goods_config_name']) && trim($item['goods_config_name']) !== '0'){
+//                   return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
+//               }
+//               if(isset($item['id'])){
+//                    $array = config_val::where('config_type_id',$item['id'])->pluck('config_val_img')->toArray();
+//                    if(!in_array(null,$array) && !empty($item['msg']) && !empty($array)){//之前数据存在图片
 //                        foreach ($item['msg'] as $val)
 //                        {
-//                            if(!$val['config_imgs']){
-//                                array_push($array_true,false);
-//                            }else{
-//                                array_push($array_true,true);
+//                            if(!isset($val['id']) && !$val['config_imgs']){
+//                                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
 //                            }
-//                            if(!trim($val['goods_config'])){
-//                                array_push($array_config_val,false);
+//                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' ){
+//                                return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
 //                            }
 //                        }
-//                        if(in_array(true,$array_true) && in_array(false,$array_true)){
-//                            return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
-//                        }
+//                    }else if(!empty($item['msg'])){//之前数据不存在图片
+//                            $array_true = [];
+//                            foreach ($item['msg'] as $val)
+//                            {
+//                                if(!$val['config_imgs']){
+//                                    array_push($array_true,false);
+//                                }else{
+//                                    array_push($array_true,true);
+//                                }
+//                                if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0'){
+//                                    return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+//                                }
+//                            }
+//                            if(in_array(true,$array_true) && in_array(false,$array_true)){
+//                                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+//                            }
+//                    }else{ //属性值不存在
+//                        return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
 //                    }
-//                }
-//            }
-//        }else{
-//            if(!empty($data['goods_config_name'])){
-//                foreach ($data['goods_config_name'] as $item)
-//                {
-//                    if(!trim($item['goods_config_name'])){
-//                        array_push($array_goods_config,false);
-//                    }
-//                    if(!empty($item['msg'])){
-//                        $array_true = [];
-//                        foreach ($item['msg'] as $val)
-//                        {
-//                            if(!$val['config_imgs'] && !isset($val['id'])){
-//                                array_push($array_true,false);
-//                            }else{
-//                                array_push($array_true,true);
-//                            }
-//                            if(!trim($val['goods_config'])){
-//                                array_push($array_config_val,false);
-//                            }
-//                        }
-//                        if(in_array(true,$array_true) && in_array(false,$array_true)){
-//                            return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-       if(!empty($array_config_val)){
-           return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
-       }
-       if(!empty($array_goods_config)){
-           return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
-       }
+//               }else{//新数据
+//                   if(!empty($item['msg'])){
+//                       $array_true = [];
+//                       foreach ($item['msg'] as $val)
+//                       {
+//                           if(!$val['config_imgs']){
+//                               array_push($array_true,false);
+//                           }else{
+//                               array_push($array_true,true);
+//                           }
+//                           if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0'){
+//                               return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+//                           }
+//                       }
+//                       if(in_array(true,$array_true) && in_array(false,$array_true)){
+//                           return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+//                       }
+//                   }else{
+//                       return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+//                   }
+//               }
+//           }
+//       }
+//
+//       if(!empty($array_config_val)){
+//           return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+//       }
+//       if(!empty($array_goods_config)){
+//           return response()->json(['err'=>0,'str'=>'属性名不能为空！']);
+//       }
    		$goods=goods::where('goods_id',$data['goods_id'])->first();
         $isset=\App\goods::where('goods_real_name',$data['goods_real_name'])->first();
 
@@ -846,7 +796,7 @@ class GoodsController extends Controller
                 return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
             }
             //判断币种金额是否存在限制
-            if($currency_type == 'THD' || $currency_type == 'JPY'){
+            if($currency_type == 'THB' || $currency_type == 'JPY'){
                 //满减优惠
                 if(isset($data['new_cuxiao'])){
                     foreach ($data['new_cuxiao'] as $item)
@@ -1125,27 +1075,27 @@ class GoodsController extends Controller
        }
 
        //新增或修改商品属性名和属性值
-       $goods_attr = $data['goods_config_name'];
-       if (!empty($goods_attr)) {
-           foreach ($goods_attr as $item) {
-               if (isset($item['id'])) {
-                   $goods_config = \App\goods_config::where('goods_config_id', $item['id'])->first();
-               } else {
-                   $goods_config = new \App\goods_config();
-               }
-               $goods_config->goods_config_msg = $item['goods_config_name'];
-               $goods_config->goods_config_type = 0;
-               $goods_config->goods_primary_id = $data['goods_id'];
-               $goods_config->is_img = 0;
-               $goods_config->save();
-               if(isset($item['msg'])){
-                   $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $data['goods_id']);
-                   if ($con_val === false) {
-                       return response()->json(['err' => 0, 'str' => '保存失败！']);
-                   }
-               }
-           }
-       }
+//       $goods_attr = $data['goods_config_name'];
+//       if (!empty($goods_attr)) {
+//           foreach ($goods_attr as $item) {
+//               if (isset($item['id'])) {
+//                   $goods_config = \App\goods_config::where('goods_config_id', $item['id'])->first();
+//               } else {
+//                   $goods_config = new \App\goods_config();
+//               }
+//               $goods_config->goods_config_msg = $item['goods_config_name'];
+//               $goods_config->goods_config_type = 0;
+//               $goods_config->goods_primary_id = $data['goods_id'];
+//               $goods_config->is_img = 0;
+//               $goods_config->save();
+//               if(isset($item['msg'])){
+//                   $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $data['goods_id']);
+//                   if ($con_val === false) {
+//                       return response()->json(['err' => 0, 'str' => '保存失败！']);
+//                   }
+//               }
+//           }
+//       }
        if ($msg1 && $msg2) {
            $ip = $request->getClientIp();
            //加log日志
@@ -1572,6 +1522,179 @@ class GoodsController extends Controller
       }else{
           return response()->json(true);        
       }
+    }
+
+    /** 修改商品属性
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function goods_attr(Request $request)
+    {
+        if($request->isMethod('get')){
+            $id = $request->input('id'); //商品id
+            $goods = goods::where('goods_id',$id)->first();
+            $kind_id = $goods->goods_kind_id;
+            $goods_is_update = $goods->goods_is_update;
+            if($goods_is_update == 0){ //首次进来
+                $goods_config=\App\kind_config::where('kind_primary_id',$goods->goods_kind_id)->get();
+                if($goods_config!=null){
+                    foreach($goods_config as $k => $v){
+                        $arr=\App\kind_val::where('kind_type_id',$v->kind_config_id)->orderBy('kind_val_id','asc')->get()->toArray();
+                        $goods_config[$k]->goods_config_id='';//商品属性id
+                        $goods_config[$k]->goods_config_msg=$v->kind_config_msg;//商品属性名
+                        $goods_config[$k]->goods_diff_price='';//商品属性差价
+                        foreach ($arr as &$item)
+                        {
+                            $item['config_val_msg'] = $item['kind_val_msg'];
+                            $item['config_val_id'] = '';
+                            $item['config_isshow'] = 0;
+                            $item['goods_diff_price'] = 0;
+                        }
+                        $goods_config[$k]->config_msg=$arr;
+                    }
+                }
+            }else{ //修改商品属性
+                $goods_config=\App\goods_config::where('goods_primary_id',$id)->get();
+                if($goods_config!=null){
+                    foreach($goods_config as $k => $v){
+                        $arr=\App\config_val::where('config_type_id',$v->goods_config_id)->orderBy('config_val_id','asc')->get()->toArray();
+                        $kind_configs = kind_config::where('kind_config_id',$v->kind_config_id)->first();
+                        if($kind_configs){
+                            $goods_config[$k]->kind_config_id=$kind_configs->kind_config_id;//产品属性id
+                            $goods_config[$k]->kind_config_msg=$kind_configs->kind_config_msg;//产品属性名
+                            foreach ($arr as &$value){
+                                $kind_val = kind_val::where('kind_val_id',$value['kind_val_id'])->first();
+                                $value['kind_val_id'] = $kind_val->kind_val_id;
+                                $value['kind_val_msg'] = $kind_val->kind_val_msg;
+                            }
+                            $goods_config[$k]->config_msg=$arr;
+                        }else{
+                            unset($goods_config[$k]);
+                        }
+                    }
+                }
+            }
+            return view('admin.goods.attr')->with(compact('id','goods_config','kind_id'));
+        }else if($request->isMethod('post')){
+            $data = $request->except('_token');
+
+            //新增或修改商品属性名和属性值
+            $id = $data['id'];
+            $goods_attr = $data['goods_config_name'];
+            if(empty($goods_attr)){
+                return response()->json(['err' => 0, 'str' => '数据不能为空！']);
+            }
+            $goods = goods::where('goods_id',$id)->first();
+            $goods_is_update = $goods->goods_is_update;
+            $goods_pay_type = explode(',',$goods->goods_pay_type);
+            $currency_type = \App\currency_type::where('currency_type_id',$goods->goods_currency_id)->value('currency_english_name');
+
+            //字段验证（判断数据是否为空）
+            foreach ($goods_attr as $item){
+                if(!$item['goods_config_name']){
+                    return response()->json(['err' => 0, 'str' => '属性名不能为空！']);
+                }
+                if($goods_is_update == 1){
+                    $array = config_val::where('config_type_id',$item['id'])->pluck('config_val_img')->toArray();
+                    if(!in_array(null,$array) && !empty($item['msg']) && !empty($array)) {//之前数据存在图片
+                        foreach ($item['msg'] as $val)
+                        {
+                            if(!$val['id'] && !$val['config_imgs']){
+                                return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+                            }
+                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['goods_diff_price'] && trim($item['goods_diff_price']) != 0)){
+                                return response()->json(['err'=>0,'str'=>'属性值或者差值不能为空！']);
+                            }
+                            if(in_array('1',$goods_pay_type)){
+                                //paypal不支持的币种
+                                if($currency_type == 'THB' || $currency_type == 'JPY'){
+                                    if(intval($val['goods_diff_price']) != $val['goods_diff_price']){
+                                        return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
+                                    }
+                                }
+                            }
+                        }
+                    }else if(!empty($item['msg'])) {//之前数据不存在图片
+                        $array_true = [];
+                        foreach ($item['msg'] as $val)
+                        {
+                            if(!$val['config_imgs']){
+                                array_push($array_true,false);
+                            }else{
+                                array_push($array_true,true);
+                            }
+                            if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['goods_diff_price'] && trim($item['goods_diff_price']) != 0)){
+                                return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+                            }
+                            if(in_array('1',$goods_pay_type)){
+                                //paypal不支持的币种
+                                if($currency_type == 'THB' || $currency_type == 'JPY'){
+                                    if(intval($val['goods_diff_price']) != $val['goods_diff_price']){
+                                        return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
+                                    }
+                                }
+                            }
+                        }
+                        if(in_array(true,$array_true) && in_array(false,$array_true)){
+                            return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+                        }
+                    }
+                }else{
+                    $array_true = [];
+                    foreach ($item['msg'] as $val){
+                        if(!$val['config_imgs']){
+                            array_push($array_true,false);
+                        }else{
+                            array_push($array_true,true);
+                        }
+                        if(!trim($val['goods_config']) && trim($val['goods_config']) !== '0' && (!$item['goods_diff_price'] && trim($item['goods_diff_price']) != 0)){
+                            return response()->json(['err'=>0,'str'=>'属性值不能为空！']);
+                        }
+                        if(in_array('1',$goods_pay_type)){
+                            //paypal不支持的币种
+                            if($currency_type == 'THB' || $currency_type == 'JPY'){
+                                if(intval($val['goods_diff_price']) != $val['goods_diff_price']){
+                                    return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
+                                }
+                            }
+                        }
+                    }
+                    if(in_array(true,$array_true) && in_array(false,$array_true)){
+                        return response()->json(['err'=>0,'str'=>'扩展属性图片上传不完整！']);
+                    }
+                }
+            }
+
+            foreach ($goods_attr as $item) {
+                if ($item['id']) {
+                    $goods_config = \App\goods_config::where('goods_config_id', $item['id'])->first();
+                } else {
+                    $goods_config = new \App\goods_config();
+                }
+                $goods_config->goods_config_msg = $item['goods_config_name'];
+                $goods_config->goods_config_type = 0;
+                $goods_config->goods_primary_id = $id;
+                $goods_config->kind_config_id = $item['kind_config_id'];
+                $goods_config->is_img = 0;
+                $goods_config->save();
+                if(isset($item['msg'])){
+                    $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $id);
+                    if ($con_val === false) {
+                        return response()->json(['err' => 0, 'str' => '保存失败！']);
+                    }
+                }
+            }
+
+            //修改商品是否修改属性字段
+            if($goods_is_update == 0){
+                $bool = goods::where('goods_id',$id)->update(['goods_is_update'=>'1']);
+                if(!$bool){
+                    return response()->json(['err' => 0, 'str' => '保存失败！']);
+                }
+            }
+
+            return response()->json(['err' => 1, 'str' => '保存成功！']);
+        }
     }
 }
   

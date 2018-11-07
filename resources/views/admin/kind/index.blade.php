@@ -68,7 +68,7 @@
         };
         dataTable =$('#goods_index_table').DataTable($.tablesetting);
         function del_goods(id){
-            var msg =confirm("确定要删除此商品吗？");
+            var msg =confirm("确定要删除此产品吗？");
             if(msg){
                 layer.msg('删除中');
                 $.ajax({

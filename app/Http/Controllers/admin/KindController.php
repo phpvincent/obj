@@ -59,7 +59,7 @@ class KindController extends Controller
         if(!$data->isEmpty()){
             foreach ($data as &$item)
             {
-                $item->num = goods::where('goods_kind_id',$item->goods_kind_id)->count();
+                $item->num = goods::where('goods_kind_id',$item->goods_kind_id)->where('is_del','0')->count();
             }
         }
         $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
@@ -74,11 +74,12 @@ class KindController extends Controller
     {
         //新增产品
         if($request->isMethod('get')){
+            $id = $request->input('id') ? $request->input('id') : 0;
             $goods_kinds=\App\goods_kind::get();
             foreach($goods_kinds as $k => $v){
                 $goods_kinds[$k]->goods_kind_name=$v->goods_kind_name.'('.goods::where('goods_kind_id',$v->goods_kind_id)->count().')';
             }
-            return view('admin.kind.addkind')->with(compact('goods_kinds'));
+            return view('admin.kind.addkind')->with(compact('goods_kinds','id'));
         }elseif($request->isMethod('post')){
             //新增产品属性名、属性值
             //1.验证字段是否漏填

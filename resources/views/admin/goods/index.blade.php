@@ -162,14 +162,9 @@
 		{'defaultContent':"","className":"td-manager"},
 		{'data':"less_time"},
 		{'defaultContent':"","className":"td-manager"},
-/*		{'data':'course.profession.pro_name'},
-		{'defaultContent':""},
-		{'defaultContent':""},
-		{'data':'created_at'},
-		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="预览" href="javascript:;" onclick="goods_show(\'商品预览\',\'{{url("admin/goods/show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="复制" href="javascript:;" onclick="goods_copy('+data.goods_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="复制"><i class="Hui-iconfont Hui-iconfont-copy"></i></span></a><a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			var info='<a title="预览" href="javascript:;" onclick="goods_show(\'商品预览\',\'{{url("admin/goods/show")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="预览"><i class="Hui-iconfont">&#xe64f;</i></span><a title="修改商品属性" href="javascript:;" onclick="goods_show(\'修改商品属性\',\'{{url("admin/goods/attr")}}?id='+data.goods_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改商品属性"><i class="Hui-iconfont">&#xe61d;</i></span></a><a title="复制" href="javascript:;" onclick="goods_copy('+data.goods_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="复制"><i class="Hui-iconfont Hui-iconfont-copy"></i></span></a><a title="编辑" href="javascript:;" onclick="goods_update(\'商品编辑\',\'{{url("admin/goods/chgoods")}}?id='+data.goods_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_goods(\''+data.goods_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.url_type==0||data.url_type==null){
 				var isroot='<span class="label label-default radius">×</span>';
 				if(data.url_url!=null){
@@ -194,7 +189,6 @@
 				url='<span class="label label-default radius" style="color:red;">未绑定域名</span>';
 			}
 			var checkbox='<input type="checkbox" name="" value="">';
-			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
 			var check='';
 			if(data.goods_heshen==0){
 				check='<span style="color:brown;">等待审核</span>';
@@ -207,13 +201,8 @@
 			$(row).find('td:eq(12)').html(info);
 			$(row).find('td:eq(7)').html(isroot);
 			$(row).find('td:eq(5)').html(url);
-		/*	$(row).find('td:eq(8)').html(bd_type);*/
 			$(row).find('td:eq(0)').html(checkbox);
 			$(row).addClass('text-c');
-			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
-			$(row).find('td:eq(5)').html(img);*/
-			/*var video_btn='<input class="btn btn-success-outline radius" onClick="start_play('+data.lesson_id+')" type="button" value="播放视频">';
-			$(row).find('td:eq(6)').html(video_btn);*/
 		}
 	}
  dataTable =$('#goods_index_table').DataTable($.tablesetting);
@@ -244,12 +233,6 @@ function del_goods(id){
 					success:function(msg){
 			           if(msg['err']==1){
 			           	 layer.msg(msg.str);
-			           	 /*$(".del"+id).prev("input").remove();
-        				 $(".del"+id).val('已删除');*/
-        				 /*dataTable.fnDestroy(false);
-               			 dataTable = $("#goods_index_table").dataTable($.tablesetting);*/
-               			 //搜索后跳转到第一页
-               			 //dataTable.fnPageChange(0);
                			 $('#goods_index_table').dataTable().fnClearTable();
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
@@ -275,8 +258,6 @@ function goods_online(id){
 			           if(msg['err']==1){
 			           	 layer.msg(msg.str);
 			           	 $('#goods_index_table').dataTable().fnClearTable();
-			           	 /*$(".del"+id).prev("input").remove();
-        				 $(".del"+id).val('已删除');*/
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{
@@ -291,35 +272,6 @@ function goods_online(id){
 }
 function goods_copy(id) {
     layer_show('复制单品名称','{{url("/admin/goods/only_name")}}?id='+id,400,260);
-
-    // var msg =confirm("确定要复制此商品吗？");
-    // if(msg){
-    //     layer.msg('复制中');
-    //     $.ajax({
-    //         url:'/admin/goods/copy_goods',
-    //         type:'get',
-	// 		data: {id:id},
-    //         datatype:'json',
-    //         success:function(msg){
-    //             if(msg['err']==1){
-    //                 layer.msg(msg.str);
-    //                 $('#goods_index_table').dataTable().fnClearTable();
-    //                 /*$(".del"+id).prev("input").remove();
-    //              $(".del"+id).val('已删除');*/
-    //             }else if(msg['err']==0){
-    //                 layer.msg(msg.str);
-    //             }else{
-    //                 layer.msg('复制失败！');
-    //             }
-    //         },
-    //         error: function(){
-    //         layer.msg('复制失败!');
-    //     }
-    //     })
-	//
-    // }else{
-	//
-    // }
 }
 function goods_close(id){
 var msg =confirm("确定要下线此商品吗？");

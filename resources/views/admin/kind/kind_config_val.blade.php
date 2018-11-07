@@ -44,7 +44,7 @@
              <div class="row cl">
                 @if(\App\kind_config::where('kind_primary_id',$goods_kinds->goods_kind_id)->count()<=0)
                     <div class="formControls" style="margin-left: 2%;margin-right: 2%">
-                        <input type="button" class="btn btn-default" value="移除商品附加属性" id="addcon" isalive='on'/>
+                        <input type="button" class="btn btn-default" value="移除产品附加属性" id="addcon" isalive='on'/>
                         <input class="btn btn-default" style="display: none" value="0" id="num"/>
 
                         <div style="margin:0px auto;border: 1px dashed #000;margin-top: 10px;border-radius: 3%;margin-left:0%; padding: 5px;padding-bottom: 10px;" id="conhtml">
@@ -133,14 +133,14 @@
             var isalive=$(this).attr('isalive');
             if(isalive!='on'){
                 $('#conhtml').show(300);
-                $(this).val('移除商品附加属性');
+                $(this).val('移除产品附加属性');
                 $(this).attr('isalive','on');
             }else{
                 $('#conhtml').hide(300);
                 while($('.config').length>1){
                     $('.config').last().remove();
                 }
-                $(this).val('添加商品附加属性');
+                $(this).val('添加产品附加属性');
                 $(this).attr('isalive','off');
             }
         })
@@ -165,7 +165,7 @@
             if($('.config').length>1 && $('.config:last').attr('attr') == 'newConfig' ){
                 $('.config').last().remove();
             }else{
-                layer.msg('已保存商品属性，不可删除');
+                layer.msg('已保存产品属性，不可删除');
             }
         });
 
@@ -189,7 +189,7 @@
                 if($(obj).parent().parent().parent().children("div.row:last").attr('attr') == 'newConfig'){
                     $(obj).parent().parent().parent().children("div.row:last").remove();
                 }else{
-                    layer.msg('已保存商品属性值，不可删除');
+                    layer.msg('已保存产品属性值，不可删除');
                 }
             }else{
                 layer.msg('如果想要删除，请通过虚线框内第一个减号进行删除');

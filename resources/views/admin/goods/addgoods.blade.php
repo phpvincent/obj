@@ -2,47 +2,47 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/css/addgoods.css')}}" />
 @section('content')
 <article class="page-container">
-<style>
-	.uploader-thum-container input{
-		width:100%!important;
-	}
-</style>
+{{--<style>--}}
+	{{--.uploader-thum-container input{--}}
+		{{--width:100%!important;--}}
+	{{--}--}}
+{{--</style>--}}
 	{{--商品属性信息--}}
-	<div class="config" style="display: none;" id="configclo">
-		<div class="row" style="margin-left: 0px;">
-			属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name">
-			<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">
-		</div>
-		<div class="con-value">
-			<div class="row" style="height: 40px;" >
-				<div class="col-xs-6 col-sm-6" style="display: inline">
-					<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
-					<input type="checkbox" id="config_isshow" class="price" name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
-				</div>
-				<div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-					<div class="uploader-thum-container">
-						<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;width: 100%" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
-					</div>
-				</div>
-				<div style="display: inline;">
-					<span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
-				</div>
-			</div>
-		</div>
-	</div>
+	{{--<div class="config" style="display: none;" id="configclo">--}}
+		{{--<div class="row" style="margin-left: 0px;">--}}
+			{{--属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name">--}}
+			{{--<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">--}}
+		{{--</div>--}}
+		{{--<div class="con-value">--}}
+			{{--<div class="row" style="height: 40px;" >--}}
+				{{--<div class="col-xs-6 col-sm-6" style="display: inline">--}}
+					{{--<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">--}}
+					{{--<input type="checkbox" id="config_isshow" class="price" name="config_isshow[]" value="1"><label for="price">隐藏属性</label>--}}
+				{{--</div>--}}
+				{{--<div class="formControls col-xs-3 col-sm-3" style="display: inline;">--}}
+					{{--<div class="uploader-thum-container">--}}
+						{{--<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;width: 100%" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">--}}
+					{{--</div>--}}
+				{{--</div>--}}
+				{{--<div style="display: inline;">--}}
+					{{--<span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>--}}
+				{{--</div>--}}
+			{{--</div>--}}
+		{{--</div>--}}
+	{{--</div>--}}
 
 	{{--商品属性值--}}
-	<div class="row" style="height: 40px;display: none;" id="configclo-value">
-		<div class="col-xs-6 col-sm-6" style="display: inline">
-			属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
-			<input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
-		</div>
-		<div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-			<div class="uploader-thum-container">
-				<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
-			</div>
-		</div>
-	</div>
+	{{--<div class="row" style="height: 40px;display: none;" id="configclo-value">--}}
+		{{--<div class="col-xs-6 col-sm-6" style="display: inline">--}}
+			{{--属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">--}}
+			{{--<input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">隐藏属性</label>--}}
+		{{--</div>--}}
+		{{--<div class="formControls col-xs-3 col-sm-3" style="display: inline;">--}}
+			{{--<div class="uploader-thum-container">--}}
+				{{--<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">--}}
+			{{--</div>--}}
+		{{--</div>--}}
+	{{--</div>--}}
 	<div class="clearfix">
 
 	</div>
@@ -197,43 +197,43 @@
 					<input type="text" class="input-text" value="" placeholder="" id="goods_pix" name="goods_pix">
 				</div>
 			</div>
-			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2"> </label>
-				
-				<div class="formControls col-xs-8 col-sm-9" style="margin-left: 2%">
-					<input type="button" class="btn btn-default" value="添加商品附带属性" id="addcon" isalive='off'/>
-					<input type="button" class="btn btn-default" style="display: none" value="0" id="num"/>
-				
-					<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:0%; padding: 5px;display: none;" id="conhtml">
-						<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
-						<div class="config" id="configclo">
-							<div class="row" style="margin-left: 0px;">
-								属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
-								<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">
-							</div>
-							<div class="con-value">
-								<div class="row" style="height: 40px;" >
-									<div class="col-xs-6 col-sm-6" style="display: inline">
-										<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
-										<input type="checkbox" id="config_isshow" class="price"   name="goods_config_name[0][msg][0][config_isshow]" value="1"><label for="price">隐藏属性</label>
-									</div>
-									<div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-										<div class="uploader-thum-container" style="overflow: hidden;">
-											<input type="file" name="goods_config_name[0][msg][0][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
-										</div>
-									</div>
-									<div style="display: inline;">
-										<span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="clearfix">
-				
-			</div>
+			{{--<div class="clearfix">--}}
+				{{--<label class="form-label col-xs-4 col-sm-2"> </label>--}}
+				{{----}}
+				{{--<div class="formControls col-xs-8 col-sm-9" style="margin-left: 2%">--}}
+					{{--<input type="button" class="btn btn-default" value="添加商品附带属性" id="addcon" isalive='off'/>--}}
+					{{--<input type="button" class="btn btn-default" style="display: none" value="0" id="num"/>--}}
+				{{----}}
+					{{--<div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:0%; padding: 5px;display: none;" id="conhtml">--}}
+						{{--<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>--}}
+						{{--<div class="config" id="configclo">--}}
+							{{--<div class="row" style="margin-left: 0px;">--}}
+								{{--属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">--}}
+								{{--<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">--}}
+							{{--</div>--}}
+							{{--<div class="con-value">--}}
+								{{--<div class="row" style="height: 40px;" >--}}
+									{{--<div class="col-xs-6 col-sm-6" style="display: inline">--}}
+										{{--<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">--}}
+										{{--<input type="checkbox" id="config_isshow" class="price"   name="goods_config_name[0][msg][0][config_isshow]" value="1"><label for="price">隐藏属性</label>--}}
+									{{--</div>--}}
+									{{--<div class="formControls col-xs-3 col-sm-3" style="display: inline;">--}}
+										{{--<div class="uploader-thum-container" style="overflow: hidden;">--}}
+											{{--<input type="file" name="goods_config_name[0][msg][0][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">--}}
+										{{--</div>--}}
+									{{--</div>--}}
+									{{--<div style="display: inline;">--}}
+										{{--<span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>--}}
+									{{--</div>--}}
+								{{--</div>--}}
+							{{--</div>--}}
+						{{--</div>--}}
+					{{--</div>--}}
+				{{--</div>--}}
+			{{--</div>--}}
+			{{--<div class="clearfix">--}}
+				{{----}}
+			{{--</div>--}}
 		</div>
 		<div class="row cl">
 			<div class="clearfix">

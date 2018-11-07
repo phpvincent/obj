@@ -33,7 +33,7 @@
 			 <span class="select-box">
 				<select name="goods_type_chose" id="goods_type_chose" class="select">
 					@foreach($goods_kinds as $k => $v)
-                        <option>{{$v->goods_kind_name}}</option>
+                        <option @if($v->goods_kind_id == $id) selected @endif>{{$v->goods_kind_name}}</option>
                     @endforeach
 				</select>
 			</span>
@@ -46,20 +46,20 @@
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应商：</label>
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">产品采购地址：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">供应链接：</label>
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2">产品采购备注：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="" placeholder="" id="goods_buy_url" name="goods_buy_url">
                 </div>
             </div>
             <div class="row cl">
                 <div class="formControls" style="margin-left: 2%;margin-right: 2%">
-                    <input type="button" class="btn btn-default" value="移除商品附加属性" id="addcon" isalive='on'/>
+                    <input type="button" class="btn btn-default" value="移除产品附加属性" id="addcon" isalive='on'/>
                     <input type="button" class="btn btn-default" style="display: none" value="0" id="num"/>
 
                     <div style="margin:0px auto;border: 1px dashed #000;margin-top: 10px;border-radius: 3%;margin-left:0%; padding: 5px;padding-bottom: 10px;" id="conhtml">

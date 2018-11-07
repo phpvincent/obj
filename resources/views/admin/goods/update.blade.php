@@ -188,47 +188,15 @@
 				</div>
 			</div>
 
-		@if(\App\goods_config::where('goods_primary_id',$goods->goods_id)->count()<=0)
-		<div class="clearfix" style="margin-left: 2%">
-			<label class="form-label col-xs-4 col-sm-2"> </label>
-			<input type="button" class="btn btn-default" value="添加商品附带属性" id="addcon" isalive='off'/>
-            <input type="button" class="btn btn-default" style="display: none" value="1" id="num1"/>
-        </div>
-            <div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;display: none;" id="conhtml">
-                <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
-                <div class="config" id="configclo">
-                    <div class="row" style="margin-left: 0px;">
-                        属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
-                        <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="1" name="num">
-                    </div>
-                    <div class="con-value">
-                        <div class="row" style="height: 40px;" >
-                            <div class="col-xs-4 col-sm-4" style="display: inline">
-                                <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
-                                                    <input type="checkbox" id="config_isshow" class="price"   name="goods_config_name[0][msg][0][config_isshow]" value="1"><label for="price">隐藏属性</label>
-                            </div>
-                            <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-                                <div class="uploader-thum-container">
-                                    <input type="file" name="goods_config_name[0][msg][0][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
-                                </div>
-                            </div>
-                            <div style="display: inline;">
-                                <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-		@else
+		@if(\App\goods_config::where('goods_primary_id',$goods->goods_id)->count()>0)
         {{--商品属性--}}
 		<div class="clearfix" style="margin-left: 2%">
 			<label class="form-label col-xs-4 col-sm-2"> </label>
 			{{--<input type="button" class="btn btn-default" value="移除商品附带属性" id="addcon" isalive='on'/>--}}
 			<input type="button" class="btn btn-default" style="display: none" value="{{count($goods_config)}}" id="num"/>
 		</div>
-		
+
 		<div style="margin:0px auto;margin-bottom:100px;border: 1px dashed #000;border-radius: 3%; width: 73%;margin-left:18%; padding: 5px;" id="conhtml">
-			<span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
             @foreach($goods_config as $k=>$v)
 				<div class="config">
                     <div class="row" style="margin-left: 0px;">
@@ -250,30 +218,8 @@
                                     <input type="file" name="goods_config_name[{{$k}}][msg][{{$key}}][config_imgs]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
                                 </div>
 							</div>
-							@if($key == 0)
-                            <div style="display: inline;">
-                                <span class="btn btn-primary addconfig-value" style="margin-top:10px; " title="添加" onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
-                            </div>
-							@endif
                         </div>
                         @endforeach
-                    @else
-                        <div id="con-value">
-                            <div class="row" style="height: 40px;" >
-                                <div class="col-xs-4 col-sm-4" style="display: inline">
-                                    <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
-                                </div>
-                                <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-                                    <div class="uploader-thum-container">
-                                        <input type="file" name="config_imgs[]" onclick="uploadFile(this)" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
-                                    </div>
-                                </div>
-                                <div style="display: inline;">
-                                    <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
                     @endif
                     </div>
 				</div>
