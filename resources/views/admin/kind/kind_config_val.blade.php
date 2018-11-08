@@ -72,46 +72,46 @@
                     {{--<input type="button" class="btn btn-default" value="移除商品附带属性" id="addcon" isalive='on'/>--}}
                     <input class="btn btn-default" style="display: none" value="{{count($goods_config)}}" id="num"/>
 
-                <div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%;  padding: 5px;padding-bottom: 10px;" id="conhtml">
-                    <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
-                    @foreach($goods_config as $k=>$v)
-                        <div class="config">
-                            <div class="row" style="margin-left: 0px;">
-                                <label for="goods_config_name">属性名:</label> <input type="text" style="width: 25%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
-                                <input type="text" style="display: none" class="input-text attribute" value="{{$v->kind_config_id}}" name="goods_config_name[{{$k}}][id]">
-                                <input type="text" style="display: none" class="input-text attribute" value="{{count($v->config_msg)}}" name="num">
-                            </div>
-                            <div id="con-value">
-                                @if(count($v->config_msg) > 0)
-                                    @foreach($v->config_msg as $key=>$item)
-                                        <div class="row" style="height: 40px;" >
-                                            <div class="col-xs-8 col-sm-8" style="display: inline">
-                                                <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text" value="{{$item['kind_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
-                                                <input type="text" style="display: none " class="input-text" value="{{$item['kind_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
-                                            </div>
-                                            @if($key == 0)
-                                                <div style="display: inline;">
-                                                    <span class="btn btn-primary addconfig-value" style="margin-top:10px; " title="添加" onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                    <div style="margin:0px auto;border: 1px dashed #000;border-radius: 3%;  padding: 5px;padding-bottom: 10px;" id="conhtml">
+                        <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
+                        @foreach($goods_config as $k=>$v)
+                            <div class="config">
+                                <div class="row" style="margin-left: 0px;">
+                                    <label for="goods_config_name">属性名:</label> <input type="text" style="width: 25%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
+                                    <input type="text" style="display: none" class="input-text attribute" value="{{$v->kind_config_id}}" name="goods_config_name[{{$k}}][id]">
+                                    <input type="text" style="display: none" class="input-text attribute" value="{{count($v->config_msg)}}" name="num">
+                                </div>
+                                <div id="con-value">
+                                    @if(count($v->config_msg) > 0)
+                                        @foreach($v->config_msg as $key=>$item)
+                                            <div class="row" style="height: 40px;" >
+                                                <div class="col-xs-8 col-sm-8" style="display: inline">
+                                                    <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text" value="{{$item['kind_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+                                                    <input type="text" style="display: none " class="input-text" value="{{$item['kind_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
                                                 </div>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div id="con-value">
-                                        <div class="row" style="height: 40px;" >
-                                            <div class="col-xs-8 col-sm-8" style="display: inline">
-                                                <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
+                                                @if($key == 0)
+                                                    <div style="display: inline;">
+                                                        <span class="btn btn-primary addconfig-value" style="margin-top:10px; " title="添加" onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                                                    </div>
+                                                @endif
                                             </div>
-                                            <div style="display: inline;">
-                                                <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                                        @endforeach
+                                    @else
+                                        <div id="con-value">
+                                            <div class="row" style="height: 40px;" >
+                                                <div class="col-xs-8 col-sm-8" style="display: inline">
+                                                    <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
+                                                </div>
+                                                <div style="display: inline;">
+                                                    <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                @endif
+                                </div>
                             </div>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
             </div>
             @endif
             </div>

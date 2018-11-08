@@ -36,7 +36,7 @@ class cuxiaoSDK{
 		    }
         	return view('ajax.ajaxreturn')->with(compact('goods','cuxiao'));
 	}
-	public function get_price($num){
+	public function get_price($num,$cuxiao_id=0){
 		$type=$this->goods->goods_cuxiao_type;
 		$goods=$this->goods;
            switch ($type) {
@@ -74,18 +74,32 @@ class cuxiaoSDK{
            		break;
 
            	case '3':
-           	     $cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->orderBy('cuxiao_id','asc')->get();
-           	     foreach($cuxiao as $v){
-                     $msg=explode(',', $v->cuxiao_config);
-                     if($num==$msg[0]){
+           	    if($cuxiao_id){
+                    $cuxiao=cuxiao::where('cuxiao_id',$cuxiao_id)->first();
+                    if(!$cuxiao){
+                        return false;
+                    }
+                    $cuxiao_config=  $cuxiao->cuxiao_config;
+                    $msg=explode(',', $cuxiao_config);
+                    if($num==$msg[0]){
+                        $goods_price =  $msg[1];
+                        break;
+                    }
+                }else{
+                    $cuxiao=cuxiao::where('cuxiao_goods_id',$goods->goods_id)->orderBy('cuxiao_id','asc')->get();
+                    foreach($cuxiao as $v){
+                        $msg=explode(',', $v->cuxiao_config);
+                        if($num==$msg[0]){
 //                     	return $msg[1];
-                         $goods_price =  $msg[1];
-                         break;
-                     }
-           	     }
-           	     if(!isset($goods_price)){
-           	     	return false;
-           	     }
+                            $goods_price =  $msg[1];
+                            break;
+                        }
+                    }
+                    if(!isset($goods_price)){
+                        return false;
+                    }
+                }
+
            	     //return false;
            	     break;
            	default:

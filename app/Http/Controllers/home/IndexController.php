@@ -384,7 +384,7 @@ class IndexController extends Controller
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
-    	$price=$cuxiaoSDK->get_price($request->input('specNumber'));
+    	$price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
         if($request->has('goodsAtt')&&$request->input('goodsAtt')){
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
@@ -841,7 +841,7 @@ class IndexController extends Controller
        }
        $order->order_goods_url= $url;
        $cuxiaoSDK=new cuxiaoSDK($goods);
-       $price=$cuxiaoSDK->get_price($request->input('specNumber'));
+       $price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
        if($request->has('goodsAtt')&&$request->input('goodsAtt')){
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
