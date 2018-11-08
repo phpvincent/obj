@@ -994,7 +994,7 @@ class IndexController extends Controller
            // if there is no link redirect back with error message
            if (!$response['paypal_link']) {
             \App\order::where('order_id',$order_id)->delete();
-          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+          return false;
                //return redirect('/pay')->with(['code' => 'danger', 'message' => 'Something went wrong with PayPal']);
                // For the actual error message dump out $response and see what's in there
            }

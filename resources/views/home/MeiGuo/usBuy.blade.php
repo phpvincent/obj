@@ -327,8 +327,13 @@
     
 
 <script>
-// 拼接名字
 
+
+    //第几件翻译
+    function jianshu(a){
+    return 'item.'+a
+  }
+// 拼接名字
   var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
   var a={!!$goods_config_arr!!};
   var moneycoin="{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}";
