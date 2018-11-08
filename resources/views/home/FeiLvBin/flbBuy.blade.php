@@ -327,6 +327,10 @@
     
 
 <script>
+    //第几件翻译
+    function jianshu(a){
+    return 'item.'+a
+  }
 // 拼接名字
 
    var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；

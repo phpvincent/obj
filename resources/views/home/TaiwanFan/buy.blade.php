@@ -333,6 +333,10 @@
     </div><!--footer end-->
 
 <script>
+    //第几件翻译
+    function jianshu(a){
+    return '第'+a+'件'
+  }
 
     // 内嵌表单提交
     $("#tijiao").click(function () {
