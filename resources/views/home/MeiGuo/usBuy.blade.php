@@ -34,7 +34,7 @@
 
         <style type="text/css">
             .uncheck{
-                border:1px dashed #ccc;
+                border:1px solid #ccc;
             }
             .ischeck{
                 border:1px solid red;
