@@ -7,6 +7,7 @@ use App\com_img;
 use App\config_val;
 use App\goods_config;
 use App\goods_kind;
+use App\goods_templet;
 use App\kind_config;
 use App\kind_val;
 use Illuminate\Http\Request;
@@ -340,7 +341,6 @@ class GoodsController extends Controller
            }
        }
 
-
        //倒计时模块
          if($data['count_down_1'] == 1){
              if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
@@ -446,6 +446,12 @@ class GoodsController extends Controller
 
         $msg2=$goods->save();
         $goods_id=$goods->goods_id;
+
+       // 公司标识模块
+       if($data['comp_sign_1'] == 1){
+           array_push($array,'comp_sign');
+           $array = array_merge($array,$data['comp_sign']);
+       }
 
        //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
        if($data['price_1'] == 1){
@@ -687,7 +693,6 @@ class GoodsController extends Controller
         if(!empty($goods_templet)){
             $goods_templet = \App\templet_show::whereIn('templet_show_id',$goods_templet)->pluck('templet_english_name')->toArray();
         }
-
        $currency_type = \App\currency_type::all();
 
        return view('admin.goods.update')->with(compact('goods','type','goods_config','goods_templet','currency_type'));
@@ -1034,6 +1039,12 @@ class GoodsController extends Controller
        $msg1 = $sdk->saveupdate($request);
        $goods->goods_cuxiao_type = $data['goods_cuxiao_type'];
        $msg2 = $goods->save();
+
+       // 公司标识模块
+       if($data['comp_sign_1'] == 1){
+           array_push($array,'comp_sign');
+           $array = array_merge($array,$data['comp_sign']);
+       }
 
        //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
        if ($data['price_1'] == 1) {
@@ -1741,6 +1752,30 @@ class GoodsController extends Controller
 
             return response()->json(['err' => 1, 'str' => '保存成功！']);
         }
+    }
+
+    /**
+     *  2018-11-09 填充数据
+     */
+    public function test()
+    {
+        $goods = goods::where('is_del','0')->pluck('goods_id')->toArray();
+        $array = [];
+        foreach ($goods as $item)
+        {
+            if($item >= 1 && $item < 70){
+                $arr1['goods_id'] = $item;
+                $arr1['templet_id'] = '28';
+                $arr2['goods_id'] = $item;
+                $arr2['templet_id'] = '29';
+                $arr3['goods_id'] = $item;
+                $arr3['templet_id'] = '30';
+                array_push($array,$arr1);
+                array_push($array,$arr2);
+                array_push($array,$arr3);
+            }
+        }
+        goods_templet::insert($array);
     }
 }
   
