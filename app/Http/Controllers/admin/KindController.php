@@ -52,6 +52,9 @@ class KindController extends Controller
         $data = goods_kind::where(function($query)use($search){
             $query->where('goods_kind_name','like',"%$search%");
         })
+        ->where(function($query){
+            $query->whereIn('goods_kind_admin',\App\admin::get_admins_id());
+        })
         ->orderBy($order,$dsc)
         ->offset($start)
         ->limit($len)
