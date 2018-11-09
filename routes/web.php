@@ -180,4 +180,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::get('/admin/kind/upgoods_kind','admin\KindController@upgoods_kind');//修改产品
     Route::any('/admin/kind/post_update','admin\KindController@post_update');//修改产品
     Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
+
+    //处理公司标识信息
+    Route::any('/admin/test','admin\GoodsController@test');//新增产品
 });

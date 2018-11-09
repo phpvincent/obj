@@ -237,6 +237,27 @@
 		</div>
 		<div class="row cl">
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">公司标识：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						是 <input type="radio" id="comp_sign_1" class="is_nav comp_sign_1" name="comp_sign_1" checked="checked"  value="1">
+						否 <input type="radio" id="comp_sign_1" class="is_nav comp_sign_1" name="comp_sign_1" value="0">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix  templet_show jian_templet">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
+				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
+					<label for="comp_sign">banner图logo</label>
+					<input type="checkbox" class="comp_sign" id="comp_sign" checked name="comp_sign[]" value="delivery_place">
+					<label for="comp_sign">战略部署图</label>
+					<input type="checkbox" class="comp_sign" id="comp_sign" checked name="comp_sign[]" value="comp_map">
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">物流公司：</label>
 				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 					<div class="check-box">
@@ -596,14 +617,13 @@
 					if(a==value.goods_kind_name){
 						Check=false;
 					} 
-				}) 
-			if(Check){
-				var target_top = $("#goods_kind_name").offset().top;
- 				// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
- 				$("html,body").scrollTop(target_top);
-				setTimeout('layer.alert("此产品不存在,请选择产品！");',1200); 
-				
-			}
+				});
+				if(Check){
+					var target_top = $("#goods_kind_name").offset().top;
+					// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
+					$("html,body").scrollTop(target_top);
+					setTimeout('layer.alert("此产品不存在,请选择产品！");',1200); 
+				}
 			},
 			error:function(jqXHR){
 
@@ -678,13 +698,15 @@
         }
         $('.templet_show').show();
         //价格
+        comp_sign();
+        //价格
         price();
 		//倒计时
-        count_down()
+        count_down();
 		//促销活动模块
         promotion();
 		//中间导航
-        center_nav()
+        center_nav();
 		//轮播导航
         broadcast();
 		//评论数
@@ -705,7 +727,10 @@
         }
         $('.templet_show').hide();
 
-        //价格模板
+        //公司标识
+        $('input[name="comp_sign_1"]')[0].checked = true;
+        $('input[name="comp_sign_1"]')[1].checked = false;
+		//价格模板
         $('input[name="price_1"]')[0].checked = true;
         $('input[name="price_1"]')[1].checked = false;
         //轮播模块
@@ -716,6 +741,11 @@
         $('input[name="order_nav_1"]')[1].checked = false;
         //价格模块（全部不选）
         $('.price').attr('checked',false);
+        //公司标识模块（全部不选）
+        $('.comp_sign')[0].checked = true;
+        $('.comp_sign')[1].checked = true;
+        // $('.comp_sign').attr('checked',true);
+        comp_sign();
         $('.jian_templet').show();
         //
         $('.order_nav').attr('checked',true);
@@ -778,6 +808,19 @@
         },
     };
 
+    //验证函数(公司标识)
+    function comp_sign(){
+        if($('input[name="comp_sign_1"]:checked').val() == 1){
+            $('#comp_sign').rules('add', {
+                required:true
+            });
+        }else{
+            $('#comp_sign').rules('add', {
+                required:false
+            });
+        }
+    }
+
     //验证函数(价格)
     function price(){
         // if($('input[name="price_1"]:checked').val() == 1){
@@ -826,6 +869,8 @@
     $(function(){
         //价格
         price();
+		//公司标识
+        comp_sign();
         //倒计时
         count_down();
         //促销活动模块
@@ -937,6 +982,11 @@
         }
     }
 
+    //单击事件触发（公司标识）
+    $('.comp_sign_1').on('click',function(){
+        comp_sign();
+    });
+
     //单击事件触发（价格）
     $('.price_1').on('click',function(){
         price();
@@ -973,9 +1023,9 @@
     // });
 
     //单击事件触发（轮播）
-    $('.broadcast_1').on('click',function(){
-        broadcast();
-    });
+    // $('.broadcast_1').on('click',function(){
+    //     broadcast();
+    // });
 
     //在线支付
     $('.broadcast_1').on('click',function(){
@@ -1058,70 +1108,70 @@
 				$(this).parent().parent().parent().next().next().show(400);
 			}
 		});
-	$('#addcon').on('click',function(){
-		var isalive=$(this).attr('isalive');
-			if(isalive!='on'){
-				$('#conhtml').show(300);
-				$(this).val('移除商品附加属性');
-				$(this).attr('isalive','on');
-			}else{
-				$('#conhtml').hide(300);
-				while($('.config').length>1){
-					$('.config').last().remove();
-				}
-				$(this).val('添加商品附加属性');
-				$(this).attr('isalive','off');
-			}
-		})
-
-	$('#addconfig').on('click',function(){
-			//var configdiv=$(this).next().next().next('div').clone();
-			var configdiv=$('#configclo').clone();
-			//属性名键值
-			var a = $('#num').val();
-        	a++;
-
-            configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
-			configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
-			configdiv.children('div:last').children('.row').children('.col-sm-6').find('input:first').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
-			configdiv.children('div:last').children('.row').children('.col-sm-6').find('input:last').attr('name','goods_config_name['+a+']'+'[msg][0][config_isshow]');
-			configdiv.children('div:last').children('.row').children('.col-sm-3').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][config_imgs]');
-        	$('#num').val(a);
-			configdiv.show(200);
-			$('#conhtml').append(configdiv);
-		})
-	
-	 $("#rmconfig").on('click',function(){
-		if($('.config').length>1){
-			$('.config').last().remove();
-		}
-	 })
-
-	// 新增属性
-	function addConfig(obj){
-		var configdiv=$('#configclo-value').clone();
-		//属性值键值
-		var k = $(obj).parent().parent().parent().prev().find('input:last').val();
-		//属性值名称
-        k++;
-        var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
-		configdiv.children('.col-sm-6').find('input:first').attr('name',msg+'['+k+']'+'[goods_config]');
-		configdiv.children('.col-sm-6').find('input:last').attr('name',msg+'['+k+']'+'[config_isshow]');
-		configdiv.children('.col-sm-3').find('input').attr('name',msg+'['+k+']'+'[config_imgs]');
-		// console.log(configdiv.children('.col-sm-3').find('input').attr('name'));
-        configdiv.show(200);
-		$(obj).parent().parent().parent().prev().find('input:last').val(k);
-		$(obj).parent().parent().parent().append(configdiv);
-	}
-
-	// 删除属性(控制原有数据不可删除)
-	function rmConfig(obj){
-		if($(obj).parent().parent().parent().children("div.row").length>1){
-			$(obj).parent().parent().parent().children("div.row:last").remove();
-		}else{
-			layer.msg('如果想要删除，请通过虚线框内第一个减号进行删除');
-		}
-	}
+	// $('#addcon').on('click',function(){
+	// 	var isalive=$(this).attr('isalive');
+	// 		if(isalive!='on'){
+	// 			$('#conhtml').show(300);
+	// 			$(this).val('移除商品附加属性');
+	// 			$(this).attr('isalive','on');
+	// 		}else{
+	// 			$('#conhtml').hide(300);
+	// 			while($('.config').length>1){
+	// 				$('.config').last().remove();
+	// 			}
+	// 			$(this).val('添加商品附加属性');
+	// 			$(this).attr('isalive','off');
+	// 		}
+	// 	})
+	//
+	// $('#addconfig').on('click',function(){
+	// 		//var configdiv=$(this).next().next().next('div').clone();
+	// 		var configdiv=$('#configclo').clone();
+	// 		//属性名键值
+	// 		var a = $('#num').val();
+    //     	a++;
+	//
+    //         configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
+	// 		configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
+	// 		configdiv.children('div:last').children('.row').children('.col-sm-6').find('input:first').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+	// 		configdiv.children('div:last').children('.row').children('.col-sm-6').find('input:last').attr('name','goods_config_name['+a+']'+'[msg][0][config_isshow]');
+	// 		configdiv.children('div:last').children('.row').children('.col-sm-3').find('input').attr('name','goods_config_name['+a+']'+'[msg][0][config_imgs]');
+    //     	$('#num').val(a);
+	// 		configdiv.show(200);
+	// 		$('#conhtml').append(configdiv);
+	// 	})
+	//
+	//  $("#rmconfig").on('click',function(){
+	// 	if($('.config').length>1){
+	// 		$('.config').last().remove();
+	// 	}
+	//  })
+	//
+	// // 新增属性
+	// function addConfig(obj){
+	// 	var configdiv=$('#configclo-value').clone();
+	// 	//属性值键值
+	// 	var k = $(obj).parent().parent().parent().prev().find('input:last').val();
+	// 	//属性值名称
+    //     k++;
+    //     var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
+	// 	configdiv.children('.col-sm-6').find('input:first').attr('name',msg+'['+k+']'+'[goods_config]');
+	// 	configdiv.children('.col-sm-6').find('input:last').attr('name',msg+'['+k+']'+'[config_isshow]');
+	// 	configdiv.children('.col-sm-3').find('input').attr('name',msg+'['+k+']'+'[config_imgs]');
+	// 	// console.log(configdiv.children('.col-sm-3').find('input').attr('name'));
+    //     configdiv.show(200);
+	// 	$(obj).parent().parent().parent().prev().find('input:last').val(k);
+	// 	$(obj).parent().parent().parent().append(configdiv);
+	// }
+	//
+	// // 删除属性(控制原有数据不可删除)
+	// function rmConfig(obj){
+	// 	if($(obj).parent().parent().parent().children("div.row").length>1){
+	// 		$(obj).parent().parent().parent().children("div.row:last").remove();
+	// 	}else{
+	// 		layer.msg('如果想要删除，请通过虚线框内第一个减号进行删除');
+	// 	}
+	// }
 	//增加新产品
 	$('#addgoods_kind').on('click',function(){
 	layer_show('产品添加','{{url("admin/kind/addkind")}}',600,500);

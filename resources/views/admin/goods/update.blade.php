@@ -8,40 +8,40 @@
 	}
 	#thisBG{border-radius: 3%;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.3;  opacity:.30;  filter: alpha(opacity=30);}
 </style>
-    <div class="config" style="display: none;" attr="newConfig" id="configclo">
-        <div class="row" style="margin-left: 0px;">
-            属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">
-			<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">
-		</div>
-        <div class="con-value">
-            <div class="row" style="height: 40px;" >
-                <div class="col-xs-4 col-sm-4" style="display: inline">
-                    <label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
-                    <input type="checkbox" id="config_isshow" class="price" name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
-                </div>
-                <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-                    <div class="uploader-thum-container">
-                        <input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple" accept="image/png,image/gif,image/jpg,image/jpeg">
-                    </div>
-                </div>
-                <div style="display: inline;">
-                    <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{--<div class="config" style="display: none;" attr="newConfig" id="configclo">--}}
+        {{--<div class="row" style="margin-left: 0px;">--}}
+            {{--属性名: <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name[]">--}}
+			{{--<input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">--}}
+		{{--</div>--}}
+        {{--<div class="con-value">--}}
+            {{--<div class="row" style="height: 40px;" >--}}
+                {{--<div class="col-xs-4 col-sm-4" style="display: inline">--}}
+                    {{--<label>属性值:</label> <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">--}}
+                    {{--<input type="checkbox" id="config_isshow" class="price" name="config_isshow[]" value="1"><label for="price">隐藏属性</label>--}}
+                {{--</div>--}}
+                {{--<div class="formControls col-xs-3 col-sm-3" style="display: inline;">--}}
+                    {{--<div class="uploader-thum-container">--}}
+                        {{--<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple" accept="image/png,image/gif,image/jpg,image/jpeg">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div style="display: inline;">--}}
+                    {{--<span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
     {{--商品属性值--}}
-    <div class="row" style="height: 40px;display: none;"  attr="newConfig" id="configclo-value">
-        <div class="col-xs-4 col-sm-4" style="display: inline">
-            属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
-                    <input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">隐藏属性</label>
-        </div>
-        <div class="formControls col-xs-3 col-sm-3" style="display: inline;">
-            <div class="uploader-thum-container">
-                <input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">
-            </div>
-        </div>
-    </div>
+    {{--<div class="row" style="height: 40px;display: none;"  attr="newConfig" id="configclo-value">--}}
+        {{--<div class="col-xs-4 col-sm-4" style="display: inline">--}}
+            {{--属性值: <input type="text" style="width: 60%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">--}}
+                    {{--<input type="checkbox" id="config_isshow" class="price"   name="config_isshow[]" value="1"><label for="price">隐藏属性</label>--}}
+        {{--</div>--}}
+        {{--<div class="formControls col-xs-3 col-sm-3" style="display: inline;">--}}
+            {{--<div class="uploader-thum-container">--}}
+                {{--<input type="file" name="config_imgs[]" width="420" height="280" style="margin-top: 15px;" multiple="multiple"	accept="image/png,image/gif,image/jpg,image/jpeg">--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
 	<form class="form form-horizontal" id="form-goods-update" enctype="multipart/form-data" action="{{url('admin/goods/post_update')}}">
 		{{csrf_field()}}
@@ -229,6 +229,28 @@
 			@endforeach
 		</div>
 		@endif
+		{{--公司标识--}}
+		<div class="row cl">
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">公司标识：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						是 <input type="radio" id="comp_sign_1" class="is_nav comp_sign_1" name="comp_sign_1" @if(in_array('comp_sign',$goods_templet)) checked="checked"  @endif  value="1">
+						否 <input type="radio" id="comp_sign_1" class="is_nav comp_sign_1" name="comp_sign_1" @if(!in_array('comp_sign',$goods_templet)) checked="checked" @endif value="0">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix templet_show jian_templet" style="display: {{in_array('comp_sign',$goods_templet) ? 'block' : 'none'}};">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
+				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
+					<label for="comp_sign">banner图logo</label>
+					<input type="checkbox" id="comp_sign" class="comp_sign" @if(in_array('delivery_place',$goods_templet)) checked="checked" @endif name="comp_sign[]" value="delivery_place">
+					<label for="comp_sign">战略部署图</label>
+					<input type="checkbox" id="comp_sign" class="comp_sign" @if(in_array('comp_map',$goods_templet)) checked="checked" @endif name="comp_sign[]" value="comp_map">
+					</div>
+			</div>
+		</div>
 		{{--物流公司--}}
 		<div class="row cl">
 			<div class="clearfix">
@@ -532,6 +554,8 @@
             $('input[type="checkbox"]')[i].checked = true
         }
 		$('.templet_show').show();
+		        //公司标识
+        		comp_sign();
 		        //价格
 		        price();
 				//倒计时
@@ -562,6 +586,9 @@
         }
         $('.templet_show').hide();
 
+        //公司标识模板
+        $('input[name="comp_sign_1"]')[0].checked = true;
+        $('input[name="comp_sign_1"]')[1].checked = false;
         //价格模板
         $('input[name="price_1"]')[0].checked = true;
         $('input[name="price_1"]')[1].checked = false;
@@ -573,6 +600,11 @@
         $('input[name="order_nav_1"]')[1].checked = false;
 		//价格模块（全部不选）
         $('.price').attr('checked',false);
+		//公司标识模块（全部）
+        $('.comp_sign')[0].checked = true;
+        $('.comp_sign')[1].checked = true;
+        // $('.comp_sign').attr('checked',true);
+        comp_sign();
         $('.jian_templet').show();
 		//
 		$('.order_nav').attr('checked',true);
@@ -583,11 +615,11 @@
 	$('#goods_cuxiao_type').on('change',function(){
 		var now=$(this).val();
 		get_cuxiao_html(now);
-	})
+	});
 	$('#cl_fmvideo').on('click',function(){
     	$(this).prev().hide(300);
     	$(this).next().val('1');
-    })
+    });
 	function get_cuxiao_html(now){
 		$('#cuxiaohtml').html('<div  style="margin:0px auto;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
 		$.ajax({
@@ -645,6 +677,19 @@
         //         required:false
         //     });
         // }
+	}
+	//公司标识(价格)
+	function comp_sign(){
+        if($('input[name="comp_sign_1"]:checked').val() == 1){
+			console.log(1)
+            $('#comp_sign').rules('add', {
+                required:true
+            });
+        }else{
+            $('#comp_sign').rules('add', {
+                required:false
+            });
+        }
 	}
 
     //验证函数(倒计时)
@@ -794,6 +839,8 @@
 
 	//加载完成事件
 	$(function(){
+		//公司标识
+        comp_sign();
 		//价格
 		price();
 		//倒计时
@@ -813,6 +860,11 @@
 		//在线支付
         pay_type();
 	});
+
+	//单击事件触发（公司标识）
+    $('.comp_sign_1').on('click',function(){
+        comp_sign();
+    });
 
 	//单击事件触发（价格）
     $('.price_1').on('click',function(){
