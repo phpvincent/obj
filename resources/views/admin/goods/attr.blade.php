@@ -102,6 +102,9 @@
             focusCleanup:true,
             success:"valid",
             submitHandler:function(form){
+                var index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
                 $(form).ajaxSubmit({
                     type: 'post',
                     url: "{{url('admin/goods/attr')}}",
