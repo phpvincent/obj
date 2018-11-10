@@ -191,7 +191,7 @@
     @endif
 </div>
 @endif
-
+<div class="clear"></div>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
