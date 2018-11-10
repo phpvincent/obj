@@ -253,6 +253,7 @@
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content">
     <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
+    <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
     
     @if(in_array('delivery_place',$templets))
         
