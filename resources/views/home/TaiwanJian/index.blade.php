@@ -133,7 +133,7 @@
             <div style="
             position: absolute;
             left: 0;
-            top: -14px;
+            top: 0;
             z-index: 9999;
             width: 30%;
             "><img src="/img/top_log.png" alt=""></div>

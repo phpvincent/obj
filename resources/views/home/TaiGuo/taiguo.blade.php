@@ -100,7 +100,7 @@
         </script>
 
 	</head>
-	<body style="">
+	<body style="position:relative">
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
@@ -125,6 +125,16 @@
     <div class="mui-content">
     <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
     <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
+    @if(in_array('delivery_place',$templets))
+        
+            <div style="
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 9999;
+            width: 30%;
+            "><img src="/img/top_log.png" alt=""></div>
+        @endif
 <!--产品轮播-->
 @if(in_array('broadcast',$templets))
 <div class="banner">
@@ -254,6 +264,13 @@
            </p>
            
         </div>
+        <div class="clear">
+        </div>
+        @if(in_array('comp_map',$templets))
+        <div class="detail-block">
+            <img src="/img/zlt.jpg" alt="">
+        </div>
+         @endif
         <div class="clear">
         </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
