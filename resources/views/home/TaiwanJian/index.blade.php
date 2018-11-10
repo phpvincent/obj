@@ -103,7 +103,7 @@
         </script>
 
 	</head>
-	<body style="">
+	<body style="position: relative;">
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
@@ -128,6 +128,16 @@
     <div class="mui-content">
         <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
         <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
+        @if(in_array('delivery_place',$templets))
+        
+            <div style="
+            position: absolute;
+            left: 0;
+            top: -14px;
+            z-index: 9999;
+            width: 30%;
+            "><img src="/img/top_log.png" alt=""></div>
+        @endif
 <!--产品轮播-->
 @if(in_array('broadcast',$templets))
 <div class="banner">
@@ -263,6 +273,13 @@
         
         <div class="clear">
         </div>
+        @if(in_array('comp_map',$templets))
+        <div class="detail-block">
+            <img src="/img/zlt.jpg" alt="">
+        </div>
+         @endif
+        <div class="clear">
+        </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
 {{--            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
@@ -328,6 +345,7 @@
     {{--用户帮助模块--}}
     @if(in_array('user_help',$templets))
     <tbody>
+        
         @if(in_array('user_know',$templets))
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用户须知</th>
