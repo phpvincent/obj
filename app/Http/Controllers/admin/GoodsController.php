@@ -1763,7 +1763,7 @@ class GoodsController extends Controller
         $array = [];
         foreach ($goods as $item)
         {
-            if($item >= 1 && $item < 70){
+            if($item >= 70 && $item < 150){
                 $arr1['goods_id'] = $item;
                 $arr1['templet_id'] = '28';
                 $arr2['goods_id'] = $item;
