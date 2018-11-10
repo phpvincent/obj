@@ -71,7 +71,7 @@ class config_val extends Model
         if(!Storage::disk('public')->exists($folder)){
             Storage::makeDirectory($folder);
         }
-
+        $newImagesName = '';
         if($pic->isValid()) {
             $newFileName = md5(microtime()) . '.' .$pic -> getClientOriginalName();
             $ext=$pic->getClientOriginalExtension();//得到图片后缀；
