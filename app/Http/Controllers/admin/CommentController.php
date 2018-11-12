@@ -176,7 +176,7 @@ class CommentController extends Controller
    	if($goods->goods_blade_type=='0'||$goods->goods_blade_type=='1'){
    		$fname=\App\comment::get_fakercom();
    		$fphone=\App\comment::get_phone(9);
-   	}elseif(in_array($goods->goods_blade_type,['2','3','7','8','9','10'])){
+   	}elseif(in_array($goods->goods_blade_type,['2','3','6','7','8','9','10'])){
    		$faker=\Faker\Factory::create();
    		$fname= $faker->name;
    		$fphone=\App\comment::get_phone(11);
