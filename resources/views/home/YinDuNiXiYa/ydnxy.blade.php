@@ -231,12 +231,12 @@
 <ul class="detail-bars">
     @if(in_array('introduce',$templets))
     <li>
-        <span href="#detial-context" class="scrollBar" scroll-y="0">Penjelasan produk</span>
+        <span href="#detial-context" class="scrollBar" scroll-y="0">Penjelasan</span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
-        <span href="#detial-params" class="scrollBar" scroll-y="50">Spesifikasi produk</span>
+        <span href="#detial-params" class="scrollBar" scroll-y="50">Spesifikasi</span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
