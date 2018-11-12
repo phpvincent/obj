@@ -21,9 +21,9 @@ use App\Jobs\SendHerbEmail;
 /*	Route::any('/paypal',function(Request $request){
 
 		 $url=$_SERVER['SERVER_NAME'];
-        if($url!='52.14.183.239'){
-            return redirect('index/fb');
-        }
+        $goods=\App\goods::where('goods_id',43)->first();
+        $order=\App\order::where('order_id','223')->first();
+        return view('home.YinDuNiXiYa.sendmail')->with(compact('url','order','goods'));
 		
 		//SendHerbEmail::dispatch($order);
 	});*/
