@@ -309,6 +309,15 @@ class GoodsController extends Controller
 
        $pay_type = isset($data['pay_type']) ? $data['pay_type'] : ['0'];
        $goods->goods_pay_type= implode(',',$pay_type);
+       // 印度尼西亚 不允许带小数
+       if($request->input('goods_blade_type') == 6){
+           $data_limit = $this->data_limit($data);
+           if($data_limit !== true){
+               return response()->json(['err'=>0,'str'=>$data_limit]);
+           }
+       }
+
+       // 在线支付验证币种与小数
        if(in_array('1',$pay_type)){
            //paypal不支持的币种
            $currency_type = \App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name');
@@ -317,26 +326,9 @@ class GoodsController extends Controller
            }
            //判断币种金额是否存在限制
            if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
-               //满减优惠
-               if(isset($data['new_cuxiao'])){
-                   foreach ($data['new_cuxiao'] as $item)
-                   {
-                       if(intval($item['price']) != $item['price']){
-                           return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
-                       }
-                   }
-               }
-               //自定义套餐
-               if(isset($data['cuxiao_prize'])){
-                   foreach ($data['cuxiao_prize'] as $item)
-                   {
-                       if(intval($item) != $item){
-                           return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
-                       }
-                   }
-               }
-               if(intval($data['goods_real_price']) != $data['goods_real_price'] || intval($data['goods_price']) != $data['goods_price']){
-                   return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
+               $data_limit = $this->data_limit($data);
+               if($data_limit !== true){
+                    return response()->json(['err'=>0,'str'=>$data_limit]);
                }
            }
        }
@@ -576,8 +568,39 @@ class GoodsController extends Controller
          }else{
                   return response()->json(['err'=>0,'str'=>'添加失败！']);
          }
-      
    }
+
+    /** 判断金额是否存在小数
+     * @param $data
+     * @return bool|string
+     */
+   private function data_limit($data)
+   {
+       //满减优惠
+       if(isset($data['new_cuxiao'])){
+           foreach ($data['new_cuxiao'] as $item)
+           {
+               if(intval($item['price']) != $item['price']){
+                   return '抱歉！当前选择币种或模板不支持金额小数点！';
+               }
+           }
+       }
+       //自定义套餐
+       if(isset($data['cuxiao_prize'])){
+           foreach ($data['cuxiao_prize'] as $item)
+           {
+               if(intval($item) != $item){
+                   return '抱歉！当前选择币种或模板不支持金额小数点！';
+               }
+           }
+       }
+       if(intval($data['goods_real_price']) != $data['goods_real_price'] || intval($data['goods_price']) != $data['goods_price']){
+           return '抱歉！当前选择币种或模板不支持金额小数点！';
+       }
+
+       return true;
+   }
+
    public function delgoods(Request $request){
     //删除单品
          $goods=goods::where('goods_id',$request->input('id'))->first();
@@ -800,38 +823,31 @@ class GoodsController extends Controller
         //在线支付
         $pay_type = isset($data['pay_type']) ? $data['pay_type'] : ['0'];
         $goods->goods_pay_type= implode(',',$pay_type);
-        if(in_array('1',$pay_type)){
-            //paypal不支持的币种
-            $currency_type = \App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name');
-            if(!in_array($currency_type, \App\currency_type::$CURRENCY_TYPE)){
-                return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
-            }
-            //判断币种金额是否存在限制
-            if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
-                //满减优惠
-                if(isset($data['new_cuxiao'])){
-                    foreach ($data['new_cuxiao'] as $item)
-                    {
-                        if(intval($item['price']) != $item['price']){
-                            return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
-                        }
-                    }
-                }
-                //自定义套餐
-                if(isset($data['cuxiao_prize'])){
-                    foreach ($data['cuxiao_prize'] as $item)
-                    {
-                        if(intval($item) != $item){
-                            return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
-                        }
-                    }
-                }
-                //原价、商品定价
-                if(intval($data['goods_real_price']) != $data['goods_real_price'] || intval($data['goods_price']) != $data['goods_price']){
-                    return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持金额小数点！']);
-                }
-            }
-        }
+
+       // 印度尼西亚 不允许带小数
+       if($request->input('goods_blade_type') == 6){
+           $data_limit = $this->data_limit($data);
+           if($data_limit !== true){
+               return response()->json(['err'=>0,'str'=>$data_limit]);
+           }
+       }
+
+       // 在线支付验证币种与小数
+       if(in_array('1',$pay_type)){
+           //paypal不支持的币种
+           $currency_type = \App\currency_type::where('currency_type_id',$data['currency_type'])->value('currency_english_name');
+           if(!in_array($currency_type, \App\currency_type::$CURRENCY_TYPE)){
+               return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
+           }
+           //判断币种金额是否存在限制
+           if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
+               $data_limit = $this->data_limit($data);
+               if($data_limit !== true){
+                   return response()->json(['err'=>0,'str'=>$data_limit]);
+               }
+           }
+       }
+
        //验证促销活动信息是否合法
        $cuxiao_check=cuxiaoSDK::check_role($request);
        if(!$cuxiao_check){
