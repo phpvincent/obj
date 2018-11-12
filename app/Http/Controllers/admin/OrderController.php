@@ -786,15 +786,21 @@ class OrderController extends Controller
             }
          }
         $info=$request->all();
-          $cm=$info['order'][0]['column'];
-          if($info['columns']["$cm"]['data']=='order_counts'){
-            //当已单数统计时使用默认排序
-            $order='goods_up_time';
+          if(!isset($info['order'])){
             $dsc='desc';
+            $order='order_id';
           }else{
-            $dsc=$info['order'][0]['dir'];
-            $order=$info['columns']["$cm"]['data'];
+            $cm=$info['order'][0]['column'];
+            if($info['columns']["$cm"]['data']=='order_counts'){
+              //当已单数统计时使用默认排序
+              $order='goods_up_time';
+              $dsc='desc';
+            }else{
+              $dsc=$info['order'][0]['dir'];
+              $order=$info['columns']["$cm"]['data'];
+            }
           }
+          
           $draw=$info['draw'];
           $start=$info['start'];
           $len=$info['length'];
