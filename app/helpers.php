@@ -441,4 +441,13 @@ if (!function_exists('get_browse_info')){
     }
 }
 
+if (!function_exists('price_format')) {
+    function price_format($price){
+        if (!is_numeric($price)) {
+            return false;
+        }
+        $num = explode('.', $price);
 
+        return number_format($num[0]);
+    }
+}
