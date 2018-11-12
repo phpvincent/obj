@@ -145,4 +145,11 @@ function countDiff (a,basePrice,moneycoin){
     console.log(moneycoin)
     $('.addcart-footer-price-total').children('font:first').html(moneycoin+ returnFloat(basePrice+countDiffPrice));
     $('#realprice').html( returnFloat(basePrice+countDiffPrice) );
+    //如果是印尼模板；不要小数点；三位一个逗号；
+    try {
+        $('.addcart-footer-price-total').children('font:first').html(moneycoin+ toThousands(basePrice+countDiffPrice));
+        $('#realprice').html( toThousands(basePrice+countDiffPrice));
+    } catch (error) {
+        
+    }
 }
