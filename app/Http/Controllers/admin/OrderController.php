@@ -484,7 +484,7 @@ class OrderController extends Controller
                       return response()->json(['err'=>0,'str'=>'快递单号数目错误']);
                   }
                   $admin=Auth::user()->admin_name;
-                  $date=date('Y-m-d h:i:s',time());
+                  $date=date('Y-m-d H:i:s',time());
                   $oldmsg=$order->order_return;
                   $order_send_now=explode(';',$data['order_send'])[$key];
                   if($order_send_now=='暂无'){
@@ -498,7 +498,7 @@ class OrderController extends Controller
                   }
               }else{
                   $admin=Auth::user()->admin_name;
-                  $date=date('Y-m-d h:i:s',time());
+                  $date=date('Y-m-d H:i:s',time());
                   $oldmsg=$order->order_return;
                   $err=order::where('order_single_id',$val)->update(['order_type'=>$data['order_type_now'],'order_return'=>$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
                   if($err===false){
@@ -540,7 +540,7 @@ class OrderController extends Controller
       }
    	  $order=order::where('order_id',$data['id'])->first();
    	  $oldmsg=$order->order_return;
-   	  $date=date('Y-m-d h:i:s',time());
+   	  $date=date('Y-m-d H:i:s',time());
    	  $admin=Auth::user()->admin_name;
    	  $htmlnow=$oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['order_return']."</p>";
    	  $order->order_type=$data['order_type_now'];
@@ -750,9 +750,9 @@ class OrderController extends Controller
               $new_exdata[$k]['order_pay_type']=$exdata[$k]['order_pay_type'];
            }
          if($request->has('min')&&$request->has('max')){
-          $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d h:i:s',time()).'.xls';
+          $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
          }else{
-            $filename='订单记录'.date('Y-m-d h:i:s',time()).'.xls';
+            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
          }
 /*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
 */

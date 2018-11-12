@@ -429,7 +429,7 @@ class GoodsController extends Controller
          $goods->goods_admin_id=$data['admin_id'];
 //         $goods->goods_buy_url=$request->has('goods_buy_url')?$data['goods_buy_url']:null;
 //         $goods->goods_buy_msg=$request->has('goods_buy_msg')?$data['goods_buy_msg']:null;
-         $goods->goods_up_time=date('Y-m-d h:i:s',time());
+         $goods->goods_up_time=date('Y-m-d H:i:s',time());
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
@@ -1027,7 +1027,7 @@ class GoodsController extends Controller
        $goods->goods_google_pix = $data['goods_google_pix'];
        $goods->goods_type = $data['goods_type'];
 //           $goods->goods_pay_type=implode(',',$request->input('pay_type'));
-//           $goods->goods_up_time = date('Y-m-d h:i:s', time());
+//           $goods->goods_up_time = date('Y-m-d H:i:s', time());
        $goods->goods_type_html = isset($data['editor2']) ? $data['editor2'] : "";
        //商品描述
        if (isset($data['editor1'])) {

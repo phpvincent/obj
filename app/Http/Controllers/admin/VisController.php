@@ -273,7 +273,7 @@ class VisController extends Controller
 	        	})
 				->orderBy('vis.vis_time','desc')
 				->limit(1500)->get()->toArray();
-   		$filename='访问记录'.date('Y-m-d h:i:s',time()).'.xls';
+   		$filename='访问记录'.date('Y-m-d H:i:s',time()).'.xls';
    		$zdname=['记录id','访问者ip','访问者国家','访问者省份/州','访问者城市/地区','访问者县区/镇','访问者网络源','访问者设备类型','访问时间','访问者语言','是否封禁该ip','单品名','访问域名','访问来源','购买时间','下单时间','停留时间','评论时间'];
    		foreach($data as $k => $v){
    			if($v['vis_isback']=='0'){
