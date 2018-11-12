@@ -125,7 +125,11 @@
     <div class="mui-content">
     <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
     <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
-    @if(in_array('delivery_place',$templets))
+   
+<!--产品轮播-->
+@if(in_array('broadcast',$templets))
+<div class="banner"  style="position: relative;">
+@if(in_array('delivery_place',$templets))
         
             <div style="
             position: absolute;
@@ -135,9 +139,6 @@
             width: 30%;
             "><img src="/img/top_log.png" alt=""></div>
         @endif
-<!--产品轮播-->
-@if(in_array('broadcast',$templets))
-<div class="banner">
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
               @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
@@ -190,7 +191,7 @@
     @endif
 </div>
 @endif
-
+<div class="clear"></div>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))

@@ -1753,29 +1753,5 @@ class GoodsController extends Controller
             return response()->json(['err' => 1, 'str' => '保存成功！']);
         }
     }
-
-    /**
-     *  2018-11-09 填充数据
-     */
-    public function test()
-    {
-        $goods = goods::where('is_del','0')->pluck('goods_id')->toArray();
-        $array = [];
-        foreach ($goods as $item)
-        {
-            if($item >= 1 && $item < 70){
-                $arr1['goods_id'] = $item;
-                $arr1['templet_id'] = '28';
-                $arr2['goods_id'] = $item;
-                $arr2['templet_id'] = '29';
-                $arr3['goods_id'] = $item;
-                $arr3['templet_id'] = '30';
-                array_push($array,$arr1);
-                array_push($array,$arr2);
-                array_push($array,$arr3);
-            }
-        }
-        goods_templet::insert($array);
-    }
 }
   
