@@ -153,19 +153,19 @@
                     小计：<font style="color:red">{{$order->order_price}}</font></font>
                 </p> -->
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">Harga satuan :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">{{$order->order_currency}}{{$goods->goods_price}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Harga satuan :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right; padding-left: 4px">{{$order->order_currency}}{{price_format($goods->goods_price)}}</p>
                 </div>
                 <div style="text-align: right;">
                   <p style="display:inline-block;margin: 6px 0;">Qty :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_num}}</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">Harga promosi :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{($goods->goods_price*$order->order_num)-($order->order_price)}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Harga promosi :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{price_format(($goods->goods_price*$order->order_num)-($order->order_price))}}</p>
                 </div>
                 <div style="text-align: right;">
                   <p style="display:inline-block;margin: 6px 0;">Ongkos kirim gratis :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">Total :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Total :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{price_format($order->order_price)}}</p>
                 </div>
               </div>
               @else
@@ -182,7 +182,7 @@
                   <p style="display:inline-block;margin: 6px 0;">Ongkos kirim gratis :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}0</p>
                 </div>
                 <div style="text-align: right;">
-                  <p style="display:inline-block;margin: 6px 0;">Total :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{$order->order_price}}</p>
+                  <p style="display:inline-block;margin: 6px 0;">Total :</p><p style="display:inline-block;width: 100px;;margin: 6px 0;text-align: right;padding-left: 4px">{{$order->order_currency}}{{price_format($order->order_price)}}</p>
                 </div>
               </div>
               @endif
