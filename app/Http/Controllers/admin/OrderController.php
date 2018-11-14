@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\admin;
 use App\goods;
 use App\kind_val;
+use App\price;
 use App\special;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -401,8 +402,9 @@ class OrderController extends Controller
             }
             $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
 	        $special = '';
-            if($v->order_special_id){
-                $special= special::select('price.price_name')->leftjoin('price','price.price_id','special.special_price_id')->where('special.special_id',$v->order_special_id)->first();
+            if($v->order_price_id){
+//                $special= special::select('price.price_name')->leftjoin('price','price.price_id','special.special_price_id')->where('special.special_id',$v->order_price_id)->first();
+                    $special = price::where('price_id',$v->order_price_id)->value('price_name');
             }
             if($order_config->count()>0){
                 $config_msg='';
@@ -419,12 +421,12 @@ class OrderController extends Controller
                   $config_msg.='<br/>';
                 }
                 if($special){
-                    $config_msg .= '<hr>'.$special->price_name;
+                    $config_msg .= '<hr>赠：'.$special;
                 }
                 $config_msg=rtrim($config_msg,'<br/>');
                 $data[$k]->config_msg=$config_msg;
               }else{
-                $config_msg = $special ? "暂无属性信息<hr>".$special->price_name : "暂无属性信息";
+                $config_msg = $special ? "暂无属性信息<hr>赠：".$special : "暂无属性信息";
                 $data[$k]->config_msg=$config_msg;
               }
             $iparea=getclientcity($request,$v->order_ip);
@@ -613,7 +615,7 @@ class OrderController extends Controller
    }
    public function outorder(Request $request){
        //订单导出
-       $data=order::select('order.order_id','order.order_zip','order.order_special_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -691,8 +693,8 @@ class OrderController extends Controller
               $exdata[$k]['tel']=$v['order_tel'];
               $exdata[$k]['order_state']=$v['order_state'];
               $exdata[$k]['order_city']=$v['order_city'];
-              $special= special::leftjoin('price','price.price_id','special.special_price_id')->select('price.price_name')->where('special.special_id',$v['order_special_id'])->first();;
-              $exdata[$k]['special_name'] = $special ? $special->price_name : '';
+//              $special= special::leftjoin('price','price.price_id','special.special_price_id')->select('price.price_name')->where('special.special_id',$v['order_special_id'])->first();;
+              $exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
               if($v['order_zip']){
                   $str=$v['order_add'];
                   $pattern='/(.*)\(Zip:(.*?)\)/';

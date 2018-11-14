@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\home;
 
 use App\currency_type;
+use App\special;
 use App\templet_show;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -484,7 +485,7 @@ class IndexController extends Controller
         $cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
         if($cuxiao_msg){
             $cuxiao_id = $cuxiao_msg->cuxiao_msg;
-            $order->order_special_id=$cuxiao_msg->cuxiao_special_id;
+            $order->order_price_id=special::where('special_id',$cuxiao_msg->cuxiao_special_id)->value('special_price_id');
         }else{
             $cuxiao_id = "暂无促销信息";
         }

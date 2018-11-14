@@ -722,6 +722,46 @@ class GoodsController extends Controller
        return view('admin.goods.update')->with(compact('goods','type','goods_config','goods_templet','currency_type'));
    }
 
+   /** 添加赠品
+    * @param Request $request
+    * @return   \Illuminate\Http\JsonResponse
+    */
+   public function add_giveaway(Request $request){
+        $name = $request->input('giveaway_name');
+        if (empty($name)) {
+            return response()->json(['err' => 0, 'str' => '赠品名称不能为空！']);
+        }
+        if (price::where('price_name',$name)->exists()){
+            return response()->json(['err' => 0, 'str' => '赠品名称已经存在！']);
+        }
+        $price_img = '';
+        $file = $request->file('giveaway_file');
+        if ($file) {
+            $size = filesize($file);
+            if($size > 8*1024*1024){
+                return response()->json(['err' => 0, 'str' => '赠品图片不能超过8M！']);
+            }
+            $file_name=$file->getClientOriginalName();
+            $ext=$file->getClientOriginalExtension();
+            $fileName=md5(uniqid($file_name));
+            $newImagesName='fm'."_".$fileName.'.'.$ext;//生成新的的文件名
+            $filedir="upload/fm_giveaway/";
+            $file->move($filedir,$newImagesName);
+            $price_img = $filedir.$newImagesName;
+        }
+
+        $giveaway =new price();
+        $giveaway->price_name = $name;
+        $giveaway->price_img = $price_img;
+        if ($giveaway->save()) {
+            return response()->json(['err' => 1, 'str' => '保存成功！', 'data' => $giveaway]);
+        } else {
+            return response()->json(['err' => 0, 'str' => '保存失败！']);
+        }
+
+
+   }
+
     /** 修改商品
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
