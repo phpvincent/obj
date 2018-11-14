@@ -126,7 +126,7 @@
 	    var html = $("#hidden_div").html();
         // var reg = new RegExp('disabled="disabled"',"g");//g,表示全部替换。
 		html = html.replace(new RegExp('disabled="disabled"',"g"),"");
-		html = html.replace(new RegExp('0',"g"),count)
+		html = html.replace(new RegExp('new_cuxiao[0]',"g"), 'new_cuxiao[' + count + ']')
 		$("#pzhtml").append(html);
 	})
 	$('body').on("click",".deletes",function(){
@@ -134,9 +134,17 @@
 	})
 	$('body').on("click", ".lay-submit", function (node) {
 	   var name = $("#giveaway_name").val();
-	   if (name !== null || name !== undefined || name !== '')
+	   if (name == null || name == undefined || name == '') {
+	       layer.msg('赠品名称不能为空！');
+	       return false;
+	   }
+	   var file =  $('#giveaway_file')[0].files[0];
+	   if (file == null || file == undefined || file == '' ) {
+	       layer.msg('请上传赠品图片，图片大小不能超过8M！');
+           return false;
+	   }
         var formFile = new FormData();
-        formFile.append("giveaway_file", $('#giveaway_file')[0].files[0]);
+        formFile.append("giveaway_file", file);
         formFile.append('giveaway_name', name);
 		formFile.append('_token', '{{ csrf_token() }}')
 		$.ajax({
