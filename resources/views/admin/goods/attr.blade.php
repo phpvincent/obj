@@ -117,6 +117,7 @@
                                 window.parent.location.reload();
                             });
                         }else{
+                            layer.close(index);
                             layer.msg(data.str);
                         }
                     },

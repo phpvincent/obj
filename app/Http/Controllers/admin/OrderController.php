@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\admin;
 use App\goods;
 use App\kind_val;
+use App\special;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\order;
@@ -399,6 +400,10 @@ class OrderController extends Controller
                 $v->order_repeat_field = explode(',',$v->order_repeat_field);
             }
             $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
+	        $special = '';
+            if($v->order_special_id){
+                $special= special::select('price.price_name')->leftjoin('price','price.price_id','special.special_price_id')->where('special.special_id',$v->order_special_id)->first();
+            }
             if($order_config->count()>0){
                 $config_msg='';
                 $i=0;
@@ -413,10 +418,14 @@ class OrderController extends Controller
                   $config_msg=rtrim($config_msg,'-');
                   $config_msg.='<br/>';
                 }
-                  $config_msg=rtrim($config_msg,'<br/>');
-                  $data[$k]->config_msg=$config_msg;
+                if($special){
+                    $config_msg .= '<hr>'.$special->price_name;
+                }
+                $config_msg=rtrim($config_msg,'<br/>');
+                $data[$k]->config_msg=$config_msg;
               }else{
-                $data[$k]->config_msg="暂无属性信息";
+                $config_msg = $special ? "暂无属性信息<hr>".$special->price_name : "暂无属性信息";
+                $data[$k]->config_msg=$config_msg;
               }
             $iparea=getclientcity($request,$v->order_ip);
             $data[$k]->order_ip=($iparea['country']==$iparea['city']?$v->order_ip."<br/>".$iparea['country']:$v->order_ip."<br/>".$iparea['country'].'-'.$iparea['city']);
@@ -604,7 +613,7 @@ class OrderController extends Controller
    }
    public function outorder(Request $request){
        //订单导出
-       $data=order::select('order.order_id','order.order_zip','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       $data=order::select('order.order_id','order.order_zip','order.order_special_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -682,6 +691,8 @@ class OrderController extends Controller
               $exdata[$k]['tel']=$v['order_tel'];
               $exdata[$k]['order_state']=$v['order_state'];
               $exdata[$k]['order_city']=$v['order_city'];
+              $special= special::leftjoin('price','price.price_id','special.special_price_id')->select('price.price_name')->where('special.special_id',$v['order_special_id'])->first();;
+              $exdata[$k]['special_name'] = $special ? $special->price_name : '';
               if($v['order_zip']){
                   $str=$v['order_add'];
                   $pattern='/(.*)\(Zip:(.*?)\)/';
@@ -748,6 +759,7 @@ class OrderController extends Controller
               $new_exdata[$k]['config_msg']=$exdata[$k]['config_msg'];
               $new_exdata[$k]['remark']=$exdata[$k]['remark'];
               $new_exdata[$k]['order_pay_type']=$exdata[$k]['order_pay_type'];
+              $new_exdata[$k]['special_name']=$exdata[$k]['special_name'];
            }
          if($request->has('min')&&$request->has('max')){
           $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
@@ -758,7 +770,7 @@ class OrderController extends Controller
 */
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
-        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','属性信息','备注','支付方式'];
+        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','属性信息','备注','支付方式','赠品名称'];
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)

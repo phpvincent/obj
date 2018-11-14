@@ -146,7 +146,7 @@
 				<th width="30">件数</th>
 				<th width="60">快递单号</th>
 				<th width="60">促销信息</th>
-				<th width="60">属性信息</th>
+				<th width="100">属性信息</th>
 				<th width="60">收货人邮箱</th>
 				<th width="60">收货人地区</th>
 				<th width="40">核审时间</th>

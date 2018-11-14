@@ -33,9 +33,6 @@
 
 
 <script type="text/javascript">
-	$('#addpz').on('click',function(){
-
-	})
 	$('.slectchange').on('change',function(){
 					if($(this).val()!=0){
 						$(this).next().removeAttr("disabled");
@@ -44,11 +41,11 @@
 					}
 				})
 	var index=1;
-				$("#addpz").on("click",function(){
-					var html='<div>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao['+index+'][msg]">件数:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">价格:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/^\\D*([0-9]\\d*\\.?\\d{0,2})?.*$/,\'$1\');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]">	赠品:<select name="new_cuxiao['+index+'][free]" class="select slectchange" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><span class="deletes"><i class="Hui-iconfont"></i></span></div>';
-					$("#pzhtml").append(html);
-					index+=1;
-					})
+    $("#addpz").on("click",function(){
+        var html='<div>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao['+index+'][msg]">件数:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao['+index+'][num]">价格:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/^\\D*([0-9]\\d*\\.?\\d{0,2})?.*$/,\'$1\');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao['+index+'][price]">	赠品:<select name="new_cuxiao['+index+'][free]" class="select slectchange" onChange="Obj('+this+')" style="width:30%;" ><option value="0" >无</option>@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach </select><span class="deletes"><i class="Hui-iconfont"></i></span></div>';
+        $("#pzhtml").append(html);
+        index+=1;
+        });
 	$('body').on("click",".deletes",function(){
 		$(this).parent().remove();
 	})

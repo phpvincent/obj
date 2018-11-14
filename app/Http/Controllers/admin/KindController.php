@@ -47,7 +47,12 @@ class KindController extends Controller
         //产品个数
         $newcount = goods_kind::where(function($query)use($search){
             $query->where('goods_kind_name','like',"%$search%");
-        })->count();
+        })
+        ->where(function($query){
+            $query->whereIn('goods_kind_admin',\App\admin::get_admins_id());
+        })
+        ->count();
+
         //产品信息
         $data = goods_kind::where(function($query)use($search){
             $query->where('goods_kind_name','like',"%$search%");
