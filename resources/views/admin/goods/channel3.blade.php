@@ -172,9 +172,10 @@
             }
 		})
     });
-	$('body').on("click", '.layui-btn-primary', function () {
-		$(".layui-input").val();
-    })
+	// $('body').on("click", '.layui-btn-primary', function () {
+	//     console.log(12)
+	// 	$(".layui-input").val('');
+    // })
 	function add_giveaway(node) {
 		if(node.value == -1) {
             layer.open({
@@ -202,7 +203,7 @@
                     '    <div class="layui-form-item">\n' +
                     '        <div class="layui-input-block">\n' +
                     '            <button class="layui-btn lay-submit" lay-filter="formDemo">立即提交</button>\n' +
-                    '            <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                    // '            <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
                     '        </div>\n' +
                     '    </div></html>\n'
             });
