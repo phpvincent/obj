@@ -326,7 +326,7 @@ class GoodsController extends Controller
                return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
            }
            //判断币种金额是否存在限制
-           if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
+           if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD' || $currency_type == 'IDR'){
                $data_limit = $this->data_limit($data);
                if($data_limit !== true){
                     return response()->json(['err'=>0,'str'=>$data_limit]);
@@ -881,7 +881,7 @@ class GoodsController extends Controller
                return response()->json(['err'=>0,'str'=>'抱歉！当前选择币种不支持paypal支付！']);
            }
            //判断币种金额是否存在限制
-           if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
+           if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD' || $currency_type == 'IDR'){
                $data_limit = $this->data_limit($data);
                if($data_limit !== true){
                    return response()->json(['err'=>0,'str'=>$data_limit]);
@@ -1721,7 +1721,7 @@ class GoodsController extends Controller
                             }
                             if(in_array('1',$goods_pay_type)){
                                 //paypal不支持的币种
-                                if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
+                                if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD' || $currency_type == 'IDR'){
                                     if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                         return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                     }
@@ -1742,7 +1742,7 @@ class GoodsController extends Controller
                             }
                             if(in_array('1',$goods_pay_type)){
                                 //paypal不支持的币种
-                                if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
+                                if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD' || $currency_type == 'IDR'){
                                     if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                         return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                     }
@@ -1766,7 +1766,7 @@ class GoodsController extends Controller
                         }
                         if(in_array('1',$goods_pay_type)){
                             //paypal不支持的币种
-                            if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD'){
+                            if($currency_type == 'THB' || $currency_type == 'JPY' || $currency_type == 'TWD' || $currency_type == 'IDR'){
                                 if(intval($val['config_diff_price']) != $val['config_diff_price']){
                                     return response()->json(['err'=>0,'str'=>'抱歉！当前商品差值不支持金额小数点！']);
                                 }
@@ -1778,7 +1778,10 @@ class GoodsController extends Controller
                     }
                 }
             }
-
+            if($item['id']){
+                $goods_configs = \App\goods_config::where('goods_primary_id', $id)->get()->toArray();
+                $config_vals = \App\config_val::where('config_goods_id', $id)->get()->toArray();
+            }
             foreach ($goods_attr as $item) {
                 if ($item['id']) {
                     $goods_config = \App\goods_config::where('goods_config_id', $item['id'])->first();
@@ -1794,7 +1797,29 @@ class GoodsController extends Controller
                 if(isset($item['msg'])){
                     $con_val = \App\config_val::createOrSave($item['msg'], $goods_config->goods_config_id, $id);
                     if ($con_val === false) {
-                        return response()->json(['err' => 0, 'str' => '保存失败！']);
+                        if($goods_is_update == 0){
+                            goods_config::where('goods_primary_id',$id)->delete();
+                            config_val::where('config_goods_id',$id)->delete();
+                            return response()->json(['err' => 0, 'str' => '保存失败！请重新提交']);
+                        }else{
+                            if(isset($goods_configs) && $goods_configs){
+                                foreach ($goods_configs as $items)
+                                {
+                                    $goods_config_id =  $items['goods_config_id'];
+                                    unset($items['goods_config_id']);
+                                    goods_config::where('goods_config_id',$goods_config_id)->update($items);
+                                }
+                            }
+                            if(isset($config_vals) && $config_vals){
+                                foreach ($config_vals as $config_val)
+                                {
+                                    $config_val_id = $config_val['config_val_id'];
+                                    unset($config_val['config_val_id']);
+                                    config_val::where('config_val_id',$config_val_id)->update($config_val);
+                                }
+                            }
+                            return response()->json(['err' => 0, 'str' => '保存失败！请重新提交']);
+                        }
                     }
                 }
             }
@@ -1807,6 +1832,9 @@ class GoodsController extends Controller
                 }
             }
 
+            $ip = $request->getClientIp();
+            //加log日志
+            operation_log($ip,'修改商品属性,单品名称：'.$goods->goods_real_name,json_encode($data));
             return response()->json(['err' => 1, 'str' => '保存成功！']);
         }
     }

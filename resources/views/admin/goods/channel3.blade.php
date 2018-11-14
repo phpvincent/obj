@@ -114,9 +114,6 @@
 	</div>
 
 <script type="text/javascript">
-	$('#addpz').on('click',function(){
-
-	})
 	$('.slectchange').on('change',function(){
 					if($(this).val()!=0){
 						$(this).next().removeAttr("disabled");

@@ -79,7 +79,7 @@ class config_val extends Model
             Storage::disk('public')->put($newImagesName, file_get_contents($pic));
         }
 
-        if($newImagesName){
+        if(isset($newImagesName)){
             return 'upload'.$newImagesName;
         }else{
             return false;

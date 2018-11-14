@@ -888,7 +888,7 @@ jQuery(function(){
                                    $('#addcart-quantity-val').val(num);
                                    basePrice=price //声明一个基础价格；
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
-                                   $('.addcart-specs-title-name').html("总数量："+num);
+                                   $('div.unfold .addcart-specs-title-name').html("总数量："+num);
 		                        console.log(num);
 		                        $("#goods_config_div").children().remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;
