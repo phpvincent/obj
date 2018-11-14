@@ -84,6 +84,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/goods/goods_real_name','admin\GoodsController@goods_real_name');
 	Route::match(['get','post'],'/admin/goods/addgoods_kind','admin\GoodsController@addgoods_kind');
 	Route::any('/admin/goods/attr','admin\GoodsController@goods_attr');
+	Route::post('/admin/goods/add_giveaway', 'admin\GoodsController@add_giveaway');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
