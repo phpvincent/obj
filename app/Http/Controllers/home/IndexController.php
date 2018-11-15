@@ -227,19 +227,34 @@ class IndexController extends Controller
                 $query->where('goods_config.kind_config_id','>','0');
             }
         })
+        ->orderBy('goods_config.goods_config_order','desc')
         ->orderBy('config_val.config_val_id','asc')
         ->get();
+        /*$kkk=\DB::table('goods_config')
+        ->select('goods_config.goods_config_id','goods_config.goods_config_order')
+        ->leftjoin('config_val','goods_config.goods_config_id','config_val.config_type_id')
+        ->where(function($query)use($goods_id){
+            $query->where('goods_config.goods_primary_id',$goods_id);
+            $query->where('config_val.config_isshow','0');
+        })
+        ->where(function($query)use($goods){
+            if($goods->goods_is_update=='1'){
+                $query->where('goods_config.kind_config_id','>','0');
+            }
+        })
+        ->orderBy('goods_config.goods_config_order','desc')
+        ->get()->toArray();*/
         $sort=[];
         foreach($goods_config as $k => $v)
         {   
-            $sort[$v->goods_config_id][]=$v;
-            $sort[$v->goods_config_id]['sort']=$v->goods_config_order;
+            $sort['id'.$v->goods_config_id][]=$v;
+            //$sort[$v->goods_config_id]['sort']=$v->goods_config_order;
         }
-        $order_sort = array_column($sort, 'sort');
+        /*$order_sort = array_column($sort, 'sort');
         array_multisort($order_sort,SORT_DESC,$sort);
         foreach($sort as $k => $v){
             unset($sort[$k]['sort']);
-        }
+        }*/
         /*$goods_config_arr=[];
         foreach($sort as $k => $v){
             $goods_config_arr['sort'.$v[0]->goods_config_id]=$v;
