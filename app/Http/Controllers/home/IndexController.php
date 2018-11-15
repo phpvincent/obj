@@ -235,11 +235,15 @@ class IndexController extends Controller
             $sort[$v->goods_config_order][]=$v;
         }
         krsort($sort);
+        $nsort=[];
+        foreach ($sort as $key => $value) {
+           $nsort['sort'.$key]=$value;
+        }
         /*$goods_config_arr=[];
         foreach($sort as $k => $v){
             $goods_config_arr[$v[0]->goods_config_id]=$v;
         }*/
-        $goods_config_arr=(string)json_encode($sort);
+        $goods_config_arr=(string)json_encode($nsort);
         $blade_type=$goods->goods_blade_type;
         if($blade_type==0){
             return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
