@@ -523,7 +523,7 @@ class IndexController extends Controller
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
         $order->order_village=$request->input('order_village');
-        $order->order_email=$request->input('email');
+        $order->order_email=str_replace(' ','',$request->input('email'));
         $order->order_isemail='0';
         $msg=$order->save();
         if($request->has('goodsAtt')){
@@ -972,7 +972,7 @@ class IndexController extends Controller
        $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
        $order->order_add=$request->input('address1');
        $order->order_village=$request->input('order_village');
-       $order->order_email=$request->input('email');
+       $order->order_email=str_replace(' ','',$request->input('email'));
        $msg=$order->save();
        if($request->has('goodsAtt')){
            $order_id=$order->order_id;
