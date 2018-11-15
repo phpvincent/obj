@@ -66,17 +66,17 @@ function addAttribu(cuxiao_num,a) {
             if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
 
             $("#goods_config_div img").css("display","none");    //属性第一组显示图片其他不显示
-            $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
+            // $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
             $("#goods_config_div ul:first img").css("display","inline-block");
-            $("#goods_config_div ul:first img").parent().css({"width":"30%","margin-left":"","padding":""});
+            // $("#goods_config_div ul:first img").parent().css({"width":"30%","margin-left":"","padding":""});
             return;
          }else if($("#goods_config_div form").length>4){
             addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse mui-active"><a class="mui-navigate-right" href="javascript:void(0)"><strong>'+jianshu(eNum)+'</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
             if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
             $("#goods_config_div img").css("display","none");    //属性第一组显示图片其他不显示
-            $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
+            // $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
             $("#goods_config_div ul:first img").css("display","inline-block");
-            $("#goods_config_div ul:first img").parent().css({"width":"30%","margin-left":"","padding":""});
+            // $("#goods_config_div ul:first img").parent().css({"width":"30%","margin-left":"","padding":""});
             return;
          } else{
             addhtml='<form id="'+e+'"><div  class="jianshu"><strong>'+jianshu(eNum)+'</strong></div>'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
@@ -98,7 +98,7 @@ function addAttribu(cuxiao_num,a) {
                   $(item).children(":first").prepend($(item).parent().prev().children())
                   $("#goods_config_div").append( $(item));             //插入一组商品的所有属性；
                   $(item).find("img").css("display","inline-block");    //显示隐藏的img;
-                  $(item).find("img").parent().css({"width":"30%","margin-left":"","padding":""});
+                //   $(item).find("img").parent().css({"width":"30%","margin-left":"","padding":""});
                })
                $("#goods_config_div ul").remove();
                $("#goods_config_div").children(":last-child").remove();
