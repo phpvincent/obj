@@ -231,15 +231,20 @@ class IndexController extends Controller
         ->get();
         $sort=[];
         foreach($goods_config as $k => $v)
-        {
-            $sort[$v->goods_config_order][]=$v;
+        {   
+            $sort[$v->goods_config_id][]=$v;
+            $sort[$v->goods_config_id]['sort']=$v->goods_config_order;
         }
-        krsort($sort);
-        $goods_config_arr=[];
+        $order_sort = array_column($sort, 'sort');
+        array_multisort($order_sort,SORT_DESC,$sort);
+        foreach($sort as $k => $v){
+            unset($sort[$k]['sort']);
+        }
+        /*$goods_config_arr=[];
         foreach($sort as $k => $v){
             $goods_config_arr['sort'.$v[0]->goods_config_id]=$v;
-        }
-        $goods_config_arr=(string)json_encode($goods_config_arr);
+        }*/
+        $goods_config_arr=(string)json_encode($sort);
         $blade_type=$goods->goods_blade_type;
         if($blade_type==0){
             return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
