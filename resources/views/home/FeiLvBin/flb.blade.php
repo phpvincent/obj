@@ -325,7 +325,7 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 70px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:70px 60px;"> <b>DHL</b></span>
+   <span style="font-size:14px;color:#333;line-height:23px;padding:10px 0 10px 56px; background:url(/img/lbc.png) 2px center no-repeat;background-size:44px 32px;"> <b>LBC</b></span>
 </div>
 @endif
 
