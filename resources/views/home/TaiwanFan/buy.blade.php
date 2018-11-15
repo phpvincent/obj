@@ -713,7 +713,7 @@ jQuery(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已選【'+msg.cuxiao[0].cuxiao_msg+'】僅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font> <span class="gift" style="display:none;">，含贈<font>0</font>件</span>   </span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已選【'+msg.cuxiao[0].cuxiao_msg+'】僅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font> <span class="gift" style="display:none;">，含贈<font>0</font>件</span>   </span><span class="addcart-footer-price-total">合計:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -802,7 +802,7 @@ jQuery(function(){
 	                            		zhengjia();
 	                            	}
 	                            }
-	                            $('#addcart-quantity-inc').bind('click',function(){
+	                            $('#addcart-quantity-inc,.addcart-quantity-inc').bind('click',function(){
 	                            	zhengjia();
 	                            });
                             })
