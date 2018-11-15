@@ -1619,6 +1619,7 @@ class GoodsController extends Controller
                         $goods_config[$k]->goods_config_id='';//商品属性id
                         $goods_config[$k]->goods_config_msg=$v->kind_config_msg;//商品属性名
                         $goods_config[$k]->config_diff_price='';//商品属性差价
+                        $goods_config[$k]->goods_config_order=0;
                         foreach ($arr as &$item)
                         {
                             $item['config_val_msg'] = $item['kind_val_msg'];
@@ -1639,6 +1640,7 @@ class GoodsController extends Controller
                        if($kind_configs){
                             $goods_config[$key]->goods_config_id=$kind_configs->goods_config_id;//商品属性id
                             $goods_config[$key]->goods_config_msg=$kind_configs->goods_config_msg;//商品属性名
+                            $goods_config[$key]->goods_config_order=$kind_configs->goods_config_order;//商品属性名
                             foreach ($arr as &$value){
                                 $kind_val = config_val::where('kind_val_id',$value['kind_val_id'])->where('config_goods_id',$id)->first();
                                 if($kind_val){
@@ -1657,6 +1659,7 @@ class GoodsController extends Controller
                        }else{
                            $goods_config[$key]->goods_config_id = '';//商品属性id
                            $goods_config[$key]->goods_config_msg=$item->kind_config_msg;//商品属性名
+                           $goods_config[$key]->goods_config_order=0;
                            foreach ($arr as &$value)
                            {
                                $value['config_val_id'] = '';
@@ -1705,6 +1708,11 @@ class GoodsController extends Controller
 
             //字段验证（判断数据是否为空）
             foreach ($goods_attr as $item){
+                //判断排序值合法性
+                if(!isset($item['goods_config_order'])||0>$item['goods_config_order']||$item['goods_config_order']>100)
+                {
+                    return response()->json(['err' => 0, 'str' => '排序值必须为0~100之间的数字！']);
+                }
                 if(!$item['goods_config_name']){
                     return response()->json(['err' => 0, 'str' => '属性名不能为空！']);
                 }
@@ -1790,6 +1798,7 @@ class GoodsController extends Controller
                 }
                 $goods_config->goods_config_msg = $item['goods_config_name'];
                 $goods_config->goods_config_type = 0;
+                $goods_config->goods_config_order = $item['goods_config_order'];
                 $goods_config->goods_primary_id = $id;
                 $goods_config->kind_config_id = $item['kind_config_id'];
                 $goods_config->is_img = 0;

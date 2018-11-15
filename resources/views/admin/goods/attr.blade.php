@@ -27,6 +27,7 @@
                                 <div class="row" style="margin-left: 0px;">
                                     <label for="kind_config_name" style="font-weight: bold;color: #D43">属性名:</label> <input type="text" readonly style="width: 10%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_msg}}" placeholder="" id="goods_config_name">
                                     <label for="goods_config_name" style="font-weight: bold;color: #D43">展示名:</label> <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="{{$v->goods_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
+                                    <label for="goods_config_name" style="font-weight: bold;color: #D43">排序值(0~100)正序:</label> <input type="text" style="width: 10%;margin-top:10px;" class="input-text attribute" value="{{$v->goods_config_order}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_order]" onblur="value=NumCheck(value)?value:0">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{$v->goods_config_id}}" name="goods_config_name[{{$k}}][id]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{$v->kind_config_id}}" name="goods_config_name[{{$k}}][kind_config_id]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{count($v->config_msg)}}" name="num">
@@ -83,6 +84,19 @@
 @endsection
 @section('js')
     <script type="text/javascript">
+        //验证数字是否为0~100
+        function NumCheck(num)
+        {
+            if(num==0&&num.length==1){
+                return true;
+            }
+            var reg = /^((?!0)\d{1,2}|100)$/;
+              if(!num.match(reg)){
+               return false;
+              }else{
+               return true;
+              }
+        }
         //添加产品属性
         function addCon(a)
         {

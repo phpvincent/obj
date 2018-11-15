@@ -216,7 +216,7 @@ class IndexController extends Controller
             $cuxiao_num='null';
         }
         $goods_config=\DB::table('goods_config')
-        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','config_val.config_diff_price','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id','config_val.config_isshow')
+        ->select('goods_config.goods_config_type','goods_config.goods_config_id','goods_config.goods_config_msg','goods_config.goods_config_order','config_val.config_diff_price','config_val.config_val_msg','config_val.config_val_img','config_val.config_val_id','config_val.config_type_id','config_val.config_isshow')
         ->leftjoin('config_val','goods_config.goods_config_id','config_val.config_type_id')
         ->where(function($query)use($goods_id){
             $query->where('goods_config.goods_primary_id',$goods_id);
@@ -229,11 +229,17 @@ class IndexController extends Controller
         })
         ->orderBy('config_val.config_val_id','asc')
         ->get();
-        $goods_config_arr=[];
-        foreach($goods_config as $k => $v){
-            $goods_config_arr[$v->goods_config_id][]=$v;
-        } /*dd($goods_config_arr);*/
-        $goods_config_arr=(string)json_encode($goods_config_arr);
+        $sort=[];
+        foreach($goods_config as $k => $v)
+        {
+            $sort[$v->goods_config_order][]=$v;
+        }
+/*        krsort($sort);
+*/        /*$goods_config_arr=[];
+        foreach($sort as $k => $v){
+            $goods_config_arr[$v[0]->goods_config_id]=$v;
+        }*/
+        $goods_config_arr=(string)json_encode($sort);
         $blade_type=$goods->goods_blade_type;
         if($blade_type==0){
             return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
