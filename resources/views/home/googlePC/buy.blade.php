@@ -562,20 +562,20 @@ function url_href()
             $.each(val,function(j,item){
              if(item.config_val_img){     //如果是展示图片的话显示这一组HTML；
                 if(j===0){
-                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="width: 20%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
+                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label class="ischeck" style="margin-bottom: 2px;width: 20%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }else{
-                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="width: 20%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
+                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="margin-bottom: 2px;width: 20%;text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }        
               }else{
                 if(j===0){
-                    colorBut= '<label style="display:inline-block"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
+                    colorBut= '<label style="margin-bottom: 2px;display:inline-block"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" checked="checked"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="ischeck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }else{
-                    colorBut+= '<label style="display:inline-block"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
+                    colorBut+= '<label style="margin-bottom: 2px;display:inline-block"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }
               }
                
             })
-            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dd><strong>'+val[0].goods_config_msg+'：</strong>'+colorBut+'</dl></div>';
+            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dd><strong>'+val[0].goods_config_msg+'：</strong><br>'+colorBut+'</dl></div>';
          })
          addhtml='<form id="'+e+'" style="display: none;padding: 5px 0; min-height: 150px;    background: url(/img/pc_bg.png) no-repeat right bottom #eee; box-shadow: rgb(136, 136, 136) 5px 5px 5px;overflow: auto;"><div><strong style="display: none;">item'+eNum+'</strong></div'+ color25+'</form>';   //每件商品的所有属性的HTML放入一个form；
          if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
