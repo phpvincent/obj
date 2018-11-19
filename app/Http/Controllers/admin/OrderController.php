@@ -117,7 +117,11 @@ class OrderController extends Controller
               $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
               if($order_type!='#'){
-                $query->where('order.order_type',$order_type);
+                if($order_type==0){
+                  $query->whereIn('order.order_type',[0,11]);
+                }else{
+                  $query->where('order.order_type',$order_type);
+                }
               }
               if($pay_type!='#'){
                   $query->where('order.order_pay_type',$pay_type);
@@ -186,7 +190,11 @@ class OrderController extends Controller
               $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
               if($order_type!='#'){
-                $query->where('order.order_type',$order_type);
+                if($order_type==0){
+                  $query->whereIn('order.order_type',[0,11]);
+                }else{
+                  $query->where('order.order_type',$order_type);
+                }
               }
               if($pay_type!='#'){
                    $query->where('order.order_pay_type',$pay_type);
@@ -287,7 +295,11 @@ class OrderController extends Controller
               $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
               if($order_type!='#'){
-                $query->where('order.order_type',$order_type);
+                if($order_type==0){
+                  $query->whereIn('order.order_type',[0,11]);
+                }else{
+                  $query->where('order.order_type',$order_type);
+                }
               }
               if($pay_type!='#'){
                   $query->where('order.order_pay_type',$pay_type);
@@ -365,7 +377,11 @@ class OrderController extends Controller
               $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
               if($order_type!='#'){
-                $query->where('order.order_type',$order_type);
+                if($order_type==0){
+                  $query->whereIn('order.order_type',[0,11]);
+                }else{
+                  $query->where('order.order_type',$order_type);
+                }
               }
               if($pay_type!='#'){
                  $query->where('order.order_pay_type',$pay_type);
@@ -387,7 +403,10 @@ class OrderController extends Controller
            //商品附带规格信息
 	        foreach($data as $k => &$v){
 	        $goods= \App\goods::where('goods_id',$v->order_goods_id)->first();
-            //订单价格换算为人民币
+          if(time()-strtotime($v->order_time)>=86400){
+            $data[$k]->order_time.="<span style='color:red;display:block;'>此订单已超过24小时</span>";
+          }
+          //订单价格换算为人民币
 	        $goods_currency_id = $goods->goods_currency_id;
             if($goods->is_del == '1'){
                 $v->goods_real_name = $v->goods_real_name.'<span style="color: red">(已删除)</span>';
