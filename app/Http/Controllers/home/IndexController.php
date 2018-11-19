@@ -394,7 +394,7 @@ class IndexController extends Controller
     	$order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
     	if($order_goods_id==false){
-            \Log::notcie('下单时找不到url对应goods_id:'.$_SERVER['SERVER_NAME']);
+            \Log::notice('下单时找不到url对应goods_id:'.$_SERVER['SERVER_NAME']);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_goods_id=$order_goods_id;
@@ -408,7 +408,7 @@ class IndexController extends Controller
             $url=$urls->url_url;
         }
         if($url==null){
-            \Log::notcie('下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
+            \Log::notice('下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
@@ -418,7 +418,7 @@ class IndexController extends Controller
         }
         //判断金额合法性
     	if($price==false||$price<=0){
-            \Log::notcie('下单时金额非法goods_id:'.$goods->goods_id.'price:'.$price);
+            \Log::notice('下单时金额非法goods_id:'.$goods->goods_id.'price:'.$price);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
         $order_Array = [];
@@ -507,7 +507,7 @@ class IndexController extends Controller
     	$order_num=$request->input('specNumber');
     	//判断商品数合法性
     	if($order_num<=0){
-                        \Log::notcie('下单时件数错误，下单失败！goods_id:'.$goods->goods_id.'num:'.$order_num);
+                        \Log::notice('下单时件数错误，下单失败！goods_id:'.$goods->goods_id.'num:'.$order_num);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_num=$order_num;
@@ -557,7 +557,7 @@ class IndexController extends Controller
         }
         
     	if(!$msg){
-          \Log::notcie('订单存储失败order:'.json_encode($order));
+          \Log::notice('订单存储失败order:'.json_encode($order));
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}else{
             $goods_id=$goods->goods_id;
