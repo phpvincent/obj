@@ -339,7 +339,7 @@ class IndexController extends Controller
     }
     public function savetestform(Request $request){
         $ip=$request->getClientIp();
-        \Log::notice(json_encode($request->all()).'savetestform');
+        \Log::notice('ip:'.$ip.json_encode($request->all()).'savetestform');
         $order=new order();
         $order->order_single_id='NR'.makeSingleOrder();
         $order->order_ip=$ip;
