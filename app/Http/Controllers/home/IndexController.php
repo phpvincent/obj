@@ -387,6 +387,11 @@ class IndexController extends Controller
             $order_id=0;
             return  response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
         }
+        //验证数量合法性
+        if($request->input('specNumber')<=0||(int)$request->input('specNumber')!=$request->input('specNumber')){
+           \Log::notice('ip:'.$request->getClientIp().'下单时商品数目非法url:'.$_SERVER['SERVER_NAME'].'num:'.$request->input('specNumber'));
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+        }
     	$ip=$request->getClientIp();
     	$order=new order();
     	$order->order_single_id='NR'.makeSingleOrder();
@@ -394,7 +399,7 @@ class IndexController extends Controller
     	$order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
     	if($order_goods_id==false){
-            \Log::notice('下单时找不到url对应goods_id:'.$_SERVER['SERVER_NAME']);
+            \Log::notice('ip:'.$request->getClientIp().'下单时找不到url对应goods_id:'.$_SERVER['SERVER_NAME']);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_goods_id=$order_goods_id;
@@ -408,7 +413,7 @@ class IndexController extends Controller
             $url=$urls->url_url;
         }
         if($url==null){
-            \Log::notice('下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
+            \Log::notice('ip:'.$request->getClientIp().'下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
@@ -418,7 +423,7 @@ class IndexController extends Controller
         }
         //判断金额合法性
     	if($price==false||$price<=0){
-            \Log::notice('下单时金额非法goods_id:'.$goods->goods_id.'price:'.$price);
+            \Log::notice('ip:'.$request->getClientIp().'下单时金额非法goods_id:'.$goods->goods_id.'price:'.$price.'num:'.$request->input('specNumber'));
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
         $order_Array = [];
@@ -507,7 +512,7 @@ class IndexController extends Controller
     	$order_num=$request->input('specNumber');
     	//判断商品数合法性
     	if($order_num<=0){
-                        \Log::notice('下单时件数错误，下单失败！goods_id:'.$goods->goods_id.'num:'.$order_num);
+                        \Log::notice('ip:'.$request->getClientIp().'下单时件数错误，下单失败！goods_id:'.$goods->goods_id.'num:'.$order_num);
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}
     	$order->order_num=$order_num;
@@ -557,7 +562,7 @@ class IndexController extends Controller
         }
         
     	if(!$msg){
-          \Log::notice('订单存储失败order:'.json_encode($order));
+          \Log::notice('ip:'.$request->getClientIp().'订单存储失败order:'.json_encode($order));
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
     	}else{
             $goods_id=$goods->goods_id;
@@ -873,6 +878,7 @@ class IndexController extends Controller
            $url=$urls->url_url;
        }
        if($url==null){
+        \Log::notice('ip:'.$request->getClientIp().'下单时非法url:'.$_SERVER['SERVER_NAME'].'num:'.$request->input('specNumber'));
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
        $order->order_goods_url= $url;
@@ -883,6 +889,7 @@ class IndexController extends Controller
         }
        //判断金额合法性
        if($price==false||$price<=0){
+           \Log::notice('ip:'.$request->getClientIp().'下单时商品金额非法price:'.$price.'num:'.$request->input('specNumber').'goods_id'.$order_goods_id);
            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
        $order_Array = [];
@@ -961,6 +968,7 @@ class IndexController extends Controller
        $order_num=$request->input('specNumber');
        //判断商品数合法性
        if($order_num<=0){
+           \Log::notice('ip:'.$request->getClientIp().'下单时商品数目非法num:'.$request->input('specNumber').'goods_id'.$order_goods_id);
            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
        $order->order_type= 9;//付费状态
@@ -1000,6 +1008,7 @@ class IndexController extends Controller
        }
        $link=$this->paypal($order->order_id);
        if($link===false){
+           \Log::notice('ip:'.$request->getClientIp().'下单时paypal返回错误price:'.$price.'num:'.$request->input('specNumber').'goods_id'.$order_goods_id.'url:'.$_SERVER['SERVER_NAME']);
         return response()->json(['err'=>0,'msg'=>'paypal fail']);
        }
        return response()->json(['err'=>1,'url'=>$link]);
