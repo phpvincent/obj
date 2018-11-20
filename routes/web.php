@@ -18,7 +18,7 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
+/*	Route::any('/paypal',function(Request $request){
 		\Log::notice(json_encode($request->all()).'回调~~~~~~~~~~~~~~~~~~~~~~~~');return;
 		 $url=$_SERVER['SERVER_NAME'];
         $goods=\App\goods::where('goods_id',43)->first();
@@ -26,7 +26,7 @@ use App\Jobs\SendHerbEmail;
         return view('home.YinDuNiXiYa.sendmail')->with(compact('url','order','goods'));
 		
 		//SendHerbEmail::dispatch($order);
-	});
+	});*/
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
