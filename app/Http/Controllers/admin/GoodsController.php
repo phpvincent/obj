@@ -35,7 +35,7 @@ class GoodsController extends Controller
 //        $counts=goods::where('goods_admin_id',Auth::user()->admin_id)->count();
 //       }
        $languages = \App\admin::$LANGUAGES;
-       $counts=goods::whereIn('goods_admin_id',admin::get_admins_id())->count();
+       $counts=goods::whereIn('goods_admin_id',admin::get_admins_id())->where('is_del','0')->count();
        $type=\App\goods_type::get();
        $goods_kind = goods_kind::all();
    	  return view('admin.goods.index')->with(compact('counts','type','languages','goods_kind'));

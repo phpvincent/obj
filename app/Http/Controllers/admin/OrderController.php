@@ -438,7 +438,7 @@ class OrderController extends Controller
                 if($special){
                     $config_msg .= '<hr>赠：'.$special;
                 }
-                $config_msg=rtrim($config_msg,'<br/>');
+                /*$config_msg=rtrim($config_msg,'<br/>');*/
                 $data[$k]->config_msg=$config_msg;
               }else{
                 $config_msg = $special ? "暂无属性信息<hr>赠：".$special : "暂无属性信息";
@@ -734,8 +734,8 @@ class OrderController extends Controller
                   $goods_config_msg=rtrim($goods_config_msg,'-');
                   $goods_config_msg.='<br/>';
                 }
-                  $config_msg=rtrim($config_msg,'<br/>');
-                  $goods_config_msg=rtrim($goods_config_msg,'<br/>');
+                  /*$config_msg=rtrim($config_msg,'<br/>');
+                  $goods_config_msg=rtrim($goods_config_msg,'<br/>');*/
                   $exdata[$k]['config_msg']=$config_msg;
                   $exdata[$k]['goods_config_msg']=$goods_config_msg;
               }else{
