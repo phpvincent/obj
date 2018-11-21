@@ -80,6 +80,28 @@
                 transform: scale(1, 1);
                 display: inline-block;
             }
+            /* 搜索下拉 */
+            .box{
+                position: absolute;
+                top: 42px;
+                z-index: 999;
+                width: 73%;
+                margin-left: 24%;
+                overflow-y: auto;
+                padding-right: 0px;
+                box-sizing: border-box;
+                height: 130px;
+                border: 1px solid #ddd;
+            }
+            .box ul{
+
+                background-color: #fff;
+            }
+            .box li{
+                padding: 0 15px;
+                cursor:pointer;
+            }
+            .box li:nth-child(odd){background:#F4F4F4;}`
         
         </style>
         <!--产品页轮播-->
@@ -91,6 +113,7 @@
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
         <script src="/js/diqu/ydnxy.js"></script>
+        <script src="/js/diqu/ydnxy_zip.json"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
@@ -259,9 +282,13 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="">
+    <div class="mui-input-row" style="overflow:visible">
         <label><span class="require">*</span>Kode pos:</label>
-        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear">
+        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear chanpin"oninput="xiala()">
+        <div class="box" style="display: none;">
+            <ul>
+            </ul>
+        </div>
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>
@@ -327,8 +354,9 @@
     
 
 <script>
+console.log(zips)
      //第几件翻译
-     function jianshu(a){
+function jianshu(a){
     return 'Item ke-'+a
   };
   //三位数字加一个，
@@ -921,9 +949,43 @@ jQuery(function(){
     })*/
 //支付方式默认选中第一个；
 $(function(){
-    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked");
+
+
+    
 })
 });
+// 邮编搜索下拉
+function xiala(){
+    var str='';
+		$('.box ul').empty();
+		$('.box').show(400);
+		var a=$('.chanpin').val();
+		jQuery.each(zips,function(key,value){ 
+            if(value.indexOf(a) !==-1){
+                str+='<li>'+value+'</li>' 
+            } 
+        });
+        console.log(str)
+        if(str==''){
+            $('.box').hide();
+        }else{
+            $('.box ul').html(str);
+        }
+	}
+	
+	$('.chanpin').on('blur',function(){
+        setTimeout(function(){
+            $('.box').hide(400);
+      },250)
+	});
+	$('body').on('click','.box li',function(){
+
+		$('.box').hide(400);
+		var content=$(this).text();
+		$('.chanpin').val(content);
+		$('.box ul').empty();
+	})
 </script>
         <script>
         jQuery(function(){setFrom();});
