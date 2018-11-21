@@ -976,8 +976,16 @@ class IndexController extends Controller
        $order->order_pay_type= 1;//paypal在线支付
        $order->order_num=$order_num;
        $cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
-       $cuxiao_msg=$cuxiao_msg!=null?$cuxiao_msg->cuxiao_msg:"暂无促销信息";
-       $order->order_cuxiao_id=$cuxiao_msg;
+       if($cuxiao_msg){
+           $cuxiao_id = $cuxiao_msg->cuxiao_msg;
+           $order->order_price_id=special::where('special_id',$cuxiao_msg->cuxiao_special_id)->value('special_price_id');
+       }else{
+           $cuxiao_id = "暂无促销信息";
+       }
+       $order->order_cuxiao_id=$cuxiao_id;
+//       $cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
+//       $cuxiao_msg=$cuxiao_msg!=null?$cuxiao_msg->cuxiao_msg:"暂无促销信息";
+//       $order->order_cuxiao_id=$cuxiao_msg;
        $order->order_remark=$request->input('notes');
        $order->order_name=$request->input('firstname');
        $order->order_tel=$request->input('telephone');

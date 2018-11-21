@@ -1199,7 +1199,8 @@ class GoodsController extends Controller
         $goods = goods::where('goods_id',$id)->first();
         $goods->goods_pay_type = explode(',',$goods->goods_pay_type);
         $currency_type = \App\currency_type::all();
-        return view('admin.goods.onlyname')->with(compact('goods','currency_type'));
+        $admin = admin::all();
+        return view('admin.goods.onlyname')->with(compact('goods','currency_type','admin'));
     }
 
     /** 复制商品
@@ -1243,7 +1244,7 @@ class GoodsController extends Controller
         }
 
         $goods['goods_real_name'] = $request->input('goods_name');  //单品名称
-        $goods['goods_admin_id'] = Auth::user()->admin_id;     //复制人
+        $goods['goods_admin_id'] = $request->input('goods_admin_id') ? $request->input('goods_admin_id') : Auth::user()->admin_id;     //复制人
         $goods['goods_up_time'] = date('Y-m-d H:i:s',time());  // 操作时间
         if(\App\goods_check::first()['goods_is_check']=='0'){//判断是否开启核审机制
             if(Auth::user()->is_root!='1'){
