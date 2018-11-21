@@ -65,6 +65,7 @@ class GoodsController extends Controller
 //              $query->whereIn('goods_admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
               $query->whereIn('goods_admin_id',admin::get_admins_id());
             }
+            $query->where('is_del','0');
           })
 	        ->count();
            $json=json_decode($search,true);

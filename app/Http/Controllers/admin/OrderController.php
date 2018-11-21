@@ -257,7 +257,7 @@ class OrderController extends Controller
             })
             ->where(function($query)use($goods_search){
                 if($goods_search!=0){
-                   $garr=order::get_group_order($goods_search);
+                   $garr=\App\goods::get_only_slef_id($goods_search);
                 $query->whereIn('order_goods_id',$garr);
                 }
             })->where(function ($query)use($order_repeat_ip){
@@ -333,12 +333,8 @@ class OrderController extends Controller
             })
            ->where(function($query)use($goods_search){
             if($goods_search!=0){
-              $garr=[];
-              $goodsarr=\App\goods::where("goods_admin_id",'=',$goods_search)->get(['goods_id'])->toArray();
-              foreach($goodsarr as $key => $v){
-                $garr[]=$v['goods_id'];
-              }
-              $query->whereIn('order_goods_id',$garr);
+              $garr=\App\goods::get_only_slef_id($goods_search);
+                $query->whereIn('order_goods_id',$garr);
             }
            })->where(function ($query)use($order_repeat_ip){
                     if($order_repeat_ip == 1){
@@ -633,6 +629,9 @@ class OrderController extends Controller
 
    }
    public function outorder(Request $request){
+        if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
+          return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+        }
        //订单导出
        $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -647,15 +646,47 @@ class OrderController extends Controller
            ->where(function($query){
             $query->where('order.is_del','0');
            })
-           ->where(function($query){
+          /* ->where(function($query){
             $query->where('order.order_type','1');
-           })
+           })*/
            ->where(function($query)use($request){
               if($request->has('min')&&$request->has('max')){
                 $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
               }else{
                 $now_date=date('Y-m-d',time()).' 00:00:00';
                 $query->where('order.order_time','>',$now_date);
+              }
+           })
+           ->where(function($query)use($request){
+            $goods_search=$request->input('admin_name');
+            //筛选不同账户条件
+              if($goods_search!=0){
+                   $garr=\App\goods::get_only_slef_id($goods_search);
+                $query->whereIn('order_goods_id',$garr);
+                }
+           })
+           ->where(function($query)use($request){
+             $order_type=$request->input('order_type');
+              $pay_type=$request->input('pay_type');
+              if($order_type!='null'){
+                if($order_type==0){
+                  $query->whereIn('order.order_type',[0,11]);
+                }else{
+                  $query->where('order.order_type',$order_type);
+                }
+              }else{
+                $query->where('order.order_type','1');
+              }
+              if($pay_type!='null'){
+                  $query->where('order.order_pay_type',$pay_type);
+              }
+              //根据语言搜索
+              if($request->has('languages')&&$request->input('languages')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_blade($request->input('languages'));
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
+                  }
               }
            })
            ->orderBy('order.order_time','desc')
@@ -671,11 +702,13 @@ class OrderController extends Controller
             //尺寸信息
              $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
             if($order_config->count()>0){
-                $config_msg='';
+                $config_msg='';//产品属性
+                $goods_config_msg='';//商品展示属性
                 $i=0;
                 foreach($order_config  as  $va){
                   $i++;
                   $config_msg.="第".$i."件：";
+                  $goods_config_msg.="第".$i."件：";
                   $orderarr=explode(',',$va['order_config']);
                   foreach($orderarr as $key => $val){
                     $conmsg=\App\config_val::where('config_val_id',$val)
@@ -693,15 +726,21 @@ class OrderController extends Controller
                     }else{
                         $config_val_msg = $conmsg['config_val_msg'];
                     }
+                    $goods_config_msg.=$conmsg['config_val_msg'].'-';
                     $config_msg.= $config_val_msg.'-';
                   }
                   $config_msg=rtrim($config_msg,'-');
                   $config_msg.='<br/>';
+                  $goods_config_msg=rtrim($goods_config_msg,'-');
+                  $goods_config_msg.='<br/>';
                 }
                   $config_msg=rtrim($config_msg,'<br/>');
+                  $goods_config_msg=rtrim($goods_config_msg,'<br/>');
                   $exdata[$k]['config_msg']=$config_msg;
+                  $exdata[$k]['goods_config_msg']=$goods_config_msg;
               }else{
                 $exdata[$k]['config_msg']="暂无属性信息";
+                $exdata[$k]['goods_config_msg']="暂无属性信息";
               }
               $exdata[$k]['order_single_id']=$v['order_single_id'];
               $exdata[$k]['order_num']=$v['order_num'];
@@ -778,6 +817,7 @@ class OrderController extends Controller
               $new_exdata[$k]['order_price']=$exdata[$k]['order_price'];
               $new_exdata[$k]['order_num']=$exdata[$k]['order_num'];
               $new_exdata[$k]['config_msg']=$exdata[$k]['config_msg'];
+              $new_exdata[$k]['goods_config_msg']=$exdata[$k]['goods_config_msg'];
               $new_exdata[$k]['remark']=$exdata[$k]['remark'];
               $new_exdata[$k]['order_pay_type']=$exdata[$k]['order_pay_type'];
               $new_exdata[$k]['special_name']=$exdata[$k]['special_name'];
@@ -791,7 +831,7 @@ class OrderController extends Controller
 */
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
-        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','属性信息','备注','支付方式','赠品名称'];
+        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','产品属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
