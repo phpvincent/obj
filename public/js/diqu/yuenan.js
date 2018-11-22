@@ -241,8 +241,8 @@
                 opts = self.options,
                 county = '',
                 list = {
-                    'county': '<option value="">- - Select an option - -</option>',
-                    'district': '<option value="">- - Select an option - -</option>'
+                    'county': '<option value="">- - xin chọn tỉnh, thành phố - -</option>',
+                    'district': '<option value="">- -  xin chọn thị trấn, nội thành  - -</option>'
                 },
                 tpl = [];
 
