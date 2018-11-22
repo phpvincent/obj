@@ -104,8 +104,8 @@
 					单品数量：<input type="text" class="input-text" value="{{$order->order_num}}" id="order_num" disabled>
 					促销信息：<input type="text" class="input-text" value="{{ $order->order_cuxiao_id }}" id="order_cuxiao_id" disabled>
 					@if($order->order_config)
-					@foreach($order->order_config as $config_id=>$config)
-						属性信息：@foreach ($goods->attrs as $key_attr => $attr)
+					@foreach($order->order_config as $kkk =>$config_id=>$config)
+						第{{$kkk}}件：@foreach ($goods->attrs as $key_attr => $attr)
 							  <div>
 								  <label>{{ $attr->goods_config_msg }}</label>
 								  @if($attr->goods_config_type == 0)
@@ -179,7 +179,7 @@
 		</div>
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>备注：</label>
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>下单者备注：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$order->order_remark}}" placeholder="" id="order_remark" name="order_remark">
 				</div>
