@@ -40,7 +40,7 @@
           font-size: 14px;
           line-height: 24px;">
             <td height="78" colspan="3"><span class="STYLE1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">เรียนคุณ [{{$order->order_name}}]</font></font><br>
-            ขอบคุณที่เลือกร้านค้าออนไลน์ขอบคุณที่เลือกร้านค้าออนไลน์<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>ทางเราจะดำเนินหมายเลขคำสั่ง <b><u>{{$order->order_single_id}}</u></b>ของท่านในเวลาโดยเร็วที่สุด
+            ขอบคุณที่เลือกร้านค้าออนไลน์<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>ทางเราจะดำเนินหมายเลขคำสั่ง <b><u>{{$order->order_single_id}}</u></b>ของท่านในเวลาโดยเร็วที่สุด
             </font></font></span></td>
           </tr>
           <tr>
