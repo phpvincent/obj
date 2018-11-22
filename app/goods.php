@@ -103,7 +103,7 @@ class goods extends Model
         return $band;
     }
     public static function get_success_blade($goods){
-        //根据商品类返回所属成功页面模板
+        //根据商品类返回所属邮件页面模板
         $blade_id=$goods->goods_blade_type;
         switch ($blade_id) {
             case '0':
@@ -138,6 +138,9 @@ class goods extends Model
                 break;
             case '10':
                 $blade_name='home.MeiGuo.sendmail';
+                break;
+            case '11':
+                $blade_name='home.YueNan.sendmail';
                 break;
             
             default:
