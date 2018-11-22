@@ -105,7 +105,7 @@
 					促销信息：<input type="text" class="input-text" value="{{ $order->order_cuxiao_id }}" id="order_cuxiao_id" disabled>
 					@if($order->order_config)
 					@foreach($order->order_config as $config_id=>$config)
-						<span style="color:green;border: 1px solid black;">第{{$loop->index + 1}}件：</span>@foreach ($goods->attrs as $key_attr => $attr)
+						<span style="color:blue;border: 1px solid black;">第{{$loop->index + 1}}件：</span>@foreach ($goods->attrs as $key_attr => $attr)
 							  <div>
 								  <label>{{ $attr->goods_config_msg }}</label>
 								  @if($attr->goods_config_type == 0)
