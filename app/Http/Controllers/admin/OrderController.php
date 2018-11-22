@@ -61,7 +61,6 @@ class OrderController extends Controller
     * @return \Illuminate\Http\JsonResponse
     */
    public function edit(Request $request) {
-       $admins = admin::whereIn('admin_id', admin::get_admins_id())->get();
        $order = order::where('order_id', $request->input('id'))->where('is_del','0')->first();
        $goods = goods::find($order->order_goods_id);
        $goods_attrs = goods_config::where('goods_primary_id', $order->order_goods_id)->get();
@@ -82,7 +81,7 @@ class OrderController extends Controller
            $order->special = price::where('price_id',$order->order_price_id)->value('price_name');
        }
 
-       return view('admin.order.edit')->with(compact('order','admins','goods'));
+       return view('admin.order.edit')->with(compact('order','goods'));
 
    }
 
