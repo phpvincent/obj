@@ -354,7 +354,6 @@
     
 
 <script>
-console.log(zips)
      //第几件翻译
 function jianshu(a){
     return 'Item ke-'+a
@@ -449,7 +448,6 @@ $('#pay').bind('click',function(){
         })
    })
 
-   console.log(dataObj);
     var fromArr2=$("form#save").serializeArray();
     $.each(fromArr2,function(i,val){
         datasObj[val.name]=val.value;
@@ -792,11 +790,11 @@ jQuery(function(){
 	                            	
 	                            	formnum+=1;
 	                            	var formName="f"+formnum;
-	                            	addform(formName); console.log(formnum) //增加一组商品属性
+	                            	addform(formName); //增加一组商品属性
                             
 	                            	// var num=parseInt($(this).prev().val());
 	                            	var num = Number($('#addcart-quantity-val').val())
-	                            	console.log(num)
+	                            	
 	                            	if(num>= msg.goods.goods_num){
 	                            		layer.msg('low stocks!');
 	                            		return false;
@@ -899,7 +897,7 @@ jQuery(function(){
                                    basePrice=price //声明一个基础价格；
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
                                    $('div.unfold .addcart-specs-title-name').html("item ke-:"+num);
-		                        console.log(num);
+		                        
 		                        $("#goods_config_div").children().remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;
 		                        for(var i=1;i<=num;i++){
@@ -966,7 +964,6 @@ function xiala(){
                 str+='<li>'+value+'</li>' 
             } 
         });
-        console.log(str)
         if(str==''){
             $('.box').hide();
         }else{
