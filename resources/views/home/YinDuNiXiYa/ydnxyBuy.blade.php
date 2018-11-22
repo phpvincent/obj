@@ -956,8 +956,7 @@ $(function(){
 // 邮编搜索下拉
 function xiala(){
     var str='';
-		$('.box ul').empty();
-		$('.box').show(400);
+		$('.box ul').empty();	
 		var a=$('.chanpin').val();
 		jQuery.each(zips,function(key,value){ 
             if(value.indexOf(a) !==-1){
@@ -967,6 +966,7 @@ function xiala(){
         if(str==''){
             $('.box').hide();
         }else{
+            $('.box').show(400);
             $('.box ul').html(str);
         }
 	}
