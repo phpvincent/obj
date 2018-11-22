@@ -111,8 +111,9 @@
 								  @if($attr->goods_config_type == 0)
 									  <div class="check-box">
 										  @foreach($attr->vals as $key => $val)
+										  	  <span style="border: 1px solid black;">
 											  {{ $val->config_val_msg }}
-											  <input type="radio" name="config_val_id[{{ $config_id }}][{{ $val->config_type_id }}]" value="{{ $val->config_val_id }}"   @if (in_array($val->config_val_id,explode(',',$config)))checked @endif> 差额 {{ $val->config_diff_price }}
+											  <input type="radio" name="config_val_id[{{ $config_id }}][{{ $val->config_type_id }}]" value="{{ $val->config_val_id }}"   @if (in_array($val->config_val_id,explode(',',$config)))checked @endif> 差额 {{ $val->config_diff_price }}</span>
 										  @endforeach
 									  </div>
 									@else
