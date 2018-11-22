@@ -80,6 +80,28 @@
                 transform: scale(1, 1);
                 display: inline-block;
             }
+            /* 搜索下拉 */
+            .box{
+                position: absolute;
+                top: 42px;
+                z-index: 999;
+                width: 73%;
+                margin-left: 24%;
+                overflow-y: auto;
+                padding-right: 0px;
+                box-sizing: border-box;
+                height: 130px;
+                border: 1px solid #ddd;
+            }
+            .box ul{
+
+                background-color: #fff;
+            }
+            .box li{
+                padding: 0 15px;
+                cursor:pointer;
+            }
+            .box li:nth-child(odd){background:#F4F4F4;}`
         
         </style>
         <!--产品页轮播-->
@@ -91,6 +113,7 @@
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
         <script src="/js/diqu/ydnxy.js"></script>
+        <script src="/js/diqu/ydnxy_zip.json"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
@@ -259,9 +282,13 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="">
+    <div class="mui-input-row" style="overflow:visible">
         <label><span class="require">*</span>Kode pos:</label>
-        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear">
+        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear chanpin"oninput="xiala()">
+        <div class="box" style="display: none;">
+            <ul>
+            </ul>
+        </div>
     </div>
         <div class="mui-input-row need_email">
         <label>Email:</label>
@@ -328,7 +355,7 @@
 
 <script>
      //第几件翻译
-     function jianshu(a){
+function jianshu(a){
     return 'Item ke-'+a
   };
   //三位数字加一个，
@@ -421,7 +448,6 @@ $('#pay').bind('click',function(){
         })
    })
 
-   console.log(dataObj);
     var fromArr2=$("form#save").serializeArray();
     $.each(fromArr2,function(i,val){
         datasObj[val.name]=val.value;
@@ -764,11 +790,11 @@ jQuery(function(){
 	                            	
 	                            	formnum+=1;
 	                            	var formName="f"+formnum;
-	                            	addform(formName); console.log(formnum) //增加一组商品属性
+	                            	addform(formName); //增加一组商品属性
                             
 	                            	// var num=parseInt($(this).prev().val());
 	                            	var num = Number($('#addcart-quantity-val').val())
-	                            	console.log(num)
+	                            	
 	                            	if(num>= msg.goods.goods_num){
 	                            		layer.msg('low stocks!');
 	                            		return false;
@@ -871,7 +897,7 @@ jQuery(function(){
                                    basePrice=price //声明一个基础价格；
                                    pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+price);       //填上自定义价格无需计算；
                                    $('div.unfold .addcart-specs-title-name').html("item ke-:"+num);
-		                        console.log(num);
+		                        
 		                        $("#goods_config_div").children().remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
 		                        formnum=0;
 		                        for(var i=1;i<=num;i++){
@@ -921,9 +947,42 @@ jQuery(function(){
     })*/
 //支付方式默认选中第一个；
 $(function(){
-    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked");
+
+
+    
 })
 });
+// 邮编搜索下拉
+function xiala(){
+    var str='';
+		$('.box ul').empty();	
+		var a=$('.chanpin').val();
+		jQuery.each(zips,function(key,value){ 
+            if(value.indexOf(a) !==-1){
+                str+='<li>'+value+'</li>' 
+            } 
+        });
+        if(str==''){
+            $('.box').hide();
+        }else{
+            $('.box').show(400);
+            $('.box ul').html(str);
+        }
+	}
+	
+	$('.chanpin').on('blur',function(){
+        setTimeout(function(){
+            $('.box').hide(400);
+      },250)
+	});
+	$('body').on('click','.box li',function(){
+
+		$('.box').hide(400);
+		var content=$(this).text();
+		$('.chanpin').val(content);
+		$('.box ul').empty();
+	})
 </script>
         <script>
         jQuery(function(){setFrom();});

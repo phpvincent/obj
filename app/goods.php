@@ -30,6 +30,14 @@ class goods extends Model
     	}
     	return $ids;
     }
+    public static function get_only_slef_id($admin_id){
+        $arr=self::where([['goods_admin_id','=',$admin_id],['is_del','=','0'],['goods_id','<>','4']])->get(['goods_id'])->toArray();
+        $ids=[];
+        foreach($arr as $v => $k){
+            $ids[]=$k['goods_id'];
+        }
+        return $ids;
+    }
     public static function get_search_arr($search,$type=true){
         //使用搜索条件获取单品组
         $goods_ids=self::where('goods_name','like',"%$search%")->get(['goods_id'])->toArray();

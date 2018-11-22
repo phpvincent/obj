@@ -271,7 +271,7 @@ function goods_online(id){
 		}
 }
 function goods_copy(id) {
-    layer_show('复制单品名称','{{url("/admin/goods/only_name")}}?id='+id,400,260);
+    layer_show('复制单品名称','{{url("/admin/goods/only_name")}}?id='+id,400,300);
 }
 function goods_close(id){
 var msg =confirm("确定要下线此商品吗？");

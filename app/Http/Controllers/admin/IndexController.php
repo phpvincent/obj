@@ -10,7 +10,10 @@ class IndexController extends Controller
 {
     public function index(Request $request){
     	$data=getclientcity($request);
-    	$hcoun=\App\order::where([['order_type','0'],['is_del','0']])
+    	$hcoun=\App\order::where(function($query){
+            $query->whereIn('order_type',[0,11]);
+            $query->where('is_del','0');
+        })
         ->where(function($query){
 //            if(Auth::user()->is_root!='1'){
 //                        $query->whereIn('order.order_goods_id',\App\goods::get_selfid(Auth::user()->admin_id));

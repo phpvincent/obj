@@ -540,17 +540,60 @@ function order_up(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 $('#outorder').on('click',function(){
+	var url='{{url("admin/order/outorder")}}'+'?';
+	var is_time=false;
+	//日期参数
 	var mintime=$('#datemin').val();
 	var maxtime=$('#datemax').val();
 	if(mintime==''&&maxtime==''){
-		layer.msg('请稍等');
-     location.href='{{url("admin/order/outorder")}}';
+/*		layer.msg('请稍等');
+     location.href='{{url("admin/order/outorder")}}'+'?';*/
 	}else if(mintime==''||maxtime==''){
-		layer.msg('请选择正确日期区间');
-	}else{
-		layer.msg('请稍等');
-		location.href='{{url("admin/order/outorder")}}?min='+mintime+'&max='+maxtime;
+/*		layer.msg('请选择正确日期区间');
+*/	}else{
+		is_time=true;
+/*		layer.msg('请稍等');
+		location.href='{{url("admin/order/outorder")}}?min='+mintime+'&max='+maxtime;*/
+		url+='min='+mintime+'&max='+maxtime;
 	}
+	//账户参数
+	var admin_name=$('#admin_name').val();
+	if(admin_name>=0){
+		if(is_time){
+			url+='&admin_name='+admin_name;
+		}else{
+			url+='admin_name='+admin_name;
+		}
+	}else{
+		if(is_time){
+			url+='&admin_name=0';
+		}else{
+			url+='admin_name=0';
+		}
+	}
+	//订单状态参数
+	var order_type=$('#order_type').val();
+	if(order_type>=0){
+		url+='&order_type='+order_type;
+	}else{
+		url+='&order_type=null';
+	}
+	//支付类型参数
+	var pay_type=$('#pay_type').val();
+	if(pay_type>=0){
+		url+='&pay_type='+pay_type;
+	}else{
+		url+='&pay_type=null';
+	}
+	//语言参数
+	var languages=$('#languages').val();
+	if(languages>=0){
+		url+='&languages='+languages;
+	}else{
+		url+='&languages=0';
+	}
+	layer.msg('请稍等');
+	location.href=url;
 })
 function pl_del(){
 	xuanzhe()

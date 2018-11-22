@@ -19,7 +19,7 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 /*	Route::any('/paypal',function(Request $request){
-
+		\Log::notice(json_encode($request->all()).'回调~~~~~~~~~~~~~~~~~~~~~~~~');return;
 		 $url=$_SERVER['SERVER_NAME'];
         $goods=\App\goods::where('goods_id',43)->first();
         $order=\App\order::where('order_id','223')->first();

@@ -29,6 +29,20 @@
 					</select>
 					</span> </div>
             </div>
+            @if(Auth::user()->is_root == '1')
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品所属人：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <span class="select-box">
+                        <select name="goods_admin_id" id="goods_admin_id" class="select">
+                            @foreach($admin as $item)
+                                <option value="{{$item->admin_id}}">{{$item->admin_show_name ? $item->admin_show_name : $item->admin_name}}</option>
+                            @endforeach
+                        </select>
+					</span>
+                </div>
+            </div>
+            @endif
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 提交</button>
