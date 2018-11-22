@@ -722,6 +722,12 @@ class IndexController extends Controller
                 }
                 return view('home.YingGuo.ygSend');
             }
+            if($goods_blade_type == 10){
+                return view('home.MeiGuo.usSend');
+            }
+            if($goods_blade_type == 11){
+                return view('home.YueNan.ynSend');
+            }
         }
         return view('home.TaiwanFan.send');
     }
