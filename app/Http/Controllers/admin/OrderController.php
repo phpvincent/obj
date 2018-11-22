@@ -123,6 +123,86 @@ class OrderController extends Controller
        $order->order_add = $request->input('order_add');
        $order->order_email = $request->input('order_email');
        $order->order_remark = $request->input('order_remark');
+
+       $order_Array = [];
+       //设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
+       //ip
+       $goods_ip = order::where('order_ip',$order->order_ip)->get();
+       if(!$goods_ip->isEmpty() && count($goods_ip) <> 1){
+           array_push($order_Array,'1');
+           foreach ($goods_ip as $item)
+           {
+               if($item->order_repeat_field){
+                   $pos = strpos($item->order_repeat_field, ',');
+                   $order_repeat_field  = substr($item->order_repeat_field,$pos-1);
+                   $order_repeat = explode(',',$order_repeat_field);
+                   if(!in_array('1',$order_repeat)){
+                       array_push($order_repeat,'1');
+                       sort($order_repeat);
+                       $order_repeat_array = implode($order_repeat);
+                       $item->order_repeat_field = trim($order_repeat_array);
+                       $item->save();
+                   }
+               }else{
+                   $item->order_repeat_field = '1';
+                   $item->save();
+               }
+           }
+       }
+
+       //姓名
+       $orders_name = \App\order::where('order_name',$request->input('order_name'))->get();
+       if(!$orders_name->isEmpty() && count($orders_name) <> 1){
+           array_push($order_Array,'2');
+           foreach ($orders_name as $item)
+           {
+               if($item->order_repeat_field){
+                   $pos = strpos($item->order_repeat_field, ',');
+                   $order_repeat_field  = substr($item->order_repeat_field,$pos-1);
+                   $order_repeat = explode(',',$order_repeat_field);
+                   if(!in_array('2',$order_repeat)){
+                       array_push($order_repeat,'2');
+                       sort($order_repeat);
+                       $order_repeat_array = implode(',',$order_repeat);
+                       $item->order_repeat_field = trim($order_repeat_array);
+                       $item->save();
+                   }
+               }else{
+                   $item->order_repeat_field = '2';
+                   $item->save();
+               }
+           }
+       }
+
+       //手机号
+       $orders_tel = \App\order::where('order_tel',$request->input('order_tel'))->get();
+       if(!$orders_tel->isEmpty() && count($orders_tel) <> 1){
+           array_push($order_Array,'3');
+           foreach ($orders_tel as $item)
+           {
+               if($item->order_repeat_field){
+                   $pos = strpos($item->order_repeat_field, ',');
+                   $order_repeat_field  = substr($item->order_repeat_field,$pos-1);
+                   $order_repeat = explode(',',$order_repeat_field);
+                   if(!in_array('3',$order_repeat)){
+                       array_push($order_repeat,'3');
+                       sort($order_repeat);
+                       $order_repeat_array = implode(',',$order_repeat);
+                       $item->order_repeat_field = trim($order_repeat_array);
+                       $item->save();
+                   }
+               }else{
+                   $item->order_repeat_field = '3';
+                   $item->save();
+               }
+           }
+       }
+
+       if(!empty($order_Array)){
+           sort($order_Array);
+           $order_Array = implode(',',$order_Array);
+           $order->order_repeat_field=$order_Array;
+       }
        $order->save();
        if ($request->has('config_val_id')) {
            foreach ($request->input('config_val_id') as $config_key=>$config_values) {
