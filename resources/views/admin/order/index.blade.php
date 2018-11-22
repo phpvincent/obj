@@ -415,7 +415,7 @@ function states(){
 			}
         },
         "createdRow":function(row,data,dataIndex){
-			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="收货地址"><i class="Hui-iconfont">&#xe643;</span></i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="收货地址"><i class="Hui-iconfont">&#xe643;</span></i></a><a title="修改订单" href="javascript:;" onclick="order_edit(\'修改订单\',\'/admin/order/edit?id='+data.order_id+'\',\'2\',\'1200\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改订单"><i class="Hui-iconfont">&#xe61d;</span></i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
 			}else if(data.order_type==1){
@@ -630,6 +630,9 @@ function pl_update(){
 }
 function goods_getaddr(title,url,type,w,h){
 	layer_show(title,url,w,h);
+}
+function order_edit(title,url,type,w,h){
+    layer_show(title,url,w,h)
 }
 $('#getadmin').on('click',function(){
 	$('#select-admin').toggle(300);

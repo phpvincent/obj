@@ -88,6 +88,8 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
+	Route::get('/admin/order/edit', 'admin\OrderController@edit');
+	Route::post('/admin/order/update', 'admin\OrderController@update');
 	Route::post('/admin/order/get_table','admin\OrderController@get_table');
 	Route::get('/admin/order/orderinfo','admin\OrderController@orderinfo');
 	Route::get('/admin/order/heshen','admin\OrderController@heshen');

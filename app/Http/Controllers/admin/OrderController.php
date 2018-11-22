@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\admin;
 
 use App\admin;
+use App\channel\cuxiaoSDK;
+use App\config_val;
+use App\currency_type;
+use App\cuxiao;
 use App\goods;
+use App\goods_config;
 use App\kind_val;
+use App\order_config;
 use App\price;
 use App\special;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\order;
 use DB;
-use Illuminate\Support\Facades\Auth;
 use App\Jobs\SendHerbEmail;
+use Illuminate\Support\Facades\Auth;
+
 class OrderController extends Controller
 {
    public function index(){
@@ -49,6 +56,83 @@ class OrderController extends Controller
 
    }
 
+   /** 修改订单
+    * @param Request $request
+    * @return \Illuminate\Http\JsonResponse
+    */
+   public function edit(Request $request) {
+       $admins = admin::whereIn('admin_id', admin::get_admins_id())->get();
+       $order = order::where('order_id', $request->input('id'))->where('is_del','0')->first();
+       $goods = goods::find($order->order_goods_id);
+       $goods_attrs = goods_config::where('goods_primary_id', $order->order_goods_id)->get();
+       if ($goods_attrs) {
+           foreach ($goods_attrs as $k=>$v) {
+            $vals = config_val::where('config_type_id', $v->goods_config_id)->where('config_isshow', 0)->get();
+            if (count($vals) > 0) {
+                $v->vals = $vals;
+            }else {
+                $goods_attrs->pull($k);
+            }
+           }
+           $goods->attrs = $goods_attrs;
+       }
+       $order->order_currency = currency_type::where('currency_type_id', $order->order_currency_id)->value('currency_type_name');
+       $order->order_config=\App\order_config::where('order_primary_id',$order->order_id)->pluck('order_config','order_config_id');
+       if($order->order_price_id){
+           $order->special = price::where('price_id',$order->order_price_id)->value('price_name');
+       }
+
+       return view('admin.order.edit')->with(compact('order','admins','goods'));
+
+   }
+
+   private function get_attr_price($goods_id,$attrs){
+        if (! $attrs) {
+            return false;
+        }
+        $price = 0;
+        foreach ($attrs as $attr) {
+            if (is_array($attr)) {
+                $goods_attrs = $attr;
+            } else {
+                $goods_attrs = explode(',', $attr);
+            }
+            $price += config_val::whereIn('config_val_id', $goods_attrs)->where('config_goods_id', $goods_id)->sum('config_diff_price');
+        }
+        return $price;
+   }
+
+   public function update(Request $request){
+       if(! $request->input('order_id')) {
+           return response()->json(['err' => 0, 'str' => '订单ID不合法！']);
+       }
+       $order = order::find($request->input('order_id'));
+       if (! $order || $order->order_type != 0) {
+           return response()->json(['err' => 0, 'str' => '订单不存在或订单状态不为未审核状态不允许修改！']);
+       }
+       $order_configs = order_config::where('order_primary_id',$order->order_id)->pluck('order_config','order_config_id')->toArray();
+       $old_goods_attr_prices = $this->get_attr_price($order->order_goods_id, $order_configs);
+       $now_goods_attr_prices = $this->get_attr_price($order->order_goods_id, $request->input('config_val_id'));
+       if ($old_goods_attr_prices !== $now_goods_attr_prices) {
+           return response()->json(['err' => 0, 'str' => '订单属性价格存在差值，不允许修改！', 'data' => ['old' => $old_goods_attr_prices,'new' => $now_goods_attr_prices]]);
+       }
+
+       $order->order_name = $request->input('order_name');
+       $order->order_tel = $request->input('order_tel');
+       $order->order_state = $request->input('order_state');
+       $order->order_city = $request->input('order_city');
+       $order->order_add = $request->input('order_add');
+       $order->order_email = $request->input('order_email');
+       $order->order_remark = $request->input('order_remark');
+       $order->save();
+       if ($request->has('config_val_id')) {
+           foreach ($request->input('config_val_id') as $config_key=>$config_values) {
+                order_config::where('order_config_id', $config_key)->update(['order_config' => implode(',',$config_values)]);
+           }
+       }
+
+       return response()->json(['err' => 1, 'str' => '保存成功！']);
+   }
     /** 订单列表数据
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -81,7 +165,7 @@ class OrderController extends Controller
          //获取自己名下的单
 //         $admin_id=Auth::user()->admin_id;
 
-           if(Auth::user()->is_root!='1'){ //非root 用户
+           if(\Auth::user()->is_root!='1'){ //非root 用户
 //            $garr=\App\goods::get_selfid($admin_id);
             $garr = admin::get_order_goods_id();
             $counts=DB::table('order')
