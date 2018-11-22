@@ -110,6 +110,7 @@
 						<option value="8">8--英国</option>
 						<option value="9">9--Google-PC(调试中)</option>
 						<option value="10">10--美国</option>
+						<option value="11">11--越南</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
