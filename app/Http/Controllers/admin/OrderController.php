@@ -106,7 +106,7 @@ class OrderController extends Controller
            return response()->json(['err' => 0, 'str' => '订单ID不合法！']);
        }
        $order = order::find($request->input('order_id'));
-       if (! $order || $order->order_type != 0) {
+       if (! $order || !in_array($order->order_type ,[0,1,9,11,13,14])) {
            return response()->json(['err' => 0, 'str' => '订单不存在或订单状态不为未审核状态不允许修改！']);
        }
        $order_configs = order_config::where('order_primary_id',$order->order_id)->pluck('order_config','order_config_id')->toArray();

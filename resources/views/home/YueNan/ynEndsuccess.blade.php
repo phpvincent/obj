@@ -76,7 +76,7 @@
             <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">đặt hàng thành công</h2>
                             <div style="padding:15px;">
                             số đơn đặt hàng của quý khách:<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
-                            phải thanh toán :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
+                            phải thanh toán :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{price_format($order->order_price)}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->

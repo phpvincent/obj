@@ -126,7 +126,8 @@
 	    var html = $("#hidden_div").html();
         // var reg = new RegExp('disabled="disabled"',"g");//g,表示全部替换。
 		html = html.replace(new RegExp('disabled="disabled"',"g"),"");
-		html = html.replace(new RegExp('new_cuxiao[0]',"g"), 'new_cuxiao[' + count + ']')
+		html = html.replace(/new_cuxiao\[0\]/g, 'new_cuxiao[' + count + ']');
+		console.log(html);
 		$("#pzhtml").append(html);
 	})
 	$('body').on("click",".deletes",function(){
