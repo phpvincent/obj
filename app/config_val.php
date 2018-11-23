@@ -73,7 +73,7 @@ class config_val extends Model
         }
 
         if($pic->isValid()) {
-            $newFileName = md5(microtime()) . '.' .$pic -> getClientOriginalName();
+            $newFileName = md5(microtime()) .rand(10000,99999).'.'.$pic->getClientOriginalExtension();/*$pic -> getClientOriginalName()*/
             $ext=$pic->getClientOriginalExtension();//得到图片后缀；
             $newImagesName = $folder . '/' . $newFileName;
             Storage::disk('public')->put($newImagesName, file_get_contents($pic));
