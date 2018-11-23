@@ -199,7 +199,8 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑猫宅急便配送</span>
+<span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 70px; background:url(/img/DHL.jpg) 2px center no-repeat;background-size:70px 60px;"> <b>DHL</b></span>
+    <!-- <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑猫宅急便配送</span> -->
 </div>
 @endif
 
@@ -445,7 +446,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '38%' : '100%'}}">
       <img src="/images/filter-2.png" style="">
       <a href="javascript:void(0);">
         <span style="line-height:14px;">đơn đặt hàng<br>thẩm tra </span>
@@ -453,7 +454,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}}">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '60%' : '100%'}}">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
 			<span>mua ngay</span>
