@@ -87,6 +87,25 @@
 					@endif
 			</span>
 			</div>
+			<label class="form-label col-xs-1 col-sm-1">地区：</label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<span class="select-box">
+					<select name="goods_blade_type" id="goods_blade_type" class="select">
+						<option value="0">所有</option>
+						<option value="1">台湾</option>
+						<option value="2">中东</option>
+						<option value="3">马来西亚</option>
+						<option value="4">泰国</option>
+						<option value="5">日本</option>
+						<option value="6">印度尼西亚</option>
+						<option value="7">菲律宾</option>
+						<option value="8">英国</option>
+						<option value="9">美国</option>
+						<option value="10">越南</option>
+					</select>
+				</span>
+			</div>
+
 			<!-- <label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_tel" id="order_repeat_tel" class="select">
@@ -203,6 +222,7 @@
 			order_type:function(){return $('#order_type').val()},
             pay_type:function(){return $('#pay_type').val()},
             languages:function(){return $('#languages').val()},
+            goods_blade_type:function(){return $('#goods_blade_type').val()},
         },
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -482,7 +502,11 @@ $('#pay_type').on('change',function(){
 //根据语言进行搜索
 $('#languages').on('change',function(){
      dataTable.ajax.reload();
-})
+});
+//根据语言进行搜索
+$('#goods_blade_type').on('change',function(){
+     dataTable.ajax.reload();
+});
 $('#order_repeat_tel').on('change',function(){
 	dataTable.ajax.reload();
 	

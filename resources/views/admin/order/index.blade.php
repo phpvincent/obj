@@ -121,9 +121,27 @@
 					@endif
 					</span>
 			</div>
+			<label class="form-label col-xs-1 col-sm-1">地区：</label>
+			<div class="formControls col-xs-2 col-sm-2">
+			<span class="select-box">
+				<select name="goods_blade_type" id="goods_blade_type" class="select">
+					<option value="0">所有</option>
+					<option value="1">台湾</option>
+					<option value="2">中东</option>
+					<option value="3">马来西亚</option>
+					<option value="4">泰国</option>
+					<option value="5">日本</option>
+					<option value="6">印度尼西亚</option>
+					<option value="7">菲律宾</option>
+					<option value="8">英国</option>
+					<option value="9">美国</option>
+					<option value="10">越南</option>
+				</select>
+			</span>
+			</div>
 		</div>
 	</div>
-	
+
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="l"><a href="javascript:;" onclick="order_up('订单批量核审','/admin/order/heshen?type=all','2','800','500')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe627;</i> 批量核审</a> </span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
@@ -298,6 +316,7 @@ function states(){
 			order_type:function(){return $('#order_type').val()},
             pay_type:function(){return $('#pay_type').val()},
             languages:function(){return $('#languages').val()},
+            goods_blade_type:function(){return $('#goods_blade_type').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -592,6 +611,13 @@ $('#outorder').on('click',function(){
 	}else{
 		url+='&languages=0';
 	}
+	//地区参数
+	var goods_blade_type=$('#goods_blade_type').val();
+	if(goods_blade_type>=0){
+		url+='&goods_blade_type='+goods_blade_type;
+	}else{
+		url+='&goods_blade_type=0';
+	}
 	layer.msg('请稍等');
 	location.href=url;
 })
@@ -692,6 +718,10 @@ $('#pay_type').on('change',function(){
 });
 //根据语言搜索
 $('#languages').on('change',function(){
+	dataTable.ajax.reload();
+});
+//根据地区搜索
+$('#goods_blade_type').on('change',function(){
 	dataTable.ajax.reload();
 });
 $('#order_repeat_ip').on('change',function(){

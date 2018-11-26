@@ -9,6 +9,7 @@ use App\currency_type;
 use App\cuxiao;
 use App\goods;
 use App\goods_config;
+use App\goods_kind;
 use App\kind_val;
 use App\order_config;
 use App\price;
@@ -19,6 +20,7 @@ use App\order;
 use DB;
 use App\Jobs\SendHerbEmail;
 use Illuminate\Support\Facades\Auth;
+use Excel;
 
 class OrderController extends Controller
 {
@@ -241,11 +243,7 @@ class OrderController extends Controller
           })
 	        ->count();
 
-         //获取自己名下的单
-//         $admin_id=Auth::user()->admin_id;
-
            if(\Auth::user()->is_root!='1'){ //非root 用户
-//            $garr=\App\goods::get_selfid($admin_id);
             $garr = admin::get_order_goods_id();
             $counts=DB::table('order')
             ->whereIn('order_goods_id',$garr)
@@ -276,7 +274,7 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
            })
-            ->where(function($query)use($request){
+          ->where(function($query)use($request){
               $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
               if($order_type!='#'){
@@ -295,6 +293,15 @@ class OrderController extends Controller
                   $band = goods::get_blade($request->input('languages'));
                   if($band){
                        $query->whereIn('goods.goods_blade_type',$band);
+                  }
+              }
+
+              //根据地区搜索
+              if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
+                  //按语言查询（根据模板置换语言）
+                  $band = goods::get_area_blade($request->input('goods_blade_type'));
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
                   }
               }
             })
@@ -349,7 +356,7 @@ class OrderController extends Controller
                $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
             }
           })
-              ->where(function($query)use($request){
+          ->where(function($query)use($request){
               $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
               if($order_type!='#'){
@@ -370,113 +377,131 @@ class OrderController extends Controller
                       $query->whereIn('goods.goods_blade_type',$band);
                   }
               }
-            })
-            ->where(function($query)use($garr){
-              $query->whereIn('order_goods_id',$garr);
-            })->where(function ($query)use($order_repeat_ip){
-                    if($order_repeat_ip == 1){
-                        $query->where('order_repeat_field','1');
-                        $query->orWhere('order_repeat_field','1,2');
-                        $query->orWhere('order_repeat_field','1,3');
-                        $query->orWhere('order_repeat_field','1,2,3');
-                    }
-                })->where(function ($query)use($order_repeat_name){
-                    if($order_repeat_name == 1){
-                        $query->where('order_repeat_field','2');
-                        $query->orWhere('order_repeat_field','1,2');
-                        $query->orWhere('order_repeat_field','2,3');
-                        $query->orWhere('order_repeat_field','1,2,3');
-                    }
-                })->where(function ($query)use($order_repeat_tel){
-                    if($order_repeat_tel == 1){
-                        $query->where('order_repeat_field','3');
-                        $query->orWhere('order_repeat_field','1,3');
-                        $query->orWhere('order_repeat_field','2,3');
-                        $query->orWhere('order_repeat_field','1,2,3');
-                    }
-                })
-            ->orderBy($order,$dsc)
-            ->offset($start)
-            ->limit($len)
-            ->get();
 
-
-           }else{ //root用户
-
-            $newcount=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
-            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
-            ->where(function($query)use($search){
-                $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
-                $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
-            })
-            ->where(function($query)use($goods_search){
-                if($goods_search!=0){
-                   $garr=\App\goods::get_only_slef_id($goods_search);
-                $query->whereIn('order_goods_id',$garr);
-                }
-            })->where(function ($query)use($order_repeat_ip){
-                    if($order_repeat_ip == 1){
-                        $query->where('order.order_repeat_field','1');
-                        $query->orWhere('order.order_repeat_field','1,2');
-                        $query->orWhere('order.order_repeat_field','1,3');
-                        $query->orWhere('order.order_repeat_field','1,2,3');
-                    }
-                })->where(function ($query)use($order_repeat_name){
-                    if($order_repeat_name == 1){
-                        $query->where('order.order_repeat_field','2');
-                        $query->orWhere('order.order_repeat_field','1,2');
-                        $query->orWhere('order.order_repeat_field','2,3');
-                        $query->orWhere('order.order_repeat_field','1,2,3');
-                    }
-                })->where(function ($query)use($order_repeat_tel){
-                    if($order_repeat_tel == 1){
-                        $query->where('order.order_repeat_field','3');
-                        $query->orWhere('order.order_repeat_field','1,3');
-                        $query->orWhere('order.order_repeat_field','2,3');
-                        $query->orWhere('order.order_repeat_field','1,2,3');
-                    }
-                })
-             ->where(function($query)use($request){
-            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-              $query->where('order.order_time','>',$request->input('mintime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-              $query->where('order.order_time','<',$request->input('maxtime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
-            }
-          })
-              ->where(function($query)use($request){
-              $order_type=$request->input('order_type');
-              $pay_type=$request->input('pay_type');
-              if($order_type!='#'){
-                if($order_type==0){
-                  $query->whereIn('order.order_type',[0,11]);
-                }else{
-                  $query->where('order.order_type',$order_type);
-                }
-              }
-              if($pay_type!='#'){
-                  $query->where('order.order_pay_type',$pay_type);
-              }
-              //根据语言搜索
-              if($request->has('languages')&&$request->input('languages')!='0'){
+              //根据地区搜索
+              if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
                   //按语言查询（根据模板置换语言）
-                  $band = goods::get_blade($request->input('languages'));
+                  $band = goods::get_area_blade($request->input('goods_blade_type'));
                   if($band){
                       $query->whereIn('goods.goods_blade_type',$band);
                   }
               }
-            })
-            ->count();
+          })
+          ->where(function($query)use($garr){
+              $query->whereIn('order_goods_id',$garr);
+          })->where(function ($query)use($order_repeat_ip){
+                if($order_repeat_ip == 1){
+                      $query->where('order_repeat_field','1');
+                      $query->orWhere('order_repeat_field','1,2');
+                      $query->orWhere('order_repeat_field','1,3');
+                      $query->orWhere('order_repeat_field','1,2,3');
+                }
+          })->where(function ($query)use($order_repeat_name){
+                if($order_repeat_name == 1){
+                    $query->where('order_repeat_field','2');
+                    $query->orWhere('order_repeat_field','1,2');
+                    $query->orWhere('order_repeat_field','2,3');
+                    $query->orWhere('order_repeat_field','1,2,3');
+                }
+          })->where(function ($query)use($order_repeat_tel){
+              if($order_repeat_tel == 1){
+                  $query->where('order_repeat_field','3');
+                  $query->orWhere('order_repeat_field','1,3');
+                  $query->orWhere('order_repeat_field','2,3');
+                  $query->orWhere('order_repeat_field','1,2,3');
+              }
+          })
+          ->orderBy($order,$dsc)
+          ->offset($start)
+          ->limit($len)
+          ->get();
+
+
+          }else{ //root用户
+
+          $newcount=DB::table('order')
+          ->select('order.*','goods.goods_real_name','admin.admin_show_name')
+          ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+          ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+          ->where(function($query)use($search){
+              $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['goods.goods_real_name','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['order.order_cuxiao_id','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['order.order_send','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
+              $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
+          })
+          ->where(function($query)use($goods_search){
+              if($goods_search!=0){
+                   $garr=\App\goods::get_only_slef_id($goods_search);
+                   $query->whereIn('order_goods_id',$garr);
+                }
+          })->where(function ($query)use($order_repeat_ip){
+              if($order_repeat_ip == 1){
+                    $query->where('order.order_repeat_field','1');
+                    $query->orWhere('order.order_repeat_field','1,2');
+                    $query->orWhere('order.order_repeat_field','1,3');
+                    $query->orWhere('order.order_repeat_field','1,2,3');
+              }
+          })->where(function ($query)use($order_repeat_name){
+              if($order_repeat_name == 1){
+                    $query->where('order.order_repeat_field','2');
+                    $query->orWhere('order.order_repeat_field','1,2');
+                    $query->orWhere('order.order_repeat_field','2,3');
+                    $query->orWhere('order.order_repeat_field','1,2,3');
+              }
+          })->where(function ($query)use($order_repeat_tel){
+              if($order_repeat_tel == 1){
+                   $query->where('order.order_repeat_field','3');
+                   $query->orWhere('order.order_repeat_field','1,3');
+                   $query->orWhere('order.order_repeat_field','2,3');
+                   $query->orWhere('order.order_repeat_field','1,2,3');
+              }
+          })
+          ->where(function($query)use($request){
+                if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                    $query->where('order.order_time','>',$request->input('mintime'));
+                }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                    $query->where('order.order_time','<',$request->input('maxtime'));
+                }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                    $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+                }
+          })
+          ->where(function($query)use($request){
+              $order_type=$request->input('order_type');
+              $pay_type=$request->input('pay_type');
+              if($order_type!='#'){
+                    if($order_type==0){
+                        $query->whereIn('order.order_type',[0,11]);
+                    }else{
+                        $query->where('order.order_type',$order_type);
+                    }
+              }
+          if($pay_type!='#'){
+              $query->where('order.order_pay_type',$pay_type);
+          }
+          //根据语言搜索
+          if($request->has('languages')&&$request->input('languages')!='0'){
+              //按语言查询（根据模板置换语言）
+              $band = goods::get_blade($request->input('languages'));
+              if($band){
+                  $query->whereIn('goods.goods_blade_type',$band);
+              }
+          }
+
+          //根据地区搜索
+          if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
+              //按语言查询（根据模板置换语言）
+              $band = goods::get_area_blade($request->input('goods_blade_type'));
+              if($band){
+                  $query->whereIn('goods.goods_blade_type',$band);
+              }
+          }
+          })
+          ->count();
 
             //table表格数据
             $data=DB::table('order')
@@ -549,6 +574,14 @@ class OrderController extends Controller
              if($request->has('languages')&&$request->input('languages')!='0'){
                  //按语言查询（根据模板置换语言）
                  $band = goods::get_blade($request->input('languages'));
+                 if($band){
+                     $query->whereIn('goods.goods_blade_type',$band);
+                 }
+             }
+             //根据地区搜索
+             if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
+                 //按语言查询（根据模板置换语言）
+                 $band = goods::get_area_blade($request->input('goods_blade_type'));
                  if($band){
                      $query->whereIn('goods.goods_blade_type',$band);
                  }
@@ -792,9 +825,12 @@ class OrderController extends Controller
 
    }
    public function outorder(Request $request){
+       //===============================================================================
+        //判断导出时间
         if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
           return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
+
        //订单导出
        $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -802,16 +838,12 @@ class OrderController extends Controller
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
            ->where(function($query){
             if(Auth::user()->is_root!='1'){
-//              $goods=\App\goods::get_ownid(Auth::user()->admin_id);
               $query->whereIn('goods_admin_id', admin::get_admins_id());
             }
            })
            ->where(function($query){
             $query->where('order.is_del','0');
            })
-          /* ->where(function($query){
-            $query->where('order.order_type','1');
-           })*/
            ->where(function($query)use($request){
               if($request->has('min')&&$request->has('max')){
                 $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
@@ -851,151 +883,590 @@ class OrderController extends Controller
                       $query->whereIn('goods.goods_blade_type',$band);
                   }
               }
+
+               //根据地区搜索
+               if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
+                   //按语言查询（根据模板置换语言）
+                   $band = goods::get_area_blade($request->input('goods_blade_type'));
+                   if($band){
+                       $query->whereIn('goods.goods_blade_type',$band);
+                   }
+               }
            })
            ->orderBy('order.order_time','desc')
            ->get()->toArray();
-          $exdata=[];
-          $new_exdata=[];
-           foreach($data as $k => $v){
-            $exdata[$k]['order_time']=$v['order_time'];
-            //产品名
-            $exdata[$k]['goods_real_name']=\App\goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');
-            //商品名
-            $exdata[$k]['goods_name']=$v['goods_real_name'];
-            //尺寸信息
-             $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
-            if($order_config->count()>0){
-                $config_msg='';//产品属性
-                $goods_config_msg='';//商品展示属性
-                $i=0;
-                foreach($order_config  as  $va){
-                  $i++;
-                  $config_msg.="第".$i."件：";
-                  $goods_config_msg.="第".$i."件：";
-                  $orderarr=explode(',',$va['order_config']);
-                  foreach($orderarr as $key => $val){
-                    $conmsg=\App\config_val::where('config_val_id',$val)
-                    ->where(function($query)use($v){
-                      if($v['goods_is_update']=='1'){
-                        $query->where('kind_val_id','>',0);
-                      }
-                    })
-                    ->first();
-                    if($conmsg==null){
-                       $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                    }
-                    if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
-                        $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
-                    }else{
-                        $config_val_msg = $conmsg['config_val_msg'];
-                    }
-                    $goods_config_msg.=$conmsg['config_val_msg'].'-';
-                    $config_msg.= $config_val_msg.'-';
-                  }
-                  $config_msg=rtrim($config_msg,'-');
-                  $config_msg.='<br/>';
-                  $goods_config_msg=rtrim($goods_config_msg,'-');
-                  $goods_config_msg.='<br/>';
-                }
-                  /*$config_msg=rtrim($config_msg,'<br/>');
-                  $goods_config_msg=rtrim($goods_config_msg,'<br/>');*/
-                  $exdata[$k]['config_msg']=$config_msg;
-                  $exdata[$k]['goods_config_msg']=$goods_config_msg;
-              }else{
-                $exdata[$k]['config_msg']="暂无属性信息";
-                $exdata[$k]['goods_config_msg']="暂无属性信息";
-              }
-              $exdata[$k]['order_single_id']=$v['order_single_id'];
-              $exdata[$k]['order_num']=$v['order_num'];
-              $exdata[$k]['payof']=\App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
-              $exdata[$k]['order_price']=$v['order_price'];
-              $exdata[$k]['order_pay_type']= $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
-              $exdata[$k]['name']=$v['order_name'];
-              $exdata[$k]['tel']=$v['order_tel'];
-              $exdata[$k]['order_state']=$v['order_state'];
-              $exdata[$k]['order_city']=$v['order_city'];
-//              $special= special::leftjoin('price','price.price_id','special.special_price_id')->select('price.price_name')->where('special.special_id',$v['order_special_id'])->first();;
-              $exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
-              if($v['order_zip']){
-                  $str=$v['order_add'];
-                  $pattern='/(.*)\(Zip:(.*?)\)/';
-                  preg_match_all($pattern,$str,$p);
-                  $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
-                  $exdata[$k]['order_zip'] = $v['order_zip'];
-              }else{
-                  $str=$v['order_add'];
-                  $pattern='/(.*)\(Zip:(.*?)\)/';
-                  preg_match_all($pattern,$str,$p);
-                  $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
-                  $exdata[$k]['order_zip']=isset($p[2][0]) ? $p[2][0] : '';
-              }
-               $exdata[$k]['remark']=$v['order_remark'];
-            switch ($v['order_type']) {
-               case '0':
-                 $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
-                  break;
-               case '1':
-                 $data[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
-                 break;
-               case '2':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
-                 break;
-               case '3':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
-                 break;
-               case '4':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
-                 break;
-               case '5':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
-                 break;
-               case '6':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
-                 break;
-               case '7':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
-                 break;
-               case '8':
-                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
-                 break;
-               default:
-                  $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
-                  break;
+       //===============================================================================
+       if($request->has('min')&&$request->has('max')){
+            $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time());
+       }else{
+            $filename='订单记录'.date('Y-m-d H:i:s',time());
+       }
+
+       //中东地区
+       $cellData[] = ['Consignee','ConsigneeName','ConsigneeAddress1','ConsigneeAddress2','ConsigneeCity','ConsigneePhone','ConsigneeTel','Origin','Destination','Zipcode','TotalWeight','noofpieces','weight','product','ServiceType','customnote','GoodsDesc','PCS','ValueOfShipment','ShipperRef','Description','Retail Code','AgentCode','InAmt','transportMode','WithBattery'];
+
+       foreach($data as $k => $v) {
+            $exdata = [];
+            //Consignee(收件公司)
+            $exdata[] = 'First Flight Couriers (Middle East) LLC';
+
+            //ConsigneeName(收件人)
+            $exdata[] = $v['order_name'];
+
+            //ConsigneeAddress1
+            if ($v['order_zip']) {
+                $str = $v['order_add'];
+                $pattern = '/(.*)\(Zip:(.*?)\)/';
+                preg_match_all($pattern, $str, $p);
+                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+                //ConsigneeAddress2
+                $exdata[] = '';
+                //ConsigneeCity
+                $exdata[] = $v['order_city'];
+            } else {
+                $str = $v['order_add'];
+                $pattern = '/(.*)\(Zip:(.*?)\)/';
+                preg_match_all($pattern, $str, $p);
+                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+                //ConsigneeAddress2
+                $exdata[] = '';
+                //ConsigneeCity
+                $exdata[] = $v['order_city'];
             }
-            //重组新格式
-              $new_exdata[$k]['order_time']=$exdata[$k]['order_time'];
-              $new_exdata[$k]['order_single_id']=$v['order_single_id'];
-              $new_exdata[$k]['name']=$exdata[$k]['name'];
-              $new_exdata[$k]['tel']=$exdata[$k]['tel'];
-              $new_exdata[$k]['area_data_info']=$exdata[$k]['area_data_info'];
-              $new_exdata[$k]['order_state']=$exdata[$k]['order_state'];
-              $new_exdata[$k]['order_city']=$exdata[$k]['order_city'];
-              $new_exdata[$k]['area_info']=$exdata[$k]['area_info'];
-              $new_exdata[$k]['order_zip']=$exdata[$k]['order_zip'];
-              $new_exdata[$k]['goods_real_name']=$exdata[$k]['goods_real_name'];
-              $new_exdata[$k]['goods_name']=$exdata[$k]['goods_name'];
-              $new_exdata[$k]['payof']=$exdata[$k]['payof'];
-              $new_exdata[$k]['order_price']=$exdata[$k]['order_price'];
-              $new_exdata[$k]['order_num']=$exdata[$k]['order_num'];
-              $new_exdata[$k]['config_msg']=$exdata[$k]['config_msg'];
-              $new_exdata[$k]['goods_config_msg']=$exdata[$k]['goods_config_msg'];
-              $new_exdata[$k]['remark']=$exdata[$k]['remark'];
-              $new_exdata[$k]['order_pay_type']=$exdata[$k]['order_pay_type'];
-              $new_exdata[$k]['special_name']=$exdata[$k]['special_name'];
+           //ConsigneePhone
+           $exdata[] = $v['order_tel'];
+           //ConsigneeTel
+           $exdata[] = $v['order_tel'];
+           //Origin
+           $exdata[] = 'CZX';
+           //Destination
+           $exdata[] = 'AE1';
+           //Zipcode
+           $exdata[] = '51000';
+
+
+           $exdata[] = '18739903577';
+
+            //Landline of Sender（固话）
+            $exdata[] = '18739903577';
+
+            //Sender Address（寄件人地址）
+            $exdata[] = '152 Beach Road, Singapore 189721';
+
+            //Order Number(平台订单号）
+            $exdata[] = $v['order_single_id'];
+
+            //Receiver`s Name（收件人）
+            $exdata[] = $v['order_name'];
+
+            //Receiver`s Mobile No.（收件人手机）
+            $exdata[] = $v['order_tel'];
+
+            //Landline of Receiver（收件人固话）
+            $exdata[] = $v['order_tel'];
+
+            //Receiver`s Address（收件人详细地址）
+           if ($v['order_zip']) {
+               $str = $v['order_add'];
+               $pattern = '/(.*)\(Zip:(.*?)\)/';
+               preg_match_all($pattern, $str, $p);
+               $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+               $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+               $exdata[] = $v['order_state'];
+               $exdata[] = $v['order_city'];
+               $exdata[] = 0;
+           } else {
+               $str = $v['order_add'];
+               $pattern = '/(.*)\(Zip:(.*?)\)/';
+               preg_match_all($pattern, $str, $p);
+               $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+               $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+               $exdata[] = $v['order_state'];
+               $exdata[] = $v['order_city'];
+               $exdata[] = 0;
            }
-         if($request->has('min')&&$request->has('max')){
-          $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
-         }else{
-            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
-         }
-/*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-*/
-/*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
-        //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
-        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','产品属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
-        out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
+           //Item Value（物品价值）
+           $exdata[] = $v['order_price'];
+
+           //COD（代收货款）.
+           $exdata[] = $v['order_pay_type'] == 0 ? $v['order_price'] : 0;
+
+           //Remark（备注）
+           $order_config = \App\order_config::where('order_primary_id', $v['order_id'])->get();
+           if ($order_config->count() > 0) {
+               $config_msg = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');//产品属性
+               $i = 0;
+               foreach ($order_config as $va) {
+                   $i++;
+                   $orderarr = explode(',', $va['order_config']);
+                   foreach ($orderarr as $key => $val) {
+                       $conmsg = \App\config_val::where('config_val_id', $val)
+                           ->where(function ($query) use ($v) {
+                               if ($v['goods_is_update'] == '1') {
+                                   $query->where('kind_val_id', '>', 0);
+                               }
+                           })
+                           ->first();
+                       if ($conmsg == null) {
+                           $conmsg = \App\config_val::where('config_val_id', $val)->first();
+                       }
+                       if (isset($conmsg->kind_val_id) && $conmsg->kind_val_id) {
+                           $config_val_msg = kind_val::where('kind_val_id', $conmsg->kind_val_id)->value('kind_val_msg');
+                       } else {
+                           $config_val_msg = $conmsg['config_val_msg'];
+                       }
+                       $config_msg .= $config_val_msg;
+                   }
+                   $special = price::where('price_id',$v['order_price_id'])->value('price_name');
+                   if($special){
+                       $config_msg .= '赠：'.$special;
+                   }
+               }
+               $exdata[] = $config_msg;
+           } else {
+               $exdata[] = "暂无属性信息";
+           }
+
+           //remark1（备注一）
+           $exdata[] = $v['order_remark'];
+
+           array_push($cellData,$exdata);
+       }
+
+       // 菜单 样式
+       Excel::create($filename,function($excel) use ($cellData,$filename){
+           $excel->sheet($filename, function($sheet) use ($cellData) {
+               $sheet->rows($cellData);
+               foreach ($cellData as $clientid) {
+
+               }
+           });
+       })->export('xls');
+       //===============================================================================
+       //菲律宾
+//       $cellData[] = ['Client（客户）','Sender`s Name（寄件人）','Sender Mobile No.（手机）','Landline of Sender（固话）','Sender Address（寄件人地址）','Order Number(平台订单号）','Receiver`s Name（收件人）','Receiver`s Mobile No.（收件人手机）','Landline of Receiver（收件人固话）','Receiver`s Address（收件人详细地址）','Provincal（收件省份）','city（收件城市）','Bray(地区）','Item Value（物品价值）','COD（代收货款）','Remark（备注）','remark1（备注一）'];
+//       foreach($data as $k => $v) {
+//            $exdata = [];
+//            //Client（客户）
+//            $exdata[] = 'ORIENTAL MAGIC HEALTH PTE.LTD.';
+//
+//            //Sender`s Name（寄件人）
+//            $exdata[] = 'ORIENTAL MAGIC HEALTH PTE.LTD.';
+//
+//            //Sender Mobile No.（手机）
+//            $exdata[] = '18739903577';
+//
+//            //Landline of Sender（固话）
+//            $exdata[] = '18739903577';
+//
+//            //Sender Address（寄件人地址）
+//            $exdata[] = '152 Beach Road, Singapore 189721';
+//
+//            //Order Number(平台订单号）
+//            $exdata[] = $v['order_single_id'];
+//
+//            //Receiver`s Name（收件人）
+//            $exdata[] = $v['order_name'];
+//
+//            //Receiver`s Mobile No.（收件人手机）
+//            $exdata[] = $v['order_tel'];
+//
+//            //Landline of Receiver（收件人固话）
+//            $exdata[] = $v['order_tel'];
+//
+//            //Receiver`s Address（收件人详细地址）
+//           if ($v['order_zip']) {
+//               $str = $v['order_add'];
+//               $pattern = '/(.*)\(Zip:(.*?)\)/';
+//               preg_match_all($pattern, $str, $p);
+//               $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//               $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+//               $exdata[] = $v['order_state'];
+//               $exdata[] = $v['order_city'];
+//               $exdata[] = 0;
+//           } else {
+//               $str = $v['order_add'];
+//               $pattern = '/(.*)\(Zip:(.*?)\)/';
+//               preg_match_all($pattern, $str, $p);
+//               $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//               $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+//               $exdata[] = $v['order_state'];
+//               $exdata[] = $v['order_city'];
+//               $exdata[] = 0;
+//           }
+//           //Item Value（物品价值）
+//           $exdata[] = $v['order_price'];
+//
+//           //COD（代收货款）.
+//           $exdata[] = $v['order_pay_type'] == 0 ? $v['order_price'] : 0;
+//
+//           //Remark（备注）
+//           $order_config = \App\order_config::where('order_primary_id', $v['order_id'])->get();
+//           if ($order_config->count() > 0) {
+//               $config_msg = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');//产品属性
+//               $i = 0;
+//               foreach ($order_config as $va) {
+//                   $i++;
+//                   $orderarr = explode(',', $va['order_config']);
+//                   foreach ($orderarr as $key => $val) {
+//                       $conmsg = \App\config_val::where('config_val_id', $val)
+//                           ->where(function ($query) use ($v) {
+//                               if ($v['goods_is_update'] == '1') {
+//                                   $query->where('kind_val_id', '>', 0);
+//                               }
+//                           })
+//                           ->first();
+//                       if ($conmsg == null) {
+//                           $conmsg = \App\config_val::where('config_val_id', $val)->first();
+//                       }
+//                       if (isset($conmsg->kind_val_id) && $conmsg->kind_val_id) {
+//                           $config_val_msg = kind_val::where('kind_val_id', $conmsg->kind_val_id)->value('kind_val_msg');
+//                       } else {
+//                           $config_val_msg = $conmsg['config_val_msg'];
+//                       }
+//                       $config_msg .= $config_val_msg;
+//                   }
+//                   $special = price::where('price_id',$v['order_price_id'])->value('price_name');
+//                   if($special){
+//                       $config_msg .= '赠：'.$special;
+//                   }
+//               }
+//               $exdata[] = $config_msg;
+//           } else {
+//               $exdata[] = "暂无属性信息";
+//           }
+//
+//           //remark1（备注一）
+//           $exdata[] = $v['order_remark'];
+//
+//           array_push($cellData,$exdata);
+//       }
+
+
+
+       //===============================================================================
+       // 默认
+//       $cellData[] = ['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','产品属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
+//
+//       foreach($data as $k => $v) {
+//           $exdata = [];
+//           //订单时间
+//           $exdata[] = $v['order_time'];
+//           //订单编号
+//           $exdata[] = $v['order_single_id'];
+//           //客户名字
+//           $exdata[] = $v['order_name'];
+//           //客户电话
+//           $exdata[] = $v['order_tel'];
+//           //详细地址
+//           if ($v['order_zip']) {
+//               $str = $v['order_add'];
+//               $pattern = '/(.*)\(Zip:(.*?)\)/';
+//               preg_match_all($pattern, $str, $p);
+//               $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//               $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+//               $exdata[] = $v['order_state'];
+//               $exdata[] = $v['order_city'];
+//               $exdata[] = $area_info;
+//               $exdata[] = $v['order_zip'];
+//           } else {
+//               $str = $v['order_add'];
+//               $pattern = '/(.*)\(Zip:(.*?)\)/';
+//               preg_match_all($pattern, $str, $p);
+//               $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//               $exdata[] = $v['order_state'] . ' ' . $v['order_city'] . '(' . $area_info . ')';
+//               $exdata[] = $v['order_state'];
+//               $exdata[] = $v['order_city'];
+//               $exdata[] = $area_info;
+//               $exdata[] = isset($p[2][0]) ? $p[2][0] : '';
+//           }
+//
+//           //产品名称
+//           $exdata[] = \App\goods_kind::where('goods_kind_id', $v['goods_kind_id'])->value('goods_kind_name');
+//
+//           //商品名
+//           $exdata[] = $v['goods_real_name'];
+//
+//           //币种
+//           $exdata[] = \App\currency_type::where('currency_type_id', $v['order_currency_id'])->value('currency_english_name');
+//
+//           //总金额
+//           $exdata[] = $v['order_price'];
+//
+//           //数量
+//           $exdata[] = $v['order_num'];
+//
+//           //产品属性信息
+//           $order_config = \App\order_config::where('order_primary_id', $v['order_id'])->get();
+//           if ($order_config->count() > 0) {
+//               $config_msg = '';//产品属性
+//               $goods_config_msg = '';//商品展示属性
+//               $i = 0;
+//               foreach ($order_config as $va) {
+//                   $i++;
+//                   $config_msg .= "第" . $i . "件：";
+//                   $goods_config_msg .= "第" . $i . "件：";
+//                   $orderarr = explode(',', $va['order_config']);
+//                   foreach ($orderarr as $key => $val) {
+//                       $conmsg = \App\config_val::where('config_val_id', $val)
+//                           ->where(function ($query) use ($v) {
+//                               if ($v['goods_is_update'] == '1') {
+//                                   $query->where('kind_val_id', '>', 0);
+//                               }
+//                           })
+//                           ->first();
+//                       if ($conmsg == null) {
+//                           $conmsg = \App\config_val::where('config_val_id', $val)->first();
+//                       }
+//                       if (isset($conmsg->kind_val_id) && $conmsg->kind_val_id) {
+//                           $config_val_msg = kind_val::where('kind_val_id', $conmsg->kind_val_id)->value('kind_val_msg');
+//                       } else {
+//                           $config_val_msg = $conmsg['config_val_msg'];
+//                       }
+//                       $goods_config_msg .= $conmsg['config_val_msg'] . '-';
+//                       $config_msg .= $config_val_msg . '-';
+//                   }
+//                   $config_msg = rtrim($config_msg, '-');
+//                   $goods_config_msg = rtrim($goods_config_msg, '-');
+//               }
+//               $exdata[] = $config_msg;
+//               $exdata[] = $goods_config_msg;
+//           } else {
+//               $exdata[] = "暂无属性信息";
+//               $exdata[] = "暂无属性信息";
+//           }
+//
+//           //备注
+//           $exdata[] = $v['order_remark'];
+//
+//           //支付方式
+//           $exdata[] = $v['order_pay_type'] == 0 ? '货到付款' : '在线支付';
+//
+//           //赠品名称
+//           $exdata[] = price::where('price_id', $v['order_price_id'])->value('price_name');
+//
+//           array_push($cellData,$exdata);
+//       }
+        //=======================================================================================
+//       if($request->has('min')&&$request->has('max')){
+//       $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time());
+//       }else{
+//          $filename='订单记录'.date('Y-m-d H:i:s',time());
+//       }
+//
+//       Excel::create($filename,function ($excel) use ($cellData){
+//           $excel->sheet('score', function ($sheet) use ($cellData){
+//               $sheet->rows($cellData);
+//           });
+//       })->export('xls');
+
+       //==============================================================================
+//        if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
+//          return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+//        }
+//       //订单导出
+//       $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+//           ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+//           ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+//           ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+//           ->where(function($query){
+//            if(Auth::user()->is_root!='1'){
+////              $goods=\App\goods::get_ownid(Auth::user()->admin_id);
+//              $query->whereIn('goods_admin_id', admin::get_admins_id());
+//            }
+//           })
+//           ->where(function($query){
+//            $query->where('order.is_del','0');
+//           })
+//          /* ->where(function($query){
+//            $query->where('order.order_type','1');
+//           })*/
+//           ->where(function($query)use($request){
+//              if($request->has('min')&&$request->has('max')){
+//                $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
+//              }else{
+//                $now_date=date('Y-m-d',time()).' 00:00:00';
+//                $query->where('order.order_time','>',$now_date);
+//              }
+//           })
+//           ->where(function($query)use($request){
+//            $goods_search=$request->input('admin_name');
+//            //筛选不同账户条件
+//              if($goods_search!=0){
+//                   $garr=\App\goods::get_only_slef_id($goods_search);
+//                $query->whereIn('order_goods_id',$garr);
+//                }
+//           })
+//           ->where(function($query)use($request){
+//             $order_type=$request->input('order_type');
+//              $pay_type=$request->input('pay_type');
+//              if($order_type!='null'){
+//                if($order_type==0){
+//                  $query->whereIn('order.order_type',[0,11]);
+//                }else{
+//                  $query->where('order.order_type',$order_type);
+//                }
+//              }else{
+//                $query->where('order.order_type','1');
+//              }
+//              if($pay_type!='null'){
+//                  $query->where('order.order_pay_type',$pay_type);
+//              }
+//              //根据语言搜索
+//              if($request->has('languages')&&$request->input('languages')!='0'){
+//                  //按语言查询（根据模板置换语言）
+//                  $band = goods::get_blade($request->input('languages'));
+//                  if($band){
+//                      $query->whereIn('goods.goods_blade_type',$band);
+//                  }
+//              }
+//           })
+//           ->orderBy('order.order_time','desc')
+//           ->get()->toArray();
+//          $exdata=[];
+//          $new_exdata=[];
+//           foreach($data as $k => $v){
+//            $exdata[$k]['order_time']=$v['order_time'];
+//            //产品名
+//            $exdata[$k]['goods_real_name']=\App\goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');
+//            //商品名
+//            $exdata[$k]['goods_name']=$v['goods_real_name'];
+//            //尺寸信息
+//             $order_config=\App\order_config::where('order_primary_id',$v['order_id'])->get();
+//            if($order_config->count()>0){
+//                $config_msg='';//产品属性
+//                $goods_config_msg='';//商品展示属性
+//                $i=0;
+//                foreach($order_config  as  $va){
+//                  $i++;
+//                  $config_msg.="第".$i."件：";
+//                  $goods_config_msg.="第".$i."件：";
+//                  $orderarr=explode(',',$va['order_config']);
+//                  foreach($orderarr as $key => $val){
+//                    $conmsg=\App\config_val::where('config_val_id',$val)
+//                    ->where(function($query)use($v){
+//                      if($v['goods_is_update']=='1'){
+//                        $query->where('kind_val_id','>',0);
+//                      }
+//                    })
+//                    ->first();
+//                    if($conmsg==null){
+//                       $conmsg=\App\config_val::where('config_val_id',$val)->first();
+//                    }
+//                    if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
+//                        $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
+//                    }else{
+//                        $config_val_msg = $conmsg['config_val_msg'];
+//                    }
+//                    $goods_config_msg.=$conmsg['config_val_msg'].'-';
+//                    $config_msg.= $config_val_msg.'-';
+//                  }
+//                  $config_msg=rtrim($config_msg,'-');
+//                  $config_msg.='<br/>';
+//                  $goods_config_msg=rtrim($goods_config_msg,'-');
+//                  $goods_config_msg.='<br/>';
+//                }
+//                  /*$config_msg=rtrim($config_msg,'<br/>');
+//                  $goods_config_msg=rtrim($goods_config_msg,'<br/>');*/
+//                  $exdata[$k]['config_msg']=$config_msg;
+//                  $exdata[$k]['goods_config_msg']=$goods_config_msg;
+//              }else{
+//                $exdata[$k]['config_msg']="暂无属性信息";
+//                $exdata[$k]['goods_config_msg']="暂无属性信息";
+//              }
+//              $exdata[$k]['order_single_id']=$v['order_single_id'];
+//              $exdata[$k]['order_num']=$v['order_num'];
+//              $exdata[$k]['payof']=\App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
+//              $exdata[$k]['order_price']=$v['order_price'];
+//              $exdata[$k]['order_pay_type']= $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
+//              $exdata[$k]['name']=$v['order_name'];
+//              $exdata[$k]['tel']=$v['order_tel'];
+//              $exdata[$k]['order_state']=$v['order_state'];
+//              $exdata[$k]['order_city']=$v['order_city'];
+////              $special= special::leftjoin('price','price.price_id','special.special_price_id')->select('price.price_name')->where('special.special_id',$v['order_special_id'])->first();;
+//              $exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
+//              if($v['order_zip']){
+//                  $str=$v['order_add'];
+//                  $pattern='/(.*)\(Zip:(.*?)\)/';
+//                  preg_match_all($pattern,$str,$p);
+//                  $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
+//                  $exdata[$k]['order_zip'] = $v['order_zip'];
+//              }else{
+//                  $str=$v['order_add'];
+//                  $pattern='/(.*)\(Zip:(.*?)\)/';
+//                  preg_match_all($pattern,$str,$p);
+//                  $exdata[$k]['area_info']=(isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//                  $exdata[$k]['area_data_info']=$v['order_state'].' '.$v['order_city'].'('.$exdata[$k]['area_info'].')';
+//                  $exdata[$k]['order_zip']=isset($p[2][0]) ? $p[2][0] : '';
+//              }
+//               $exdata[$k]['remark']=$v['order_remark'];
+//            switch ($v['order_type']) {
+//               case '0':
+//                 $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
+//                  break;
+//               case '1':
+//                 $data[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
+//                 break;
+//               case '2':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
+//                 break;
+//               case '3':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
+//                 break;
+//               case '4':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
+//                 break;
+//               case '5':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
+//                 break;
+//               case '6':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
+//                 break;
+//               case '7':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
+//                 break;
+//               case '8':
+//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
+//                 break;
+//               default:
+//                  $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
+//                  break;
+//            }
+//            //重组新格式
+//              $new_exdata[$k]['order_time']=$exdata[$k]['order_time'];
+//              $new_exdata[$k]['order_single_id']=$v['order_single_id'];
+//              $new_exdata[$k]['name']=$exdata[$k]['name'];
+//              $new_exdata[$k]['tel']=$exdata[$k]['tel'];
+//              $new_exdata[$k]['area_data_info']=$exdata[$k]['area_data_info'];
+//              $new_exdata[$k]['order_state']=$exdata[$k]['order_state'];
+//              $new_exdata[$k]['order_city']=$exdata[$k]['order_city'];
+//              $new_exdata[$k]['area_info']=$exdata[$k]['area_info'];
+//              $new_exdata[$k]['order_zip']=$exdata[$k]['order_zip'];
+//              $new_exdata[$k]['goods_real_name']=$exdata[$k]['goods_real_name'];
+//              $new_exdata[$k]['goods_name']=$exdata[$k]['goods_name'];
+//              $new_exdata[$k]['payof']=$exdata[$k]['payof'];
+//              $new_exdata[$k]['order_price']=$exdata[$k]['order_price'];
+//              $new_exdata[$k]['order_num']=$exdata[$k]['order_num'];
+//              $new_exdata[$k]['config_msg']=$exdata[$k]['config_msg'];
+//              $new_exdata[$k]['goods_config_msg']=$exdata[$k]['goods_config_msg'];
+//              $new_exdata[$k]['remark']=$exdata[$k]['remark'];
+//              $new_exdata[$k]['order_pay_type']=$exdata[$k]['order_pay_type'];
+//              $new_exdata[$k]['special_name']=$exdata[$k]['special_name'];
+//           }
+//         if($request->has('min')&&$request->has('max')){
+//          $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
+//         }else{
+//            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
+//         }
+///*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
+//*/
+///*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
+//        //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
+//        $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','商品名','币种','总金额','数量','产品属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
+//        out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
    public function payinfo(Request $request)
    {

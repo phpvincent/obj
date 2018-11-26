@@ -96,12 +96,60 @@ class goods extends Model
             case '7':
                 $band = [7, 8, 9, 10];
                 break;
+            case '8':
+                $band = [11];
+                break;
             default:
                 $band = false;
                 break;
         }
         return $band;
     }
+
+    /** 根据地区返回商品模板
+     * @param $goods_blade_type
+     * @return array
+     */
+    public static function get_area_blade($goods_blade_type)
+    {
+        switch ($goods_blade_type) {
+            case '1':
+                $band = [0, 1];
+                break;
+            case '2':
+                $band = [2];
+                break;
+            case '3':
+                $band = [3];
+                break;
+            case '4':
+                $band = [4];
+                break;
+            case '5':
+                $band = [5];
+                break;
+            case '6':
+                $band = [6];
+                break;
+            case '7':
+                $band = [7];
+                break;
+            case '8':
+                $band = [8,9];
+                break;
+            case '9':
+                $band = [10];
+                break;
+            case '10':
+                $band = [11];
+                break;
+            default:
+                $band = false;
+                break;
+        }
+        return $band;
+    }
+
     public static function get_success_blade($goods){
         //根据商品类返回所属邮件页面模板
         $blade_id=$goods->goods_blade_type;
