@@ -203,7 +203,7 @@
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-					<strong>お知らせ:</strong>商品到着後何か質問があれば、オンラインチャットまたはメールください（<a  href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>）。同時に、受取人の名前/電話番号/オーダーナンバーを教えて、直ちに対応いたします、ではお買い物をお楽しみに！</div>
+					<strong>お知らせ:</strong>商品到着後何か質問があれば、オンラインチャットまたはメールください（<a  href="mailto:esdkhjes@gmail.com" style="color:#F8770E">esdkhjes@gmail.com</a>）。同時に、受取人の名前/電話番号/オーダーナンバーを教えて、直ちに対応いたします、ではお買い物をお楽しみに！</div>
 				<p></p>
   			</div>
 		</div>

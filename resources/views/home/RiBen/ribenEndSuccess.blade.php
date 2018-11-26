@@ -82,7 +82,7 @@
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            配送する時、携帯電話が掛かるようにお願いします、何か質問があれば、オンラインサービスまでご連絡ください。では、お買い物を楽しみに<a href="mailto:esdkhjies@gmail.com" style="color:#F8770E">esdkhjies@gmail.com</a>      </div>            </div>
+                                            配送する時、携帯電話が掛かるようにお願いします、何か質問があれば、オンラインサービスまでご連絡ください。では、お買い物を楽しみに<a href="mailto:esdkhjes@gmail.com" style="color:#F8770E">esdkhjes@gmail.com</a>      </div>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">ホームへ戻る&gt;&gt;</button>
             </div>
