@@ -63,9 +63,15 @@ class OrderController extends Controller
        $order = order::where('order_id', $request->input('id'))->where('is_del','0')->first();
        $goods = goods::find($order->order_goods_id);
        $goods_attrs = goods_config::where('goods_primary_id', $order->order_goods_id)->get();
+
        if ($goods_attrs) {
            foreach ($goods_attrs as $k=>$v) {
-            $vals = config_val::where('config_type_id', $v->goods_config_id)->where('config_isshow', 0)->get();
+               if ($goods->goods_is_update) {
+                   $vals = config_val::where('config_type_id', $v->goods_config_id)->where('config_isshow', 0)->where('kind_val_id','>',0)->get();
+               } else {
+                   $vals = config_val::where('config_type_id', $v->goods_config_id)->where('config_isshow', 0)->where('kind_val_id','<',0)->get();
+               }
+
             if (count($vals) > 0) {
                 $v->vals = $vals;
             }else {
