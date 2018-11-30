@@ -505,7 +505,9 @@
             <td colspan="2">
                 <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.</p>
                 <p>Please attach with the Order No., Contact No., and Customer name.</p>
+                @if(strpos($goods->goods_real_name,'核审') !== false)
                 <p>Return Address:152 Beach Road,Singapore 189721.</p>
+                @endif
             </td>
 
         </tr>
