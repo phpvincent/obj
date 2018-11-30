@@ -128,8 +128,8 @@ class OrderController extends Controller
        $order->order_add = $request->input('order_add');
        $order->order_email = $request->input('order_email');
        $order->order_remark = $request->input('order_remark');
-
-       $order_Array = [];
+       $order->order_time = $request->input('order_time');
+        $order_Array = [];
        //设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
        //ip
        $goods_ip = order::where('order_ip',$order->order_ip)->get();
