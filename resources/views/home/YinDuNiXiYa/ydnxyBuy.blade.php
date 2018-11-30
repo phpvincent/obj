@@ -112,6 +112,8 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
+        <script src="/js/diqu/yidunixiya.json"></script>
+        <script src="/js/diqu/Address.js"></script>
         <script src="/js/diqu/ydnxy.js"></script>
         <script src="/js/diqu/ydnxy_zip.json"></script>
         <script src="/js/Validform.min.js"></script>
@@ -271,8 +273,14 @@
         <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span>Pilih lokasi</label>
-        <div id="twzipcode"></div>
+        <label><span class="require">*</span>provinsi:</label>
+        <select name="state" id="Select1" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div><div class="mui-input-row">
+        <label><span class="require">*</span>kota:</label>
+        <select name="city" id="Select2" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div><div class="mui-input-row">
+        <label><span class="require">*</span>Kabupaten:</label>
+        <select name="order_village" id="Select3" style="width: 72%!important;margin-right: 4%!important;"></select>
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Alamat lengkap:</label>
@@ -284,7 +292,7 @@
     </div>
     <div class="mui-input-row" style="overflow:visible">
         <label><span class="require">*</span>Kode pos:</label>
-        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear chanpin"oninput="xiala()">
+        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear chanpin" oninput="xiala()">
         <div class="box" style="display: none;">
             <ul>
             </ul>
@@ -460,7 +468,7 @@ $('#pay').bind('click',function(){
         layer.msg('Alamat lengkap tidak boleh kosong');
         return false;
     }
-    if(datasObj.city==null||datasObj.city==''){
+    if(datasObj.order_village==null||datasObj.order_village==''||datasObj.order_village=='Harus diisi kabupaten'){
         layer.msg('Silakan pilih lokasi');
         return false;
     }
@@ -597,35 +605,36 @@ jQuery(function(){
     </script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function(e) {
-        jQuery('#twzipcode').twzipcode();
-        jQuery('input[name="zipcode"]').attr('style','display:none;');
-        jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
-        jQuery('#twzipcode').find("[name='state']").change(function(){
-            var county = jQuery(this).val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    // jQuery(document).ready(function(e) {
+    //     jQuery('#twzipcode').twzipcode();
+    //     jQuery('input[name="zipcode"]').attr('style','display:none;');
+    //     jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
+    //     jQuery('#twzipcode').find("[name='state']").change(function(){
+    //         var county = jQuery(this).val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('#twzipcode').find("[name='city']").change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            district = jQuery(this).val();
+    //     jQuery('#twzipcode').find("[name='city']").change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         district = jQuery(this).val();
 
 
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('.gw_address_message_info').change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            //alert(district);
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all ').val(message_info);
-        });
+    //     jQuery('.gw_address_message_info').change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         //alert(district);
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all ').val(message_info);
+    //     });
 
-    });
+    // });
+    addressInit('Select1', 'Select2', 'Select3');
 </script>
 
 <script>
