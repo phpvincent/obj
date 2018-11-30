@@ -1049,7 +1049,7 @@ class OrderController extends Controller
                        $new_exdata[$k]['order_city'] = $v['order_city'];
                        $new_exdata[$k]['order_village'] = $v['order_village'];
                    }else{
-                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].'('.$area_info.')';
+                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                        $new_exdata[$k]['order_state'] = $v['order_state'];
                        $new_exdata[$k]['order_city'] = $v['order_city'];
                    }
@@ -1060,7 +1060,7 @@ class OrderController extends Controller
                    $pattern='/(.*)\(Zip:(.*?)\)/';
                    preg_match_all($pattern,$str,$p);
                    $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                   $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].'('.$area_info.')';
+                   $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                    $new_exdata[$k]['order_state'] = $v['order_state'];
                    $new_exdata[$k]['order_city'] = $v['order_city'];
                    if($goods_blade_type == 6){
@@ -1069,7 +1069,7 @@ class OrderController extends Controller
                        $new_exdata[$k]['order_city'] = $v['order_city'];
                        $new_exdata[$k]['order_village'] = $v['order_village'];
                    }else{
-                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].'('.$area_info.')';
+                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                        $new_exdata[$k]['order_state'] = $v['order_state'];
                        $new_exdata[$k]['order_city'] = $v['order_city'];
                    }
