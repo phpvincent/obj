@@ -234,9 +234,9 @@ if (!function_exists('out_excil')){
        $str="";
       $str .= "</table></body></html>"; 
 
-      header( "Content-Type: application/vnd.ms-excel; name='excel'" ); 
+      header( "Content-Type: application/vnd.ms-excel; name='excel'" );
 
-      header( "Content-type: application/octet-stream" ); 
+      header( "Content-type: application/octet-stream" );
 
       header( "Content-Disposition: attachment; filename=".$filename ); 
 
@@ -245,7 +245,7 @@ if (!function_exists('out_excil')){
       header( "Pragma: no-cache" ); 
 
       header( "Expires: 0" ); 
-  
+
       echo $str;
       ob_end_flush();
       //exit( $str ); 
@@ -421,14 +421,16 @@ if (!function_exists('operation_log')){
 
 if (!function_exists('get_browse_info')){
     function get_browse_info(){
-       $start = date('Y-m-d',time()-24*3600).' 00:00:00';
-       $end = date('Y-m-d').' 00:00:00';
-       $start_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
-       $end_time = date('Y-m-d',time()-7*24*3600).' 00:00:00';
+//       $start = date('Y-m-d',time()-24*3600).' 00:00:00';
+//       $end = date('Y-m-d').' 00:00:00';
+       $start = date('Y-m-d',time()).' 00:00:00';
+       $start = date('Y-m-d H:i:s',strtotime($start)-120);
+       $start_time = date('Y-m-d',time()-9*24*3600).' 00:00:00';
+       $end_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
        try{
-           $data = \App\vis::visBrowseCount($start,$end); //获取昨天浏览量、购买量、下单量
+           $data = \App\vis::visBrowseCount($start); //获取昨天浏览量、购买量、下单量
            \App\data_log::whereBetween('data_time',[$start_time,$end_time])->delete();//删除7日前数据
-           $name = date('Y-m-d',time()-7*24*3600).'OperationLog.log';
+           $name = date('Y-m-d',time()-30*24*3600).'OperationLog.log';
            $filepath = __DIR__.'/../storage/logs/beiGuo/' . $name;
            if(file_exists($filepath)){
                @unlink($filepath); //删除7日前操作日志

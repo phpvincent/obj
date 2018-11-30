@@ -133,6 +133,7 @@ class KindController extends Controller
             $goods_kind->goods_kind_name=$goods_kind_name;
             $goods_kind->goods_buy_url=$request->input('goods_buy_url');
             $goods_kind->goods_buy_msg=$request->input('goods_buy_msg');
+            $goods_kind->goods_buy_weight=$request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin=Auth::user()->admin_id;
             $goods_kind->goods_kind_time=date("Y-m-d H:i:s",time());
             $msg=$goods_kind->save();
@@ -209,8 +210,8 @@ class KindController extends Controller
             $goods_kind = goods_kind::where('goods_kind_id',$kind_primary_id)->first();
             $goods_kind->goods_buy_url = $request->input('goods_buy_url');
             $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
+            $goods_kind->goods_buy_weight = $request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin = Auth::user()->admin_id;
-            $goods_kind->save();
 
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
@@ -269,6 +270,9 @@ class KindController extends Controller
                     }
                 }
             }
+            //修改产品信息
+            $goods_kind->save();
+
             $ip = $request->getClientIp();
             //加log日志
             operation_log($ip,$goods_kind->goods_kind_name.'产品修改成功');

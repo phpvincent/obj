@@ -733,7 +733,11 @@ class IndexController extends Controller
     }
 
     public function getsendmsg(Request $request){
-        $order=\App\order::where('order_single_id',$request->input('msg'))->first();
+        $msg = $request->input('msg');
+        if(substr($msg,0,2) != 'NR'){
+            $msg = 'NR'.$msg;
+        }
+        $order=\App\order::where('order_single_id',$msg)->first();
         if($order==null||$order==false){
             /*dd($order);*/
             return json_encode(false);

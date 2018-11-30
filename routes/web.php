@@ -185,3 +185,4 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
 
 });
+

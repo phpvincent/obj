@@ -345,7 +345,7 @@ class vis extends Model
      * @param $end
      * @return array
      */
-    public static function visBrowseCount($start,$end)
+    public static function visBrowseCount($start)
     {
 //        $visBrowse = vis::whereBetween('vis_time',[$start,$end])->get();
 //        $visBuy = vis::whereBetween('vis_buytime',[$start,$end])->get();
@@ -375,7 +375,7 @@ class vis extends Model
 //                    $arrayBrowse[$key] = count($value);
 //                }
 //            }
-            $data_info['data_time'] = $start_time;
+            $data_info['data_time'] = date('Y-m-d H:i:s',$time + $i*3600+120);
             $data_info['data_browse'] = json_encode($visBrowse);
             unset($visBrowse);
             //购买量
