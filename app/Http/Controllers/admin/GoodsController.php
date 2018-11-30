@@ -312,7 +312,7 @@ class GoodsController extends Controller
        $pay_type = isset($data['pay_type']) ? $data['pay_type'] : ['0'];
        $goods->goods_pay_type= implode(',',$pay_type);
        // 印度尼西亚、越南 不允许带小数
-       if($request->input('goods_blade_type') == 6 && $request->input('goods_blade_type') == 11){
+       if($request->input('goods_blade_type') == 6 || $request->input('goods_blade_type') == 11){
            $data_limit = $this->data_limit($data);
            if($data_limit !== true){
                return response()->json(['err'=>0,'str'=>$data_limit]);
@@ -867,7 +867,7 @@ class GoodsController extends Controller
         $goods->goods_pay_type= implode(',',$pay_type);
 
        // 印度尼西亚 不允许带小数
-       if($request->input('goods_blade_type') == 6 && $request->input('goods_blade_type') == 11){
+       if($request->input('goods_blade_type') == 6 || $request->input('goods_blade_type') == 11){
            $data_limit = $this->data_limit($data);
            if($data_limit !== true){
                return response()->json(['err'=>0,'str'=>$data_limit]);
