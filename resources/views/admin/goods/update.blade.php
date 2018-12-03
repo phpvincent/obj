@@ -117,7 +117,16 @@
 					</select>
 					</span> </div>
 			</div>
-
+			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>模板风格：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						默认 <input type="radio" id="goods_blade_style" class=" goods_blade_style" name="goods_blade_style" @if($goods->goods_blade_style==0)checked="checked" @endif value="0">
+				 		弹窗 <input type="radio" id="goods_blade_style" class=" goods_blade_style" name="goods_blade_style" @if($goods->goods_blade_style==1)checked="checked" @endif value="1">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>促销类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">

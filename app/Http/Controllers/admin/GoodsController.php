@@ -427,6 +427,7 @@ class GoodsController extends Controller
          $goods->goods_blade_type=$data['goods_blade_type'];
          $goods->goods_type=isset($data['goods_type'])?$data['goods_type']:null;
          $goods->goods_type_html=isset($data['editor2'])?$data['editor2']:"";
+         $goods->goods_blade_style=$data['goods_blade_style'];
          if(!isset($data['goods_kind'])||$data['goods_kind']==null||$data['goods_kind']==''){
              return response()->json(['err' => 0, 'str' => '产品信息错误！']);
          }
@@ -1084,6 +1085,7 @@ class GoodsController extends Controller
        $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
        $goods->goods_google_pix = $data['goods_google_pix'];
        $goods->goods_type = $data['goods_type'];
+       $goods->goods_blade_style = $data['goods_blade_style'];
 //           $goods->goods_pay_type=implode(',',$request->input('pay_type'));
 //           $goods->goods_up_time = date('Y-m-d H:i:s', time());
        $goods->goods_type_html = isset($data['editor2']) ? $data['editor2'] : "";
