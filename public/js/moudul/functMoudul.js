@@ -179,10 +179,11 @@ function closeBtnWatch(){
     $("#closeBtn").on("click",function(){
         if(!isTaoForm){
             $("#iframePay",parent.document).animate({height:""});
+            $("#taorbg",parent.document).css('display','none');  //弹框遮罩关闭
             console.log(isTaoForm)
             // $("#iframePayDiv",parent.document).css('display','none');
         }else{
-            $("#iframePay",parent.document).css({'height':"600px"});
+            $("#iframePay",parent.document).css({'height': (window.screen.height)*8/10});
             $("#goods_config_div").show();
             $("#save").hide();
             $(".paymentbox").hide();
