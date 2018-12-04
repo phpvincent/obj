@@ -193,11 +193,31 @@ class checkurl
             setcookie('isr_vis',$vis->vis_id,time()+600);
         }else{
             $vis=\App\vis::where('vis_id',$_COOKIE['isr_vis'])->first();
+            if($vis==null){
+              $vis=new vis;
+              $vis->vis_ip=$arr['ip'];
+              $vis->vis_country=$arr['country'];
+              $vis->vis_region=$arr['region'];
+              $vis->vis_city=$arr['city'];
+              $vis->vis_county=$arr['county'];
+              $vis->vis_isp=$arr['isp'];
+              $vis->vis_type=$type;
+              $vis->vis_lan=$lan;
+              $vis->vis_time=date('Y-m-d H:i:s',time());
+              if($goods_id==null){
+                $goods_id=0;
+              }
+              $vis->vis_goods_id=$goods_id;
+              $vis->vis_url=$_SERVER['SERVER_NAME'];
+              $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
+              $vis->save();  
+              setcookie('isr_vis',$vis->vis_id,time()+600);
+            }
         }
           view()->share('vis_id',$vis->vis_id);
          if($goods_id=='4'){
             return redirect('index/fb');
-        }      
+        }
         
         //地区核审
         $area=explode(';', DB::table('pb')->first()->pb_ziduan);
