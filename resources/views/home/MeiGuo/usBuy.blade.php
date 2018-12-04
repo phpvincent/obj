@@ -302,7 +302,7 @@
     <span class="purchase"  id="btnPay" style="width:100%;">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>立即购买</span>
+			<span>Buy Now</span>
 		</a>
 	</span>
 </div>
