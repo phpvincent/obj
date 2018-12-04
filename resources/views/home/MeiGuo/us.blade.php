@@ -663,6 +663,9 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </form>
     </div>
 </div>
+<div id="iframePayDiv" style="display:none; position: fixed; bottom: -4px; width:100%; z-index: 9999;">
+
+</div>
 <script language="javascript">
     function captureImage(a) {
     a.pause(); 
@@ -784,6 +787,16 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
+       var bladeStyle= {{$goods->goods_blade_style}};
+       var goods_google_pix= {{$goods->goods_google_pix}};
+       var goods_yahoo_pix= {{$goods->goods_yahoo_pix}};
+       var goods_id= {{$goods->goods_id}}
+       if(bladeStyle==1){
+           $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" ></iframe>')
+       }
+       console.log("goods_blade_style",bladeStyle);
+       console.log("goods_google_pix",goods_google_pix);
+       console.log("goods_yahoo_pix",goods_yahoo_pix);
     $2(function() {
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
@@ -798,7 +811,42 @@ $(function(){
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-            location.href=action;
+            if(bladeStyle==1){
+                $("#iframePayDiv").css('display','block'); $("#iframePay").animate({height:"600px"});
+                if(goods_yahoo_pix){
+                         window.dotq = window.dotq || [];
+                                window.dotq.push(
+                                {
+                                'projectId':'10000',
+                                'properties':{
+                                    'pixelId':goods_yahoo_pix,
+                                    'qstrings':{
+                                    'et':'custom',
+                                    'ea':'AddToCart',
+                                    'product_id': goods_id,
+                                    }
+                                }});
+                        (function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':goods_yahoo_pix}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");
+                        console.log("goods_yahoo_pix",goods_yahoo_pix);
+                     }
+                     //goole像素
+                     if(goods_google_pix){
+                         var script = document.createElement('script');
+                         script.type = 'text/javascript';
+                         script.src = "https://www.googletagmanager.com/gtag/js?id="+goods_google_pix;
+
+                         $("head").append(script);
+
+                         window.dataLayer = window.dataLayer || [];
+                         function gtag(){dataLayer.push(arguments);}
+                         gtag('js', new Date());
+             
+                         gtag('config', goods_google_pix);
+                         console.log("goods_google_pix",goods_google_pix);
+                     }
+            }else{
+                location.href=action;
+            } 
         });
 /*
         $2("#btnOnline").bind(_ONCLICK,

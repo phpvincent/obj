@@ -162,3 +162,54 @@ function countDiff (a,basePrice,moneycoin){
         
     }
 }
+//仿淘宝属性选择和订单模块
+var isTaoForm=false;
+function mouduleTaoBao (){
+    $("#closeBtn").show(); //右上X号按钮显示；
+    $("#btnPay").parent().show(); //购买按钮显示；
+    $("header").hide();
+    $(".pro_info").css({"position":"fixed","top":"0","z-index":"9"});
+    $(".newfooter").css({"margin-bottom":"60px"});
+    $("body").css({"padding-top":"50px"});
+    $("#save").hide();
+    $(".paymentbox").hide();
+    $(".btndiv").hide();
+}
+function closeBtnWatch(){
+    $("#closeBtn").on("click",function(){
+        if(!isTaoForm){
+            $("#iframePay",parent.document).animate({height:""});
+            console.log(isTaoForm)
+            // $("#iframePayDiv",parent.document).css('display','none');
+        }else{
+            $("#iframePay",parent.document).css({'height':"600px"});
+            $("#goods_config_div").show();
+            $("#save").hide();
+            $(".paymentbox").hide();
+            $("#addcart .addcart-group-buttons").show();
+            $("#addcart .addcart-quantity").show();
+            $("#addcart").css("margin-top","5px");
+            console.log(isTaoForm)
+            isTaoForm=false;
+            $("#btnPay").parent().show();  //订单按钮隐藏；换成购买按钮；
+            $(".btndiv").hide();
+        }
+
+    })
+    //选择属性菜单的购买按钮的监听；
+    $("#btnPay").on("click",function(){
+        var winHieht= window.screen.height; //父页面iframe =视口高度；
+        $("#iframePay",parent.document).css({'height':winHieht});
+        $("#goods_config_div").hide();
+        $("#addcart .addcart-group-buttons").hide();
+        $("#addcart .addcart-quantity").hide();
+        $("#addcart").css("margin-top","40px");
+        $("#save").show()
+        $(".paymentbox").show();
+        isTaoForm=true;
+        $("#btnPay").parent().hide();  //购买按钮隐藏；换成订单按钮；
+        $(".btndiv").show();
+        $(".btndiv").addClass("mui-bar");
+        $("#pay").css({"width":"100%","margin":"0","height":"100%"});
+    })
+}
