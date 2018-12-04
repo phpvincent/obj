@@ -146,7 +146,7 @@
 
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>姓名：</label>
+				<label class="form-label col-xs-4 col-sm-2">姓名：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$order->order_name}}" placeholder="" id="order_name" name="order_name">
 				</div>
@@ -154,7 +154,7 @@
 		</div>
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>电话：</label>
+				<label class="form-label col-xs-4 col-sm-2">电话：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$order->order_tel}}" placeholder="" id="order_tel" name="order_tel">
 				</div>
@@ -181,7 +181,7 @@
 		</div>
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>下单者备注：</label>
+				<label class="form-label col-xs-4 col-sm-2">下单者备注：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$order->order_remark}}" placeholder="" id="order_remark" name="order_remark">
 				</div>
