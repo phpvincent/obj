@@ -162,17 +162,18 @@
 		</div>
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>下单地址：</label>
+				<label class="form-label col-xs-4 col-sm-2">下单地址：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					省<input type="text" class="input-text" style="width: 200px" value="{{$order->order_state}}" placeholder="" id="order_state" name="order_state">
 					市<input type="text" class="input-text" style="width: 200px" value="{{$order->order_city}}" placeholder="" id="order_city" name="order_city">
+					区<input type="text" class="input-text" style="width: 200px" value="{{$order->order_village}}" placeholder="" id="order_village" name="order_village">
 					详细地址<input type="text" class="input-text" style="width: 200px" value="{{$order->order_add}}" placeholder="" id="order_add" name="order_add">
 				</div>
 			</div>
 		</div>
 		<div class="row cl" style="border:0px">
 			<div class="clearfix" style="margin: 0px">
-				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>邮箱地址：</label>
+				<label class="form-label col-xs-4 col-sm-2">邮箱地址：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="{{$order->order_email}}" placeholder="" id="order_email" name="order_email">
 				</div>
@@ -199,11 +200,11 @@
 <script type="text/javascript">
     var rules={
         order_name:{
-            required:true,
+            required:false,
             maxlength:50,
         },
         order_tel:{
-            required:true,
+            required:false,
             number:true,
         },
         order_state:{
@@ -214,12 +215,16 @@
             required:true,
             maxlength:50,
         },
+        order_village: {
+            required:false,
+			maxlength:50,
+		},
         order_add:{
-            required:true,
+            required:false,
             maxlength:255,
         },
         order_email:{
-            required:true
+            required:false
         },
         order_remark:{
             required:false

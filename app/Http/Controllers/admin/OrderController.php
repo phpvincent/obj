@@ -126,6 +126,7 @@ class OrderController extends Controller
        $order->order_state = $request->input('order_state');
        $order->order_city = $request->input('order_city');
        $order->order_add = $request->input('order_add');
+       $order->order_village = $request->input('order_village');
        $order->order_email = $request->input('order_email');
        $order->order_remark = $request->input('order_remark');
        $order->order_time = $request->input('order_time');
