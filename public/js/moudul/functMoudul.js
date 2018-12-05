@@ -184,7 +184,7 @@ function closeBtnWatch(){
             console.log(isTaoForm)
            
         }else{
-            $("#iframePayDiv",parent.document).css({'height': $(window).height()*7/10});
+            $("#iframePayDiv",parent.document).css({'height': $(window).height()*8/10});
             $("#goods_config_div").show();
             $("#save").hide();
             $(".paymentbox").hide();
