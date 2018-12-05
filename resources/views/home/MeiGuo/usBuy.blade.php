@@ -159,7 +159,7 @@
 
 <!--product info begin-->
 <div class="pro_info">
-<span id="closeBtn" style="position: absolute;right: 5px;z-index: 9;display:none;" class="mui-icon mui-icon-close"></span>
+<span id="closeBtn" style="" class="mui-icon mui-icon-close"></span>
     <div class="ctxthead">
 {{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)

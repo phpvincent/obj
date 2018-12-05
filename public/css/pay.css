@@ -866,3 +866,11 @@ button.bunble{ margin-top:10px;}
 	display:inline-block !important;
 	float:none !important;
 }
+/* .ctxtbox {
+	padding-top:10px !important;
+} */
+#closeBtn {
+	top: 0;
+	right: 0;
+	position: absolute;z-index: 9;display:none;
+}

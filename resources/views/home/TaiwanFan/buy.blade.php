@@ -136,36 +136,11 @@
         </noscript>
         <!-- End Facebook Pixel Code -->
         @endif
-          <!-- YaHoo Pixel Code -->
-        @if($goods->goods_yahoo_pix!=null&&$goods->goods_yahoo_pix!='')
-        <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'{{$goods->goods_yahoo_pix}}'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
-        <script>
-            window.dotq = window.dotq || [];
-            window.dotq.push(
-            {
-            'projectId':'10000',
-            'properties':{
-                'pixelId':'{{$goods->goods_yahoo_pix}}',
-                'qstrings':{
-                'et':'custom',
-                'ea':'AddToCart',
-                'product_id': '{{$goods->goods_id}}',
-                }
-            }});
-        </script>
-        @endif
-        <!-- End YaHoo Pixel Code -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+          <!-- YaHoo Pixel Code 代码迁移至addCart行 -->
 
-          gtag('config', '{{$goods->goods_google_pix}}');
-        </script>
-        @endif 
+        <!-- End YaHoo Pixel Code -->
+    <!-- Global site tag (gtag.js) - Google Analytics 代码迁移至addCart行-->
+
         <!-- End Google Pixel Code -->
 
 </head>
@@ -183,6 +158,7 @@
 
 <!--product info begin-->
 <div class="pro_info">
+<span id="closeBtn" style="" class="mui-icon mui-icon-close"></span>
     <div class="ctxthead">
 {{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)
@@ -331,6 +307,15 @@
             溫馨提示：支持貨到付款+免郵費+七天無理由退換貨！收到商品後有任何疑問請聯繫我們在線客服，或發郵件至
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
+
+    <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;display:none;">
+    <span class="purchase"  id="btnPay" style="width:100%;">
+		<a href="javascript:void(0);">
+			<img src="/images/buy2.png">
+			<span>立即購買</span>
+		</a>
+	</span>
+    </div>
 
 <script>
     //第几件翻译
@@ -655,6 +640,45 @@ jQuery(function(){
                 success:function(msg){
                 //  $('#addcart').html(msg);
                  console.log('123',msg)
+                //判断这个页面是不是在首页仿淘宝弹框中打开的
+                if(msg.goods.goods_blade_style=="1"){
+                    mouduleTaoBao();
+                    closeBtnWatch();
+                    console.log("goods_blade_style",msg.goods.goods_blade_style)
+                 }else{
+                     //雅虎像素
+                     if(msg.goods.goods_yahoo_pix){
+                         window.dotq = window.dotq || [];
+                                window.dotq.push(
+                                {
+                                'projectId':'10000',
+                                'properties':{
+                                    'pixelId':msg.goods.goods_yahoo_pix,
+                                    'qstrings':{
+                                    'et':'custom',
+                                    'ea':'AddToCart',
+                                    'product_id': msg.goods.goods_id,
+                                    }
+                                }});
+                        (function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':msg.goods.goods_yahoo_pix}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");
+                        console.log("goods_yahoo_pix",msg.goods.goods_yahoo_pix);
+                     }
+                     //goole像素
+                     if(msg.goods.goods_google_pix){
+                         var script = document.createElement('script');
+                         script.type = 'text/javascript';
+                         script.src = "https://www.googletagmanager.com/gtag/js?id="+msg.goods.goods_google_pix;
+
+                         $("head").append(script);
+
+                         window.dataLayer = window.dataLayer || [];
+                         function gtag(){dataLayer.push(arguments);}
+                         gtag('js', new Date());
+             
+                         gtag('config', msg.goods.goods_google_pix);
+                         console.log("goods_google_pix",msg.goods.goods_google_pix);
+                     }
+                }
                  function returnFloat(value){
                       var value=Math.round(parseFloat(value)*100)/100;
                       var xsd=value.toString().split(".");

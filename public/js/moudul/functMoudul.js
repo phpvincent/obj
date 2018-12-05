@@ -170,7 +170,7 @@ function mouduleTaoBao (){
     $("header").hide();
     $(".pro_info").css({"position":"fixed","top":"0","z-index":"9"});
     $(".newfooter").css({"margin-bottom":"60px"});
-    $("body").css({"padding-top":"50px"});
+
     $("#save").hide();
     $(".paymentbox").hide();
     $(".btndiv").hide();

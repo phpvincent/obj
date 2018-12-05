@@ -571,6 +571,11 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </form>
     </div>
 </div>
+<div style="position: fixed; z-index: 9998;  max-width: 640px; width: 100%;height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
+</div>
+<div id="iframePayDiv" style="display:none; max-width: 640px; position: fixed; bottom: -4px; width:100%; z-index: 9999;">
+
+</div>
 <script language="javascript">
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
@@ -668,6 +673,18 @@ $(function(){
   
 </script>
 <script type="text/javascript" charset="utf-8">
+       
+       var bladeStyle= {{$goods->goods_blade_style ? $goods->goods_blade_style : 'null'}}; 
+       var goods_google_pix= {{$goods->goods_google_pix ? $goods->goods_google_pix : 'null'}};
+       var goods_yahoo_pix= {{$goods->goods_yahoo_pix ? $goods->goods_yahoo_pix : 'null'}};
+       var goods_id= {{$goods->goods_id ? $goods->goods_id : 'null'}};
+       
+       if(bladeStyle==1){
+           $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" ></iframe>')
+       }
+       console.log("goods_blade_style",bladeStyle);
+       console.log("goods_google_pix",goods_google_pix);
+       console.log("goods_yahoo_pix",goods_yahoo_pix);
     $2(function() { 
         
         //$2("img").lazyload({effect: "fadeIn"});
@@ -683,7 +700,44 @@ $(function(){
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-            location.href=action;
+            if(bladeStyle==1){
+                $("#iframePayDiv").css('display','block'); $("#iframePay").animate({height:(window.screen.height)*8/10});
+                $("#taorbg").css('display','block'); //弹框遮罩
+                $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-30}); //iframe中boby的padding-top=.pro-info的height；
+                if(goods_yahoo_pix){
+                        (function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':goods_yahoo_pix}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");
+                            window.dotq = window.dotq || [];
+                                window.dotq.push(
+                                {
+                                'projectId':'10000',
+                                'properties':{
+                                    'pixelId':goods_yahoo_pix,
+                                    'qstrings':{
+                                    'et':'custom',
+                                    'ea':'AddToCart',
+                                    'product_id': goods_id,
+                                    }
+                                }});
+                        console.log("goods_yahoo_pix",goods_yahoo_pix);
+                     }
+                     //goole像素
+                     if(goods_google_pix){
+                         var script = document.createElement('script');
+                         script.type = 'text/javascript';
+                         script.src = "https://www.googletagmanager.com/gtag/js?id="+goods_google_pix;
+
+                         $("head").append(script);
+
+                         window.dataLayer = window.dataLayer || [];
+                         function gtag(){dataLayer.push(arguments);}
+                         gtag('js', new Date());
+             
+                         gtag('config', goods_google_pix);
+                         console.log("goods_google_pix",goods_google_pix);
+                     }
+            }else{
+                location.href=action;
+            }  
         });
 /*
         $2("#btnOnline").bind(_ONCLICK,
