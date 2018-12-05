@@ -52,9 +52,9 @@ class vis extends Model
                 ksort($data5['data']);
                 ksort($data6['data']);
                 $get_today_data = self::toDayData($goods_id);
-                isset($data4['data'][$leng]) ? $data4['data'][$leng] += $get_today_data['browse_count'] : $data4['data'][$leng] = $get_today_data['browse_count'];
-                isset($data5['data'][$leng]) ? $data5['data'][$leng] += $get_today_data['buy_count'] : $data5['data'][$leng] = $get_today_data['buy_count'];
-                isset($data6['data'][$leng]) ? $data6['data'][$leng] += $get_today_data['order_count'] : $data6['data'][$leng] = $get_today_data['order_count'];
+                $data4['data'][$leng] = isset($get_today_data['browse_count'])?$get_today_data['browse_count']:0;
+                $data5['data'][$leng] = isset($get_today_data['buy_count'])?$get_today_data['buy_count']:0;
+                $data6['data'][$leng] = isset($get_today_data['order_count'])?$get_today_data['order_count']:0;
                 $time = array_slice($time,0,$leng);
                 unset($get_today_data);
             }else if($leng > 1 && strtotime($start_time)+$leng*3600*24 < time()){ //多天，不包括今天
