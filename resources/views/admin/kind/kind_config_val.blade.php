@@ -27,6 +27,18 @@
             {{csrf_field()}}
             <input type="text" style="display: none" id="name" name="name" value="1">
             <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">所属种类：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+             <span class="select-box">
+                <select name="product_type_id" id="product_type_id" class="select">
+                    @foreach(\App\product_type::get() as $k => $v)
+                        <option @if($goods_kinds->goods_product_id==$v->product_type_id) selected='selected' @endif value="{{$v->product_type_id}}">{{$v->product_type_name}}</option>
+                    @endforeach
+                </select>
+            </span>
+                </div>
+            </div>
+            <div class="row cl">
                 <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2">产品重量（单位：kg）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="{{floatval($goods_kinds->goods_buy_weight)}}" placeholder="" id="goods_buy_weight" name="goods_buy_weight">
@@ -44,6 +56,7 @@
                     <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
                 </div>
             </div>
+            
             {{--隐藏产品名称--}}
              <div class="row cl">
                 @if(\App\kind_config::where('kind_primary_id',$goods_kinds->goods_kind_id)->count()<=0)

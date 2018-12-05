@@ -3,6 +3,17 @@
     <div class="page-container">
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
 		<button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+         <label class="form-label col-xs-1 col-sm-1">单品分类：</label>
+            <div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+                <select name="product_type_id" id="product_type_id" class="select">
+                    <option value="0">所有</option>
+                    @foreach(\App\product_type::all() as $k => $v)
+                    <option value="{{$v->product_type_id}}">{{$v->product_type_name}}</option>
+                    @endforeach
+                </select>
+                </span>
+            </div>
+    <br>
     </div>
     <table class="table table-border table-bordered table-bg" id="goods_index_table">
         <thead>
@@ -40,6 +51,9 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
+                "data":{
+                product_type_id:function(){return $('#product_type_id').val()},
+                },
                 "url": "{{url('admin/kind/get_table')}}",
                 "type": "POST",
                 'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -101,7 +115,9 @@
                 window.location.href = url;
             }
         }
-
+         $('#product_type_id').on('change',function(){
+            $('#goods_index_table').dataTable().fnClearTable();
+         });
         //新增产品
         $('#addgoods_kind').on('click',function(){
             layer_show('产品添加','{{url("admin/kind/addkind")}}',600,500);

@@ -39,10 +39,25 @@
 			</span>
                 </div>
             </div>
+            <br>
+            <hr>
+
             <div class="row cl">
-                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>新增产品：</label>
+                <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>新增产品名：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="" placeholder="" id="goods_kind_name" name="goods_kind_name">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">所属种类：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+             <span class="select-box">
+                <select name="product_type_id" id="product_type_id" class="select">
+                    @foreach(\App\product_type::get() as $k => $v)
+                        <option value="{{$v->product_type_id}}">{{$v->product_type_name}}</option>
+                    @endforeach
+                </select>
+            </span>
                 </div>
             </div>
             <div class="row cl">

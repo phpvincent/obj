@@ -51,6 +51,11 @@ class KindController extends Controller
         ->where(function($query){
             $query->whereIn('goods_kind_admin',\App\admin::get_admins_id());
         })
+        ->where(function($query)use($request){
+            if($request->input('product_type_id')!=0){
+                $query->where('goods_product_id',$request->input('product_type_id'));
+            }
+        })
         ->count();
 
         //产品信息
@@ -59,6 +64,11 @@ class KindController extends Controller
         })
         ->where(function($query){
             $query->whereIn('goods_kind_admin',\App\admin::get_admins_id());
+        })
+        ->where(function($query)use($request){
+            if($request->input('product_type_id')!=0){
+                $query->where('goods_product_id',$request->input('product_type_id'));
+            }
         })
         ->orderBy($order,$dsc)
         ->offset($start)
@@ -136,6 +146,7 @@ class KindController extends Controller
             $goods_kind->goods_buy_weight=$request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin=Auth::user()->admin_id;
             $goods_kind->goods_kind_time=date("Y-m-d H:i:s",time());
+            $goods_kind->goods_product_id=$request->input('product_type_id');
             $msg=$goods_kind->save();
             $kind_primary_id = $goods_kind->goods_kind_id;
             if($msg && !$data_null && $goods_config_name){
@@ -180,7 +191,7 @@ class KindController extends Controller
     public function upgoods_kind(Request $request)
     {
         $goods_kinds_id = $request->input('id');
-        $goods_kinds = goods_kind::where('goods_kind_id',$goods_kinds_id)->value('goods_kind_name');
+        $goods_kinds = goods_kind::where('goods_kind_id',$goods_kinds_id)->first(['goods_kind_name','goods_product_id']);
         return view('admin.kind.upgoods_kind')->with(compact('goods_kinds_id','goods_kinds'));
     }
 
@@ -212,7 +223,7 @@ class KindController extends Controller
             $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin = Auth::user()->admin_id;
-
+            $goods_kind->goods_product_id=$request->input('product_type_id');
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；

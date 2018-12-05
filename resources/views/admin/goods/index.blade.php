@@ -12,7 +12,7 @@
 		<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outgoods" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>
 		<button type="button" class="btn btn-secondary radius" style="border-radius: 8%;" id="addgoods" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品</button>
 		<button type="button" class="btn btn-warning radius" style="border-radius: 8%;" id="addgoods_type" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加单品种类</button>
-		<button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
+		<!-- <button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button> --></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
 		<br>
 		<div style="width: 100%;">
 			<div style="margin-bottom: 20px" class="row cl">

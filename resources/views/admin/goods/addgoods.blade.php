@@ -86,7 +86,7 @@
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name"  oninput="xiala()" name="goods_kind_name" value="">
                     <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
-                     <button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont"></i> </button>
+                    <!--  <button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont"></i> </button> -->
 					<div class="box" style="display: none;">
 						<ul>
 						</ul>
