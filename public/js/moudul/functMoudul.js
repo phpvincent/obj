@@ -183,7 +183,7 @@ function closeBtnWatch(){
             console.log(isTaoForm)
             // $("#iframePayDiv",parent.document).css('display','none');
         }else{
-            $("#iframePay",parent.document).css({'height': (window.screen.height)*8/10});
+            $("#iframePay",parent.document).css({'height': $(window).height()*8/10});
             $("#goods_config_div").show();
             $("#save").hide();
             $(".paymentbox").hide();
@@ -199,7 +199,9 @@ function closeBtnWatch(){
     })
     //选择属性菜单的购买按钮的监听；
     $("#btnPay").on("click",function(){
-        var winHieht= window.screen.height; //父页面iframe =视口高度；
+        
+        var winHieht= $(window).height()*10/8; //父页面iframe =视口高度；
+        console.log("便全屏",winHieht)
         $("#iframePay",parent.document).css({'height':winHieht});
         $("#goods_config_div").hide();
         $("#addcart .addcart-group-buttons").hide();

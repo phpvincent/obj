@@ -701,7 +701,7 @@ $(function(){
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
             if(bladeStyle==1){
-                $("#iframePayDiv").css('display','block'); $("#iframePay").animate({height:(window.screen.height)*8/10});
+                $("#iframePayDiv").css('display','block'); $("#iframePay").animate({height:$(window).height()*8/10});
                 $("#taorbg").css('display','block'); //弹框遮罩
                 $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-30}); //iframe中boby的padding-top=.pro-info的height；
                 if(goods_yahoo_pix){
