@@ -9,7 +9,7 @@ if (!function_exists("makeSingleOrder")) {
  
           //订单号码主体（YYYYMMDDHHIISSNNNNNNNN）
          
-          $order_id_main = date('YmdHis') . rand(10000000,99999999);
+          $order_id_main = date('YmdHis') . rand(100000,999999);
          
           //订单号码主体长度
          
@@ -424,7 +424,7 @@ if (!function_exists('get_browse_info')){
 //       $start = date('Y-m-d',time()-24*3600).' 00:00:00';
 //       $end = date('Y-m-d').' 00:00:00';
        $start = date('Y-m-d',time()).' 00:00:00';
-       $start = date('Y-m-d H:i:s',strtotime($start)-120);
+       $start = date('Y-m-d H:i:s',strtotime($start)-60);
        $start_time = date('Y-m-d',time()-9*24*3600).' 00:00:00';
        $end_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
        try{

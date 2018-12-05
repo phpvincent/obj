@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                     get_browse_info();
                    /* \Log::notice('check');*/
-                 })->dailyAt('23:58');
+                 })->dailyAt('23:59');
     }
     /**
      * Register the commands for the application.
