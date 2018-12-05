@@ -794,7 +794,7 @@ $(function(){
        var goods_yahoo_pix= {{$goods->goods_yahoo_pix ? $goods->goods_yahoo_pix : 'null'}};
        var goods_id= {{$goods->goods_id ? $goods->goods_id : 'null'}};
        if(bladeStyle==1){
-           $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" ></iframe>')
+           $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" height="100%" ></iframe>')
        }
        console.log("goods_blade_style",bladeStyle);
        console.log("goods_google_pix",goods_google_pix);
@@ -814,9 +814,9 @@ $(function(){
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
             if(bladeStyle==1){
-                $("#iframePayDiv").css('display','block'); $("#iframePay").animate({height: $(window).height()*8/10});
+                $("#iframePayDiv").css('display','block').animate({height: $(window).height()*7/10});
                 $("#taorbg").css('display','block'); //弹框遮罩；
-                $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-30}); //iframe中boby的padding-top=.pro-info的height；
+                $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-20}); //iframe中boby的padding-top=.pro-info的height；
                 if(goods_yahoo_pix){
 
                         (function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':goods_yahoo_pix}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");
