@@ -47,12 +47,12 @@ class IndexController extends Controller
     	$goods=goods::where('goods_id',$goods_id)->first();
     	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
         foreach($comment as $v=> $key){
-            $usename=mb_substr($key->com_name,0,1);
+           /* $usename=mb_substr($key->com_name,0,1);
             $usename.='*';
             if(strlen($key->com_name)>2){
               $usename.=mb_substr($key->com_name,2);
             }
-            $comment[$v]->com_name=$usename;
+            $comment[$v]->com_name=$usename;*/
             $com_imgs=\App\com_img::where('com_primary_id',$key->com_id)->get();
             if(count($com_imgs)>0){
                  $comment[$v]->com_img=$com_imgs;

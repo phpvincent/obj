@@ -375,7 +375,7 @@ class vis extends Model
 //                    $arrayBrowse[$key] = count($value);
 //                }
 //            }
-            $data_info['data_time'] = date('Y-m-d H:i:s',$time + $i*3600+120);
+            $data_info['data_time'] = date('Y-m-d H:i:s',$time + $i*3600+60);
             $data_info['data_browse'] = json_encode($visBrowse);
             unset($visBrowse);
             //购买量

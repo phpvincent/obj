@@ -141,7 +141,11 @@ class KindController extends Controller
             //3.新增产品
             $goods_kind=new \App\goods_kind;
             $goods_kind->goods_kind_name=$goods_kind_name;
-            $goods_kind->goods_buy_url=$request->input('goods_buy_url');
+            if(strpos($request->input('goods_buy_url'),'http:') !== false&&strpos($request->input('goods_buy_url'),'https:') !== false){
+             $goods_kind->goods_buy_url=$request->input('goods_buy_url');
+            }else{
+             $goods_kind->goods_buy_url='http://'.$request->input('goods_buy_url');
+            }
             $goods_kind->goods_buy_msg=$request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight=$request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin=Auth::user()->admin_id;
@@ -219,7 +223,11 @@ class KindController extends Controller
             //修改产品信息
             $kind_primary_id = $request->input('goods_kind_id');
             $goods_kind = goods_kind::where('goods_kind_id',$kind_primary_id)->first();
-            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
+            if(strpos($request->input('goods_buy_url'),'http:') !== false||strpos($request->input('goods_buy_url'),'https:') !== false){
+             $goods_kind->goods_buy_url=$request->input('goods_buy_url');
+            }else{
+             $goods_kind->goods_buy_url='http://'.$request->input('goods_buy_url');
+            }
             $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin = Auth::user()->admin_id;
