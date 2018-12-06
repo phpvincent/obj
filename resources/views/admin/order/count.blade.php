@@ -55,10 +55,11 @@
 	<table class="table table-border table-bordered table-bg" id="order_count_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="8">订单统计</th>
+				<th scope="col" colspan="9">订单统计</th>
 			</tr>
 			<tr class="text-c">
  				<th width="10%">单品id</th>
+ 				<th width="10%">单品名</th>
  				<th width="10%">单品展示名</th>
  				<th width="10%">单数</th>
  				<th width="10%">有效单数</th>
@@ -127,10 +128,10 @@
 		"info":   true,					//页脚信息
 		"searching": true,				//搜索
 		"ordering": true,
-		"order": [[ 2, "desc" ]],
+		"order": [[ 3, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,3,4,5,6,],
+		   "targets": [0,1,2,4,5,6,7],
 		   "orderable": false
 		}],
 	/*	scrollX:        true,
@@ -154,6 +155,7 @@
 		},
 		"columns": [
 		{"data":'goods_id'},
+		{"data":'goods_real_name'},
 		{"data":'goods_name'},
 		{'data':'order_counts'},
 		{'data':'order_real_counts'},
