@@ -43,7 +43,7 @@
 				<select name="admin_name" id="admin_name" class="select">
 					<option value="0">所有</option>
 					@foreach($admins as $val)
-						<option value="{{$val->admin_id}}" >{{$val->admin_name}}</option>
+						<option value="{{$val->admin_id}}" >{{$val->admin_name.'('.$val->admin_show_name.')'}}</option>
 					@endforeach
 				</select>
 				</span>
