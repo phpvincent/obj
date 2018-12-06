@@ -143,6 +143,8 @@ class KindController extends Controller
             $goods_kind->goods_kind_name=$goods_kind_name;
             if(strpos($request->input('goods_buy_url'),'http:') !== false&&strpos($request->input('goods_buy_url'),'https:') !== false){
              $goods_kind->goods_buy_url=$request->input('goods_buy_url');
+            }elseif($request->input('goods_buy_url')==null&&$request->input('goods_buy_url')==''){
+             $goods_kind->goods_buy_url=$request->input('goods_buy_url');
             }else{
              $goods_kind->goods_buy_url='http://'.$request->input('goods_buy_url');
             }
@@ -224,6 +226,8 @@ class KindController extends Controller
             $kind_primary_id = $request->input('goods_kind_id');
             $goods_kind = goods_kind::where('goods_kind_id',$kind_primary_id)->first();
             if(strpos($request->input('goods_buy_url'),'http:') !== false||strpos($request->input('goods_buy_url'),'https:') !== false){
+             $goods_kind->goods_buy_url=$request->input('goods_buy_url');
+            }elseif($request->input('goods_buy_url')==null&&$request->input('goods_buy_url')==''){
              $goods_kind->goods_buy_url=$request->input('goods_buy_url');
             }else{
              $goods_kind->goods_buy_url='http://'.$request->input('goods_buy_url');
