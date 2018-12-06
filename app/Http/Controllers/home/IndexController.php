@@ -231,7 +231,7 @@ class IndexController extends Controller
             }
         })
         ->orderBy('goods_config.goods_config_order','desc')
-        ->orderBy('config_val.config_val_id','asc')
+        ->orderBy('config_val.kind_val_id','asc')
         ->get();
         /*$kkk=\DB::table('goods_config')
         ->select('goods_config.goods_config_id','goods_config.goods_config_order')
