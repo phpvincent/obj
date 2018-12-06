@@ -790,8 +790,8 @@ $(function(){
 </script>
 <script type="text/javascript" charset="utf-8">
        var bladeStyle= {{$goods->goods_blade_style ? $goods->goods_blade_style : 'null'}}; 
-       var goods_google_pix= {{$goods->goods_google_pix ? $goods->goods_google_pix : 'null'}};
-       var goods_yahoo_pix= {{$goods->goods_yahoo_pix ? $goods->goods_yahoo_pix : 'null'}};
+       var goods_google_pix= "{{$goods->goods_google_pix ? $goods->goods_google_pix : null}}";
+       var goods_yahoo_pix= "{{$goods->goods_yahoo_pix ? $goods->goods_yahoo_pix : null}}";
        var goods_id= {{$goods->goods_id ? $goods->goods_id : 'null'}};
        if(bladeStyle==1){
            $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" height="100%" ></iframe>')
