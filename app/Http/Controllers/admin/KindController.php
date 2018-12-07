@@ -167,6 +167,7 @@ class KindController extends Controller
             $goods_kind->goods_kind_time = date("Y-m-d H:i:s", time());
             $goods_kind->goods_product_id = $request->input('product_type_id');
             $msg = $goods_kind->save();
+
             $kind_primary_id = $goods_kind->goods_kind_id;
             if ($msg) {
                 if ($request->input('supplier_url') || $request->input('supplier_tel') || $request->input('supplier_contact') || $request->input('supplier_price') || $request->input('supplier_num') || $request->input('supplier_remark')) {
@@ -303,8 +304,8 @@ class KindController extends Controller
                 $img_name = $filedir . $newImagesName;
             }
             $goods_kind->goods_kind_img = $img_name;
-//            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
-//            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
+            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
+            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin = Auth::user()->admin_id;
             $goods_kind->goods_product_id = $request->input('product_type_id');

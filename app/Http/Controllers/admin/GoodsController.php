@@ -1614,6 +1614,8 @@ class GoodsController extends Controller
             $id = $request->input('id'); //商品id
             $goods = goods::where('goods_id',$id)->first();
             $kind_id = $goods->goods_kind_id;
+            if($kind_id==null)return false;
+            $goods_kind=\App\goods_kind::where('goods_kind_id',$kind_id)->first();
             $goods_is_update = $goods->goods_is_update;
             if($goods_is_update == 0){ //首次进来
                 $goods_config=\App\kind_config::where('kind_primary_id',$goods->goods_kind_id)->get();
@@ -1695,7 +1697,7 @@ class GoodsController extends Controller
 //                    }
 //                }
             }
-            return view('admin.goods.attr')->with(compact('id','goods_config','kind_id'));
+            return view('admin.goods.attr')->with(compact('id','goods_config','kind_id','goods_kind'));
         }else if($request->isMethod('post')){
             $data = $request->except('_token');
 
