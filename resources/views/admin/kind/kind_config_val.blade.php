@@ -3,12 +3,14 @@
         <div class="config" attr="newConfig" style="display: none;" id="configclo">
             <div class="row" style="margin-left: 0px;">
                 属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_name" name="goods_config_name">
+                英文属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" value="" placeholder="" id="goods_config_english_name" name="goods_config_english_name">
                 <input type="text" style="display: none" class="input-text attribute" value="0" name="num">
             </div>
             <div class="con-value">
                 <div class="row" style="height: 40px;" >
                     <div class="col-xs-8 col-sm-8" style="display: inline">
-                        <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
+                        <label>属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
+                        <label>英文属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_english">
                     </div>
                     <div style="display: inline;">
                         <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
@@ -19,13 +21,26 @@
         {{--商品属性值--}}
         <div class="row" attr="newConfig" style="height: 40px;display: none;" id="configclo-value">
             <div class="col-xs-8 col-sm-8" style="display: inline">
-                属性值: <input type="text" style="width: 70%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+                属性值: <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+                英文属性值: <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config[]">
             </div>
         </div>
         {{--新增产品form--}}
         <form class="form form-horizontal" id="form-goodskind-add" method="post" enctype="multipart/form-data" action="{{url('admin/goods/kind_config_val')}}">
             {{csrf_field()}}
             <input type="text" style="display: none" id="name" name="name" value="1">
+            <div class="row cl">
+                <label for="goods_kind_english_name" class="form-label col-xs-4 col-sm-2">产品英文名称：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text"  value="{{$goods_kinds->goods_kind_english_name}}" placeholder="" id="goods_kind_english_name" name="goods_kind_english_name">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_img" class="form-label col-xs-4 col-sm-2">产品图片：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="file" class="input-text" value="{{$goods_kinds->goods_kind_img}}" placeholder="" id="goods_kind_img" name="goods_kind_img">
+                </div>
+            </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">所属种类：</label>
                 <div class="formControls col-xs-8 col-sm-9">
@@ -45,17 +60,214 @@
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_name" style="text-align: left" class="form-label col-xs-4 col-sm-3">产品采购地址：</label>
+                <label for="goods_kind_volume" class="form-label col-xs-4 col-sm-2">产品体积（单位：cm）{{ $goods_kinds->goods_kind_volume }}：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
+                    <input type="text" class="input-text" style="width: 80px;" value="{{floatval($goods_kinds->width)}}" placeholder="" id="width" name="width">cm
+                    <input type="text" class="input-text" style="width: 80px;" value="{{floatval($goods_kinds->depth)}}" placeholder="" id="depth" name="depth">cm
+                    <input type="text" class="input-text" style="width: 80px;" value="{{floatval($goods_kinds->height)}}" placeholder="" id="height" name="height">cm
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_name" style="text-align: left" class="form-label col-xs-4 col-sm-3">产品采购备注：</label>
+                <label for="goods_kind_postage" class="form-label col-xs-4 col-sm-2">邮费（单位：元）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
+                    <input type="text" class="input-text" value="{{floatval($goods_kinds->goods_kind_postage)}}" placeholder="" id="goods_kind_postage" name="goods_kind_postage">
                 </div>
             </div>
+            <div class="row cl">
+            <label for="goods_buy_url"  class="form-label col-xs-4 col-sm-2">产品采购地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+            <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_url}}" placeholder="" id="goods_buy_url" name="goods_buy_url">
+            </div>
+            </div>
+            <div class="row cl">
+            <label for="goods_buy_msg"  class="form-label col-xs-4 col-sm-2">产品采购备注：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+            <input type="text" class="input-text" value="{{$goods_kinds->goods_buy_msg}}" placeholder="" id="goods_buy_msg" name="goods_buy_msg">
+            </div>
+            </div>
+            @if(isset($goods_kinds->supplier))
+            <div class="row cl">
+                <label for="supplier_url" class="form-label col-xs-4 col-sm-2" >供货商地址（链接）：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->supplier->supplier_url}}" placeholder="" id="supplier_url" name="supplier_url">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="supplier_contact" class="form-label col-xs-4 col-sm-2" >供货商联系人：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="hidden" class="input-text" value="{{$goods_kinds->supplier->supplier_id}}" placeholder="" id="supplier_id" name="supplier_id">
+                    <input type="text" class="input-text" value="{{$goods_kinds->supplier->supplier_contact}}" placeholder="" id="supplier_contact" name="supplier_contact">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="supplier_tel" class="form-label col-xs-4 col-sm-2" >供货商电话：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->supplier->supplier_tel}}" placeholder="" id="supplier_tel" name="supplier_tel">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="supplier_price" class="form-label col-xs-4 col-sm-2" >供货商单价：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->supplier->supplier_price}}" placeholder="" id="supplier_price" name="supplier_price">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商日供货量：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->supplier->supplier_num}}" placeholder="" id="supplier_num" name="supplier_num">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商是否现货：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="radio" value="1" placeholder="" id="is_spots" name="is_spots" @if($goods_kinds->supplier->is_spots != 0) checked @endif> 是
+                    <input type="radio" value="0" placeholder="" id="is_spots" name="is_spots" @if($goods_kinds->supplier->is_spots == 0) checked @endif> 否
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备注信息：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->supplier->supplier_remark}}" placeholder="" id="supplier_remark" name="supplier_remark">
+                </div>
+            </div>
+                @else
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商地址（链接）：{{ $goods_kinds->supplier }}</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="supplier_url" name="supplier_url">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商联系人：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="hidden" class="input-text" value="0" placeholder="" id="supplier_id" name="supplier_id">
+                        <input type="text" class="input-text" value="" placeholder="" id="supplier_contact" name="supplier_contact">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商电话：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="supplier_tel" name="supplier_tel">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商单价：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="supplier_price" name="supplier_price">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商日供货量：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="supplier_num" name="supplier_num">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >供货商是否现货：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="radio" value="1" placeholder="" id="is_spots" name="is_spots" checked> 是
+                        <input type="radio" value="0" placeholder="" id="is_spots" name="is_spots" > 否
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备注信息：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="supplier_remark" name="supplier_remark">
+                    </div>
+                </div>
+            @endif
+            @if(isset($goods_kinds->spare_supplier))
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商地址（链接）：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="hidden" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_id}}" placeholder="" id="spare_supplier_id" name="spare_supplier_id">
+                    <input type="text" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_url}}" placeholder="" id="spare_supplier_url" name="spare_supplier_url">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商联系人：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_contact}}" placeholder="" id="spare_supplier_contact" name="spare_supplier_contact">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商电话：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_tel}}" placeholder="" id="spare_supplier_tel" name="spare_supplier_tel">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商单价：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_price}}" placeholder="" id="spare_supplier_price" name="spare_supplier_price">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商日供货量：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_num}}" placeholder="" id="spare_supplier_num" name="spare_supplier_num">
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商是否现货：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="radio" value="1" placeholder="" id="spare_supplier_is_spots" name="spare_supplier_is_spots" @if($goods_kinds->spare_supplier->is_spots != 0) checked @endif> 是
+                    <input type="radio" value="0" placeholder="" id="spare_supplier_is_spots" name="spare_supplier_is_spots" @if($goods_kinds->spare_supplier->is_spots == 0) checked @endif> 否
+                </div>
+            </div>
+            <div class="row cl">
+                <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商备注信息：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="{{$goods_kinds->spare_supplier->supplier_remark}}" placeholder="" id="spare_supplier_remark" name="spare_supplier_remark">
+                </div>
+            </div>
+                @else
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商地址（链接）：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="hidden" class="input-text" value="0" placeholder="" id="spare_supplier_id" name="spare_supplier_id">
+                        <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_url" name="spare_supplier_url">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商联系人：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_contact" name="spare_supplier_contact">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商电话：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_tel" name="spare_supplier_tel">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商单价：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_price" name="spare_supplier_price">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商日供货量：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_num" name="spare_supplier_num">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商是否现货：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="radio" value="1" placeholder="" id="spare_supplier_is_spots" name="spare_supplier_is_spots" checked > 是
+                        <input type="radio" value="0" placeholder="" id="spare_supplier_is_spots" name="spare_supplier_is_spots" > 否
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2" >备用供货商备注信息：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_remark" name="spare_supplier_remark">
+                    </div>
+                </div>
+            @endif
+
             
             {{--隐藏产品名称--}}
              <div class="row cl">
@@ -63,18 +275,19 @@
                     <div class="formControls" style="margin-left: 2%;margin-right: 2%">
                         <input type="button" class="btn btn-default" value="移除产品附加属性" id="addcon" isalive='on'/>
                         <input class="btn btn-default" style="display: none" value="0" id="num"/>
-
                         <div style="margin:0px auto;border: 1px dashed #000;margin-top: 10px;border-radius: 3%;margin-left:0%; padding: 5px;padding-bottom: 10px;" id="conhtml">
                             <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
                             <div class="config" id="configclo">
                                 <div class="row" style="margin-left: 0px;">
                                     属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
+                                    英文属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][english_msg]' value="" placeholder="" id="goods_config_english_name" name="goods_config_name[0][goods_config_english_name]">
                                     <input type="text" style="display: none" class="input-text attribute" value="0" name="num">
                                 </div>
                                 <div class="con-value">
                                     <div class="row" style="height: 40px;" >
                                         <div class="col-xs-8 col-sm-8" style="display: inline">
-                                            <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                                            <label>属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                                            <label>英文属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_name[0][msg][0][goods_config_english]">
                                         </div>
                                         <div style="display: inline;">
                                             <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
@@ -97,6 +310,7 @@
                             <div class="config">
                                 <div class="row" style="margin-left: 0px;">
                                     <label for="goods_config_name">属性名:</label> <input type="text" style="width: 25%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_msg}}" placeholder="" id="goods_config_name" name="goods_config_name[{{$k}}][goods_config_name]">
+                                    <label for="goods_config_name">英文属性名:</label> <input type="text" style="width: 25%;margin-top:10px;" attr='goods_config_name[{{$k}}][msg]' class="input-text attribute" value="{{$v->kind_config_english_msg}}" placeholder="" id="goods_config_english_name" name="goods_config_name[{{$k}}][goods_config_english_name]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{$v->kind_config_id}}" name="goods_config_name[{{$k}}][id]">
                                     <input type="text" style="display: none" class="input-text attribute" value="{{count($v->config_msg)}}" name="num">
                                 </div>
@@ -105,7 +319,8 @@
                                         @foreach($v->config_msg as $key=>$item)
                                             <div class="row" style="height: 40px;" >
                                                 <div class="col-xs-8 col-sm-8" style="display: inline">
-                                                    <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text" value="{{$item['kind_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+                                                    <label>属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="{{$item['kind_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+                                                    <label>英文属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="{{$item['kind_val_english_msg']}}" placeholder="" id="goods_config_english" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config_english]">
                                                     <input type="text" style="display: none " class="input-text" value="{{$item['kind_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
                                                 </div>
                                                 @if($key == 0)
@@ -119,7 +334,8 @@
                                         <div id="con-value">
                                             <div class="row" style="height: 40px;" >
                                                 <div class="col-xs-8 col-sm-8" style="display: inline">
-                                                    <label>属性值:</label> <input type="text" style="width: 70%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
+                                                    <label>属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
+                                                    <label>英文属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config_english" name="goods_config[]">
                                                 </div>
                                                 <div style="display: inline;">
                                                     <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
@@ -168,8 +384,10 @@
             a++;
 
             configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
+            configdiv.children('.row').find('input').eq(1).attr('name','goods_config_name['+a+'][goods_config_english_name]');
             configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
             configdiv.children('div:last').children('.row').children('.col-sm-8').find('input:first').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
+            configdiv.children('div:last').children('.row').children('.col-sm-8').find('input').eq(1).attr('name','goods_config_name['+a+']'+'[msg][0][goods_config_english]');
             $('#num').val(a);
             configdiv.show(200);
             $('#conhtml').append(configdiv);
@@ -193,6 +411,7 @@
             k++;
             var msg = $(obj).parent().parent().parent().prev().find('input:first').attr('attr');
             configdiv.children('.col-sm-8').find('input:first').attr('name',msg+'['+k+']'+'[goods_config]');
+            configdiv.children('.col-sm-8').find('input').eq(1).attr('name',msg+'['+k+']'+'[goods_config_english]');
             configdiv.show(200);
             $(obj).parent().parent().parent().prev().find('input:last').val(k);
             $(obj).parent().parent().parent().append(configdiv);
