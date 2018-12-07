@@ -719,7 +719,7 @@ $(function(){
                 $("#taorbg").css('display','block'); //弹框遮罩；
                 $("#closeBtn").parent().show(); //右上X号按钮显示；
                 $("#btnPay2").parent().show(); //购买按钮显示；
-                setTimeout(() => {
+                setTimeout(function(){
                     $(".mui-content").css("-webkit-overflow-scrolling", "touch") 
                 }, 500);//当弹框打开后若还是auto就不能滚动了；应换touch；
                 $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-20}); //iframe中boby的padding-top=.pro-info的height；
