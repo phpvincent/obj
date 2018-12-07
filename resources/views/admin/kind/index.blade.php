@@ -24,6 +24,8 @@
             <th width="25"><input type="checkbox" name="" value=""></th>
             <th width="40">ID</th>
             <th width="110">产品名</th>
+            <th width="110">产品英文名</th>
+            <th width="110">单品分类</th>
             <th width="110">属性</th>
             <th width="110">绑定商品个数</th>
             <th width="110">采购备注</th>
@@ -45,7 +47,7 @@
             "order": [[ 1, "desc" ]],
             "stateSave": false,
             "columnDefs": [{
-                "targets": [0,2,3,4,5,6,7],
+                "targets": [0,2,3,4,5,6,7,8,9],
                 "orderable": false
             }],
             "processing": true,
@@ -62,6 +64,8 @@
                 {'defaultContent':"","className":"td-manager"},
                 {"data":'goods_kind_id'},
                 {'data':'goods_kind_name'},
+                {'data':'goods_kind_english_name'},
+                {'data':'product_type_name'},
                 {'defaultContent':"","className":"td-manager"},
                 {'defaultContent':"","className":"td-manager"},
                 {'data':'goods_buy_msg'},
@@ -71,14 +75,19 @@
             ],
             "createdRow":function(row,data,dataIndex){
                 // {'data':'num'},
-                var info='<a title="修改产品属性" href="javascript:;" onclick="goods_show(\'修改产品属性\',\'{{url("admin/kind/upgoods_kind")}}?id='+data.goods_kind_id+'\',\'2\',\'600\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改产品属性"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除产品" href="javascript:;" onclick="del_goods('+data.goods_kind_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除产品"><i class="Hui-iconfont">&#xe6e2;</i></span></a>';
+                var info='<a title="修改产品属性" href="javascript:;" onclick="goods_show(\'修改产品属性\',\'{{url("admin/kind/upgoods_kind")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改产品属性"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除产品" href="javascript:;" onclick="del_goods('+data.goods_kind_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除产品"><i class="Hui-iconfont">&#xe6e2;</i></span></a>';
                 var check='<a title="属性详情" href="javascript:;" onclick="goods_show(\'查看属性详情\',\'{{url("admin/kind/show")}}?id='+data.goods_kind_id+'\',\'2\',\'600\',\'500\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:green;">查看属性详情</span></a>';
                 var num='<a title="商品列表" href="javascript:;" onclick="goods_info(\'{{url("admin/goods/index")}}?id='+data.goods_kind_id+'\',\''+ data.num + '\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:red;">'+ data.num +'</span></a>';
-                var goods_buy_url='<a title="商品采购地址" href="'+data.goods_buy_url+'" target="_blank">'+data.goods_buy_url+'</a>';
-                $(row).find('td:eq(8)').html(info);
-                $(row).find('td:eq(6)').html(goods_buy_url);
-                $(row).find('td:eq(3)').html(check);
-                $(row).find('td:eq(4)').html(num);
+                    if(data.goods_buy_url!=null&&data.goods_buy_url!=''){
+                          var goods_buy_url='<a title="商品采购地址" href="'+data.goods_buy_url+'" target="_blank">'+data.goods_buy_url+'</a>';
+                    }else{
+                        var goods_buy_url='';
+                    }
+
+                $(row).find('td:eq(10)').html(info);
+                $(row).find('td:eq(8)').html(goods_buy_url);
+                $(row).find('td:eq(5)').html(check);
+                $(row).find('td:eq(6)').html(num);
                 $(row).addClass('text-c');
             }
         };
@@ -122,7 +131,7 @@
          });
         //新增产品
         $('#addgoods_kind').on('click',function(){
-            layer_show('产品添加','{{url("admin/kind/addkind")}}',600,500);
+            layer_show('产品添加','{{url("admin/kind/addkind")}}',1400,800);
         });
 
         //产品详情

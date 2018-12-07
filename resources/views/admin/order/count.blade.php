@@ -17,7 +17,7 @@
 		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
 
 		<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
-		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button><br><span style="color:red;">默认统计当日数据，如需查看其他日期请设定日期范围(不得超过五天)</span>
+		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button><br><span style="color:red;">默认统计当日数据，如需查看其他日期请设定日期范围(不得超过七天)</span>
 		&nbsp;&nbsp;&nbsp;<!-- <button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button> -->
 	</div>
 	
@@ -55,10 +55,11 @@
 	<table class="table table-border table-bordered table-bg" id="order_count_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="8">订单统计</th>
+				<th scope="col" colspan="9">订单统计</th>
 			</tr>
 			<tr class="text-c">
  				<th width="10%">单品id</th>
+ 				<th width="10%">单品名</th>
  				<th width="10%">单品展示名</th>
  				<th width="10%">单数</th>
  				<th width="10%">有效单数</th>
@@ -127,10 +128,10 @@
 		"info":   true,					//页脚信息
 		"searching": true,				//搜索
 		"ordering": true,
-		"order": [[ 2, "desc" ]],
+		"order": [[ 3, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,3,4,5,6,],
+		   "targets": [0,1,2,4,5,6,7],
 		   "orderable": false
 		}],
 	/*	scrollX:        true,
@@ -154,6 +155,7 @@
 		},
 		"columns": [
 		{"data":'goods_id'},
+		{"data":'goods_real_name'},
 		{"data":'goods_name'},
 		{'data':'order_counts'},
 		{'data':'order_real_counts'},
