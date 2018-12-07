@@ -21,7 +21,7 @@
 		<label class="form-label col-xs-4 col-sm-3">地区：</label>
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" >
 			<select class="select" name="goods_blade_type" size="1" id="goods_blade_type">
-						<option value="0">台湾模板</option>
+						<option value="0">台湾</option>
 						<option value="2">中东</option>
 						<option value="6">印度尼西亚</option>
 						<option value="7">菲律宾</option>
