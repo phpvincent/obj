@@ -159,7 +159,7 @@
 
 <!--product info begin-->
 <div class="pro_info">
-<span id="closeBtn" style="" class="mui-icon mui-icon-close"></span>
+
     <div class="ctxthead">
 {{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)
@@ -298,14 +298,7 @@
     <button id="pay" type="button" class="btnstyle01" style="">Start Order</button>
 </div>
 <!--button end-->
-<div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;display:none;">
-    <span class="purchase"  id="btnPay" style="width:100%;">
-		<a href="javascript:void(0);">
-			<img src="/images/buy2.png">
-			<span>Buy Now</span>
-		</a>
-	</span>
-</div>
+
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter"></div><!--footer end-->
@@ -378,132 +371,133 @@
 
 layer.load(2);
 layer.closeAll();
-$('#pay').bind('click',function(){
+var payFun=function (){
      
-    //整理表单数据；
-    var dataArr=$("form#f1").serializeArray();
-    var dataObj={};
-    var datasObj={};
-    var fromArr=$("#goods_config_div").find("form").serializeArray();
-
-    $.each(dataArr,function(i,val){
-        dataObj[val.name]=[];
-    })
-    // console.log(dataObj);
-    $.each(fromArr,function(j,item){
-        $.each(dataObj,function(k,tol){
-          if(item.name==k){
-              tol.push(item.value)
-          }
-        })
-   })
-
-   console.log(dataObj);
-    var fromArr2=$("form#save").serializeArray();
-    $.each(fromArr2,function(i,val){
-        datasObj[val.name]=val.value;
-    })
-    datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
-    datasObj.goodsAtt=dataObj;                             //商品属性；
-    console.log('zuihou',datasObj);
-    /*$('#save').submit();*/
-    if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('The detailed address can not be empty.');
-        return false;
-    }
-    if(datasObj.city==null||datasObj.city==''){
-        layer.msg('Please select area information.');
-        return false;
-    }
-    if(datasObj.firstname==null||datasObj.firstname==''){
-        layer.msg("Please fill in the consignee's name.");
-        return false;
-    }
-    if(datasObj.lastname==null||datasObj.lastname==''){
-        layer.msg("Please fill in the consignee's name.");
-        return false;
-    }
-    if(datasObj.telephone==null||datasObj.telephone==''){
-        layer.msg("Please fill in the consignee's cell phone number.");
-        return false;
-    }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct zip code.");
-        return false;
-    }
-    // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
-    // if(!zipre.test(datasObj.zip)){
-    //     layer.msg('Please fill in the valid postal code.');
-    //     return false;
-    // }
-    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    // if(!re.test(datasObj.telephone)){
-    //     layer.msg('Please fill in the valid cell phone number.');
-    //     return false;
-    // }
-    datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
-     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
-    // layer.msg("Please wait for the order submitted");
-    var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
-        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',   'margin-left':' -80px','background-position-x': '106px'});
-    }})
-     var payType=$(".paymentbox input:checked").val();
-     if(issubmit){
-         issubmit=false;
-         if(payType==1){
-         $.ajax({
-            type: "POST",    
-            url: "/saveform",
-            data:datasObj,
-            success: function (data) {
-            layer.close(index);
-             var btime=getNowDate();
-                     try{fbq('track', 'InitiateCheckout')}catch(e){};
-                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                             location.href=data.url;
-                        },
-           
-                     
-            error: function(data) {
-                layer.close(index);
-                layer.msg('The order submission failed. Please check the network condition.');
-            }
-         }) ; 
-         }else{
-                       // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
-               $.ajax({
-               type: "POST",
-               url: "/paypal_pay",
-               data:datasObj,
-               success: function (data) {
-                   layer.close(index);
-                   if(data.err=='0'){
-                       layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
-                        issubmit=true;
-                   }else{
-                       var btime=getNowDate();
-                       try{fbq('track', 'InitiateCheckout')}catch(e){};
-                       $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-                       location.href=data.url;
-                   }
-               },
+     //整理表单数据；
+     var dataArr=$("form#f1").serializeArray();
+     var dataObj={};
+     var datasObj={};
+     var fromArr=$("#goods_config_div").find("form").serializeArray();
  
+     $.each(dataArr,function(i,val){
+         dataObj[val.name]=[];
+     })
+     // console.log(dataObj);
+     $.each(fromArr,function(j,item){
+         $.each(dataObj,function(k,tol){
+           if(item.name==k){
+               tol.push(item.value)
+           }
+         })
+    })
  
-               error: function(data) {
-                   layer.close(index);
-                   layer.msg('The order submission failed. Please check the network condition.');
-                 }
-             }) ;
-         }
-         
-     }else{
-        layer.close(index);
-         layer.msg('Orders have been submitted, not submitted repeatedly.');
+    console.log(dataObj);
+     var fromArr2=$("form#save").serializeArray();
+     $.each(fromArr2,function(i,val){
+         datasObj[val.name]=val.value;
+     })
+     datasObj.specNumber=$("#addcart-quantity-val").val();  //商品件数
+     datasObj.goodsAtt=dataObj;                             //商品属性；
+     console.log('zuihou',datasObj);
+     /*$('#save').submit();*/
+     if(datasObj.address1==null||datasObj.address1==''){
+         layer.msg('The detailed address can not be empty.');
+         return false;
      }
-    
-            //记录购买事件
+     if(datasObj.city==null||datasObj.city==''){
+         layer.msg('Please select area information.');
+         return false;
+     }
+     if(datasObj.firstname==null||datasObj.firstname==''){
+         layer.msg("Please fill in the consignee's name.");
+         return false;
+     }
+     if(datasObj.lastname==null||datasObj.lastname==''){
+         layer.msg("Please fill in the consignee's name.");
+         return false;
+     }
+     if(datasObj.telephone==null||datasObj.telephone==''){
+         layer.msg("Please fill in the consignee's cell phone number.");
+         return false;
+     }
+     if(datasObj.zip==null||datasObj.zip==''){
+         layer.msg("Please fill in the correct zip code.");
+         return false;
+     }
+     // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
+     // if(!zipre.test(datasObj.zip)){
+     //     layer.msg('Please fill in the valid postal code.');
+     //     return false;
+     // }
+     // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+     // if(!re.test(datasObj.telephone)){
+     //     layer.msg('Please fill in the valid cell phone number.');
+     //     return false;
+     // }
+     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
+      datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+     // layer.msg("Please wait for the order submitted");
+     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
+         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',   'margin-left':' -80px','background-position-x': '106px'});
+     }})
+      var payType=$(".paymentbox input:checked").val();
+      if(issubmit){
+          issubmit=false;
+          if(payType==1){
+          $.ajax({
+             type: "POST",    
+             url: "/saveform",
+             data:datasObj,
+             success: function (data) {
+             layer.close(index);
+              var btime=getNowDate();
+                      try{fbq('track', 'InitiateCheckout')}catch(e){};
+                              $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                              location.href=data.url;
+                         },
             
-})
+                      
+             error: function(data) {
+                 layer.close(index);
+                 layer.msg('The order submission failed. Please check the network condition.');
+             }
+          }) ; 
+          }else{
+                        // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+                $.ajax({
+                type: "POST",
+                url: "/paypal_pay",
+                data:datasObj,
+                success: function (data) {
+                    layer.close(index);
+                    if(data.err=='0'){
+                        layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
+                         issubmit=true;
+                    }else{
+                        var btime=getNowDate();
+                        try{fbq('track', 'InitiateCheckout')}catch(e){};
+                        $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                        location.href=data.url;
+                    }
+                },
+  
+  
+                error: function(data) {
+                    layer.close(index);
+                    layer.msg('The order submission failed. Please check the network condition.');
+                  }
+              }) ;
+          }
+          
+      }else{
+         layer.close(index);
+          layer.msg('Orders have been submitted, not submitted repeatedly.');
+      }
+     
+             //记录购买事件
+             
+ };
+ $('#pay').bind('click',payFun)
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }

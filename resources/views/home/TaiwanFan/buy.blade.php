@@ -158,7 +158,6 @@
 
 <!--product info begin-->
 <div class="pro_info">
-<span id="closeBtn" style="" class="mui-icon mui-icon-close"></span>
     <div class="ctxthead">
 {{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)
@@ -308,14 +307,6 @@
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
 
-    <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;display:none;">
-    <span class="purchase"  id="btnPay" style="width:100%;">
-		<a href="javascript:void(0);">
-			<img src="/images/buy2.png">
-			<span>立即購買</span>
-		</a>
-	</span>
-    </div>
 
 <script>
     //第几件翻译
@@ -399,7 +390,7 @@
 
 layer.load(2);
 layer.closeAll();
-$('#pay').bind('click',function(){
+var payFun=function (){
      
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
@@ -511,7 +502,8 @@ $('#pay').bind('click',function(){
     
             //记录购买事件
             
-})
+}
+$('#pay').bind('click',payFun) //封装订单提交函数；
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }

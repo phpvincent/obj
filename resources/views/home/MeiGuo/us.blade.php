@@ -251,7 +251,7 @@
 	</script>
 
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
-    <div class="mui-content">
+    <div class="mui-content" style="-webkit-overflow-scrolling: auto;">
     <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
     <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
     
@@ -663,10 +663,24 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </form>
     </div>
 </div>
-<div style="position: fixed; z-index: 9998; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
-</div>
-<div id="iframePayDiv" style="display:none; max-width: 640px; position: fixed; bottom: -4px; width:100%; z-index: 9999; overflow-y: scroll;">
 
+<div id="ifrPayDiv" style="max-width: 640px; position: fixed; bottom: 0; width:100%; z-index: 10000;">
+    <p style="margin: 0;height: 22px; background-color: #f5f5f5;display:none;"><span id="closeBtn" style="top:0;right:5px;position: absolute;z-index: 9;padding-left: 10px;" class="mui-icon mui-icon-close"></span></p>
+    <div id="iframePayDiv" style="display:none;  overflow-y: scroll; height:91%">
+    </div>
+    <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;height:9%;display:none;">
+        <span class="purchase"  id="btnPay2" style="width:100%;">
+	    	<a href="javascript:void(0);">
+	    		<img src="/images/buy2.png">
+	    		<span>Buy Now</span>
+	    	</a>
+	    </span>
+    </div>
+    <div class="btndiv1 mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;max-width:640px;height:9%;display:none">
+         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">Start Order</button>
+    </div>
+</div>
+<div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
 </div>
 <script language="javascript">
     function captureImage(a) {
@@ -814,8 +828,14 @@ $(function(){
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
             if(bladeStyle==1){
-                $("#iframePayDiv").css('display','block').animate({height: $(window).height()*8/10});
+                $("#iframePayDiv").css('display','block');
+                $("#ifrPayDiv").animate({height: "80%"});
                 $("#taorbg").css('display','block'); //弹框遮罩；
+                $("#closeBtn").parent().show(); //右上X号按钮显示；
+                $("#btnPay2").parent().show(); //购买按钮显示；
+                setTimeout(function(){
+                    $(".mui-content").css("-webkit-overflow-scrolling", "touch") 
+                }, 500);//当弹框打开后若还是auto就不能滚动了；应换touch；
                 $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-20}); //iframe中boby的padding-top=.pro-info的height；
                 if(goods_yahoo_pix){
 

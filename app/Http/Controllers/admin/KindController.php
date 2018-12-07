@@ -61,7 +61,7 @@ class KindController extends Controller
             ->count();
 
         //产品信息
-        $data = goods_kind::where(function ($query) use ($search) {
+        $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id')->where(function ($query) use ($search) {
             $query->where('goods_kind_name', 'like', "%$search%");
         })
             ->where(function ($query) {
@@ -71,7 +71,7 @@ class KindController extends Controller
                 if ($request->input('product_type_id') != 0) {
                     $query->where('goods_product_id', $request->input('product_type_id'));
                 }
-            })
+            })->select('goods_kind.*','product_type.product_type_name')
             ->orderBy($order, $dsc)
             ->offset($start)
             ->limit($len)

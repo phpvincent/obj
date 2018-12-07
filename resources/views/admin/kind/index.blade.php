@@ -24,6 +24,8 @@
             <th width="25"><input type="checkbox" name="" value=""></th>
             <th width="40">ID</th>
             <th width="110">产品名</th>
+            <th width="110">产品英文名</th>
+            <th width="110">单品分类</th>
             <th width="110">属性</th>
             <th width="110">绑定商品个数</th>
             <th width="110">采购备注</th>
@@ -45,7 +47,7 @@
             "order": [[ 1, "desc" ]],
             "stateSave": false,
             "columnDefs": [{
-                "targets": [0,2,3,4,5,6,7],
+                "targets": [0,2,3,4,5,6,7,8,9],
                 "orderable": false
             }],
             "processing": true,
@@ -62,6 +64,8 @@
                 {'defaultContent':"","className":"td-manager"},
                 {"data":'goods_kind_id'},
                 {'data':'goods_kind_name'},
+                {'data':'goods_kind_english_name'},
+                {'data':'product_type_name'},
                 {'defaultContent':"","className":"td-manager"},
                 {'defaultContent':"","className":"td-manager"},
                 {'data':'goods_buy_msg'},
@@ -79,10 +83,11 @@
                     }else{
                         var goods_buy_url='';
                     }
-                $(row).find('td:eq(8)').html(info);
-                $(row).find('td:eq(6)').html(goods_buy_url);
-                $(row).find('td:eq(3)').html(check);
-                $(row).find('td:eq(4)').html(num);
+
+                $(row).find('td:eq(10)').html(info);
+                $(row).find('td:eq(8)').html(goods_buy_url);
+                $(row).find('td:eq(5)').html(check);
+                $(row).find('td:eq(6)').html(num);
                 $(row).addClass('text-c');
             }
         };
