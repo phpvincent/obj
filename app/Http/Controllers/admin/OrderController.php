@@ -1348,4 +1348,60 @@ class OrderController extends Controller
             }
         }
       }
+  public function change_exl(Request $request)
+  {
+    if($request->isMethod('get')){
+      return view('admin.order.change_exl');
+    }else if($request->isMethod('post')){
+      if(!$request->hasFile('excil')){
+          return '<span style="color:red;display:block;width:100%;text-align:center;">未上传文件！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+      }
+      if($request->input('excil_name')==null||$request->input('excil_name')==''){
+          return '<span style="color:red;display:block;width:100%;text-align:center;">未设置导出文件名！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+      }
+      $file=$request->file('excil');
+       $ext = $file->getClientOriginalExtension();
+       if(!in_array($ext, ['exl','csv','xls'])){
+          return '<span style="color:red;display:block;width:100%;text-align:center;">文件格式仅支持exl,csv,xls！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+       }
+      $realPath = $file->getRealPath();
+      Excel::selectSheetsByIndex(0)->load($realPath,function($reader)use($request,$file){
+        $arr=[];
+         $reader->each(function($sheet)use(&$arr){      // 循环所有工作表 
+           
+                $sheet->each(function($row)use(&$arr){ // 循环单个工作表，所有行 
+                  if(($testa=preg_match("/[A-Z]{2}\d{18}(\d{2})?/",$row,$arrs))>0){
+                      foreach($arrs as $v){
+                         $arr[]=$v;
+                      }
+                  }
+                }); 
+            }); 
+        $orders=\App\order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+           ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+           ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
+           ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+           ->whereIn('order.order_single_id',$arr)
+           ->orderBy('order.order_time','desc')
+        ->get()->toArray();
+        switch ($request->input('goods_blade_type')) {
+          case '0':
+            excelData::unify($orders,$request->input('excil_name'));
+            break;
+          case '2':
+            excelData::zd($orders,$request->input('excil_name'));
+            break;
+          case '6':
+            excelData::ydnxy($orders,$request->input('excil_name'));
+            break;
+           case '7':
+            excelData::flb($orders,$request->input('excil_name'));
+            break;
+          default:
+            excelData::unify($orders,$request->input('excil_name'));
+            break;
+        }
+      });
+    }
+  }
 }
