@@ -11,6 +11,7 @@ use App\goods_templet;
 use App\kind_config;
 use App\kind_val;
 use App\price;
+use App\supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -1616,6 +1617,8 @@ class GoodsController extends Controller
             $kind_id = $goods->goods_kind_id;
             if($kind_id==null)return false;
             $goods_kind=\App\goods_kind::where('goods_kind_id',$kind_id)->first();
+            $goods_kind->supplier_url = supplier::where('goods_kind_primary_id', $kind_id)->where('is_spare', 0)->value('supplier_url');
+            $goods_kind->spare_supplier_url = supplier::where('goods_kind_primary_id', $kind_id)->where('is_spare', 1)->value('supplier_url');
             $goods_is_update = $goods->goods_is_update;
             if($goods_is_update == 0){ //首次进来
                 $goods_config=\App\kind_config::where('kind_primary_id',$goods->goods_kind_id)->get();
