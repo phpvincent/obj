@@ -1090,8 +1090,7 @@ class OrderController extends Controller
                $order_config = \App\order_config::where('order_primary_id',$v['order_id'])->get();
                if($order_config->count() > 0){
                    $config_msg = '';//产品属性
-                   $config_english_msg = $goods_kind->goods_kind_english_name ? $goods_kind->goods_kind_english_name : goods::where('goods_id', $v['goods_id'])->value('goods_real_name')  ; //产品英文属性
-                   $config_english_msg .= ',';
+                   $config_english_msg = '';
                    $goods_config_msg = '';//商品展示属性
                    $i = 0;
                    foreach($order_config  as  $va){
@@ -1118,15 +1117,20 @@ class OrderController extends Controller
                                $config_val_msg = $conmsg['config_val_msg'];
                                $kind_english_msg .= '';
                            }
-                           $kind_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
-                           $goods_msg .= '<td>'.$config_val_msg.'</td>';
+                           $goods_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
+                           $kind_msg .= '<td>'.$config_val_msg.'</td>';
                        }
                        $config_msg .= '<tr>'.$kind_msg.'</tr>';
                        $config_english_msg .= $kind_english_msg.',';
                        $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
                    }
                    $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
-                   $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',');
+                   if (rtrim($config_english_msg, ',') == '') {
+                       $new_exdata[$k]['config_english_msg'] =  '' ;
+                   } else {
+                       $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
+                   }
+
                    $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
                }else{
                    $new_exdata[$k]['config_msg'] = "暂无属性信息";
