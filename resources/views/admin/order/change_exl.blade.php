@@ -9,7 +9,7 @@
 	<div style="width: 100%;margin: 0px auto;text-align: center;margin-top: 150px;"><input class="btn btn-default showimg" type="button" value="示例"><br>
 		<br><span class="btn-upload form-group">
 		  上传制式表格：<input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly><a href="javascript:void();" class="btn btn-primary radius"> 上传</a>
-		  <input type="file" multiple name="excil" class="input-file" accept=".csv,.xls">
+		  <input type="file" multiple name="excil" class="input-file" accept=".csv,.xls,.xlsx">
 		</span>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>导出后文件名：</label>

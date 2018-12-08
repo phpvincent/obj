@@ -1371,7 +1371,7 @@ class OrderController extends Controller
       }
       $file=$request->file('excil');
        $ext = $file->getClientOriginalExtension();
-       if(!in_array($ext, ['exl','csv','xls'])){
+       if(!in_array($ext, ['exl','csv','xls','xlsx'])){
           return '<span style="color:red;display:block;width:100%;text-align:center;">文件格式仅支持exl,csv,xls！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
        }
       $realPath = $file->getRealPath();
