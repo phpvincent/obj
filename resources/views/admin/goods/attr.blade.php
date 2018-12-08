@@ -2,7 +2,8 @@
 @section('content')
     <article class="page-container" style="padding-top:0;">
         <div style="margin-top: 10px;font-weight: bold">产品名称：{{$goods_kind->goods_kind_name}}</div>
-        <div style="margin-top: 10px;font-weight: bold">产品链接：@if($goods_kind->goods_buy_url==null||$goods_kind->goods_buy_url=='') 暂未对应链接信息 @else <a href="{{$goods_kind->goods_buy_url}}" target="_blank">{{$goods_kind->goods_buy_url}}</a> @endif</div>
+        <div style="margin-top: 10px;font-weight: bold">供货商链接 / 备用供货商链接：@if(($goods_kind->supplier_url==null||$goods_kind->supplier_url=='') &&  ($goods_kind->spare_supplier_url==null||$goods_kind->spare_supplier_url=='')) 暂未对应链接信息
+            @else <a href="{{$goods_kind->supplier_url}}" target="_blank">{{$goods_kind->supplier_url}}</a> / <a href="{{$goods_kind->spare_supplier_url}}" target="_blank">{{$goods_kind->spare_supplier_url}}</a> @endif</div>
         {{--新增产品form--}}
         <form class="form form-horizontal" id="form-goodskind-add" method="post" enctype="multipart/form-data" action="{{url('admin/goods/kind_config_val')}}">
             {{csrf_field()}}

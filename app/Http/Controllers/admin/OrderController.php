@@ -1084,20 +1084,21 @@ class OrderController extends Controller
               $new_exdata[$k]['payof'] = \App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
               $new_exdata[$k]['order_price'] = $v['order_price'];
               $new_exdata[$k]['order_num'] = $v['order_num'];
-              $new_exdata[$k]['kind_weight'] = $goods_kind->goods_buy_weight ? $goods_kind->goods_buy_weight . 'kg' : '';
-              $new_exdata[$k]['kind_volume'] = $goods_kind->goods_kind_volume == '0cm*0cm*0cm' ? '' : $goods_kind->goods_kind_volume;
+//              $new_exdata[$k]['kind_weight'] = $goods_kind->goods_buy_weight ? $goods_kind->goods_buy_weight . 'kg' : '';
+//              $new_exdata[$k]['kind_volume'] = $goods_kind->goods_kind_volume == '0cm*0cm*0cm' ? '' : $goods_kind->goods_kind_volume;
                //尺寸信息
                $order_config = \App\order_config::where('order_primary_id',$v['order_id'])->get();
                if($order_config->count() > 0){
                    $config_msg = '';//产品属性
-                   $config_english_msg = ''; //产品英文属性
+                   $config_english_msg = $goods_kind->goods_kind_english_name ? $goods_kind->goods_kind_english_name : goods::where('goods_id', $v['goods_id'])->value('goods_real_name')  ; //产品英文属性
+                   $config_english_msg .= ',';
                    $goods_config_msg = '';//商品展示属性
                    $i = 0;
                    foreach($order_config  as  $va){
                        $i++;
-                       $goods_config_msg .= "第".$i."件：";
+                       $goods_msg = "<td>第".$i."件</td>";
                        $kind_msg = "<td>第".$i."件</td>";
-                       $kind_english_msg = "<td>第".$i."件</td>";
+                       $kind_english_msg = "";
                        $orderarr = explode(',',$va['order_config']);
                        foreach($orderarr as $key => $val){
                            $conmsg = \App\config_val::where('config_val_id',$val)
@@ -1112,22 +1113,21 @@ class OrderController extends Controller
                            }
                            if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
                                $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
-                               $kind_english_msg .= '<td>' .kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_english_msg').'</td>';
+                               $kind_english_msg .= kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_english_msg');
                            }else{
                                $config_val_msg = $conmsg['config_val_msg'];
-                               $kind_english_msg .= '<td></td>';
+                               $kind_english_msg .= '';
                            }
                            $kind_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
-                           $goods_config_msg .= $config_val_msg.'-';
+                           $goods_msg .= '<td>'.$config_val_msg.'</td>';
                        }
                        $config_msg .= '<tr>'.$kind_msg.'</tr>';
-                       $config_english_msg .= '<tr>'.$kind_english_msg.'</tr>';
-                       $goods_config_msg = rtrim($goods_config_msg,'-');
-                       $goods_config_msg .= '<br/>';
+                       $config_english_msg .= $kind_english_msg.',';
+                       $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
                    }
                    $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
-                   $new_exdata[$k]['config_english_msg'] = '<table border=1>'.$config_english_msg.'</table>';
-                   $new_exdata[$k]['goods_config_msg'] = $goods_config_msg;
+                   $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',');
+                   $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
                }else{
                    $new_exdata[$k]['config_msg'] = "暂无属性信息";
                    $new_exdata[$k]['config_english_msg'] = "暂无属性信息";
@@ -1147,9 +1147,9 @@ class OrderController extends Controller
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
        if($goods_blade_type == 6){
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','重量','体积','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
        }else{
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','重量','体积','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
        }
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }

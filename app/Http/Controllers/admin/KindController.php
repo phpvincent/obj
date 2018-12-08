@@ -11,6 +11,7 @@ use App\order;
 use App\special;
 use App\spend;
 use App\supplier;
+use App\url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\vis;
@@ -61,7 +62,7 @@ class KindController extends Controller
             ->count();
 
         //产品信息
-        $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id')->where(function ($query) use ($search) {
+        $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id','left')->where(function ($query) use ($search) {
             $query->where('goods_kind_name', 'like', "%$search%");
         })
             ->where(function ($query) {
@@ -79,6 +80,7 @@ class KindController extends Controller
         if (!$data->isEmpty()) {
             foreach ($data as &$item) {
                 $item->num = goods::where('goods_kind_id', $item->goods_kind_id)->where('is_del', '0')->count();
+//                $item->goods_kind_img =
             }
         }
         $arr = ['draw' => $draw, 'recordsTotal' => $counts, 'recordsFiltered' => $newcount, 'data' => $data];
@@ -160,8 +162,8 @@ class KindController extends Controller
                 $img_name = $filedir . $newImagesName;
             }
             $goods_kind->goods_kind_img = $img_name;
-            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
-            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
+//            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
+//            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin = Auth::user()->admin_id;
             $goods_kind->goods_kind_time = date("Y-m-d H:i:s", time());
@@ -175,7 +177,7 @@ class KindController extends Controller
                     $supplier->supplier_url = $request->input('supplier_url', '');
                     $supplier->supplier_tel = $request->input('supplier_tel', '');
                     $supplier->supplier_contact = $request->input('supplier_contact', '');
-                    $supplier->supplier_price = $request->input('supplier_price', 0);
+                    $supplier->supplier_price = $request->input('supplier_price') == null ? 0:  $request->input('supplier_price', 0);
                     $supplier->supplier_num = $request->input('supplier_num', 0);
                     $supplier->supplier_remark = $request->input('supplier_remark', '');
                     $supplier->is_spots = $request->input('is_spots');
@@ -188,7 +190,7 @@ class KindController extends Controller
                     $spare_supplier->supplier_url = $request->input('spare_supplier_url', '');
                     $spare_supplier->supplier_tel = $request->input('spare_supplier_tel', '');
                     $spare_supplier->supplier_contact = $request->input('spare_supplier_contact', '');
-                    $spare_supplier->supplier_price = $request->input('spare_supplier_price', 0);
+                    $spare_supplier->supplier_price = $request->input('spare_supplier_price') == null ? 0:  $request->input('spare_supplier_price', 0);
                     $spare_supplier->supplier_num = $request->input('spare_supplier_num', 0);
                     $spare_supplier->supplier_remark = $request->input('spare_supplier_remark', '');
                     $spare_supplier->is_spots = $request->input('spare_supplier_is_spots');
@@ -304,8 +306,8 @@ class KindController extends Controller
                 $img_name = $filedir . $newImagesName;
             }
             $goods_kind->goods_kind_img = $img_name;
-            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
-            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
+//            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
+//            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight');
             $goods_kind->goods_kind_admin = Auth::user()->admin_id;
             $goods_kind->goods_product_id = $request->input('product_type_id');
@@ -376,7 +378,7 @@ class KindController extends Controller
                 $supplier->supplier_url = $request->input('supplier_url', '');
                 $supplier->supplier_tel = $request->input('supplier_tel', '');
                 $supplier->supplier_contact = $request->input('supplier_contact', '');
-                $supplier->supplier_price = $request->input('supplier_price', 0);
+                $supplier->supplier_price = $request->input('supplier_price') == null ? 0:  $request->input('supplier_price', 0);
                 $supplier->supplier_num = $request->input('supplier_num', 0);
                 $supplier->supplier_remark = $request->input('supplier_remark', '');
                 $supplier->is_spots = $request->input('is_spots');
@@ -393,7 +395,7 @@ class KindController extends Controller
                 $spare_supplier->supplier_url = $request->input('spare_supplier_url', '');
                 $spare_supplier->supplier_tel = $request->input('spare_supplier_tel', '');
                 $spare_supplier->supplier_contact = $request->input('spare_supplier_contact', '');
-                $spare_supplier->supplier_price = $request->input('spare_supplier_price', 0);
+                $spare_supplier->supplier_price = $request->input('spare_supplier_price') == null ? 0:  $request->input('spare_supplier_price', 0);
                 $spare_supplier->supplier_num = $request->input('spare_supplier_num', 0);
                 $spare_supplier->supplier_remark = $request->input('spare_supplier_remark', '');
                 $spare_supplier->is_spots = $request->input('spare_supplier_is_spots');
