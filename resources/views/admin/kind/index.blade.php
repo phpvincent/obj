@@ -1,5 +1,5 @@
 @extends('admin.father.css')
-@section('content')
+@section('content') <img id="img" width="100%" src="" style="display: none;">
     <div class="page-container">
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
 		<button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
@@ -88,7 +88,7 @@
                 //     var goods_buy_url='';
                 // }
                 if ( data.goods_kind_img != null && data.goods_kind_img != '') {
-                    var img = '<img alt="产品图片" src="/' + data.goods_kind_img + '" target="_blank" width="50px">'
+                    var img = '<img alt="产品图片"  src="/' + data.goods_kind_img + '" target="_blank" width="50px" onclick="layer_img($(this).attr(\'src\'))">'
                 }else {
                     var img = '';
                 }
@@ -99,6 +99,7 @@
                 $(row).find('td:eq(7)').html(num);
                 $(row).find('td:eq(4)').html(img);
                 $(row).addClass('text-c');
+
             }
         };
         dataTable =$('#goods_index_table').DataTable($.tablesetting);
@@ -143,7 +144,22 @@
         $('#addgoods_kind').on('click',function(){
             layer_show('产品添加','{{url("admin/kind/addkind")}}',1400,800);
         });
-
+        function layer_img(src){
+            $('#img').attr('src',src);
+            layer.open({
+              type: 1,
+              title: false,
+              closeBtn: 0,
+              content: '浏览器滚动条已锁',
+              scrollbar: false,
+              shadeClose: true,
+              //area: '516px',
+              area: ['800px'],
+              skin: 'layui-layer-nobg', //没有背景色
+              shadeClose: true,
+              content: $('#img')
+            });
+        }
         //产品详情
         function goods_show(title,url,type,w,h){
             layer_show(title,url,w,h);
