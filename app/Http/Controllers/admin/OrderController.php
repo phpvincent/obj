@@ -1126,7 +1126,11 @@ class OrderController extends Controller
                        $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
                    }
                    $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
-                   $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',');
+                   if (rtrim($config_english_msg, ',') == '') {
+                       $new_exdata[$k]['config_english_msg'] =  '';
+                   } else {
+                       $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
+                   }
                    $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
                }else{
                    $new_exdata[$k]['config_msg'] = "暂无属性信息";
@@ -1376,7 +1380,7 @@ class OrderController extends Controller
        }
       $realPath = $file->getRealPath();
       Excel::selectSheetsByIndex(0)->load($realPath,function($reader)use($request,$file){
-        $arr=[];dd($reader->all());
+        $arr=[];
          $reader->each(function($sheet)use(&$arr){      // 循环所有工作表 
            
                 $sheet->each(function($row)use(&$arr){ // 循环单个工作表，所有行 

@@ -111,19 +111,19 @@ class KindController extends Controller
                     if (count($goods_config_name) == 1) {
                         if (!$item['goods_config_name']) {
                             foreach ($item['msg'] as $val) {
-                                if (!$val['goods_config']) {
+                                if (!$val['goods_config'] || !$val['goods_config_english']) {
                                     $data_null = true;
                                 }
                             }
                         }
                     }
                     if ($data_null == false) {
-                        if (!isset($item['goods_config_name']) || !$item['goods_config_name'] || !isset($item['msg']) || empty($item['msg'])) {
-                            return response()->json(['err' => '0', 'msg' => '产品属性名或者属性值不能为空!']);
+                        if (!isset($item['goods_config_name']) || !$item['goods_config_name'] || !isset($item['msg']) || empty($item['msg']) || !isset($item['goods_config_english_name']) || !$item['goods_config_english_name']) {
+                            return response()->json(['err' => '0', 'msg' => '产品属性名，或产品英文属性名，属性值，属性英文值均不能为空!']);
                         }
                         foreach ($item['msg'] as $val) {
-                            if (!isset($val['goods_config']) || !$val['goods_config']) {
-                                return response()->json(['err' => '0', 'msg' => '产品属性值不能为空!']);
+                            if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
+                                return response()->json(['err' => '0', 'msg' => '产品属性值或产品英文属性值不能为空!']);
                             }
                         }
                     }
@@ -319,19 +319,19 @@ class KindController extends Controller
                     if (count($goods_config_name) == 1) {
                         if (!$item['goods_config_name']) {
                             foreach ($item['msg'] as $val) {
-                                if (!$val['goods_config']) {
+                                if (!$val['goods_config'] || !$val['goods_config_english']) {
                                     $data_null = true;
                                 }
                             }
                         }
                     }
                     if ($data_null == false) {
-                        if (!isset($item['goods_config_name']) || !$item['goods_config_name'] || !isset($item['msg']) || empty($item['msg'])) {
-                            return response()->json(['err' => '0', 'msg' => '产品属性名或者属性值不能为空!']);
+                        if (!isset($item['goods_config_name']) || !$item['goods_config_name'] || !isset($item['msg']) || empty($item['msg']) || !isset($item['goods_config_english_name']) || !$item['goods_config_english_name']) {
+                            return response()->json(['err' => '0', 'msg' => '产品属性名，产品英文属性名，属性值，属性英文名均不能为空!']);
                         }
                         foreach ($item['msg'] as $val) {
-                            if (!isset($val['goods_config']) || !$val['goods_config']) {
-                                return response()->json(['err' => '0', 'msg' => '产品属性值不能为空!']);
+                            if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
+                                return response()->json(['err' => '0', 'msg' => '产品属性值或产品英文属性值不能为空!']);
                             }
                         }
                     }
