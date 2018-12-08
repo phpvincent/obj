@@ -1379,11 +1379,17 @@ class OrderController extends Controller
           return '<span style="color:red;display:block;width:100%;text-align:center;">文件格式仅支持exl,csv,xls！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
        }
       $realPath = $file->getRealPath();
-      Excel::selectSheetsByIndex(0)->load($realPath,function($reader)use($request,$file){
+      $error=false;
+      Excel::selectSheetsByIndex(0)->load($realPath,function($reader)use($request,$file,&$error){
         $arr=[];
-         $reader->each(function($sheet)use(&$arr){      // 循环所有工作表 
-           
-                $sheet->each(function($row)use(&$arr){ // 循环单个工作表，所有行 
+         $reader->each(function($sheet)use(&$arr,&$error){      // 循环所有工作表 
+          /* if($sheet->all()[0]==null){
+                   $error=true;return;
+              }*/
+                $sheet->each(function($row)use(&$arr,&$error){ // 循环单个工作表，所有行 
+                  if($row==null){
+                    $error=true;return;
+                  }
                   if(($testa=preg_match("/[A-Z]{2}\d{18}(\d{2})?/",$row,$arrs))>0){
                       foreach($arrs as $v){
                          $arr[]=$v;
@@ -1391,6 +1397,10 @@ class OrderController extends Controller
                   }
                 }); 
             }); 
+         if($arr==null){
+                   $error=true;return;
+         }
+         
         $orders=\App\order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
@@ -1416,6 +1426,9 @@ class OrderController extends Controller
             break;
         }
       });
+      if($error){
+          return '<span style="color:red;display:block;width:100%;text-align:center;">无法识别数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+         }
     }
   }
 }
