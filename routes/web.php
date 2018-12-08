@@ -18,7 +18,7 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
+/*	Route::any('/paypal',function(Request $request){
 		$goods_kinds = \App\goods_kind::whereNotNull('goods_buy_url')
 		->orWhere(function($query){
 			$query->whereNotNull('goods_buy_msg');
@@ -39,7 +39,7 @@ use App\Jobs\SendHerbEmail;
         return view('home.YinDuNiXiYa.sendmail')->with(compact('url','order','goods'));
 		*/
 		//SendHerbEmail::dispatch($order);
-	});
+	});*/
 Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
