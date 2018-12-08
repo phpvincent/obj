@@ -85,6 +85,23 @@
                     <input type="text" class="input-text" placeholder="" id="goods_kind" name="goods_kind" readonly="readonly" value="{{\App\goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first()['goods_kind_name']}}">
                 </div>
             </div>
+
+            @if(\App\goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first()['goods_kind_img']!=null)
+            <img id="img" width="100%" src="/{{\App\goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first()['goods_kind_img']}}" style="display: none;">
+             <div class="clearfix">
+                <label class="form-label col-xs-4 col-sm-2 currency_img">产品图片：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                	<img width="15%" class="currency_img" height="15%" src='/{{\App\goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first()['goods_kind_img']}}'>
+                </div>
+            </div>
+            @else
+ 				<div class="clearfix">
+                <label class="form-label col-xs-4 col-sm-2 currency_img">产品图片：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                	<span>暂无产品图片</span>
+                </div>
+            </div>
+            @endif
 			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -630,6 +647,21 @@
     	$(this).prev().hide(300);
     	$(this).next().val('1');
     });
+    $('.currency_img').click(function(){
+    	layer.open({
+		  type: 1,
+		  title: false,
+		  closeBtn: 0,
+		  content: '浏览器滚动条已锁',
+  		  scrollbar: false,
+  		  shadeClose: true,
+		  //area: '516px',
+		  area: ['800px'],
+		  skin: 'layui-layer-nobg', //没有背景色
+		  shadeClose: true,
+		  content: $('#img')
+		});
+    })
 	function get_cuxiao_html(now){
 		$('#cuxiaohtml').html('<div  style="margin:0px auto;width:50%;float:right;"><img src="/images/loading.gif"> </div>');
 		$.ajax({
