@@ -1090,7 +1090,7 @@ class OrderController extends Controller
                $order_config = \App\order_config::where('order_primary_id',$v['order_id'])->get();
                if($order_config->count() > 0){
                    $config_msg = '';//产品属性
-                   $config_english_msg = '';
+                   $config_english_msg = ''; //产品英文属性
                    $goods_config_msg = '';//商品展示属性
                    $i = 0;
                    foreach($order_config  as  $va){
@@ -1126,7 +1126,7 @@ class OrderController extends Controller
                    }
                    $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
                    if (rtrim($config_english_msg, ',') == '') {
-                       $new_exdata[$k]['config_english_msg'] =  '' ;
+                       $new_exdata[$k]['config_english_msg'] =  '';
                    } else {
                        $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
                    }
