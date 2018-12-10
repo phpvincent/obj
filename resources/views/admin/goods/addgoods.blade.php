@@ -111,6 +111,7 @@
 						<option value="9">9--Google-PC(调试中)</option>
 						<option value="10">10--美国</option>
 						<option value="11">11--越南</option>
+						<option value="12">12--沙特</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -1224,6 +1225,12 @@
                 break;
             case '10':
                 $('#currency_type').val(2);
+                break;
+			case '11':
+                $('#currency_type').val(11);
+                break;
+			case '12':
+                $('#currency_type').val(3);
                 break;
         }
 	});
