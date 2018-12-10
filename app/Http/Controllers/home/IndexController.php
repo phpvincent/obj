@@ -681,7 +681,7 @@ class IndexController extends Controller
             return view('home.YueNan.ynEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         if($goods->goods_blade_type == 12){
-            return view('home.ShaTe.stEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.ShaTe.stEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
