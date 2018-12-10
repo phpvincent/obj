@@ -78,7 +78,7 @@
             <div class="row cl">
                 <label for="goods_kind_weight" class="form-label col-xs-4 col-sm-2">产品重量（单位：kg）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="0" placeholder="" id="goods_buy_weight" name="goods_buy_weight">
+                    <input type="text" class="input-text" value="0" placeholder="" id="goods_buy_weight" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();"   name="goods_buy_weight">
                 </div>
             </div>
             <div class="row cl">
