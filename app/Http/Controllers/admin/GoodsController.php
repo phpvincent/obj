@@ -356,7 +356,13 @@ class GoodsController extends Controller
              $goods->goods_cuxiao_name=$data['goods_cuxiao_name'];
              $goods->goods_msg=$data['goods_msg'];
          }
-
+         if(!isset($data['broadcast_1'])){
+          if($request->hasFile('fm_imgs')){
+            $data['broadcast_1']=1;
+          }else{
+            $data['broadcast_1']=0;
+          }
+         }
          //封面图
          if($data['broadcast_1'] == 1) {
              array_push($array, 'broadcast');
