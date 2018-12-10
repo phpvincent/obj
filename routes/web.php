@@ -18,7 +18,8 @@ use App\Jobs\SendHerbEmail;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-/*	Route::any('/paypal',function(Request $request){
+	/*Route::any('/paypal',function(Request $request){
+	
 		\Log::notice(json_encode($request->all()).'回调~~~~~~~~~~~~~~~~~~~~~~~~');return;
 		 $url=$_SERVER['SERVER_NAME'];
         $goods=\App\goods::where('goods_id',43)->first();
@@ -101,6 +102,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::get('/admin/order/payinfo','admin\OrderController@payinfo');//订单支付信息展示
 	Route::match(['get','post'],'/admin/order/count','admin\OrderController@count');
 	Route::match(['get','post'],'/admin/order/send_mail','admin\OrderController@send_mail');
+	Route::match(['get','post'],'/admin/order/change_exl','admin\OrderController@change_exl');
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');
 	Route::post('/admin/url/get_url','admin\UrlController@get_url');

@@ -573,8 +573,12 @@
 			success:function(data){
 				xialaCheck =false;
 				var str='';
-				jQuery.each(data,function(key,value){ 
-					str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
+				jQuery.each(data,function(key,value){
+					if(value.goods_kind_img == '') {
+                        str+='<li data-id='+value.goods_kind_id + '>'+value.goods_kind_name+'</li>'
+					} else {
+                        str+='<li data-id='+value.goods_kind_id + '><img src="/' + value.goods_kind_img + '" width="40px;">' + value.goods_kind_name + '</li>'
+                    }
 				}) 
 				$('.box ul').html(str);
 			},
@@ -598,7 +602,12 @@
 				var str='';
 				if(data.length !=0 ){
 					jQuery.each(data,function(key,value){ 
-						str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>' 
+						// str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>'
+                        if(value.goods_kind_img == '') {
+                            str+='<li data-id='+value.goods_kind_id + '>'+value.goods_kind_name+'</li>'
+                        } else {
+                            str+='<li data-id='+value.goods_kind_id + '><img src="/' + value.goods_kind_img + '" width="40px;">' + value.goods_kind_name + '</li>'
+                        }
 					}) 
 					$('.box ul').html(str);
 				}else{

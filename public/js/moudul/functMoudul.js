@@ -165,26 +165,25 @@ function countDiff (a,basePrice,moneycoin){
 //仿淘宝属性选择和订单模块
 var isTaoForm=false;
 function mouduleTaoBao (){
-    $("#closeBtn").show(); //右上X号按钮显示；
-    $("#btnPay").parent().show(); //购买按钮显示；
     $("header").hide();
     $(".pro_info").css({"position":"fixed","top":"0","z-index":"9"});
     $(".newfooter").css({"margin-bottom":"60px"});
 
     $("#save").hide();
     $(".paymentbox").hide();
-    $(".btndiv").hide();
+    $(".btndiv").hide(); //原来的订单按钮隐藏掉；
 }
 function closeBtnWatch(){
-    $("#closeBtn").on("click",function(){
+    $("#closeBtn",parent.document).on("click",function(){
         if(!isTaoForm){
-            $("#iframePayDiv",parent.document).animate({height:""});
-        
+            $("#ifrPayDiv",parent.document).animate({height:""});
             $("#taorbg",parent.document).css('display','none');  //弹框遮罩关闭
+            $("#btnPay2",parent.document).parent().hide();  //弹框外；购买按钮隐藏；；
+            $(".mui-content",parent.document).css("-webkit-overflow-scrolling", "auto") //外面mui-content滚动属性换为auto；才能让ios打开弹框不出现消失bug
             console.log(isTaoForm)
            
         }else{
-            $("#iframePayDiv",parent.document).css({'height': $(window).height()*8/10});
+            $("#ifrPayDiv",parent.document).css({'height': "80%"});
             $("#goods_config_div").show();
             $("#save").hide();
             $(".paymentbox").hide();
@@ -193,17 +192,17 @@ function closeBtnWatch(){
             $("#addcart").css("margin-top","5px");
             console.log(isTaoForm)
             isTaoForm=false;
-            $("#btnPay").parent().show();  //订单按钮隐藏；换成购买按钮；
-            $(".btndiv").hide();
+            $("#btnPay2",parent.document).parent().show();  //订单按钮隐藏；换成购买按钮；
+            $(".btndiv1",parent.document).hide();
         }
 
     })
     //选择属性菜单的购买按钮的监听；
-    $("#btnPay").on("click",function(){
+    $("#btnPay2",parent.document).on("click",function(){
         
         // var winHieht= $(window).height()*10/8; //父页面iframe =视口高度；
         // console.log("便全屏",winHieht)
-        $("#iframePayDiv",parent.document).css({'height':'100%'})
+        $("#ifrPayDiv",parent.document).css({'height':'100%'})
         $("#goods_config_div").hide();
         $("#addcart .addcart-group-buttons").hide();
         $("#addcart .addcart-quantity").hide();
@@ -211,9 +210,9 @@ function closeBtnWatch(){
         $("#save").show()
         $(".paymentbox").show();
         isTaoForm=true;
-        $("#btnPay").parent().hide();  //购买按钮隐藏；换成订单按钮；
-        $(".btndiv").show();
-        $(".btndiv").addClass("mui-bar");
-        $("#pay").css({"width":"100%","margin":"0","height":"100%"});
-    })
+        $("#btnPay2",parent.document).parent().hide();  //购买按钮隐藏；换成订单按钮；
+        $(".btndiv1",parent.document).show();
+
+    });
+    $(".btndiv1",parent.document).on("click",payFun)//订单提交按钮点击；执行表单提交函数；
 }
