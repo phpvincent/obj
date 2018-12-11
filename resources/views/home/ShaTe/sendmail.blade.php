@@ -46,8 +46,8 @@
           line-height: 24px;">
             <td height="78" colspan="3"><span class="STYLE1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> [{{$order->order_name}}]عزيزنا العميل </font></font><br>
                 <!-- 非常感谢您在我们网上商店从开始的订单。我们将尽快执行您的订单号为<b><u>{{$order->order_single_id}}</u></b>的订单。 -->
-                نشكركم علي التسوق والطلب  من موقعنا الالكتروني  . 
-سنقوم في الحال بتنفيذ الطلب<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>.  
+                <a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>نشكركم علي التسوق والطلب  من موقعنا الالكتروني   
+سنقوم في الحال بتنفيذ الطلب  
 
             </font></font></span></td>
           </tr>
@@ -201,16 +201,16 @@
               margin-top: 48px;
           ">
           <font style="vertical-align: inherit;">
-            .<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>هذا الايميل للتأكيد علي انكم طلبتم من 
+            <a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>هذا الايميل للتأكيد علي انكم طلبتم من 
           </font>
           <br>
           <font style="vertical-align: inherit;">
                 <!-- 这是一个自动回复电子邮件，您不必回复。如果您还有其他问题，请发送电子邮件至<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a> -->
-                هذه الرساله مسجله ,لا داعي للرد عليها ,للرد علي ايه استتفسارات من فضلك تواصل معنا عبر البريد الالكتروني التالي  .<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                هذه الرساله مسجله ,لا داعي للرد عليها ,للرد علي ايه استتفسارات من فضلك تواصل معنا عبر البريد الالكتروني التالي  <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                 </font></p></td>
           </tr>
           <tr>
-            <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">نرحب بجميع استفساراتكم وننتظر تسوقكم مره اخري .</font></font><br>
+            <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">نرحب بجميع استفساراتكم وننتظر تسوقكم مره اخري </font></font><br>
             <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
             </p></td>
           </tr>
