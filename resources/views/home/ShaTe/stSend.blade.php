@@ -203,7 +203,7 @@
         <div class="clear"></div>
         <div style="padding:0px;padding-bottom: 10px;">
             <div style="width:100%; background:white;">
-								<div style="width:100%; background:white;"><img src="/images/footer.jpg" width="100%"></div>			</div>
+								<div style="width:100%; background:white;"><img src="/img/shate.jpg" width="100%"></div>			</div>
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">

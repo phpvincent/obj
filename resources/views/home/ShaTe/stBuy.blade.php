@@ -90,7 +90,19 @@
             .mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
                 margin-right: 0;
             }
-        
+            .chose_cart{
+            		background-color: #00923f;
+            		color: white !important;
+            		border:1px dashed #ccc !important;
+            	}
+            	.unchose_cart{
+            		background-color: white;
+            		color: black !important;
+            		border:1px dashed #ccc !important;
+            	}
+            .btnstyle01 {
+                background: #00923f;
+            }
         </style>
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
@@ -111,7 +123,7 @@
          <!--gleepay-->
         <script type="text/javascript" src="/js/broser.js"></script>
         <style type="text/css">
-            	.chose_cart{
+            	/* .chose_cart{
             		background-color: red; 
             		color: white !important;
             		border:1px dashed #ccc !important;
@@ -120,7 +132,7 @@
             		background-color: white;
             		color: black !important;
             		border:1px dashed #ccc !important;
-            	}
+            	} */
         </style>
 
         
@@ -370,7 +382,7 @@
 
      //第几件翻译
      function jianshu(a){
-        return '第'+a+'件'
+        return 'القطع'+a
       }
   var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
   var a={!!$goods_config_arr!!};
