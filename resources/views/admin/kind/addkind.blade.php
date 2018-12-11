@@ -84,15 +84,15 @@
             <div class="row cl">
                 <label for="goods_kind_volume" class="form-label col-xs-4 col-sm-2">产品体积（单位：cm）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" style="width: 80px;" value="0" placeholder="" id="width" name="width">cm
-                    <input type="text" class="input-text" style="width: 80px;" value="0" placeholder="" id="depth" name="depth">cm
-                    <input type="text" class="input-text" style="width: 80px;" value="0" placeholder="" id="height" name="height">cm
+                    <input type="text" class="input-text" style="width: 80px;" value="0" placeholder="" id="width" name="width" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();">cm
+                    <input type="text" class="input-text" style="width: 80px;" value="0" placeholder="" id="depth" name="depth" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();">cm
+                    <input type="text" class="input-text" style="width: 80px;" value="0" placeholder="" id="height" name="height" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();">cm
                 </div>
             </div>
             <div class="row cl">
                 <label for="goods_kind_postage" class="form-label col-xs-4 col-sm-2">邮费（单位：元）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="0" placeholder="" id="goods_kind_postage" name="goods_kind_postage">
+                    <input type="text" class="input-text" value="0" placeholder="" id="goods_kind_postage" name="goods_kind_postage" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();">
                 </div>
             </div>
             {{--<div class="row cl">--}}
@@ -128,13 +128,13 @@
             <div class="row cl">
                 <label for="supplier_price" class="form-label col-xs-4 col-sm-2" >供货商单价：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="0" placeholder="" id="supplier_price" name="supplier_price">
+                    <input type="text" class="input-text" value="0" placeholder="" id="supplier_price" name="supplier_price" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();">
                 </div>
             </div>
             <div class="row cl">
                 <label for="supplier_num" class="form-label col-xs-4 col-sm-2" >供货商日供货量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="0" placeholder="" id="supplier_num" name="supplier_num">
+                    <input type="text" class="input-text" value="0" placeholder="" id="supplier_num" name="supplier_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();">
                 </div>
             </div>
             <div class="row cl">
@@ -171,13 +171,13 @@
             <div class="row cl">
                 <label for="spare_supplier_price" class="form-label col-xs-4 col-sm-2" >备用供货商单价：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="0" placeholder="" id="spare_supplier_price" name="spare_supplier_price">
+                    <input type="text" class="input-text" value="0" placeholder="" id="spare_supplier_price" name="spare_supplier_price" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,3})?.*$/,'$1');}).call(this)" onblur="this.v();">
                 </div>
             </div>
             <div class="row cl">
                 <label for="spare_supplier_num" class="form-label col-xs-4 col-sm-2" >备用供货商日供货量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="0" placeholder="" id="spare_supplier_num" name="spare_supplier_num">
+                    <input type="text" class="input-text" value="0" placeholder="" id="spare_supplier_num" name="spare_supplier_num" onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();">
                 </div>
             </div>
             <div class="row cl">
