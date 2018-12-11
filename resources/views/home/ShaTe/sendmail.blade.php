@@ -46,7 +46,7 @@
           line-height: 24px;">
             <td height="78" colspan="3"><span class="STYLE1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> [{{$order->order_name}}]عزيزنا العميل </font></font><br>
                 <!-- 非常感谢您在我们网上商店从开始的订单。我们将尽快执行您的订单号为<b><u>{{$order->order_single_id}}</u></b>的订单。 -->
-                <a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>نشكركم علي التسوق والطلب  من موقعنا الالكتروني   
+                نشكركم علي التسوق والطلب  من موقعنا الالكتروني<a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a>   
 سنقوم في الحال بتنفيذ الطلب  
 
             </font></font></span></td>
@@ -85,7 +85,7 @@
                 <div style="width:70%;margin:0 auto;    text-align: center;">
                     <p style="margin:0"><font style="vertical-align: inherit;"> {{$order->order_time}}:وقت الطلب</font></p>
                     <!-- <p style="margin:0"><span style="border-bottom:1px dashed #ccc;" t="5" times=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$order->order_time}}</font></font></span></p> -->
-                    <p style="margin:0"><font style="vertical-align: inherit;"> @if($order->order_pay_type=='0')الدفع عبر الانترنت  @else الدفع عند الاستلام @endif : الدفع عب</font></p>
+                    <p style="margin:0"><font style="vertical-align: inherit;"> @if($order->order_pay_type=='0')الدفع عبر الانترنت  @else الدفع عند الاستلام @endif :طريقة الدفع </font></p>
                     <p style="margin:0"><font style="vertical-align: inherit;"> @if($order->order_remark!=null){{$order->order_remark}}@endif :ملاحظات </font></p>
                 </div>
                 <div style="width:70%;margin:0 auto;    text-align: center;">
