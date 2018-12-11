@@ -473,7 +473,7 @@ $('#pay').bind('click',function(){
     console.log("zuihou",datasObj)
     /*$('#save').submit();*/
     if(datasObj.address1==null||datasObj.address1==''){
-        layer.msg('لا تترك خانه العنوان فارغه');
+        layer.msg('لا تترك فارغه');
         return false;
     }
     if(datasObj.city==null||datasObj.city==''){
