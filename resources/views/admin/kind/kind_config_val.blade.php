@@ -279,8 +279,8 @@
                             <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
                             <div class="config" id="configclo">
                                 <div class="row" style="margin-left: 0px;">
-                                    属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
-                                    英文属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][english_msg]' value="" placeholder="" id="goods_config_english_name" name="goods_config_name[0][goods_config_english_name]">
+                                    属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="颜色" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
+                                    英文属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][english_msg]' value="color" placeholder="" id="goods_config_english_name" name="goods_config_name[0][goods_config_english_name]">
                                     <input type="text" style="display: none" class="input-text attribute" value="0" name="num">
                                 </div>
                                 <div class="con-value">
@@ -382,9 +382,20 @@
             //属性名键值
             var a = $('#num').val();
             a++;
-
-            configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
-            configdiv.children('.row').find('input').eq(1).attr('name','goods_config_name['+a+'][goods_config_english_name]');
+            if (a == 0) {
+                configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
+                configdiv.children('.row').find('input').eq(1).attr('name','goods_config_name['+a+'][goods_config_english_name]');
+                configdiv.children('.row').find('input:first').val('颜色');
+                configdiv.children('.row').find('input').eq(1).val('color');
+            } else if(a == 1) {
+                configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
+                configdiv.children('.row').find('input').eq(1).attr('name','goods_config_name['+a+'][goods_config_english_name]');
+                configdiv.children('.row').find('input:first').val('尺码');
+                configdiv.children('.row').find('input').eq(1).val('size');
+            } else {
+                configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
+                configdiv.children('.row').find('input').eq(1).attr('name','goods_config_name['+a+'][goods_config_english_name]');
+            }
             configdiv.children('.row').find('input').attr('attr','goods_config_name['+a+'][msg]');
             configdiv.children('div:last').children('.row').children('.col-sm-8').find('input:first').attr('name','goods_config_name['+a+']'+'[msg][0][goods_config]');
             configdiv.children('div:last').children('.row').children('.col-sm-8').find('input').eq(1).attr('name','goods_config_name['+a+']'+'[msg][0][goods_config_english]');
@@ -397,6 +408,9 @@
         $("#rmconfig").on('click',function(){
             if($('.config').length>1 && $('.config:last').attr('attr') == 'newConfig' ){
                 $('.config').last().remove();
+                var a = $('#num').val();
+                a--;
+                $('#num').val(a);
             }else{
                 layer.msg('已保存产品属性，不可删除');
             }
