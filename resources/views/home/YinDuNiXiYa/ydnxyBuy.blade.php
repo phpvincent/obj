@@ -112,8 +112,8 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/yidunixiya.json"></script>
-        <script src="/js/diqu/Address.js"></script>
+        <script src="/js/diqu/ydnxy.json"></script>
+        <script src="/js/diqu/Address4.js"></script>
         <script src="/js/diqu/ydnxy.js"></script>
         <script src="/js/diqu/ydnxy_zip.json"></script>
         <script src="/js/Validform.min.js"></script>
@@ -250,7 +250,7 @@
     
     <div class="mui-input-row">
         <label><span class="require">*</span>name:</label>
-        <input type="text" name="firstname" datatype="s1-30" placeholder="Harus diisi, Isi nama penerima" nullmsg="Nama tidak boleh kosong" class="mui-input-clear">
+        <input type="text" name="firstname" datatype="s1-30"maxlength="20" placeholder="Harus diisi, Isi nama penerima" nullmsg="Nama tidak boleh kosong" class="mui-input-clear">
     </div>
     <!-- <div class="mui-input-row">
         <label><span class="require">*</span>Last name:</label>
@@ -282,6 +282,16 @@
         <label><span class="require">*</span>Kabupaten:</label>
         <select name="order_village" id="Select3" style="width: 72%!important;margin-right: 4%!important;"></select>
     </div>
+    <div class="mui-input-row" style="overflow:visible">
+        <label><span class="require">*</span>Kode pos:</label>
+        <select name="zip" id="Select4" style="width: 72%!important;margin-right: 4%!important;"></select>
+
+        <!-- <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear chanpin" oninput="xiala()">
+        <div class="box" style="display: none;">
+            <ul>
+            </ul>
+        </div> -->
+    </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Alamat lengkap:</label>
         <input type="text" datatype="z1-300" placeholder="Harus diisi, alamat lengkap" nullmsg="Harus diisi, alamat lengkap" errormsg="Alamat lengkap tidak boleh kosong" name="address1" class="mui-input-clear">
@@ -290,15 +300,7 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="overflow:visible">
-        <label><span class="require">*</span>Kode pos:</label>
-        <input type="text" placeholder="Diperlukan isi kode pos" name="zip" class="mui-input-clear chanpin" oninput="xiala()">
-        <div class="box" style="display: none;">
-            <ul>
-            </ul>
-        </div>
-    </div>
-        <div class="mui-input-row need_email">
+    <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="Kami akan pakai email ini kirim pemberitahuan pesanan ke Anda" class="mui-input-clear">
@@ -468,8 +470,12 @@ $('#pay').bind('click',function(){
         layer.msg('Alamat lengkap tidak boleh kosong');
         return false;
     }
-    if(datasObj.order_village==null||datasObj.order_village==''||datasObj.order_village=='Harus diisi kabupaten'){
-        layer.msg('Silakan pilih lokasi');
+    // if(datasObj.order_village==null||datasObj.order_village==''||datasObj.order_village=='Harus diisi kabupaten'){
+    //     layer.msg('Silakan pilih lokasi');
+    //     return false;
+    // }
+    if(datasObj.zip==null||datasObj.zip==''||datasObj.zip=='Harus diisi kabupaten'){
+        layer.msg('Silakan isi zip');
         return false;
     }
     if(datasObj.firstname==null||datasObj.firstname==''){
@@ -485,10 +491,10 @@ $('#pay').bind('click',function(){
     //     layer.msg('Silahkan isi No. HP yang aktif');
     //     return false;
     // }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Silakan isi zip");
-        return false;
-    }
+    // if(datasObj.zip==null||datasObj.zip==''){
+    //     layer.msg("Silakan isi zip");
+    //     return false;
+    // }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Pesanan sedang dikirim, Silahkan menunggu");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Pesanan sedang dikirim, Silakan tunggu',success: function(layero){
@@ -634,7 +640,7 @@ jQuery(function(){
     //     });
 
     // });
-    addressInit('Select1', 'Select2', 'Select3');
+    addressInit('Select1', 'Select2', 'Select3','Select4');
 </script>
 
 <script>

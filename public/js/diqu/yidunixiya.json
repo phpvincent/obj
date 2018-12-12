@@ -1,4 +1,4 @@
-var provinceList = [{"name":"Harus diisi provinsi","cityList":[{"name":"Harus diisi kota","areaList":["Harus diisi kabupaten"]}]},
+var provinceList = [{"name":"Harus diisi provinsi","cityList":[{"name":"Harus diisi kota","areaList":[{"name":"Harus diisi kabupaten","KodePos:":"Diperlukan isi kode pos"}]}]},
   {
     "name": "Nusa Tenggara Barat (NTB)",
     "cityList": [
