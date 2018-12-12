@@ -207,7 +207,7 @@
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-				خطوات : اذا لديكم اي استفسارات بعد استلام المنتج يمكنكم التواصل معنا عبر خدمه العملاء او البريد الالكتروني (<a href='mailto:hyfhdcjn@gmail.com' style='color:#F8770E'>hyfhdcjn@gmail.com</a>).من فضلك أترك الاسم ورقم الهاتف ورقم 
+				خطوات : اذا لديكم اي استفسارات بعد استلام المنتج يمكنكم التواصل معنا عبر خدمه العملاء او البريد الالكتروني (<a href='mailto:yejforlh@gmail.com' style='color:#F8770E'>yejforlh@gmail.com</a>).من فضلك أترك الاسم ورقم الهاتف ورقم 
 الطلب وسنتعامل مع الامر في الحال نتمني لكم تسوق سعيد
 
 				</div>

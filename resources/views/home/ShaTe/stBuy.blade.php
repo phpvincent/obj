@@ -214,8 +214,8 @@
     </div>
 
     <div class="ctxtbox" style="{{$goods->img ? '' : 'position: absolute;z-index: 1000;left: 10px;'}}">
-        <h1>{{$goods->goods_name}}</h1>
-        <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
+        <h1 style="    text-align: right;">{{$goods->goods_name}}</h1>
+        <h2 style="    text-align: right;"><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
             </div>
 </div>
 <!--product info end-->
@@ -350,7 +350,7 @@
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
-    خطوات : يمكنك الدفع عند الاستلام +الشحن  مجاني +يمكنك الابدال والارجاع بدون أسباب في خلال 7 ايام! اذا كان لديكم اي استفسارات يمكنكم التواصل معنا عبر خدمه العملاء او عبر البريد الالكتروني (<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>).
+    خطوات : يمكنك الدفع عند الاستلام +الشحن  مجاني +يمكنك الابدال والارجاع بدون أسباب في خلال 7 ايام! اذا كان لديكم اي استفسارات يمكنكم التواصل معنا عبر خدمه العملاء او عبر البريد الالكتروني (<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>).
         
     </div><!--footer end-->
 

@@ -85,7 +85,7 @@
                             </div>
                                 <div style="padding:10px 15px 20px">
                                             <!--同一个币种不同团队的邮箱不一样-->
-                                            من فضلك لا تغلق الهاتف ,من أجل سهوله التواصل مع موظف الشحن ,اذا لديك أي استفسارات ,من فضلك تواصل معنا عبر خدمه اعملاء او من خلال البريد الالكتروني ,نتمني لكم تسوق سعيد . <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a> </div> </div>            </div>
+                                            من فضلك لا تغلق الهاتف ,من أجل سهوله التواصل مع موظف الشحن ,اذا لديك أي استفسارات ,من فضلك تواصل معنا عبر خدمه اعملاء او من خلال البريد الالكتروني ,نتمني لكم تسوق سعيد . <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a> </div> </div>            </div>
             <div align="center" style="padding:0px 15px;text-align: center;">
                 <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">أرجع الي الصفحه الاولي </button>
             </div>

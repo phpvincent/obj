@@ -205,13 +205,13 @@
           </font>
           <br>
           <font style="vertical-align: inherit;">
-                <!-- 这是一个自动回复电子邮件，您不必回复。如果您还有其他问题，请发送电子邮件至<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a> -->
-                هذه الرساله مسجله ,لا داعي للرد عليها ,للرد علي ايه استتفسارات من فضلك تواصل معنا عبر البريد الالكتروني التالي  <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
+                <!-- 这是一个自动回复电子邮件，您不必回复。如果您还有其他问题，请发送电子邮件至<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a> -->
+                هذه الرساله مسجله ,لا داعي للرد عليها ,للرد علي ايه استتفسارات من فضلك تواصل معنا عبر البريد الالكتروني التالي  <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>
                 </font></p></td>
           </tr>
           <tr>
             <td height="40" colspan="3"style="color:#666;font-size:14px"><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">نرحب بجميع استفساراتكم وننتظر تسوقكم مره اخري </font></font><br>
-            <a href="mailto:hyfhdcjn@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
+            <a href="mailto:yejforlh@gmail.com" ><font  style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a style="color:#F8770E" target="_blank" href="http://{{$url}}">{{$url}}</a></font></font></a>
             </p></td>
           </tr>
         </tbody></table>
