@@ -33,12 +33,7 @@
 
 
         <style type="text/css">
-            .uncheck{
-                border:1px solid #ccc;
-            }
-            .ischeck{
-                border:1px solid red;
-            }
+
             .radio{
                 display: inline-block;
                 position: relative;
@@ -435,6 +430,20 @@ $('#pay').bind('click',function(){
         layer.msg('携帯は必ず記入する');
         return false;
     }
+
+     //判断用户是否选择了商品属性；
+     var aNumer=Object.keys(a).length;
+    var cuntNumer=$("#addcart-quantity-val").val()-0;
+    var attFlag=true;
+    $.each(datasObj.goodsAtt,function(i,value){
+        if(value.length != cuntNumer){
+            attFlag=false;
+        }
+    });
+    if(aNumer != Object.keys(datasObj.goodsAtt).length || !attFlag){
+        layer.msg('完全な商品属性情報を記入してください。');
+        return false;
+    };
     // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     // if(!re.test(datasObj.telephone)){
     //     layer.msg('正しい携帯番号を書いてください');

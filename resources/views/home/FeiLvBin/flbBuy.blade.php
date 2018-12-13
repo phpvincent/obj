@@ -33,12 +33,7 @@
 
 
         <style type="text/css">
-            .uncheck{
-                border:1px solid #ccc;
-            }
-            .ischeck{
-                border:1px solid red;
-            }
+        
             .radio{
                 display: inline-block;
                 position: relative;
@@ -445,6 +440,19 @@ $('#pay').bind('click',function(){
         layer.msg("Please fill in the correct zip code.");
         return false;
     }
+    //判断用户是否选择了商品属性；
+    var aNumer=Object.keys(a).length;
+    var cuntNumer=$("#addcart-quantity-val").val()-0;
+    var attFlag=true;
+    $.each(datasObj.goodsAtt,function(i,value){
+        if(value.length != cuntNumer){
+            attFlag=false;
+        }
+    });
+    if(aNumer != Object.keys(datasObj.goodsAtt).length || !attFlag){
+        layer.msg('please fill in the complete item information.');
+        return false;
+    };
     // var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
     // if(!zipre.test(datasObj.zip)){
     //     layer.msg('Please fill in the valid postal code.');

@@ -33,12 +33,7 @@
 
 
         <style type="text/css">
-            .uncheck{
-                border:1px solid #ccc;
-            }
-            .ischeck{
-                border:1px solid red;
-            }
+
             .radio{
                 display: inline-block;
                 position: relative;
@@ -452,6 +447,19 @@ $('#pay').bind('click',function(){
         layer.msg('Please fill in the valid postal code.');
         return false;
     }
+    //判断用户是否选择了商品属性；
+    var aNumer=Object.keys(a).length;
+    var cuntNumer=$("#addcart-quantity-val").val()-0;
+    var attFlag=true;
+    $.each(datasObj.goodsAtt,function(i,value){
+        if(value.length != cuntNumer){
+            attFlag=false;
+        }
+    });
+    if(aNumer != Object.keys(datasObj.goodsAtt).length || !attFlag){
+        layer.msg('please fill in the complete item information.');
+        return false;
+    };
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Please wait for the order submitted");

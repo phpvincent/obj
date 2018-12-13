@@ -33,12 +33,7 @@
 
 
         <style type="text/css">
-            .uncheck{
-                border:1px solid #ccc;
-            }
-            .ischeck{
-                border:1px solid red;
-            }
+
             .radio{
                 display: inline-block;
                 position: relative;
@@ -439,6 +434,21 @@ var payFun=function (){
         layer.msg('請輸入有效手機號');
         return false;
     }
+    //判断用户是否选择了商品属性；
+    var aNumer=Object.keys(a).length;
+    var cuntNumer=$("#addcart-quantity-val").val()-0;
+    var attFlag=true;
+    console.log("aNumer",aNumer,"cuntNumer",cuntNumer);
+    $.each(datasObj.goodsAtt,function(i,value){
+        if(value.length != cuntNumer){
+            attFlag=false;
+        }
+    });
+    if(aNumer != Object.keys(datasObj.goodsAtt).length || !attFlag){
+        layer.msg('請填寫完整商品屬性信息');
+        return false;
+    };
+
     // layer.msg("訂單提交中，請稍等");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'訂單提交中，請稍等',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',   'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});

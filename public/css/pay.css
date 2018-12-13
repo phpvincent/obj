@@ -874,3 +874,10 @@ button.bunble{ margin-top:10px;}
 	right: 0;
 	position: absolute;z-index: 9;display:none;
 }
+
+.uncheck{
+	border:2px solid #ccc;
+}
+.ischeck{
+	border:2px solid red;
+}
