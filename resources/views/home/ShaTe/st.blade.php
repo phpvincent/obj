@@ -444,6 +444,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 {{--底部导航--}}
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
+  @if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
     @if(in_array('order_select',$templets))
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="background-color: #f1b52a;width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
       <img src="/images/filter-3.png" style="">
@@ -466,6 +467,30 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 			<span style="line-height:14px;">在線<br>客服</span>
 		</a>
 	</span> -->
+  @else
+    @if(in_array('order_select',$templets))
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="background-color: #f1b52a;width: {{in_array('now_buy',$templets) ? '25%' : '100%'}}">
+      <img src="/images/filter-3.png" style="">
+      <a href="javascript:void(0);">
+        <span style="line-height:14px;color:white">اطلب<br>استعلامات</span>
+      </a>
+    </span>
+    @endif
+    @if(in_array('now_buy',$templets))
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '50%' : '100%'}};background-color: #00923f;">
+        <a href="javascript:void(0);">
+            <img src="/images/buy2.png">
+            <span>اشتري الان</span>
+        </a>
+    </span>
+    @endif
+    <span class="service"  id="btnOnline" data-id="19288071" style="background-color: #f1b52a;width: 23%;">
+        <img src="/images/78dc67a861341fb02332dd035cff037.png" >
+        <a href="{{$goods->goods_talk_link}}" target="_blank">
+            <span style="color:white;"> نحن <br> الاتصال </span>
+        </a>
+    </span>
+  @endif
 </div>
 @endif
 <!-- <script>
