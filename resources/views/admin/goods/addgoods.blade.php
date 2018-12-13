@@ -192,6 +192,12 @@
 				{{--</div>--}}
 			{{--</div>--}}
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">fb像素(没有则留空)：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="goods_pix" name="goods_pix">
+				</div>
+			</div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2">YaHoo像素(没有则留空)：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<input type="text" class="input-text" value="" placeholder="" id="goods_yahoo_pix" name="goods_yahoo_pix">
@@ -203,12 +209,13 @@
 					<input type="text" class="input-text" value="" placeholder="" id="goods_google_pix" name="goods_google_pix">
 				</div>
 			</div>
+			
 			<div class="clearfix">
-				<label class="form-label col-xs-4 col-sm-2">fb像素(没有则留空)：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="goods_pix" name="goods_pix">
-				</div>
-			</div>
+                <label class="form-label col-xs-4 col-sm-2">FB主页URL(没有则留空)：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" placeholder="" id="goods_talk_link" name="goods_talk_link" value="">
+                </div>
+            </div>
 			{{--<div class="clearfix">--}}
 				{{--<label class="form-label col-xs-4 col-sm-2"> </label>--}}
 				{{----}}
