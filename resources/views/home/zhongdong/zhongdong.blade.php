@@ -83,6 +83,18 @@
             .Popup>div h3,.Popup>div h6{
                 text-align: center;
             }
+            @media screen and (max-width: 656px){
+            .query img, .service img {
+                margin-left: 0%;
+            }}
+            @media screen and (max-width: 656px){
+            .service a, .query a {
+                margin-left: 4%;
+            }}
+            @media screen and (max-width: 320px){
+            .service a, .query a {
+                margin-left: -4%;
+            }}
         </style>
         <script>
         jQuery(function(){setFrom();});
@@ -598,7 +610,8 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </a>
     </span>
     @endif
-    <span class="service"  id="btnOnline" data-id="19288071" style="background-color: #f1b52a;width: 23%;">
+    
+    <span class="service"  id="btnOnline" data-id="19288071" style="background-color: #f1b52a;width: 26%;">
         <img src="/images/78dc67a861341fb02332dd035cff037.png" >
         <a href="{{$goods->goods_talk_link}}" target="_blank">
             <span style="color:white;">Contact<br>us</span>

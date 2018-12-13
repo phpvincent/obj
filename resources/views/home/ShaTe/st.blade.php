@@ -105,6 +105,23 @@
         *{
             text-align: right;
         }
+        @media screen and (max-width: 656px){
+            .query img, .service img {
+                margin-left: 0%;
+            }}
+            @media screen and (max-width: 656px){
+            .service a, .query a {
+                margin-left: 4%;
+            }}
+            @media screen and (max-width: 320px){
+            .service a, .query a {
+                margin-left: -4%;
+            }
+            .query img, .service img {
+                margin-left: 0%;
+                width: 22px;
+                margin-top: 13px;
+            }}
         </style>
 
 	</head>
