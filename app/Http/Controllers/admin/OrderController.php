@@ -235,7 +235,9 @@ class OrderController extends Controller
 	        $draw=$info['draw'];
 	        $start=$info['start'];
 	        $len=$info['length'];
-	        $search=trim($info['search']['value']);
+          $search=trim($info['search']['value']);
+          $search=rtrim($info['search']['value'],' ');
+          $search=ltrim($info['search']['value'],' ');
             //获取账户名
             $goods_search=$request->has('goods_search')?$request->input('goods_search'):0;
             $order_repeat_ip=$request->has('order_repeat_ip')?$request->input('order_repeat_ip'):0;
