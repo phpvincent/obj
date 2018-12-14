@@ -1111,11 +1111,12 @@ class OrderController extends Controller
                                 $sort_config_msg1[$val] = $sort_config->kind_config_msg;
                             }
                        }
-                       if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1))){
+                       if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1)) || (in_array('尺寸',$sort_config_msg1) && in_array('颜色',$sort_config_msg1))){
                               $size =  array_keys($sort_config_msg1,"尺码");
                               $color =  array_keys($sort_config_msg1,"颜色");
                               $size1 =  array_keys($sort_config_msg1,"尺碼");
                               $color1 =  array_keys($sort_config_msg1,"顏色");
+                              $size2 =  array_keys($sort_config_msg1,"尺寸");
                               if(!empty($size) && !empty($color)){
                                   array_push($sort_config_msg,$color[0]);
                                   array_push($sort_config_msg,$size[0]);
@@ -1126,6 +1127,11 @@ class OrderController extends Controller
                                   array_push($sort_config_msg,$size1[0]);
                                   unset($sort_config_msg1[$color1[0]]);
                                   unset($sort_config_msg1[$size1[0]]);
+                              }else if(!empty($size2) && !empty($color)){
+                                  array_push($sort_config_msg,$color[0]);
+                                  array_push($sort_config_msg,$size2[0]);
+                                  unset($sort_config_msg1[$color[0]]);
+                                  unset($sort_config_msg1[$size2[0]]);
                               }
 
                               if(!empty($sort_config_msg1)){
