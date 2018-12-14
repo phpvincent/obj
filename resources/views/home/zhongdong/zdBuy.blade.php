@@ -253,10 +253,10 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="">
+    <!-- <div class="mui-input-row" style="">
         <label> <span class="require">*</span>Zip:</label>
         <input type="text" name="zip"placeholder="Required: please fill in the zip code" class="mui-input-clear">
-    </div>
+    </div> -->
         <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
@@ -450,10 +450,10 @@ $('#pay').bind('click',function(){
     //     layer.msg('Please fill in the valid cell phone number.');
     //     return false;
     // }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct zip code.");
-        return false;
-    }
+    // if(datasObj.zip==null||datasObj.zip==''){
+    //     layer.msg("Please fill in the correct zip code.");
+    //     return false;
+    // }
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
 
