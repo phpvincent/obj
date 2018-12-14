@@ -276,10 +276,10 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="">
+    <!-- <div class="mui-input-row" style="">
         <label style="float: right;">:الرقم البريدي</label>
         <input type="text" name="zip"placeholder="اكتب الرقم البريدي الخاص بالمدينه التي يعيش فيها المستلم لا تترك فارغه" class="mui-input-clear">
-    </div>
+    </div> -->
     <div class="mui-input-row need_email">
         <label style="float: right;">:البريد الالكتروني </label>
         <input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">
