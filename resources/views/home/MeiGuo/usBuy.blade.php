@@ -461,7 +461,7 @@ var payFun=function (){
               var btime=getNowDate();
                       try{fbq('track', 'InitiateCheckout')}catch(e){};
                               $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                              location.href=data.url;
+                              window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
                          },
             
                       
@@ -485,7 +485,7 @@ var payFun=function (){
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
                         $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-                        location.href=data.url;
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
                     }
                 },
   
