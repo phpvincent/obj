@@ -1114,11 +1114,18 @@ class OrderController extends Controller
                        if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1))){
                               $size =  array_keys($sort_config_msg1,"尺码");
                               $color =  array_keys($sort_config_msg1,"颜色");
+                              $size1 =  array_keys($sort_config_msg1,"尺碼");
+                              $color1 =  array_keys($sort_config_msg1,"顏色");
                               if(!empty($size) && !empty($color)){
                                   array_push($sort_config_msg,$color[0]);
                                   array_push($sort_config_msg,$size[0]);
                                   unset($sort_config_msg1[$color[0]]);
                                   unset($sort_config_msg1[$size[0]]);
+                              }else if(!empty($size1) && !empty($color1)){
+                                  array_push($sort_config_msg,$color1[0]);
+                                  array_push($sort_config_msg,$size1[0]);
+                                  unset($sort_config_msg1[$color1[0]]);
+                                  unset($sort_config_msg1[$size1[0]]);
                               }
 
                               if(!empty($sort_config_msg1)){
