@@ -1117,9 +1117,10 @@ class OrderController extends Controller
                               if(!empty($size) && !empty($color)){
                                   array_push($sort_config_msg,$color[0]);
                                   array_push($sort_config_msg,$size[0]);
+                                  unset($sort_config_msg1[$color[0]]);
+                                  unset($sort_config_msg1[$size[0]]);
                               }
-                              unset($sort_config_msg1[$color[0]]);
-                              unset($sort_config_msg1[$size[0]]);
+
                               if(!empty($sort_config_msg1)){
                                   $arr = array_keys($sort_config_msg1);
                                   $config_attr = array_merge($sort_config_msg,$arr);
