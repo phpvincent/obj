@@ -235,7 +235,9 @@ class OrderController extends Controller
 	        $draw=$info['draw'];
 	        $start=$info['start'];
 	        $len=$info['length'];
-	        $search=trim($info['search']['value']);
+          $search=trim($info['search']['value']);
+          $search=rtrim($info['search']['value'],' ');
+          $search=ltrim($info['search']['value'],' ');
             //获取账户名
             $goods_search=$request->has('goods_search')?$request->input('goods_search'):0;
             $order_repeat_ip=$request->has('order_repeat_ip')?$request->input('order_repeat_ip'):0;
@@ -1099,6 +1101,44 @@ class OrderController extends Controller
                        $kind_msg = "<td>第".$i."件</td>";
                        $kind_english_msg = "";
                        $orderarr = explode(',',$va['order_config']);
+                       //================================================
+                       $config_attr = [];
+                       $sort_config_msg = [];
+                       $sort_config_msg1 = [];
+                       foreach($orderarr as $key => $val){
+                           $sort_config = config_val::where('config_val_id',$val)->select('kind_config.kind_config_msg')->join('kind_val','kind_val.kind_val_id','=','config_val.kind_val_id')->join('kind_config','kind_config_id','=','kind_val.kind_type_id')->first();
+                            if($sort_config){
+                                $sort_config_msg1[$val] = $sort_config->kind_config_msg;
+                            }
+                       }
+                       if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1))){
+                              $size =  array_keys($sort_config_msg1,"尺码");
+                              $color =  array_keys($sort_config_msg1,"颜色");
+                              $size1 =  array_keys($sort_config_msg1,"尺碼");
+                              $color1 =  array_keys($sort_config_msg1,"顏色");
+                              if(!empty($size) && !empty($color)){
+                                  array_push($sort_config_msg,$color[0]);
+                                  array_push($sort_config_msg,$size[0]);
+                                  unset($sort_config_msg1[$color[0]]);
+                                  unset($sort_config_msg1[$size[0]]);
+                              }else if(!empty($size1) && !empty($color1)){
+                                  array_push($sort_config_msg,$color1[0]);
+                                  array_push($sort_config_msg,$size1[0]);
+                                  unset($sort_config_msg1[$color1[0]]);
+                                  unset($sort_config_msg1[$size1[0]]);
+                              }
+
+                              if(!empty($sort_config_msg1)){
+                                  $arr = array_keys($sort_config_msg1);
+                                  $config_attr = array_merge($sort_config_msg,$arr);
+                              }else{
+                                  $config_attr = $sort_config_msg;
+                              }
+                       }
+                       if(!empty($config_attr)){
+                           $orderarr = $config_attr;
+                       }
+                       //================================================
                        foreach($orderarr as $key => $val){
                            $conmsg = \App\config_val::where('config_val_id',$val)
                                ->where(function($query)use($v){

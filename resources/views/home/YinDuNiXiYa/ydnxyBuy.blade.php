@@ -228,7 +228,7 @@
     </div> -->
     <div class="mui-input-row">
         <label><span class="require">*</span>No. Handphone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Harus diisi, Isi nomor HP penerima" nullmsg="No. HP tidak boleh kosong" errormsg="No. HP tidak boleh kosong" name="telephone" class="mui-input-clear">
+        <input type="text" datatype="/^\d+$/" placeholder="Harus diisi, Isi nomor HP penerima" nullmsg="No. HP tidak boleh kosong"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"errormsg="No. HP tidak boleh kosong" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -445,7 +445,7 @@ var payFun=function (){
     //     layer.msg('Silakan pilih lokasi');
     //     return false;
     // }
-    if(datasObj.zip==null||datasObj.zip==''||datasObj.zip=='Harus diisi kabupaten'){
+    if(datasObj.zip==null||datasObj.zip==''||datasObj.zip=='Harus diisi kode pos'){
         layer.msg('Silakan isi zip');
         return false;
     }
