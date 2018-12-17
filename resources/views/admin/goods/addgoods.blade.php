@@ -112,6 +112,7 @@
 						<option value="10">10--美国</option>
 						<option value="11">11--越南</option>
 						<option value="12">12--沙特</option>
+						<option value="13">13--沙特英文</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -1246,7 +1247,10 @@
                 $('#currency_type').val(11);
                 break;
 			case '12':
-                $('#currency_type').val(3);
+                $('#currency_type').val(12);
+                break;
+			case '13':
+                $('#currency_type').val(12);
                 break;
         }
 	});

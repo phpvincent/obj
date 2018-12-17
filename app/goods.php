@@ -94,7 +94,7 @@ class goods extends Model
                 $band = [6];
                 break;
             case '7':
-                $band = [7, 8, 9, 10, 2];
+                $band = [7, 8, 9, 10, 2, 13];
                 break;
             case '8':
                 $band = [11];
@@ -144,7 +144,7 @@ class goods extends Model
                 $band = [11];
                 break;
             case '11':
-                $band = [12];
+                $band = [12,13];
                 break;    
             default:
                 $band = false;
@@ -196,7 +196,9 @@ class goods extends Model
             case '12':
                  $blade_name='home.ShaTe.sendmail';
                  break;
-            
+            case '13':
+                $blade_name='home.ShaTeEnglish.sendmail';
+                break;
             default:
                 $blade_name='home.YingGuo.sendmail';
                 break;
