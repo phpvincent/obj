@@ -204,7 +204,7 @@
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>Kindly Reminder :</strong>
-					If you have any questions about our product, please contact our online Customer Service Team or send email to yejforlh@gmail.com attached your name, contacts and order number. We will process it ASAP. Wish you a pleasant shopping here.			</div>
+					Should you have any question, please feel free to contact us via Online Customer Service Team or Email: yejforln@gmail.com. Enjoy your shopping here!</div>
 				<p></p>
   			</div>
 		</div>

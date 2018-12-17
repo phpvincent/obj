@@ -19,6 +19,7 @@
       
       var obj={
         "Al Qasim": {
+            "Badaya":200,
           "Bukayriyah": 200,
           "Buraydah": 200,
           "Dukhnah": 200,
