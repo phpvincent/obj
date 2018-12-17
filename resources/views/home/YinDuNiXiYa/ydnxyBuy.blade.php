@@ -107,7 +107,7 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/ydnxy.json"></script>
+        <script src="/js/diqu/ydnxyxin.json"></script>
         <script src="/js/diqu/Address4.js"></script>
         <script src="/js/diqu/ydnxy.js"></script>
         <script src="/js/diqu/ydnxy_zip.json"></script>
