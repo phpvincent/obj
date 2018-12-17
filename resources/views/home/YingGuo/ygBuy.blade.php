@@ -132,36 +132,11 @@
         </noscript>
         <!-- End Facebook Pixel Code -->
         @endif
-          <!-- YaHoo Pixel Code -->
-        @if($goods->goods_yahoo_pix!=null&&$goods->goods_yahoo_pix!='')
-        <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'{{$goods->goods_yahoo_pix}}'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
-        <script>
-            window.dotq = window.dotq || [];
-            window.dotq.push(
-            {
-            'projectId':'10000',
-            'properties':{
-                'pixelId':'{{$goods->goods_yahoo_pix}}',
-                'qstrings':{
-                'et':'custom',
-                'ea':'AddToCart',
-                'product_id': '{{$goods->goods_id}}',
-                }
-            }});
-        </script>
-        @endif
-        <!-- End YaHoo Pixel Code -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-          @if($goods->goods_google_pix!=null&&$goods->goods_google_pix!='')
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{$goods->goods_google_pix}}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+          <!-- YaHoo Pixel Code 代码迁移至667addCart行 -->
 
-          gtag('config', '{{$goods->goods_google_pix}}');
-        </script>
-        @endif 
+        <!-- End YaHoo Pixel Code -->
+    <!-- Global site tag (gtag.js) - Google Analytics 代码迁移至675addCart行-->
+
         <!-- End Google Pixel Code -->
 
 </head>
@@ -279,7 +254,16 @@
 
 </div>
 <!--table end-->
-<!--paypal begin-->
+
+<input type="hidden" name="id" value="103107897"/>
+<input type="hidden" name="poid" value=""/>
+<input type="hidden" name="append" value="0"/>
+<input type="hidden" name="salerule_id" value="0"/>
+<input type="hidden" name="currency_code" value="NTD"/>
+<input type="hidden" name="currency_id" value="1"/>
+<input type="hidden" name="amount" value="0"/>
+</form>
+  <!--paypal begin-->
 <div class="paymentbox">
     <ul>
 
@@ -319,16 +303,7 @@
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter">
     
-    </div><!--footer end-->
-<input type="hidden" name="id" value="103107897"/>
-<input type="hidden" name="poid" value=""/>
-<input type="hidden" name="append" value="0"/>
-<input type="hidden" name="salerule_id" value="0"/>
-<input type="hidden" name="currency_code" value="NTD"/>
-<input type="hidden" name="currency_id" value="1"/>
-<input type="hidden" name="amount" value="0"/>
-</form>
-    
+    </div><!--footer end-->  
 
 <script>
    //第几件翻译
@@ -395,7 +370,7 @@
 
 layer.load(2);
 layer.closeAll();
-$('#pay').bind('click',function(){
+var payFun=function (){
      
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
@@ -500,7 +475,7 @@ $('#pay').bind('click',function(){
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            location.href=data.url;
+                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
                        },
           
                     
@@ -524,7 +499,7 @@ $('#pay').bind('click',function(){
                       var btime=getNowDate();
                       try{fbq('track', 'InitiateCheckout')}catch(e){};
                       $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-                      location.href=data.url;
+                      window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
                   }
               },
 
@@ -544,7 +519,8 @@ $('#pay').bind('click',function(){
     
             //记录购买事件
             
-})
+}
+$('#pay').bind('click',payFun);//封装订单提交函数；
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -684,6 +660,45 @@ jQuery(function(){
                 success:function(msg){
                 //  $('#addcart').html(msg);
                  console.log('123',msg)
+                    //判断这个页面是不是在首页仿淘宝弹框中打开的
+                    if(msg.goods.goods_blade_style=="1"){
+                    mouduleTaoBao();
+                    closeBtnWatch();
+                    console.log("goods_blade_style",msg.goods.goods_blade_style)
+                 }else{
+                     //雅虎像素
+                     if(msg.goods.goods_yahoo_pix){
+                         window.dotq = window.dotq || [];
+                                window.dotq.push(
+                                {
+                                'projectId':'10000',
+                                'properties':{
+                                    'pixelId':msg.goods.goods_yahoo_pix,
+                                    'qstrings':{
+                                    'et':'custom',
+                                    'ea':'AddToCart',
+                                    'product_id': msg.goods.goods_id,
+                                    }
+                                }});
+                        (function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':msg.goods.goods_yahoo_pix}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");
+                        console.log("goods_yahoo_pix",msg.goods.goods_yahoo_pix);
+                     }
+                     //goole像素
+                     if(msg.goods.goods_google_pix){
+                         var script = document.createElement('script');
+                         script.type = 'text/javascript';
+                         script.src = "https://www.googletagmanager.com/gtag/js?id="+msg.goods.goods_google_pix;
+
+                         $("head").append(script);
+
+                         window.dataLayer = window.dataLayer || [];
+                         function gtag(){dataLayer.push(arguments);}
+                         gtag('js', new Date());
+             
+                         gtag('config', msg.goods.goods_google_pix);
+                         console.log("goods_google_pix",msg.goods.goods_google_pix);
+                     }
+                }
                  function returnFloat(value){
                       var value=Math.round(parseFloat(value)*100)/100;
                       var xsd=value.toString().split(".");
