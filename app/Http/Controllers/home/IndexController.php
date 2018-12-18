@@ -866,7 +866,13 @@ class IndexController extends Controller
             return response('test',200);
         }
     $id=$request->input('id');
+    if($id==null){
+        return false;
+    }
     $vis=\App\vis::where('vis_id',$id)->first();
+    if($vis==null){
+        return false;
+    }
     try{
             $time=$request->input('date');
     }catch(\Exception $e){
