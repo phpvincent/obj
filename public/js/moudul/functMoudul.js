@@ -165,6 +165,9 @@ function countDiff (a,basePrice,moneycoin){
 //仿淘宝属性选择和订单模块
 var isTaoForm=false;
 function mouduleTaoBao (){
+    if(self == top){
+        location.href="/"
+    }  //如果goods_blade_style ==1那么订单页就必须在iframe中打开；否则跳回主页；主要是为了endSuccess页回退“/pay”；会让页面只显示订单页面；不好；
     $("header").hide();
     $(".pro_info").css({"position":"fixed","top":"0","z-index":"9"});
     $(".newfooter").css({"margin-bottom":"60px"});
