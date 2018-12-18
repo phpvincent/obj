@@ -690,7 +690,7 @@ class IndexController extends Controller
             return view('home.ShaTe.stEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         if($goods->goods_blade_type == 13){
-            return view('home.ShaTeEnglish.stEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.ShaTeEnglish.stEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
         return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
