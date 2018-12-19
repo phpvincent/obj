@@ -137,6 +137,7 @@
 					<option value="9">美国</option>
 					<option value="10">越南</option>
 					<option value="11">沙特</option>
+					<option value="12">卡塔尔</option>
 				</select>
 			</span>
 			</div>
