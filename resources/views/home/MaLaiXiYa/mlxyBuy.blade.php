@@ -85,7 +85,8 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/mlxy.js"></script>
+        <script src="/js/diqu/mlxy.json"></script>
+        <script src="/js/diqu/Address.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
@@ -208,6 +209,16 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
+    <div class="mui-input-row">
+        <label><span class="require">*</span>State:</label>
+        <select name="state" id="Select1" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div><div class="mui-input-row">
+        <label><span class="require">*</span>City:</label>
+        <select name="city" id="Select2" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div><div class="mui-input-row">
+        <label><span class="require">*</span>Zip:</label>
+        <select name="zip" id="Select3" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
@@ -216,10 +227,10 @@
         <label>City:</label>
         <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
     </div>
-    <div class="mui-input-row">
+    <!-- <div class="mui-input-row">
         <label><span class="require">*</span></label>
         <div id="twzipcode"></div>
-    </div>
+    </div> -->
     <div class="mui-input-row">
         <label><span class="require">*</span>Detailed Address:</label>
         <input type="text" datatype="z1-300" placeholder="Required: please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
@@ -228,10 +239,7 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Zip:</label>
-        <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
-    </div>
+    
         <div class="mui-input-row need_email">
         <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
@@ -414,7 +422,7 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    if(datasObj.zip==null||datasObj.zip==''){
+    if(datasObj.zip==null||datasObj.zip==''||datasObj.zip=="please choose the zip code"){
         layer.msg("Please fill in the correct zip code.");
         return false;
     }
@@ -554,35 +562,36 @@ jQuery(function(){
     </script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function(e) {
-        jQuery('#twzipcode').twzipcode();
-        jQuery('input[name="zipcode"]').attr('style','display:none;');
-        jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
-        jQuery('#twzipcode').find("[name='state']").change(function(){
-            var county = jQuery(this).val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    // jQuery(document).ready(function(e) {
+    //     jQuery('#twzipcode').twzipcode();
+    //     jQuery('input[name="zipcode"]').attr('style','display:none;');
+    //     jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
+    //     jQuery('#twzipcode').find("[name='state']").change(function(){
+    //         var county = jQuery(this).val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('#twzipcode').find("[name='city']").change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            district = jQuery(this).val();
+    //     jQuery('#twzipcode').find("[name='city']").change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         district = jQuery(this).val();
 
 
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('.gw_address_message_info').change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            //alert(district);
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all ').val(message_info);
-        });
+    //     jQuery('.gw_address_message_info').change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         //alert(district);
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all ').val(message_info);
+    //     });
 
-    });
+    // });
+    addressInit('Select1', 'Select2', 'Select3');
 </script>
 
 <script>
