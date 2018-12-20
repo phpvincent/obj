@@ -1174,7 +1174,11 @@ class OrderController extends Controller
                    if (rtrim($config_english_msg, ',') == '') {
                        $new_exdata[$k]['config_english_msg'] =  '';
                    } else {
-                       $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
+                       if ($goods_kind->goods_kind_english_name) {
+                           $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
+                       }else{
+                           $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',') ;
+                       }
                    }
                    $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
                }else{
