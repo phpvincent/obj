@@ -9,5 +9,8 @@
 <!-- Your customer chat code -->
 <div class="fb-customerchat"
   attribution=setup_tool
-  page_id="505487326557587">
+  page_id="505487326557587"
+  logged_in_greeting="How can we help you shop today?"
+     logged_out_greeting="How can we help you shop today?"
+     theme_color="#5c9165">
 </div>
