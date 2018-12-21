@@ -459,6 +459,21 @@
         <div class="clear">
         </div>
 <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+  attribution=setup_tool
+  page_id="505487326557587">
+</div>
 <table class="data-table">
     {{--用户帮助模块--}}
     @if(in_array('user_help',$templets))
