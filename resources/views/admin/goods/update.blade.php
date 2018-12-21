@@ -133,6 +133,7 @@
 						<option value="12" @if($goods->goods_blade_type=='12') selected="selected" @endif>12--沙特</option>
 						<option value="13" @if($goods->goods_blade_type=='13') selected="selected" @endif>13--沙特英文</option>
 						<option value="14" @if($goods->goods_blade_type=='14') selected="selected" @endif>14--卡塔尔</option>
+						<option value="15" @if($goods->goods_blade_type=='15') selected="selected" @endif>15--卡塔尔英文</option>
 						{{--<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>

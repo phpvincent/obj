@@ -146,6 +146,9 @@ class IndexController extends Controller
             case '14':
             return view('home.KaTaEr.kte')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
             break;
+            case '15':
+            return view('home.KaTaErEnglish.kte')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
             default:
                 # code...
                 break;
@@ -322,6 +325,9 @@ class IndexController extends Controller
         if($blade_type==14){
             return view('home.KaTaEr.kteBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
         }
+        if($blade_type==15){
+            return view('home.KaTaErEnglish.kteBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+        }
     	return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
     }
 
@@ -338,7 +344,7 @@ class IndexController extends Controller
         }
         $goods_id=$request->input('id');
         $goods=goods::where('goods_id',$goods_id)->first();
-        if($goods->goods_blade_type == 0||$goods->goods_blade_type == 1||$goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6||$goods->goods_blade_type == 7||$goods->goods_blade_type == 8||$goods->goods_blade_type == 9||$goods->goods_blade_type == 10||$goods->goods_blade_type == 11||$goods->goods_blade_type == 12||$goods->goods_blade_type == 13||$goods->goods_blade_type == 14){
+        if($goods->goods_blade_type == 0||$goods->goods_blade_type == 1||$goods->goods_blade_type == 2||$goods->goods_blade_type==3||$goods->goods_blade_type==4||$goods->goods_blade_type==5||$goods->goods_blade_type==6||$goods->goods_blade_type == 7||$goods->goods_blade_type == 8||$goods->goods_blade_type == 9||$goods->goods_blade_type == 10||$goods->goods_blade_type == 11||$goods->goods_blade_type == 12||$goods->goods_blade_type == 13||$goods->goods_blade_type == 14||$goods->goods_blade_type == 15){
             $cuxiao = \App\cuxiao::where('cuxiao_goods_id',$goods_id)->orderBy('cuxiao_id','asc')->get();
             $special = \App\special::where('special_goods_id',$goods_id)->get();
             if(!$special->isEmpty()){
@@ -701,6 +707,9 @@ class IndexController extends Controller
         if($goods->goods_blade_type == 14){
             return view('home.KaTaEr.kteEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
         }
+        if($goods->goods_blade_type == 15){
+            return view('home.KaTaErEnglish.kteEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+        }
         return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
     }
    /* public function orderSuccess(Request $request){
@@ -763,6 +772,9 @@ class IndexController extends Controller
             }
             if($goods_blade_type == 14){
                 return view('home.KaTaEr.kteSend');
+            }
+            if($goods_blade_type == 15){
+                return view('home.KaTaErEnglish.kteSend');
             }
         }
         return view('home.TaiwanFan.send');
@@ -830,6 +842,9 @@ class IndexController extends Controller
         }
         if($goods->goods_blade_type == 14){
             return view('home.KaTaEr.kteSendmsg')->with(compact('order','goods'));
+        }
+        if($goods->goods_blade_type == 15){
+            return view('home.KaTaErEnglish.kteSendmsg')->with(compact('order','goods'));
         }
         return view('home.TaiwanFan.sendmsg')->with(compact('order','goods'));
     }
