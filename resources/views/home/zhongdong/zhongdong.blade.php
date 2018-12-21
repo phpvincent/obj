@@ -21,7 +21,7 @@
 <script type="text/javascript">
     window.onload=function (){
 
-    var userName=”xiaoming”;
+    var userName='xiaoming';
 
     alert(userName);
  FB.CustomerChat.show(true);FB.CustomerChat.showDialog();
