@@ -26,7 +26,6 @@
           "Khabra": 200,
           "Midhnab": 200,
           "Nabaniya": 200,
-          "Nabhaniah": 200,
           "Nifi": 200,
           "Qaseem Airport": 200,
           "Rafayaa Al Gimsh": 200,
@@ -35,7 +34,6 @@
           "Sajir": 200,
           "Unayzah": 200,
           "Uqlat As Suqur": 200,
-          "Uyun Al Jiwa": 200,
           "Onaiza": 200
         },
         "Ha'il": {
@@ -44,7 +42,6 @@
         },
         "Riyadh": {
           "Afif": 200,
-          "Artawiyah": 200,
           "Bijadiyah": 200,
           "Duwadimi": 200,
           "Ghat": 200,
@@ -74,7 +71,6 @@
           "Bad": 200,
           "Dhuba": 200,
           "Halit Ammar": 200,
-          "Haql": 200,
           "Tabuk": 200,
           "Taima": 200
         },
