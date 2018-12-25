@@ -120,7 +120,7 @@
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
 						<option value="0" @if($goods->goods_blade_type=='0') selected="selected" @endif>0--台湾模板</option>
 						<option value="1" @if($goods->goods_blade_type=='1') selected="selected" @endif>1--简体模板</option>
-						<option value="2" @if($goods->goods_blade_type=='2') selected="selected" @endif>2--中东模板</option>
+						<option value="2" @if($goods->goods_blade_type=='2') selected="selected" @endif>2--阿联酋模板</option>
 						<option value="3" @if($goods->goods_blade_type=='3') selected="selected" @endif>3--马来西亚模板</option>
 						<option value="4" @if($goods->goods_blade_type=='4') selected="selected" @endif>4--泰国模板</option>
 						<option value="5" @if($goods->goods_blade_type=='5') selected="selected" @endif>5--日本模板</option>

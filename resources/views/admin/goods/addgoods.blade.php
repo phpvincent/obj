@@ -101,7 +101,7 @@
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
 						<option value="0" >0--台湾模板</option>
 						<option value="1">1--简体模板</option>
-						<option value="2">2--中东模板</option>
+						<option value="2">2--阿联酋模板</option>
 						<option value="3">3--马来西亚模板</option>
 						<option value="4">4--泰国模板</option>
 						<option value="5">5--日本模板</option>
