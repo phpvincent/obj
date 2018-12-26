@@ -464,7 +464,7 @@ var payFun=function (){
     }
     var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
     if(!res.test(datasObj.email)){
-        layer.msg("please enter a valid email address.");
+        layer.msg("silakan masukkan alamat email yang benar");
         return false;
     }
     //判断用户是否选择了商品属性；
