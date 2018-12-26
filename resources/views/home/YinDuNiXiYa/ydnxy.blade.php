@@ -123,28 +123,28 @@
 	<body style="position:relative">
         <!-- 宗进 -->
                <script type="text/javascript">
-        window._pt_lt = new Date().getTime();
-        window._pt_sp_2 = [];
-        _pt_sp_2.push('setAccount,4e86cd08');
-        var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-        (function() {
-            var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
-            atag.src = _protocol + 'js.ptengine.cn/4e86cd08.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(atag, s);
-        })();
+window._pt_lt = new Date().getTime();
+window._pt_sp_2 = [];
+_pt_sp_2.push('setAccount,34ffb2c9');
+var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+(function() {
+var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
+atag.src = _protocol + 'js.ptengine.cn/34ffb2c9.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(atag, s);
+})();
 </script>
         <iframe src="js.ptengine.cn" width="0" height="0" scrolling="no" frameborder='0' style="width: 0px;height: 0px;"><script type="text/javascript">
-        window._pt_lt = new Date().getTime();
-        window._pt_sp_2 = [];
-        _pt_sp_2.push('setAccount,4e86cd08');
-        var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-        (function() {
-            var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
-            atag.src = _protocol + 'js.ptengine.cn/4e86cd08.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(atag, s);
-        })();
+window._pt_lt = new Date().getTime();
+window._pt_sp_2 = [];
+_pt_sp_2.push('setAccount,34ffb2c9');
+var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+(function() {
+var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
+atag.src = _protocol + 'js.ptengine.cn/34ffb2c9.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(atag, s);
+})();
 </script></iframe>
 	<script>
 	jQuery(function(){
