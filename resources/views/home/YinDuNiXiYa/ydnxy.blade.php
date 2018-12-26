@@ -121,8 +121,8 @@
 
 	</head>
 	<body style="position:relative">
-                <script type="text/javascript">
-            //宗进
+        <!-- 宗进 -->
+               <script type="text/javascript">
         window._pt_lt = new Date().getTime();
         window._pt_sp_2 = [];
         _pt_sp_2.push('setAccount,4e86cd08');
@@ -132,10 +132,9 @@
             atag.src = _protocol + 'js.ptengine.cn/4e86cd08.js';
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(atag, s);
-                })();
-        </script>
-        <iframe src="js.ptengine.cn" width="0" height="0" scrolling="no" frameborder='0' style="width: 0px;height: 0px;"> <script type="text/javascript">
-            //宗进
+        })();
+</script>
+        <iframe src="js.ptengine.cn" width="0" height="0" scrolling="no" frameborder='0' style="width: 0px;height: 0px;"><script type="text/javascript">
         window._pt_lt = new Date().getTime();
         window._pt_sp_2 = [];
         _pt_sp_2.push('setAccount,4e86cd08');
@@ -145,8 +144,8 @@
             atag.src = _protocol + 'js.ptengine.cn/4e86cd08.js';
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(atag, s);
-                })();
-        </script></iframe>
+        })();
+</script></iframe>
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
