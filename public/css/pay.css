@@ -881,3 +881,22 @@ button.bunble{ margin-top:10px;}
 .ischeck{
 	border:2px solid red;
 }
+
+#addcart .addcart-quantity img {
+	left: 15px;
+	position:relative;
+	animation:mymove 1s infinite;
+	-webkit-animation:mymove 1s infinite; /*Safari and Chrome*/
+	}
+
+	@keyframes mymove
+	{
+	from {top:15px;}
+	to {top:-7px;}
+	}
+	
+	@-webkit-keyframes mymove /*Safari and Chrome*/
+	{
+	from {top:15px;}
+	to {top:-7px;}
+  }

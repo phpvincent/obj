@@ -372,7 +372,19 @@ body,dl,dd{padding: 0;}
 	margin-left: 10px;
 }
 .addcart-footer-price .addcart-footer-price-total font{
-	font-size: 17px;
+	font-size: 24px;
+}
+.addcart-footer-price .addcart-footer-realPrice-total font{
+	font-size: 24px;
+	color: #f00;
+    font-weight: bold;
+}
+.addcart-footer-price .addcart-footer-price-total {
+	font-size: 24px;
+	margin-bottom: 2px;
+}
+.addcart-footer-price .addcart-footer-realPrice-total {
+	font-size: 24px;
 }
 #addcart_message_dialog{
 	position:fixed;
