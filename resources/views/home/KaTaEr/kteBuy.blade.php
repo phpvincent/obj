@@ -225,12 +225,21 @@
     </div>
     <div class="mui-input-row">
         <label style="float: right;">:الهاتف <span class="require">*</span></label>
-        <input type="text" datatype="/^\d+$/" placeholder=" رقم هاتف المستلم لا تترك فارغه" nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;">+974</span>
+        <input type="text" datatype="/^\d+$/"style="width:50%" placeholder=" رقم هاتف المستلم لا تترك فارغه" nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-right: 156px; height: 26px;">
+    يرجي من سيادتكم التأكد من رقم الهاتف والمعلومات الخاصه بكم لسهوله التواصل معكم وتسليمكم الطلب 
+    </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
@@ -310,6 +319,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+تتعهد الشركه  بالحفاظ علي جميع بيناتكم الشخصيه  
+</div>
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">تقديم الطلب  </button>
@@ -458,7 +470,12 @@ var payFun=function (){
         layer.msg('ادخل رقم هاتف المستلم');
         return false;
     }
-    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("please enter a valid email address.");
+        return false;
+    }
+    var re = /^\d{8}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg(' أدخل رقم هاتف صالح');
         return false;
@@ -476,6 +493,7 @@ var payFun=function (){
         layer.msg('من فضلك قم بكتابة بيانات المنتج كامله ');
         return false;
     };
+    datasObj.telephone="974"+datasObj.telephone;
     // layer.msg("订单提交中，请稍等...");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:' انتظر قليلا الطلب تحت التأكيد.',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px', 'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -492,8 +510,8 @@ var payFun=function (){
                layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
-                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                            // $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                            // window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
                        },
           
                     
@@ -635,7 +653,7 @@ jQuery(function(){
         html1 +='<input type="text" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." nullmsg="" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
 
-        html2 += "<label style='float: right;'>:البريد الالكتروني </label>";
+        html2 += "<label style='float: right;'>:البريد الالكتروني <span style='color:red;'>*</span> </label>";
         html2 += '<input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();
