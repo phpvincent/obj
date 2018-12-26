@@ -204,6 +204,9 @@
         <label><span class="require">*</span>手機:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必填，填寫收件人聯繫電話" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 146px; height: 26px;">
+    請務必保證電話號碼資訊真實準確，以便我們能够聯系您並且準確發送貨物。 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -233,7 +236,7 @@
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" class="mui-input-clear">
     </div>
@@ -289,6 +292,9 @@
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+以上資訊將為您嚴格保密，我們保證不會洩露您的個人資訊。
+</div>
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">提交訂單</button>
 </div>
@@ -429,9 +435,14 @@ var payFun=function (){
         layer.msg('請填寫收貨人手機號碼');
         return false;
     }
-    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    if(!re.test(datasObj.telephone)){
-        layer.msg('請輸入有效手機號');
+    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    // if(!re.test(datasObj.telephone)){
+    //     layer.msg('請輸入有效手機號');
+    //     return false;
+    // }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("請輸入一個有效的電子郵寄地址");
         return false;
     }
     //判断用户是否选择了商品属性；
@@ -605,7 +616,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
         html1 +='<input type="text" placeholder="我們會借此郵箱向您發送訂單通知" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label><span class='require'>*</span>Email:</label>";
 
         html2 += '<input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" class="mui-input-clear">';
 

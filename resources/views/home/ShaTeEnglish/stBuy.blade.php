@@ -214,7 +214,7 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 26px;">
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
         Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
     </div>
     <div class="mui-input-row" style="display:none;">
