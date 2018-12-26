@@ -18,210 +18,59 @@
       // Zipcode JSON data
       
       var obj={
-        "Al Qasim": {
-            "Badaya":200,
-          "Bukayriyah": 200,
-          "Buraydah": 200,
-          "Dukhnah": 200,
-          "Khabra": 200,
-          "Midhnab": 200,
-          "Nabaniya": 200,
-          "Nabhaniah": 200,
-          "Nifi": 200,
-          "Qaseem Airport": 200,
-          "Rafayaa Al Gimsh": 200,
-          "Rass": 200,
-          "Riyadh Al Khabra": 200,
-          "Sajir": 200,
-          "Unayzah": 200,
-          "Uqlat As Suqur": 200,
-          "Uyun Al Jiwa": 200,
-          "Onaiza": 200
-        },
-        "Ha'il": {
-          "Hail": 200,
-          "Sayirah": 200
-        },
-        "Riyadh": {
-          "Afif": 200,
-          "Artawiyah": 200,
-          "Bijadiyah": 200,
-          "Duwadimi": 200,
-          "Ghat": 200,
-          "Hawtat Sudayr": 200,
-          "Majmaah": 200,
-          "Shaqra": 200,
-          "Zulfi": 200,
-          "Dhurma": 200,
-          "Dilam": 200,
-          "Diriyah": 200,
-          "Hawtat Bani Tamim": 200,
-          "Hayer": 200,
-          "Huraymila": 200,
-          "Kharj": 200,
-          "Layla Aflej": 200,
-          "Muzahmiyah": 200,
-          "Quwayiyah": 200,
-          "Rayn": 200,
-          "Riyadh": 200,
-          "Riyadh Airport": 200,
-          "Rumah": 200,
-          "Ruwaidah": 200,
-          "Khamasin": 200,
-          "Sulayyil": 200
-        },
-        "Tabuk": {
-          "Bad": 200,
-          "Dhuba": 200,
-          "Halit Ammar": 200,
-          "Haql": 200,
-          "Tabuk": 200,
-          "Taima": 200
-        },
-        "Najran": {
-          "Najran": 200,
-          "Sharourah": 200
-        },
-        "Jizan": {
-          "Abu Arish": 200,
-          "Gizan": 200,
-          "Ahad Al Masarhah": 200,
-          "Al Dair": 200,
-          "Bani Malek": 200,
-          "Baysh": 200,
-          "Darb": 200,
-          "Dhamad": 200,
-          "Farasan": 200,
-          "Jazan": 200,
-          "Sabya": 200,
-          "Samtah": 200,
-          "Shuqayq": 200,
-          "Tuwal": 200
-        },
-        "Asir": {
-          "Abha": 200,
-          "Ahad Rafidah": 200,
-          "Bariq(bareq)": 200,
-          "Bishah(Bisha)": 200,
-          "Dhahran Al Janoub": 200,
-          "Jash": 200,
-          "Khamis Mushayt": 200,
-          "Majardah": 200,
-          "Muhayil": 200,
-          "Nakeea": 200,
-          "Rijal Alma": 200,
-          "Sarat Abideh": 200,
-          "Tarib": 200,
-          "Tathlith": 200,
-          "Wadi Bin Hashbal": 200
-        },
-        "Medina": {
-          "Hanakiyah": 200,
-          "Khayber": 200,
-          "Madinah": 200,
-          "Mahd Ad Dhahab": 200,
-          "Ula": 200,
-          "Badar Hunain": 200,
-          "Ummlujj": 200,
-          "Wajh": 200,
-          "Yanbu": 200
-        },
-        "Al Hudud ash Shamaliyah": {
-          "Al Ruqi": 200,
-          "King Khalid City": 200,
-          "Qaysumah": 200,
-          "Rafha": 200,
-          "Sarrar": 200,
-          "Arar": 200,
-          "Jadidah Arar": 200,
-          "Turayf": 200
-        },
-        "Al Jawf": {
-          "Haditha": 200,
-          "Qurayyat": 200,
-          "Tubarjal": 200,
-          "Tabarjal": 200,
-          "Dawmat Al Jandal": 200,
-          "Al Jouf": 200,
-          "Skakah": 200
-        },
-        "Makkah": {
-          "Bashayer": 200,
-          "Bellasmar": 200,
-          "Namas": 200,
-          "Sapt Al Ulaya": 200,
-          "Tanumah": 200,
-          "Badr": 200,
-          "Bahrah": 200,
-          "Jeddah": 200,
-          "Jeddah Airport": 200,
-          "Kamil": 200,
-          "Khulais": 200,
-          "Lith": 200,
-          "Masturah": 200,
-          "Rabigh": 200,
-          "Shaibah": 200,
-          "Thuwal": 200,
-          "Jamoum": 200,
-          "Makkah": 200,
-          "Dhalim": 200,
-          "Khurmah": 200,
-          "Muwayh": 200,
-          "Ranyah": 200,
-          "Sayl Al Kabir": 200,
-          "Taif": 200,
-          "Thurbah": 200,
-          "Turbah (Makkah)": 200
-        },
-        "Al Bahah": {
-          "Aqiq": 200,
-          "Atawlah": 200,
-          "Baha": 200,
-          "Biljurashi": 200,
-          "Mandaq": 200,
-          "Mudhaylif": 200,
-          "Mukhwah": 200,
-          "Qilwah": 200,
-          "Qunfudhah": 200
-        },
-        "Ash Sharqiyah": {
-          "Ain Dar": 200,
-          "Al khobar": 200,
-          "Anak": 200,
-          "Bahrain Causeway": 200,
-          "Buqaiq": 200,
-          "Dammam": 200,
-          "Dammam Airport": 200,
-          "Dhahran": 200,
-          "Jubail": 200,
-          "Khafji": 200,
-          "Khubar": 200,
-          "Muneefa": 200,
-          "Nairiyah": 200,
-          "Qarya Al Uliya": 200,
-          "Qatif": 200,
-          "Rahima": 200,
-          "Ras Tannurah": 200,
-          "Safwa": 200,
-          "Saira": 200,
-          "Sayhat": 200,
-          "Shedgum": 200,
-          "Tanajib": 200,
-          "Tarut (Darin)": 200,
-          "Thqbah": 200,
-          "Udhayliyah": 200,
-          "Uthmaniyah": 200,
-          "Abqaiq": 200,
-          "Al Ahsa": 200,
-          "Al Ayun": 200,
-          "Al Jafr": 200,
-          "Batha": 200,
-          "Hufuf": 200,
-          "Mubarraz": 200,
-          "Salwa": 200,
-          "Hafar Al Baten": 200
-        }
-      };
+  "Al Qasim": {
+    "Buraydah":200,
+    "Unayzah":200
+  },
+  "Ha'il": {
+    "Hail":200
+  },
+  "Riyadh": {
+    "Majmaah":200,
+    "Kharj":200,
+    "Riyadh":200
+  },
+  "Tabuk": {
+    "Tabuk":200
+  },
+  "Najran": {
+    "Najran":200
+  },
+  "Asir": {
+    "Abha":200,
+    "Bariq(bareq)":200,
+    "Bishah(Bisha)":200,
+    "Khamis Mushayt":200
+  },
+  "Medina": {
+    "Madinah":200,
+    "Yanbu":200
+  },
+  "Ash Sharqiyah": {
+    "Al khobar":200,
+    "Dammam":200,
+    "Dhahran":200,
+    "Jubail":200,
+    "Qatif":200,
+    "Ras Tannurah":200,
+    "Abqaiq":200,
+    "Hufuf":200,
+    "Hafar Al Baten":200
+  },
+  "Al Hudud ash Shamaliyah": {
+    "Arar":200
+  },
+  "Al Bahah": {
+    "Baha":200,
+    "Qunfudhah":200
+  },
+  "Makkah": {
+    "Jeddah":200,
+    "Lith":200,
+    "Makkah":200,
+    "Taif":200
+  }
+};
     //   for(var i=0;i<sheng.length;i++){
     //       var b={};
     //       // console.log(shi[i].a)

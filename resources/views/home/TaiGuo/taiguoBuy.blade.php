@@ -204,6 +204,9 @@
         <label><span class="require">*</span>บอร์โทรศัพท์:</label>
         <input type="text" datatype="/^\d+$/" placeholder="กรุณาระบุ เบอร์โทรศัพท์ของผู้รับของ" nullmsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" errormsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" name="telephone" class="mui-input-clear">
     </div>
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 26px;">
+    โปรดตรวจสอบว่าเบอร์โทรศัพท์รึเปล่า ถูกต้องไหม และถูกต้องไหม เพื่อให้เราสามารถติดต่อคุณและส่งถูกต้องสินค้า 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -233,7 +236,7 @@
         <input type="text" name="zip" placeholder="กรุณาระบุรหัสไปรษณีย์ของผู้รับ" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>อีเมล:</label>
+        <label><span class="require">*</span>อีเมล:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email"errormsg="อีเมลที่ไม่ถูกต้อง" placeholder=" ทางเราจะใช้E-Mailนี้มาแจ้งข้อมูลการสั่งซื้อ" class="mui-input-clear">
     </div>
@@ -284,7 +287,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+เราสัญญาว่าข้อมูลส่วนบุคคลของคุณจะถูกเก็บไว้เป็นความลับโดยข้างต้นไหมอะไรถูกเปิดเผย
+</div>
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="">ส่งคำสั่งซื้อ</button>
@@ -410,6 +415,11 @@ var payFun=function (){
     }
     if(datasObj.zip==null||datasObj.zip==''){
         layer.msg("กรุณากรอกรหัสไปรษณีย์ที่ถูกต้อง");
+        return false;
+    }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("โปรดป้อนที่อยู่อีเมลที่ถูกต้อง");
         return false;
     }
     //判断用户是否选择了商品属性；

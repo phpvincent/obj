@@ -120,7 +120,7 @@
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
 						<option value="0" @if($goods->goods_blade_type=='0') selected="selected" @endif>0--台湾模板</option>
 						<option value="1" @if($goods->goods_blade_type=='1') selected="selected" @endif>1--简体模板</option>
-						<option value="2" @if($goods->goods_blade_type=='2') selected="selected" @endif>2--中东模板</option>
+						<option value="2" @if($goods->goods_blade_type=='2') selected="selected" @endif>2--阿联酋模板</option>
 						<option value="3" @if($goods->goods_blade_type=='3') selected="selected" @endif>3--马来西亚模板</option>
 						<option value="4" @if($goods->goods_blade_type=='4') selected="selected" @endif>4--泰国模板</option>
 						<option value="5" @if($goods->goods_blade_type=='5') selected="selected" @endif>5--日本模板</option>
@@ -132,6 +132,8 @@
 						<option value="11" @if($goods->goods_blade_type=='11') selected="selected" @endif>11--越南</option>
 						<option value="12" @if($goods->goods_blade_type=='12') selected="selected" @endif>12--沙特</option>
 						<option value="13" @if($goods->goods_blade_type=='13') selected="selected" @endif>13--沙特英文</option>
+						<option value="14" @if($goods->goods_blade_type=='14') selected="selected" @endif>14--卡塔尔</option>
+						<option value="15" @if($goods->goods_blade_type=='15') selected="selected" @endif>15--卡塔尔英文</option>
 						{{--<option value="2" @if($goods->goods_blade_type=='2') selected="selected"  @endif>2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>

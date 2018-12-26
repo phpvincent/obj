@@ -293,7 +293,9 @@
 </div>
 <!--paypal end-->
     <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+    We promise that your personal information above will be kept confidential without being disclosed. 
+</div>
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="background-color: red;">Start Order</button>
@@ -451,11 +453,11 @@ var payFun=function (){
     //     layer.msg('Please fill in the valid postal code.');
     //     return false;
     // }
-    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    // if(!re.test(datasObj.telephone)){
-    //     layer.msg('Please fill in the valid cell phone number.');
-    //     return false;
-    // }
+    var re = /^[\s\d-]+$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('Please fill in the valid cell phone number.1232132131');
+        return false;
+    }
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Please wait for the order submitted");

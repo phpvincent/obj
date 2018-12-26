@@ -33,7 +33,7 @@
 
 
         <style type="text/css">
-        
+
             .radio{
                 display: inline-block;
                 position: relative;
@@ -85,7 +85,7 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/flb.js"></script>
+        <script src="/js/diqu/kataer.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
@@ -97,7 +97,7 @@
         <script type="text/javascript" src="/js/broser.js"></script>
         <style type="text/css">
             	.chose_cart{
-            		background-color: red;
+            		background-color: #00923f;
             		color: white !important;
             		border:1px dashed #ccc !important;
             	}
@@ -201,16 +201,22 @@
         <input type="text" name="lastname" placeholder="Required: please enter your last name" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
-        <label><span class="require">*</span>Phone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
-    </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
-        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+        <label><span class="require">*</span>Phone No.:</label>
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;">+974</span>
+        <input type="text" datatype="/^\d+$/"style="width:50%" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
+        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+    </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
@@ -225,16 +231,16 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Detailed Address:</label>
-        <input type="text" datatype="z1-300" placeholder="Detailed Address: Required: please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
+        <input type="text" datatype="z1-300" placeholder=" Required: please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row"style="" >
-        <label><span class="require">*</span>Zip:</label>
-        <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
-    </div>
+    <!-- <div class="mui-input-row" style="">
+        <label> <span class="require">*</span>Zip:</label>
+        <input type="text" name="zip"placeholder="Required: please fill in the zip code" class="mui-input-clear">
+    </div> -->
         <div class="mui-input-row need_email">
         <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
@@ -242,7 +248,7 @@
     </div>
     <div class="mui-input-row" style=" height:66px">
         <label>Message:</label>
-        <textarea name="notes" placeholder="Optional: such as other phone number, product specification or delivery time, etc."></textarea>
+        <textarea name="notes" placeholder="Optional: such as other phone number, product specification or delivery time, etc. "></textarea>
     </div>
 
 </div>
@@ -286,16 +292,12 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
-<!--button begin-->
-<div class="btndiv">
- <!-- <strong>Tips:</strong> Delivery can't be arranged  to the  areas which are invalid for selection in Sarawak .Please choose the available ones for shipment -->
-</div>
 <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
     We promise that your personal information above will be kept confidential without being disclosed. 
 </div>
+<!--button begin-->
 <div class="btndiv">
-    <button id="pay" type="button" class="btnstyle01" style="">Start Order</button>
+    <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;">Start Order</button>
 </div>
 <!--button end-->
 <!--footer begin-->
@@ -307,9 +309,7 @@
     function jianshu(a){
     return 'item.'+a
   }
-// 拼接名字
-
-   var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
+  var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
   var a={!!$goods_config_arr!!};
   var moneycoin="{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}";
   var issubmit=true;
@@ -332,6 +332,7 @@
            })
         }
          addClickEven();
+
     var form=jQuery("form").Validform({
         tiptype:function(msg){
             $2.toast(msg);
@@ -388,7 +389,7 @@ var payFun=function (){
         })
    })
 
-   console.log(dataObj);
+    console.log(dataObj);
     var fromArr2=$("form#save").serializeArray();
     $.each(fromArr2,function(i,val){
         datasObj[val.name]=val.value;
@@ -417,10 +418,6 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    if(datasObj.zip==null||datasObj.zip==''){
-        layer.msg("Please fill in the correct zip code.");
-        return false;
-    }
     var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
     if(!res.test(datasObj.email)){
         layer.msg("please enter a valid email address.");
@@ -439,66 +436,77 @@ var payFun=function (){
         layer.msg('please fill in the complete item information.');
         return false;
     };
-
+    var re = /^\d{8}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('Please fill in the valid cell phone number.');
+        return false;
+    }
+    // if(datasObj.zip==null||datasObj.zip==''){
+    //     layer.msg("Please fill in the correct zip code.");
+    //     return false;
+    // }
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
-     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    datasObj.telephone="974"+datasObj.telephone;
+
     // layer.msg("Please wait for the order submitted");
+    var payType=$(".paymentbox input:checked").val();
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
-        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',   'margin-left':' -80px','background-position-x': '106px'});
+        layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red','margin-left':' -80px','background-position-x': '106px'});
     }})
-     var payType=$(".paymentbox input:checked").val();
-     if(issubmit){
-         issubmit=false;
-         if(payType==1){
-         $.ajax({
-            type: "POST",    
-            url: "/saveform",
-            data:datasObj,
-            success: function (data) {
-            layer.close(index);
-             var btime=getNowDate();
-                     try{fbq('track', 'InitiateCheckout')}catch(e){};
-                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                             window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
-                        },
-           
-                     
-            error: function(data) {
-                layer.close(index);
-                layer.msg('The order submission failed. Please check the network condition.');
-            }
-         }) ; 
-         }else{
-                       // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
-               $.ajax({
-               type: "POST",
-               url: "/paypal_pay",
-               data:datasObj,
-               success: function (data) {
-                   layer.close(index);
-                   if(data.err=='0'){
-                       layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
-                        issubmit=true;
-                   }else{
-                       var btime=getNowDate();
-                       try{fbq('track', 'InitiateCheckout')}catch(e){};
-                       $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-                       window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
-                   }
-               },
- 
- 
-               error: function(data) {
-                   layer.close(index);
-                   layer.msg('The order submission failed. Please check the network condition.');
-                 }
-             }) ;
-         }
-         
-     }else{
+    if(issubmit){
+        issubmit=false;
+        if(payType==1){
+        $.ajax({
+           type: "POST",    
+           url: "/saveform",
+           data:datasObj,
+           success: function (data) {
+               layer.close(index);
+            var btime=getNowDate();
+                    try{fbq('track', 'InitiateCheckout')}catch(e){};
+                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                       },
+          
+                    
+           error: function(data) {
+               layer.close(index);
+               layer.msg('The order submission failed. Please check the network condition.');
+           }
+        }) ; 
+        }else{
+                      // location.href="/paypal_pay?datas="+JSON.stringify(datasObj);
+              $.ajax({
+              type: "POST",
+              url: "/paypal_pay",
+              data:datasObj,
+              success: function (data) {
+                  layer.close(index);
+                  if(data.err=='0'){
+                      layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
+                       issubmit=true;
+                  }else{
+                      var btime=getNowDate();
+                      try{fbq('track', 'InitiateCheckout')}catch(e){};
+                      $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                      window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                  }
+              },
+
+
+              error: function(data) {
+                  layer.close(index);
+                  layer.msg('The order submission failed. Please check the network condition.');
+                }
+            }) ;
+        }
+        
+    }else{
         layer.close(index);
-         layer.msg('Orders have been submitted, not submitted repeatedly.');
-     }
+        layer.msg('Orders have been submitted, not submitted repeatedly.');
+    }
+   
     
             //记录购买事件
             
@@ -593,11 +601,11 @@ jQuery(function(){
 //         var html1 ='';
 // //        html +='<div class="mui-input-row need_email">';
 //         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-//         html1 +='<input type="text" placeholder=" we shall send you the order information though this Email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         html1 +='<input type="text" placeholder="Optional,Please fill in email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
 //         var html2 = '';
 //         html2 += "<label>Email:</label>";
 
-//         html2 += '<input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder="Optional,Please fill in email" class="mui-input-clear">';
 
 //         var payty =  jQuery('input[name=pay_type]:checked').val();
 //         if(payty==7||payty==2){
@@ -632,8 +640,8 @@ jQuery(function(){
                 success:function(msg){
                 //  $('#addcart').html(msg);
                  console.log('123',msg)
-                                  //判断这个页面是不是在首页仿淘宝弹框中打开的
-                                  if(msg.goods.goods_blade_style=="1"){
+                    //判断这个页面是不是在首页仿淘宝弹框中打开的
+                    if(msg.goods.goods_blade_style=="1"){
                     mouduleTaoBao();
                     closeBtnWatch();
                     console.log("goods_blade_style",msg.goods.goods_blade_style)
@@ -704,8 +712,8 @@ jQuery(function(){
 	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num-1));
                                 $('.addcart-footer-number-total').children('font:first').html(num-1);
                                 basePrice=returnFloat((num-1)*price)   //声明一个基础价格；
-	                        	$('#realprice').html( returnFloat((num-1)*price));
-                                pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num-1)*price));
+	                        	$('#realprice').html( returnFloat((num-1)*price) );
+                                pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num-1)*price) );
                                 countDiff(a,basePrice-0,moneycoin)  //初始化加差值；
 	                        })
 	                        $('#addcart-quantity-inc').bind('click',function(){
@@ -721,15 +729,15 @@ jQuery(function(){
 	                        	$('.addcart-specs-title-name').html("Total Quantity:"+(num+1));
                                 $('.addcart-footer-number-total').children('font:first').html(num+1);
                                 basePrice=returnFloat((num+1)*price)   //声明一个基础价格；
-	                            $('#realprice').html(returnFloat((num+1)*price));
-                                pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+returnFloat((num+1)*price));
+	                            $('#realprice').html( returnFloat((num+1)*price) );
+                                pricehtml.html("{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}"+ returnFloat((num+1)*price) );
                                 countDiff(a,basePrice-0,moneycoin)  //初始化加差值；
 	                        })
                          })
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'】Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'&#12305;Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -804,7 +812,7 @@ jQuery(function(){
 	                            	$('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                $('.addcart-footer-number-total').children('font:first').html(num+1);
 	                                num=num+1;
-                                    priceMath(num)	
+	                                priceMath(num)	
 	                            }
                             
 	                            var shuliang = formnum;
@@ -829,7 +837,7 @@ jQuery(function(){
                                 specialHtml+= '<div class="addcart-specs image-list"  mine_id="'+item.special_id+'" style="display: none;" data-id="416515236" data-number="5" data-price="0" data-rule="6" data-gift="1" data-option="416515236#1"><div class="addcart-specs-title" >	<img style="width: 20%;height: 50%;" class="addcart-specs-title-image" src="'+item.price_img+'"><span class="addcart-specs-title-name">'+item.price_name+'</span><span class="addcart-specs-title-number">×'+item.special_price_num+'</span><span class="addcart-specs-title-gift">Gift</span></div></div>'
                             });
                             $("#addcart").append(specialHtml);
-                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, Preferred Selection 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>】 Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div>'
+                             var yixuanHtml='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</span>, Preferred Selection 【<span id="sell_msg">'+msg.cuxiao[0].cuxiao_msg+'</span>&#12305; Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div>'
                             $("#addcart").append(yixuanHtml);
                             var buttonHtml= '';
                             var chose_cart='chose_cart';
@@ -848,7 +856,7 @@ jQuery(function(){
 		                   		formnum+=1
 		                           var formName="f"+formnum;
 		                           addform(formName); //增加一组商品属性；
-                               }
+                               };
                                basePrice = msg.cuxiao[0].cuxiao_config.split(",")[1];
                               countDiff(a,basePrice-0,moneycoin)  //加差值；
                             $('form').children('[name="cuxiao_id"]').val(msg.cuxiao[0].cuxiao_id); //隐藏域促销id
@@ -904,7 +912,7 @@ jQuery(function(){
 		                           var formName="f"+formnum;
 		                           addform(formName); //增加一组商品属性；
                                    }
-                                   countDiff(a,basePrice-0,moneycoin)  //加差值
+                                   countDiff(a,basePrice-0,moneycoin)  //加差值；
                        	        }
                             })
                        })
@@ -944,9 +952,12 @@ jQuery(function(){
            // $('#radiobox').find('span').each().attr('class','uncheck')
              $(this).next().attr("class",'ischeck');  
     })*/
-//支付方式默认选中第一个；
-$(function(){
-    $(".paymentbox input[name='pay_type']:first").attr("checked","checked")
+ //支付方式默认选中第一个；
+ $(function(){
+
+    $(".paymentbox input[name='pay_type']:first").attr("checked","checked");
+    $($($("#twzipcode").children("select").get(0)).children("option").get(0)).text('- - Select an option - -');
+    $($($("#twzipcode").children("select").get(1)).children("option").get(0)).text('- - Select an option - -');
 })
 });
 </script>

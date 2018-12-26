@@ -15,174 +15,246 @@
 
     'use strict';
 
-    // Zipcode JSON data
-    
-    
-    var data = {
-        "ABU DHABI": {
-          "Abu al Abyad": 200,
-          "Al Ain": 200,
-          "Al Shahama": 200,
-          "Al Tawelah": 200,
-          "Al Shalelah": 200,
-          "Al-Aryam Island": 200,
-          "Al Shamkha": 200,
-          "Bani Yas City": 200,
-          "Ghayathi": 200,
-          "Ghantoot": 200,
-          "Habshan": 200,
-          "Al Wathba": 200,
-          "Al Mu'azaz": 200,
-          "Al Ad'la": 200,
-          "Swehan": 200,
-          "Halat Al Bahrani": 200,
-          "Khalifa Port": 200,
-          "Liwa Oasis": 200,
-          "Madinat Zayed": 200,
-          "Marabe al Dhafra": 200,
-          "Marawah": 200,
-          "Port Zayed": 200,
-          "Ruwais": 200,
-          "Sila": 200,
-          "Sir Bani Yas": 200,
-          "Tarif": 200
-        },
-        "DUBAI": {
-          "Abu Hail": 200,
-          "Al Awir First": 200,
-          "Al Awir Second": 200,
-          "Al Bada": 200,
-          "Al Baraha": 200,
-          "Al Barsha First": 200,
-          "Al Barsha Second": 200,
-          "Al Barsha South First": 200,
-          "Al Barsha South Second": 200,
-          "Al Barsha South Third": 200,
-          "Al Barsha Third": 200,
-          "Al Buteen": 200,
-          "Al Dhagaya": 200,
-          "Al Garhoud": 200,
-          "Al Guoz Fourth": 200,
-          "Al Hamriya, Dubai": 200,
-          "Al Hamriya Port": 200,
-          "Al Hudaiba": 200,
-          "Al Jaddaf": 200,
-          "Al Jafiliya": 200,
-          "Al Karama": 200,
-          "Al Khabisi": 200,
-          "Al Khwaneej First": 200,
-          "Al Khwaneej Second": 200,
-          "Al Kifaf": 200,
-          "Al Mamzar": 200,
-          "Al Manara": 200,
-          "Al Merkad": 200,
-          "Al Mina": 200,
-          "Al Mizhar First": 200,
-          "Al Mizhar Second": 200,
-          "Al Muraqqabat": 200,
-          "Al Murar": 200,
-          "Al Sabkha": 200,
-          "Al Muteena": 200,
-          "Al Nahda First": 200,
-          "Al Nahda Second": 200,
-          "Al Quoz First": 200,
-          "Al Quoz Industrial First": 200,
-          "Al Quoz Industrial Fourth": 200,
-          "Al Quoz Industrial Second": 200,
-          "Al Quoz Industrial Third": 200,
-          "Al Quoz Second": 200,
-          "Al Quoz Third": 200,
-          "Al Qusais First": 200,
-          "Al Qusais Industrial Fifth": 200,
-          "Al Qusais Industrial First": 200,
-          "Al Qusais Industrial Fourth": 200,
-          "Al Qusais Industrial Second": 200,
-          "Al Qusais Industrial Third": 200,
-          "Al Qusais Second": 200,
-          "Al Qusais Third": 200,
-          "Al Raffa": 200,
-          "Al Ras": 200,
-          "Al Rashidiya": 200,
-          "Al Rigga": 200,
-          "Al Safa First": 200,
-          "Al Safa Second": 200,
-          "Al Safouh First": 200,
-          "Al Safouh Second": 200,
-          "Al Satwa": 200,
-          "Al Shindagha": 200,
-          "Al Souq Al Kabeer": 200,
-          "Al Twar First": 200,
-          "Al Twar Second": 200,
-          "Al Twar Third": 200,
-          "Al Warqa'a Fifth": 200,
-          "Al Warqa'a First": 200,
-          "Al Warqa'a Fourth": 200,
-          "Al Warqa'a Second": 200,
-          "Al Warqa'a Third": 200,
-          "Al Wasl": 200,
-          "Al Waheda": 200,
-          "Ayal Nasir": 200,
-          "Aleyas": 200,
-          "Bu Kadra": 200,
-          "Dubai Investment park First": 200,
-          "Dubai Investment Park Second": 200,
-          "Emirates Hill First": 200,
-          "Emirates Hill Second": 200,
-          "Emirates Hill Third": 200,
-          "Hatta": 200,
-          "Hor Al Anz": 200,
-          "Hor Al Anz East": 200,
-          "Jebel Ali 1": 200,
-          "Jebel Ali 2": 200,
-          "Jebel Ali Industrial": 200,
-          "Jebel Ali Palm": 200,
-          "Jumeira First": 200,
-          "Palm Jumeira": 200,
-          "Jumeira Second": 200,
-          "Jumeira Third": 200,
-          "Al Mankhool": 200,
-          "Marsa Dubai": 200,
-          "Mirdif": 200,
-          "Muhaisanah Fourth": 200,
-          "Muhaisanah Second": 200,
-          "Muhaisanah Third": 200,
-          "Muhaisnah First": 200,
-          "Al Mushrif": 200,
-          "Nad Al Hammar": 200,
-          "Nadd Al Shiba Fourth": 200,
-          "Nadd Al Shiba Second": 200,
-          "Nadd Al Shiba Third": 200,
-          "Nad Shamma": 200,
-          "Naif": 200,
-          "Al Muteena First": 200,
-          "Al Muteena Second": 200,
-          "Al Nasr, Dubai": 200,
-          "Port Saeed": 200,
-          "Arabian Ranches": 200,
-          "Ras Al Khor": 200,
-          "Ras Al Khor Industrial First": 200,
-          "Ras Al Khor Industrial Second": 200,
-          "Ras Al Khor Industrial Third": 200,
-          "Rigga Al Buteen": 200,
-          "Trade Centre 1": 200,
-          "Trade Centre 2": 200,
-          "Umm Al Sheif": 200,
-          "Umm Hurair First": 200,
-          "Umm Hurair Second": 200,
-          "Umm Ramool": 200,
-          "Umm Suqeim First": 200,
-          "Umm Suqeim Second": 200,
-          "Umm Suqeim Third": 200,
-          "Wadi Alamardi": 200,
-          "Warsan First": 200,
-          "Warsan Second": 200,
-          "Za'abeel First": 200,
-          "Za'abeel Second": 200
-        },
-        "SHARJAH": {
-          "Al Dhaid": 200
-        }
+      // Zipcode JSON data
+      
+      var obj={
+        
+            "Madhinat Khalifa": {
+              "MADHINAT KHALIFA":"AREA870"
+            },
+            "Umm Slal Ali": {
+              "UMM SLAL ALI": "AREA871"
+            },
+            "Ras Laffan": {
+              "RAS LAFFAN": "AREA872"
+            },
+            "Dukhan": {
+              "DUKHAN": "AREA873"
+            },
+            "Al Khor": {
+              "AL KHOR": "AREA874"
+            },
+            "Fareej Al Amir": {
+              "FAREEJ AL AMIR": "AREA875"
+            },
+            "Dahl Al Hamam": {
+              "DAHL AL HAMAM": "AREA876"
+            },
+            "New Al Rayyan": {
+              "NEW AL RAYYAN": "AREA877"
+            },
+            "Al Kharatiyat": {
+              "AL KHARATIYAT": "AREA878"
+            },
+            "Al Wajba": {
+              "AL WAJBA": "AREA879"
+            },
+            "Umm Lekhba": {
+              "UMM LEKHBA": "AREA880"
+            },
+            "Al Messila": {
+              "AL MESSILA": "AREA881"
+            },
+            "Onaiza": {
+              "ONAIZA": "AREA882"
+            },
+            "Umm Slal Mohammad": {
+              "UMM SLAL MOHAMMAD": "AREA883"
+            },
+            "Ras Laffan Industrial City": {
+              "RAS LAFFAN INDUSTRIAL CITY": "AREA884"
+            },
+            "Sports City": {
+              "SPORTS CITY": "AREA885"
+            },
+            "Ras Abu Fontas": {
+              "RAS ABU FONTAS": "AREA886"
+            },
+            "Al Udeid": {
+              "AL UDEID": "AREA887"
+            },
+            "Lusail": {
+              "LUSAIL": "AREA888"
+            },
+            "Umm Al Amad": {
+              "UMM AL AMAD": "AREA889"
+            },
+            "Umm Said": {
+              "UMM SAID": "AREA890"
+            },
+            "Doha": {
+              "DOHA": "AREA891"
+            },
+            "Bani Hajer": {
+              "BANI HAJER": "AREA892"
+            },
+            "Al Wakra": {
+              "AL WAKRA": "AREA893"
+            },
+            "Al Khuwair": {
+              "AL KHUWAIR": "AREA894"
+            },
+            "Al Khulaifat": {
+              "AL KHULAIFAT": "AREA895"
+            },
+            "Saha": {
+              "SAHA": "AREA896"
+            },
+            "Muaither": {
+              "MUAITHER": "AREA897"
+            },
+            "Mesaimeer": {
+              "MESAIMEER": "AREA898"
+            },
+            "Al Duhail": {
+              "AL DUHAIL": "AREA899"
+            },
+            "Umm Bab": {
+              "UMM BAB": "AREA900"
+            },
+            "Wadi Al Banat": {
+              "WADI AL BANAT": "AREA901"
+            },
+            "Old Al Rayyan": {
+              "OLD AL RAYYAN": "AREA902"
+            },
+            "Al Shamal": {
+              "AL SHAMAL": "AREA903"
+            },
+            "Mesaieed": {
+              "MESAIEED": "AREA904"
+            },
+            "Lzghawa": {
+              "LZGHAWA": "AREA905"
+            },
+            "Al Waab": {
+              "AL WAAB": "AREA906"
+            },
+            "Al Gharafa": {
+              "AL GHARAFA": "AREA907"
+            },
+            "Al Dafna": {
+              "AL DAFNA": "AREA908"
+            },
+            "Al Luqta": {
+              "AL LUQTA": "AREA909"
+            },
+            "Al Sailiya": {
+              "AL SAILIYA": "AREA910"
+            },
+            "Doha Municipality": {
+              "Al Hitmi": "AREA865",
+              "Wadi Al Sail": "AREA864",
+              "Umm Lekhba": "AREA863",
+              "Umm Ghuwailina": "AREA862",
+              "Rawdat Al Khail": "AREA858",
+              "Ras Abu Abboud": "AREA857",
+              "Onaiza": "AREA856",
+              "Old Al Ghanim": "AREA855",
+              "Old Airport": "AREA854",
+              "Nuaija": "AREA853",
+              "New Slata": "AREA852",
+              "Najma": "AREA850",
+              "Mushaireb": "AREA849",
+              "Madinat Khalifa South": "AREA845",
+              "Madinat Khalifa North": "AREA844",
+              "Jelaiah": "AREA842",
+              "Industerial Area": "AREA840",
+              "Hazm Al Markhiya": "AREA839",
+              "Fereej Mohammed Bin Jasim": "AREA837",
+              "Fereej Kulaib": "AREA836",
+              "Fereej Bin Omran": "AREA835",
+              "Fereej Bin Mahmoud": "AREA834",
+              "Fereej Abdel Aziz": "AREA832",
+              "Doha Port": "AREA830",
+              "Doha International Airport": "AREA829",
+              "Al Thumama": "AREA825",
+              "Al Souq": "AREA823",
+              "Al Sadd": "AREA820",
+              "Al Rumaila": "AREA818",
+              "Al Rufaa\/Old Al Hitmi": "AREA817",
+              "Al Qassar": "AREA816",
+              "Al Najada": "AREA814",
+              "Al Mirqab\/Old Slata": "AREA813",
+              "Al Messila": "AREA812",
+              "Al Markhiya": "AREA811",
+              "Al Mansoura": "AREA810",
+              "Al Khuwair": "AREA808",
+              "Al Khulaifat": "AREA807",
+              "Al Jebailat": "AREA802",
+              "Al Jasra": "AREA801",
+              "Al Hilal": "AREA800",
+              "Al Ebaib": "AREA797",
+              "Al Doha Al Jadeeda": "AREA796",
+              "Al Dafna": "AREA795",
+              "Al Bidda": "AREA794"
+            },
+            "Al Rayyan Municipality": {
+              "Sawda Natheel": "AREA860",
+              "New Al Rayyan": "AREA851",
+              "Mebaireek": "AREA846",
+              "Fereej Al Amir": "AREA833",
+              "Al Soudan": "AREA822",
+              "Al Luqta": "AREA809",
+              "Al Karaana": "AREA803",
+              "Al Gharrafa": "AREA798",
+              "Abu Samra": "AREA792"
+            },
+            "Al Daayen Municipality": {
+              "Jabal Thuaileb": "AREA841"
+            },
+            "Umm Slal Municipality": {
+              "Al Kharaitiyat": "AREA804"
+            },
+            "Al Sheehaniya Municipality": {
+              "Umm Bab": "AREA861",
+              "Rawdat Rashed": "AREA859",
+              "Lijmiliya": "AREA843",
+              "Dukhan": "AREA831",
+              "Al Utouriya": "AREA826",
+              "Al Sheehaniya": "AREA821",
+              "Al Nasraniya": "AREA815"
+            },
+            "Al Khor And Al Thakhira Municipality": {
+              "Al Thakhira": "AREA824",
+              "Al Khor": "AREA806",
+              "Al Ghuwairiya": "AREA799"
+            },
+            "Al Shamal Municipality": {
+              "Al Kabiyah": "AREA869",
+              "Al Adhbah": "AREA868",
+              "Al Mafjar": "AREA867",
+              "Fuwairit": "AREA838",
+              "Al Ruwais": "AREA819",
+              "Abu Dhalouf": "AREA791"
+            },
+            "Al Wakra Municipality": {
+              "Mesaieed Industrial Area": "AREA848",
+              "Mesaieed": "AREA847",
+              "Al Wukair": "AREA828",
+              "Al Wakra": "AREA827",
+              "Al Kharrara": "AREA805",
+              "Al Adaid": "AREA793"
+            },
+            "Al Jumaliyah Municiplaity": {
+              "Al Jumaliyah": "AREA866"
+            },
+            "Al Daayen": {
+              "AL DAAYEN": "AREA998"
+            }
+          
       };
+    //   for(var i=0;i<sheng.length;i++){
+    //       var b={};
+    //       // console.log(shi[i].a)
+    //       for(var j=0;j<shi[i].a.length;j++){
+    //               // console.log(shi[i].a[j][0])
+    //           b[shi[i].a[j].name]=shi[i].a[j].id
+    //       }
+    //       obj[sheng[i].name]=b;
+    //   }
+    
+    var data = obj;
     /**
      * twzipcode Constructor
      * @param {Object} container HTML element
@@ -329,8 +401,8 @@
                 opts = self.options,
                 county = '',
                 list = {
-                    'county': '<option value="">- - Select an option - -</option>',
-                    'district': '<option value="">- - Select an option - -</option>'
+                    'county': '<option value="">- - المدينه - -</option>',
+                    'district': '<option value="">- - البلده  - -</option>'
                 },
                 tpl = [];
 

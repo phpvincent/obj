@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -37,16 +38,12 @@
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
-       <script type="text/javascript" src="/js/resizeDIV.js"></script>
+        <script type="text/javascript" src="/js/resizeDIV.js"></script>
+       
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
-        <style>
-            .table_cell {
-                width: 62%;
-                padding-left: 1%;
-            }
-        </style>
+        
         <script>
-        jQuery(function(){setFrom();});
+        jQuery(function(){setFrom();});  
         </script>
 
         <!-- Facebook Pixel Code -->
@@ -105,6 +102,9 @@
         jQuery(function(){setFrom();});
         </script>
         <style>
+        *{
+            text-align: right;
+        }
         @media screen and (max-width: 656px){
             .query img, .service img {
                 margin-left: 0%;
@@ -116,36 +116,16 @@
             @media screen and (max-width: 320px){
             .service a, .query a {
                 margin-left: -4%;
+            }
+            .query img, .service img {
+                margin-left: 0%;
+                width: 22px;
+                margin-top: 13px;
             }}
         </style>
 
 	</head>
-	<body style="position:relative">
-        <!-- 宗进 -->
-               <script type="text/javascript">
-window._pt_lt = new Date().getTime();
-window._pt_sp_2 = [];
-_pt_sp_2.push('setAccount,34ffb2c9');
-var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-(function() {
-var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
-atag.src = _protocol + 'js.ptengine.cn/34ffb2c9.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(atag, s);
-})();
-</script>
-        <iframe src="js.ptengine.cn" width="0" height="0" scrolling="no" frameborder='0' style="width: 0px;height: 0px;"><script type="text/javascript">
-window._pt_lt = new Date().getTime();
-window._pt_sp_2 = [];
-_pt_sp_2.push('setAccount,34ffb2c9');
-var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-(function() {
-var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
-atag.src = _protocol + 'js.ptengine.cn/34ffb2c9.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(atag, s);
-})();
-</script></iframe>
+	<body>
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
@@ -168,9 +148,9 @@ s.parentNode.insertBefore(atag, s);
 
     <input type="hidden" name="id" value="{{$goods->goods_id}}">
     <div class="mui-content" style="-webkit-overflow-scrolling: auto;">
-    <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
-    <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
-    
+        <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
+        <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
+        
 <!--产品轮播-->
 @if(in_array('broadcast',$templets))
 <div class="banner"  style="position: relative;">
@@ -186,7 +166,7 @@ s.parentNode.insertBefore(atag, s);
         @endif
     <div class="swiper-container" id="mySwiper1">
         <div class="swiper-wrapper">
-              @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
+            @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
             <div class="swiper-slide" id="swiper-slide">
                 <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
                     <source src="{{$goods->goods_fm_video}}" type="video/mp4">
@@ -194,67 +174,68 @@ s.parentNode.insertBefore(atag, s);
             </div>
             @endif
         	@foreach($imgs as $key)
-                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
+                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}"  style="width: 100%;"  alt="" /></div>
             @endforeach
         </div>
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">視頻</li>
-        <li class="bannerqli">圖片</li>
+        <li class="bannerqli bactive">فيديو </li>
+        <li class="bannerqli">صوره </li>
     </ul>
 </div>
 @endif
-
 <div class="divVideoc1"></div>
 <!--产品轮播-->
 <script type="text/javascript" src="/js/swiper-3.4.2.jquery.min.js" ></script>
 <script src='/js/client.js'></script>
 <script type="text/javascript" src="/js/video.js"></script>
         <!--把商品描述部分内容抽象到detail_content中-->
-        <div class="clear"></div>
+<div class="clear"></div>
 
 {{--价格栏位--}}
 @if(in_array('price',$templets))
 <div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
-<div class="dc-price" style="background:#fff;">
+    <div class="dc-price" style="background:#fff;">
         <span class="s-price" style="font-size:24px">
-            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{price_format($goods->goods_price)}}        </span>
+            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}        </span>
         @if(in_array('original',$templets))
         <span class="o-price" style="font-size:12px">
-            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{price_format($goods->goods_real_price)}}        </span>
+            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}        </span>
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">Gratis biaya pengiriman</span>
+    <span class="flag" style="font-size: 12px;">الشحن مجاني </span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">Bayar setelah terima barang</span>
+    <span class="flag" style="font-size: 12px;">الدفع عند الاستلام</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">penggantian dan pengembalian 7 hari</span>
+    <span class="flag" style="font-size: 12px;background:#000;">الاستلام خلال 7 ايام </span>
     @endif
 </div>
 @endif
+
 <div class="clear"></div>
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;    padding: 2px 0 2px 54px; background:url(/img/jne.svg) 2px center no-repeat;background-size:48px 44px;">JNE</span>
+    <span style="font-size:14px;color:#333;line-height:23px;padding:2px 0 2px 30px; background:url(/img/heimao.png) 2px center no-repeat;background-size:28px 18px;">黑猫宅急便配送</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
-<div class="timebox">
-    <div class="text"> sisa:<span>{{$goods->goods_num}}</span></div>
-    <div class="boxtime">
-        <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font> sampai akhir:</font>
+    <div class="timebox">
+        <div class="text"><span>{{$goods->goods_num}}</span>العدد </div>
+        <div class="boxtime">
+            <font>:سينتهي بعد</font>
+            <div class="time" id="timer"><span id="h" class="colon"></span>ساعه <span id="m" class="colon"></span>دقيقه<span id="s" class="colon"></span>ثانيه </div>
+        </div>
     </div>
-</div>
 @endif
+
 <div class="clear"></div>
 
 {{--活动描述--}}
@@ -265,33 +246,37 @@ s.parentNode.insertBefore(atag, s);
 </div>
 @endif
 
+
 {{--中部导航--}}
 @if(in_array('center_nav',$templets))
 <ul class="detail-bars">
     @if(in_array('introduce',$templets))
     <li>
-        <span href="#detial-context" class="scrollBar" scroll-y="0">Penjelasan</span>
+        <span href="#detial-context" class="scrollBar" scroll-y="0">
+        وصف المنتج              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
-        <span href="#detial-params" class="scrollBar" scroll-y="50">Spesifikasi</span>
+        <span href="#detial-params" class="scrollBar" scroll-y="50">
+        معايير المنتج                </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
-    <li>
+    <li style="width:{{$center_nav==1 ? '100%' : ($center_nav==2 ? '50%' : '') }};">
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        penilaian ({{$goods->goods_comment_num}}+)
+        ({{$goods->goods_comment_num}}+) التقييمات 
         </span>
     </li>
     @endif
 </ul>
 @endif
+
         <div class="clear"></div>
+
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(in_array('video',$templets) && !empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-            	
 			</p>
             @endif
             <p>
@@ -308,6 +293,7 @@ s.parentNode.insertBefore(atag, s);
            </p>
            
         </div>
+        
         <div class="clear">
         </div>
         @if(in_array('comp_map',$templets))
@@ -318,9 +304,10 @@ s.parentNode.insertBefore(atag, s);
         <div class="clear">
         </div>
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
-            {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
+{{--            @if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>penilaian terbaru</h4>
+                        <h4>
+                        السعر الجديد            </h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -330,7 +317,7 @@ s.parentNode.insertBefore(atag, s);
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            kepuasan:
+                            درجه الرضا 
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -342,7 +329,7 @@ s.parentNode.insertBefore(atag, s);
                                 <p>{{$v->com_msg}}</p><p>
                                 @if(!empty($v->com_img))
                                     @foreach($v->com_img as $kk => $val)
-                                <img src="{{$val->com_url}}" title="ClientImages" alt="客户图片"/>  
+                                <img src="{{$val->com_url}}" title="客户图片" alt="客户图片"/>  
                                     @endforeach
 								@endif                         </p> </p>
                         </div>
@@ -353,88 +340,88 @@ s.parentNode.insertBefore(atag, s);
                     </div> 
                 </div>
                @endif
-                        <div class="go-appraise" style=" background:#fff; border:none;">
-                <a id="btnAppr" style=" color:#fff; width:300px;">
-                  penilaian saya       </a>
+            <div class="go-appraise" style=" background:#fff; border:none;">
+                <a id="btnAppr" style=" color:#fff; width:300px; text-align: center;">اريد أن اكتب تقييم</a>
             </div>
-                    </div>
+        </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
         <div class="clear">
         </div>
-<div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
-<table class="data-table">
+        <script>
+            (function(){
+                /* 图片显示画面 */
+                function captureImage(a) {
+                    a.pause();       
+                };
+                var videos=$("#detial-context video");
+                for(var i=0;i<videos.length;i++){
+                    videos[i].setAttribute("autoplay","autoplay");
+                    videos[i].setAttribute("preload","auto");
+                    videos[i].addEventListener('canplay',captureImage(videos[i]));
+                }
+            })();
+        </script>
+        <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
+    <table class="data-table">
+
     {{--用户帮助模块--}}
     @if(in_array('user_help',$templets))
     <tbody>
+        
         @if(in_array('user_know',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.peringatan</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: right;">اشعار العميل </th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-                Hasil penggunaan sebenarnya produk ini ditentukan oleh keadaan pribadi, tidak bisa menjamin semua pengguna dapat menikmati efek promosi.Kalau ada pertanyaan,bisa hubungi kami via layanan pengguna online atau email(
-                                        <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
-                                        ),perusahaan kami memiliki hak interpretasi akhir.</p>
+                قد تختلف نتائج هذا المنتج وفقا لاختلاف الاشخاص ,لا نضمن نفس النتائج لجميع العملاء ,لجميع الشكاوي والاستفسارات نرجو منكم التواصل معنا عبر البريد الالكتروني(<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>) او خدمه العملاء تحتفظ الشركه بحقوق الرد النهائيه
+                </p>
             </td></tr>
         @endif
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.cara penggantian dan pengembalian</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: right;">تقديم طلب الارجاع أو الابدال </th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-            <p>
-            1.	Alasan pribadi:Dalam 7 hari dari tanggal penerimaan barang dan tidak mempengaruhi penjualan lagi.Silakan hubungi layanan pelanggan online kami atau kirim email ke<a  href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>. Setelah terima permintaan Anda,bagian layanan pelanggan kami akan mengurus dalam 1-3 hari kerja,ongkos penggantian dan pengembalian dibayarkan oleh pelanggan sendiri.<br>
-
-
-             2.Alasan kualitas:
-Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layanan pelanggan kami <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>, bagian layanan pelanggan kami akan mengurus permintaan Anda dalam 1-3 hari kerja,ongkos penggantian dan pengembalian dibayarkan oleh perusahaan kami.</p>
-                <!-- <p>1.由於個人原因
-                    需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
-                    售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
-                                        ，售後
-
-                    客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
-
+                <p>                 
+                        طلب ارجاع أو استبدال المنتج لاسباب شخصيه :في خلال 7 أيام من تاريخ استلام المنتج بشرط أن يكون المنتج في حالته الاصليه ,من فضلك تواصل مع خدمه العملاء او عبر البريد الالكتروني (<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>),سيتم التعامل مع الامر في خلال 3 ايام عمل من تاريخ استلام الطلب ,يتحمل العميل كافه مصاريف الشحن 
+                </p>
                 <p>
-                    2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
-
-                    發送郵件至
-                                        <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
-                                        ，客服會在收到郵件後的1-3個工作日內受
-
-                    理您的請求，退換貨所產生的運費由我方承擔。
-                </p> -->
+                                        
+                                        طلب ارجاع أو استبدال المنتج لاسباب تتعلق بجودة المنتج :تواصل مع خدمه العملاء في خلال 7 أيام من تاريخ استلام المنتج ,او تواصل معنا عبر البريد الالكتروني (<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>),سيتم الرد عليك في خلال 3 ايام عمل من تاريخ استلام الطلب ,ستتحمل الشركه مصاريف الشحن                                       
+                </p>
             </td></tr>
-        @endif
+            @endif
+        @if(in_array('exchange_of_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.alur penggantian dan pengembalian</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: right;">عمليه ابدال او ارجاع المنتج </th>
+        </tr>
+        <tr> <td colspan="2">    
+                <p>تأكيد الاستلام _طلب الاستبدال او الارجاع _استلام خدمه العملاء الطلب _ارجاع العميل للمنتج _استلام المخزن للمنتج _فحص المنتج من قبل المخزن _الارجاع /الابدال _من فضلك تأكيد اذا كنت تريد ارجاع او استبدال المنتج 
+                </p>
+                <p>رقم الهاتف الاسم رقم الطلب </p>
+                
+            </td>
+            
         </tr>
         <tr class="first odd">
-            <td colspan="2">
-               
-               
-                <p>Konfirmasi terima barang–minta ganti dan kembali barang–setuju oleh pelayan pelanggan–pelanggan kirim barang –gudang terima dan periksa barang–periksa ganti dan kembali barang –kembali uang/ganti barang</p>
-                <p>Silakan isi : Nomor pesanan, nama dan no HP.</p>
-                
+            
+            <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+           <td colspan="2">
+                <p>zsshop. تؤمن وتتمسك بمبدأ صارم تجاه الجوده ,فهي تختار من جميع انحاء العالم منتجات عاليه الجوده ,مثل الملابس, الاحذيه ,الحقائب, الادوات  المنزليه , ادوات الطبخ , الملابس الرياضيه ,الخ. لكي تضمن لكم افضل جوده ,وحرفيه الصناعه و جوده الماده الخام لتقديم افضل منتجات لكم
+               </p>
             </td>
 
         </tr>
-        <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
-            <td colspan="2">
-               
-               
-                <p>ZSSSHOP adalah online mall yang memilih produk dengan sikap yang ketat mengikuti secara konsisten, Menyebar ke seluruh dunia, secara ketat mengontrol asal produk, baik komoditas kerajinan, bahan baku, pakaian, tas dan sepatu, peralatan rumah tangga,  peralatan dapur, olahraga dll. Kami berusaha memberikan produk kualitas terbaik kepada Anda .</p>
-                
-            </td>
-
-        </tr>
-                <tr class="first odd"></tr>
-            </tbody>
         @endif
+                <tr class="first odd">
+          
+            
+        </tr>
+    </tbody>
+    @endif
 </table>
 <style>
     .footer2{
@@ -471,22 +458,23 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </div>
     </div> -->
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
+{{--底部导航--}}
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
-@if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
+  @if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
-      <img src="/images/filter-2.png" style="">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="background-color: #f1b52a;width: {{in_array('now_buy',$templets) ? '30%' : '100%'}}">
+      <img src="/images/filter-3.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Cari<br>pesanan</span>
+        <span style="line-height:14px;color:white">اطلب<br>استعلامات</span>
       </a>
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};background-color: #00923f;">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>Beli sekarang</span>
+			<span>اشتري الان</span>
 		</a>
 	</span>
     @endif
@@ -496,12 +484,12 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 			<span style="line-height:14px;">在線<br>客服</span>
 		</a>
 	</span> -->
-    @else
+  @else
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '23%' : '100%'}};background-color: #f1b52a;">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="background-color: #f1b52a;width: {{in_array('now_buy',$templets) ? '25%' : '100%'}}">
       <img src="/images/filter-3.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;color:white">Order<br>Enquiry</span>
+        <span style="line-height:14px;color:white">اطلب<br>استعلامات</span>
       </a>
     </span>
     @endif
@@ -509,15 +497,14 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '50%' : '100%'}};background-color: #00923f;">
         <a href="javascript:void(0);">
             <img src="/images/buy2.png">
-            <span>Buy Now</span>
+            <span>اشتري الان</span>
         </a>
     </span>
     @endif
-    
-    <span class="service"  id="btnOnline" data-id="19288071" style="background-color: #f1b52a;width: 26%;">
+    <span class="service"  id="btnOnline" data-id="19288071" style="background-color: #f1b52a;width: 23%;">
         <img src="/images/78dc67a861341fb02332dd035cff037.png" >
         <a href="{{$goods->goods_talk_link}}" target="_blank">
-            <span style="color:white;">hubungi<br>kami</span>
+            <span style="color:white;"> نحن <br> الاتصال </span>
         </a>
     </span>
   @endif
@@ -542,42 +529,44 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                 <div class="closeBtn">
                     <img src="/img/close.png">
                 </div>
-                <div class="buyinfo_hd">Penilaian online </div>
+                <div class="buyinfo_hd">
+                اترك رساله               </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
                         <tbody>
                             <tr>
-                                <td class="table_td">
-                                    <span class="require">
-                                        *
-                                    </span>
-                                    Nama:
-                                </td>
+                                
                                 <td class="table_cell">
-                                    <input type="text" placeholder="Name" class="mui-input-clear input01"
+                                    <input type="text" placeholder="الاسم" class="mui-input-clear input01"
                                     name="name" maxlength="10">
                                 </td>
-                            </tr>
-                                                        <tr>
                                 <td class="table_td">
+                                    
+                                    الاسم
                                     <span class="require">
                                         *
                                     </span>
-                                    No.HP:
                                 </td>
+                            </tr>
+                            <tr>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="No. Hanphone" class="input01" name="phone"
+                                    <input type="text" placeholder="رقم الموبايل " class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
-                            </tr>
-                                                        <tr>
                                 <td class="table_td">
-                                kepuasan:
+                                    
+                                    رقم الموبايل
+                                    <span class="require">
+                                        *
+                                    </span> 
                                 </td>
+                            </tr>
+                            <tr>
+                                
                                 <td class="table_cell">
-                                    <div class="star" id="stars">
+                                    <div class="star" id="stars" style="float: right;">
                                         <span class="star-item" data-id="1">
                                             ★
                                         </span>
@@ -596,20 +585,23 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     </div>
                                     <input type="hidden" name="level" value="5">
                                 </td>
+                                <td class="table_td">
+                                درجه الرضا 
+                                </td>
                             </tr>
                             <tr>
-                                <td class="table_td">
-                                Penilaian:
-                                </td>
+                                
                                 <td class="table_cell">
-                                    <textarea placeholder="Penilaian online" name="content" class="textarea_style">
-                                    </textarea>
+                                    <textarea placeholder="اترك رساله" name="content" class="textarea_style"></textarea>
+                                </td>
+                                <td class="table_td">
+                                أترك رساله 
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="penilaian sekarang" style="color:white">
+                                    value=" تقديم التقييم " style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -627,26 +619,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         <span class="purchase"  id="btnPay2" style="width:100%;">
 	    	<a href="javascript:void(0);">
 	    		<img src="/images/buy2.png">
-	    		<span>Beli sekarang</span>
+	    		<span>اشتري الان</span>
 	    	</a>
 	    </span>
     </div>
     <div class="btndiv1 mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;max-width:640px;height:9%;display:none">
-         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">pesan sekarang</button>
+         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">تقديم الطلب</button>
     </div>
 </div>
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
 </div>
 <script language="javascript">
-    function captureImage(a) {
-    a.pause(); 
-    };
-    var videos=$("#detial-context video");
-    for(var i=0;i<videos.length;i++){
-    videos[i].setAttribute("autoplay","autoplay");
-    videos[i].setAttribute("preload","auto");
-    videos[i].addEventListener('canplay',captureImage(videos[i]));
-    }
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
         var endDate = new Date('2018/07/16');
@@ -664,7 +647,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
             if(m<10) m = "0" + m;
             if(s<10) s = "0" + s;
             
-            $("#timer").html('<span id="h" class="colon">' + h + '</span>'+"h"+'<span id="m" class="colon">' + m + '</span>'+"m"+'<span id="s" class="colon">' + s + '</span>'+"s");
+            $("#timer").html('<p style=" display: inline-block;"><span id="s" class="colon">' + s + '</span>'+"ثانيه</p> "+'<p style=" display: inline-block;"><span id="m" class="colon">' + m + '</span>'+"دقيقه</p>"+'<p style=" display: inline-block;"><span id="h" class="colon">' + h + '</span>'+"ساعه </p>");
            time=time-1000;
             /*startDate.setTime(startDate.getTime() + 1000);
             if(startDate.getTime()==endDate.getTime()){
@@ -705,7 +688,8 @@ $(function(){
         localStorage.setItem("jsArr", tjArr1);
     }
     // 用户继续访问根据上面提供的key值补充数据
-    window.onbeforeunload = function() {
+    window.onblur = function() {
+        console.log('离开页面测试1')
         var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
         var tjI = tjArrRd.length - 1;
         if(tjArrRd[tjI].tjRd == tjRandom){
@@ -754,7 +738,8 @@ $(function(){
        console.log("goods_google_pix",goods_google_pix);
        console.log("goods_yahoo_pix",goods_yahoo_pix);
 
-    $2(function() {
+    $2(function() { 
+        
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
         $2("#btnPay").click(function() {
@@ -768,7 +753,7 @@ $(function(){
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-            if(bladeStyle==1){
+                        if(bladeStyle==1){
                 $("#iframePayDiv").css('display','block');
                 $("#ifrPayDiv").animate({height: "80%"});
                 $("#taorbg").css('display','block'); //弹框遮罩；
@@ -811,7 +796,7 @@ $(function(){
                      }
             }else{
                 location.href=action;
-            }  
+            } 
         });
 /*
         $2("#btnOnline").bind(_ONCLICK,
@@ -884,17 +869,17 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("Nama tidak boleh kosong");
+                $2.toast("يجب ملئ خانه الاسم ");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("No.HP tidak boleh kosong");
+                $2.toast(" يجب ملئ خانه رقم الهاتف");
                 return false;
             }
-            // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
-            // if (!myreg.test($2("input[name='phone']").val())) {
-            //     $2.toast("手機格式错误");
-            // }
+            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test($2("input[name='phone']").val())) {
+                $2.toast("手机格式错误");
+            }
             var data = {};
             data.level = $2("input[name='level']").val();
             data.product_id = '103107897';
@@ -911,11 +896,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("Terima kasih atas pendapat Anda");
+                    $2.toast("شكرا علي ابداء رأيكم بمنتجاتنا");
                 }
                 else
                 {
-                    $2.toast("gagal dikirim");
+                    $2.toast("  فشل تقديم الطلب");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);
@@ -1049,7 +1034,7 @@ $(function(){
     var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
 </script>
 <script>
-            $(function(){
+        $(function(){
             $('#detial-context p a').each(function(index,ele){
                 var con_a = $(this).attr('href');
                 if(con_a.length>0){
@@ -1077,15 +1062,15 @@ $(function(){
             }
             				var vname = /先生|小姐|太太|男士|女士|退貨|換貨|退货|换货|(^.$)/;
 				if(vname.test(jQuery("input[name='firstname']").val())){
-					alert("請填寫您的真實姓名");
+					alert("请填写您的真实姓名");
 					return false;
 				}
 				if(_checkBlackName(jQuery("input[name='firstname']").val())){
-					alert("無效的名字");
+					alert("无效的名字");
 					return false;
 				}
 			            if(jQuery("select[name='state6']").val()==""){
-                alert('請選取縣市');
+                alert('请选取县市');
                 return false;
             }
             jQuery('#pay').attr('disabled',true);
@@ -1093,7 +1078,7 @@ $(function(){
         },
         tipSweep:true
     });
-    form.tipmsg.r="訂單提交中...";
+    form.tipmsg.r="订单提交中...";
 
 
 jQuery('input[name=pay_type]').change(function(){

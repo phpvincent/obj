@@ -85,7 +85,8 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/mlxy.js"></script>
+        <script src="/js/diqu/mlxy.json"></script>
+        <script src="/js/diqu/Address.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
@@ -204,10 +205,23 @@
         <label><span class="require">*</span>Phone No.:</label>
         <input type="text" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
+        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
+    <div class="mui-input-row">
+        <label><span class="require">*</span>State:</label>
+        <select name="state" id="Select1" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div><div class="mui-input-row">
+        <label><span class="require">*</span>City:</label>
+        <select name="city" id="Select2" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div><div class="mui-input-row">
+        <label><span class="require">*</span>Zip:</label>
+        <select name="zip" id="Select3" style="width: 72%!important;margin-right: 4%!important;"></select>
+    </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
@@ -216,10 +230,10 @@
         <label>City:</label>
         <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
     </div>
-    <div class="mui-input-row">
+    <!-- <div class="mui-input-row">
         <label><span class="require">*</span></label>
         <div id="twzipcode"></div>
-    </div>
+    </div> -->
     <div class="mui-input-row">
         <label><span class="require">*</span>Detailed Address:</label>
         <input type="text" datatype="z1-300" placeholder="Required: please fill in the full address" nullmsg="街道門牌信息" errormsg="address_not_correct" name="address1" class="mui-input-clear">
@@ -228,12 +242,9 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row">
-        <label><span class="require">*</span>Zip:</label>
-        <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
-    </div>
+    
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
@@ -284,7 +295,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+    We promise that your personal information above will be kept confidential without being disclosed. 
+</div>
 <!--button begin-->
 <div class="btndiv">
  <strong>Tips:</strong> Delivery can't be arranged  to the  areas which are invalid for selection in Sarawak .Please choose the available ones for shipment
@@ -414,13 +427,18 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    if(datasObj.zip==null||datasObj.zip==''){
+    if(datasObj.zip==null||datasObj.zip==''||datasObj.zip=="please choose the zip code"){
         layer.msg("Please fill in the correct zip code.");
         return false;
     }
     var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
     if(!zipre.test(datasObj.zip)){
         layer.msg('Please fill in the valid postal code.');
+        return false;
+    }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("please enter a valid email address.");
         return false;
     }
     //判断用户是否选择了商品属性；
@@ -554,35 +572,36 @@ jQuery(function(){
     </script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function(e) {
-        jQuery('#twzipcode').twzipcode();
-        jQuery('input[name="zipcode"]').attr('style','display:none;');
-        jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
-        jQuery('#twzipcode').find("[name='state']").change(function(){
-            var county = jQuery(this).val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    // jQuery(document).ready(function(e) {
+    //     jQuery('#twzipcode').twzipcode();
+    //     jQuery('input[name="zipcode"]').attr('style','display:none;');
+    //     jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:4.7%;width: 40%;');
+    //     jQuery('#twzipcode').find("[name='state']").change(function(){
+    //         var county = jQuery(this).val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('#twzipcode').find("[name='city']").change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            district = jQuery(this).val();
+    //     jQuery('#twzipcode').find("[name='city']").change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         district = jQuery(this).val();
 
 
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('.gw_address_message_info').change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            //alert(district);
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all ').val(message_info);
-        });
+    //     jQuery('.gw_address_message_info').change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         //alert(district);
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all ').val(message_info);
+    //     });
 
-    });
+    // });
+    addressInit('Select1', 'Select2', 'Select3');
 </script>
 
 <script>
@@ -591,7 +610,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
         html1 +='<input type="text" placeholder=" we shall send you the order information though this Email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label><span class='require'>*</span>Email:</label>";
 
         html2 += '<input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">';
 

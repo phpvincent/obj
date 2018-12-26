@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Order status query </title>
+    <title>الاستعلامات عن الطلب </title>
 	  	  <link rel="shortcut icon" href="/images/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">
@@ -15,7 +15,11 @@
     <link href="/css/base.css" rel="stylesheet">
     <link href="/css/component.css" rel="stylesheet" />
     <link href="/css/detail.css" rel="stylesheet" />
-
+	<style>
+        *{
+            text-align: right;
+        }
+        </style>
     <style type="text/css">
 	<!--
 		.fixed {
@@ -145,7 +149,7 @@
 
 <div class="fixed">
   <h4> <a href="javascript:history.go(-1);"></a>
-  Order Inquiry</h4>
+  الاستعلام عن الطلب</h4>
 </div>
 
 <div class="mui-content" style="background:#fff">
@@ -155,14 +159,14 @@
 			<img src='https://cdn.uudobuy.com/skin/default/images/heimao.png' class='heimao'>			本數據由黑貓宅急便和新竹物流官方提供：		</p> -->
 	</div>
 	<div style="color: #39424a; line-height: 2">
-	Order Number / Logistics Order Number (please fill in for query) 		<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
+	يمكنك الاستعلام عن الطلب من خلال ادخال رقم الطلب او رقم شحنه البريد رقم الشحنه البريديه رقم الطلب		<!--（<font style=" font-size:14px;">一つだけ記入すればいい</font>）-->
 </div>
 	<div class="textbox">
 		<form id="queryForm" action="/product/trackingform" method="post">
-			<input name="queryNo" value="" id="txtkey" class="text" placeholder="" type="text">
+			<input name="queryNo" value="" id="txtkey" class="text" placeholder="بما تبحث عنه 　ادخل معلومات ذات صله " type="text">
 		</form>
 	</div>
-	<a id="btnQuery">Query</a>
+	<a id="btnQuery"> استعلم في الحال</a>
 	<div class="clearfix"></div>
   </div>
 
@@ -199,16 +203,18 @@
         <div class="clear"></div>
         <div style="padding:0px;padding-bottom: 10px;">
             <div style="width:100%; background:white;">
-								<div style="width:100%; background:white;"><img src="/img/zd_kuaiditu.jpg" width="100%"></div>			</div>
+								<div style="width:100%; background:white;"><img src="/img/shate.jpg" width="100%"></div>			</div>
   			<div style="padding:14px 20px 10px 20px;text-align:left;  background-color:#eee;color:#7B7A7A; margin-top:5px;">
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
-					<strong>Kindly Reminder :</strong>
-					Should you have any question, please feel free to contact us via Online Customer Service Team or Email: yejforln@gmail.com. Enjoy your shopping here!			</div>
+				خطوات : اذا لديكم اي استفسارات بعد استلام المنتج يمكنكم التواصل معنا عبر خدمه العملاء او البريد الالكتروني (<a href='mailto:yejforlh@gmail.com' style='color:#F8770E'>yejforlh@gmail.com</a>).من فضلك أترك الاسم ورقم الهاتف ورقم 
+الطلب وسنتعامل مع الامر في الحال نتمني لكم تسوق سعيد
+
+				</div>
 				<p></p>
   			</div>
 		</div>
-        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">Back </a></div>
+        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">ارجع للصفحه الاولي </a></div>
   </div>
 
   <script src="/js/jquery.min.js"></script>
@@ -217,7 +223,7 @@
     	
 		$("#btnQuery").click(function(e) {
 			if($("input[name='queryNo']").val()==''){
-				alert('Order number / Logistics order number (please fill in one entry)');
+				alert('（يمكنك الاستعلام عن الطلب من خلال ادخال رقم الطلب او رقم شحنه البريد) رقم الشحنه البريديه/ رقم الطلب	');
 				return;
 			}
             $("#queryForm").submit();
@@ -238,7 +244,7 @@
                 	if(msg!='false'){
                 		  $('.details').html(msg);
                 	}else{
-                		  $('.details').html("<span style='color:#f00;'>Order number error, no corresponding information, please re-enter</span>");
+                		  $('.details').html("<span style='color:#f00;'>من فضلك اعد ادخال الرقم لا توجد معلومات  رقم الطلب خاطئ</span>");
                 	}
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000);       
                 }

@@ -40,10 +40,61 @@
        <script type="text/javascript" src="/js/resizeDIV.js"></script>
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <style>
-            .table_cell {
-                width: 62%;
-                padding-left: 1%;
+            .Popup{
+                display: none;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                z-index:9999999999;
+                position:fixed;
+                background-color:rgba(0,0,0,0.3)
             }
+            .Popup>div{
+                height:80%;
+                width:80%;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+            }
+            .Popup>div>div{
+                height:100%;
+                width:100%;
+                overflow-y: auto;
+                
+                background: #fff;
+                padding:10px;
+                padding-bottom:30px;
+            }
+            .Popup .Close{
+                height:30px;
+                line-height:30px;
+                width:80%;
+                left:10%;
+                text-align: center;
+                position: absolute;
+                bottom:10%;
+                background: #6b6868;
+                color:#fff;
+                cursor:pointer;
+                margin:0;
+            }
+            .Popup>div h3,.Popup>div h6{
+                text-align: center;
+            }
+            @media screen and (max-width: 656px){
+            .query img, .service img {
+                margin-left: 0%;
+            }}
+            @media screen and (max-width: 656px){
+            .service a, .query a {
+                margin-left: 4%;
+            }}
+            @media screen and (max-width: 320px){
+            .service a, .query a {
+                margin-left: -4%;
+            }}
         </style>
         <script>
         jQuery(function(){setFrom();});
@@ -104,48 +155,91 @@
         <script>
         jQuery(function(){setFrom();});
         </script>
-        <style>
-        @media screen and (max-width: 656px){
-            .query img, .service img {
-                margin-left: 0%;
-            }}
-            @media screen and (max-width: 656px){
-            .service a, .query a {
-                margin-left: 4%;
-            }}
-            @media screen and (max-width: 320px){
-            .service a, .query a {
-                margin-left: -4%;
-            }}
-        </style>
 
 	</head>
-	<body style="position:relative">
-        <!-- 宗进 -->
-               <script type="text/javascript">
-window._pt_lt = new Date().getTime();
-window._pt_sp_2 = [];
-_pt_sp_2.push('setAccount,34ffb2c9');
-var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-(function() {
-var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
-atag.src = _protocol + 'js.ptengine.cn/34ffb2c9.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(atag, s);
-})();
-</script>
-        <iframe src="js.ptengine.cn" width="0" height="0" scrolling="no" frameborder='0' style="width: 0px;height: 0px;"><script type="text/javascript">
-window._pt_lt = new Date().getTime();
-window._pt_sp_2 = [];
-_pt_sp_2.push('setAccount,34ffb2c9');
-var _protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-(function() {
-var atag = document.createElement('script'); atag.type = 'text/javascript'; atag.async = true;
-atag.src = _protocol + 'js.ptengine.cn/34ffb2c9.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(atag, s);
-})();
-</script></iframe>
+    <body style="position:relative">
+    <div class="Popup Popup_1">
+        <div>
+            <div>
+                <h3>PRIVACY POLICY</h3>
+                <div>
+                    <strong> What personal data do we collect about you?</strong>
+                    <p>We collect personal data from you when you provide it to us directly and through your use of the Site. This information may include:</p>
+                    <p>
+                    •    Information you provide to us when you use our Site (e.g. your name, contact details, product reviews, and any information which you add our site);
+                    </p>
+                    <p>
+                    •    Transaction and billing information, if you make any purchases from us or using our Site (e.g. PayPal details and delivery information);
+                    </p>
+                    <p>•    Records of your interactions with us (e.g. if you contact our customer service team, interact with us on social media);</p>
+                    <p>•    Information you provide us when you enter a competition or participate in a survey;</p>
+                    <p>•    Information collected automatically, using cookies and other tracking technologies .</p>
+                </div>
+                <div>
+                    <strong>What do we use this personal data for?</strong>
+                    <p>Depending on how you use our Site, your interactions with us, and the permissions you give us, the purposes for which we use your personal data include:</p>
+                    <p>•    To fulfill your order </p>
+                    <p>•    To manage and respond to any queries or complaints to our customer service team. </p>
+                    <p>•    To improve and maintain the Site, and monitor its usage.</p>
+                    <p>•    For market research, e.g. we may contact you for feedback about our products.</p>
+                    <p>•    For security purposes, to investigate fraud and where necessary to protect ourselves and third parties.</p>
+                    <p>•    To comply with our legal and regulatory obligations.</p>
+                    <p>We rely on the following legal basis, under data protection law, to process your personal data:</p>
+                    <p>•    Because the processing is necessary to perform a contract with you, or take steps prior to entering into a contract with you (e.g. where you have made a purchase with us, we use your personal data to process the payment and fulfill your order).</p>
+                    <p>•    Because it is in our legitimate interests as an e-commerce provider to maintain and promote our services. We are always seeking to understand more about our customers in order to offer the best products and customer experience. </p>
+                </div>
+                <div>
+                    <strong>Who do we share this personal data with?</strong>
+                    <p>We may share information with governmental agencies or other companies assisting us in fraud prevention or investigation. We may do so when:</p>
+                    <p>•   Permitted or required by law; or,</p>
+                    <p> • Trying to protect against or prevent actual or potential fraud or unauthorized transactions; or,</p>
+                    <p> •  Investigating fraud which has already taken place. The information is not provided to these companies for marketing purposes.</p>
+                    <p>We may also disclose your personal information, without notice, if such action is necessary to:</p>
+                    <p>•  Conform to the edicts of the law or comply with legal process served on the Site;</p>
+                    <p>•  Protect and defend the rights or property of the Site;</p>
+                    <p>•  Act in urgent circumstances to protect the personal safety of users of the Site.</p>
+                </div>
+                <div>
+                    <strong>Security </strong>
+                    <p>This Site ensures that data is encrypted when leaving the Site. This process involves the converting of information or data into a code to prevent unauthorized access. This Site follows this process and employs secure methods to ensure the protection of all payment transactions. Encryption methods such as SSL are utilized to protect customer data when in transit to and from this Site over a secure communications channel. </p>
+                    <p>Whilst we do everything within our power to ensure that personal data is protected at all times from our Site, we cannot guarantee the security and integrity of the information that has been transmitted to our Site.</p>
+                    
+                </div>
+                <div>
+                    <strong>Cookies</strong>
+                    <p>The Site may use cookie and tracking technology depending on the features offered. Cookie and tracking technology are useful for gathering information such as browser type and operating system, tracking the number of visitors to the Site, and understanding how visitors use the Site. Cookies can also help customize the Site for visitors. Personal information cannot be collected via cookies and other tracking technology, however, if you previously provided personally identifiable information, cookies may be tied to such information. Aggregate cookie and tracking information may be shared with third parties.</p>
+                    
+                </div>
+                <div>
+                    <strong>Contact Us</strong>
+                    <p>If you have any questions, concerns, or comments about our privacy policy you may contact us.</p>
+                </div>
+                
+            </div>
+        </div>
+        <p class="Close Close_1">Close</p>
+    </div>
+    <div class="Popup Popup_2">
+        <div>
+            <div>
+                <h3>&nbsp;</h3>
+                <div>
+                    <p>Items can only be returned for a refund if they are unopened, unused and in a re-saleable condition with all tamper-resistant seals, packaging and any cellophane intact. You must notify us in writing that you are returning your purchase within 14 days, beginning the day after the day on which you receive the product.</p>
+                    <p>
+                    Please ensure that you also return any free gifts that are associated with your return items or the related order. If the free gift isn't returned, then we reserve the right to deduct the value of the free gift from your refund.
+                    </p>
+                    <p>
+                    We recommend a photograph is taken of the item prior to returning it if you are concerned about damage during its return journey.
+                    </p>
+                    <p>Please note that we do not accept returns of personalised products. </p>
+                    <p><strong>Please note the order number needs to be entered without any letter at the end.</strong> If you do not have your dispatch note or invoice, please include an explanatory note quoting your order number and reason for return.</p>
+                    <p>Your refund will be processed, once it has been delivered to our warehouse and within 3 working days of arriving back to our us. Refunds can take up to 1 week to show on your account; this is due to the time taken by some banks to process the payment.</p>
+                    <p>We will refund you by the same payment method used to make the original order (e.g. if you have paid by PayPal, we will reimburse your PayPal account). If you have not received your refund after this time, please contact our <strong> Customer Care Team</strong> and we will be happy assist you.</p>
+                </div>
+            </div>
+        </div>
+        <p class="Close_2 Close">Close</p>
+    </div>
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
@@ -170,7 +264,7 @@ s.parentNode.insertBefore(atag, s);
     <div class="mui-content" style="-webkit-overflow-scrolling: auto;">
     <!--有的地区轮播图需要上传视频，把轮播图抽象到 carousel_figure中 -->
     <link rel="stylesheet" type="text/css" href="/css/swiper-3.4.2.min.css"/>
-    
+   
 <!--产品轮播-->
 @if(in_array('broadcast',$templets))
 <div class="banner"  style="position: relative;">
@@ -200,8 +294,8 @@ s.parentNode.insertBefore(atag, s);
         <div class="swiper-pagination"></div>
     </div>
     <ul class="bannerq">
-        <li class="bannerqli bactive">視頻</li>
-        <li class="bannerqli">圖片</li>
+        <li class="bannerqli bactive">video</li>
+        <li class="bannerqli">image</li>
     </ul>
 </div>
 @endif
@@ -219,20 +313,20 @@ s.parentNode.insertBefore(atag, s);
 <div class="detail-context" style="border-bottom: 1px dashed #dcdcdc;padding:10px 2px;height:50px;">
 <div class="dc-price" style="background:#fff;">
         <span class="s-price" style="font-size:24px">
-            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{price_format($goods->goods_price)}}        </span>
+            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_price}}        </span>
         @if(in_array('original',$templets))
         <span class="o-price" style="font-size:12px">
-            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{price_format($goods->goods_real_price)}}        </span>
+            {{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}{{$goods->goods_real_price}}        </span>
         @endif
     </div>
     @if(in_array('free_freight',$templets))
-        <span class="flag" style="font-size: 12px;">Gratis biaya pengiriman</span>
+        <span class="flag" style="font-size: 12px;">Free shipping</span>
     @endif
     @if(in_array('cash_on_delivery',$templets))
-        <span class="flag" style="font-size: 12px;">Bayar setelah terima barang</span>
+        <span class="flag" style="font-size: 12px;">Cash on delivery</span>
     @endif
     @if(in_array('seven_days',$templets))
-        <span class="flag" style="font-size: 12px;background:#000;">penggantian dan pengembalian 7 hari</span>
+        <span class="flag" style="font-size: 12px;background:#000;">7 days appreciation period</span>
     @endif
 </div>
 @endif
@@ -241,17 +335,17 @@ s.parentNode.insertBefore(atag, s);
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;    padding: 2px 0 2px 54px; background:url(/img/jne.svg) 2px center no-repeat;background-size:48px 44px;">JNE</span>
+   <span style="font-size:14px;color:#333;line-height:23px;    padding: 2px 0 2px 62px; background:url(/img/zd_kuaidi.svg) 2px center no-repeat;background-size: 52px 92px;">aramex</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text"> sisa:<span>{{$goods->goods_num}}</span></div>
+    <div class="text">Stock:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
-        <font> sampai akhir:</font>
+        <font>End:</font>
     </div>
 </div>
 @endif
@@ -261,7 +355,7 @@ s.parentNode.insertBefore(atag, s);
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span><p style="display: inline-block;">{!! $goods->goods_msg !!}</p>
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>&#12304;{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span><div style="display: inline-block;">{!! $goods->goods_msg !!}</div>
 </div>
 @endif
 
@@ -270,18 +364,20 @@ s.parentNode.insertBefore(atag, s);
 <ul class="detail-bars">
     @if(in_array('introduce',$templets))
     <li>
-        <span href="#detial-context" class="scrollBar" scroll-y="0">Penjelasan</span>
+        <span href="#detial-context" class="scrollBar" scroll-y="0">
+        Overview              </span>
     </li>
     @endif
     @if(in_array('specifications',$templets))
     <li>
-        <span href="#detial-params" class="scrollBar" scroll-y="50">Spesifikasi</span>
+        <span href="#detial-params" class="scrollBar" scroll-y="50">
+        Details               </span>
     </li>
     @endif
     @if(in_array('evaluate',$templets))
     <li>
         <span href="#detial-appraise" class="scrollBar" scroll-y="85">
-        penilaian ({{$goods->goods_comment_num}}+)
+        Reviews ({{$goods->goods_comment_num}}+)
         </span>
     </li>
     @endif
@@ -320,7 +416,7 @@ s.parentNode.insertBefore(atag, s);
         <div class="detail-block" style="position:relative;padding-bottom:0px;" id="detial-appraise">
             {{--@if($goods->goods_comment_num!=0||$goods->goods_comment_num!=''||$goods->goods_comment_num!=null)--}}
             @if(in_array('commit',$templets))
-                        <h4>penilaian terbaru</h4>
+                        <h4>&nbsp;</h4>
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
@@ -330,7 +426,7 @@ s.parentNode.insertBefore(atag, s);
                             <span style="color:red; margin:0px 3px">
                                 {{$v->com_name}}                            </span>
                             <span>
-                            kepuasan:
+                            Rating:
                                 <font color="red">
                                     @for($i=0;$i<$v->com_star;$i++)★@endfor                                 </font>
                             </span>
@@ -355,7 +451,8 @@ s.parentNode.insertBefore(atag, s);
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                  penilaian saya       </a>
+                CREATE A REVIEW
+                </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -367,33 +464,38 @@ s.parentNode.insertBefore(atag, s);
     @if(in_array('user_help',$templets))
     <tbody>
         @if(in_array('user_know',$templets))
-        <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.peringatan</th>
+        <!-- <tr class="first odd">
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
                 <p>
-                Hasil penggunaan sebenarnya produk ini ditentukan oleh keadaan pribadi, tidak bisa menjamin semua pengguna dapat menikmati efek promosi.Kalau ada pertanyaan,bisa hubungi kami via layanan pengguna online atau email(
-                                        <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
-                                        ),perusahaan kami memiliki hak interpretasi akhir.</p>
-            </td></tr>
+                Return available within 14 days after acquired.We will process it ASAP. <br>
+                If you have any questions, please feel free to contact our Customer Care Team(
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
+                                        ) for assistance. </p>
+            </td></tr> -->
         @endif
+        <tr class="first odd">
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
+        </tr>
         @if(in_array('apply_goods',$templets))
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.cara penggantian dan pengembalian</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
             <p>
-            1.	Alasan pribadi:Dalam 7 hari dari tanggal penerimaan barang dan tidak mempengaruhi penjualan lagi.Silakan hubungi layanan pelanggan online kami atau kirim email ke<a  href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>. Setelah terima permintaan Anda,bagian layanan pelanggan kami akan mengurus dalam 1-3 hari kerja,ongkos penggantian dan pengembalian dibayarkan oleh pelanggan sendiri.<br>
+                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                <br>Email:
 
-
-             2.Alasan kualitas:
-Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layanan pelanggan kami <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>, bagian layanan pelanggan kami akan mengurus permintaan Anda dalam 1-3 hari kerja,ongkos penggantian dan pengembalian dibayarkan oleh perusahaan kami.</p>
+                                <a  href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>
+                                <br>
+                                Questions, comments and requests regarding the website policies are welcomed and should be addressed to yejforlh@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
                 <!-- <p>1.由於個人原因
                     需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
                     售的情況下請聯繫我們的在線客服或發郵件至
-                                        <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
                                         ，售後
 
                     客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
@@ -402,7 +504,7 @@ Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layana
                     2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
 
                     發送郵件至
-                                        <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
                                         ，客服會在收到郵件後的1-3個工作日內受
 
                     理您的請求，退換貨所產生的運費由我方承擔。
@@ -410,31 +512,26 @@ Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layana
             </td></tr>
         @endif
         <tr class="first odd">
-            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.alur penggantian dan pengembalian</th>
+            <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.RETURENS POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy_1">CLICK HERE FOR DETAILS</span></th>
         </tr>
         <tr class="first odd">
             <td colspan="2">
-               
-               
-                <p>Konfirmasi terima barang–minta ganti dan kembali barang–setuju oleh pelayan pelanggan–pelanggan kirim barang –gudang terima dan periksa barang–periksa ganti dan kembali barang –kembali uang/ganti barang</p>
-                <p>Silakan isi : Nomor pesanan, nama dan no HP.</p>
-                
-            </td>
-
-        </tr>
-        <tr class="first odd">
-            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
-            <td colspan="2">
-               
-               
-                <p>ZSSSHOP adalah online mall yang memilih produk dengan sikap yang ketat mengikuti secara konsisten, Menyebar ke seluruh dunia, secara ketat mengontrol asal produk, baik komoditas kerajinan, bahan baku, pakaian, tas dan sepatu, peralatan rumah tangga,  peralatan dapur, olahraga dll. Kami berusaha memberikan produk kualitas terbaik kepada Anda .</p>
-                
+                <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.</p>
+                <p>Please attach with the Order No., Contact No., and Customer name.</p>
             </td>
 
         </tr>
                 <tr class="first odd"></tr>
-            </tbody>
         @endif
+        <tr class="first odd">
+            <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
+            <td colspan="2">
+                <p>ZSSHOP, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
+            </td>
+
+        </tr>
+        <tr class="first odd"></tr>
+        </tbody>
 </table>
 <style>
     .footer2{
@@ -473,20 +570,20 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
-@if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
+  @if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
-      <img src="/images/filter-2.png" style="">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #f1b52a;">
+      <img src="/images/filter-3.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Cari<br>pesanan</span>
+        <span style="line-height:14px;color:white">Order<br>Enquiry</span>
       </a>
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};background-color: #00923f;">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
-			<span>Beli sekarang</span>
+			<span>Buy Now</span>
 		</a>
 	</span>
     @endif
@@ -496,7 +593,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 			<span style="line-height:14px;">在線<br>客服</span>
 		</a>
 	</span> -->
-    @else
+  @else
     @if(in_array('order_select',$templets))
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '23%' : '100%'}};background-color: #f1b52a;">
       <img src="/images/filter-3.png" style="">
@@ -517,7 +614,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <span class="service"  id="btnOnline" data-id="19288071" style="background-color: #f1b52a;width: 26%;">
         <img src="/images/78dc67a861341fb02332dd035cff037.png" >
         <a href="{{$goods->goods_talk_link}}" target="_blank">
-            <span style="color:white;">hubungi<br>kami</span>
+            <span style="color:white;">Contact<br>us</span>
         </a>
     </span>
   @endif
@@ -542,7 +639,8 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                 <div class="closeBtn">
                     <img src="/img/close.png">
                 </div>
-                <div class="buyinfo_hd">Penilaian online </div>
+                <div class="buyinfo_hd">
+                Online message                </div>
                 <hr class="seperator">
                 <div class="buyinfo_table_box">
                     <table>
@@ -552,7 +650,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    Nama:
+                                    Name:
                                 </td>
                                 <td class="table_cell">
                                     <input type="text" placeholder="Name" class="mui-input-clear input01"
@@ -564,17 +662,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                                     <span class="require">
                                         *
                                     </span>
-                                    No.HP:
+                                    Phone:
                                 </td>
                                 <td class="table_cell">
-                                    <input type="text" placeholder="No. Hanphone" class="input01" name="phone"
+                                    <input type="text" placeholder="Phone" class="input01" name="phone"
                                     maxlength="20">
                                     <input type="hidden" name="vis_id" value="{{$vis_id}}">
                                 </td>
                             </tr>
                                                         <tr>
                                 <td class="table_td">
-                                kepuasan:
+                                Rating:
                                 </td>
                                 <td class="table_cell">
                                     <div class="star" id="stars">
@@ -599,17 +697,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                             </tr>
                             <tr>
                                 <td class="table_td">
-                                Penilaian:
+                                leave word:
                                 </td>
                                 <td class="table_cell">
-                                    <textarea placeholder="Penilaian online" name="content" class="textarea_style">
+                                    <textarea placeholder="Online message " name="content" class="textarea_style">
                                     </textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="tc">
                                     <input id="btnAppraise" type="button" name="Submit" class="input_btn01"
-                                    value="penilaian sekarang" style="color:white">
+                                    value="Submit" style="color:white">
                                 </td>
                             </tr>
                         </tbody>
@@ -627,26 +725,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         <span class="purchase"  id="btnPay2" style="width:100%;">
 	    	<a href="javascript:void(0);">
 	    		<img src="/images/buy2.png">
-	    		<span>Beli sekarang</span>
+	    		<span>Buy Now</span>
 	    	</a>
 	    </span>
     </div>
     <div class="btndiv1 mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;max-width:640px;height:9%;display:none">
-         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">pesan sekarang</button>
+         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">Start Order</button>
     </div>
 </div>
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
 </div>
 <script language="javascript">
-    function captureImage(a) {
-    a.pause(); 
-    };
-    var videos=$("#detial-context video");
-    for(var i=0;i<videos.length;i++){
-    videos[i].setAttribute("autoplay","autoplay");
-    videos[i].setAttribute("preload","auto");
-    videos[i].addEventListener('canplay',captureImage(videos[i]));
-    }
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
         var endDate = new Date('2018/07/16');
@@ -680,6 +769,23 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </script>
 <script>
 $(function(){
+
+    // 增加弹窗
+    $('.privacyPolicy').click(function(){
+        $('.Popup_1').show();
+    })
+    $('.Close_1').click(function(){
+        $('.Popup_1').hide();
+    })
+    // 第二个弹窗
+    $('.privacyPolicy_1').click(function(){
+        $('.Popup_2').show();
+    })
+    $('.Close_2').click(function(){
+        $('.Popup_2').hide();
+    })
+
+
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })
@@ -768,7 +874,7 @@ $(function(){
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-            if(bladeStyle==1){
+                        if(bladeStyle==1){
                 $("#iframePayDiv").css('display','block');
                 $("#ifrPayDiv").animate({height: "80%"});
                 $("#taorbg").css('display','block'); //弹框遮罩；
@@ -884,11 +990,11 @@ $(function(){
         $2("#btnAppraise").bind(_ONCLICK,
         function() {
             if ($2("input[name='name']").val() == '') {
-                $2.toast("Nama tidak boleh kosong");
+                $2.toast("Name cannot be empty");
                 return false;
             }
             if ($2("input[name='phone']").val() == '') {
-                $2.toast("No.HP tidak boleh kosong");
+                $2.toast("Mobile number cannot be empty");
                 return false;
             }
             // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
@@ -911,11 +1017,11 @@ $(function(){
                 /*var arr = jQuery.parseJSON(html);*/
                 if(html.status==true)
                 {
-                    $2.toast("Terima kasih atas pendapat Anda");
+                    $2.toast("Thanks For Your Review！");
                 }
                 else
                 {
-                    $2.toast("gagal dikirim");
+                    $2.toast("Submission fails！");
                 }
                 $2("#apprbg").hide();
                 $2("#apprDialog").hide(500);

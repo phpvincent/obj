@@ -1639,7 +1639,7 @@ class GoodsController extends Controller
             $id = $request->input('id'); //商品id
             $goods = goods::where('goods_id',$id)->first();
             $kind_id = $goods->goods_kind_id;
-            if($kind_id==null)return false;
+            if($kind_id==null)return response()->json(false);
             $goods_kind=\App\goods_kind::where('goods_kind_id',$kind_id)->first();
             $goods_kind->supplier_url = supplier::where('goods_kind_primary_id', $kind_id)->where('is_spare', 0)->value('supplier_url');
             $goods_kind->spare_supplier_url = supplier::where('goods_kind_primary_id', $kind_id)->where('is_spare', 1)->value('supplier_url');
