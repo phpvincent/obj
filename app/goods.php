@@ -79,7 +79,7 @@ class goods extends Model
                 $band = [0, 1];
                 break;
             case '2':
-                $band = [12, 14];
+                $band = [12, 14 ,16];
                 break;
             case '3':
                 $band = [3];
@@ -94,7 +94,7 @@ class goods extends Model
                 $band = [6];
                 break;
             case '7':
-                $band = [7, 8, 9, 10, 2, 13, 15];
+                $band = [7, 8, 9, 10, 2, 13, 15, 17];
                 break;
             case '8':
                 $band = [11];
@@ -148,7 +148,7 @@ class goods extends Model
                 break;  
             case '12':
                 $band = [14,15];
-                break;    
+                break;
             default:
                 $band = false;
                 break;
@@ -205,9 +205,15 @@ class goods extends Model
             case '14':
                 $blade_name='home.KaTaEr.sendmail';
                 break;  
-            case '14':
+            case '15':
                 $blade_name='home.KaTaErEnglish.sendmail';
-                break;   
+                break;
+            case '16':
+                $blade_name='home.ZD.sendmail';
+                break;
+            case '17':
+                $blade_name='home.ZDEnglish.sendmail';
+                break;
             default:
                 $blade_name='home.YingGuo.sendmail';
                 break;

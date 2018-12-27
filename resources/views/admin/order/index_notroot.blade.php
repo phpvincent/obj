@@ -93,7 +93,7 @@
 					<select name="goods_blade_type" id="goods_blade_type" class="select">
 						<option value="0">所有</option>
 						<option value="1">台湾</option>
-						<option value="2">中东</option>
+						<option value="2">阿联酋</option>
 						<option value="3">马来西亚</option>
 						<option value="4">泰国</option>
 						<option value="5">日本</option>
@@ -104,6 +104,7 @@
 						<option value="10">越南</option>
 						<option value="11">沙特</option>
 						<option value="12">卡塔尔</option>
+						<option value="13">科威特</option>
 					</select>
 				</span>
 			</div>

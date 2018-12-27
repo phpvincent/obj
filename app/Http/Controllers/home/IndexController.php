@@ -564,6 +564,7 @@ class IndexController extends Controller
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
         $order->order_village=$request->input('order_village');
+        $order->order_country=$request->input('order_country'); //订单所属国家（中东集成模板） 2018-12-27添加
         $order->order_email=str_replace(' ','',$request->input('email'));
         $order->order_isemail='0';
         $msg=$order->save();
@@ -1084,6 +1085,7 @@ class IndexController extends Controller
        $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
        $order->order_add=$request->input('address1');
        $order->order_village=$request->input('order_village');
+       $order->order_country=$request->input('order_country'); //订单所属国家（中东集成模板） 2018-12-27添加
        $order->order_email=str_replace(' ','',$request->input('email'));
        $msg=$order->save();
        if($request->has('goodsAtt')){

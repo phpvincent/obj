@@ -509,12 +509,12 @@ class OrderController extends Controller
           })
           ->count();
 
-            //table表格数据
-            $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
-            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
-           ->where(function($query)use($search){
+          //table表格数据
+          $data=DB::table('order')
+          ->select('order.*','goods.goods_real_name','admin.admin_show_name')
+          ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
+          ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
+          ->where(function($query)use($search){
                 $query->where([['order.order_single_id','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_ip','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_id','like',"%$search%"],['order.is_del','=','0']]);
@@ -524,137 +524,176 @@ class OrderController extends Controller
                 $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_name','like',"%$search%"],['order.is_del','=','0']]);
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
-            })
-           ->where(function($query)use($goods_search){
+          })
+          ->where(function($query)use($goods_search){
             if($goods_search!=0){
               $garr=\App\goods::get_only_slef_id($goods_search);
                 $query->whereIn('order_goods_id',$garr);
             }
-           })->where(function ($query)use($order_repeat_ip){
-                    if($order_repeat_ip == 1){
-                        $query->where('order_repeat_field','1');
-                        $query->orWhere('order_repeat_field','1,2');
-                        $query->orWhere('order_repeat_field','1,3');
-                        $query->orWhere('order_repeat_field','1,2,3');
-                    }
-                })->where(function ($query)use($order_repeat_name){
-                    if($order_repeat_name == 1){
-                        $query->where('order_repeat_field','2');
-                        $query->orWhere('order_repeat_field',',2');
-                        $query->orWhere('order_repeat_field','1,2');
-                        $query->orWhere('order_repeat_field','2,3');
-                        $query->orWhere('order_repeat_field','1,2,3');
-                    }
-                })->where(function ($query)use($order_repeat_tel){
-                    if($order_repeat_tel == 1){
-                        $query->where('order_repeat_field','3');
-                        $query->orWhere('order_repeat_field',',3');
-                        $query->orWhere('order_repeat_field','1,3');
-                        $query->orWhere('order_repeat_field','2,3');
-                        $query->orWhere('order_repeat_field','1,2,3');
-                    }
-                })
-            ->where(function($query)use($request){
-            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-              $query->where('order.order_time','>',$request->input('mintime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-              $query->where('order.order_time','<',$request->input('maxtime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
-            }
           })
-             ->where(function($query)use($request){
-              $order_type=$request->input('order_type');
-              $pay_type=$request->input('pay_type');
-              if($order_type!='#'){
-                if($order_type==0){
-                  $query->whereIn('order.order_type',[0,11]);
-                }else{
-                  $query->where('order.order_type',$order_type);
+          ->where(function ($query)use($order_repeat_ip){
+               if($order_repeat_ip == 1){
+                   $query->where('order_repeat_field','1');
+                   $query->orWhere('order_repeat_field','1,2');
+                   $query->orWhere('order_repeat_field','1,3');
+                   $query->orWhere('order_repeat_field','1,2,3');
+               }
+          })
+          ->where(function ($query)use($order_repeat_name){
+              if($order_repeat_name == 1){
+                  $query->where('order_repeat_field','2');
+                  $query->orWhere('order_repeat_field',',2');
+                  $query->orWhere('order_repeat_field','1,2');
+                  $query->orWhere('order_repeat_field','2,3');
+                  $query->orWhere('order_repeat_field','1,2,3');
+              }
+          })
+          ->where(function ($query)use($order_repeat_tel){
+              if($order_repeat_tel == 1){
+                  $query->where('order_repeat_field','3');
+                  $query->orWhere('order_repeat_field',',3');
+                  $query->orWhere('order_repeat_field','1,3');
+                  $query->orWhere('order_repeat_field','2,3');
+                  $query->orWhere('order_repeat_field','1,2,3');
+              }
+          })
+          ->where(function($query)use($request){
+              if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                  $query->where('order.order_time','>',$request->input('mintime'));
+              }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                  $query->where('order.order_time','<',$request->input('maxtime'));
+              }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                  $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+              }
+          })
+          ->where(function($query)use($request){
+                $order_type=$request->input('order_type');
+                $pay_type=$request->input('pay_type');
+                if($order_type!='#'){
+                    if($order_type==0){
+                        $query->whereIn('order.order_type',[0,11]);
+                    }else{
+                        $query->where('order.order_type',$order_type);
+                    }
                 }
-              }
-              if($pay_type!='#'){
-                 $query->where('order.order_pay_type',$pay_type);
-              }
-             //根据语言搜索
-             if($request->has('languages')&&$request->input('languages')!='0'){
-                 //按语言查询（根据模板置换语言）
-                 $band = goods::get_blade($request->input('languages'));
-                 if($band){
-                     $query->whereIn('goods.goods_blade_type',$band);
-                 }
-             }
-             //根据地区搜索
-             if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
-                 //按语言查询（根据模板置换语言）
-                 $band = goods::get_area_blade($request->input('goods_blade_type'));
-                 if($band){
-                     $query->whereIn('goods.goods_blade_type',$band);
-                 }
-             }
-            })
-            ->orderBy($order,$dsc)
-            ->offset($start)
-            ->limit($len)
-            ->get();
-           }
-           //商品附带规格信息
-	        foreach($data as $k => &$v){
-	        $goods= \App\goods::where('goods_id',$v->order_goods_id)->first();
-          if(time()-strtotime($v->order_time)>=86400){
-            $data[$k]->order_time.="<span style='color:red;display:block;'>此订单已超过24小时</span>";
+          if($pay_type!='#'){
+                $query->where('order.order_pay_type',$pay_type);
           }
-          //订单价格换算为人民币
-	        $goods_currency_id = $goods->goods_currency_id;
-            if($goods->is_del == '1'){
-                $v->goods_real_name = $v->goods_real_name.'<span style="color: red">(已删除)</span>';
-            }
-	        $currency_type_name = \App\currency_type::where('currency_type_id',$goods_currency_id)->value('currency_type_name');
-	        $v->order_price = $currency_type_name.' '.$v->order_price;
-	        if($v->order_repeat_field){
-	            if(substr( $v->order_repeat_field, 0, 1 ) == ','){
-                    $v->order_repeat_field = substr( $v->order_repeat_field, 1);
+          //根据语言搜索
+          if($request->has('languages')&&$request->input('languages')!='0'){
+                //按语言查询（根据模板置换语言）
+                $band = goods::get_blade($request->input('languages'));
+                if($band){
+                    $query->whereIn('goods.goods_blade_type',$band);
                 }
-                $v->order_repeat_field = explode(',',$v->order_repeat_field);
-            }
-            $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
-	        $special = '';
-            if($v->order_price_id){
-//                $special= special::select('price.price_name')->leftjoin('price','price.price_id','special.special_price_id')->where('special.special_id',$v->order_price_id)->first();
-                    $special = price::where('price_id',$v->order_price_id)->value('price_name');
-            }
-            if($order_config->count()>0){
-                $config_msg='';
-                $i=0;
-                foreach($order_config  as  $va){
-                  $i++;
-                  $config_msg.="第".$i."件：";
-                  $orderarr=explode(',',$va['order_config']);
-                  foreach($orderarr as $key => $val){
-                    $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                    $config_msg.=$conmsg['config_val_msg'].'-';
-                  }
-                  $config_msg=rtrim($config_msg,'-');
-                  $config_msg.='<br/>';
-                }
-                if($special){
-                    $config_msg .= '<hr>赠：'.$special;
-                }
-                /*$config_msg=rtrim($config_msg,'<br/>');*/
-                $data[$k]->config_msg=$config_msg;
+          }
+//             //根据地区搜索
+//             if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
+//                 //按语言查询（根据模板置换语言）
+//                 $band = goods::get_area_blade($request->input('goods_blade_type'));
+//                 if($band){
+//                     $query->whereIn('goods.goods_blade_type',$band);
+//                 }
+//             }
+
+          //根据地区搜索
+          if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
+              $goods_blade_type = $request->input('goods_blade_type');
+              //按国家查询
+              $band = goods::get_area_blade($goods_blade_type);
+              //如果为中东地区
+              if($goods_blade_type == '2' || $goods_blade_type == '11' || $goods_blade_type == '12' || $goods_blade_type == '13'){
+                  switch ($goods_blade_type) {
+                      case '2':
+                          $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                              $query->where('order.order_country', 'United Arab Emirates');
+                          });
+                          break;
+                          case '11':
+                              $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                  $query->where('order.order_country','Saudi Arabia');
+                              });
+                              break;
+                          case '12':
+                              $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                  $query->where('order.order_country','Qatar');
+                              });
+                              break;
+                          case '13':
+                              $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                  $query->where('order.order_country','Kuwait');
+                              });
+                              break;
+                         }
               }else{
-                $config_msg = $special ? "暂无属性信息<hr>赠：".$special : "暂无属性信息";
-                $data[$k]->config_msg=$config_msg;
+                  if($band){
+                      $query->whereIn('goods.goods_blade_type',$band);
+                  }
               }
-            $iparea=getclientcity($request,$v->order_ip);
-            $data[$k]->order_ip=($iparea['country']==$iparea['city']?$v->order_ip."<br/>".$iparea['country']:$v->order_ip."<br/>".$iparea['country'].'-'.$iparea['city']);
-            $data[$k]->order_tel=($v->order_tel==''||$v->order_tel==null?"<span style=color:red;>没有填写</span>":$v->order_tel);
-            $data[$k]->order_email=($v->order_email==''||$v->order_email==null?"<span style=color:red;>没有填写</span>":$v->order_email);
-            $data[$k]->order_add=($v->order_add==''||$v->order_add==null?"<span style=color:red;>没有填写</span>":$v->order_add);
-            $data[$k]->order_remark=($v->order_remark==''||$v->order_remark==null?"<span style=color:red;>没有填写</span>":$v->order_remark);
           }
-	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
-	        return response()->json($arr);
+          })
+          ->orderBy($order,$dsc)
+          ->offset($start)
+          ->limit($len)
+          ->get();
+          }
+          //商品附带规格信息
+	      foreach($data as $k => &$v){
+	          $goods= \App\goods::where('goods_id',$v->order_goods_id)->first();
+              if(time()-strtotime($v->order_time)>=86400){
+                  $data[$k]->order_time.="<span style='color:red;display:block;'>此订单已超过24小时</span>";
+              }
+              //订单价格换算为人民币
+              $goods_currency_id = $goods->goods_currency_id;
+              if($goods->is_del == '1'){
+                  $v->goods_real_name = $v->goods_real_name.'<span style="color: red">(已删除)</span>';
+              }
+              $currency_type_name = \App\currency_type::where('currency_type_id',$goods_currency_id)->value('currency_type_name');
+              $v->order_price = $currency_type_name.' '.$v->order_price;
+              if($v->order_repeat_field){
+                  if(substr( $v->order_repeat_field, 0, 1 ) == ','){
+                      $v->order_repeat_field = substr( $v->order_repeat_field, 1);
+                  }
+                  $v->order_repeat_field = explode(',',$v->order_repeat_field);
+              }
+              $order_config=\App\order_config::where('order_primary_id',$v->order_id)->get();
+              $special = '';
+              if($v->order_price_id){
+    //                $special= special::select('price.price_name')->leftjoin('price','price.price_id','special.special_price_id')->where('special.special_id',$v->order_price_id)->first();
+                  $special = price::where('price_id',$v->order_price_id)->value('price_name');
+              }
+              if($order_config->count()>0){
+                  $config_msg='';
+                  $i=0;
+                  foreach($order_config  as  $va){
+                      $i++;
+                      $config_msg.="第".$i."件：";
+                      $orderarr=explode(',',$va['order_config']);
+                      foreach($orderarr as $key => $val){
+                          $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                          $config_msg.=$conmsg['config_val_msg'].'-';
+                      }
+                      $config_msg=rtrim($config_msg,'-');
+                      $config_msg.='<br/>';
+                  }
+                  if($special){
+                      $config_msg .= '<hr>赠：'.$special;
+                  }
+                    /*$config_msg=rtrim($config_msg,'<br/>');*/
+                  $data[$k]->config_msg=$config_msg;
+              }else{
+                  $config_msg = $special ? "暂无属性信息<hr>赠：".$special : "暂无属性信息";
+                  $data[$k]->config_msg=$config_msg;
+              }
+              $iparea=getclientcity($request,$v->order_ip);
+              $data[$k]->order_ip=($iparea['country']==$iparea['city']?$v->order_ip."<br/>".$iparea['country']:$v->order_ip."<br/>".$iparea['country'].'-'.$iparea['city']);
+              $data[$k]->order_tel=($v->order_tel==''||$v->order_tel==null?"<span style=color:red;>没有填写</span>":$v->order_tel);
+              $data[$k]->order_email=($v->order_email==''||$v->order_email==null?"<span style=color:red;>没有填写</span>":$v->order_email);
+              $data[$k]->order_add=($v->order_add==''||$v->order_add==null?"<span style=color:red;>没有填写</span>":$v->order_add);
+              $data[$k]->order_remark=($v->order_remark==''||$v->order_remark==null?"<span style=color:red;>没有填写</span>":$v->order_remark);
+          }
+          $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
+	      return response()->json($arr);
    }
    public function orderinfo(Request $request){
     //获取订单信息
@@ -830,6 +869,12 @@ class OrderController extends Controller
          return view('admin.order.addr')->with(compact('order'));
 
    }
+
+    /**
+     * 订单导出
+     * @param Request $request
+     * @return string
+     */
    public function outorder(Request $request){
 //        //判断导出时间
 //        if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
@@ -991,10 +1036,37 @@ class OrderController extends Controller
 
                //根据地区搜索
                if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
-                   //按语言查询（根据模板置换语言）
-                   $band = goods::get_area_blade($request->input('goods_blade_type'));
-                   if($band){
-                       $query->whereIn('goods.goods_blade_type',$band);
+                   $goods_blade_type = $request->input('goods_blade_type');
+                   //按国家查询
+                   $band = goods::get_area_blade($goods_blade_type);
+                   //如果为中东地区
+                   if($goods_blade_type == '2' || $goods_blade_type == '11' || $goods_blade_type == '12' || $goods_blade_type == '13'){
+                       switch ($goods_blade_type) {
+                           case '2':
+                               $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                    $query->where('order.order_country', 'United Arab Emirates');
+                                });
+                               break;
+                           case '11':
+                               $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                   $query->where('order.order_country','Saudi Arabia');
+                               });
+                               break;
+                           case '12':
+                               $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                   $query->where('order.order_country','Qatar');
+                               });
+                               break;
+                           case '13':
+                               $query->whereIn('goods.goods_blade_type',$band)->orWhere(function($query){
+                                   $query->where('order.order_country','Kuwait');
+                               });
+                               break;
+                       }
+                   }else{
+                       if($band){
+                           $query->whereIn('goods.goods_blade_type',$band);
+                       }
                    }
                }
            })
