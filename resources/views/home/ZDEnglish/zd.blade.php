@@ -67,7 +67,7 @@
                 padding:10px;
                 padding-bottom:30px;
             }
-            .Popup> .Close{
+            .Popup .Close{
                 height:30px;
                 line-height:30px;
                 width:80%;
@@ -157,7 +157,7 @@
         </script>
 
 	</head>
-	<body style="position:relative">
+    <body style="position:relative">
     <div class="Popup Popup_1">
         <div>
             <div>
@@ -236,8 +236,6 @@
                     <p>Your refund will be processed, once it has been delivered to our warehouse and within 3 working days of arriving back to our us. Refunds can take up to 1 week to show on your account; this is due to the time taken by some banks to process the payment.</p>
                     <p>We will refund you by the same payment method used to make the original order (e.g. if you have paid by PayPal, we will reimburse your PayPal account). If you have not received your refund after this time, please contact our <strong> Customer Care Team</strong> and we will be happy assist you.</p>
                 </div>
-                
-               
             </div>
         </div>
         <p class="Close_2 Close">Close</p>
@@ -337,14 +335,14 @@
 {{--快递栏位--}}
 @if(in_array('express',$templets))
 <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
-   <span style="font-size:14px;color:#333;line-height:23px;padding:10px 0 10px 165px; background:url(/img/lbc.jpg) 2px center no-repeat;background-size:164px 30px;"> <b></b></span>
+   <span style="font-size:14px;color:#333;line-height:23px;    padding: 2px 0 2px 62px; background:url(/img/zd_kuaidi.svg) 2px center no-repeat;background-size: 52px 92px;">aramex</span>
 </div>
 @endif
 
 {{--抢购模块--}}
 @if(in_array('count_down',$templets))
 <div class="timebox">
-    <div class="text">Sold:<span>{{$goods->goods_num}}</span></div>
+    <div class="text">Stock:<span>{{$goods->goods_num}}</span></div>
     <div class="boxtime">
         <div class="time" id="timer"><span id="h" class="colon"></span>h<span id="m" class="colon"></span>m<span id="s" class="colon"></span>s</div>
         <font>End:</font>
@@ -357,7 +355,7 @@
 @if(in_array('description',$templets))
 <div class="detail-profile">
 	<!-- 商品小标题 -->
-	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>【{{$goods->goods_cuxiao_name}}】</strong>@endif</span><p style="display: inline-block;">{!! $goods->goods_msg !!}</p>
+	<span style="color: rgb(255, 0, 0);">@if(!empty($goods->goods_cuxiao_name))<strong>&#12304;{{$goods->goods_cuxiao_name}}&#12305;</strong>@endif</span><div style="display: inline-block;">{!! $goods->goods_msg !!}</div>
 </div>
 @endif
 
@@ -453,7 +451,8 @@
                @endif
                         <div class="go-appraise" style=" background:#fff; border:none;">
                 <a id="btnAppr" style=" color:#fff; width:300px;">
-                 CREATE A REVIEW    </a>
+                CREATE A REVIEW
+                </a>
             </div>
                     </div>
         <!--div class="f-adv-img"><img src="http://oatsbasf.3cshoper.com/mobile/images/footer.png"></div-->
@@ -473,7 +472,7 @@
                 <p>
                 Return available within 14 days after acquired.We will process it ASAP. <br>
                 If you have any questions, please feel free to contact our Customer Care Team(
-                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">isnfclpo@gmail.com</a>
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
                                         ) for assistance. </p>
             </td></tr> -->
         @endif
@@ -490,9 +489,26 @@
                 24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
                 <br>Email:
 
-                                <a  href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com</a>
+                                <a  href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>
                                 <br>
-                                Questions, comments and requests regarding the website policies are welcomed and should be addressed to isnfclpo@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
+                                Questions, comments and requests regarding the website policies are welcomed and should be addressed to yejforlh@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
+                <!-- <p>1.由於個人原因
+                    需自行承擔。</p>產生的退換貨：至收到商品之日起7天內，在不影響二次銷
+                    售的情況下請聯繫我們的在線客服或發郵件至
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
+                                        ，售後
+
+                    客服會在收到消息後的1-3個工作日內受理您的請求，退換貨所產生的運費
+
+                <p>
+                    2.由於質量原因產生的退換貨：至收到商品之日起7天內，向售後服務中心
+
+                    發送郵件至
+                                        <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
+                                        ，客服會在收到郵件後的1-3個工作日內受
+
+                    理您的請求，退換貨所產生的運費由我方承擔。
+                </p> -->
             </td></tr>
         @endif
         <tr class="first odd">
@@ -554,17 +570,17 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <!--下方三个按钮的样式，抽象到home_bottom_button中-->
 @if(in_array('order_nav',$templets))
 <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;">
-@if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
+  @if($goods->goods_talk_link==null||$goods->goods_talk_link=='')
     @if(in_array('order_select',$templets))
-    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #fff;">
-      <img src="/images/filter-2.png" style="">
+    <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '30%' : '100%'}};background-color: #f1b52a;">
+      <img src="/images/filter-3.png" style="">
       <a href="javascript:void(0);">
-        <span style="line-height:14px;">Order<br>Enquiry</span>
+        <span style="line-height:14px;color:white">Order<br>Enquiry</span>
       </a>
     </span>
     @endif
     @if(in_array('now_buy',$templets))
-    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};">
+    <span class="purchase" data-id="19288071" id="btnPay" style="width: {{in_array('order_select',$templets) ? '68%' : '100%'}};background-color: #00923f;">
 		<a href="javascript:void(0);">
 			<img src="/images/buy2.png">
 			<span>Buy Now</span>
@@ -577,7 +593,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 			<span style="line-height:14px;">在線<br>客服</span>
 		</a>
 	</span> -->
-    @else
+  @else
     @if(in_array('order_select',$templets))
     <span class="query" id="track_online" onclick="location.href='/send?goods_id={{$goods->goods_id}}'" style="width: {{in_array('now_buy',$templets) ? '23%' : '100%'}};background-color: #f1b52a;">
       <img src="/images/filter-3.png" style="">
@@ -720,15 +736,6 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
 </div>
 <script language="javascript">
-    function captureImage(a) {
-    a.pause(); 
-    };
-    var videos=$("#detial-context video");
-    for(var i=0;i<videos.length;i++){
-    videos[i].setAttribute("autoplay","autoplay");
-    videos[i].setAttribute("preload","auto");
-    videos[i].addEventListener('canplay',captureImage(videos[i]));
-    }
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
         var endDate = new Date('2018/07/16');
@@ -777,6 +784,7 @@ $(function(){
     $('.Close_2').click(function(){
         $('.Popup_2').hide();
     })
+
 
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
@@ -866,7 +874,7 @@ $(function(){
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
             $.ajax({url:"{{url('/visfrom/setbuy')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
-            if(bladeStyle==1){
+                        if(bladeStyle==1){
                 $("#iframePayDiv").css('display','block');
                 $("#ifrPayDiv").animate({height: "80%"});
                 $("#taorbg").css('display','block'); //弹框遮罩；
