@@ -46,7 +46,7 @@ function addAttribu(cuxiao_num,a) {
               }
                
             })
-            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
+            color25+='<div calss="radiobox"> <dl class="addcart-specs-content"><dt><span class="require">*</span>'+val[0].goods_config_msg+'</dt><dd>'+colorBut+'</dl></div>';
          })
          if($("#goods_config_div form").length==4){
            
@@ -112,7 +112,7 @@ function addAttribu(cuxiao_num,a) {
      }
 };
 
-function countDiff (a,basePrice,moneycoin){
+function countDiff (a,basePrice,moneycoin,realPrice){
      function returnFloat(value){
         var value=Math.round(parseFloat(value)*100)/100;
         var xsd=value.toString().split(".");
@@ -152,12 +152,21 @@ function countDiff (a,basePrice,moneycoin){
     console.log("baseprice",basePrice)
     console.log("总价",basePrice+countDiffPrice)
     console.log(moneycoin)
+    console.log(realPrice)
     $('.addcart-footer-price-total').children('font:first').html(moneycoin+ returnFloat(basePrice+countDiffPrice));
     $('#realprice').html( returnFloat(basePrice+countDiffPrice) );
+    var nunnn= $("#addcart-quantity-val").val()-0;
+    console.log("realPrice",nunnn*realPrice)
+    var realPricecount=nunnn*realPrice-basePrice+countDiffPrice;
+    // 显示减免额
+    $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ returnFloat(realPricecount));
+
     //如果是印尼模板；不要小数点；三位一个逗号；
     try {
         $('.addcart-footer-price-total').children('font:first').html(moneycoin+ toThousands(basePrice+countDiffPrice));
         $('#realprice').html( toThousands(basePrice+countDiffPrice));
+            // 显示减免额
+        $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ returnFloat(realPricecount));
     } catch (error) {
         
     }
