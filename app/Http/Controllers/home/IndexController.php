@@ -425,6 +425,7 @@ class IndexController extends Controller
         }
     	$ip=$request->getClientIp();
     	$order=new order();
+        if($request->has('order_country')) $order->order_country=$request->input('order_country');
     	$order->order_single_id='NR'.makeSingleOrder();
     	$order->order_ip=$ip;
     	$order->order_time=date('Y-m-d H:i:s',time());
