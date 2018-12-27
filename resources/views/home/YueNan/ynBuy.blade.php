@@ -204,6 +204,9 @@
         <label><span class="require">*</span>số điện thoại :</label>
         <input type="text" datatype="/^\d+$/" placeholder="phải điền,điền vào số điện thoại của người nhận hàng " nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
     </div>
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
+    Hãy đảm bảo là số điện thoại đúng hiệu quả, để chúng tôi liên hệ với anh, chính xác để giao hàng. 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -233,7 +236,7 @@
         <input type="text" name="zip" placeholder="Bắt buộc, điền mã zip của người nhận" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="Chúng tôi sẽ gửi cho bạn một thông báo đơn đặt hàng qua email." class="mui-input-clear">
     </div>
@@ -289,6 +292,9 @@
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
+Chúng tôi đảm bảo tài liệu cá nhân của bạn nêu trên sẽ giữ bí mật, không được tiết lộ.
+</div>
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">đưa ra đơn đặt hàng</button>
 </div>
@@ -449,6 +455,11 @@ var payFun=function (){
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('xin nhập vào số điện thoại hữu hiệu');
+        return false;
+    }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("Hãy nhập vào một địa chỉ email hiệu quả.");
         return false;
     }
     //判断用户是否选择了商品属性；
@@ -621,7 +632,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
         html1 +='<input type="text" placeholder="chọn điền, điền vào email của người nhận  hàng" nullmsg="" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label><span class='require'>*</span>Email:</label>";
 
         html2 += '<input type="text" name="email" placeholder="chọn điền, điền vào email của người nhận  hàng" class="mui-input-clear">';
 

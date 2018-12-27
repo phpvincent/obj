@@ -205,6 +205,9 @@
         <label><span class="require">*</span>Phone No.:</label>
         <input type="text" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
+        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -241,7 +244,7 @@
     </div>
     
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
@@ -292,7 +295,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
+    We promise that your personal information above will be kept confidential without being disclosed. 
+</div>
 <!--button begin-->
 <div class="btndiv">
  <strong>Tips:</strong> Delivery can't be arranged  to the  areas which are invalid for selection in Sarawak .Please choose the available ones for shipment
@@ -429,6 +434,11 @@ var payFun=function (){
     var zipre = /^[0-9]{5}$/;//判断马来西亚邮政编码五位正整数；
     if(!zipre.test(datasObj.zip)){
         layer.msg('Please fill in the valid postal code.');
+        return false;
+    }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("please enter a valid email address.");
         return false;
     }
     //判断用户是否选择了商品属性；
@@ -600,7 +610,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
         html1 +='<input type="text" placeholder=" we shall send you the order information though this Email" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label><span class='require'>*</span>Email:</label>";
 
         html2 += '<input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">';
 

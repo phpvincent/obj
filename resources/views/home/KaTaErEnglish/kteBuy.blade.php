@@ -202,12 +202,21 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Phone No.:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;">+974</span>
+        <input type="text" datatype="/^\d+$/"style="width:50%" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
+        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+    </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
@@ -233,7 +242,7 @@
         <input type="text" name="zip"placeholder="Required: please fill in the zip code" class="mui-input-clear">
     </div> -->
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
@@ -283,7 +292,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
+    We promise that your personal information above will be kept confidential without being disclosed. 
+</div>
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="background-color: #00923f;">Start Order</button>
@@ -407,6 +418,11 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("please enter a valid email address.");
+        return false;
+    }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -420,17 +436,18 @@ var payFun=function (){
         layer.msg('please fill in the complete item information.');
         return false;
     };
-    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    // if(!re.test(datasObj.telephone)){
-    //     layer.msg('Please fill in the valid cell phone number.');
-    //     return false;
-    // }
+    var re = /^\d{8}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('Please fill in the valid cell phone number.');
+        return false;
+    }
     // if(datasObj.zip==null||datasObj.zip==''){
     //     layer.msg("Please fill in the correct zip code.");
     //     return false;
     // }
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    datasObj.telephone="974"+datasObj.telephone;
 
     // layer.msg("Please wait for the order submitted");
     var payType=$(".paymentbox input:checked").val();

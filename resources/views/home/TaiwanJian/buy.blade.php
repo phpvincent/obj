@@ -203,6 +203,9 @@
         <label><span class="require">*</span>手机:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必填，填写收件人联系电话" nullmsg="填写收件人联系电话" errormsg="请填写正确的电话号码" name="telephone" class="mui-input-clear">
     </div>
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
+    请务必保证电话号码信息真实准确，以便我们能够联系您并且准确发送货物。 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -232,7 +235,7 @@
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="我们会借此邮箱向您发送订单通知" class="mui-input-clear">
     </div>
@@ -288,6 +291,9 @@
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
+以上信息将为您严格保密，我们保证不会泄露您的个人信息
+</div>
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">提交订单</button>
 </div>
@@ -438,6 +444,11 @@ var payFun=function (){
     var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('请输入有效手机号');
+        return false;
+    }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("请输入一个有效的邮箱地址");
         return false;
     }
     //判断用户是否选择了商品属性；
@@ -610,7 +621,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
         html1 +='<input type="text" placeholder="选填，填写收件人电子邮箱" nullmsg="选填电子邮箱" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>Email:</label>";
+        html2 += "<label><span class='require'>*</span>Email:</label>";
 
         html2 += '<input type="text" name="email" placeholder="选填，填写收件人电子邮箱" class="mui-input-clear">';
 

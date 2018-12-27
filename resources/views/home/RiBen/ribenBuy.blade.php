@@ -205,6 +205,9 @@
         <label><span class="require">*</span>携帯電話:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必須、受取人電話番号" nullmsg="「電話番号」は空欄にできません" errormsg="「電話番号」は空欄にできません" name="telephone" class="mui-input-clear">
     </div>
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
+    電話番号を指定してください。 
+    </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
@@ -234,7 +237,7 @@
         <input type="text" name="zip" placeholder="必須、受取人郵便番号" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>メールアドレス:</label>
+        <label><span class="require">*</span>メールアドレス:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email"errormsg="" placeholder="このEメールを利用して、オーダー生成のことを通知いたします。" class="mui-input-clear">
     </div>
@@ -285,7 +288,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
+私たちは、上記のあなたの個人情報が開示されることなく秘密に保たれると約束します。 
+</div>
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="">オーダー提出</button>
@@ -406,7 +411,11 @@ var payFun=function (){
         layer.msg('携帯は必ず記入する');
         return false;
     }
-
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("有効なメールアドレスを入力してください。");
+        return false;
+    }
      //判断用户是否选择了商品属性；
      var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -590,7 +599,7 @@ jQuery(function(){
         html1 += ' <label><span style="color:red;">*</span>メールアドレス:</label>';
         html1 +='<input type="text" placeholder="このEメールを利用して、オーダー生成のことを通知いたします。" nullmsg="" errormsg="" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
-        html2 += "<label>メールアドレス:</label>";
+        html2 += "<label><span class='require'>*</span>メールアドレス:</label>";
 
         html2 += '<input type="text" name="email" placeholder="このEメールを利用して、オーダー生成のことを通知いたします。" class="mui-input-clear">';
 

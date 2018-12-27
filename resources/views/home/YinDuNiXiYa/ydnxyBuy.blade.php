@@ -234,6 +234,9 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
+    Harap pastikan bahwa informasi nomor telepon ini benar dan akurat sehingga kami dapat menghubungi Anda dan mengirimkan barang dengan benar. 
+    </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
@@ -271,7 +274,7 @@
         <input type="text" name="address2" class="mui-input-clear">
     </div>
     <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="Kami akan pakai email ini kirim pemberitahuan pesanan ke Anda" class="mui-input-clear">
     </div>
@@ -321,7 +324,9 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-    
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 18px;color: red; font-size: 16px;">
+Informasi di atas akan dijaga kerahasiaannya dan kami menjamin bahwa kami tidak akan menginformasikan informasi pribadi Anda. 
+</div>
 <!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="">pesan sekarang</button>
@@ -455,6 +460,11 @@ var payFun=function (){
     }
     if(datasObj.telephone==null||datasObj.telephone==''){
         layer.msg("Silahkan isi no. HP penerima");
+        return false;
+    }
+    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    if(!res.test(datasObj.email)){
+        layer.msg("silakan masukkan alamat email yang benar");
         return false;
     }
     //判断用户是否选择了商品属性；
