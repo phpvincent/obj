@@ -709,12 +709,12 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         <span class="purchase"  id="btnPay2" style="width:100%;">
 	    	<a href="javascript:void(0);">
 	    		<img src="/images/buy2.png">
-	    		<span>Beli sekarang</span>
+	    		<span>Buy Now</span>
 	    	</a>
 	    </span>
     </div>
     <div class="btndiv1 mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;max-width:640px;height:9%;display:none">
-         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">pesan sekarang</button>
+         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">Start Order</button>
     </div>
 </div>
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">

@@ -381,10 +381,11 @@ body,dl,dd{padding: 0;}
 }
 .addcart-footer-price .addcart-footer-price-total {
 	font-size: 24px;
-	margin-bottom: 2px;
+	margin-bottom: 4px;
 }
 .addcart-footer-price .addcart-footer-realPrice-total {
 	font-size: 24px;
+	margin-bottom: 4px;
 }
 #addcart_message_dialog{
 	position:fixed;
