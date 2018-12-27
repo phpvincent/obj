@@ -373,6 +373,7 @@ class IndexController extends Controller
         $order=new order();
         $order->order_single_id='NR'.makeSingleOrder();
         $order->order_ip=$ip;
+        if($request->has('order_country')) $order->order_country=$request->input('order_country');
         $order->order_time=date('Y-m-d H:i:s',time());
         $order_goods_id=url::get_goods($request);
         if($order_goods_id==false){
@@ -952,6 +953,7 @@ class IndexController extends Controller
        }
        $ip=$request->getClientIp();
        $order=new order();
+       if($request->has('order_country')) $order->order_country=$request->input('order_country');
        $order->order_single_id='NR'.makeSingleOrder();
        $order->order_ip=$ip;
        $order->order_time=date('Y-m-d H:i:s',time());
