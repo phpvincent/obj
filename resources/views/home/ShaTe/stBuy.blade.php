@@ -237,7 +237,7 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-right: 156px; height: 26px;">
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-right: 23%; height: 26px;">
     يرجي من سيادتكم التأكد من رقم الهاتف والمعلومات الخاصه بكم لسهوله التواصل معكم وتسليمكم الطلب 
     </div>
     <div class="mui-input-row" style="display:none;">
@@ -320,7 +320,7 @@
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
 تتعهد الشركه  بالحفاظ علي جميع بيناتكم الشخصيه  
 </div>
 <div class="btndiv">

@@ -203,7 +203,7 @@
         <label><span class="require">*</span>手机:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必填，填写收件人联系电话" nullmsg="填写收件人联系电话" errormsg="请填写正确的电话号码" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 146px; height: 26px;">
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 23%; height: 26px;">
     请务必保证电话号码信息真实准确，以便我们能够联系您并且准确发送货物。 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
@@ -291,7 +291,7 @@
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
 以上信息将为您严格保密，我们保证不会泄露您的个人信息
 </div>
 <div class="btndiv">

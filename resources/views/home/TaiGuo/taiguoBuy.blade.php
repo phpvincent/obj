@@ -204,7 +204,7 @@
         <label><span class="require">*</span>บอร์โทรศัพท์:</label>
         <input type="text" datatype="/^\d+$/" placeholder="กรุณาระบุ เบอร์โทรศัพท์ของผู้รับของ" nullmsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" errormsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 26px;">
+    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 23%; height: 26px;">
     โปรดตรวจสอบว่าเบอร์โทรศัพท์รึเปล่า ถูกต้องไหม และถูกต้องไหม เพื่อให้เราสามารถติดต่อคุณและส่งถูกต้องสินค้า 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
@@ -287,7 +287,7 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
 เราสัญญาว่าข้อมูลส่วนบุคคลของคุณจะถูกเก็บไว้เป็นความลับโดยข้างต้นไหมอะไรถูกเปิดเผย
 </div>
 <!--button begin-->
