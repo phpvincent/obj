@@ -1,0 +1,464 @@
+var provinceList = [{"name":"please choose the country","cityList":[{"name":"please choose the province","areaList":["please choose the city and district"]}]},
+{
+    "name": "United Arab Emirates",
+    "cityList": [
+      {
+        "name": "ABU DHABI",
+        "areaList": [
+            "Abu al Abyad",
+            "Al Ain",
+            "Al Shahama",
+            "Al Tawelah",
+            "Al Shalelah",
+            "Al-Aryam Island",
+            "Al Shamkha",
+            "Bani Yas City",
+            "Ghayathi",
+            "Ghantoot",
+            "Habshan",
+            "Al Wathba",
+            "Al Mu'azaz",
+            "Al Ad'la",
+            "Swehan",
+            "Halat Al Bahrani",
+            "Khalifa Port",
+            "Liwa Oasis",
+            "Madinat Zayed",
+            "Marabe al Dhafra",
+            "Marawah",
+            "Port Zayed",
+            "Ruwais",
+            "Sila",
+            "Sir Bani Yas",
+            "Tarif"
+        ]
+      },
+      
+      {
+        "name": "DUBAI",
+        "areaList": [
+            "Abu Hail",
+            "Al Awir First",
+            "Al Awir Second",
+            "Al Bada",
+            "Al Baraha",
+            "Al Barsha First",
+            "Al Barsha Second",
+            "Al Barsha South First",
+            "Al Barsha South Second",
+            "Al Barsha South Third",
+            "Al Barsha Third",
+            "Al Buteen",
+            "Al Dhagaya",
+            "Al Garhoud",
+            "Al Guoz Fourth",
+            "Al Hamriya, Dubai",
+            "Al Hamriya Port",
+            "Al Hudaiba",
+            "Al Jaddaf",
+            "Al Jafiliya",
+            "Al Karama",
+            "Al Khabisi",
+            "Al Khwaneej First",
+            "Al Khwaneej Second",
+            "Al Kifaf",
+            "Al Mamzar",
+            "Al Manara",
+            "Al Merkad",
+            "Al Mina",
+            "Al Mizhar First",
+            "Al Mizhar Second",
+            "Al Muraqqabat",
+            "Al Murar",
+            "Al Sabkha",
+            "Al Muteena",
+            "Al Nahda First",
+            "Al Nahda Second",
+            "Al Quoz First",
+            "Al Quoz Industrial First",
+            "Al Quoz Industrial Fourth",
+            "Al Quoz Industrial Second",
+            "Al Quoz Industrial Third",
+            "Al Quoz Second",
+            "Al Quoz Third",
+            "Al Qusais First",
+            "Al Qusais Industrial Fifth",
+            "Al Qusais Industrial First",
+            "Al Qusais Industrial Fourth",
+            "Al Qusais Industrial Second",
+            "Al Qusais Industrial Third",
+            "Al Qusais Second",
+            "Al Qusais Third",
+            "Al Raffa",
+            "Al Ras",
+            "Al Rashidiya",
+            "Al Rigga",
+            "Al Safa First",
+            "Al Safa Second",
+            "Al Safouh First",
+            "Al Safouh Second",
+            "Al Satwa",
+            "Al Shindagha",
+            "Al Souq Al Kabeer",
+            "Al Twar First",
+            "Al Twar Second",
+            "Al Twar Third",
+            "Al Warqa'a Fifth",
+            "Al Warqa'a First",
+            "Al Warqa'a Fourth",
+            "Al Warqa'a Second",
+            "Al Warqa'a Third",
+            "Al Wasl",
+            "Al Waheda",
+            "Ayal Nasir",
+            "Aleyas",
+            "Bu Kadra",
+            "Dubai Investment park First",
+            "Dubai Investment Park Second",
+            "Emirates Hill First",
+            "Emirates Hill Second",
+            "Emirates Hill Third",
+            "Hatta",
+            "Hor Al Anz",
+            "Hor Al Anz East",
+            "Jebel Ali 1",
+            "Jebel Ali 2",
+            "Jebel Ali Industrial",
+            "Jebel Ali Palm",
+            "Jumeira First",
+            "Palm Jumeira",
+            "Jumeira Second",
+            "Jumeira Third",
+            "Al Mankhool",
+            "Marsa Dubai",
+            "Mirdif",
+            "Muhaisanah Fourth",
+            "Muhaisanah Second",
+            "Muhaisanah Third",
+            "Muhaisnah First",
+            "Al Mushrif",
+            "Nad Al Hammar",
+            "Nadd Al Shiba Fourth",
+            "Nadd Al Shiba Second",
+            "Nadd Al Shiba Third",
+            "Nad Shamma",
+            "Naif",
+            "Al Muteena First",
+            "Al Muteena Second",
+            "Al Nasr, Dubai",
+            "Port Saeed",
+            "Arabian Ranches",
+            "Ras Al Khor",
+            "Ras Al Khor Industrial First",
+            "Ras Al Khor Industrial Second",
+            "Ras Al Khor Industrial Third",
+            "Rigga Al Buteen",
+            "Trade Centre 1",
+            "Trade Centre 2",
+            "Umm Al Sheif",
+            "Umm Hurair First",
+            "Umm Hurair Second",
+            "Umm Ramool",
+            "Umm Suqeim First",
+            "Umm Suqeim Second",
+            "Umm Suqeim Third",
+            "Wadi Alamardi",
+            "Warsan First",
+            "Warsan Second",
+            "Za'abeel First",
+            "Za'abeel Second"  
+        ]
+      },
+      {
+        "name": "SHARJAH",
+        "areaList": [
+            "Al Dhaid"
+        ]
+      }
+    ]
+  },
+  {
+      "name": "Qatar",
+      "cityList": [{
+          "name": "Madhinat Khalifa",
+          "areaList": ["MADHINAT KHALIFA"]
+      },{
+        "name": "Umm Slal Ali",
+        "areaList": ["UMM SLAL ALI"]
+    },{
+        "name": "Ras Laffan",
+        "areaList": ["RAS LAFFAN"]
+    },{
+        "name": "Dukhan",
+        "areaList": ["DUKHAN"]
+    },{
+        "name": "Al Khor",
+        "areaList": ["AL KHOR"]
+    },{
+        "name": "Fareej Al Amir",
+        "areaList": ["FAREEJ AL AMIR"]
+    },{
+        "name": "Dahl Al Hamam",
+        "areaList": ["DAHL AL HAMAM"]
+    },{
+        "name": "New Al Rayyan",
+        "areaList": ["NEW AL RAYYAN"]
+    },{
+        "name": "Al Kharatiyat",
+        "areaList": ["AL KHARATIYAT"]
+    },{
+        "name": "Al Wajba",
+        "areaList": ["AL WAJBA"]
+    },{
+        "name": "Umm Lekhba",
+        "areaList": ["UMM LEKHBA"]
+    },{
+        "name": "Al Messila",
+        "areaList": ["AL MESSILA"]
+    },{
+        "name": "Onaiza",
+        "areaList": ["ONAIZA"]
+    },{
+        "name": "Umm Slal Mohammad",
+        "areaList": ["UMM SLAL MOHAMMAD"]
+    },{
+        "name": "Ras Laffan Industrial City",
+        "areaList": ["RAS LAFFAN INDUSTRIAL CITY"]
+    },{
+        "name": "Sports City",
+        "areaList": ["SPORTS CITY"]
+    },{
+        "name": "Ras Abu Fontas",
+        "areaList": ["RAS ABU FONTAS"]
+    },{
+        "name": "Al Udeid",
+        "areaList": ["AL UDEID"]
+    },{
+        "name": "Lusail",
+        "areaList": ["LUSAIL"]
+    },{
+        "name": "Umm Al Amad",
+        "areaList": ["UMM AL AMAD"]
+    },{
+        "name": "Umm Said",
+        "areaList": ["UMM SAID"]
+    },{
+        "name": "Doha",
+        "areaList": ["DOHA"]
+    },{
+        "name": "Bani Hajer",
+        "areaList": ["BANI HAJER"]
+    },{
+        "name": "Al Wakra",
+        "areaList": ["AL WAKRA"]
+    },{
+        "name": "Al Khuwair",
+        "areaList": ["AL KHUWAIR"]
+    },{
+        "name": "Al Khulaifat",
+        "areaList": ["AL KHULAIFAT"]
+    },{
+        "name": "Saha",
+        "areaList": ["SAHA"]
+    },{
+        "name": "Muaither",
+        "areaList": ["MUAITHER"]
+    },{
+        "name": "Mesaimeer",
+        "areaList": ["MESAIMEER"]
+    },{
+        "name": "Al Duhail",
+        "areaList": ["AL DUHAIL"]
+    },{
+        "name": "Umm Bab",
+        "areaList": ["UMM BAB"]
+    },{
+        "name": "Wadi Al Banat",
+        "areaList": ["WADI AL BANAT"]
+    },{
+        "name": "Old Al Rayyan",
+        "areaList": ["OLD AL RAYYAN"]
+    },{
+        "name": "Al Shamal",
+        "areaList": ["AL SHAMAL"]
+    },{
+        "name": "Mesaieed",
+        "areaList": ["MESAIEED"]
+    },{
+        "name": "Lzghawa",
+        "areaList": ["LZGHAWA"]
+    },{
+        "name": "Al Waab",
+        "areaList": ["AL WAAB"]
+    },{
+        "name": "Al Gharafa",
+        "areaList": ["AL GHARAFA"]
+    },{
+        "name": "Al Dafna",
+        "areaList": ["AL DAFNA"]
+    },{
+        "name": "Al Luqta",
+        "areaList": ["AL LUQTA"]
+    },{
+        "name": "Al Sailiya",
+        "areaList": ["AL SAILIYA"]
+    },{
+        "name": "Doha Municipality",
+        "areaList": ["Al Hitmi",
+            "Wadi Al Sail",
+            "Umm Lekhba",
+            "Umm Ghuwailina",
+            "Rawdat Al Khail",
+            "Ras Abu Abboud",
+            "Onaiza",
+            "Old Al Ghanim",
+            "Old Airport",
+            "Nuaija",
+            "New Slata",
+            "Najma",
+            "Mushaireb",
+            "Madinat Khalifa South",
+            "Madinat Khalifa North",
+            "Jelaiah",
+            "Industerial Area",
+            "Hazm Al Markhiya",
+            "Fereej Mohammed Bin Jasim",
+            "Fereej Kulaib",
+            "Fereej Bin Omran",
+            "Fereej Bin Mahmoud",
+            "Fereej Abdel Aziz",
+            "Doha Port",
+            "Doha International Airport",
+            "Al Thumama",
+            "Al Souq",
+            "Al Sadd",
+            "Al Rumaila",
+            "Al Rufaa\/Old Al Hitmi",
+            "Al Qassar",
+            "Al Najada",
+            "Al Mirqab\/Old Slata",
+            "Al Messila",
+            "Al Markhiya",
+            "Al Mansoura",
+            "Al Khuwair",
+            "Al Khulaifat",
+            "Al Jebailat",
+            "Al Jasra",
+            "Al Hilal",
+            "Al Ebaib",
+            "Al Doha Al Jadeeda",
+            "Al Dafna",
+            "Al Bidda"]
+    },{
+        "name": "Al Rayyan Municipality",
+        "areaList": ["Sawda Natheel",
+            "New Al Rayyan",
+            "Mebaireek",
+            "Fereej Al Amir",
+            "Al Soudan",
+            "Al Luqta",
+            "Al Karaana",
+            "Al Gharrafa",
+            "Abu Samra"]
+    },{
+        "name": "Al Daayen Municipality",
+        "areaList": ["Jabal Thuaileb"]
+    },{
+        "name": "Umm Slal Municipality",
+        "areaList": ["Al Kharaitiyat"]
+    },{
+        "name": "Al Sheehaniya Municipality",
+        "areaList": ["Umm Bab",
+            "Rawdat Rashed",
+            "Lijmiliya",
+            "Dukhan",
+            "Al Utouriya",
+            "Al Sheehaniya",
+            "Al Nasraniya"]
+    },{
+        "name": "Al Khor And Al Thakhira Municipality",
+        "areaList": ["Al Thakhira",
+            "Al Khor",
+            "Al Ghuwairiya"]
+    },{
+        "name": "Al Shamal Municipality",
+        "areaList": ["Al Kabiyah",
+            "Al Adhbah",
+            "Al Mafjar",
+            "Fuwairit",
+            "Al Ruwais",
+            "Abu Dhalouf"]
+    },{
+        "name": "Al Wakra Municipality",
+        "areaList": ["Mesaieed Industrial Area",
+            "Mesaieed",
+            "Al Wukair",
+            "Al Wakra",
+            "Al Kharrara",
+            "Al Adaid"]
+    },{
+        "name": "Al Jumaliyah Municiplaity",
+        "areaList": ["Al Jumaliyah"]
+    },{
+        "name": "Al Daayen",
+        "areaList": ["AL DAAYEN"]
+    }]
+  },
+  {
+      "name": "Saudi Arabia",
+      "cityList": [{
+          "name": "Al Qasim",
+          "areaList": ["Buraydah",
+            "Unayzah"]
+      },{
+        "name": "Ha'il",
+        "areaList": ["Hail"]
+    },{
+        "name": "Riyadh",
+        "areaList": ["Majmaah",
+            "Kharj",
+            "Riyadh"]
+    },{
+        "name": "Tabuk",
+        "areaList": ["Tabuk"]
+    },{
+        "name": "Najran",
+        "areaList": ["Najran"]
+    },{
+        "name": "Asir",
+        "areaList": ["Abha",
+            "Bariq(bareq)",
+            "Bishah(Bisha)",
+            "Khamis Mushayt"]
+    },{
+        "name": "Medina",
+        "areaList": ["Madinah",
+            "Yanbu"]
+    },{
+        "name": "Ash Sharqiyah",
+        "areaList": ["Al khobar",
+            "Dammam",
+            "Dhahran",
+            "Jubail",
+            "Qatif",
+            "Ras Tannurah",
+            "Abqaiq",
+            "Hufuf",
+            "Hafar Al Baten"]
+    },{
+        "name": "Al Hudud ash Shamaliyah",
+        "areaList": ["Arar"]
+    },{
+        "name": "Al Bahah",
+        "areaList": ["Baha",
+            "Qunfudhah"]
+    },{
+        "name": "Makkah",
+        "areaList": ["Jeddah",
+            "Lith",
+            "Makkah",
+            "Taif"]
+    }]
+  },
+
+]

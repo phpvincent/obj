@@ -472,7 +472,7 @@ var payFun=function (){
     }
     var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
     if(!res.test(datasObj.email)){
-        layer.msg("please enter a valid email address.");
+        layer.msg("ااكتب لناعنوان صندوق البريد");
         return false;
     }
     var re = /^\d{9}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  

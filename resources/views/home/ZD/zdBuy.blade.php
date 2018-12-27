@@ -107,7 +107,8 @@
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入台湾的文件，其它地区的文件，在自定义block中设置-->
-        <script src="/js/diqu/kataer.js"></script>
+        <script src="/js/diqu/zhongdong.json"></script>
+        <script src="/js/diqu/Address.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
@@ -224,14 +225,24 @@
         <input type="text" name="lastname" class="mui-input-clear">
     </div>
     <div class="mui-input-row">
+        <label style="float: right;">:بلد<span class="require">*</span></label>
+        <select name="order_country" id="Select1" style="width: 72%!important;margin-right: 0!important;"></select>
+    </div><div class="mui-input-row">
+        <label style="float: right;">:مقاطعة<span class="require">*</span></label>
+        <select name="state" id="Select2" style="width: 72%!important;margin-right: 0!important;"></select>
+    </div><div class="mui-input-row">
+        <label style="float: right;">:مدين<span class="require">*</span></label>
+        <select name="city" id="Select3" style="width: 72%!important;margin-right: 0!important;"></select>
+    </div>
+    <div class="mui-input-row">
         <label style="float: right;">:الهاتف <span class="require">*</span></label>
         <span style="    width: 22%;
     border: 1px solid #ddd;
     border-radius: 8px;
     display: inline-block;
     line-height: 32px;
-    text-align: center;">+974</span>
-        <input type="text" datatype="/^\d+$/"style="width:50%" placeholder=" رقم هاتف المستلم لا تترك فارغه" nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
+    text-align: center;">+966</span>
+        <input type="text"style="width:50%" datatype="/^\d+$/" placeholder=" رقم هاتف المستلم لا تترك فارغه" nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -248,10 +259,10 @@
         <label>City:</label>
         <!--<input type="text" name="city" datatype="z1-300" nullmsg="city_not_correct" errormsg="city_not_correct" class="mui-input-clear">-->
     </div>
-    <div class="mui-input-row">
+    <!-- <div class="mui-input-row">
         <label style="float: right;">:اختر المنطقه التابع له<span class="require">*</span></label>
         <div id="twzipcode"></div>
-    </div>
+    </div> -->
     <div class="mui-input-row">
         <label style="float: right;">:العنوان بالتفصيل <span class="require">*</span></label>
         <input type="text" datatype="z1-300" placeholder="اسم الشارع والبنايه  لا تترك فارغه" nullmsg="" errormsg="" name="address1" class="mui-input-clear">
@@ -265,7 +276,7 @@
         <input type="text" name="zip"placeholder="اكتب الرقم البريدي الخاص بالمدينه التي يعيش فيها المستلم لا تترك فارغه" class="mui-input-clear">
     </div> -->
     <div class="mui-input-row need_email">
-        <label style="float: right;">:البريد الالكتروني </label>
+        <label style="float: right;">:البريد الالكتروني <span class="require">*</span></label>
         <input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
@@ -319,10 +330,10 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red;font-size: 16px;">
+<!--button begin-->
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
 تتعهد الشركه  بالحفاظ علي جميع بيناتكم الشخصيه  
 </div>
-<!--button begin-->
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01">تقديم الطلب  </button>
 </div>
@@ -458,7 +469,7 @@ var payFun=function (){
         layer.msg('لا تترك فارغه');
         return false;
     }
-    if(datasObj.city==null||datasObj.city==''){
+    if(datasObj.city==null||datasObj.city==''||datasObj.city=='please choose the city and district'){
         layer.msg('اختر المنطقه ');
         return false;
     }
@@ -475,11 +486,28 @@ var payFun=function (){
         layer.msg("ااكتب لناعنوان صندوق البريد");
         return false;
     }
-    var re = /^\d{8}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    if(!re.test(datasObj.telephone)){
-        layer.msg(' أدخل رقم هاتف صالح');
-        return false;
-    }
+    if(datasObj.order_country=="Saudi Arabia"){
+        var re = /^\d{9}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/
+        if(!re.test(datasObj.telephone)){
+            layer.msg(' أدخل رقم هاتف صالح');
+            return false;
+        }
+        datasObj.telephone="966"+datasObj.telephone;
+       }else if(datasObj.order_country=="United Arab Emirates"){
+           var re = /^\d{9}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/
+           if(!re.test(datasObj.telephone)){
+               layer.msg(' أدخل رقم هاتف صالح');
+               return false;
+            }
+            datasObj.telephone="971"+datasObj.telephone;
+       }else if(datasObj.order_country=="Qatar"){
+           var re = /^\d{8}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/
+           if(!re.test(datasObj.telephone)){
+               layer.msg(' أدخل رقم هاتف صالح');
+               return false;
+            }
+            datasObj.telephone="974"+datasObj.telephone;
+       }
         //判断用户是否选择了商品属性；
         var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -493,7 +521,7 @@ var payFun=function (){
         layer.msg('من فضلك قم بكتابة بيانات المنتج كامله ');
         return false;
     };
-    datasObj.telephone="974"+datasObj.telephone;
+    datasObj.telephone="966"+datasObj.telephone;
     // layer.msg("订单提交中，请稍等...");
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:' انتظر قليلا الطلب تحت التأكيد.',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px', 'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -510,8 +538,8 @@ var payFun=function (){
                layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
-                            // $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            // window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
                        },
           
                     
@@ -613,36 +641,48 @@ jQuery(function(){
     </script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function(e) {
-        jQuery('#twzipcode').twzipcode();
-        jQuery('input[name="zipcode"]').attr('style','display:none;');
-        jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:0!important;width: 40%;float: right;');
-        jQuery('#twzipcode').find("[name='city']").attr('style','margin-right:1.7%!important;width: 40%;float: right;');
-        jQuery('#twzipcode').find("[name='state']").change(function(){
-            var county = jQuery(this).val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+addressInit('Select1', 'Select2', 'Select3');
+$("#Select1").change(function(){
+       var selected=$(this).children('option:selected').val()
+      // alert(selected);
+       if(selected=="Saudi Arabia"){
+        $('#quhao').text('+966')
+       }else if(selected=="United Arab Emirates"){
+        $('#quhao').text('+971')
+       }else if(selected=="Qatar"){
+        $('#quhao').text('+974')
+       }
+   });
+    // jQuery(document).ready(function(e) {
+    //     jQuery('#twzipcode').twzipcode();
+    //     jQuery('input[name="zipcode"]').attr('style','display:none;');
+    //     jQuery('#twzipcode').find("[name='state']").attr('style','margin-right:0!important;width: 40%;float: right;');
+    //     jQuery('#twzipcode').find("[name='city']").attr('style','margin-right:1.7%!important;width: 40%;float: right;');
+    //     jQuery('#twzipcode').find("[name='state']").change(function(){
+    //         var county = jQuery(this).val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('#twzipcode').find("[name='city']").change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            district = jQuery(this).val();
+    //     jQuery('#twzipcode').find("[name='city']").change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         district = jQuery(this).val();
 
 
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all').val(message_info);
-        });
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all').val(message_info);
+    //     });
 
-        jQuery('.gw_address_message_info').change(function(){
-            var county = jQuery('#twzipcode').find("[name='state']").val();
-            var district = jQuery('#twzipcode').find("[name='city']").val();
-            //alert(district);
-            var message_info = county + " " +  district;
-            jQuery('#gw_address_message_all ').val(message_info);
-        });
+    //     jQuery('.gw_address_message_info').change(function(){
+    //         var county = jQuery('#twzipcode').find("[name='state']").val();
+    //         var district = jQuery('#twzipcode').find("[name='city']").val();
+    //         //alert(district);
+    //         var message_info = county + " " +  district;
+    //         jQuery('#gw_address_message_all ').val(message_info);
+    //     });
 
-    });
+    // });
 </script>
 
 <script>
@@ -653,7 +693,7 @@ jQuery(function(){
         html1 +='<input type="text" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." nullmsg="" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
         var html2 = '';
 
-        html2 += "<label style='float: right;'>:البريد الالكتروني <span style='color:red;'>*</span> </label>";
+        html2 += "<label style='float: right;'>:البريد الالكتروني <span class='require'>*</span></label>";
         html2 += '<input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">';
 
         var payty =  jQuery('input[name=pay_type]:checked').val();

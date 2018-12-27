@@ -115,6 +115,8 @@
 						<option value="13">13--沙特英文</option>						
 						<option value="14">14--卡塔尔</option>
 						<option value="15">15--卡塔尔英文</option>
+						<option value="16">16--中东阿语</option>
+						<option value="17">17--中东英语</option>
 						{{--<option value="2">2--无倒计时模板</option>--}}
 					</select>
 					</span> </div>
@@ -1259,6 +1261,12 @@
                 break;
 			case '15':
                 $('#currency_type').val(13);
+                break;
+			case '16':
+                $('#currency_type').val(2);
+                break;
+			case '17':
+                $('#currency_type').val(2);
                 break;
         }
 	});
