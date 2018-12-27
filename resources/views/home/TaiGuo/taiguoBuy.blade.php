@@ -204,7 +204,7 @@
         <label><span class="require">*</span>บอร์โทรศัพท์:</label>
         <input type="text" datatype="/^\d+$/" placeholder="กรุณาระบุ เบอร์โทรศัพท์ของผู้รับของ" nullmsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" errormsg="คุณยังไม่ได้กรอกข้อมูลหมายเลขโทรศัพท์มือถือ" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 23%; height: 26px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
     โปรดตรวจสอบว่าเบอร์โทรศัพท์รึเปล่า ถูกต้องไหม และถูกต้องไหม เพื่อให้เราสามารถติดต่อคุณและส่งถูกต้องสินค้า 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->

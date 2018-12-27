@@ -234,7 +234,7 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 23%; height: 44px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
     Harap pastikan bahwa informasi nomor telepon ini benar dan akurat sehingga kami dapat menghubungi Anda dan mengirimkan barang dengan benar. 
     </div>
     <div class="mui-input-row" style="display:none;">

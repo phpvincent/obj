@@ -205,7 +205,7 @@
         <label><span class="require">*</span>携帯電話:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必須、受取人電話番号" nullmsg="「電話番号」は空欄にできません" errormsg="「電話番号」は空欄にできません" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 23%; height: 26px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
     電話番号を指定してください。 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->

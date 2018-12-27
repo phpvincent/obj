@@ -237,7 +237,7 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-right: 23%; height: 26px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-right: 23%; ">
     يرجي من سيادتكم التأكد من رقم الهاتف والمعلومات الخاصه بكم لسهوله التواصل معكم وتسليمكم الطلب 
     </div>
     <div class="mui-input-row" style="display:none;">
