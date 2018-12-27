@@ -214,7 +214,7 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
         Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
     </div>
     <div class="mui-input-row" style="display:none;">
@@ -290,7 +290,7 @@
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
     
 <!--button begin-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
     We promise that your personal information above will be kept confidential without being disclosed. 
 </div>
 <div class="btndiv">

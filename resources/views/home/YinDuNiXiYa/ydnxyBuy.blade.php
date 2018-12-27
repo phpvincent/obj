@@ -234,7 +234,7 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 44px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
     Harap pastikan bahwa informasi nomor telepon ini benar dan akurat sehingga kami dapat menghubungi Anda dan mengirimkan barang dengan benar. 
     </div>
     <div class="mui-input-row" style="display:none;">
@@ -324,7 +324,7 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 18px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 18px;color: red; font-size: 16px;">
 Informasi di atas akan dijaga kerahasiaannya dan kami menjamin bahwa kami tidak akan menginformasikan informasi pribadi Anda. 
 </div>
 <!--button begin-->

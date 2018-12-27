@@ -205,7 +205,7 @@
         <label><span class="require">*</span>携帯電話:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必須、受取人電話番号" nullmsg="「電話番号」は空欄にできません" errormsg="「電話番号」は空欄にできません" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 26px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
     電話番号を指定してください。 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
@@ -288,7 +288,7 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
 私たちは、上記のあなたの個人情報が開示されることなく秘密に保たれると約束します。 
 </div>
 <!--button begin-->

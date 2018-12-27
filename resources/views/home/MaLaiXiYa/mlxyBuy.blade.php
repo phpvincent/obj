@@ -205,7 +205,7 @@
         <label><span class="require">*</span>Phone No.:</label>
         <input type="text" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
         Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
@@ -295,7 +295,7 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
     We promise that your personal information above will be kept confidential without being disclosed. 
 </div>
 <!--button begin-->

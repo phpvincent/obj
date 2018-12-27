@@ -204,7 +204,7 @@
         <label><span class="require">*</span>số điện thoại :</label>
         <input type="text" datatype="/^\d+$/" placeholder="phải điền,điền vào số điện thoại của người nhận hàng " nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
     </div>
-    <div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;padding-left: 156px; height: 32px;">
+    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
     Hãy đảm bảo là số điện thoại đúng hiệu quả, để chúng tôi liên hệ với anh, chính xác để giao hàng. 
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
@@ -292,7 +292,7 @@
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
 <!--button begin-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 14px;color: red;height: 34px;font-size: 16px;">
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
 Chúng tôi đảm bảo tài liệu cá nhân của bạn nêu trên sẽ giữ bí mật, không được tiết lộ.
 </div>
 <div class="btndiv">
