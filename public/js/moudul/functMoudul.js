@@ -159,14 +159,14 @@ function countDiff (a,basePrice,moneycoin,realPrice){
     console.log("realPrice",nunnn*realPrice)
     var realPricecount=nunnn*realPrice-basePrice+countDiffPrice;
     // 显示减免额
-    $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ returnFloat(realPricecount));
+    realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ returnFloat(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
 
-    //如果是印尼模板；不要小数点；三位一个逗号；
+    //如果是印尼和越南模板；不要小数点；三位一个逗号；
     try {
         $('.addcart-footer-price-total').children('font:first').html(moneycoin+ toThousands(basePrice+countDiffPrice));
         $('#realprice').html( toThousands(basePrice+countDiffPrice));
             // 显示减免额
-        $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ returnFloat(realPricecount));
+            realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ toThousands(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
     } catch (error) {
         
     }
