@@ -577,7 +577,16 @@ class IndexController extends Controller
         $order->order_add=$request->input('address1');
         $order->order_village=$request->input('order_village');
         $order->order_country=$request->input('order_country'); //订单所属国家（中东集成模板） 2018-12-27添加
-        $order->order_email=str_replace(' ','',$request->input('email'));
+        //邮箱尾部认证
+        $email = str_replace(' ','',$request->input('email'));
+        $pos = strrpos($email,'.');
+        if($email){
+            $prefix = substr($email,0,$pos+1);
+            if(substr($email,$pos+1) == 'coom' || substr($email,$pos+1,$pos+3) == 'co' || substr($email,$pos+2,$pos+4) == 'om' || substr($email,$pos+1,$pos+3) == 'cm'){
+                $order->order_email= $prefix.'com';
+            }
+        }
+//        $order->order_email=str_replace(' ','',$request->input('email'));
         $order->order_isemail='0';
         $msg=$order->save();
         if($request->has('goodsAtt')){
@@ -1116,7 +1125,16 @@ class IndexController extends Controller
        $order->order_add=$request->input('address1');
        $order->order_village=$request->input('order_village');
        $order->order_country=$request->input('order_country'); //订单所属国家（中东集成模板） 2018-12-27添加
-       $order->order_email=str_replace(' ','',$request->input('email'));
+//       $order->order_email=str_replace(' ','',$request->input('email'));
+       //邮箱尾部认证 2018-12-29
+       $email = str_replace(' ','',$request->input('email'));
+       $pos = strrpos($email,'.');
+       if($email){
+           $prefix = substr($email,0,$pos+1);
+           if(substr($email,$pos+1) == 'coom' || substr($email,$pos+1,$pos+3) == 'co' || substr($email,$pos+2,$pos+4) == 'om' || substr($email,$pos+1,$pos+3) == 'cm'){
+               $order->order_email= $prefix.'com';
+           }
+       }
        $msg=$order->save();
        if($request->has('goodsAtt')){
            $order_id=$order->order_id;
