@@ -582,8 +582,13 @@ class IndexController extends Controller
         $pos = strrpos($email,'.');
         if($email){
             $prefix = substr($email,0,$pos+1);
-            if(substr($email,$pos+1) == 'coom' || substr($email,$pos+1,$pos+3) == 'co' || substr($email,$pos+2,$pos+4) == 'om' || substr($email,$pos+1,$pos+3) == 'cm'){
+            $c = substr($email,$pos+1,1);
+            $o = substr($email,$pos+2,1);
+            $m = substr($email,strlen($email)-1);
+            if(($c == 'c' && $m == 'm') || ($c == 'c' && $o == 'o') || ($o == 'o' && $m == 'm')){
                 $order->order_email= $prefix.'com';
+            }else{
+                $order->order_email= $email;
             }
         }
 //        $order->order_email=str_replace(' ','',$request->input('email'));
@@ -1131,8 +1136,13 @@ class IndexController extends Controller
        $pos = strrpos($email,'.');
        if($email){
            $prefix = substr($email,0,$pos+1);
-           if(substr($email,$pos+1) == 'coom' || substr($email,$pos+1,$pos+3) == 'co' || substr($email,$pos+2,$pos+4) == 'om' || substr($email,$pos+1,$pos+3) == 'cm'){
+           $c = substr($email,$pos+1,1);
+           $o = substr($email,$pos+2,1);
+           $m = substr($email,strlen($email)-1);
+           if(($c == 'c' && $m == 'm') || ($c == 'c' && $o == 'o') || ($o == 'o' && $m == 'm')){
                $order->order_email= $prefix.'com';
+           }else{
+               $order->order_email= $email;
            }
        }
        $msg=$order->save();
