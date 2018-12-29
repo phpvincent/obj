@@ -170,13 +170,13 @@
 <div id="orderlog" class="Popup">
         <div>
             <div>
-                <h3>订单确认</h3><img style="top:5px;right:5px;position: absolute;z-index: 9;padding-left: 10px; width: 35px;" src="/img/close.png" onclick="(function(){$('#orderlog').hide()})()">
+                <h3>konfirmasi pesanan</h3><img style="top:5px;right:5px;position: absolute;z-index: 9;padding-left: 10px; width: 35px;" src="/img/close.png" onclick="(function(){$('#orderlog').hide()})()">
                 <div id="orderlogConten">  
                 </div>
                 <div id="orderlogConten2"></div>
 
             </div>
-            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">确认</button>
+            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;"> konfirmasi/ok</button>
         </div>
     </div>
 
