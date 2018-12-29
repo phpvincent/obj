@@ -881,7 +881,7 @@ button.bunble{ margin-top:10px;}
 .ischeck{
 	border:2px solid red;
 }
-
+ /* 小手动画 */
 #addcart .addcart-quantity img {
 	left: 15px;
 	position:relative;
@@ -900,3 +900,65 @@ button.bunble{ margin-top:10px;}
 	from {top:8px;}
 	to {top:-6px;}
   }
+
+  /* 订单详情弹框 */
+  .Popup{
+	display: none;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	z-index:9999999999;
+	position:fixed;
+	background-color:rgba(0,0,0,0.3)
+}
+.Popup>div{
+	/* height:80%; */
+	width:80%;
+	position: relative;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}
+.Popup>div>div{
+	/* height:100%; */
+	width:100%;
+	overflow-y: auto;
+	
+	background: #fff;
+	padding:10px;
+	padding-bottom:30px;
+}
+/* .Popup> .Close{
+	height:30px;
+	line-height:30px;
+	width:80%;
+	left:10%;
+	text-align: center;
+	position: absolute;
+	bottom:10%;
+	color:#fff;
+	cursor:pointer;
+	margin:0;
+} */
+.Popup>div h3,.Popup>div h6{
+	text-align: center;
+	border-bottom: 1px solid #F29400;
+	padding-bottom: 5px;
+	color: red
+}
+#orderlog p{
+	color:black;
+}
+#orderlog p span{
+	margin-right: 10px;
+}
+#orderlogConten2
+{
+	border-top: 1px solid #F29400;
+    margin-top: 10px;
+}
+#orderlogConten2 span
+{
+	font-weight: 700
+}
