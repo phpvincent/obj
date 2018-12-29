@@ -239,6 +239,16 @@ body,dl,dd{padding: 0;}
 	font-size: 14px;
 	margin-bottom: 5px;
 }
+.addcart-footer .addcart-footer-realPriceNative-total{
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+.addcart-footer .addcart-footer-realPriceNative-total font {
+	color: #f00;
+	font-weight: bold;
+	text-decoration: line-through;
+}
+
 .addcart-buttons{
 	position: absolute;
 	bottom: 0;

@@ -159,14 +159,18 @@ function countDiff (a,basePrice,moneycoin,realPrice){
     console.log("realPrice",nunnn*realPrice)
     var realPricecount=nunnn*realPrice-basePrice+countDiffPrice;
     // 显示减免额
-    realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ returnFloat(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
-
+    realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html('-'+moneycoin+ returnFloat(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
+    //显示总原价
+    $('.addcart-footer-realPriceNative-total').children('font:first').html(moneycoin+ returnFloat(nunnn*realPrice));
     //如果是印尼和越南模板；不要小数点；三位一个逗号；
     try {
         $('.addcart-footer-price-total').children('font:first').html(moneycoin+ toThousands(basePrice+countDiffPrice));
         $('#realprice').html( toThousands(basePrice+countDiffPrice));
             // 显示减免额
-            realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html(moneycoin+ toThousands(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
+            realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html('-'+moneycoin+ toThousands(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
+            //显示总原价
+            $('.addcart-footer-realPriceNative-total').children('font:first').html(moneycoin+ toThousands(nunnn*realPrice));
+            
     } catch (error) {
         
     }
@@ -268,6 +272,59 @@ function payFunMessage(){
              
              $(this).find('select').each(function(i,item){
                 selectVal+= $(this).find('option:selected').text() +'&nbsp;&nbsp'
+             })
+        }
+
+        console.log(html1 + selectVal)
+        itemHtml2 += html1
+    })
+
+    console.log(itemHtml,itemHtml2);
+    $("#orderlogConten").html(itemHtml);
+    $("#orderlogConten2").html(itemHtml2);
+    $("#orderlogConten2 .selectAddress1").after(selectVal);
+    
+}
+
+//阿拉伯语；向右方式确认订单弹框收集确认信息
+function payFunMessageRight(){
+    var itemHtml='';
+    var itemHtml2='';
+    var selectVal = '';
+    $("#goods_config_div form").each(function(i,item){
+        var itemNum = $('.jianshu strong',this).html()? $('.jianshu strong',this).html():$(this).parent().parent().find(".mui-navigate-right strong").html()
+        var divitemHtml='';
+        $('div',this).each(function(i,item){
+            // console.log($('dt',this).text(),$('.ischeck',this).text());
+            if($('dt',this).text()){
+                divitemHtml+="&nbsp;&nbsp"+ $('.ischeck',this).text().trim()+":"+$('dt',this).text().substring(1);
+            }     
+        }) 
+        itemHtml += '<p><strong>'+itemNum+'</strong></p>'+divitemHtml;
+    })
+
+    $('.mui-input-group div.mui-input-row:visible').each(function(i,item){
+        var html1='';
+  
+        if($(this).children('input').length!==0 && $(this).children('#quhao').length==0){
+            if($(this).children('input[name="address1"]').length!==0){
+                html1 += '<p>'+ $(this).children('input').val()+ '<span class="selectAddress1">'+$(this).children('label').text().replace('*','')+'</span></p>';
+            }else{
+                html1 += '<p>' + $(this).children('input').val()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span></p>';
+            }
+        } else if($(this).children('#quhao').length!==0){
+
+            html1 += '<p>' + $(this).children('input').val()+'&nbsp;&nbsp'+$(this).children('#quhao').text()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span>'+'</p>';
+        } else if($(this).children('textarea').length!==0){
+
+            html1 += '<p>' + $(this).children('textarea').val()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span></p>';
+        } else if ($(this).children('select').length!==0) {
+            
+            html1 += '<p>'+ $(this).children('select').find('option:selected').text()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span></p>';
+        } else if($(this).children('#twzipcode').length!==0){
+             
+             $(this).find('select').each(function(i,item){
+                selectVal+= '&nbsp;&nbsp'+$(this).find('option:selected').text()
              })
         }
 
