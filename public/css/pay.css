@@ -956,9 +956,18 @@ button.bunble{ margin-top:10px;}
 #orderlogConten2
 {
 	border-top: 1px solid #F29400;
-    margin-top: 10px;
+	margin-top: 10px;
+	word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
 }
 #orderlogConten2 span
 {
 	font-weight: 700
+}
+#orderlogConten
+{
+	word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
 }
