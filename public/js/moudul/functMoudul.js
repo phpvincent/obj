@@ -249,12 +249,15 @@ function payFunMessage(){
     $('.mui-input-group div.mui-input-row:visible').each(function(i,item){
         var html1='';
   
-        if($(this).children('input').length!==0){
+        if($(this).children('input').length!==0 && $(this).children('#quhao').length==0){
             if($(this).children('input[name="address1"]').length!==0){
                 html1 += '<p><span class="selectAddress1">'+$(this).children('label').text().replace('*','')+'</span>' + $(this).children('input').val()+'</p>';
             }else{
                 html1 += '<p><span class="">'+$(this).children('label').text().replace('*','')+'</span>' + $(this).children('input').val()+'</p>';
             }
+        } else if($(this).children('#quhao').length!==0){
+
+            html1 += '<p><span class="">'+$(this).children('label').text().replace('*','')+'</span>'+$(this).children('#quhao').text()+'&nbsp;&nbsp' + $(this).children('input').val()+'</p>';
         } else if($(this).children('textarea').length!==0){
 
             html1 += '<p><span class="">'+$(this).children('label').text().replace('*','')+'</span>' + $(this).children('textarea').val()+'</p>';
