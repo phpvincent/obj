@@ -142,6 +142,19 @@
 </head>
 <body style="">
 
+<div id="orderlog" class="Popup">
+        <div>
+            <div>
+                <h3>注文の詳細</h3><img style="top:5px;right:5px;position: absolute;z-index: 9;padding-left: 10px; width: 35px;" src="/img/close.png" onclick="(function(){$('#orderlog').hide()})()">
+                <div id="orderlogConten">
+                </div>
+                <div id="orderlogConten2"></div>
+
+            </div>
+            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">確定</button>
+        </div>
+    </div>
+
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
@@ -367,12 +380,13 @@
 
 layer.load(2);
 layer.closeAll();
+var datasObj={};
 var payFun=function (){
      
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
     var dataObj={};
-    var datasObj={};
+
     var fromArr=$("#goods_config_div").find("form").serializeArray();
 
     $.each(dataArr,function(i,val){
@@ -441,6 +455,12 @@ var payFun=function (){
     }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("ご購入の手続きは提出中。少々お待ちください。");
+    $("#orderlog").show();
+    payFunMessage()
+            
+}
+var payFunGo= function (){
+    $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'オーダー提出中、少々お待ちください',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
     }})
@@ -506,6 +526,7 @@ var payFun=function (){
             
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
+$('#payOk').bind('click',payFunGo);//封装订单提交
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }

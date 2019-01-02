@@ -244,7 +244,7 @@ function payFunMessage(){
         $('div',this).each(function(i,item){
             // console.log($('dt',this).text(),$('.ischeck',this).text());
             if($('dt',this).text()){
-                divitemHtml+=$('dt',this).text().substring(1) +":"+$('.ischeck',this).text();
+                divitemHtml+=$('dt',this).text().substring(1) +":"+$('.ischeck',this).text().trim()+"&nbsp;&nbsp";
             }     
         }) 
         itemHtml += '<p><strong>'+itemNum+'</strong></p>'+divitemHtml;
@@ -314,7 +314,7 @@ function payFunMessageRight(){
             }
         } else if($(this).children('#quhao').length!==0){
 
-            html1 += '<p>' + $(this).children('input').val()+'&nbsp;&nbsp'+$(this).children('#quhao').text()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span>'+'</p>';
+            html1 += '<p>'+$(this).children('#quhao').text() +'&nbsp;&nbsp'+ $(this).children('input').val()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span>'+'</p>';
         } else if($(this).children('textarea').length!==0){
 
             html1 += '<p>' + $(this).children('textarea').val()+'<span class="">'+$(this).children('label').text().replace('*','')+'</span></p>';
@@ -326,6 +326,7 @@ function payFunMessageRight(){
              $(this).find('select').each(function(i,item){
                 selectVal+= '&nbsp;&nbsp'+$(this).find('option:selected').text()
              })
+             html1 += selectVal+"<br>"
         }
 
         console.log(html1 + selectVal)
@@ -335,6 +336,6 @@ function payFunMessageRight(){
     console.log(itemHtml,itemHtml2);
     $("#orderlogConten").html(itemHtml);
     $("#orderlogConten2").html(itemHtml2);
-    $("#orderlogConten2 .selectAddress1").after(selectVal);
+    // $("#orderlogConten2 .selectAddress1").after(selectVal);
     
 }

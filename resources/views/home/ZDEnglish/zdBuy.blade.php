@@ -143,6 +143,19 @@
 </head>
 <body style="">
 
+<div id="orderlog" class="Popup">
+        <div>
+            <div>
+                <h3>order confirmation</h3><img style="top:5px;right:5px;position: absolute;z-index: 9;padding-left: 10px; width: 35px;" src="/img/close.png" onclick="(function(){$('#orderlog').hide()})()">
+                <div id="orderlogConten">
+                </div>
+                <div id="orderlogConten2"></div>
+
+            </div>
+            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
+        </div>
+    </div>
+
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
@@ -382,12 +395,13 @@
 
 layer.load(2);
 layer.closeAll();
+var datasObj={};
 var payFun=function (){
      
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
     var dataObj={};
-    var datasObj={};
+
     var fromArr=$("#goods_config_div").find("form").serializeArray();
 
     $.each(dataArr,function(i,val){
@@ -481,6 +495,13 @@ var payFun=function (){
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     
     // layer.msg("Please wait for the order submitted");
+    
+    $("#orderlog").show();
+    payFunMessage()
+            
+}
+var payFunGo= function (){
+    $("#orderlog").hide()
     var payType=$(".paymentbox input:checked").val();
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red','margin-left':' -80px','background-position-x': '106px'});
@@ -543,6 +564,7 @@ var payFun=function (){
             
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
+$('#payOk').bind('click',payFunGo);//封装订单提交
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -740,7 +762,7 @@ $("#Select1").change(function(){
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
-                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  Only left:'+msg.goods.goods_num+'\）</span><span class="addcart-specs-status"></span></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span><span class="addcart-footer-realPrice-total">Total savings:<font></font></span></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div>';
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  Only left:'+msg.goods.goods_num+'\）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">orignal price:<font>1</font></span><span class="addcart-footer-realPrice-total">Total savings:<font></font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                             $("#addcart").html(addCartHtml1);
                             var pricehtml=$('.addcart-footer-price-total').children('font:first');
                                 var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
@@ -781,7 +803,7 @@ $("#Select1").change(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'&#12305;Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span><span class="addcart-footer-realPrice-total">Total savings:<font></font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'&#12305;Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">orignal price:<font>1</font></span><span class="addcart-footer-realPrice-total">Total savings:<font></font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -890,7 +912,7 @@ $("#Select1").change(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span><span class="addcart-footer-realPrice-total">Total savings:<font></font></span></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">orignal price:<font>1</font></span><span class="addcart-footer-realPrice-total">Total savings:<font></font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；

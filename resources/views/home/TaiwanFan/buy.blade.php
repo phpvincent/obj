@@ -141,6 +141,19 @@
 </head>
 <body style="">
 
+<div id="orderlog" class="Popup">
+        <div>
+            <div>
+                <h3>訂單確認</h3><img style="top:5px;right:5px;position: absolute;z-index: 9;padding-left: 10px; width: 35px;" src="/img/close.png" onclick="(function(){$('#orderlog').hide()})()">
+                <div id="orderlogConten">
+                </div>
+                <div id="orderlogConten2"></div>
+
+            </div>
+            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">確認</button>
+        </div>
+    </div>
+
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
@@ -462,6 +475,12 @@ var payFun=function (){
     };
 
     // layer.msg("訂單提交中，請稍等");
+    $("#orderlog").show();
+    payFunMessage()
+            
+}
+var payFunGo= function (){
+    $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'訂單提交中，請稍等',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',   'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
     }})
@@ -526,6 +545,7 @@ var payFun=function (){
             
 }
 $('#pay').bind('click',payFun) //封装订单提交函数；
+$('#payOk').bind('click',payFunGo);//封装订单提交
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
