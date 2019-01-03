@@ -99,13 +99,13 @@
 
 
             .alpha {
-     height: 100%;
-     overflow: hidden;
-    }
-    .alpha body {
-     height: 100%;
-     overflow: hidden;
-    }
+        height: 100%;
+        overflow: hidden;
+        }
+        .alpha body {
+        height: 100%;
+        overflow: hidden;
+        }
         </style>
         <script>
         jQuery(function(){setFrom();});

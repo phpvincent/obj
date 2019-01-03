@@ -95,6 +95,14 @@
             .service a, .query a {
                 margin-left: -4%;
             }}
+            .alpha {
+            height: 100%;
+            overflow: hidden;
+            }
+            .alpha body {
+            height: 100%;
+            overflow: hidden;
+            }
         </style>
         <script>
         jQuery(function(){setFrom();});
@@ -845,6 +853,17 @@ $(function(){
        var goods_google_pix= "{{$goods->goods_google_pix ? $goods->goods_google_pix : null}}";
        var goods_yahoo_pix= "{{$goods->goods_yahoo_pix ? $goods->goods_yahoo_pix : null}}";
        var goods_id= {{$goods->goods_id ? $goods->goods_id : 'null'}};
+       $('#btnPay').click(function(){
+        if(bladeStyle==1){
+            $('html').addClass('alpha');
+       }
+       })
+       $("#closeBtn").click(function(){
+        var a=$("#btnPay2").parent().css('display')
+           if(a=="block"){
+            $('html').removeClass('alpha');
+           }
+       })
        if(bladeStyle==1){
            $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" height="100%" ></iframe>')
        }
