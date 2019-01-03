@@ -500,7 +500,7 @@ var payFunGo= function (){
            
                      
             error: function(data) {
-                layer.colse(index);
+                layer.close(index);
                 layer.msg('The order submission failed. Please check the network condition.');
             }
          }) ; 
