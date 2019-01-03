@@ -486,7 +486,8 @@
         <tr class="first odd">
             <td colspan="2">
             <p>
-                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a>
+                24H Online Customer Service: <a href="javascript:void(0);"><img src="https://d1lnephkr7mkjn.cloudfront.net/skin/image/service.png" style=" width:15px; height:auto;"></a><br>
+                <img src="/images/dianhua.jpg" style=" width:15px; height:auto;">what's app+6588768960
                 <br>Email:
 
                                 <a  href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>
