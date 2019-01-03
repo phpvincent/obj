@@ -405,12 +405,13 @@
 
 layer.load(2);
 layer.closeAll();
+var datasObj={};
 var payFun=function (){
      
     //整理表单数据；
     var dataArr=$("form#f1").serializeArray();
     var dataObj={};
-    var datasObj={};
+
     var fromArr=$("#goods_config_div").find("form").serializeArray();
 
     $.each(dataArr,function(i,val){
