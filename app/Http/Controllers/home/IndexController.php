@@ -412,7 +412,7 @@ class IndexController extends Controller
         $order->order_city=$request->input('city');
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
-        $msg=$order->save();
+        //$msg=$order->save();
         if($msg){
                     return response()->json(['err'=>1,'str'=>'提交成功']);
         }else{
