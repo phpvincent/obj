@@ -411,6 +411,7 @@
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){ layer.msg('请填写完整商品属性');}
 var payFun=function (){
      
     //整理表单数据；

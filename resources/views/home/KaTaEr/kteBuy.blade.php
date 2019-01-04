@@ -441,6 +441,7 @@
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){ layer.msg('من فضلك قم بكتابة بيانات المنتج كامله ');}
 var payFun=function (){
      
     //整理表单数据；

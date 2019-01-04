@@ -429,6 +429,7 @@ function jianshu(a){
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){ layer.msg('silakan isi informasi lengkap produk.');}
 var payFun=function (){
      
     //整理表单数据；

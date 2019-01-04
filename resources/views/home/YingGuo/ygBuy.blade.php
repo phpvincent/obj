@@ -386,6 +386,7 @@
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){ layer.msg('please fill in the complete item information.');}
 var payFun=function (){
      
     //整理表单数据；

@@ -381,6 +381,7 @@
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){ layer.msg('完全な商品属性情報を記入してください。');}
 var payFun=function (){
      
     //整理表单数据；

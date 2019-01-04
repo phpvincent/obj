@@ -499,6 +499,7 @@ body,dl,dd{padding: 0;}
 	position: relative;
 	overflow:hidden;
 	margin-bottom: 15px;
+	max-height: 140px;
 }
 .mui-content .pro_info:after{
 	content: '';
