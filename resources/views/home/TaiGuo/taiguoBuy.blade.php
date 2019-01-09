@@ -383,6 +383,7 @@
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){ layer.msg('กรุณากรอกข้อมูลที่เป็นคุณลักษณะที่สมบูรณ์ของสินค้า');}
 var payFun=function (){
      
     //整理表单数据；

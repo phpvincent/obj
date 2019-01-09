@@ -423,6 +423,7 @@ Chúng tôi đảm bảo tài liệu cá nhân của bạn nêu trên sẽ giữ
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+var layerMsg= function(){layer.msg('Hãy điền đầy đủ thông tin hàng hóa thuộc tính');}
 var payFun=function (){
      
     //整理表单数据；

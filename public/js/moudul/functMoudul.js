@@ -1,3 +1,4 @@
+var attr=null;
 function addAttribu(cuxiao_num,a) {
 
 
@@ -11,6 +12,7 @@ function addAttribu(cuxiao_num,a) {
     }
         // var a={!!$goods_config_arr!!}
         console.log(a);
+        attr=a
         addform=function(e){
             console.log('开始addform')
         var addhtml='';
@@ -33,15 +35,15 @@ function addAttribu(cuxiao_num,a) {
             $.each(val,function(j,item){
              if(item.config_val_img){     //如果是展示图片的话显示这一组HTML；
                 if(j===0){
-                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" ><label class="uncheck" style="margin-bottom: 2px;width: '+imgWidth+';text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
+                    colorBut= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" ><label class="uncheck" style="margin-bottom: 4px;width: '+imgWidth+';text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }else{
-                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="margin-bottom: 2px;width: '+imgWidth+';text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
+                    colorBut+= '<label><input type="radio" style="display: none;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label class="uncheck" style="margin-bottom: 4px;width: '+imgWidth+';text-align: center;display:inline-block" for="'+e+item.goods_config_id+item.config_val_id+'"><img src="'+item.config_val_img+'" alt="">'+ item.config_val_msg +'</label>&nbsp;</label>';
                 }        
               }else{
                 if(j===0){
-                    colorBut= '<label style="display:inline-block;margin-bottom: 2px"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" ><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
+                    colorBut= '<label style="display:inline-block;margin-bottom: 4px"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'" ><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }else{
-                    colorBut+= '<label style="display:inline-block;margin-bottom: 2px"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
+                    colorBut+= '<label style="display:inline-block;margin-bottom: 4px"><input type="radio" style="visibility: hidden;" class="radio" name="goods'+item.goods_config_id +'" value="'+item.config_val_id+'" id="'+e+item.goods_config_id+item.config_val_id+'"><label for="'+e+item.goods_config_id+item.config_val_id+'" class="uncheck">&nbsp;&nbsp;'+ item.config_val_msg +'&nbsp;&nbsp;</label>&nbsp</label>';
                 }
               }
                
@@ -188,6 +190,8 @@ function mouduleTaoBao (){
     $("#save").hide();
     $(".paymentbox").hide();
     $(".btndiv").hide(); //原来的订单按钮隐藏掉；
+     //iframe中boby的padding-top=.pro-info的height；
+     $("body").css({"padding-top":$(".pro_info").height()-20});console.log("又计算一次top")
 }
 function closeBtnWatch(){
     $("#closeBtn",parent.document).on("click",function(){
@@ -215,6 +219,37 @@ function closeBtnWatch(){
     })
     //选择属性菜单的购买按钮的监听；
     $("#btnPay2",parent.document).on("click",function(){
+    //整理表单数据；
+         var dataArr=$("form#f1").serializeArray();
+         var dataObj={};
+    
+         var fromArr=$("#goods_config_div").find("form").serializeArray();
+    
+         $.each(dataArr,function(i,val){
+             dataObj[val.name]=[];
+         })
+         // console.log(dataObj);
+         $.each(fromArr,function(j,item){
+             $.each(dataObj,function(k,tol){
+               if(item.name==k){
+                   tol.push(item.value)
+               }
+             })
+        })
+             console.log("btnPay2",dataObj,attr)
+    //判断用户是否选择了商品属性；
+         var aNumer=Object.keys(a).length;
+         var cuntNumer=$("#addcart-quantity-val").val()-0;
+         var attFlag=true;
+         $.each(dataObj,function(i,value){
+             if(value.length != cuntNumer){
+                 attFlag=false;
+             }
+         });
+         if(aNumer != Object.keys(dataObj).length || !attFlag){
+            layerMsg()
+             return false;
+         };
         
         // var winHieht= $(window).height()*10/8; //父页面iframe =视口高度；
         // console.log("便全屏",winHieht)

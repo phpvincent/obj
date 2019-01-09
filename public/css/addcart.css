@@ -499,6 +499,28 @@ body,dl,dd{padding: 0;}
 	position: relative;
 	overflow:hidden;
 	margin-bottom: 15px;
+	/* max-height: 140px; */
+}
+.mui-content .pro_info .ctxtbox h1{
+	text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.mui-content .pro_info .ctxtbox h2 span{
+	text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.mui-content .pro_info .ctxtbox h2 p{
+	text-overflow: ellipsis;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .mui-content .pro_info:after{
 	content: '';

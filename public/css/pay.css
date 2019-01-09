@@ -915,7 +915,7 @@ button.bunble{ margin-top:10px;}
 .Popup>div{
 	/* height:80%; */
 	width:80%;
-	position: relative;
+	position: fixed;
 	transform: translate(-50%, -50%);
 	top: 50%;
 	left: 50%;
