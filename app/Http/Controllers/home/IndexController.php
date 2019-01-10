@@ -439,20 +439,6 @@ class IndexController extends Controller
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
 
-        //是否获取手机验证码是否正确
-        $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
-        if(!$messages){
-            return response()->json(['err'=>2,'url'=>'验证码获取失败']);
-        }
-        //判断手机验证码是否正确
-        if($messages->messaga_code != $request->input('messaga_code')){
-            return response()->json(['err'=>2,'url'=>'验证码填写错误']);
-        }
-        //判断验证码是否过期
-        if(time()-strtotime($messages->message_gettime)>300){
-            return response()->json(['err'=>2,'url'=>'验证码已过期，请重新获取']);
-        }
-
     	$ip=$request->getClientIp();
     	$order=new order();
         if($request->has('order_country')) $order->order_country=$request->input('order_country');
@@ -468,6 +454,21 @@ class IndexController extends Controller
         $goods=goods::where('goods_id',$order_goods_id)->first();
         $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
+        if($goods->goods_blade_type == 2) {
+            //是否获取手机验证码是否正确
+            $messages = Message::where('message_mobile_num', $request->input('telephone'))->orderBy('message_id', 'desc')->first();
+            if (!$messages) {
+                return response()->json(['err' => 2, 'url' => '验证码获取失败']);
+            }
+            //判断手机验证码是否正确
+            if ($messages->messaga_code != $request->input('messaga_code')) {
+                return response()->json(['err' => 2, 'url' => '验证码填写错误']);
+            }
+            //判断验证码是否过期
+            if (time() - strtotime($messages->message_gettime) > 300) {
+                return response()->json(['err' => 2, 'url' => '验证码已过期，请重新获取']);
+            }
+        }
         if($urls==null){
             $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
         }else{
@@ -612,9 +613,11 @@ class IndexController extends Controller
         $msg=$order->save();
 
         //==========================================
-        //修改验证码订单ID
-        $messages->message_order_id = $order->order_id;
-        $messages->save();
+        if($goods->goods_blade_type == 2) {
+            //修改验证码订单ID
+            $messages->message_order_id = $order->order_id;
+            $messages->save();
+        }
         //==========================================
 
         if($request->has('goodsAtt')){
@@ -1053,18 +1056,20 @@ class IndexController extends Controller
            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
 
-       //是否获取手机验证码是否正确
-       $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
-       if(!$messages){
-           return response()->json(['err'=>2,'url'=>'验证码获取失败']);
-       }
-       //判断手机验证码是否正确
-       if($messages->messaga_code != $request->input('messaga_code')){
-           return response()->json(['err'=>2,'url'=>'验证码填写错误']);
-       }
-       //判断验证码是否过期
-       if(time()-strtotime($messages->message_gettime)>300){
-           return response()->json(['err'=>2,'url'=>'验证码已过期，请重新获取']);
+       if($goods->goods_blade_type == 2) {
+           //是否获取手机验证码是否正确
+           $messages = Message::where('message_mobile_num', $request->input('telephone'))->orderBy('message_id', 'desc')->first();
+           if (!$messages) {
+               return response()->json(['err' => 2, 'url' => '验证码获取失败']);
+           }
+           //判断手机验证码是否正确
+           if ($messages->messaga_code != $request->input('messaga_code')) {
+               return response()->json(['err' => 2, 'url' => '验证码填写错误']);
+           }
+           //判断验证码是否过期
+           if (time() - strtotime($messages->message_gettime) > 300) {
+               return response()->json(['err' => 2, 'url' => '验证码已过期，请重新获取']);
+           }
        }
 
        $order_Array = [];
@@ -1187,8 +1192,10 @@ class IndexController extends Controller
 
        //==========================================
        //修改验证码订单ID
-       $messages->message_order_id = $order->order_id;
-       $messages->save();
+       if($goods->goods_blade_type == 2){
+           $messages->message_order_id = $order->order_id;
+           $messages->save();
+       }
        //==========================================
        if($request->has('goodsAtt')){
            $order_id=$order->order_id;
