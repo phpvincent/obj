@@ -550,6 +550,9 @@ var payFunGo= function (){
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
 $('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce ="A verification code has been sent to your mobile phone. Please confirm. only valid within 5 minutes";
+var messageerr =" Fail to send the verification code. Please confirm you mobile No. ";
+var messnetworkerr= " Please check the network condition.";
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
