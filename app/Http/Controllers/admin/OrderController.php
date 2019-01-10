@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\admin;
 use App\channel\excelData;
+use App\channel\sendMessage;
 use App\config_val;
 use App\currency_type;
 use App\goods;
@@ -728,6 +729,29 @@ class OrderController extends Controller
       $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
       return view('admin/order/heshen')->with(compact('order','goods'));
     }
+   }
+
+    /**
+     * 发送短信推送消息
+     * @param Request $request
+     */
+   public function send_message(Request $request)
+   {
+       if($request->isMethod('get')) {
+           $id=$request->input('id');
+           $order=order::where('order_id',$id)->first();
+           $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
+           return view('admin/order/send_message')->with(compact('order','goods'));
+       }elseif($request->isMethod('post')) {
+           $code = sendMessage::send($request,$request->input('order_tel'), $request->input('content'), '000000');
+           if($code) {
+               return response()->json(['msg' => 0]);
+           }else{
+               return response()->json(['msg' => 1]);
+           }
+
+       }
+
    }
 
     /** 订单批量审核
