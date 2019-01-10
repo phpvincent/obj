@@ -78,7 +78,6 @@
         
         </style>
         <!--产品页轮播-->
-        <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
         <script type="text/javascript" src="/js/icheck.min.js"></script>
         <script type="text/javascript" src="/js/conversion.js"></script>
@@ -86,7 +85,6 @@
         <!--地区实现三级联动的脚本-->
         <!--引入不同地区的脚本文件，默认引入阿联酋的文件，其它地区的文件，在自定义block中设置-->
         <script src="/js/diqu/zhongdongCity.js"></script>
-        <script src="/js/Validform.min.js"></script>
         <script src="/js/Validform.min.js"></script>
         <script src="/js/moudul/functMoudul.js"></script>
         <link href="/css/addcart.css" rel="stylesheet">
@@ -149,6 +147,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
+                <div id=messagediv>
+                   <span class="messag">Please fill in the verification code.</span>
+                   <div>
+                   <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
+                   <button id="messend" type="button" class="mui-btn but-red">Resend<span id="messpan"></span></button>
+                   </div>
+                </div>
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
@@ -251,7 +256,7 @@
         <input type="text" name="zip"placeholder="Required: please fill in the zip code" class="mui-input-clear">
     </div> -->
         <div class="mui-input-row need_email">
-        <label><span class="require">*</span>Email:</label>
+        <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
@@ -431,11 +436,11 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("please enter a valid email address.");
-        return false;
-    }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("please enter a valid email address.");
+    //     return false;
+    // }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -464,10 +469,15 @@ var payFun=function (){
 
     // layer.msg("Please wait for the order submitted");
     $("#orderlog").show();
-    payFunMessage()
+    payFunMessage(datasObj)
             
 }
 var payFunGo= function (){
+    if(!$("#messageinput").val()){
+        layer.msg('Please fill in the verification code.');
+        return false;
+    };
+    datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var payType=$(".paymentbox input:checked").val();
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
@@ -485,11 +495,14 @@ var payFunGo= function (){
                layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
-                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
-                       },
-          
-                    
+                    if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('Please fill in the correct verification code.');
+                    }else {
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    }
+                },   
            error: function(data) {
                layer.close(index);
                layer.msg('The order submission failed. Please check the network condition.');
@@ -506,6 +519,9 @@ var payFunGo= function (){
                   if(data.err=='0'){
                       layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
                        issubmit=true;
+                  }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('Please fill in the correct verification code.');
                   }else{
                       var btime=getNowDate();
                       try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -533,6 +549,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
+$('#messend').bind('click',sendMess) // 重新发送按钮
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }

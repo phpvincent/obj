@@ -19,7 +19,7 @@ use App\order;
 use App\vis;
 use DB;
 use App\channel\cuxiaoSDK;
-use Illuminate\Mail\Message;
+use App\message;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
 class IndexController extends Controller

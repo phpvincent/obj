@@ -268,8 +268,44 @@ function closeBtnWatch(){
     $(".btndiv1",parent.document).on("click",payFun)//订单提交按钮点击；执行表单提交函数；
 }
 
+var countdown=59;
+var datasObj =null;
+function sendMess () {
+    console.log('发送一次验证码',datasObj)
+    $.ajax({
+        type: "POST",    
+        url: "/send_message",
+        data:datasObj,
+        success: function (data) {
+            layer.msg('验证码已发送至您手机，请注意接收！');
+        }, 
+        error: function(data) {
+            layer.msg('验证码发送失败，请确认您手机号是否填写正确！');
+        }
+     })
+    var obj = $("#messend");
+        obj.attr('disabled',true); 
+    var set = setInterval(function() { 
+        if (countdown == 0) { 
+            // obj.attr('disabled',false); 
+            obj.removeAttr("disabled");
+            $('#messpan').text(""); 
+            countdown = 59; 
+            clearInterval(set)
+            return;
+        } else { 
+            obj.attr('disabled',true);
+            $('#messpan').text("(" + countdown + ")");
+            countdown--; 
+        }
+        },1000)
+}
 //确认订单弹框收集确认信息
-function payFunMessage(){
+function payFunMessage(datasObj){
+     datasObj = datasObj
+     if(!$("#messend").attr("disabled")){
+        sendMess()
+     }   // 60秒能发一次短信
     var itemHtml='';
     var itemHtml2='';
     var selectVal = '';

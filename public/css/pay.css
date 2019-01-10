@@ -908,7 +908,7 @@ button.bunble{ margin-top:10px;}
 	left:0;
 	right:0;
 	bottom:0;
-	z-index:9999999999;
+	z-index:99;
 	position:fixed;
 	background-color:rgba(0,0,0,0.3)
 }
@@ -970,4 +970,20 @@ button.bunble{ margin-top:10px;}
 	word-wrap: break-word;
     word-break: break-all;
     overflow: hidden;
+}
+#messagediv .messag {
+	font-weight: 700;
+    color: red;
+}
+.but-red{
+	float: right;
+    color: #fff;
+    border: 1px solid red;
+    background-color: red;
+}
+.but-dis{
+	float: right;
+    color: #fff;
+    border: 1px solid #ccc;
+    background-color: #ccc;
 }
