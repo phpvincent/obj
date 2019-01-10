@@ -19,7 +19,7 @@ use App\order;
 use App\vis;
 use DB;
 use App\channel\cuxiaoSDK;
-use Illuminate\Mail\Message;
+use App\message;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
 class IndexController extends Controller
@@ -440,7 +440,7 @@ class IndexController extends Controller
         }
 
         //是否获取手机验证码是否正确
-        $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('id', 'desc')->first();
+        $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
         if(!$messages){
             return response()->json(['err'=>2,'url'=>'验证码获取失败']);
         }
@@ -1054,7 +1054,7 @@ class IndexController extends Controller
        }
 
        //是否获取手机验证码是否正确
-       $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('id', 'desc')->first();
+       $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
        if(!$messages){
            return response()->json(['err'=>2,'url'=>'验证码获取失败']);
        }

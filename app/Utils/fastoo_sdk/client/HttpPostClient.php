@@ -15,6 +15,7 @@
 	 */
  	
 	public static function SendPost($url,$param) {
+		if(!in_array('apikey',$param)) $param['apikey']='e40a68e8ad4d4ea4b4578d1d658f3ecd';
 		$postdata = http_build_query($param);  
 		$options = array( 
 				'http' => array(  
