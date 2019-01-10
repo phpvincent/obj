@@ -31,4 +31,35 @@ class sendMessage{
             return false;
         }
     }
+    public static function send_text($blade_id,$num)
+    {
+        $text="";
+        switch ($blade_id) {
+            case '0':
+               $text="您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text = str_replace('123456',$num, $text);
+                break;
+            case '1':
+               $text="您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text = str_replace('123456',$num, $text);
+                break;
+            case '12':
+               $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+               $text = str_replace('123456',$num, $text);
+                break;
+            case '14':
+               $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+               $text = str_replace('123456',$num, $text);
+                break;
+            case '16':
+               $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+               $text = str_replace('123456',$num, $text);
+                break;
+            default:
+               $text = "verification code :123456.  only valid within 5 minutes";
+               $text = str_replace('123456',$num, $text);
+                break;
+        }
+        return $text;
+    }
 }

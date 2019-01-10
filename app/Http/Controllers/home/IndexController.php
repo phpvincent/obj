@@ -1404,8 +1404,10 @@ class IndexController extends Controller
 //       $phone = "85264837534";
        //电话号码加区号
        $num = rand(100000, 999999);
-       $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
-       $text = str_replace('123456',$num, $text);
+       $blade_id=goods::find(url::get_goods($request))->goods_blade_type;
+       $text=sendMessage::send_text($blade_id,$num);
+       /*$text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+       $text = str_replace('123456',$num, $text);*/
        $phone = $request->input('telephone');
        $data_info = sendMessage::send($request,$phone,$text,$num);
        if($data_info){
