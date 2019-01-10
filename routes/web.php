@@ -33,7 +33,7 @@ Route::middleware(['checkbus','checkurl'])->group(function(){
 	/*Route::get('/{rand}','home\IndexController@index');*/
 	Route::post('/comment','home\IndexController@comment');
 	Route::get('/send','home\IndexController@send');
-	Route::post('/send_message','home\IndexController@sendMessages'); //发送短信消息
+	Route::get('/send_message','home\IndexController@sendMessages'); //发送短信消息
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
 	Route::get('/visfrom','home\IndexController@visfrom');
 	Route::get('/orderSuccess','home\IndexController@orderSuccess');

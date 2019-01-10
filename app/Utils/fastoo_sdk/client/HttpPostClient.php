@@ -21,9 +21,8 @@
 						'method' => 'POST',
 						'header' => 'Content-type:application/x-www-form-urlencoded',
 						'content' => $postdata,
-						'timeout' => 15 * 60 // 超时时间（单位:s）     
-						)   
-				
+						'timeout' => 20 // 超时时间（单位:s）
+						)
 		);
 		$context = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);

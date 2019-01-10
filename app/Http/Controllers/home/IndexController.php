@@ -440,7 +440,7 @@ class IndexController extends Controller
         }
 
         //是否获取手机验证码是否正确
-        $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('id', 'desc')->first();
+        $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
         if(!$messages){
             return response()->json(['err'=>2,'url'=>'验证码获取失败']);
         }
@@ -1054,7 +1054,7 @@ class IndexController extends Controller
        }
 
        //是否获取手机验证码是否正确
-       $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('id', 'desc')->first();
+       $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
        if(!$messages){
            return response()->json(['err'=>2,'url'=>'验证码获取失败']);
        }
@@ -1218,7 +1218,8 @@ class IndexController extends Controller
        return response()->json(['err'=>1,'url'=>$link]);
    }
 
-    /** paypal支付
+    /**
+     * paypal支付
      * @param $order_id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -1252,7 +1253,8 @@ class IndexController extends Controller
 
    }
 
-    /** 拼接订单参数
+    /**
+     * 拼接订单参数
      * @param $order_id
      * @return mixed
      */
@@ -1289,7 +1291,8 @@ class IndexController extends Controller
        return $data;
    }
 
-    /** 放弃订单
+    /**
+     * 放弃订单
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
    public function paypal_send()
@@ -1308,7 +1311,8 @@ class IndexController extends Controller
        }*/
    }
 
-    /** 订单paypal支付成功
+    /**
+     * 订单paypal支付成功
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -1390,29 +1394,24 @@ class IndexController extends Controller
         }
    }
 
+    /**
+     * 发送短信
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
    public function sendMessages(Request $request)
    {
-//       $phone = $request->input('telephone'); //接收信息者手机号码
-       $phone = "85264837534";
+//       $phone = "85264837534";
+       //电话号码加区号
        $num = rand(100000, 999999);
-       $text = "في أي وقت نرسلكم  أحسن؟ في أي يوم؟  حتي نقدم لكم
-بضبط!".$num;
-       $message = new Message();
-       $message->message_ip = $request->getClientIp();
-       $message->message_gettime = date('Y-m-d H:i:s');
-       $message->message_goods_id = url::get_goods($request);
-       $message->message_mobile_num = $request->input('telephone');
-       $message->message_order_msg = serialize($request->all());
-       $message->messaga_content = $text;
-       $message->messaga_code = $num;
-       $data_info = sendMessage::send($phone,$text);
+       $text = "رمزالتحقرمزالتحقق 123456.تنفع رمزالتحقق تكون خلال 
+داخل خمس الدقائق";
+       $text = str_replace('123456',$num, $text);
+       $phone = $request->input('telephone');
+       $data_info = sendMessage::send($request,$phone,$text,$num);
        if($data_info){
-           $message->message_status = 0;
-           $message->save();
            return response()->json(['err'=>1,'url'=>'发送成功']);
        }else{
-           $message->message_status = 1;
-           $message->save();
            return response()->json(['err'=>0,'url'=>'发送失败']);
        }
    }
