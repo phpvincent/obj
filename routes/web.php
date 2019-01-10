@@ -48,10 +48,10 @@ use App\Jobs\SendHerbEmail;use Qcloud\Sms\SmsSingleSender;
         $goods=\App\goods::where('goods_id',43)->first();
         $order=\App\order::where('order_id','223')->first();
         return view('home.YinDuNiXiYa.sendmail')->with(compact('url','order','goods'));
-		*/
+		
 		//SendHerbEmail::dispatch($order);
-	});*/
-Route::middleware(['checkbus','checkurl'])->group(function(){
+	});
+*/Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
 	Route::post('/comment','home\IndexController@comment');
