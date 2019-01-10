@@ -454,7 +454,7 @@ class IndexController extends Controller
         $goods=goods::where('goods_id',$order_goods_id)->first();
         $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
-        if($goods->goods_blade_type == 2) {
+        if($request->input('messaga_code')) {
             //是否获取手机验证码是否正确
             $messages = Message::where('message_mobile_num', $request->input('telephone'))->orderBy('message_id', 'desc')->first();
             if (!$messages) {
@@ -613,7 +613,7 @@ class IndexController extends Controller
         $msg=$order->save();
 
         //==========================================
-        if($goods->goods_blade_type == 2) {
+        if($request->input('messaga_code')) {
             //修改验证码订单ID
             $messages->message_order_id = $order->order_id;
             $messages->save();
@@ -1056,7 +1056,7 @@ class IndexController extends Controller
            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
 
-       if($goods->goods_blade_type == 2) {
+       if($request->input('messaga_code')) {
            //是否获取手机验证码是否正确
            $messages = Message::where('message_mobile_num', $request->input('telephone'))->orderBy('message_id', 'desc')->first();
            if (!$messages) {
@@ -1192,7 +1192,7 @@ class IndexController extends Controller
 
        //==========================================
        //修改验证码订单ID
-       if($goods->goods_blade_type == 2){
+       if($request->input('messaga_code')){
            $messages->message_order_id = $order->order_id;
            $messages->save();
        }
