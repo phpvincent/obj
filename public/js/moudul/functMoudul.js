@@ -308,7 +308,7 @@ function sendMess () {
 //确认订单弹框收集确认信息
 function payFunMessage(datasObj){
      datasObj = datasObj
-     if(!$("#messend").attr("disabled")){
+     if(!$("#messend").attr("disabled") && datasObj){
         sendMess()
      }   // 60秒能发一次短信
     var itemHtml='';
