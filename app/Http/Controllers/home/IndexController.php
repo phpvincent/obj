@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\home;
 
+use App\channel\sendMessage;
 use App\currency_type;
 use App\special;
 use App\templet_show;
@@ -18,6 +19,7 @@ use App\order;
 use App\vis;
 use DB;
 use App\channel\cuxiaoSDK;
+use App\message;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
 class IndexController extends Controller
@@ -436,6 +438,21 @@ class IndexController extends Controller
            \Log::notice('ip:'.$request->getClientIp().'下单时商品数目非法url:'.$_SERVER['SERVER_NAME'].'num:'.$request->input('specNumber'));
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
+
+        //是否获取手机验证码是否正确
+        $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
+        if(!$messages){
+            return response()->json(['err'=>2,'url'=>'验证码获取失败']);
+        }
+        //判断手机验证码是否正确
+        if($messages->messaga_code != $request->input('messaga_code')){
+            return response()->json(['err'=>2,'url'=>'验证码填写错误']);
+        }
+        //判断验证码是否过期
+        if(time()-strtotime($messages->message_gettime)>300){
+            return response()->json(['err'=>2,'url'=>'验证码已过期，请重新获取']);
+        }
+
     	$ip=$request->getClientIp();
     	$order=new order();
         if($request->has('order_country')) $order->order_country=$request->input('order_country');
@@ -450,7 +467,6 @@ class IndexController extends Controller
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
         $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
-//         dd($goods);
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($urls==null){
             $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
@@ -594,6 +610,13 @@ class IndexController extends Controller
 //        $order->order_email=str_replace(' ','',$request->input('email'));
         $order->order_isemail='0';
         $msg=$order->save();
+
+        //==========================================
+        //修改验证码订单ID
+        $messages->message_order_id = $order->order_id;
+        $messages->save();
+        //==========================================
+
         if($request->has('goodsAtt')){
          $order_id=$order->order_id;
           $arrs=[];
@@ -1029,6 +1052,21 @@ class IndexController extends Controller
            \Log::notice('ip:'.$request->getClientIp().'下单时商品金额非法price:'.$price.'num:'.$request->input('specNumber').'goods_id'.$order_goods_id);
            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
+
+       //是否获取手机验证码是否正确
+       $messages = Message::where('message_mobile_num',$request->input('telephone'))->orderBy('message_id', 'desc')->first();
+       if(!$messages){
+           return response()->json(['err'=>2,'url'=>'验证码获取失败']);
+       }
+       //判断手机验证码是否正确
+       if($messages->messaga_code != $request->input('messaga_code')){
+           return response()->json(['err'=>2,'url'=>'验证码填写错误']);
+       }
+       //判断验证码是否过期
+       if(time()-strtotime($messages->message_gettime)>300){
+           return response()->json(['err'=>2,'url'=>'验证码已过期，请重新获取']);
+       }
+
        $order_Array = [];
        //设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
        //ip
@@ -1146,6 +1184,12 @@ class IndexController extends Controller
            }
        }
        $msg=$order->save();
+
+       //==========================================
+       //修改验证码订单ID
+       $messages->message_order_id = $order->order_id;
+       $messages->save();
+       //==========================================
        if($request->has('goodsAtt')){
            $order_id=$order->order_id;
            $arrs=[];
@@ -1174,7 +1218,8 @@ class IndexController extends Controller
        return response()->json(['err'=>1,'url'=>$link]);
    }
 
-    /** paypal支付
+    /**
+     * paypal支付
      * @param $order_id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -1208,7 +1253,8 @@ class IndexController extends Controller
 
    }
 
-    /** 拼接订单参数
+    /**
+     * 拼接订单参数
      * @param $order_id
      * @return mixed
      */
@@ -1245,7 +1291,8 @@ class IndexController extends Controller
        return $data;
    }
 
-    /** 放弃订单
+    /**
+     * 放弃订单
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
    public function paypal_send()
@@ -1264,7 +1311,8 @@ class IndexController extends Controller
        }*/
    }
 
-    /** 订单paypal支付成功
+    /**
+     * 订单paypal支付成功
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -1344,6 +1392,27 @@ class IndexController extends Controller
             $order_id=$order->order_id;
             return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }
+   }
+
+    /**
+     * 发送短信
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+   public function sendMessages(Request $request)
+   {
+//       $phone = "85264837534";
+       //电话号码加区号
+       $num = rand(100000, 999999);
+       $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+       $text = str_replace('123456',$num, $text);
+       $phone = $request->input('telephone');
+       $data_info = sendMessage::send($request,$phone,$text,$num);
+       if($data_info){
+           return response()->json(['err'=>1,'url'=>'发送成功']);
+       }else{
+           return response()->json(['err'=>0,'url'=>'发送失败']);
+       }
    }
 /*   public function sendmail(Request $request)
    {       
