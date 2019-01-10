@@ -20,14 +20,14 @@ class sendMessage{
         $SendSmsApi=new \SendSmsApi();
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phone, $text);
         if($bean->code==0){
-            $message = Message::CreateMessage($request,$text,$num,0);
+            $message = Message::CreateMessage($request,$phone,$text,$num,0);
             if($message){
                 return true;
             }else{
                 return false;
             }
         }else{
-            Message::CreateMessage($request,$text,$num,1);
+            Message::CreateMessage($request,$phone,$text,$num,1);
             return false;
         }
     }
