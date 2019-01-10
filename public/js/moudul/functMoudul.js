@@ -277,10 +277,15 @@ function sendMess () {
         url: "/send_message",
         data:datasObj,
         success: function (data) {
-            layer.msg('验证码已发送至您手机，请注意接收！');
+            if(data.err == 1){
+                layer.msg(messagesucce);
+            }else{
+                layer.msg(messageerr); //验证码发送失败
+                $("#orderlog").hide()
+            }
         }, 
         error: function(data) {
-            layer.msg('验证码发送失败，请确认您手机号是否填写正确！');
+            layer.msg(messnetworkerr);
         }
      })
     var obj = $("#messend");
@@ -358,7 +363,11 @@ function payFunMessage(datasObj){
 }
 
 //阿拉伯语；向右方式确认订单弹框收集确认信息
-function payFunMessageRight(){
+function payFunMessageRight(datasObj){
+    datasObj = datasObj
+    if(!$("#messend").attr("disabled")){
+       sendMess()
+    }   // 60秒能发一次短信
     var itemHtml='';
     var itemHtml2='';
     var selectVal = '';

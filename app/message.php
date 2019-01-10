@@ -17,12 +17,12 @@ class message extends Model
      * @param $message_status //发送状态 0：成功 1：失败
      * @return bool
      */
-    public static function CreateMessage($request,$text,$num,$message_status){
+    public static function CreateMessage($request,$phone,$text,$num,$message_status){
        $message = new Message();
        $message->message_ip = $request->getClientIp();
        $message->message_gettime = date('Y-m-d H:i:s');
        $message->message_goods_id = url::get_goods($request);
-       $message->message_mobile_num = $request->input('telephone');
+       $message->message_mobile_num = $phone;
        $message->message_order_msg = serialize($request->all());
        $message->messaga_content = $text;
        $message->messaga_code = $num;
