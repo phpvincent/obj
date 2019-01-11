@@ -70,11 +70,11 @@ class sendMessage{
         $text="";
         switch ($blade_id) {
             case '0':
-               $text="您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text="您正在zsshop網上商城購物，您的驗證碼為：123456，驗證碼有效時間為5分鐘";
                $text = str_replace('123456',$num, $text);
                 break;
             case '1':
-               $text="您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text="您正在zsshop網上商城購物，您的驗證碼為：123456，驗證碼有效時間為5分鐘";
                $text = str_replace('123456',$num, $text);
                 break;
             case '12':
@@ -90,7 +90,7 @@ class sendMessage{
                $text = str_replace('123456',$num, $text);
                 break;
             default:
-               $text = "verification code :123456.  only valid within 5 minutes";
+               $text = "you are shopping in Zsshop Mall verification code :123456.  only valid within 5 minutes";
                $text = str_replace('123456',$num, $text);
                 break;
         }
