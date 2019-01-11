@@ -217,7 +217,8 @@
         <input type="text" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
-        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+        {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
+        The verification code will be sent to your mobile phone for verification  and convenince for contacting so that we can deliver your products accurately.
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
