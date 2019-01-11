@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Order status query </title>
+    <title>[zsshop]Order status query </title>
 	  	  <link rel="shortcut icon" href="/images/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">
