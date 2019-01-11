@@ -270,6 +270,7 @@ function closeBtnWatch(){
 
 var countdown=59;
 var datasObj =null;
+var orderShowFlag= false;
 function sendMess () {
     console.log('发送一次验证码',datasObj)
     $.ajax({
@@ -279,9 +280,41 @@ function sendMess () {
         success: function (data) {
             if(data.err == 1){
                 layer.msg(messagesucce);
+                $("#orderlog").show();
+                orderShowFlag =true;
             }else{
-                layer.msg(messageerr); //验证码发送失败
-                $("#orderlog").hide()
+                layer.msg(messageerr);    //验证码发送失败
+                $("#orderlog").hide();
+
+                var obj = $(".btndiv1 button",parent.document);
+                var obj2 = $(".btndiv button");
+                    obj.attr('disabled',true);
+                    obj2.attr('disabled',true); 
+                var set = setInterval(function() { 
+                if (countdown == 0) { 
+                    
+                    obj.removeAttr("disabled");
+                    obj2.removeAttr("disabled");
+                    obj.find("span").text(""); 
+                    obj2.find("span").text(""); 
+                    clearInterval(set)
+                    return;
+                } else { 
+                    obj.attr('disabled',true);
+                    obj2.attr('disabled',true);
+                    if(obj.find("span").length >0 ){
+                        obj.find("span").text("(" + countdown + ")");
+                    }else{
+                        obj.append("<span>(" + countdown + ")</span>");
+                    }
+
+                    if(obj2.find("span").length >0 ){
+                        obj2.find("span").text("(" + countdown + ")");
+                    }else{
+                        obj2.append("<span>(" + countdown + ")</span>");
+                    }
+                }
+                },1000)
             }
         }, 
         error: function(data) {
@@ -311,6 +344,7 @@ function payFunMessage(datasObj){
      if(!$("#messend").attr("disabled") && datasObj){
         sendMess()
      }   // 60秒能发一次短信
+     if(orderShowFlag){ $("#orderlog").show();} // 只有成功发过才能打开订单确认；
     var itemHtml='';
     var itemHtml2='';
     var selectVal = '';
