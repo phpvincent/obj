@@ -1,7 +1,10 @@
 <?php
 namespace App\channel;
 
+use App\goods;
 use App\message;
+use App\order;
+use App\url;
 
 include_once __DIR__.'/../Utils/fastoo_sdk/client/HttpPostClient.php';
 include_once __DIR__.'/../Utils/fastoo_sdk/model/SendSingleSmsParm.php';
@@ -18,15 +21,40 @@ class sendMessage{
     public static function send($request,$phone,$text,$num)
     {
         $SendSmsApi=new \SendSmsApi();
-        $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phone, $text);
+        $order_id = $request->input('order_id', 0);
+        $goods_id = url::get_goods($request);
+        if($goods_id){ //前台下订单
+            $goods = goods::find($goods_id);
+            if(!$goods){
+                return false;
+            }
+            $phones = message::AreaCode($goods->goods_blade_type,$phone);
+        }else if($order_id){  //后台消息推送
+            $blade = order::select('goods.goods_blade_type','goods.goods_id')
+                ->join('goods','order_goods_id','=','goods_id')
+                ->where('order.order_id',$order_id)
+                ->first();
+            if(!$blade){
+                return false;
+            }
+            $goods_id = $blade->goods_id;
+            $phones = message::AreaCode($blade->goods_blade_type,$phone);
+        }else{
+            return false;
+        }
+
+        //发送短信
+        $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $text);
         if($bean->code==0){
-            $message = Message::CreateMessage($request,$phone,$text,$num,0);
+            //记录订单发送信息
+            $message = message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,0);
             if($message){
                 return true;
             }
             return false;
         }else{
-            Message::CreateMessage($request,$phone,$text,$num,1);
+            //记录订单发送信息
+            message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,1);
             return false;
         }
     }

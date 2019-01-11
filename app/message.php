@@ -10,44 +10,28 @@ class message extends Model
     protected $primaryKey ='message_id';
     public $timestamps=false;
 
-    /** 创建新消息
+    /**
+     * 创建新消息
      * @param $request
-     * @param $text  //发送短信内容
-     * @param $num   //短信验证码
+     * @param $phone     //结束短息号码
+     * @param $goods_id  //商品ID
+     * @param $order_id  //订单ID
+     * @param $text      //发送短信内容
+     * @param $num       //短信验证码
      * @param $message_status //发送状态 0：成功 1：失败
      * @return bool
      */
-    public static function CreateMessage($request,$phone,$text,$num,$message_status){
-       $order_id = $request->input('order_id', 0);
+    public static function CreateMessage($request,$phone,$goods_id,$order_id,$text,$num,$message_status){
        $message = new Message();
        $message->message_ip = $request->getClientIp();
        $message->message_gettime = date('Y-m-d H:i:s');
-       $message->message_goods_id = url::get_goods($request);
+       $message->message_goods_id = $goods_id;
        $message->message_order_msg = serialize($request->all());
        $message->messaga_content = $text;
        $message->messaga_code = $num;
        $message->message_order_id = $order_id;
        $message->message_status = $message_status;
-       if($message->message_goods_id){ //前台下订单
-           $goods = goods::find($message->message_goods_id);
-           if(!$goods){
-               return false;
-           }
-           $phones = self::AreaCode($goods->goods_blade_type,$phone);
-       }else if($order_id){ //后台消息推送
-           $blade = order::select('goods.goods_blade_type','goods.goods_id')
-                           ->join('goods','order_goods_id','=','goods_id')
-                           ->where('order.order_id',$order_id)
-                           ->first();
-           if(!$blade){
-               return false;
-           }
-           $message->message_goods_id = $blade->goods_id;
-           $phones = self::AreaCode($blade->goods_blade_type,$phone);
-       }else{
-           return false;
-       }
-       $message->message_mobile_num = $phones;
+       $message->message_mobile_num = $phone;
        if($message->save()){
             return true;
        }else{
@@ -56,11 +40,11 @@ class message extends Model
     }
 
     /** 地区区号处理
-     * @param $blade_id
-     * @param $phone
+     * @param $blade_id //商品模板id
+     * @param $phone    //电话号码
      * @return string
      */
-    private static function AreaCode($blade_id,$phone)
+    public static function AreaCode($blade_id,$phone)
     {
         switch ($blade_id) {
             case '0': //台湾模板
