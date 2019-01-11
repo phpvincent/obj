@@ -33,4 +33,103 @@ class message extends Model
            return false;
        }
     }
+
+    /** 地区区号处理
+     * @param $blade_id
+     * @param $phone
+     * @return string
+     */
+    private static function AreaCode($blade_id,$phone)
+    {
+        switch ($blade_id) {
+            case '0': //台湾模板
+                if('886' == substr($phone,0,3)){
+                    $phones = $phone;
+                }else{
+                    $phones = '886'.$phone;
+                }
+                break;
+            case '1': //简体模板
+                if('886' == substr($phone,0,3)){
+                    $phones = $phone;
+                }else{
+                    $phones = '886'.$phone;
+                }
+                break;
+            case '2': //阿联酋模板
+                if('971' == substr($phone,0,3)){
+                    $phones = $phone;
+                }else{
+                    $phones = '971'.$phone;
+                }
+                break;
+            case '3': //马来西亚
+                if('60' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '60'.$phone;
+                }
+                break;
+            case '4': //泰国
+                if('66' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '66'.$phone;
+                }
+                break;
+            case '5': //日本
+                if('81' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '81'.$phone;
+                }
+                break;
+            case '6': //印度尼西亚
+                if('62' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '62'.$phone;
+                }
+                break;
+            case '7': //菲律宾
+                if('63' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '63'.$phone;
+                }
+                break;
+            case '8': //英国
+                if('44' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '44'.$phone;
+                }
+                break;
+            case '9': //英国
+                if('44' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '44'.$phone;
+                }
+                break;
+            case '10': //美国
+                if('1' == substr($phone,0,1)){
+                    $phones = $phone;
+                }else{
+                    $phones = '1'.$phone;
+                }
+                break;
+            case '11': //越南
+                if('84' == substr($phone,0,2)){
+                    $phones = $phone;
+                }else{
+                    $phones = '84'.$phone;
+                }
+                break;
+            default: //沙特、卡塔尔、中东地区
+                $phones = $phone;
+                break;
+        }
+        return $phones;
+    }
 }
