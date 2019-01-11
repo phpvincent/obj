@@ -26,6 +26,7 @@ class message extends Model
        $message->message_order_msg = serialize($request->all());
        $message->messaga_content = $text;
        $message->messaga_code = $num;
+       $message->message_order_id = $request->input('order_id', 0);
        $message->message_status = $message_status;
        if($message->save()){
             return true;

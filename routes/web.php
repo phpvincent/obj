@@ -128,6 +128,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::match(['get','post'],'/admin/order/send_mail','admin\OrderController@send_mail');
 	Route::match(['get','post'],'/admin/order/change_exl','admin\OrderController@change_exl');
 	Route::match(['get','post'],'/admin/order/send_message', 'admin\OrderController@send_message');
+    Route::get('/admin/order/message_logs', 'admin\OrderController@message_logs');
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');
 	Route::post('/admin/url/get_url','admin\UrlController@get_url');
