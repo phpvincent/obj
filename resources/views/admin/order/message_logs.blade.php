@@ -11,7 +11,7 @@
 		<th width="60">发送状态</th>
 		{{--<th width="30">备注信息</th>--}}
 		<th width="80">短信内容</th>
-		{{--<th width="20">验证码</th>--}}
+		<th width="20">验证码</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -25,7 +25,7 @@
 			<td>@if($log->message_status == 0)发送成功@elseif($log->message_status == 1)发送失败@elseif($log->message_status == 2)接收成功@else接收失败@endif</td>
 {{--			<td>{{$log->message_remark}}</td>--}}
 			<td>{{$log->messaga_content}}</td>
-{{--			<td>{{$log->messaga_code}}</td>--}}
+			<td>{{$log->messaga_code}}</td>
 		</tr>
 		@endforeach
 	<!-- 			<tr class="text-c">

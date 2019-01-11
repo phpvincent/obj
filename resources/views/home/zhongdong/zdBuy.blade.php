@@ -151,12 +151,12 @@
                    <span class="messag">Please fill in the verification code.</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
-                   <button id="messend" type="button" class="mui-btn but-red">Resend<span id="messpan"></span></button>
+                   <button id="messend" style="background-color: #00923f;border: 1px solid #00923f;" type="button" class="mui-btn but-red">Resend<span id="messpan"></span></button>
                    </div>
                 </div>
 
             </div>
-            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
+            <button id="payOk" style="width:60%;color:white;background-color: #00923f;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
         </div>
     </div>
 
@@ -468,7 +468,6 @@ var payFun=function (){
     datasObj.telephone="971"+datasObj.telephone;
 
     // layer.msg("Please wait for the order submitted");
-    $("#orderlog").show();
     payFunMessage(datasObj)
             
 }
