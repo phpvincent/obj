@@ -437,7 +437,7 @@ function states(){
 			}
         },
         "createdRow":function(row,data,dataIndex){
-			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="收货地址"><i class="Hui-iconfont">&#xe643;</span></i></a><a title="修改订单" href="javascript:;" onclick="order_edit(\'修改订单\',\'/admin/order/edit?id='+data.order_id+'\',\'2\',\'1200\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改订单"><i class="Hui-iconfont">&#xe61d;</span></i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="短信推送" href="javascript:;" onclick="send_message(\'短信推送\',\'/admin/order/send_message?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信推送"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			var info='<a title="地址" href="javascript:;" onclick="goods_getaddr(\'收货地址\',\'/admin/order/getaddr?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="收货地址"><i class="Hui-iconfont">&#xe643;</span></i></a><a title="修改订单" href="javascript:;" onclick="order_edit(\'修改订单\',\'/admin/order/edit?id='+data.order_id+'\',\'2\',\'1200\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改订单"><i class="Hui-iconfont">&#xe61d;</span></i></a><a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="短信推送" href="javascript:;" onclick="send_message(\'短信推送\',\'/admin/order/send_message?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信推送"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="短信记录" href="javascript:;" onclick="message_logs(\'短信记录\',\'/admin/order/message_logs?id='+data.order_id+ '\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信记录"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
 			}else if(data.order_type==1){
@@ -546,6 +546,9 @@ function goods_edit(title,url,type,w,h){
 }
 function send_message(title,url,type,w,h) {
 	layer_show(title, url, w, h);
+}
+function message_logs(title,url,type,w,h) {
+	layer_show(title, url, w, h)
 }
 function order_up(title,url,type,w,h){
 	xuanzhe()
