@@ -19,19 +19,24 @@ class sendMessage{
     {
         $SendSmsApi=new \SendSmsApi();
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phone, $text);
-
         if($bean->code==0){
             $message = Message::CreateMessage($request,$phone,$text,$num,0);
             if($message){
                 return true;
-            }else{
-                return false;
             }
+            return false;
         }else{
             Message::CreateMessage($request,$phone,$text,$num,1);
             return false;
         }
     }
+
+    /**
+     * 发送短信内容
+     * @param $blade_id
+     * @param $num
+     * @return mixed|string
+     */
     public static function send_text($blade_id,$num)
     {
         $text="";

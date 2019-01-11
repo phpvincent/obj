@@ -18,16 +18,36 @@ class message extends Model
      * @return bool
      */
     public static function CreateMessage($request,$phone,$text,$num,$message_status){
+       $order_id = $request->input('order_id', 0);
        $message = new Message();
        $message->message_ip = $request->getClientIp();
        $message->message_gettime = date('Y-m-d H:i:s');
        $message->message_goods_id = url::get_goods($request);
-       $message->message_mobile_num = $phone;
        $message->message_order_msg = serialize($request->all());
        $message->messaga_content = $text;
        $message->messaga_code = $num;
-       $message->message_order_id = $request->input('order_id', 0);
+       $message->message_order_id = $order_id;
        $message->message_status = $message_status;
+       if($message->message_goods_id){ //前台下订单
+           $goods = goods::find($message->message_goods_id);
+           if(!$goods){
+               return false;
+           }
+           $phones = self::AreaCode($goods->goods_blade_type,$phone);
+       }else if($order_id){ //后台消息推送
+           $blade = order::select('goods.goods_blade_type','goods.goods_id')
+                           ->join('goods','order_goods_id','=','goods_id')
+                           ->where('order.order_id',$order_id)
+                           ->first();
+           if(!$blade){
+               return false;
+           }
+           $message->message_goods_id = $blade->goods_id;
+           $phones = self::AreaCode($blade->goods_blade_type,$phone);
+       }else{
+           return false;
+       }
+       $message->message_mobile_num = $phones;
        if($message->save()){
             return true;
        }else{
