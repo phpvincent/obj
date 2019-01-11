@@ -2,7 +2,7 @@
 @section('content')
 <article class="page-container">
 	<form class="form form-horizontal" id="order_type_change" action="{{url('admin/order/send_message')}}" method="post">
-	<input type="hidden" name="id" value="{{$order->order_id}}" >
+	<input type="hidden" name="order_id" value="{{$order->order_id}}" >
 	{{csrf_field()}}
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机号（一个）：</label>
@@ -51,7 +51,7 @@
                 layer.msg("手机号不合法！");
                 return false;
 			}
-			console.log(content.length);
+			// console.log(content.length);
 			if(isNull(content) || content.length > 13) {
                 layer.msg("推送内容长度不合法！");
                 return false;
@@ -70,8 +70,13 @@
 							parent.shuaxin(); 
 						});
 					}else{
-						layer.msg('发送失败!');
-					}
+                        layer.msg('发送失败!',{time:2*1000},function() {
+                            //回调
+                            index = parent.layer.getFrameIndex(window.name);
+                            setTimeout("parent.layer.close(index);",100);
+                            parent.shuaxin();
+                        });
+                    }
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
 					layer.close(indexs);

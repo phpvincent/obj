@@ -10,6 +10,7 @@ use App\currency_type;
 use App\goods;
 use App\goods_config;
 use App\kind_val;
+use App\message;
 use App\order_config;
 use App\price;
 use Illuminate\Http\Request;
@@ -752,6 +753,17 @@ class OrderController extends Controller
 
        }
 
+   }
+
+    /**
+     * 发送短信记录
+     * @param Request $request
+     */
+   public function message_logs(Request $request)
+   {
+     $id = $request->input('id');
+     $logs = message::where('message_order_id', $id)->get();
+     return view('admin/order/message_logs')->with(compact('logs'));
    }
 
     /** 订单批量审核
