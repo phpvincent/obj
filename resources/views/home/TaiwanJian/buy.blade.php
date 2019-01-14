@@ -517,6 +517,7 @@ var payFunGo= function (){
                     if(data.err == 2){
                         issubmit=true;
                         layer.msg('验证码填写错误!');
+                        $("#orderlog").show();
                     }else {
                         window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
 

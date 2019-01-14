@@ -220,7 +220,13 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Phone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;" id="quhao">+63</span>
+        <input type="text" style="width:50%" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
         {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
@@ -439,7 +445,7 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    var re = /^\d{11}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    var re = /^\d*$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('Please fill in the valid cell phone number.');
         return false;
@@ -499,6 +505,7 @@ var payFunGo= function (){
                     if(data.err == 2){
                         issubmit=true;
                         layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                     }else {
                         window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
 
