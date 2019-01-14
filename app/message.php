@@ -98,9 +98,10 @@ class message extends Model
                 break;
             case '7': //菲律宾
                 if('63' == substr($phone,0,2)){
-                    $phones = $phone;
+                    $tel = substr($phone,3);
+                    $phones = '63'.ltrim($tel,'0');
                 }else{
-                    $phones = '63'.$phone;
+                    $phones = '63'.ltrim($phone,'0');
                 }
                 break;
             case '8': //英国
