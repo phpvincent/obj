@@ -65,7 +65,7 @@ class sendMessage{
      * @return mixed|string
      */
     public static function send_text($blade_id,$num)
-    {
+    {   
         $text="";
         switch ($blade_id) {
             case '0':

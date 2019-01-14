@@ -56,11 +56,11 @@ class message extends Model
                 }
                 break;
             case '1': //简体模板
-                if('886' == substr($phone,0,3)){
-                    $tel = substr($phone,4);
-                    $phones = '886'.ltrim($tel,'0');
+                if('86' == substr($phone,0,2)){
+                    $tel = substr($phone,3);
+                    $phones = '86'.ltrim($tel,'0');
                 }else{
-                    $phones = '886'.ltrim($phone,'0');
+                    $phones = '86'.ltrim($phone,'0');
                 }
                 break;
             case '2': //阿联酋模板
