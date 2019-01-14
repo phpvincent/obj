@@ -55,10 +55,10 @@ class message extends Model
                 }
                 break;
             case '1': //简体模板
-                if('886' == substr($phone,0,3)){
+                if('86' == substr($phone,0,2)){
                     $phones = $phone;
                 }else{
-                    $phones = '886'.$phone;
+                    $phones = '86'.$phone;
                 }
                 break;
             case '2': //阿联酋模板
