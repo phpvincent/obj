@@ -284,6 +284,7 @@ function sendMess () {
                 orderShowFlag =true;
             }else{
                 layer.msg(messageerr);    //验证码发送失败
+                orderShowFlag =false;
                 $("#orderlog").hide();
 
                 var obj = $(".btndiv1 button",parent.document);
@@ -341,7 +342,7 @@ function sendMess () {
 //确认订单弹框收集确认信息
 function payFunMessage(datasObj){
      datasObj = datasObj
-     if(!$("#messend").attr("disabled") && datasObj){
+     if(!$("#messend").attr("disabled") && datasObj && !orderShowFlag){
         sendMess()
      }   // 60秒能发一次短信
      if(orderShowFlag){ $("#orderlog").show();} // 只有成功发过才能打开订单确认；
@@ -399,9 +400,10 @@ function payFunMessage(datasObj){
 //阿拉伯语；向右方式确认订单弹框收集确认信息
 function payFunMessageRight(datasObj){
     datasObj = datasObj
-    if(!$("#messend").attr("disabled") && datasObj){
+    if(!$("#messend").attr("disabled") && datasObj && !orderShowFlag){
        sendMess()
     }   // 60秒能发一次短信
+    if(orderShowFlag){ $("#orderlog").show();} // 只有成功发过才能打开订单确认；
     var itemHtml='';
     var itemHtml2='';
     var selectVal = '';
