@@ -81,7 +81,7 @@ class GoodsController extends Controller
            }
 	        $newcount=DB::table('goods')
 	        ->select('goods.*','url.url_url','url.url_type','admin.admin_name','admin.admin_name')
-	        ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
+          ->leftjoin('url','goods.goods_id','=','url.url_goods_id')
 	        ->leftjoin('admin','goods.goods_admin_id','=','admin.admin_id')
           ->where(function($query)use($where,$search){
              $query->where([['goods.goods_name','like',"%$search%"],['goods.is_del','=','0'],$where]);
