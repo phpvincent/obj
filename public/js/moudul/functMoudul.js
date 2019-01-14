@@ -304,15 +304,15 @@ function sendMess () {
                     obj.attr('disabled',true);
                     obj2.attr('disabled',true);
                     if(obj.find("span").length >0 ){
-                        obj.find("span").text("(" + countdown + ")");
+                        obj.find("span").text(countdown);
                     }else{
-                        obj.append("<span>(" + countdown + ")</span>");
+                        obj.append("<span>" + countdown + "</span>");
                     }
 
                     if(obj2.find("span").length >0 ){
-                        obj2.find("span").text("(" + countdown + ")");
+                        obj2.find("span").text(countdown);
                     }else{
-                        obj2.append("<span>(" + countdown + ")</span>");
+                        obj2.append("<span>" + countdown + "</span>");
                     }
                 }
                 },1000)
@@ -334,7 +334,7 @@ function sendMess () {
             return;
         } else { 
             obj.attr('disabled',true);
-            $('#messpan').text("(" + countdown + ")");
+            $('#messpan').text(countdown);
             countdown--; 
         }
         },1000)
