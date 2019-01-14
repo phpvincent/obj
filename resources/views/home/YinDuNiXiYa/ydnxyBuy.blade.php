@@ -248,7 +248,13 @@
     </div> -->
     <div class="mui-input-row">
         <label><span class="require">*</span>No. Handphone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Harus diisi, Isi nomor HP penerima" nullmsg="No. HP tidak boleh kosong"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"errormsg="No. HP tidak boleh kosong" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;" id="quhao">+62</span>
+        <input type="text" style="width:50%" datatype="/^\d+$/" placeholder="Harus diisi, Isi nomor HP penerima" nullmsg="No. HP tidak boleh kosong"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"errormsg="No. HP tidak boleh kosong" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
