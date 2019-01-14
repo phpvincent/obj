@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{$goods->goods_name}}</title>
+    <title>[zsshop]{{$goods->goods_name}}</title>
     <style type="text/css">
       a:hover{
         color: #bcd4ec !important;

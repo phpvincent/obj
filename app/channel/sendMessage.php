@@ -42,7 +42,6 @@ class sendMessage{
         }else{
             return false;
         }
-
         //发送短信
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $text);
         if($bean->code==0){
