@@ -532,6 +532,7 @@ var payFunGo= function (){
                     }else if(data.err== 2){
                         issubmit=true;
                         layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                    }else{
                        var btime=getNowDate();
                        try{fbq('track', 'InitiateCheckout')}catch(e){};

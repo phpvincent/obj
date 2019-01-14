@@ -498,6 +498,7 @@ var payFunGo= function (){
                     if(data.err == 2){
                         issubmit=true;
                         layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                     }else {
                         window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
 

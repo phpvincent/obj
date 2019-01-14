@@ -575,6 +575,7 @@ var payFunGo= function (){
                     }else if(data.err== 2){
                         issubmit=true;
                         layer.msg('رمزالتحقق  خطء');
+                        $("#orderlog").show();
                     }else{
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
