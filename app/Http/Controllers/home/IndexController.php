@@ -456,8 +456,10 @@ class IndexController extends Controller
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($request->input('messaga_code')) {
             if($request->input('messaga_code') != 'suibian'){
+                $tel = $request->input('telephone');
+                $tel = message::AreaCode($goods->goods_blade_type,$tel);
                 //是否获取手机验证码是否正确
-                $messages = Message::where('message_mobile_num', $request->input('telephone'))->orderBy('message_id', 'desc')->first();
+                $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
                 if (!$messages) {
                     return response()->json(['err' => 2, 'url' => '验证码获取失败']);
                 }
@@ -1060,8 +1062,10 @@ class IndexController extends Controller
 
        if($request->input('messaga_code')) {
            if($request->input('messaga_code') != 'suibian'){
+               $tel = $request->input('telephone');
+               $tel = message::AreaCode($goods->goods_blade_type,$tel);
                //是否获取手机验证码是否正确
-               $messages = Message::where('message_mobile_num', $request->input('telephone'))->orderBy('message_id', 'desc')->first();
+               $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
                if (!$messages) {
                    return response()->json(['err' => 2, 'url' => '验证码获取失败']);
                }
