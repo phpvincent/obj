@@ -248,7 +248,8 @@
         <!---->
     <!--</div>-->
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
-        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+        {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
+        The verification code will be sent to your mobile phone for verification  and convenince for contacting so that we can deliver your products accurately.
     </div>
     <!-- <div class="mui-input-row">
         <label><span class="require">*</span></label>

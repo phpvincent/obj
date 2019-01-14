@@ -38,7 +38,7 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-/*       dd(getclientcity($request));*/
+        /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
         if(\Session::get('test_id',0)!=0){
             $goods_id=\Session::get('test_id');
