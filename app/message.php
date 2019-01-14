@@ -49,7 +49,7 @@ class message extends Model
         switch ($blade_id) {
             case '0': //台湾模板
                 if('886' == substr($phone,0,3)){
-                    $tel = substr($phone,4);
+                    $tel = substr($phone,3);
                     $phones = '886'.ltrim($tel,'0');
                 }else{
                     $phones = '886'.ltrim($phone,'0');
@@ -57,7 +57,7 @@ class message extends Model
                 break;
             case '1': //简体模板
                 if('86' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '86'.ltrim($tel,'0');
                 }else{
                     $phones = '86'.ltrim($phone,'0');
@@ -65,7 +65,7 @@ class message extends Model
                 break;
             case '2': //阿联酋模板
                 if('971' == substr($phone,0,3)){
-                    $tel = substr($phone,4);
+                    $tel = substr($phone,3);
                     $phones = '971'.ltrim($tel,'0');
                 }else{
                     $phones = '971'.ltrim($phone,'0');
@@ -73,7 +73,7 @@ class message extends Model
                 break;
             case '3': //马来西亚
                 if('60' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '60'.ltrim($tel,'0');
                 }else{
                     $phones = '60'.ltrim($phone,'0');
@@ -81,7 +81,7 @@ class message extends Model
                 break;
             case '4': //泰国
                 if('66' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '66'.ltrim($tel,'0');
                 }else{
                     $phones = '66'.ltrim($phone,'0');
@@ -89,7 +89,7 @@ class message extends Model
                 break;
             case '5': //日本
                 if('81' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '81'.ltrim($tel,'0');
                 }else{
                     $phones = '81'.ltrim($phone,'0');
@@ -97,7 +97,7 @@ class message extends Model
                 break;
             case '6': //印度尼西亚
                 if('62' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '62'.ltrim($tel,'0');
                 }else{
                     $phones = '62'.ltrim($phone,'0');
@@ -105,7 +105,7 @@ class message extends Model
                 break;
             case '7': //菲律宾
                 if('63' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '63'.ltrim($tel,'0');
                 }else{
                     $phones = '63'.ltrim($phone,'0');
@@ -113,7 +113,7 @@ class message extends Model
                 break;
             case '8': //英国
                 if('44' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '44'.ltrim($tel,'0');
                 }else{
                     $phones = '44'.ltrim($phone,'0');
@@ -121,7 +121,7 @@ class message extends Model
                 break;
             case '9': //英国
                 if('44' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '44'.ltrim($tel,'0');
                 }else{
                     $phones = '44'.ltrim($phone,'0');
@@ -129,7 +129,7 @@ class message extends Model
                 break;
             case '10': //美国
                 if('1' == substr($phone,0,1)){
-                    $tel = substr($phone,2);
+                    $tel = substr($phone,1);
                     $phones = '1'.ltrim($tel,'0');
                 }else{
                     $phones = '1'.ltrim($phone,'0');
@@ -137,7 +137,7 @@ class message extends Model
                 break;
             case '11': //越南
                 if('84' == substr($phone,0,2)){
-                    $tel = substr($phone,3);
+                    $tel = substr($phone,2);
                     $phones = '84'.ltrim($tel,'0');
                 }else{
                     $phones = '84'.ltrim($phone,'0');
