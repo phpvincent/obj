@@ -170,9 +170,16 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
+                <div id=messagediv>
+                   <span class="messag">أكتب ما وصل إلي جوالك من رمزالتحقق</span>
+                   <div>
+                   <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
+                   <button id="messend" style="background-color: #00923f;border: 1px solid #00923f;" type="button" class="mui-btn but-red">إعادة في إرسال<span id="messpan"></span></button>
+                   </div>
+                </div>
 
             </div>
-            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-right: 20%;bottom: 0px;right: 0;">تأكيد</button>
+            <button id="payOk" style="width:60%;color:white;background-color: #00923f;position: absolute;margin-right: 20%;bottom: 0px;right: 0;">تأكيد</button>
         </div>
     </div>
 
@@ -279,7 +286,7 @@
         <input type="text" name="zip"placeholder="اكتب الرقم البريدي الخاص بالمدينه التي يعيش فيها المستلم لا تترك فارغه" class="mui-input-clear">
     </div> -->
     <div class="mui-input-row need_email">
-        <label style="float: right;">:البريد الالكتروني <span class="require">*</span></label>
+        <label style="float: right;">:البريد الالكتروني </label>
         <input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">
     </div>
     <div class="mui-input-row" style=" height:66px">
@@ -487,11 +494,11 @@ var payFun=function (){
         layer.msg('ادخل رقم هاتف المستلم');
         return false;
     }
-    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("ااكتب لناعنوان صندوق البريد");
-        return false;
-    }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("ااكتب لناعنوان صندوق البريد");
+    //     return false;
+    // }
     var re = /^\d{9}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg(' أدخل رقم هاتف صالح');
@@ -512,11 +519,15 @@ var payFun=function (){
     };
     datasObj.telephone="966"+datasObj.telephone;
     // layer.msg("订单提交中，请稍等...");
-    $("#orderlog").show();
-    payFunMessageRight()
+    payFunMessageRight(datasObj)
             
 }
 var payFunGo= function (){
+    if(!$("#messageinput").val()){
+        layer.msg('أكتب ما وصل إلي جوالك من رمزالتحقق');
+        return false;
+    };
+    datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:' انتظر قليلا الطلب تحت التأكيد.',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px', 'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -534,7 +545,14 @@ var payFunGo= function (){
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                    if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('رمزالتحقق  خطء');
+                        $("#orderlog").show();
+                    }else {
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    }
                        },
           
                     
@@ -554,6 +572,10 @@ var payFunGo= function (){
                     if(data.err=='0'){
                         layer.msg('ر paypal من فضلك أدفع بطريقه أخري .,');
                          issubmit=true;
+                    }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('رمزالتحقق  خطء');
+                        $("#orderlog").show();
                     }else{
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -584,6 +606,10 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
+$('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce =" رمز التحقق قد وصل إلي جوالك . من فضلك إستقبالها جيدا صلاحية رمز التحقق 5 دقائق. ";
+var messageerr =" فشل في إرسال رمز التحقق. أنظر هل رقم الجوال صحيح أم لا ";
+var messnetworkerr= " فشل الطلب من فضلك تأكد من جوده الانترنت .";
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -670,36 +696,36 @@ jQuery(function(){
 </script>
 
 <script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label  style="float: right;">:البريد الالكتروني <span style="color:red;">*</span></label>';
-        html1 +='<input type="text" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." nullmsg="" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
+//     jQuery(function(){
+//         var html1 ='';
+// //        html +='<div class="mui-input-row need_email">';
+//         html1 += ' <label  style="float: right;">:البريد الالكتروني <span style="color:red;">*</span></label>';
+//         html1 +='<input type="text" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." nullmsg="" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         var html2 = '';
 
-        html2 += "<label style='float: right;'>:البريد الالكتروني <span class='require'>*</span></label>";
-        html2 += '<input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">';
+//         html2 += "<label style='float: right;'>:البريد الالكتروني <span class='require'>*</span></label>";
+//         html2 += '<input type="text" name="email" placeholder="سنرسل لك تفاصيل الطلب عبر البريد الالكتروني ." class="mui-input-clear">';
 
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
+//         var payty =  jQuery('input[name=pay_type]:checked').val();
+//         if(payty==7||payty==2){
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html1);
+//         }else{
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html2);
+//         }
+//         jQuery('input[name=pay_type]').click(function(){
+//             if(jQuery(this).val()==7 || jQuery(this).val()==2){
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html1);
+//             }else{
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html2);
+//             }
 
-        });
+//         });
 
-    });
+//     });
 
 </script>
 

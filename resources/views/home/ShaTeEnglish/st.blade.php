@@ -730,7 +730,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     <div id="iframePayDiv" style="display:none;  overflow-y: scroll; height:91%">
     </div>
     <div class="mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;margin:0 auto;max-width:640px;height:9%;display:none;">
-        <span class="purchase"  id="btnPay2" style="width:100%;">
+        <span class="purchase"  id="btnPay2" style="width:100%;background-color: #00923f;">
 	    	<a href="javascript:void(0);">
 	    		<img src="/images/buy2.png">
 	    		<span>Buy Now</span>
@@ -738,7 +738,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 	    </span>
     </div>
     <div class="btndiv1 mui-bar" style="box-shadow: 0px -1px 1px #dad8d8;max-width:640px;height:9%;display:none">
-         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%">Start Order</button>
+         <button id="pay" type="button" class="btnstyle01" style="width:100%;margin:0;height:100%;background-color: #00923f;">Start Order</button>
     </div>
 </div>
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
