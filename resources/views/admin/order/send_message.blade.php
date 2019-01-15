@@ -52,7 +52,7 @@
                 return false;
 			}
 			// console.log(content.length);
-			if(isNull(content) || content.length > 13) {
+			if(isNull(content) || content.length > 134) {
                 layer.msg("推送内容长度不合法！");
                 return false;
 			}
@@ -70,12 +70,13 @@
 							parent.shuaxin(); 
 						});
 					}else{
-                        layer.msg('发送失败!',{time:2*1000},function() {
-                            //回调
-                            index = parent.layer.getFrameIndex(window.name);
-                            setTimeout("parent.layer.close(index);",100);
-                            parent.shuaxin();
-                        });
+                        // layer.msg('发送失败,请检查电话号码格式是否正确!',{time:2*1000},function() {
+                        //     //回调
+                        //     index = parent.layer.getFrameIndex(window.name);
+                        //     setTimeout("parent.layer.close(index);",100);
+                        //     parent.shuaxin();
+                        // });
+						layer.msg('发送失败,请检查电话号码格式是否正确!')
                     }
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
