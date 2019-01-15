@@ -148,6 +148,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
+                <div id=messagediv>
+                   <span class="messag">請輸入已發送至您手機的驗證碼：</span>
+                   <div>
+                   <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
+                   <button id="messend" type="button" class="mui-btn but-red">重新發送<span id="messpan"></span></button>
+                   </div>
+                </div>
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">確認</button>
@@ -250,7 +257,7 @@
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label><span class="require">*</span>Email:</label>
+        <label>Email:</label>
         <!--<input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" class="mui-input-clear">
     </div>
@@ -452,16 +459,16 @@ var payFun=function (){
         layer.msg('請填寫收貨人手機號碼');
         return false;
     }
-    // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-    // if(!re.test(datasObj.telephone)){
-    //     layer.msg('請輸入有效手機號');
-    //     return false;
-    // }
-    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("請輸入一個有效的電子郵寄地址");
+    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('請輸入有效手機號');
         return false;
     }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("請輸入一個有效的電子郵寄地址");
+    //     return false;
+    // }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -478,11 +485,15 @@ var payFun=function (){
     };
 
     // layer.msg("訂單提交中，請稍等");
-    $("#orderlog").show();
-    payFunMessage()
+    payFunMessage(datasObj)
             
 }
 var payFunGo= function (){
+    if(!$("#messageinput").val()){
+        layer.msg('請輸入已發送至您手機的驗證碼');
+        return false;
+    };
+    datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'訂單提交中，請稍等',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',   'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -500,7 +511,14 @@ var payFunGo= function (){
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                    if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('驗證碼填寫錯誤!');
+                        $("#orderlog").show();
+                    }else {
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    }
                        },
           
                     
@@ -520,6 +538,10 @@ var payFunGo= function (){
                     if(data.err=='0'){
                         layer.msg('paypal支付失敗，請選擇其它支付方式！');
                          issubmit=true;
+                    }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('驗證碼填寫錯誤!');
+                        $("#orderlog").show();
                     }else{
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -549,6 +571,10 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun) //封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
+$('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce ="驗證碼已發送至您手機，請注意接收！驗證碼有效時間為5分鐘";
+var messageerr ="驗證碼發送失敗，請確認您的手機號是否填寫正確！";
+var messnetworkerr= "請檢查網絡情況！";
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -634,36 +660,36 @@ jQuery(function(){
 </script>
 
 <script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="我們會借此郵箱向您發送訂單通知" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
-        html2 += "<label><span class='require'>*</span>Email:</label>";
+//     jQuery(function(){
+//         var html1 ='';
+// //        html +='<div class="mui-input-row need_email">';
+//         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
+//         html1 +='<input type="text" placeholder="我們會借此郵箱向您發送訂單通知" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         var html2 = '';
+//         html2 += "<label><span class='require'>*</span>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder="我們會借此郵箱向您發送訂單通知" class="mui-input-clear">';
 
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
+//         var payty =  jQuery('input[name=pay_type]:checked').val();
+//         if(payty==7||payty==2){
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html1);
+//         }else{
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html2);
+//         }
+//         jQuery('input[name=pay_type]').click(function(){
+//             if(jQuery(this).val()==7 || jQuery(this).val()==2){
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html1);
+//             }else{
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html2);
+//             }
 
-        });
+//         });
 
-    });
+//     });
 
 </script>
 
