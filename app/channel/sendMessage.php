@@ -73,7 +73,7 @@ class sendMessage{
                $text = str_replace('123456',$num, $text);
                 break;
             case '1':
-               $text="您正在zsshop網上商城購物，您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text="您正在zsshop网上商城购物，您的验证码为：@，验证码有效期为5分钟";
                $text = str_replace('123456',$num, $text);
                 break;
             case '6':
