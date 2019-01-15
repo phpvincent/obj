@@ -470,7 +470,7 @@ var payFun=function (){
     //     return false;
     // }
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
-    datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
+    // datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     datasObj.telephone="974"+datasObj.telephone;
     payFunMessage(datasObj)
             
