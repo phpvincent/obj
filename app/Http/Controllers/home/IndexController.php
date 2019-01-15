@@ -455,11 +455,11 @@ class IndexController extends Controller
         $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
     	$urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($request->input('messaga_code')) {
+            $tel = $request->input('telephone');
+            $tel = message::AreaCode($goods->goods_blade_type,$tel);
+            //是否获取手机验证码是否正确
+            $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
             if($request->input('messaga_code') != 'suibian'){
-                $tel = $request->input('telephone');
-                $tel = message::AreaCode($goods->goods_blade_type,$tel);
-                //是否获取手机验证码是否正确
-                $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
                 if (!$messages) {
                     return response()->json(['err' => 2, 'url' => '验证码获取失败']);
                 }
@@ -617,7 +617,7 @@ class IndexController extends Controller
         $msg=$order->save();
 
         //==========================================
-        if($request->input('messaga_code') && $request->input('messaga_code') != 'suibian') {
+        if($request->input('messaga_code')) {
             //修改验证码订单ID
             $messages->message_order_id = $order->order_id;
             $messages->save();
@@ -1061,11 +1061,11 @@ class IndexController extends Controller
        }
 
        if($request->input('messaga_code')) {
+           $tel = $request->input('telephone');
+           $tel = message::AreaCode($goods->goods_blade_type,$tel);
+           //是否获取手机验证码是否正确
+           $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
            if($request->input('messaga_code') != 'suibian'){
-               $tel = $request->input('telephone');
-               $tel = message::AreaCode($goods->goods_blade_type,$tel);
-               //是否获取手机验证码是否正确
-               $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
                if (!$messages) {
                    return response()->json(['err' => 2, 'url' => '验证码获取失败']);
                }
@@ -1200,7 +1200,7 @@ class IndexController extends Controller
 
        //==========================================
        //修改验证码订单ID
-       if($request->input('messaga_code') && $request->input('messaga_code') != 'suibian'){
+       if($request->input('messaga_code')){
            $messages->message_order_id = $order->order_id;
            $messages->save();
        }
