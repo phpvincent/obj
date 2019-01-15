@@ -3,7 +3,7 @@
     <head>
                 <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{$goods->goods_name}}</title>
+        <title>[zsshop]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -149,9 +149,16 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
+                <div id=messagediv>
+                   <span class="messag">Please fill in the verification code.</span>
+                   <div>
+                   <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
+                   <button id="messend" style="background-color: #00923f;border: 1px solid #00923f;" type="button" class="mui-btn but-red">Resend<span id="messpan"></span></button>
+                   </div>
+                </div>
 
             </div>
-            <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
+            <button id="payOk" style="width:60%;color:white;background-color: #00923f;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
         </div>
     </div>
 
@@ -228,7 +235,8 @@
         <!---->
     <!--</div>-->
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
-        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+        {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
+        The verification code will be sent to your mobile phone for verification  and convenince for contacting so that we can deliver your products accurately.
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
@@ -434,11 +442,11 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("please enter a valid email address.");
-        return false;
-    }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("please enter a valid email address.");
+    //     return false;
+    // }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -465,11 +473,15 @@ var payFun=function (){
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     datasObj.telephone="966"+datasObj.telephone;
     // layer.msg("Please wait for the order submitted");
-    $("#orderlog").show();
-    payFunMessage()
+    payFunMessage(datasObj)
             
 }
 var payFunGo= function (){
+    if(!$("#messageinput").val()){
+        layer.msg('Please fill in the verification code.');
+        return false;
+    };
+    datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var payType=$(".paymentbox input:checked").val();
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
@@ -487,7 +499,14 @@ var payFunGo= function (){
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                    if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
+                    }else {
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    }
                        },
           
                     
@@ -507,6 +526,10 @@ var payFunGo= function (){
                   if(data.err=='0'){
                       layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
                        issubmit=true;
+                    }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                   }else{
                       var btime=getNowDate();
                       try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -534,6 +557,10 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
+$('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce ="A verification code has been sent to your mobile phone. Please confirm. only valid within 5 minutes";
+var messageerr =" Fail to send the verification code. Please confirm you mobile No. ";
+var messnetworkerr= " Please check the network condition.";
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }

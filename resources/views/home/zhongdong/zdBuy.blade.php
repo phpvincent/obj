@@ -3,7 +3,7 @@
     <head>
                 <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{$goods->goods_name}}</title>
+        <title>[zsshop]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -233,7 +233,8 @@
         <!---->
     <!--</div>-->
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
-        Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. 
+        {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
+        The verification code will be sent to your mobile phone for verification  and convenince for contacting so that we can deliver your products accurately.
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>City:</label>
@@ -497,6 +498,7 @@ var payFunGo= function (){
                     if(data.err == 2){
                         issubmit=true;
                         layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                     }else {
                         window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
 
@@ -521,6 +523,7 @@ var payFunGo= function (){
                   }else if(data.err== 2){
                         issubmit=true;
                         layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                   }else{
                       var btime=getNowDate();
                       try{fbq('track', 'InitiateCheckout')}catch(e){};

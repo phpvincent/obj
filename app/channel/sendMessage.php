@@ -42,7 +42,6 @@ class sendMessage{
         }else{
             return false;
         }
-
         //发送短信
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $text);
         if($bean->code==0){
@@ -66,34 +65,39 @@ class sendMessage{
      * @return mixed|string
      */
     public static function send_text($blade_id,$num)
-    {
+    {   
         $text="";
         switch ($blade_id) {
             case '0':
-               $text="您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text="您正在zsshop網上商城購物，您的驗證碼為：123456，驗證碼有效時間為5分鐘";
                $text = str_replace('123456',$num, $text);
                 break;
             case '1':
-               $text="您的驗證碼為：123456，驗證碼有效時間為5分鐘";
+               $text="您正在zsshop網上商城購物，您的驗證碼為：123456，驗證碼有效時間為5分鐘";
                $text = str_replace('123456',$num, $text);
                 break;
+            case '6':
+                $text='Anda berbelanja di toko online zsshop, kode verifikasi Anda adalah: 123456, kode verifikasi ini berlaku selama 5 menit.';
+                $text=str_replace('123456', $num, $text);
             case '12':
-               $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+               $text = " لقد اشتريت من موقعنا الإلكترونيzsshop رمز التحقق 123456، صلاحية رمز التحقق 5 دقائق. ";
                $text = str_replace('123456',$num, $text);
                 break;
             case '14':
-               $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+               $text = " لقد اشتريت من موقعنا الإلكترونيzsshop رمز التحقق 123456، صلاحية رمز التحقق 5 دقائق. ";
                $text = str_replace('123456',$num, $text);
                 break;
             case '16':
-               $text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
+               $text = " لقد اشتريت من موقعنا الإلكترونيzsshop رمز التحقق 123456، صلاحية رمز التحقق 5 دقائق. ";
                $text = str_replace('123456',$num, $text);
                 break;
             default:
-               $text = "verification code :123456.  only valid within 5 minutes";
+               $text = "you are shopping in Zsshop Mall verification code :123456.  only valid within 5 minutes";
                $text = str_replace('123456',$num, $text);
                 break;
         }
         return $text;
     }
+
+
 }

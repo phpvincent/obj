@@ -3,7 +3,7 @@
     <head>
                 <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{$goods->goods_name}}</title>
+        <title>[zsshop]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -218,7 +218,8 @@
         <input type="text" datatype="/^\d+$/" placeholder="必填，填寫收件人聯繫電話" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
-    請務必保證電話號碼資訊真實準確，以便我們能够聯系您並且準確發送貨物。 
+    {{--請務必保證電話號碼資訊真實準確，以便我們能够聯系您並且準確發送貨物。 --}}
+        我們將向您發送驗證碼以驗證電話號碼資訊真實準確，以便我們能够聯系您並且準確發送貨物
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->

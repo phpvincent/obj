@@ -3,7 +3,7 @@
     <head>
                 <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{$goods->goods_name}}</title>
+        <title>[zsshop]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -174,6 +174,13 @@
                 <div id="orderlogConten">  
                 </div>
                 <div id="orderlogConten2"></div>
+                <div id=messagediv>
+                   <span class="messag">Silakan masukkan kode verifikasi yang telah dikirim ke ponsel Anda</span>
+                   <div>
+                   <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
+                   <button id="messend" type="button" class="mui-btn but-red">Kirim Ulang<span id="messpan"></span></button>
+                   </div>
+                </div>
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;"> konfirmasi/ok</button>
@@ -241,14 +248,20 @@
     </div> -->
     <div class="mui-input-row">
         <label><span class="require">*</span>No. Handphone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Harus diisi, Isi nomor HP penerima" nullmsg="No. HP tidak boleh kosong"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"errormsg="No. HP tidak boleh kosong" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;" id="quhao">+62</span>
+        <input type="text" style="width:50%" datatype="/^\d+$/" placeholder="Harus diisi, Isi nomor HP penerima" nullmsg="No. HP tidak boleh kosong"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"errormsg="No. HP tidak boleh kosong" name="telephone" class="mui-input-clear">
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
-    Harap pastikan bahwa informasi nomor telepon ini benar dan akurat sehingga kami dapat menghubungi Anda dan mengirimkan barang dengan benar. 
+    Kami akan mengirimkan kode verifikasi kepada Anda. Harap nomor telepon yang diverifikasi benar dan akurat sehingga kami dapat menghubungi Anda dan mengirimkan barang dengan benar. 
     </div>
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
@@ -287,7 +300,7 @@
         <input type="text" name="address2" class="mui-input-clear">
     </div>
     <div class="mui-input-row need_email">
-        <label><span class="require">*</span>Email:</label>
+        <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="Kami akan pakai email ini kirim pemberitahuan pesanan ke Anda" class="mui-input-clear">
     </div>
@@ -478,11 +491,11 @@ var payFun=function (){
         layer.msg("Silahkan isi no. HP penerima");
         return false;
     }
-    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("silakan masukkan alamat email yang benar");
-        return false;
-    }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("silakan masukkan alamat email yang benar");
+    //     return false;
+    // }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -507,12 +520,15 @@ var payFun=function (){
     // }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Pesanan sedang dikirim, Silahkan menunggu");
-
-    $("#orderlog").show();
-    payFunMessage()
+    payFunMessage(datasObj)
             
 }
 var payFunGo= function (){
+    if(!$("#messageinput").val()){
+        layer.msg('Silakan masukkan kode verifikasi yang telah dikirim ke ponsel Anda');
+        return false;
+    };
+    datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Pesanan sedang dikirim, Silakan tunggu',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -530,7 +546,14 @@ var payFunGo= function (){
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
                             $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+                    if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('Kode verifikasi salah !');
+                        $("#orderlog").show();
+                    }else {
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    }
                        },
           
                     
@@ -550,6 +573,10 @@ var payFunGo= function (){
                    if(data.err=='0'){
                        layer.msg('pembayaran paypal gagal,silakan pilih cara yang lain!');
                         issubmit=true;
+                    }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('Kode verifikasi salah !');
+                        $("#orderlog").show();
                    }else{
                        var btime=getNowDate();
                        try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -577,6 +604,10 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
+$('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce ="Kode verifikasi telah dikirim ke ponsel Anda, pastikan untuk menerimanya! kode verifikasi ini berlaku selama 5 menit.";
+var messageerr =" Kode verifikasi gagal. Harap konfirmasi nomor ponsel anda yang benar! ";
+var messnetworkerr= "Pesanan gagal dikirim, Silahkan cek jaringan internet Anda";
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }

@@ -3,7 +3,7 @@
     <head>
                 <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{$goods->goods_name}}</title>
+        <title>[zsshop]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -146,6 +146,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
+                <div id=messagediv>
+                   <span class="messag">请输入已发送至您手机的验证码:</span>
+                   <div>
+                   <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
+                   <button id="messend" type="button" class="mui-btn but-red">重新发送<span id="messpan"></span></button>
+                   </div>
+                </div>
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">确认</button>
@@ -216,7 +223,8 @@
         <input type="text" datatype="/^\d+$/" placeholder="必填，填写收件人联系电话" nullmsg="填写收件人联系电话" errormsg="请填写正确的电话号码" name="telephone" class="mui-input-clear">
     </div>
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
-    请务必保证电话号码信息真实准确，以便我们能够联系您并且准确发送货物。 
+    {{--请务必保证电话号码信息真实准确，以便我们能够联系您并且准确发送货物。 --}}
+        我们将向您发送验证码已验证电话号码真实准确，以便我们能够联系您并且准确发送货物
     </div>
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
@@ -247,7 +255,7 @@
         <input type="text" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label><span class="require">*</span>Email:</label>
+        <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder="我们会借此邮箱向您发送订单通知" class="mui-input-clear">
     </div>
@@ -461,11 +469,11 @@ var payFun=function (){
         layer.msg('请输入有效手机号');
         return false;
     }
-    var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("请输入一个有效的邮箱地址");
-        return false;
-    }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("请输入一个有效的邮箱地址");
+    //     return false;
+    // }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -479,11 +487,15 @@ var payFun=function (){
         layer.msg('请填写完整商品属性');
         return false;
     };
-    $("#orderlog").show();
-    payFunMessage()
+    payFunMessage(datasObj)
             
 }
 var payFunGo= function (){
+    if(!$("#messageinput").val()){
+        layer.msg('请输入已发送至您手机的验证码');
+        return false;
+    };
+    datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
         // layer.msg("订单提交中，请稍等...");
         var index = layer.load(2, {shade: [0.15, '#393D49'],content:'订单提交中，请稍等',success: function(layero){
@@ -501,11 +513,16 @@ var payFunGo= function (){
                layer.close(index);
             var btime=getNowDate();
                     try{fbq('track', 'InitiateCheckout')}catch(e){};
-                            $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
-                            window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
-                       },
-          
-                    
+                    $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});
+                    if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('验证码填写错误!');
+                        $("#orderlog").show();
+                    }else {
+                        window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    } 
+            },
            error: function(data) {
                layer.close(index);
                layer.msg('订单提交失败，请检查网络情况');
@@ -522,6 +539,10 @@ var payFunGo= function (){
                     if(data.err=='0'){
                         layer.msg('paypal支付失败，请选择其他支付方式！');
                          issubmit=true;
+                    }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('验证码填写错误!');
+                        $("#orderlog").show();
                     }else{
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -550,7 +571,11 @@ var payFunGo= function (){
             //记录购买事件
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
-$('#payOk').bind('click',payFunGo);//封装订单提交
+$('#payOk').bind('click',payFunGo);//封装订单提交 
+$('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce ="验证码已发送至您手机，请注意接收！验证码有效时间为5分钟";
+var messageerr ="验证码发送失败，请确认您手机号是否填写正确！";
+var messnetworkerr= "请检查网络情况！";
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -636,36 +661,36 @@ jQuery(function(){
 </script>
 
 <script>
-    jQuery(function(){
-        var html1 ='';
-//        html +='<div class="mui-input-row need_email">';
-        html1 += ' <label><span style="color:red;">*</span>Email:</label>';
-        html1 +='<input type="text" placeholder="选填，填写收件人电子邮箱" nullmsg="选填电子邮箱" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
-        var html2 = '';
-        html2 += "<label><span class='require'>*</span>Email:</label>";
+//     jQuery(function(){
+//         var html1 ='';
+// //        html +='<div class="mui-input-row need_email">';
+//         html1 += ' <label><span style="color:red;">*</span>Email:</label>';
+//         html1 +='<input type="text" placeholder="选填，填写收件人电子邮箱" nullmsg="选填电子邮箱" errormsg="email_not_correct" datatype="/^([0-9A-Za-z\-_\.]+)@([0-9a-z\.]+)$/g" name="email" class="mui-input-clear"></div>';
+//         var html2 = '';
+//         html2 += "<label><span class='require'>*</span>Email:</label>";
 
-        html2 += '<input type="text" name="email" placeholder="选填，填写收件人电子邮箱" class="mui-input-clear">';
+//         html2 += '<input type="text" name="email" placeholder="选填，填写收件人电子邮箱" class="mui-input-clear">';
 
-        var payty =  jQuery('input[name=pay_type]:checked').val();
-        if(payty==7||payty==2){
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html1);
-        }else{
-            jQuery('.need_email').children().remove();
-            jQuery('.need_email').append(html2);
-        }
-        jQuery('input[name=pay_type]').click(function(){
-            if(jQuery(this).val()==7 || jQuery(this).val()==2){
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html1);
-            }else{
-                jQuery('.need_email').children().remove();
-                jQuery('.need_email').append(html2);
-            }
+//         var payty =  jQuery('input[name=pay_type]:checked').val();
+//         if(payty==7||payty==2){
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html1);
+//         }else{
+//             jQuery('.need_email').children().remove();
+//             jQuery('.need_email').append(html2);
+//         }
+//         jQuery('input[name=pay_type]').click(function(){
+//             if(jQuery(this).val()==7 || jQuery(this).val()==2){
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html1);
+//             }else{
+//                 jQuery('.need_email').children().remove();
+//                 jQuery('.need_email').append(html2);
+//             }
 
-        });
+//         });
 
-    });
+//     });
 
 </script>
 

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>オーダー状況検索</title>
+    <title>[zsshop]オーダー状況検索</title>
 	  	  <link rel="shortcut icon" href="/images/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">

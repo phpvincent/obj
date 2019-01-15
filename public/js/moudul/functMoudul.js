@@ -284,6 +284,7 @@ function sendMess () {
                 orderShowFlag =true;
             }else{
                 layer.msg(messageerr);    //验证码发送失败
+                orderShowFlag =false;
                 $("#orderlog").hide();
 
                 var obj = $(".btndiv1 button",parent.document);
@@ -303,15 +304,15 @@ function sendMess () {
                     obj.attr('disabled',true);
                     obj2.attr('disabled',true);
                     if(obj.find("span").length >0 ){
-                        obj.find("span").text("(" + countdown + ")");
+                        obj.find("span").text(countdown);
                     }else{
-                        obj.append("<span>(" + countdown + ")</span>");
+                        obj.append("<span>" + countdown + "</span>");
                     }
 
                     if(obj2.find("span").length >0 ){
-                        obj2.find("span").text("(" + countdown + ")");
+                        obj2.find("span").text(countdown);
                     }else{
-                        obj2.append("<span>(" + countdown + ")</span>");
+                        obj2.append("<span>" + countdown + "</span>");
                     }
                 }
                 },1000)
@@ -333,7 +334,7 @@ function sendMess () {
             return;
         } else { 
             obj.attr('disabled',true);
-            $('#messpan').text("(" + countdown + ")");
+            $('#messpan').text(countdown);
             countdown--; 
         }
         },1000)
@@ -341,7 +342,7 @@ function sendMess () {
 //确认订单弹框收集确认信息
 function payFunMessage(datasObj){
      datasObj = datasObj
-     if(!$("#messend").attr("disabled") && datasObj){
+     if(!$("#messend").attr("disabled") && datasObj && !orderShowFlag){
         sendMess()
      }   // 60秒能发一次短信
      if(orderShowFlag){ $("#orderlog").show();} // 只有成功发过才能打开订单确认；
@@ -399,9 +400,10 @@ function payFunMessage(datasObj){
 //阿拉伯语；向右方式确认订单弹框收集确认信息
 function payFunMessageRight(datasObj){
     datasObj = datasObj
-    if(!$("#messend").attr("disabled") && datasObj){
+    if(!$("#messend").attr("disabled") && datasObj && !orderShowFlag){
        sendMess()
     }   // 60秒能发一次短信
+    if(orderShowFlag){ $("#orderlog").show();} // 只有成功发过才能打开订单确认；
     var itemHtml='';
     var itemHtml2='';
     var selectVal = '';
