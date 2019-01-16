@@ -81,12 +81,16 @@ class sendMessage{
              if($data->data->balance<8000){
                     $text='短信服务余额不足，余额：'.$data->data->balance;
                     \Log::notice($text);
-                    $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                    try{
+                        $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                    }catch(\Exception $e){\Log::notice($e);}
                 }
         }else{
             \Log::notice('短信服务-通讯余额接口失败');
                 $text='短信服务-通讯余额接口失败';
-                $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                try{
+                     $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                 }catch(\Exception $e){\Log::notice($e);}
         }      
     }
 
