@@ -27,7 +27,7 @@ class sendMessage{
         if($goods_id){ //前台下订单
             $goods = goods::find($goods_id);
             if(!$goods){
-                return false;
+                return self::respendData(1,'参数错误');
             }
             $phones = message::AreaCode($goods->goods_blade_type,$phone);
         }else if($order_id){  //后台消息推送
@@ -36,26 +36,26 @@ class sendMessage{
                 ->where('order.order_id',$order_id)
                 ->first();
             if(!$blade){
-                return false;
+                return self::respendData(1,'参数错误');
             }
             $goods_id = $blade->goods_id;
             $phones = message::AreaCode($blade->goods_blade_type,$phone);
         }else{
-            return false;
+            return self::respendData(1,'参数错误');
         }
         //发送短信
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $text);
         if($bean->code==0){
             //记录订单发送信息
-            $message = message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,0);
+            $message = message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,0,$bean->msg);
             if($message){
-                return true;
+                return self::respendData($bean->code,$bean->msg);
             }
-            return false;
+            return self::respendData(1,'参数错误');
         }else{
             //记录订单发送信息
-            message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,1);
-            return false;
+            message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,1,$bean->msg);
+            return self::respendData($bean->code,$bean->msg);
         }
     }
     public static function message_notice(){
@@ -88,6 +88,19 @@ class sendMessage{
                 $text='短信服务-通讯余额接口失败';
                 $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
         }      
+    }
+
+    /**
+     * 返回参数
+     * @param $code
+     * @param $msg
+     * @return mixed
+     */
+    public static function respendData($code,$msg)
+    {
+        $data['code'] = $code;
+        $data['msg'] = $msg;
+        return $data;
     }
 
     /**

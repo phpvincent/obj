@@ -596,6 +596,7 @@ class IndexController extends Controller
         $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');
+        $order->order_zip=$request->input('zip');
         $order->order_village=$request->input('order_village');
         $order->order_country=$request->input('order_country'); //订单所属国家（中东集成模板） 2018-12-27添加
         //邮箱尾部认证
@@ -1179,6 +1180,7 @@ class IndexController extends Controller
        $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
        $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
        $order->order_add=$request->input('address1');
+       $order->order_zip=$request->input('zip');
        $order->order_village=$request->input('order_village');
        $order->order_country=$request->input('order_country'); //订单所属国家（中东集成模板） 2018-12-27添加
 //       $order->order_email=str_replace(' ','',$request->input('email'));
@@ -1416,19 +1418,16 @@ class IndexController extends Controller
      */
    public function sendMessages(Request $request)
    {
-//       $phone = "85264837534";
-       //电话号码加区号
-       $num = rand(100000, 999999);
+       $num = rand(100000, 999999); //验证码
        $blade_id=goods::find(url::get_goods($request))->goods_blade_type;
        $text=sendMessage::send_text($blade_id,$num);
-       /*$text = "رمزالتحقق 123456.تنفع رمزالتحقق تكون خلال داخل خمس الدقائق";
-       $text = str_replace('123456',$num, $text);*/
        $phone = $request->input('telephone');
        $data_info = sendMessage::send($request,$phone,$text,$num);
-       if($data_info){
-           return response()->json(['err'=>1,'url'=>'发送成功']);
+       if($data_info['code'] == 0){
+           return response()->json(['err'=>1,'url'=>'success']);
        }else{
-           return response()->json(['err'=>0,'url'=>'发送失败']);
+           return response()->json(['err'=>0,'url'=>'fail']);
+//           return response()->json(['err'=>0,'url'=>$data_info['msg']]);
        }
    }
 /*   public function sendmail(Request $request)

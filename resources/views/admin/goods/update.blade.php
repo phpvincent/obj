@@ -122,14 +122,14 @@
 						<option value="1" @if($goods->goods_blade_type=='1') selected="selected" @endif>1--简体模板</option>
 						<option value="2" @if($goods->goods_blade_type=='2') selected="selected" @endif>2--阿联酋模板</option>
 						<option value="3" @if($goods->goods_blade_type=='3') selected="selected" @endif>3--马来西亚模板</option>
-						<option value="4" @if($goods->goods_blade_type=='4') selected="selected" @endif>4--泰国模板</option>
-						<option value="5" @if($goods->goods_blade_type=='5') selected="selected" @endif>5--日本模板</option>
+						<option value="4" @if($goods->goods_blade_type=='4') selected="selected" @endif>4--泰国模板（旧版）</option>
+						<option value="5" @if($goods->goods_blade_type=='5') selected="selected" @endif>5--日本模板（旧版）</option>
 						<option value="6" @if($goods->goods_blade_type=='6') selected="selected" @endif>6--印度尼西亚</option>
 						<option value="7" @if($goods->goods_blade_type=='7') selected="selected" @endif>7--菲律宾</option>
-						<option value="8" @if($goods->goods_blade_type=='8') selected="selected" @endif>8--英国</option>
-						<option value="9" @if($goods->goods_blade_type=='9') selected="selected" @endif>9--Google-PC(调试中)</option>
-						<option value="10" @if($goods->goods_blade_type=='10') selected="selected" @endif>10--美国</option>
-						<option value="11" @if($goods->goods_blade_type=='11') selected="selected" @endif>11--越南</option>
+						<option value="8" @if($goods->goods_blade_type=='8') selected="selected" @endif>8--英国（旧版）</option>
+						<option value="9" @if($goods->goods_blade_type=='9') selected="selected" @endif>9--Google-PC（旧版）</option>
+						<option value="10" @if($goods->goods_blade_type=='10') selected="selected" @endif>10--美国（旧版）</option>
+						<option value="11" @if($goods->goods_blade_type=='11') selected="selected" @endif>11--越南（旧版）</option>
 						<option value="12" @if($goods->goods_blade_type=='12') selected="selected" @endif>12--沙特</option>
 						<option value="13" @if($goods->goods_blade_type=='13') selected="selected" @endif>13--沙特英文</option>
 						<option value="14" @if($goods->goods_blade_type=='14') selected="selected" @endif>14--卡塔尔</option>
