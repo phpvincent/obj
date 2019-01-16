@@ -21,7 +21,7 @@ class message extends Model
      * @param $message_status //发送状态 0：成功 1：失败
      * @return bool
      */
-    public static function CreateMessage($request,$phone,$goods_id,$order_id,$text,$num,$message_status){
+    public static function CreateMessage($request,$phone,$goods_id,$order_id,$text,$num,$message_status,$messaga_remark){
        $message = new Message();
        $message->message_ip = $request->getClientIp();
        $message->message_gettime = date('Y-m-d H:i:s');
@@ -32,6 +32,7 @@ class message extends Model
        $message->message_order_id = $order_id;
        $message->message_status = $message_status;
        $message->message_mobile_num = $phone;
+       $message->messaga_remark = $messaga_remark;
        if($message->save()){
             return true;
        }else{
