@@ -91,7 +91,7 @@ class sendMessage{
                 try{
                      $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
                  }catch(\Exception $e){\Log::notice($e);}
-        }      
+        }
     }
 
     /**
