@@ -11,6 +11,7 @@ include_once __DIR__.'/../Utils/fastoo_sdk/model/SendSingleSmsParm.php';
 include_once __DIR__.'/../Utils/fastoo_sdk/model/SendBatchSmsParm.php';
 include_once __DIR__.'/../Utils/fastoo_sdk/api/SendSmsApi.php';
 class sendMessage{
+    private static $phones=['8618348406783','8615978789522','8613253618257','8618736974521','8618238205232','8618638233841'];
     /**
      * 发送消息
      * @param $request
@@ -56,6 +57,37 @@ class sendMessage{
             message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,1);
             return false;
         }
+    }
+    public static function message_notice(){
+        $nums=implode(',', self::$phones);
+        $url='http://api.fastoo.cn/v1/admin/getUserBalance.json';
+        $apiKey=['apiKey'=>env('FASTOO_APIKEY')];
+        //$result=file_get_contents($url,false,)
+        $postdata = http_build_query($apiKey);  
+        $options = array( 
+                'http' => array(  
+                        'method' => 'POST',
+                        'header' => 'Content-type:application/x-www-form-urlencoded',
+                        'content' => $postdata,
+                        'timeout' => 20 // 超时时间（单位:s）
+                        )
+        );
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $data=json_decode($result);
+        $SendSmsApi=new \SendSmsApi();
+        if(isset($data->msg)&&$data->msg=='ok'){
+            \Log::notice('短信服务余额为：'.$data->data->balance);
+             if($data->data->balance<8000){
+                    $text='短信服务余额不足，余额：'.$data->data->balance;
+                    \Log::notice($text);
+                    $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                }
+        }else{
+            \Log::notice('短信服务-通讯余额接口失败');
+                $text='短信服务-通讯余额接口失败';
+                $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+        }      
     }
 
     /**

@@ -18,40 +18,10 @@ use App\Jobs\SendHerbEmail;use Qcloud\Sms\SmsSingleSender;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-/*	Route::any('/paypal',function(Request $request){
-		
-		// 短信应用SDK AppID
-		$appid = 1400178731; // 1400开头
-
-		// 短信应用SDK AppKey
-		$appkey = "c78bc34d27889db975b0916217fdee57";
-
-		// 需要发送短信的手机号码
-		$phoneNumbers = ["21212313123", "12345678902", "12345678903"];
-		//templateId7839对应的内容是"您的验证码是: {1}"
-		// 短信模板ID，需要在短信应用中申请
-		$templateId = 7839;  // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
-
-		$smsSign = "腾讯云"; // NOTE: 这里的签名只是示例，请使用真实的已申请的签名，签名参数使用的是`签名内容`，而不是`签名ID`
-		try {
-		    $ssender = new SmsSingleSender($appid, $appkey);
-		    $params = ["5678"];//数组具体的元素个数和模板中变量个数必须一致，例如事例中 templateId:5678对应一个变量，参数数组中元素个数也必须是一个
-		    $result = $ssender->sendWithParam("86", $phoneNumbers[0], $templateId,
-		        $params, $smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-		    $rsp = json_decode($result);
-		    echo $result;
-		} catch(\Exception $e) {
-		    echo var_dump($e);
-		}
-		/*\Log::notice(json_encode($request->all()).'回调~~~~~~~~~~~~~~~~~~~~~~~~');return;
-		 $url=$_SERVER['SERVER_NAME'];
-        $goods=\App\goods::where('goods_id',43)->first();
-        $order=\App\order::where('order_id','223')->first();
-        return view('home.YinDuNiXiYa.sendmail')->with(compact('url','order','goods'));
-		
-		//SendHerbEmail::dispatch($order);
+	Route::any('/paypal',function(Request $request){
+		App\channel\sendMessage::message_notice();
 	});
-*/Route::middleware(['checkbus','checkurl'])->group(function(){
+	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
 	Route::post('/comment','home\IndexController@comment');
