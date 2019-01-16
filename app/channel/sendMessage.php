@@ -45,6 +45,7 @@ class sendMessage{
         }
         //发送短信
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $text);
+        //0 提交成功；101 没有此用户；200 金额不足；203 非法IP地址访问；204 模板不匹配；205 下发号码无效；400 请求参数错误；600 系统异常
         if($bean->code==0){
             //记录订单发送信息
             $message = message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,0,$bean->msg);
@@ -55,6 +56,11 @@ class sendMessage{
         }else{
             //记录订单发送信息
             message::CreateMessage($request,$phones,$goods_id,$order_id,$text,$num,1,$bean->msg);
+
+            //金额不足，发送短信提醒
+            if($bean->code==200){
+                self::message_notice();
+            }
             return self::respendData($bean->code,$bean->msg);
         }
     }
