@@ -84,7 +84,7 @@ class sendMessage{
         $SendSmsApi=new \SendSmsApi();
         if(isset($data->msg)&&$data->msg=='ok'){
             \Log::notice('短信服务余额为：'.$data->data->balance);
-             if($data->data->balance<8000){
+             if($data->data->balance<80){
                     $text='短信服务余额不足，余额：'.$data->data->balance;
                     \Log::notice($text);
                     try{
