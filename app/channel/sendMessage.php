@@ -67,7 +67,7 @@ class sendMessage{
     public static function message_notice(){
         $nums=implode(',', self::$phones);
         $url='http://api.fastoo.cn/v1/admin/getUserBalance.json';
-        $apiKey=['apiKey'=>env('FASTOO_APIKEY')];
+        $apiKey=['apiKey'=>env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd')];
         //$result=file_get_contents($url,false,)
         $postdata = http_build_query($apiKey);  
         $options = array( 
@@ -84,18 +84,18 @@ class sendMessage{
         $SendSmsApi=new \SendSmsApi();
         if(isset($data->msg)&&$data->msg=='ok'){
             \Log::notice('短信服务余额为：'.$data->data->balance);
-             if($data->data->balance<80){
+             if($data->data->balance<8000){
                     $text='短信服务余额不足，余额：'.$data->data->balance;
                     \Log::notice($text);
                     try{
-                        $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                        $SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop notice:".$text);
                     }catch(\Exception $e){\Log::notice($e);}
                 }
         }else{
             \Log::notice('短信服务-通讯余额接口失败');
                 $text='短信服务-通讯余额接口失败';
                 try{
-                     $SendSmsApi->Submit(env('FASTOO_APIKEY'), $nums,"zsshop notice:".$text);
+                     $SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop notice:".$text);
                  }catch(\Exception $e){\Log::notice($e);}
         }
     }
