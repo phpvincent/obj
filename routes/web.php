@@ -183,6 +183,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
     //短信
     Route::get('/admin/message/index','admin\MessageController@index');//短信首页
-    Route::post('/admin/message/get_table','admin\MessageController@get_table');//短信列表
+    Route::post('/admin/message/get_table','admin\MessageController@get_table');//
+    Route::get('/admin/message/delmessages','admin\MessageController@delmessages');//短信列表
 });
 

@@ -97,4 +97,43 @@ class MessageController extends Controller
         $arr = ['draw' => $draw, 'recordsTotal' => $counts, 'recordsFiltered' => $newcount, 'data' => $messages];
         return response()->json($arr);
     }
+
+    public function delmessages(Request $request)
+    {
+        if($request->has('type')&&$request->input('type')=='all'){
+            $ids = $request->input('id');
+            $ip = $request->getClientIp();
+            $err = false;
+            $err_ids = [];
+            foreach ($ids as $id){
+                if (! $this->del_message($id,$ip)) {
+                   $err = true;
+                   $err_ids[] = $id;
+                }
+            }
+            if ($err) {
+                return response()->json(['err' => 1, 'str' => '删除失败, 删除失败的短信id为' . implode(', ',$err_ids)]);
+            }else{
+                return response()->json(['err' => 1, 'str' => '删除成功']);
+            }
+        }else{
+            $id = $request->input('id');
+            $ip = $request->getClientIp();
+            if ($this->del_message($id,$ip)) {
+                return response()->json(['err' => 1, 'str' => '删除成功']);
+            } else {
+                return response()->json(['err' => 1, 'str' => '删除失败']);
+            }
+        }
+
+    }
+    private function del_message($id,$ip)
+    {
+        $message = message::find($id);
+        if (message::destroy($id)) {
+            operation_log($ip, '删除短信成功,短信内容：' . $message->messaga_content);
+            return true;
+        }
+        return false;
+    }
 }
