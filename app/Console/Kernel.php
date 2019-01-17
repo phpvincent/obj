@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use App\channel\sendMessage;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -38,6 +38,9 @@ class Kernel extends ConsoleKernel
                     get_browse_info();
                    /* \Log::notice('check');*/
                  })->dailyAt('23:59');
+                 $schedule->call(function(){
+                    sendMessage::message_notice();
+                 })->hourly();
     }
     /**
      * Register the commands for the application.
