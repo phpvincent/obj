@@ -22,7 +22,9 @@
 			<td>{{$log->message_gettime}}</td>
 			<td>{{$log->message_mobile_num}}</td>
 {{--			<td>{{$log->message_order_id}}</td>--}}
-			<td>@if($log->message_status == 0)发送成功@elseif($log->message_status == 1)发送失败@elseif($log->message_status == 2)接收成功@else接收失败@endif</td>
+			<td>@if($log->message_status == 0)发送成功@elseif($log->message_status == 1)发送失败@elseif($log->message_status == 2)接收成功@else接收失败@endif
+			@if(!empty($log->messaga_remark))(失败原因：{{ $log->messaga_remark }})@endif
+			</td>
 {{--			<td>{{$log->message_remark}}</td>--}}
 			<td>{{$log->messaga_content}}</td>
 			<td>{{$log->messaga_code}}</td>
