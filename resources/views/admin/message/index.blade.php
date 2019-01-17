@@ -1,7 +1,7 @@
 @extends('admin.father.css')
 @section('content')
     <div class="page-container">
-        <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <div class="cl pd-5 bk-gray mt-20">
             <div style="width: 100%;">
                 <div style="margin-bottom: 20px" class="row cl">
                     <label class="form-label col-xs-1 col-sm-1">短信状态：</label>
@@ -58,7 +58,7 @@
                         <div class="formControls col-xs-2 col-sm-2">
                         <input type="text" name="phone" id="phone" class="input-text">
                     </div><br/></div>
-
+                <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
                 <table class="table table-border table-bordered table-bg" id="goods_index_table">
                     <thead>
                     <tr>
@@ -75,7 +75,7 @@
                         <th width="40">状态</th>
                         <th width="100">发布时间</th>
                         <th width="80">备注信息</th>
-                        {{--<th width="100">操作</th>--}}
+                        <th width="100">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -85,8 +85,8 @@
         </div>
         @endsection
         @section('js')
-
             <script type="text/javascript">
+                var checkboxs=[];
                 $.tablesetting = {
                     "lengthMenu": [[10, 20], [10, 20]],
                     "paging": true,
@@ -96,7 +96,7 @@
                     "order": [[1, "desc"]],
                     "stateSave": false,
                     "columnDefs": [{
-                        "targets": [0, 2, 3, 5, 6, 7, 8],
+                        "targets": [0, 2, 3, 4, 5, 6,9,10],
                         "orderable": false
                     }],
                     "processing": true,
@@ -134,7 +134,7 @@
                         {'data': 'message_status'},
                         {'data': "message_gettime"},
                         {'data': 'messaga_remark'},
-                        // {'defaultContent': "", "className": "td-manager"},
+                        {'defaultContent': "", "className": "td-manager"},
                     ],
                     "createdRow": function (row, data, dataIndex) {
                         if (data.message_status == 0) {
@@ -146,7 +146,12 @@
                         } else if (data.message_status == 3) {
                             status = '<span style="color:red;">接收失败!</span>';
                         }
+                        var checkbox='<input type="checkbox" name="aaaa" value="'+data.message_id+'">';
+                        var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+                        $(row).find('td:eq(10)').html(del);
                         $(row).find('td:eq(7)').html(status);
+                        $(row).find('td:eq(0)').html(checkbox);
+                        $(row).addClass('text-c');
                     }
                 }
                 dataTable = $('#goods_index_table').DataTable($.tablesetting);
@@ -164,6 +169,89 @@
                 });
                 $('#phone').on('input', function () {
                     $('#goods_index_table').dataTable().fnClearTable();
-                });
+                })
+                function del_messages(id){
+                    var msg =confirm("确定要删除此短信吗？");
+                    if(msg){
+                        layer.msg('删除中');
+                        $.ajax({
+                            url:"{{url('admin/message/delmessages')}}",
+                            type:'get',
+                            data:{'id':id},
+                            datatype:'json',
+                            success:function(msg){
+                                if(msg['err']==1){
+                                    layer.msg(msg.str);
+                                    $('#goods_index_table').dataTable().fnClearTable();
+                                }else if(msg['err']==0){
+                                    layer.msg(msg.str);
+                                }else{
+                                    layer.msg('删除失败！');
+                                }
+                            }
+                        })
+                    }else{
+
+                    }
+                }
+                function pl_del(){
+                    xuanzhe()
+                    console.log(checkboxs);
+                    var msg =confirm("确定要批量删除这些短信吗？");
+                    if(!msg){
+                        return false;
+                    }
+                    var b=[];
+                    var a=$('input[type="checkbox"]:checked');
+                    if(checkboxs.length==0){
+                        layer.msg('无选中项');
+                        return false;
+                    }
+                    console.log(checkboxs);
+                    layer.msg('删除中，请稍等!');
+                    $.ajax({
+                        url:"{{url('admin/message/delmessages')}}",
+                        type:'get',
+                        data:{'id':checkboxs,'type':'all'},
+                        datatype:'json',
+                        success:function(msg){
+                            if(msg['err']==1){
+                                layer.msg(msg.str);
+                                $('#goods_index_table').dataTable().fnClearTable();
+                            }else if(msg['err']==0){
+                                layer.msg(msg.str);
+                            }else{
+                                layer.msg('删除失败！');
+                            }
+                        }
+                    })
+
+
+                }
+                function xuanzhe(){
+                    $(".dataTables_wrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
+                        if(!this.checked){
+                            var a=checkboxs.indexOf( $(this).val() )
+                            if(a>=0){
+                                checkboxs.splice( a, 1 );
+                            }
+                        }
+                    });
+                    console.log('1:');
+                    console.log(checkboxs);
+                    $(".dataTables_wrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
+
+                        if(this.checked){
+                            var a=checkboxs.indexOf( $(this).val() )
+                            if(a<0){
+                                checkboxs.push($(this).val());
+                            }
+
+                        }
+
+                    });
+                    console.log('2:');
+                    console.log(checkboxs);
+                }
             </script>
 @endsection
