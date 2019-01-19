@@ -223,7 +223,13 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Phone No.:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;" id="quhao">+60</span>
+        <input type="text" style="width:50%" datatype="/^\d+$/" placeholder="Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
         {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
@@ -449,6 +455,11 @@ var payFun=function (){
     }
     if(datasObj.telephone==null||datasObj.telephone==''){
         layer.msg("Please fill in the consignee's cell phone number.");
+        return false;
+    }
+    var re = /^\d*$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    if(!re.test(datasObj.telephone)){
+        layer.msg('Please fill in the valid cell phone number.');
         return false;
     }
     if(datasObj.zip==null||datasObj.zip==''||datasObj.zip=="please choose the zip code"){
