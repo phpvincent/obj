@@ -735,6 +735,7 @@ class OrderController extends Controller
     /**
      * 发送短信推送消息
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
    public function send_message(Request $request)
    {
@@ -744,8 +745,8 @@ class OrderController extends Controller
            $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
            return view('admin/order/send_message')->with(compact('order','goods'));
        }elseif($request->isMethod('post')) {
-           $code = sendMessage::send($request,$request->input('order_tel'), $request->input('content'), '000000');
-           if($code) {
+           $data = sendMessage::send($request,$request->input('order_tel'), $request->input('content'), '000000');
+           if($data['code'] == 0) {
                return response()->json(['msg' => 0]);
            }else{
                return response()->json(['msg' => 1]);
@@ -758,6 +759,7 @@ class OrderController extends Controller
     /**
      * 发送短信记录
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
    public function message_logs(Request $request)
    {

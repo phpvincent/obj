@@ -181,6 +181,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::get('/admin/kind/upgoods_kind','admin\KindController@upgoods_kind');//修改产品
     Route::any('/admin/kind/post_update','admin\KindController@post_update');//修改产品
     Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
+    //辅助工具
+    Route::any('/admin/message/send_phone','admin\ToolController@send_phone');//短信推送
+    Route::any('/admin/message/send_mail','admin\ToolController@send_mail');//邮箱推送
 
 });
 
