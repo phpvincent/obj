@@ -1156,7 +1156,7 @@ class OrderController extends Controller
                    preg_match_all($pattern,$str,$p);
                    $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
 
-                   if($goods_blade_type == 6){
+                   if($goods_blade_type == 6 || $goods_blade_type == 7){
                        $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                        $new_exdata[$k]['order_state'] = $v['order_state'];
                        $new_exdata[$k]['order_city'] = $v['order_city'];
@@ -1176,7 +1176,7 @@ class OrderController extends Controller
                    $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                    $new_exdata[$k]['order_state'] = $v['order_state'];
                    $new_exdata[$k]['order_city'] = $v['order_city'];
-                   if($goods_blade_type == 6){
+                   if($goods_blade_type == 6 || $goods_blade_type == 7){
                        $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                        $new_exdata[$k]['order_state'] = $v['order_state'];
                        $new_exdata[$k]['order_city'] = $v['order_city'];
@@ -1309,7 +1309,7 @@ class OrderController extends Controller
 */
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
-       if($goods_blade_type == 6){
+       if($goods_blade_type == 6 || $goods_blade_type == 7){
            $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
        }else{
            $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称'];
