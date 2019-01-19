@@ -1000,7 +1000,7 @@ class IndexController extends Controller
     $date=$request->input('date');
      $change=strtotime($date);
     $date=date('Y-m-d H:i:s',$change);
-    $vis=\App\vis::where('vis_id',$request->input('id'))->first();dd($vis);
+    $vis=\App\vis::where('vis_id',$request->input('id'))->first();
     if($vis==null){
         \Log::notice($request->input('id').'-vis为null');
         die;
