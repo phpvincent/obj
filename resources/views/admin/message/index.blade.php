@@ -184,7 +184,7 @@
                         var checkbox='<input type="checkbox" name="aaaa" value="'+data.message_id+'">';
                         var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
                         if(data.goods_url!=null){
-                            var url = "<a href='"+data.goods_url+"' target='_blank'>"+data.goods_url+"</a>";
+                            var url = "<a href='http://"+data.goods_url+"' target='_blank'>"+data.goods_url+"</a>";
                         }else{
                             var url ='没有数据';
                         }
