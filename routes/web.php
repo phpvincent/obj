@@ -14,13 +14,25 @@ use Illuminate\Http\Request;
 use App\url;
 use App\goods;
 use App\order;
-use App\Jobs\SendHerbEmail;use Qcloud\Sms\SmsSingleSender;
+use App\Jobs\SendHerbEmail;
+use Qcloud\Sms\SmsSingleSender;
+use App\channel\mailControl;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
+	/*Route::any('/paypal',function(Request $request){
+		@header('Content-type: text/html;charset=UTF-8');
+		error_reporting(0);
+		ignore_user_abort(); // run script in background
+		set_time_limit(0); // run script forever
+		date_default_timezone_set('Asia/Shanghai');
+		$obj=new mailControl();
+		//收取邮件
+		$res=$obj->mailReceived();
+		echo "<pre>";print_r($res);
+		 die;
 		App\channel\sendMessage::message_notice();
-	});
+	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
