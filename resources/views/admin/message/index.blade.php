@@ -98,7 +98,7 @@
                     "order": [[1, "desc"]],
                     "stateSave": false,
                     "columnDefs": [{
-                        "targets": [0, 2, 3, 4, 5, 6,11,12],
+                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12],
                         "orderable": false
                     }],
                     "processing": true,
@@ -131,7 +131,8 @@
                         {'data': 'message_mobile_num'},
                         {'data': 'order_single_id'},
                         {'data': 'goods_name'},
-                        {'data': 'goods_url'},
+                        //{'data': 'goods_url'},
+                        {'defaultContent': "", "className": "td-manager"},
                         {'data': 'goods_blade_type'},
                         {'data': 'messaga_code'},
                         {'data': 'messaga_content'},
@@ -179,13 +180,18 @@
                         }else if(data.goods_blade_type == 16 || data.goods_blade_type == 17){
                             blade_type = '中东'
                         }
+
                         var checkbox='<input type="checkbox" name="aaaa" value="'+data.message_id+'">';
                         var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
-                        var url = data.goods_url;
+                        if(data.url!=null){
+                            var url = "<a href='"+data.goods_url+"' target='_blank'>"+data.goods_url+"</a>";
+                        }else{
+                            var url ='没有数据';
+                        }
 
                         $(row).find('td:eq(12)').html(del);
                         $(row).find('td:eq(9)').html(status);
-                        $(row).find('td:eq(6)').html(url);
+                        $(row).find('td:eq(5)').html(url);
                         $(row).find('td:eq(6)').html(blade_type);
                         $(row).find('td:eq(0)').html(checkbox);
                         $(row).addClass('text-c');
