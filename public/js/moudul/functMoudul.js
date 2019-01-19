@@ -273,11 +273,15 @@ var datasObj =null;
 var orderShowFlag= false;
 function sendMess () {
     console.log('发送一次验证码',datasObj)
+    var index = layer.load(1, {
+        shade: [0.1,'#fff']
+      });
     $.ajax({
         type: "POST",    
         url: "/send_message",
         data:datasObj,
         success: function (data) {
+            layer.close(index);
             if(data.err == 1){
                 layer.msg(messagesucce);
                 $("#orderlog").show();
@@ -319,6 +323,7 @@ function sendMess () {
             }
         }, 
         error: function(data) {
+            layer.close(index);
             layer.msg(messnetworkerr);
         }
      })
