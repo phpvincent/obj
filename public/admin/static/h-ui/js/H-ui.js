@@ -4069,7 +4069,7 @@ function stopDefault(e) {
 		optional: true,
 		tooltip: 'top',
 		icon: 'caret-down',
-		// btnTip: 'Tool tip in button'
+		// btnTip: 'tool tip in button'
 	};
 
 	ColorPicker.prototype.init = function() {
