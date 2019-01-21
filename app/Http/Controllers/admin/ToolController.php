@@ -47,16 +47,23 @@ class ToolController extends Controller
             return view('admin.tool.send_mail');
         }else if($request->isMethod('post')){
             $content = $request->input('editor2');
-            $mail = $request->input('send_mail');
+            $mail = trim($request->input('send_mail'));
             if(!$content){
                 return response()->json(['err'=>1,'str'=>'邮件内容不能为空']);
             }
 
             $contents = preg_replace('/<img src="/', '<img src="http://hsydzs.cn', $content);
+            $mails = explode(',',$mail);
+            if(count($mails) == 1){ //判断是否成功拆分（区分中文"，"、","）
+                $mails = explode('，',$mail);
+            }
+            if(count($mails) == 1){ //判断是否为1个邮箱
+                $mails = $mail;
+            }
             //发送邮件
             try{
-                $flag = \Mail::send('view.mail',['test'=>$contents],function($message) use ($mail){
-                    $message ->to($mail)->subject('zsshop');
+                $flag = \Mail::send('view.mail',['test'=>$contents],function($message) use ($mails){
+                    $message ->to($mails)->subject('zsshop');
                 });
             }catch(\Exception $e){
                 return response()->json(['err'=>1,'str'=>'发送失败']);
