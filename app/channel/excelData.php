@@ -12,7 +12,7 @@ class excelData{
      * @return array
      */
     public static function flb($data,$filename){
-        $cellData[] = ['Client（客户）','Sender`s Name（寄件人）','Sender Mobile No.（手机）','Landline of Sender（固话）','Sender Address（寄件人地址）','Order Number(平台订单号）','Receiver`s Name（收件人）','Receiver`s Mobile No.（收件人手机）','Landline of Receiver（收件人固话）','Receiver`s Address（收件人详细地址）','Provincal（收件省份）','city（收件城市）','Bray(地区）','Village(街道)','Item Value（物品价值）','COD（代收货款）','Remark（备注）','remark1（备注一）'];
+        $cellData[] = ['Client（客户）','Sender`s Name（寄件人）','Sender Mobile No.（手机）','Landline of Sender（固话）','Sender Address（寄件人地址）','Order Number(平台订单号）','Receiver`s Name（收件人）','Receiver`s Mobile No.（收件人手机）','Landline of Receiver（收件人固话）','Receiver`s Address（收件人详细地址）','Provincal（收件省份）','city（收件城市）','Bray(地区）','Item Value（物品价值）','COD（代收货款）','Remark（备注）','remark1（备注一）'];
         foreach($data as $k => $v) {
             $exdata = [];
             //Client（客户）
@@ -52,7 +52,6 @@ class excelData{
                 $exdata[] = $v['order_state'];
                 $exdata[] = $v['order_city'];
                 $exdata[] = $v['order_village'];
-                $exdata[] = 0;
             } else {
                 $str = $v['order_add'];
                 $pattern = '/(.*)\(Zip:(.*?)\)/';
@@ -62,7 +61,6 @@ class excelData{
                 $exdata[] = $v['order_state'];
                 $exdata[] = $v['order_city'];
                 $exdata[] = $v['order_village'];
-                $exdata[] = 0;
             }
             //Item Value（物品价值）
             $exdata[] = $v['order_price'];

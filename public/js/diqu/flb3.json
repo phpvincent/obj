@@ -1,4 +1,4 @@
-var provinceList = [{"name":"please choose the country","cityList":[{"name":"please choose the province","areaList":["please choose the city and district"]}]},
+var provinceList = [{"name":"please choose the state","cityList":[{"name":"please choose the city","areaList":["please choose the district"]}]},
     {
       "name": "Metro Manila~Manila",
       "cityList": [
