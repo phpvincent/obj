@@ -70,6 +70,8 @@
                         <th width="110">电话号码</th>
                         <th width="110">订单号</th>
                         <th width="70">单品名称</th>
+                        <th width="70">单品地址</th>
+                        <th width="70">单品地区</th>
                         <th width="100">验证码</th>
                         <th width="130">内容</th>
                         <th width="40">状态</th>
@@ -96,7 +98,7 @@
                     "order": [[1, "desc"]],
                     "stateSave": false,
                     "columnDefs": [{
-                        "targets": [0, 2, 3, 4, 5, 6,9,10],
+                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12],
                         "orderable": false
                     }],
                     "processing": true,
@@ -129,6 +131,9 @@
                         {'data': 'message_mobile_num'},
                         {'data': 'order_single_id'},
                         {'data': 'goods_name'},
+                        //{'data': 'goods_url'},
+                        {'defaultContent': "", "className": "td-manager"},
+                        {'data': 'goods_blade_type'},
                         {'data': 'messaga_code'},
                         {'data': 'messaga_content'},
                         {'data': 'message_status'},
@@ -137,6 +142,7 @@
                         {'defaultContent': "", "className": "td-manager"},
                     ],
                     "createdRow": function (row, data, dataIndex) {
+                        var status = '';
                         if (data.message_status == 0) {
                             status = '<span style="color:green;">发送成功</span>';
                         } else if (data.message_status == 1) {
@@ -146,10 +152,47 @@
                         } else if (data.message_status == 3) {
                             status = '<span style="color:red;">接收失败!</span>';
                         }
+                        var blade_type = '';
+                        if(data.goods_blade_type == 0 || data.goods_blade_type == 1){
+                            blade_type = '台湾';
+                        }else if(data.goods_blade_type == 2){
+                            blade_type = '阿联酋'
+                        }else if(data.goods_blade_type == 3){
+                            blade_type = '马来西亚'
+                        }else if(data.goods_blade_type == 4){
+                            blade_type = '泰国'
+                        }else if(data.goods_blade_type == 5){
+                            blade_type = '日本'
+                        }else if(data.goods_blade_type == 6){
+                            blade_type = '印度尼西亚'
+                        }else if(data.goods_blade_type == 7){
+                            blade_type = '菲律宾'
+                        }else if(data.goods_blade_type == 8 || data.goods_blade_type == 9){
+                            blade_type = '英国'
+                        }else if(data.goods_blade_type == 10){
+                            blade_type = '美国'
+                        }else if(data.goods_blade_type == 11){
+                            blade_type = '越南'
+                        }else if(data.goods_blade_type == 12 || data.goods_blade_type == 13){
+                            blade_type = '沙特'
+                        }else if(data.goods_blade_type == 14 || data.goods_blade_type == 15){
+                            blade_type = '卡塔尔'
+                        }else if(data.goods_blade_type == 16 || data.goods_blade_type == 17){
+                            blade_type = '中东'
+                        }
+
                         var checkbox='<input type="checkbox" name="aaaa" value="'+data.message_id+'">';
                         var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
-                        $(row).find('td:eq(10)').html(del);
-                        $(row).find('td:eq(7)').html(status);
+                        if(data.goods_url!=null){
+                            var url = "<a href='http://"+data.goods_url+"' target='_blank'>"+data.goods_url+"</a>";
+                        }else{
+                            var url ='没有数据';
+                        }
+
+                        $(row).find('td:eq(12)').html(del);
+                        $(row).find('td:eq(9)').html(status);
+                        $(row).find('td:eq(5)').html(url);
+                        $(row).find('td:eq(6)').html(blade_type);
                         $(row).find('td:eq(0)').html(checkbox);
                         $(row).addClass('text-c');
                     }

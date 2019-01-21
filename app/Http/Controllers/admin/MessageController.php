@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\message;
+use App\url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -94,6 +95,12 @@ class MessageController extends Controller
                     $query->where('order_single_id', 'like', '%' . $search . '%')->orWhere('message_mobile_num', 'like', '%' . $search . '%');
                 }
             })->count();
+            if($messages){
+                foreach ($messages as $message){
+                    $message->goods_url = url::where('url_goods_id', $message->goods_id)->value('url_url') ;
+                }
+            }
+
         $arr = ['draw' => $draw, 'recordsTotal' => $counts, 'recordsFiltered' => $newcount, 'data' => $messages];
         return response()->json($arr);
     }

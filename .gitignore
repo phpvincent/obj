@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/upload
+/public/ueditor
 /storage/*.key
 /.idea
 /.vagrant

@@ -41,7 +41,8 @@ class sendMessage{
             $goods_id = $blade->goods_id;
             $phones = message::AreaCode($blade->goods_blade_type,$phone);
         }else{
-            return self::respendData(1,'参数错误');
+            $phones = $phone;
+            $goods_id = 0;
         }
         //发送短信
         $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $text);
