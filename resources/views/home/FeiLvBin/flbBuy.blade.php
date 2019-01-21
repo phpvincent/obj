@@ -148,13 +148,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
-                <div id=messagediv>
+                <!-- <div id=messagediv>
                    <span class="messag">Please fill in the verification code:</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
                    <button id="messend" type="button" class="mui-btn but-red">Resend<span id="messpan"></span></button>
                    </div>
-                </div>
+                </div> -->
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">confirm order</button>
         </div>
@@ -261,7 +261,7 @@
         <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label>Email:</label>
+        <label><span class="require">*</span>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
@@ -445,7 +445,7 @@ var payFun=function (){
         layer.msg("Please fill in the consignee's cell phone number.");
         return false;
     }
-    var re = /^\d*$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    var re = /^\d{9,10}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('Please fill in the valid cell phone number.');
         return false;
@@ -455,10 +455,10 @@ var payFun=function (){
         return false;
     }
     // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    // if(!res.test(datasObj.email)){
-    //     layer.msg("please enter a valid email address.");
-    //     return false;
-    // }
+    if(datasObj.email==null||datasObj.email==''){
+        layer.msg("please enter a valid email address.");
+        return false;
+    }
     //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -476,15 +476,16 @@ var payFun=function (){
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
      datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Please wait for the order submitted");
-    payFunMessage(datasObj)
+    $("#orderlog").show();
+    payFunMessage()
             
 }
 var payFunGo= function (){
-    if(!$("#messageinput").val()){
-        layer.msg('Please fill in the verification code.');
-        return false;
-    };
-    datasObj.messaga_code = $("#messageinput").val();
+    // if(!$("#messageinput").val()){
+    //     layer.msg('Please fill in the verification code.');
+    //     return false;
+    // };
+    // datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Please wait for the order submitted',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',   'margin-left':' -80px','background-position-x': '106px'});
@@ -559,7 +560,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
-$('#messend').bind('click',sendMess) // 重新发送按钮
+// $('#messend').bind('click',sendMess) // 重新发送按钮
 var messagesucce ="A verification code has been sent to your mobile phone. Please confirm. only valid within 5 minutes";
 var messageerr ="Fail to send the verification code. Please confirm you mobile No.";
 var messnetworkerr= "Please check the network condition.";
