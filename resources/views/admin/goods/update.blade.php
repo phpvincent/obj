@@ -846,13 +846,13 @@
     //尺码助手
     function size_file() {
         if($('input[name="is_size_file"]:checked').val()==1){
-            $('#size_file').rules('add', {
-                required:true
-            });
+            // $('#size_file').rules('add', {
+            //     required:true
+            // });
         }else{
-            $('#size_file').rules('add', {
-                required:false
-            });
+            // $('#size_file').rules('add', {
+            //     required:false
+            // });
         }
     }
 

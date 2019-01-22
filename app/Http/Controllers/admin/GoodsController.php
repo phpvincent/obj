@@ -1070,8 +1070,6 @@ class GoodsController extends Controller
                $filedir="upload/size/";
                $msg=$file->move($filedir,$newfilename);
                $goods->size_photo=$filedir.$newfilename;
-           }else{
-               return response()->json(['err' => 0, 'str' => '附带视频不能为空！']);
            }
        }else{
            if($goods->size_photo){

@@ -148,9 +148,14 @@
 
 	</head>
 	<body>
-    <div class="size_img">
-        <img src="upload/fm_imgs/first_d70945000dd4396859157976ae1ff452.jpg" alt="">
-</div>
+    @if(trim($goods->size_photo)!='')
+        <div class="size_img">
+            <img src="{{$goods->size_photo}}" alt="">
+        </div>
+    @endif
+    {{--<div class="size_img">--}}
+        {{--<img src="upload/fm_imgs/first_d70945000dd4396859157976ae1ff452.jpg" alt="">--}}
+{{--</div>--}}
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
