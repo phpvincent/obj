@@ -98,6 +98,47 @@
             .btnstyle01 {
                 background: #00923f;
             }
+            /* .size{
+                position: fixed;
+                top: 20%;
+                right: 3%;
+                width: 70px;
+                height: 44px;
+                background: #f95b5b;
+                z-index: 999999999999;
+                text-align: center;
+                border-radius: 8px;
+                line-height: 19px;
+                color: #333;
+            } */
+            .size{
+
+            }
+            .size span{
+                display: inline-block;
+                padding: 4px;
+                border: 1px solid #999;
+                border-radius: 12px;
+            }
+            .size img{
+                width: 30px;
+                margin-top: -5px;
+                vertical-align: text-top;
+            }
+            .size_img{
+                display: none;
+                position:fixed;
+                width:100%;
+                height:100%;
+                background:rgba(0,0,0,0.3);
+                z-index:999999999999999999999999999999
+            }
+            .size_img img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
         </style>
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
@@ -163,6 +204,13 @@
 </head>
 <body style="">
 
+<!-- <div class="size">
+size reference
+</div> -->
+<div class="size_img">
+        <img src="upload/fm_imgs/first_d70945000dd4396859157976ae1ff452.jpg" alt="">
+</div>
+
 <div id="orderlog" class="Popup">
         <div>
             <div>
@@ -207,6 +255,10 @@
         <h1 style="    text-align: right;">{{$goods->goods_name}}</h1>
         <h2 style="    text-align: right;"><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
             </div>
+</div>
+<div class="size">
+    <img src="/img/size.jpg" alt="">
+    <span>مراجعة المقاس</span>
 </div>
 <!--product info end-->
 <!--size begin-->  
@@ -1060,6 +1112,21 @@ $(function(){
 </script>
         <script>
         jQuery(function(){setFrom();});
+        $('.size').click(function(){
+            if($("#taorbg",parent.document)==0){
+                $('.size_img').show();
+            }else{
+                $(".size_img",parent.document).show();
+            }
+        })
+        $('.size_img').click(function(){
+            $('.size_img').hide();
+        });
+        if($("#taorbg",parent.document)!=0){
+            $(".size_img",parent.document).click(function(){
+            $(".size_img",parent.document).hide();
+        })
+        }
         </script>
 
 
