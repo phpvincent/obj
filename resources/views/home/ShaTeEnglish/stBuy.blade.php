@@ -106,6 +106,32 @@
             		color: black !important;
             		border:1px dashed #ccc !important;
             	}
+                .size span{
+                display: inline-block;
+                padding: 2px 4px;
+                border: 1px solid #999;
+                border-radius: 12px;
+            }
+            .size img{
+                width: 28px;
+                margin-top: -5px;
+                vertical-align: text-top;
+            }
+            .size_img{
+                display: none;
+                position:fixed;
+                width:100%;
+                height:100%;
+                background:rgba(0,0,0,0.3);
+                z-index:999999999999999999999999999999
+            }
+            .size_img img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                width: 100%;
+            }
         </style>
         
 
@@ -141,7 +167,11 @@
 
 </head>
 <body style="">
-
+@if(trim($goods->size_photo)!='')
+<div class="size_img">
+    <img src="{{$goods->size_photo}}" alt="">
+</div>
+@endif
 <div id="orderlog" class="Popup">
         <div>
             <div>
@@ -187,6 +217,12 @@
         <h2><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
             </div>
 </div>
+@if(trim($goods->size_photo)!='')
+<div class="size">
+    <img src="/img/size.jpg" alt="">
+    <span>size reference</span>
+</div>
+@endif
 <!--product info end-->
 <!--size begin-->  
 <div id="goods_config_div">
@@ -1013,6 +1049,21 @@ jQuery(function(){
 </script>
         <script>
         jQuery(function(){setFrom();});
+        $('.size').click(function(){
+            if($("#taorbg",parent.document)==0){
+                $('.size_img').show();
+            }else{
+                $(".size_img",parent.document).show();
+            }
+        })
+        $('.size_img').click(function(){
+            $('.size_img').hide();
+        });
+        if($("#taorbg",parent.document)!=0){
+            $(".size_img",parent.document).click(function(){
+            $(".size_img",parent.document).hide();
+        })
+        }
         </script>
 
 

@@ -143,6 +143,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translateX(-50%) translateY(-50%);
+                width: 100%;
             }
         </style>
 

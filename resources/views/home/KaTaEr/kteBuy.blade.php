@@ -116,12 +116,12 @@
             }
             .size span{
                 display: inline-block;
-                padding: 4px;
+                padding: 2px 4px;
                 border: 1px solid #999;
                 border-radius: 12px;
             }
             .size img{
-                width: 30px;
+                width: 28px;
                 margin-top: -5px;
                 vertical-align: text-top;
             }
@@ -138,6 +138,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translateX(-50%) translateY(-50%);
+                width: 100%;
             }
         </style>
         <!--产品页轮播-->
