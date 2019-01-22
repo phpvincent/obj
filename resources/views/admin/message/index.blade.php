@@ -49,6 +49,15 @@
                             {{--<option value="2">2--无倒计时模板</option>--}}
 						</select>
 				    </span></div>
+                    <label class="form-label col-xs-1 col-sm-1">是否标记：</label>
+                    <div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+				<select name="mark" id="mark" class="select">
+                    <option value="all">所有</option>
+					<option value="0">否</option>
+					<option value="1">是</option>
+				</select>
+				</span>
+                    </div>
                     </div>
                     <div style="margin-bottom: 20px" class="row cl">
                     <label class="form-label col-xs-1 col-sm-1">订单号：</label>
@@ -77,6 +86,7 @@
                         <th width="40">状态</th>
                         <th width="100">发布时间</th>
                         <th width="80">备注信息</th>
+                        <th width="80">是否标记</th>
                         <th width="100">操作</th>
                     </tr>
                     </thead>
@@ -98,7 +108,7 @@
                     "order": [[1, "desc"]],
                     "stateSave": false,
                     "columnDefs": [{
-                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12],
+                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12,13],
                         "orderable": false
                     }],
                     "processing": true,
@@ -120,6 +130,9 @@
                             order_sn: function () {
                                 return $('#order_sn').val()
                             },
+                            mark:function () {
+                                return $("#mark").val();
+                            }
                         },
                         "url": "{{url('admin/message/get_table')}}",
                         "type": "POST",
@@ -139,6 +152,7 @@
                         {'data': 'message_status'},
                         {'data': "message_gettime"},
                         {'data': 'messaga_remark'},
+                        {'data': 'message_marking'},
                         {'defaultContent': "", "className": "td-manager"},
                     ],
                     "createdRow": function (row, data, dataIndex) {
@@ -182,14 +196,20 @@
                         }
 
                         var checkbox='<input type="checkbox" name="aaaa" value="'+data.message_id+'">';
-                        var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+                        var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a><a title="标记" href="javascript:;" onclick="mark_message(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="标记"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="详情" href="javascript:;" onclick="show_message(\'下单信息\',\'{{url("admin/message/order_msg")}}?id='+data.message_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="详情"><i class="Hui-iconfont">&#xe64f;</i></span></a>';
                         if(data.goods_url!=null){
                             var url = "<a href='http://"+data.goods_url+"' target='_blank'>"+data.goods_url+"</a>";
                         }else{
                             var url ='没有数据';
                         }
-
-                        $(row).find('td:eq(12)').html(del);
+                        var mark ='';
+                        if(data.message_marking == '1') {
+                            mark = '<span id="marking_'+ data.message_id +'">已标记</span>';
+                        }else{
+                            mark = '<span id="marking_'+ data.message_id +'">未标记</span>';
+                        }
+                        $(row).find('td:eq(13)').html(del);
+                        $(row).find('td:eq(12)').html(mark);
                         $(row).find('td:eq(9)').html(status);
                         $(row).find('td:eq(5)').html(url);
                         $(row).find('td:eq(6)').html(blade_type);
@@ -213,6 +233,9 @@
                 $('#phone').on('input', function () {
                     $('#goods_index_table').dataTable().fnClearTable();
                 })
+                $('#mark').on('input', function () {
+                    $('#goods_index_table').dataTable().fnClearTable();
+                })
                 function del_messages(id){
                     var msg =confirm("确定要删除此短信吗？");
                     if(msg){
@@ -233,13 +256,10 @@
                                 }
                             }
                         })
-                    }else{
-
                     }
                 }
                 function pl_del(){
                     xuanzhe()
-                    console.log(checkboxs);
                     var msg =confirm("确定要批量删除这些短信吗？");
                     if(!msg){
                         return false;
@@ -250,7 +270,6 @@
                         layer.msg('无选中项');
                         return false;
                     }
-                    console.log(checkboxs);
                     layer.msg('删除中，请稍等!');
                     $.ajax({
                         url:"{{url('admin/message/delmessages')}}",
@@ -268,8 +287,25 @@
                             }
                         }
                     })
-
-
+                }
+                function show_message(title,url,type,w,h){
+                    layer_show(title,url,w,h);
+                }
+                function mark_message(id) {
+                    $.ajax({
+                        url:"{{url('admin/message/mark')}}",
+                        type:'get',
+                        data:{'id':id},
+                        datatype:'json',
+                        success:function(msg){
+                            if(msg['err']==1){
+                                layer.msg(msg.str);
+                                $("#marking_" + id).text('已标记');
+                            }else{
+                                layer.msg('标记失败！');
+                            }
+                        }
+                    })
                 }
                 function xuanzhe(){
                     $(".dataTables_wrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
@@ -280,8 +316,6 @@
                             }
                         }
                     });
-                    console.log('1:');
-                    console.log(checkboxs);
                     $(".dataTables_wrapper .table>tbody>.text-c>.td-manager>input[type='checkbox']").each(function(j) {
 
                         if(this.checked){
@@ -293,8 +327,6 @@
                         }
 
                     });
-                    console.log('2:');
-                    console.log(checkboxs);
                 }
             </script>
 @endsection
