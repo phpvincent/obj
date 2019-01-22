@@ -130,10 +130,27 @@
             height: 100%;
             overflow: hidden;
             }
+            .size_img{
+                display: none;
+                position:fixed;
+                width:100%;
+                height:100%;
+                background:rgba(0,0,0,0.3);
+                z-index:999999999999999999999999999999
+            }
+            .size_img img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
         </style>
 
 	</head>
 	<body>
+    <div class="size_img">
+        <img src="upload/fm_imgs/first_d70945000dd4396859157976ae1ff452.jpg" alt="">
+</div>
 	<script>
 	jQuery(function(){
 	   // jQuery.get('/index/swt',function(html){
