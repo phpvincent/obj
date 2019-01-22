@@ -408,7 +408,29 @@ class GoodsController extends Controller
              }
          }
 
-        //中部导航模块
+       //尺寸助手
+       if($data['is_size_file'] == 1) {
+           array_push($array,'size_help');
+           if($request->hasFile('size_file')){
+               $size = filesize($request->file('size_file'));
+               //这里可根据配置文件的设置，做得更灵活一点
+               if($size > 8*1024*1024){
+                   return response()->json(['err' => 0, 'str' => '上传图片文件不能超过8M！']);
+               }
+               $file=$request->file('size_file');
+               $name=$file->getClientOriginalName();//得到图片名；
+               $ext=$file->getClientOriginalExtension();//得到图片后缀；
+               $fileName=md5(uniqid($name));
+               $newfilename='first'."_".$fileName.'.'.$ext;//生成新的的文件名
+               $filedir="upload/size/";
+               $msg=$file->move($filedir,$newfilename);
+               $goods->size_photo=$filedir.$newfilename;
+           }else{
+               return response()->json(['err' => 0, 'str' => '附带视频不能为空！']);
+           }
+       }
+
+           //中部导航模块
         if($data['center_nav_1'] == 1) {
             array_push($array,'center_nav');
             $array = array_merge($array,$data['center_nav']);
@@ -1029,6 +1051,33 @@ class GoodsController extends Controller
                @unlink($goods->goods_video);
            }
            $goods->goods_video='';
+       }
+
+       //尺寸助手
+       if($data['is_size_file'] == 1) {
+           array_push($array,'size_help');
+           if($request->hasFile('size_file')){
+               $size = filesize($request->file('size_file'));
+               //这里可根据配置文件的设置，做得更灵活一点
+               if($size > 8*1024*1024){
+                   return response()->json(['err' => 0, 'str' => '上传图片文件不能超过8M！']);
+               }
+               $file=$request->file('size_file');
+               $name=$file->getClientOriginalName();//得到图片名；
+               $ext=$file->getClientOriginalExtension();//得到图片后缀；
+               $fileName=md5(uniqid($name));
+               $newfilename='first'."_".$fileName.'.'.$ext;//生成新的的文件名
+               $filedir="upload/size/";
+               $msg=$file->move($filedir,$newfilename);
+               $goods->size_photo=$filedir.$newfilename;
+           }else{
+               return response()->json(['err' => 0, 'str' => '附带视频不能为空！']);
+           }
+       }else{
+           if($goods->size_photo){
+               @unlink($goods->size_photo);
+           }
+           $goods->size_photo='';
        }
 
        //中部导航模块
