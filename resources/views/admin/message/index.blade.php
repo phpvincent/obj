@@ -156,7 +156,7 @@
                         {'defaultContent': "", "className": "td-manager"},
                     ],
                     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                        if(aData.message_goods_id==null){
+                        if(aData.message_goods_id==0){
                             return;
                         }
                         //改行满足的条件
