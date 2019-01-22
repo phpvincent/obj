@@ -287,6 +287,9 @@ class KindController extends Controller
             //修改产品信息
             $kind_primary_id = $request->input('goods_kind_id');
             $goods_kind = goods_kind::where('goods_kind_id', $kind_primary_id)->first();
+            if(!$goods_kind){
+                return response()->json(['err' => '0', 'msg' => '产品属性不存在']);
+            }
             $goods_kind->goods_kind_english_name = $request->input('goods_kind_english_name') ? $request->input('goods_kind_english_name') : '';
             $goods_kind->goods_kind_volume = $request->input('width', 0) . 'cm*' . $request->input('depth', 0) . 'cm*' . $request->input('height', 0) . 'cm';
             $goods_kind->goods_kind_postage = $request->input('goods_kind_postage', 0) == null ? 0 : $request->input('goods_kind_postage', 0);

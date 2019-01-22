@@ -24,7 +24,11 @@ class sendMessage{
         $SendSmsApi=new \SendSmsApi();
         $order_id = $request->input('order_id', 0);
         $goods_id = url::get_goods($request);
-        if($goods_id){ //前台下订单
+        if($num == '123456'){
+            $phones = $phone;
+            $goods_id = 0;
+            $num = 0;
+        }else if($goods_id){ //前台下订单
             $goods = goods::find($goods_id);
             if(!$goods){
                 return self::respendData(1,'参数错误');

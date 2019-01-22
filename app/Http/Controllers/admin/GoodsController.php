@@ -56,7 +56,7 @@ class GoodsController extends Controller
             $dsc='desc';
             $order='goods_id';
           }
-	        $draw=$info['draw'];
+	        $draw=isset($info['draw']) ? $info['draw'] : 1;
 	        $start=$info['start'];
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);

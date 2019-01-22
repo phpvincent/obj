@@ -13,7 +13,7 @@
 		<tbody>
 		<tr class="text-c">
 			<td>下单人</td>
-			<td>@if(isset($order['firstname'])){{ $order['firstname'] }} {{ $order['lastname'] }}@endif</td>
+			<td>@if(isset($order['firstname'])){{ $order['firstname'] }} @endif  @if(isset($order['lastname'])){{ $order['lastname'] }} @endif</td>
 		</tr>
 		<tr class="text-c">
 			<td>收货电话</td>
