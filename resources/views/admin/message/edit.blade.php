@@ -24,16 +24,16 @@
 			<td>@if(isset($order['email'])){{ $order['email'] }}@endif</td>
 		</tr>
 		<tr class="text-c">
-			<td>村镇</td>
-			<td>@if(isset($order['village'])){{ $order['village'] }}@endif</td>
-		</tr>
-		<tr class="text-c">
 			<td>城市</td>
 			<td>@if(isset($order['city'])){{ $order['city'] }}@endif</td>
 		</tr>
 		<tr class="text-c">
 			<td>地区</td>
 			<td>@if(isset($order['state'])){{ $order['state'] }}@endif</td>
+		</tr>
+		<tr class="text-c">
+			<td>村镇</td>
+			<td>@if(isset($order['village'])){{ $order['village'] }}@endif</td>
 		</tr>
 		<tr class="text-c">
 			<td>详细信息</td>
