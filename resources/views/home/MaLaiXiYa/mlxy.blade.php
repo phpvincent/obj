@@ -102,6 +102,21 @@
             height: 100%;
             overflow: hidden;
             }
+            .size_img{
+                display: none;
+                position:fixed;
+                width:100%;
+                height:100%;
+                background:rgba(0,0,0,0.3);
+                z-index:999999999999999999999999999999
+            }
+            .size_img img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                width: 100%;
+            }
         </style>
         <script>
         jQuery(function(){setFrom();});
@@ -164,7 +179,12 @@
         </script>
 
 	</head>
-	<body style="position:relative">
+    <body style="position:relative">
+    @if(trim($goods->size_photo)!='')
+        <div class="size_img">
+            <img src="{{$goods->size_photo}}" alt="">
+        </div>
+    @endif
     <div class="Popup Popup_1">
         <div>
             <div>
