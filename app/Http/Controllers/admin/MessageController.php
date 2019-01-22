@@ -116,11 +116,11 @@ class MessageController extends Controller
     public function mark(Request $request)
     {
         $message = message::find($request->input('id'));
-        $message->message_marking = 1;
+        $message->message_marking = $request->input('marking');
         if ($message->save()) {
-            return response()->json(['err' => 1, 'str' => '标记成功']);
+            return response()->json(['err' => 1, 'str' => '设置成功']);
         } else {
-            return response()->json(['err' => 0, 'str' => '标记失败']);
+            return response()->json(['err' => 0, 'str' => '设置失败']);
         }
     }
 
