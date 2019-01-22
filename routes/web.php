@@ -200,5 +200,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::get('/admin/message/index','admin\MessageController@index');//短信首页
     Route::post('/admin/message/get_table','admin\MessageController@get_table');//
     Route::get('/admin/message/delmessages','admin\MessageController@delmessages');//短信列表
+    Route::get('/admin/message/mark','admin\MessageController@mark');//短信列表
+    Route::get('/admin/message/order_msg', 'admin\MessageController@order_msg');
 });
 

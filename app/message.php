@@ -33,6 +33,7 @@ class message extends Model
        $message->message_status = $message_status;
        $message->message_mobile_num = $phone;
        $message->messaga_remark = $messaga_remark;
+       $message->message_marking = 0;
        if($message->save()){
             return true;
        }else{
