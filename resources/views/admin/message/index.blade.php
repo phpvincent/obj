@@ -221,11 +221,11 @@
                         if(data.message_marking == '1') {
                             var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>'
                                 +'<a id="markinga_'+ data.message_id + '" title="取消标记" href="javascript:;" onclick="remark_message(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="取消标记"><i class="Hui-iconfont">&#xe676;</i></span></a>'
-                                +'<a title="详情" href="javascript:;" onclick="show_message(\'下单信息\',\'{{url("admin/message/order_msg")}}?id='+data.message_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="详情"><i class="Hui-iconfont">&#xe64f;</i></span></a>';
+                                +'<a title="详情" href="javascript:;" onclick="show_message(\'下单信息\',\'{{url("admin/message/order_msg")}}?id='+data.message_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="详情"><i class="Hui-iconfont"></i></span></a>';
                         }else{
                             var del = '<a title="删除" href="javascript:;" onclick="del_messages(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>'
                                 +'<a id="markinga_'+ data.message_id + '" title="打标记" href="javascript:;" onclick="mark_message(' + data.message_id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="打标记"><i class="Hui-iconfont">&#xe677;</i></span></a>'
-                                +'<a title="详情" href="javascript:;" onclick="show_message(\'下单信息\',\'{{url("admin/message/order_msg")}}?id='+data.message_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="详情"><i class="Hui-iconfont">&#xe64f;</i></span></a>';
+                                +'<a title="详情" href="javascript:;" onclick="show_message(\'下单信息\',\'{{url("admin/message/order_msg")}}?id='+data.message_id+'\',\'2\',\'800\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="详情"><i class="Hui-iconfont"></i></span></a>';
                         }
 
                         if(data.goods_url!=null){
