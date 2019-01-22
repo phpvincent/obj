@@ -155,6 +155,28 @@
                         {'data': 'message_marking'},
                         {'defaultContent': "", "className": "td-manager"},
                     ],
+                    "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                        //改行满足的条件
+                        if(aData.message_order_id<=0&&(aData.message_status==0||aData.message_status==2)){
+                            if(aData.message_marking==0){
+                                $(nRow).css('background','#FFC0CB');
+                            }else if(aData.message_marking==1){
+                                $(nRow).css('background','#00ff99');
+                            }else{
+                                $(nRow).css('background','#ffff99');
+                            }
+                           /* if(aData.order_repeat_field.length == 1 && aData.order_repeat_field[0] == '1'){
+                                    //设置满足条件行的背景颜色,ip
+                                    //$(nRow).css("background", "#FFE4E1");
+                                    $(nRow).find('td:eq(3)').css('color',"#FF69B4");
+                                    $(nRow).find('td:eq(3)').css('font-weight',"bold");
+                                    
+                                    $(nRow).find('td:eq(0)').find('input:eq(0)').attr("name","repeat");
+
+                            }*/
+                           
+                        }
+                    },
                     "createdRow": function (row, data, dataIndex) {
                         var status = '';
                         if (data.message_status == 0) {
@@ -213,9 +235,11 @@
                         }
                         var mark ='';
                         if(data.message_marking == '1') {
-                            mark = '<span id="marking_'+ data.message_id +'">已标记</span>';
+                            mark = '<span  id="marking_'+ data.message_id +'">已标记</span>';
+                            mark ='<span class="label label-success radius" id="marking_'+ data.message_id +'">√</span>';
                         }else{
-                            mark = '<span id="marking_'+ data.message_id +'">未标记</span>';
+                            mark = '<span  id="marking_'+ data.message_id +'">未标记</span>';
+                            mark ='<span class="label label-default radius" id="marking_'+ data.message_id +'">×</span>';
                         }
                         $(row).find('td:eq(13)').html(del);
                         $(row).find('td:eq(12)').html(mark);
