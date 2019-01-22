@@ -109,7 +109,8 @@
                 width:100%;
                 height:100%;
                 background:rgba(0,0,0,0.3);
-                z-index:999999999999999999999999999999
+                z-index:999999999999999999999999999999;
+                max-width: 640px;
             }
             .size_img img{
                 position: absolute;
@@ -117,6 +118,7 @@
                 left: 50%;
                 transform: translateX(-50%) translateY(-50%);
                 width: 100%;
+                max-width: 640px;
             }
         </style>
         <script>
