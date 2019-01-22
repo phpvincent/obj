@@ -447,6 +447,24 @@
 		</div>
 		<div class="row cl">
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2">尺码助手:</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						是 <input type="radio" id="is_size_file" class="is_video is_video" name="is_size_file"  value="1">
+						否 <input type="radio" id="is_size_file" class="is_video is_video" name="is_size_file" checked="checked" value="0">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix templet_show" style="display: none;">
+				<label class="form-label col-xs-4 col-sm-2">尺码图片：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="file" id="size_file" class="input-text" value="" placeholder="" id="size_file" name="size_file" accept="image/png,image/gif,image/jpg,image/jpeg">
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="clearfix">
 					<label class="form-label col-xs-4 col-sm-2">轮播图模块：</label>
 					<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 						<div class="check-box">
@@ -748,6 +766,8 @@
         uesr_help();
 		//订单查询
         order_nav();
+        //尺码助手
+        size_file();
     }
 
     //简选模板
@@ -920,6 +940,8 @@
         order_nav();
         //在线支付
         pay_type();
+		//尺码助手
+        size_file();
     });
     //促销活动模块
     function  promotion(){
@@ -963,6 +985,19 @@
             });
         }else{
             $('#uesr_help').rules('add', {
+                required:false
+            });
+        }
+    }
+
+    //尺码助手
+    function size_file() {
+        if($('input[name="is_size_file"]:checked').val()==1){
+            $('#size_file').rules('add', {
+                required:true
+            });
+        }else{
+            $('#size_file').rules('add', {
                 required:false
             });
         }

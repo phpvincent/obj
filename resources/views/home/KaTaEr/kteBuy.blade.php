@@ -207,9 +207,11 @@
 <!-- <div class="size">
 size reference
 </div> -->
+@if(trim($goods->size_photo)!='')
 <div class="size_img">
-        <img src="upload/fm_imgs/first_d70945000dd4396859157976ae1ff452.jpg" alt="">
+    <img src="{{$goods->size_photo}}" alt="">
 </div>
+@endif
 
 <div id="orderlog" class="Popup">
         <div>
@@ -256,10 +258,12 @@ size reference
         <h2 style="    text-align: right;"><span style="color: rgb(255, 0, 0);"><strong>@if(trim($goods->goods_cuxiao_name)!='')【{{$goods->goods_cuxiao_name}}】@endif</strong></span><p style="display: inline-block;">{!!$goods->goods_msg!!}</p></h2>
             </div>
 </div>
+@if(trim($goods->size_photo)!='')
 <div class="size">
     <img src="/img/size.jpg" alt="">
     <span>مراجعة المقاس</span>
 </div>
+@endif
 <!--product info end-->
 <!--size begin-->  
 <div id="goods_config_div">
