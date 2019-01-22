@@ -158,7 +158,7 @@
                     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                         //改行满足的条件
                         if(aData.message_order_id<=0&&(aData.message_status==0||aData.message_status==2)){
-                            if(aData.message_marking==0){
+                            if(aData.message_marking==0&&aData.message_goods_id!=null){
                                 $(nRow).css('background','#FFC0CB');
                             }else if(aData.message_marking==1){
                                 $(nRow).css('background','#00ff99');
