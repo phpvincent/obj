@@ -156,9 +156,12 @@
                         {'defaultContent': "", "className": "td-manager"},
                     ],
                     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                        if(aData.message_goods_id==null){
+                            return;
+                        }
                         //改行满足的条件
                         if(aData.message_order_id<=0&&(aData.message_status==0||aData.message_status==2)){
-                            if(aData.message_marking==0&&aData.message_goods_id!=null){
+                            if(aData.message_marking==0){
                                 $(nRow).css('background','#FFC0CB');
                             }else if(aData.message_marking==1){
                                 $(nRow).css('background','#00ff99');
