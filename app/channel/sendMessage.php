@@ -24,7 +24,7 @@ class sendMessage{
         $SendSmsApi=new \SendSmsApi();
         $order_id = $request->input('order_id', 0);
         $goods_id = url::get_goods($request);
-        if($num == '123456'){
+        if($num == '12345'){
             $phones = $phone;
             $goods_id = 0;
             $num = 0;

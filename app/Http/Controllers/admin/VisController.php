@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\admin;
 use App\goods;
+use App\goods_type;
 use App\order;
 use App\special;
 use App\spend;
@@ -293,6 +294,15 @@ class VisController extends Controller
    	return view('admin.vis.stime')->with(compact('vis'));
    }
 
+   public function getgoodsname(Request $request)
+   {
+        $goods_type_id = $request->input('id');
+        $keyword = $request->input('keyword');
+        $goods = \App\goods::join('goods_type','goods_type','=','goods_type_id')
+                            ->whereIn('goods_id',admin::get_goods_id())
+                            ->where('goods_name','like','%'.$keyword.'%')
+                            ->get();
+   }
     /** 浏览统计
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
@@ -301,7 +311,8 @@ class VisController extends Controller
    	if($request->isMethod('get')){
            $admins=\App\admin::whereIn('admin_id',admin::get_admins_id())->get();
            $goods=\App\goods::whereIn('goods_id',admin::get_goods_id())->get();
-        return view('admin.vis.statistic')->with(compact('goods','admins'));
+           $goods_type = goods_type::all();
+        return view('admin.vis.statistic')->with(compact('goods','admins','goods_type'));
    	}elseif($request->isMethod('post')){
         //时间筛选（默认七天，按天）
         $start_time = $request->input('mintime');

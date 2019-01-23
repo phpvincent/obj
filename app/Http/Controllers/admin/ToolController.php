@@ -27,7 +27,7 @@ class ToolController extends Controller
             }else{
                 $content = $request->input('content');
             }
-            $data = sendMessage::send($request, $tel, $content, '123456');
+            $data = sendMessage::send($request, $tel, $content, '12345');
             if($data['code'] == 0) {
                 return response()->json(['err'=>0,'str'=>'发送成功']);
             }else{
