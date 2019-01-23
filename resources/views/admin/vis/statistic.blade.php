@@ -1,4 +1,5 @@
 @extends('admin.father.css')
+<link rel="stylesheet" type="text/css" href="{{asset('/css/addgoods.css')}}" />
 @section('content')
 <script type="text/javascript" src="{{asset('/admin/lib/hcharts/Highcharts/5.0.6/js/highcharts.js')}}"></script>
 <script type="text/javascript" src="{{asset('/admin/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js')}}"></script>
@@ -12,10 +13,10 @@
 	{{--&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>--}}
 </div>
 <!-- 单品 -->
-<div id="select-box"style="margin:10px 0;overflow: hidden">
+<div id="select-box"style="margin:10px 0;">
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-2" style="text-align: right;">品名：</label>
-		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+		<div class="formControls col-xs-8 col-sm-2"> <span class="select-box">
 				<select name="goods_name" id="goods_name" class="select">
 					<option value="0">所有</option>
 					@foreach($goods as $val)
@@ -23,8 +24,17 @@
 					@endforeach
 				</select>
 				</span> </div>
+				<div class="formControls col-xs-8 col-sm-2">
+                    <input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name"  oninput="xiala()" name="goods_kind_name" value="">
+                    <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+                    <!--  <button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont"></i> </button> -->
+					<div class="box" style="display: none;padding-right: 0px;">
+						<ul>
+						</ul>
+					</div>
+                </div>
+            </div>
 	</div>
-</div>
 <style>
 	.qiehuan span{
 		display: inline-block;
@@ -346,5 +356,110 @@
 
 		  {{--// $('#container-b').highcharts(json);--}}
 	{{--}--}}
+	// 搜索下拉框
+	$(".chanpin").focus(function(){
+		$('.box').show(400);
+		var a=$('.chanpin').val();
+		$.ajax({
+			//请求方式
+			type:'GET',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+a,
+			dataType:'json',
+			data:{},
+			success:function(data){
+				xialaCheck =false;
+				var str='';
+				jQuery.each(data,function(key,value){
+					if(value.goods_kind_img == '') {
+                        str+='<li data-id='+value.goods_kind_id + '>'+value.goods_kind_name+'</li>'
+					} else {
+                        str+='<li data-id='+value.goods_kind_id + '>' + value.goods_kind_name + '</li>'
+                    }
+				}) 
+				$('.box ul').html(str);
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	});
+	function xiala(){
+		$('#goods_kind').val('');
+		$('.box ul').empty();
+		$('.box').show(400);
+		var a=$('.chanpin').val();
+		$.ajax({
+			//请求方式
+			type:'GET',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+a,
+			dataType:'json',
+			data:{},
+			success:function(data){
+				var str='';
+				if(data.length !=0 ){
+					jQuery.each(data,function(key,value){ 
+						// str+='<li data-id='+value.goods_kind_id+'>'+value.goods_kind_name+'</li>'
+                        if(value.goods_kind_img == '') {
+                            str+='<li data-id='+value.goods_kind_id + '>'+value.goods_kind_name+'</li>'
+                        } else {
+                            str+='<li data-id='+value.goods_kind_id + '>' + value.goods_kind_name + '</li>'
+                        }
+					}) 
+					$('.box ul').html(str);
+				}else{
+					$('.box ul').html('<span >没有相应产品</span>');
+				}
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	}
+	
+	$('.chanpin').on('blur',function(){
+		 $('.box').hide(400);
+	});
+	function chanbingCheck(){
+		var Check=true;
+		var a=$('.chanpin').val();
+		$.ajax({
+			type:'GET',
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+'',
+			dataType:'json',
+			async:false,
+			data:{},
+			success:function(data){
+
+				jQuery.each(data,function(key,value){ 
+					if(a==value.goods_kind_name){
+						Check=false;
+					} 
+				});
+				if(Check){
+					var target_top = $("#goods_kind_name").offset().top;
+					// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
+					$("html,body").scrollTop(target_top);
+					setTimeout('layer.alert("此产品不存在,请选择产品！");',1200); 
+				}
+			},
+			error:function(jqXHR){
+
+			}
+		});
+		if(Check){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	$('body').on('mousedown','.box li',function(){
+
+		$('.box').hide(400);
+		var content=$(this).text();
+		var content_id=$(this).attr('data-id');
+		$('.chanpin').val(content);
+		$('#goods_kind').val(content_id);
+		$('.box ul').empty();
+	})
 </script>
 @endsection

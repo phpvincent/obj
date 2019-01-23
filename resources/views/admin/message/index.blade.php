@@ -156,6 +156,9 @@
                         {'defaultContent': "", "className": "td-manager"},
                     ],
                     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                        if(aData.message_goods_id==0){
+                            return;
+                        }
                         //改行满足的条件
                         if(aData.message_order_id<=0&&(aData.message_status==0||aData.message_status==2)){
                             if(aData.message_marking==0){
