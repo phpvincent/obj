@@ -321,28 +321,30 @@ function sendMess () {
                 }
                 },1000)
             }
+
+            var objj = $("#messend");
+            objj.attr('disabled',true); 
+            var set = setInterval(function() { 
+                if (countdown == 0) { 
+                    // obj.attr('disabled',false); 
+                    objj.removeAttr("disabled");
+                    $('#messpan').text(""); 
+                    countdown = 59; 
+                    clearInterval(set)
+                    return;
+                } else { 
+                    objj.attr('disabled',true);
+                    $('#messpan').text(countdown);
+                    countdown--; 
+                }
+                },1000)
         }, 
         error: function(data) {
             layer.close(index);
             layer.msg(messnetworkerr);
         }
      })
-    var obj = $("#messend");
-        obj.attr('disabled',true); 
-    var set = setInterval(function() { 
-        if (countdown == 0) { 
-            // obj.attr('disabled',false); 
-            obj.removeAttr("disabled");
-            $('#messpan').text(""); 
-            countdown = 59; 
-            clearInterval(set)
-            return;
-        } else { 
-            obj.attr('disabled',true);
-            $('#messpan').text(countdown);
-            countdown--; 
-        }
-        },1000)
+
 }
 //确认订单弹框收集确认信息
 function payFunMessage(datasObj){
