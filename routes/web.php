@@ -153,6 +153,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/vis/get_zxtu','admin\VisController@get_zxtu');
 	Route::any('/admin/vis/pay_money','admin\VisController@pay_money');//花费曲线图
 	Route::any('/admin/vis/get_ajaxtop','admin\VisController@get_ajaxtop');//销售额排行榜
+	Route::any('/admin/vis/get_goods_name','admin\VisController@get_goods_name');//销售额排行榜
 	//管理员账户相关
 	Route::get('/admin/admin/index','admin\AdminController@index');
 	Route::post('/admin/admin/get_table','admin\AdminController@get_table');

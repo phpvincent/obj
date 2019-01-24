@@ -1,30 +1,47 @@
 @extends('admin.father.css')
+<link rel="stylesheet" type="text/css" href="{{asset('/css/addgoods.css')}}" />
 @section('content')
 <script type="text/javascript" src="{{asset('/admin/lib/hcharts/Highcharts/5.0.6/js/highcharts.js')}}"></script>
 <script type="text/javascript" src="{{asset('/admin/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js')}}"></script>
 <!-- 时间选择 -->
-<div class="text-c"style="margin:10px 0;overflow: hidden" > 日期范围：
-	<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}',minDate:'%y-%M-#{%d-6} '})" id="datemin" class="input-text Wdate" style="width:120px;">
-	-
-	<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'datemin\')||\'%y-%M-#{%d-6}\'}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
-	<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
-	<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
+<div class="text-c row"  style="margin:10px 0;overflow: hidden;height: 160px;" >
+	<!-- 单品 -->
+	<div id="select-box" class="col-xs-4" style="margin:10px 0;">
+		<div class="row cl">
+			<div class="col-xs-1"></div>
+			<label class="form-label col-xs-2" style="text-align: right;">品名：</label>
+			<div class="formControls col-xs-5"> <span class="select-box">
+			<select name="goods_name" id="goods_name" class="select">
+				<option value="0">所有</option>
+				@foreach($goods_type as $val)
+					<option value="{{$val->goods_type_id}}" >{{$val->goods_type_name}}</option>
+				@endforeach
+			</select>
+			</span>
+			</div>
+			<div class="formControls col-xs-4">
+				<input type="text" class="input-text chanpin" placeholder=""autocomplete="off" id="goods_kind_name"  oninput="xiala()" name="goods_kind_name" value="">
+				<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+				<!--  <button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont"></i> </button> -->
+				<div class="box" style="display: none;padding-right: 0px;">
+					<ul>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xs-4" style="padding-top: 12px;">
+		日期范围：
+		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}',minDate:'%y-%M-#{%d-6} '})" id="datemin" class="input-text Wdate" style="width:120px;">
+		-
+		<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'datemin\')||\'%y-%M-#{%d-6}\'}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
+		<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
+		<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜记录</button>
+	</div>
 	{{--&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 数据导出</button>--}}
 </div>
-<!-- 单品 -->
-<div id="select-box"style="margin:10px 0;overflow: hidden">
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-2" style="text-align: right;">品名：</label>
-		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select name="goods_name" id="goods_name" class="select">
-					<option value="0">所有</option>
-					@foreach($goods as $val)
-					<option value="{{$val->goods_id}}" >{{$val->goods_real_name}}</option>
-					@endforeach
-				</select>
-				</span> </div>
-	</div>
-</div>
+
 <style>
 	.qiehuan span{
 		display: inline-block;
@@ -71,10 +88,8 @@
 
 				var a=$(this).text();
 				if(a=='分布图'){
-
                     $('.tu_1').show();
                     $('.tu_2').hide();
-
                 }else {
                     $('.tu_1').hide();
                     $('.tu_2').show();
@@ -88,19 +103,20 @@
 		$('.text-c').toggle(300);
 	})
 	$('#goods_name').on('change',function(){
-        var datemin = $('#datemin').val();
-        var datemax = $('#datemax').val();
-        var goods_name = $('#goods_name').val();
-        var user_name = $('#user_name').val();
-		get_zhexian(datemin,datemax,goods_name,user_name);
-        get_ajaxtable(datemin,datemax,goods_name,user_name);
-        zhuzhuangtu(datemin,datemax,goods_name,user_name);
+        $('#goods_kind').val("");
+        $('#goods_kind_name').val("");
 	});
+	//搜记录
 	$('#seavis1').on('click',function(){
 		var datemin = $('#datemin').val();
 		var datemax = $('#datemax').val();
-		var goods_name = $('#goods_name').val();
+		var goods_name = $('#goods_kind').val();
+		var goods_kind_name = $('#goods_kind_name').val();
 		var user_name = $('#user_name').val();
+		if(goods_kind_name && !goods_name){
+            layer.msg('您选择的品名不存在');
+			return false;
+		}
 		get_zhexian(datemin,datemax,goods_name,user_name);
         get_ajaxtable(datemin,datemax,goods_name,user_name);
         zhuzhuangtu(datemin,datemax,goods_name,user_name);
@@ -346,5 +362,108 @@
 
 		  {{--// $('#container-b').highcharts(json);--}}
 	{{--}--}}
+	// 搜索下拉框
+	$(".chanpin").focus(function(){
+		$('.box').show(400);
+        var goods_name = $('#goods_name').val();
+		var a=$('.chanpin').val();
+		$.ajax({
+			//请求方式
+			type:'GET',
+			url:'{{url("admin/vis/get_goods_name")}}?name='+a+'&goods_name='+goods_name,
+			dataType:'json',
+			data:{},
+			success:function(data){
+				xialaCheck =false;
+				var str='';
+				jQuery.each(data.data,function(key,value){
+
+                        str+='<li data-id='+value.goods_id + '>' + value.goods_real_name + '</li>'
+
+				}) 
+				$('.box ul').html(str);
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	});
+	function xiala(){
+		$('#goods_kind').val('');
+		$('.box ul').empty();
+		$('.box').show(400);
+        var goods_name = $('#goods_name').val();
+        var a=$('.chanpin').val();
+		$.ajax({
+			//请求方式
+			type:'GET',
+			url:'{{url("admin/vis/get_goods_name")}}?name='+a+'&goods_name='+goods_name,
+			dataType:'json',
+			data:{},
+			success:function(data){
+				var str='';
+				if(data.data.length !=0 ){
+					jQuery.each(data.data,function(key,value){
+
+                            str+='<li data-id='+value.goods_id + '>' + value.goods_real_name + '</li>'
+
+					}) 
+					$('.box ul').html(str);
+				}else{
+					$('.box ul').html('<span >没有相应产品</span>');
+				}
+			},
+			error:function(jqXHR){
+
+			}
+		});
+	}
+	
+	$('.chanpin').on('blur',function(){
+		 $('.box').hide(400);
+	});
+	function chanbingCheck(){
+		var Check=true;
+		var a=$('.chanpin').val();
+        var goods_name = $('#goods_name').val();
+        $.ajax({
+			type:'GET',
+			url:'{{url("admin/vis/get_goods_name")}}?name='+a+'&goods_name='+goods_name,
+			dataType:'json',
+			async:false,
+			data:{},
+			success:function(data){
+
+				jQuery.each(data,function(key,value){ 
+					if(a==value.goods_kind_name){
+						Check=false;
+					} 
+				});
+				if(Check){
+					var target_top = $("#goods_kind_name").offset().top;
+					// $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
+					$("html,body").scrollTop(target_top);
+					setTimeout('layer.alert("此产品不存在,请选择产品！");',1200); 
+				}
+			},
+			error:function(jqXHR){
+
+			}
+		});
+		if(Check){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	$('body').on('mousedown','.box li',function(){
+
+		$('.box').hide(400);
+		var content=$(this).text();
+		var content_id=$(this).attr('data-id');
+		$('.chanpin').val(content);
+		$('#goods_kind').val(content_id);
+		$('.box ul').empty();
+	})
 </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\admin;
 use App\goods;
+use App\goods_type;
 use App\order;
 use App\special;
 use App\spend;
@@ -293,6 +294,33 @@ class VisController extends Controller
    	return view('admin.vis.stime')->with(compact('vis'));
    }
 
+    /**
+     * 模糊搜索商品名称
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+   public function get_goods_name(Request $request)
+   {
+        $goods_type_id = $request->input('goods_name');
+        $keyword = $request->input('name');
+        $goods = \App\goods::join('goods_type','goods_type','=','goods_type_id')
+                            ->whereIn('goods.goods_id',admin::get_goods_id())
+                            ->where(function($query)use($keyword){
+                                if($keyword){
+                                    $query->where('goods.goods_real_name','like',"%$keyword%");
+                                }
+                            })
+                            ->where(function($query)use($goods_type_id){
+                                if($goods_type_id){
+                                    $query->where('goods_type.goods_type_id',$goods_type_id);
+                                }
+                            })
+                            ->get();
+        if($goods->isEmpty()){
+            return response()->json(['status'=>1,'data'=>$goods,'str'=>'所选产品不存在']);
+        }
+       return response()->json(['status'=>0,'data'=>$goods,'str'=>'获取成功']);
+   }
     /** 浏览统计
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
@@ -301,20 +329,13 @@ class VisController extends Controller
    	if($request->isMethod('get')){
            $admins=\App\admin::whereIn('admin_id',admin::get_admins_id())->get();
            $goods=\App\goods::whereIn('goods_id',admin::get_goods_id())->get();
-        return view('admin.vis.statistic')->with(compact('goods','admins'));
+           $goods_type = goods_type::all();
+        return view('admin.vis.statistic')->with(compact('goods','admins','goods_type'));
    	}elseif($request->isMethod('post')){
         //时间筛选（默认七天，按天）
         $start_time = $request->input('mintime');
         $end_time = $request->input('maxtime');
         $goods_id = $request->input('id');
-        //判断是否为root用户
-//        $goods_arr = admin::get_goods_id();
-//        $time = [];
-        //默认展示1天 24小时
-//        if(($start_time && $end_time) && strtotime($end_time)-strtotime($start_time) > 3600*24) {  //展示天
-            //超过1天或者没有选择时间，所以转化率按照天计算
-//            $leng = intval((strtotime($end_time)-strtotime($start_time))/3600/24);
-//            $use_end_time =  strtotime($start_time);
             if($start_time && $end_time){
                 $start_time = date('Y-m-d',strtotime($start_time)).' 00:00:00';
                 $end_time = date('Y-m-d',strtotime($end_time)+24*3600).' 00:00:00';
@@ -324,108 +345,6 @@ class VisController extends Controller
             }
             $count = \App\vis::visCount($start_time,$end_time,$goods_id);
             return response()->json($count);
-
-//        }else{  //展示小时
-//
-//        }
-//        if((!$start_time || !$end_time) || strtotime($end_time)-strtotime($start_time) > 3600*24*3){
-//            //超过3天或者没有选择时间，所以转化率按照天计算
-//            if(!$start_time || !$end_time){ //没有选择时间
-//                $leng = 6;
-//                $use_end_time = time()-6*24*3600;
-//            }else{                          //选择时间超过7天
-//                $leng = intval((strtotime($end_time)-strtotime($start_time))/3600/24);
-//                $use_end_time =  strtotime($start_time);
-//            }
-//            for($i=0; $i <=$leng; $i++)
-//            {
-//                $day = 3600*24;
-//                $today = date('Y-m-d',$use_end_time+$i*$day);
-//                //获取用户访问量
-//                $count = \App\vis::visCount($today,$goods_id,$goods_arr);
-//                //获取用户购买量
-//                $buycount = \App\vis::visBuyCount($today,$goods_id,$goods_arr);
-//                $data1['name']='购买转化';
-//                if($count==0){
-//                    $data1['data'][$i]=0;
-//                }else{
-//                    $data1['data'][$i]=sprintf("%.6f",$buycount/$count);
-//                }
-//                $data4['name']='浏览量';
-//                $data4['data'][$i] = $count;
-//                $data5['name']='仅点击购买者';
-//                $data5['data'][$i] = $buycount;
-//                $time[] = $today;
-//            }
-//            for ($i=0; $i <=$leng; $i++) {
-//                $day = 3600*24;
-//                $today = date('Y-m-d',$use_end_time+$i*$day);
-//                //获取用户访问量
-//                $count = \App\vis::visCount($today,$goods_id,$goods_arr);
-//                //获取用户下单量
-//                $ordercount = \App\vis::visOrderCount($today,$goods_id,$goods_arr);
-//                $data2['name']='下单转化';
-//                if($count==0){
-//                    $data2['data'][$i]=0;
-//                }else{
-//                    $data2['data'][$i]=sprintf("%.6f",$ordercount/$count);
-//                }
-//                $data6['name']='点击购买并下单';
-//                $data6['data'][$i] = $ordercount;
-//            }
-//        }else{
-//                //时间为24小时内
-//                $leng =intval((strtotime($end_time)-strtotime($start_time)) / 3600)+23;
-//                for($i=0; $i <=$leng ; $i++)
-//                {
-//                    $day = 3600;
-//                    $today = date('Y-m-d H',strtotime($start_time)+$i*$day);
-//                    if(strtotime($start_time)+$i*$day <= time() ){
-//                        //获取用户访问量
-//                        $count = \App\vis::visCount($today,$goods_id,$goods_arr);
-//                        //获取用户购买量
-//                        $buycount = \App\vis::visBuyCount($today,$goods_id,$goods_arr);
-//                        $data1['name']='购买转化';
-//                        if($count==0){
-//                            $data1['data'][$i]=0;
-//                        }else{
-//                            $data1['data'][$i]=sprintf("%.6f",$buycount/$count);
-//                        }
-//                        $data4['name']='浏览量';
-//                        $data4['data'][$i] = $count;
-//                        $data5['name']='仅点击购买者';
-//                        $data5['data'][$i] = $buycount;
-//                        $time[] = $today;
-//                    }
-//
-//                }
-//                for ($i=0; $i <=$leng; $i++) {
-//                    $day = 3600;
-//                    $today = date('Y-m-d H',strtotime($end_time)+$i*$day);
-//                    if(strtotime($start_time)+$i*$day <= time() ) {
-//                        //获取用户访问量
-//                        $count = \App\vis::visCount($today,$goods_id,$user_id,$goods_arr);
-//                        //获取用户下单量
-//                        $ordercount = \App\vis::visOrderCount($today,$goods_id,$user_id,$goods_arr);
-//                        $data2['name']='下单转化';
-//                        if($count==0){
-//                            $data2['data'][$i]=0;
-//                        }else{
-//                            $data2['data'][$i]=sprintf("%.6f",$ordercount/$count);
-//                        }
-//                        $data6['name']='点击购买并下单';
-//                        $data6['data'][$i] = $ordercount;
-//                    }
-//                }
-//        }
-//        //折线图
-//        $data[]=$data1;
-//        $data[]=$data2;
-//        //柱状图
-//        $datacount[]=$data4;
-//        $datacount[]=$data5;
-//        $datacount[]=$data6;
-//        return response()->json(['data'=>$data,'datacount'=>$datacount,'time'=>$time]);
    	}
    }
    public function statistic_b(Request $request){
