@@ -97,7 +97,7 @@
                     </tr>
                     <tr class="text-c">
                         <th width="25"><input type="checkbox" name="" value=""></th>
-                        <th width="40">ID</th>
+                        {{--<th width="40">ID</th>--}}
                         <th width="110">电话号码</th>
                         <th width="110">订单号</th>
                         <th width="70">单品名称</th>
@@ -127,10 +127,10 @@
                     "info": true,
                     "searching": true,
                     "ordering": true,
-                    "order": [[1, "desc"]],
+                    "order": [[9, "desc"]],
                     "stateSave": false,
                     "columnDefs": [{
-                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12,13],
+                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12],
                         "orderable": false
                     }],
                     "processing": true,
@@ -171,7 +171,7 @@
                     },
                     "columns": [
                         {'defaultContent': "", "className": "td-manager"},
-                        {"data": 'message_id'},
+                        // {"data": 'message_id'},
                         {'data': 'message_mobile_num'},
                         {'data': 'order_single_id'},
                         {'data': 'goods_name'},
