@@ -41,9 +41,6 @@ class MessageController extends Controller
         $is_captcha = $request->input('is_captcha', 'all');
         $order_sn = $request->input('order_sn', '');
         $mark = $request->input('mark', 'all');
-        $order_id = $request->input('order_id', 'all');
-        $datemin = $request->input('datemin');
-        $datemax = $request->input('datemax');
         $messages = DB::table('message as m')->join('goods as g', 'm.message_goods_id', '=', 'g.goods_id', 'left')->join('order as o', 'o.order_id', '=', 'm.message_order_id', 'left')
             ->where(function ($query) use ($status) {
                 if ($status != 'all') {
@@ -77,7 +74,7 @@ class MessageController extends Controller
                 if ($search) {
                     $query->where('order_single_id', 'like', '%' . $search . '%')->orWhere('message_mobile_num', 'like', '%' . $search . '%');
                 }
-            })->orderBy($order, $dsc)
+            })->where('message_gettime', '<', Carbon::now()->subMinutes(10))->orderBy($order, $dsc)
             ->offset($start)
             ->limit($len)
             ->get();
@@ -111,7 +108,7 @@ class MessageController extends Controller
                 if ($search) {
                     $query->where('order_single_id', 'like', '%' . $search . '%')->orWhere('message_mobile_num', 'like', '%' . $search . '%');
                 }
-            })->count();
+            })->where('message_gettime', '<', Carbon::now()->subMinutes(10))->count();
         if ($messages) {
             foreach ($messages as $message) {
                 if ($message->goods_id) {
@@ -126,9 +123,9 @@ class MessageController extends Controller
 
     public function export(Request $request)
     {
-        $datemin = $request->input('datemin',Carbon::now()->subDays(7));
-        $datemax = $request->input('datemax', Carbon::now());
-        if(strtotime($datemax)-strtotime($datemin)>604800){
+        $datemin = $request->input('datemin', Carbon::now()->subDays(7));
+        $datemax = $request->input('datemax', Carbon::now()->subMinutes(10));
+        if (strtotime($datemax) - strtotime($datemin) > 604800) {
             return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
         $messages = DB::table('message as m')
@@ -145,7 +142,7 @@ class MessageController extends Controller
         $new_exdata = [];
         if ($messages) {
             foreach ($messages as $key => $message) {
-                if(order::where('order_tel', $message->message_mobile_num)->where('order_time', '>', Carbon::parse($message->message_gettime)->subHours(3))->where('order_time', '<', Carbon::parse($message->message_gettime)->addHours(3))->exists()){
+                if (order::where('order_tel', $message->message_mobile_num)->where('order_time', '>', Carbon::parse($message->message_gettime)->subHours(3))->where('order_time', '<', Carbon::parse($message->message_gettime)->addHours(3))->exists()) {
                     continue;
                 }
                 $v = unserialize($message->message_order_msg);
@@ -162,7 +159,7 @@ class MessageController extends Controller
                 $new_exdata[$key]['order_time'] = $message->message_gettime;
                 $new_exdata[$key]['order_single_id'] = '';
                 $new_exdata[$key]['name'] = (isset($v['firstname']) ? $v['firstname'] : '') . (isset($v['lastname']) ? $v['lastname'] : '');
-                $new_exdata[$key]['tel'] = isset($v['telephone']) ? $v['telephone'] : '';
+                $new_exdata[$key]['tel'] = $message->message_mobile_num;
                 if (isset($v['zip'])) {
                     $str = isset($v['address1']) ? $v['address1'] : '';
                     $pattern = '/(.*)\(Zip:(.*?)\)/';
@@ -263,7 +260,7 @@ class MessageController extends Controller
         }
     }
 
-    function mark(Request $request)
+    public function mark(Request $request)
     {
         $message = message::find($request->input('id'));
         $message->message_marking = $request->input('marking');
@@ -274,8 +271,7 @@ class MessageController extends Controller
         }
     }
 
-    public
-    function order_msg(Request $request)
+    public function order_msg(Request $request)
     {
         $message = message::find($request->input('id'));
         $order = unserialize($message->message_order_msg);
@@ -306,8 +302,7 @@ class MessageController extends Controller
         return view('admin.message.edit')->with(compact('order', 'goods'));
     }
 
-    public
-    function delmessages(Request $request)
+    public function delmessages(Request $request)
     {
         if ($request->has('type') && $request->input('type') == 'all') {
             $ids = $request->input('id');
@@ -337,8 +332,7 @@ class MessageController extends Controller
 
     }
 
-    private
-    function del_message($id, $ip)
+    private function del_message($id, $ip)
     {
         $message = message::find($id);
         if (message::destroy($id)) {
