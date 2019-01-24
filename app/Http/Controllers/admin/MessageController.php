@@ -125,10 +125,11 @@ class MessageController extends Controller
     {
         $datemin = $request->input('datemin', Carbon::now()->subDays(7));
         $datemax = $request->input('datemax', Carbon::now()->subMinutes(10));
+        $area = $request->input('area', 'all');
         if (strtotime($datemax) - strtotime($datemin) > 604800) {
             return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
-        $messages = DB::table('message as m')
+        $messages = DB::table('message as m')->join('goods as g', 'm.message_goods_id', '=', 'g.goods_id', 'left' )
             ->where('m.message_order_id', 0)->where(function ($query) use ($datemin) {
                 if ($datemin) {
                     $query->where('m.message_gettime', '>', $datemin);
@@ -138,6 +139,11 @@ class MessageController extends Controller
                     $query->where('m.message_gettime', '<', $datemax);
                 }
             })->where('messaga_code', '<>', 0)
+            ->where(function ($query) use ($area){
+                if($area != 'all') {
+                    $query->where('g.goods_blade_type', $area);
+                }
+            })
             ->get();
         $new_exdata = [];
         if ($messages) {

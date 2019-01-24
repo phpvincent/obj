@@ -10,6 +10,30 @@
                 {{--<option value="1">是</option>--}}
                 {{--</select>--}}
         {{--</div> --}}
+            地区：<select name="area" id="area" class="select input-text" style="width: 140px;">
+                <option value="all">所有</option>
+                <option value="0">0--台湾模板</option>
+                <option value="1">1--简体模板</option>
+                <option value="2">2--阿联酋模板</option>
+                <option value="3">3--马来西亚模板</option>
+                <option value="4">4--泰国模板（旧版）</option>
+                <option value="5">5--日本模板（旧版）</option>
+                <option value="6">6--印度尼西亚</option>
+                <option value="7">7--菲律宾</option>
+                <option value="8">8--英国（旧版）</option>
+                <option value="9">9--Google-PC（旧版）</option>
+                <option value="10">10--美国（旧版）</option>
+                <option value="11">11--越南（旧版）</option>
+                <option value="12">12--沙特</option>
+                <option value="13">13--沙特英文</option>
+                <option value="14">14--卡塔尔</option>
+                <option value="15">15--卡塔尔英文</option>
+                <option value="16">16--中东阿语</option>
+                <option value="17">17--中东英语</option>
+                {{--<option value="2">2--无倒计时模板</option>--}}
+            </select>
+
+
         时间范围： <input type="text" onfocus="WdatePicker({onpicked:function(){  $('#goods_index_table').dataTable().fnClearTable(); },dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:160px;">-<input type="text" onfocus="WdatePicker({onpicked:function(){  $('#goods_index_table').dataTable().fnClearTable(); },dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:160px;">
             <button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outmessage" name=""><i class="Hui-iconfont">&#xe640;</i> 未下单成功数据导出</button>
         </div>
@@ -336,9 +360,9 @@
                 }
                 $("#outmessage").on('click', function () {
                     var url= '{{ url('admin/message/export') }}' + '?';
-                    var order_id=$("#order_id").val()
-                    if(order_id){
-                        url += 'order_id=' + order_id + '&';
+                    var area=$("#area").val()
+                    if(area){
+                        url += 'area=' + area + '&';
                     }
                     var datemin=$('#datemin').val();
                     if(datemin != ''){
