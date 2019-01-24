@@ -275,11 +275,11 @@
                             mark = '<span  id="marking_'+ data.message_id +'">未标记</span>';
                             mark ='<span class="label label-default radius" id="marking_'+ data.message_id +'">×</span>';
                         }
-                        $(row).find('td:eq(13)').html(del);
-                        $(row).find('td:eq(12)').html(mark);
-                        $(row).find('td:eq(9)').html(status);
-                        $(row).find('td:eq(5)').html(url);
-                        $(row).find('td:eq(6)').html(blade_type);
+                        $(row).find('td:eq(12)').html(del);
+                        $(row).find('td:eq(11)').html(mark);
+                        $(row).find('td:eq(8)').html(status);
+                        $(row).find('td:eq(4)').html(url);
+                        $(row).find('td:eq(5)').html(blade_type);
                         $(row).find('td:eq(0)').html(checkbox);
                         $(row).addClass('text-c');
                     }
