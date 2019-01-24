@@ -51,23 +51,9 @@ class MessageController extends Controller
                 if ($phone) {
                     $query->where('m.message_mobile_num', 'like', '%' . $phone . '%');
                 }
-            })->where(function ($query) use ($order_id) {
-                if ($order_id == 0) {
-                    $query->where('m.message_order_id', 0);
-                } elseif ($order_id == 1) {
-                    $query->where('m.message_order_id', '<>', 0);
-                }
             })->where(function ($query) use ($mark) {
                 if ($mark != 'all') {
                     $query->where('m.message_marking', $mark);
-                }
-            })->where(function ($query) use ($datemin) {
-                if ($datemin) {
-                    $query->where('m.message_gettime', '>', $datemin);
-                }
-            })->where(function ($query) use ($datemax) {
-                if ($datemax) {
-                    $query->where('m.message_gettime', '<', $datemax);
                 }
             })->where(function ($query) use ($is_captcha) {
                 if ($is_captcha != 'all') {
@@ -162,7 +148,7 @@ class MessageController extends Controller
                 if ($cuxiao_msg) {
                     $v['order_price_id'] = special::where('special_id', $cuxiao_msg->cuxiao_special_id)->value('special_price_id');
                 }
-                if ($v['goodsAtt']) {
+                if (isset($v['goodsAtt']) && $v['goodsAtt']) {
                     $price = $cuxiaoSDK->get_diff_price($v['goodsAtt'], $price);
                 }
                 $new_exdata[$key]['order_time'] = $message->message_gettime;
