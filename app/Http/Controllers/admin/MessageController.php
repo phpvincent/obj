@@ -8,9 +8,11 @@ use App\goods;
 use App\goods_config;
 use App\kind_val;
 use App\message;
+use App\order;
 use App\price;
 use App\special;
 use App\url;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -124,8 +126,11 @@ class MessageController extends Controller
 
     public function export(Request $request)
     {
-        $datemin = $request->input('datemin');
-        $datemax = $request->input('datemax');
+        $datemin = $request->input('datemin',Carbon::now()->subDays(7));
+        $datemax = $request->input('datemax', Carbon::now());
+        if(strtotime($datemax)-strtotime($datemin)>604800){
+            return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+        }
         $messages = DB::table('message as m')
             ->where('m.message_order_id', 0)->where(function ($query) use ($datemin) {
                 if ($datemin) {
@@ -140,6 +145,9 @@ class MessageController extends Controller
         $new_exdata = [];
         if ($messages) {
             foreach ($messages as $key => $message) {
+                if(order::where('order_tel', $message->message_mobile_num)->where('order_time', '>', Carbon::parse($message->message_gettime)->subHours(3))->where('order_time', '<', Carbon::parse($message->message_gettime)->addHours(3))->exists()){
+                    continue;
+                }
                 $v = unserialize($message->message_order_msg);
                 $goods = goods::find($message->message_goods_id);
                 $cuxiaoSDK = new cuxiaoSDK($goods);
@@ -242,11 +250,8 @@ class MessageController extends Controller
                 $new_exdata[$key]['order_pay_type'] = 0;
                 $new_exdata[$key]['special_name'] = price::where('price_id', (isset($v['order_price_id']) ? $v['order_price_id'] : 0))->value('price_name');
             }
-            if ($request->has('datemin') && $request->has('datemax')) {
-                $filename = '[' . $request->input('datemin') . ']—' . '[' . $request->input('datemax') . ']' . '订单记录' . date('Y-m-d H:i:s', time()) . '.xls';
-            } else {
-                $filename = '下单失败短信记录' . date('Y-m-d H:i:s', time()) . '.xls';
-            }
+            $filename = '[' . $datemin . ']—' . '[' . $datemax . ']' . '下单失败短信记录' . date('Y-m-d H:i:s', time()) . '.xls';
+
             /*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
             */
             /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
