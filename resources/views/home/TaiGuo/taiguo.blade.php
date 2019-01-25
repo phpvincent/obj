@@ -364,9 +364,9 @@
 <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
 <table class="data-table">
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+{{--    @if(in_array('user_help',$templets))--}}
     <tbody>
-        @if(in_array('user_know',$templets))
+{{--        @if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">ข้อมูลที่ต้องรู้</th>
         </tr>
@@ -375,8 +375,8 @@
                 <p>
                 ผลการใช้จริงของผลิตภัณฑ์นี้ขึ้นอยู่กับแต่ละสถานการณ์ของแต่ละคน ไม่รับรองว่าถูกคนจะได้มีผลการใช้ตามการโฆษณา าลูกค้าได้รับสินค้าแล้วมีคำถามหรือข้อสงสัยกับสินค้า สามารถติดต่อสอบถามผ่านระบบบริการลูกค้าออนไลน์หรือส่งอีเมลไปถึงที่<a  href="mailto:uoewtnxj@gmail.com" style="color:#F8770E">uoewtnxj@gmail.com</a>และบริษัทมีสิทธิอธิบายสุดท้าย
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+        {{--@if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">วิธีการคืนสินค้า</th>
         </tr>
@@ -406,7 +406,7 @@
                     理您的請求，退換貨所產生的運費由我方承擔。
                 </p> -->
             </td></tr>
-        @endif
+        {{--@endif--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">ขั้นตอนการคืนเปลี่ยนสินค้า</th>
         </tr>
@@ -436,7 +436,7 @@
         <tr class="first odd"></tr>
         <tr class="first odd"></tr>
             </tbody>
-        @endif
+        {{--@endif--}}
         
 </table>
 <style>

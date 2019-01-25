@@ -364,9 +364,9 @@
 <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
 <table class="data-table">
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+{{--    @if(in_array('user_help',$templets))--}}
     <tbody>
-        @if(in_array('user_know',$templets))
+{{--        @if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品のついて</th>
         </tr>
@@ -378,8 +378,8 @@
 3.到着日確認ー返品申し込みー審査通過ー返品発送ー倉庫返品到着確認ー返品・交換審査ー返金/交換<br/>
 4.返品・交換記入事項：オーダーナンバー、名前、電話番号
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+{{--        @if(in_array('apply_goods',$templets))--}}
         <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">代金引換について</th>
         </tr>
@@ -391,7 +391,7 @@
                 3.受け取る時、配送係に商品代、送料、代金引換を合わせて、支払ってください。
             </p>
             </td></tr> -->
-        @endif
+        {{--@endif--}}
         <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">返品.交換の流れ</th>
         </tr>
@@ -412,7 +412,7 @@
         </tr>
                 <tr class="first odd"></tr>
             </tbody>
-        @endif
+        {{--@endif--}}
 </table>
 <style>
     .footer2{

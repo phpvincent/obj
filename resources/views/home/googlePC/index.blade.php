@@ -396,8 +396,8 @@
                 </div>
                 <div  class="AfterSale">
                     <div class="AfterSale_1">
-                        @if(in_array('user_help',$templets))
-                            @if(in_array('user_know',$templets))
+                        {{--@if(in_array('user_help',$templets))--}}
+                            {{--@if(in_array('user_know',$templets))--}}
                                 <div>
                                     <h4>Contact Us</h4>
                                     <p> 24H Online Customer Service: <a href="javascript:void(0);"><img src="/img/service.png" style=" width:15px; height:auto;"></a>
@@ -407,8 +407,8 @@
                                 <br>
                                 Questions, comments and requests regarding the website policies are welcomed and should be addressed to isnfclpo@gmail.com. Please feel free to contact our Customer Care Team for assistance. </p>
                                 </p></div>
-                            @endif
-                            @if(in_array('apply_goods',$templets))
+                            {{--@endif--}}
+{{--                            @if(in_array('apply_goods',$templets))--}}
                                 <!-- <div>
                                     <h4>如何申请退换货</h4>
                                     <p>1.由于个人原因产生的退换货：至收到商品起7天内，在不影响二次销售的情况下请联系我们的在线客服或发邮件至
@@ -421,16 +421,16 @@
                                                             ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费由我方承担。
                                     </p>
                                 </div> -->
-                            @endif
-                            @if(in_array('exchange_of_goods',$templets))
+                            {{--@endif--}}
+                            {{--@if(in_array('exchange_of_goods',$templets))--}}
                                 <div>
                                     <h4>RETURENS POLICY </h4>
                                     <p>Receipt confirmation—Apply for returns/exchanges—Confirmation by customer service-Ship the item back-Delivered to warehouse—Inspection--- Refund/Exchange.
                                     </p>
                                     <p>Please attach with the Order No., Contact No., and Customer name.</p>
                                 </div>
-                            @endif
-                        @endif
+                            {{--@endif--}}
+                        {{--@endif--}}
                     </div>
                 </div>
                 <div class="footer">

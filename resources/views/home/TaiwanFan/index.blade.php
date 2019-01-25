@@ -387,9 +387,9 @@
     <table class="data-table">
 
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+{{--    @if(in_array('user_help',$templets))--}}
     <tbody>
-        @if(in_array('user_know',$templets))
+{{--        @if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用戶須知</th>
         </tr>
@@ -399,8 +399,8 @@
                                         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         )聯絡我們，本公司享有最終解釋權。</p>
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+{{--        @if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·如何申請退換貨</th>
         </tr>
@@ -424,8 +424,8 @@
                     理您的請求，退換貨所產生的運費由我方承擔。
                 </p>
             </td></tr>
-            @endif
-        @if(in_array('exchange_of_goods',$templets))
+            {{--@endif--}}
+{{--        @if(in_array('exchange_of_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退換貨流程:</th>
         </tr>
@@ -448,13 +448,13 @@
             </td>
 
         </tr>
-        @endif
+        {{--@endif--}}
                 <tr class="first odd">
           
             
         </tr>
     </tbody>
-    @endif
+    {{--@endif--}}
 </table>
 <style>
     .footer2{
