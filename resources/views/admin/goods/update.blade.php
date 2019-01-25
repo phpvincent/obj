@@ -282,8 +282,8 @@
 			<div class="clearfix templet_show jian_templet" style="display: {{in_array('comp_sign',$goods_templet) ? 'block' : 'none'}};">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
-					<label for="comp_sign">banner图logo</label>
-					<input type="checkbox" id="comp_sign" class="comp_sign" @if(in_array('delivery_place',$goods_templet)) checked="checked" @endif name="comp_sign[]" value="delivery_place">
+					{{--<label for="comp_sign">banner图logo</label>--}}
+					{{--<input type="checkbox" id="comp_sign" class="comp_sign" @if(in_array('delivery_place',$goods_templet)) checked="checked" @endif name="comp_sign[]" value="delivery_place">--}}
 					<label for="comp_sign">战略部署图</label>
 					<input type="checkbox" id="comp_sign" class="comp_sign" @if(in_array('comp_map',$goods_templet)) checked="checked" @endif name="comp_sign[]" value="comp_map">
 					</div>

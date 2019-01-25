@@ -273,8 +273,8 @@
 			<div class="clearfix  templet_show jian_templet">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择导航内容：</label>
 				<div class="check-box formControls col-xs-8 col-sm-9 conter_nav">
-					<label for="comp_sign">banner图logo</label>
-					<input type="checkbox" class="comp_sign" id="comp_sign" checked name="comp_sign[]" value="delivery_place">
+					{{--<label for="comp_sign">banner图logo</label>--}}
+					{{--<input type="checkbox" class="comp_sign" id="comp_sign" checked name="comp_sign[]" value="delivery_place">--}}
 					<label for="comp_sign">战略部署图</label>
 					<input type="checkbox" class="comp_sign" id="comp_sign" checked name="comp_sign[]" value="comp_map">
 				</div>
