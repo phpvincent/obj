@@ -8,7 +8,6 @@
 	<!-- 单品 -->
 	<div id="select-box" class="col-xs-4" style="margin:10px 0;">
 		<div class="row cl">
-			<div class="col-xs-1"></div>
 			<label class="form-label col-xs-2" style="text-align: right;">品名：</label>
 			<div class="formControls col-xs-5"> <span class="select-box">
 			<select name="goods_name" id="goods_name" class="select">
@@ -27,6 +26,9 @@
 					<ul>
 					</ul>
 				</div>
+			</div>
+			<div class="col-xs-1" id="loading" style="display: none">
+				<img src="{{asset('/images/loading.gif')}}" style="width: 30px;height: 30px" alt="">
 			</div>
 		</div>
 	</div>
@@ -113,9 +115,14 @@
 		var goods_name = $('#goods_kind').val();
 		var goods_kind_name = $('#goods_kind_name').val();
 		var user_name = $('#user_name').val();
+		var goods_names = $('#goods_name').val();
 		if(goods_kind_name && !goods_name){
             layer.msg('您选择的品名不存在');
 			return false;
+		}
+		if(goods_names && !goods_kind_name){
+            layer.msg('品名必须填写完整');
+            return false;
 		}
 		get_zhexian(datemin,datemax,goods_name,user_name);
         get_ajaxtable(datemin,datemax,goods_name,user_name);
@@ -392,6 +399,7 @@
 		$('#goods_kind').val('');
 		$('.box ul').empty();
 		$('.box').show(400);
+		$('#loading').show();
         var goods_name = $('#goods_name').val();
         var a=$('.chanpin').val();
 		$.ajax({
@@ -403,7 +411,8 @@
 			success:function(data){
 				var str='';
 				if(data.data.length !=0 ){
-					jQuery.each(data.data,function(key,value){
+                    $('#loading').hide();
+                    jQuery.each(data.data,function(key,value){
 
                             str+='<li data-id='+value.goods_id + '>' + value.goods_real_name + '</li>'
 
