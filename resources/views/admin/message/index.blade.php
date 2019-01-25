@@ -1,6 +1,42 @@
 @extends('admin.father.css')
 @section('content')
     <div class="page-container">
+        <div class="text-c">
+            {{--是否下单成功：--}}
+            {{--<div class="formControls col-xs-2 col-sm-2">--}}
+                {{--<select name="order_id" id="order_id" class="select input-text" style="width: 140px;">--}}
+                {{--<option value="all">所有</option>--}}
+                {{--<option value="0">否</option>--}}
+                {{--<option value="1">是</option>--}}
+                {{--</select>--}}
+        {{--</div> --}}
+            地区：<select name="area" id="area" class="select input-text" style="width: 140px;">
+                <option value="all">所有</option>
+                <option value="0">0--台湾模板</option>
+                <option value="1">1--简体模板</option>
+                <option value="2">2--阿联酋模板</option>
+                <option value="3">3--马来西亚模板</option>
+                <option value="4">4--泰国模板（旧版）</option>
+                <option value="5">5--日本模板（旧版）</option>
+                <option value="6">6--印度尼西亚</option>
+                <option value="7">7--菲律宾</option>
+                <option value="8">8--英国（旧版）</option>
+                <option value="9">9--Google-PC（旧版）</option>
+                <option value="10">10--美国（旧版）</option>
+                <option value="11">11--越南（旧版）</option>
+                <option value="12">12--沙特</option>
+                <option value="13">13--沙特英文</option>
+                <option value="14">14--卡塔尔</option>
+                <option value="15">15--卡塔尔英文</option>
+                <option value="16">16--中东阿语</option>
+                <option value="17">17--中东英语</option>
+                {{--<option value="2">2--无倒计时模板</option>--}}
+            </select>
+
+
+        时间范围： <input type="text" onfocus="WdatePicker({onpicked:function(){  $('#goods_index_table').dataTable().fnClearTable(); },dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:160px;">-<input type="text" onfocus="WdatePicker({onpicked:function(){  $('#goods_index_table').dataTable().fnClearTable(); },dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:160px;">
+            <button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outmessage" name=""><i class="Hui-iconfont">&#xe640;</i> 未下单成功数据导出</button>
+        </div>
         <div class="cl pd-5 bk-gray mt-20">
             <div style="width: 100%;">
                 <div style="margin-bottom: 20px" class="row cl">
@@ -66,8 +102,18 @@
                         <label class="form-label col-xs-1 col-sm-1">手机号：</label>
                         <div class="formControls col-xs-2 col-sm-2">
                         <input type="text" name="phone" id="phone" class="input-text">
-                    </div><br/></div>
-                <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
+                    </div>
+                        {{--<label class="form-label col-xs-1 col-sm-1">是否下单成功：</label>--}}
+                        {{--<div class="formControls col-xs-2 col-sm-2">--}}
+                            {{--<select name="order_id" id="order_id" class="select">--}}
+                                {{--<option value="all">所有</option>--}}
+                                {{--<option value="0">否</option>--}}
+                                {{--<option value="1">是</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                    </div>
+                        </div>
+                <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="pl_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span><span class="r">共有数据：<strong>{{$counts}}</strong> 条</span><br> </div>
                 <table class="table table-border table-bordered table-bg" id="goods_index_table">
                     <thead>
                     <tr>
@@ -75,7 +121,7 @@
                     </tr>
                     <tr class="text-c">
                         <th width="25"><input type="checkbox" name="" value=""></th>
-                        <th width="40">ID</th>
+                        {{--<th width="40">ID</th>--}}
                         <th width="110">电话号码</th>
                         <th width="110">订单号</th>
                         <th width="70">单品名称</th>
@@ -105,10 +151,10 @@
                     "info": true,
                     "searching": true,
                     "ordering": true,
-                    "order": [[1, "desc"]],
+                    "order": [[9, "desc"]],
                     "stateSave": false,
                     "columnDefs": [{
-                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12,13],
+                        "targets": [0, 2, 3, 4, 5, 6,7,8,9,11,12],
                         "orderable": false
                     }],
                     "processing": true,
@@ -132,7 +178,16 @@
                             },
                             mark:function () {
                                 return $("#mark").val();
-                            }
+                            },
+                            // order_id:function () {
+                            //     return $("#order_id").val();
+                            // },
+                            // datemin:function () {
+                            //     return $("#datemin").val();
+                            // },
+                            // datemax:function () {
+                            //     return $("#datemax").val();
+                            // }
                         },
                         "url": "{{url('admin/message/get_table')}}",
                         "type": "POST",
@@ -140,7 +195,7 @@
                     },
                     "columns": [
                         {'defaultContent': "", "className": "td-manager"},
-                        {"data": 'message_id'},
+                        // {"data": 'message_id'},
                         {'data': 'message_mobile_num'},
                         {'data': 'order_single_id'},
                         {'data': 'goods_name'},
@@ -244,11 +299,11 @@
                             mark = '<span  id="marking_'+ data.message_id +'">未标记</span>';
                             mark ='<span class="label label-default radius" id="marking_'+ data.message_id +'">×</span>';
                         }
-                        $(row).find('td:eq(13)').html(del);
-                        $(row).find('td:eq(12)').html(mark);
-                        $(row).find('td:eq(9)').html(status);
-                        $(row).find('td:eq(5)').html(url);
-                        $(row).find('td:eq(6)').html(blade_type);
+                        $(row).find('td:eq(12)').html(del);
+                        $(row).find('td:eq(11)').html(mark);
+                        $(row).find('td:eq(8)').html(status);
+                        $(row).find('td:eq(4)').html(url);
+                        $(row).find('td:eq(5)').html(blade_type);
                         $(row).find('td:eq(0)').html(checkbox);
                         $(row).addClass('text-c');
                     }
@@ -272,6 +327,15 @@
                 $('#mark').on('input', function () {
                     $('#goods_index_table').dataTable().fnClearTable();
                 })
+                // $('#order_id').on('change', function() {
+                //     $('#goods_index_table').dataTable().fnClearTable();
+                // })
+                // $('#datemin').on('input', function() {
+                //     $('#goods_index_table').dataTable().fnClearTable();
+                // })
+                // $('#datemax').on('input', function() {
+                //     $('#goods_index_table').dataTable().fnClearTable();
+                // })
                 function del_messages(id){
                     var msg =confirm("确定要删除此短信吗？");
                     if(msg){
@@ -294,6 +358,23 @@
                         })
                     }
                 }
+                $("#outmessage").on('click', function () {
+                    var url= '{{ url('admin/message/export') }}' + '?';
+                    var area=$("#area").val()
+                    if(area){
+                        url += 'area=' + area + '&';
+                    }
+                    var datemin=$('#datemin').val();
+                    if(datemin != ''){
+                        url += 'datemin=' + datemin + '&';
+                    }
+                    var datemax=$('#datemax').val();
+                    if(datemax != ''){
+                        url += 'datemax=' + datemax + '&';
+                    }
+                    layer.msg('请稍等');
+                    location.href=url;
+                })
                 function pl_del(){
                     xuanzhe()
                     var msg =confirm("确定要批量删除这些短信吗？");
@@ -331,14 +412,15 @@
                     $.ajax({
                         url:"{{url('admin/message/mark')}}",
                         type:'get',
-                        data:{'id':id,'message_marking' : 0},
+                        data:{'id':id,'marking' : 0},
                         datatype:'json',
                         success:function(msg){
                             if(msg['err']==1){
                                 layer.msg(msg.str);
-                                $("#marking_" + id).text('已标记');
+                                $("#marking_" + id).replaceWith('<span class="label label-success radius" id="marking_'+ id +'">√</span>');
                                 // $("#markinga_" + id).title('取消标记');
                                 $("#markinga_" + id).replaceWith('<a id="markinga_'+ id + '" title="取消标记" href="javascript:;" onclick="remark_message(' + id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="取消标记"><i class="Hui-iconfont">&#xe676;</i></span></a>');
+                                $("#markinga_" + id).parent().parent().css("background","#00ff99");
                             }else{
                                 layer.msg('标记失败！');
                             }
@@ -349,14 +431,16 @@
                     $.ajax({
                         url:"{{url('admin/message/mark')}}",
                         type:'get',
-                        data:{'id':id,'message_marking' : 1},
+                        data:{'id':id,'marking' : 1},
                         datatype:'json',
                         success:function(msg){
                             if(msg['err']==1){
                                 layer.msg(msg.str);
-                                $("#marking_" + id).text('未标记');
+                                // $("#marking_" + id).text('×');
+                                $("#marking_" + id).replaceWith('<span class="label label-default radius" id="marking_'+ id +'">×</span>');
                                 // $("#markinga_" + id).title('打标记');
                                 $("#markinga_" + id).replaceWith('<a id="markinga_'+ id + '" title="打标记" href="javascript:;" onclick="mark_message(' + id + ')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="打标记"><i class="Hui-iconfont">&#xe677;</i></span></a>');
+                                $("#markinga_" + id).parent().parent().css("background","#FFC0CB");
                             }else{
                                 layer.msg('取消标记失败！');
                             }
