@@ -387,10 +387,10 @@
     <table class="data-table">
 
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+{{--    @if(in_array('user_help',$templets))--}}
     <tbody>
         
-        @if(in_array('user_know',$templets))
+{{--        @if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·用户须知</th>
         </tr>
@@ -400,8 +400,8 @@
                                         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         )联络我们，本公司享有最终解释权。</p>
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+{{--        @if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·如何申请退换货</th>
         </tr>
@@ -417,8 +417,8 @@
                                         ，售后客服会在收到消息后的1-3个工作日内受理您的请求，退换货所产生的运费由我方承担。
                 </p>
             </td></tr>
-            @endif
-        @if(in_array('exchange_of_goods',$templets))
+            {{--@endif--}}
+{{--        @if(in_array('exchange_of_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·退换货流程:</th>
         </tr>
@@ -439,13 +439,13 @@
             </td>
 
         </tr>
-        @endif
+        {{--@endif--}}
                 <tr class="first odd">
           
             
         </tr>
     </tbody>
-    @endif
+    {{--@endif--}}
 </table>
 <style>
     .footer2{
