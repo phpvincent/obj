@@ -394,9 +394,9 @@ s.parentNode.insertBefore(atag, s);
 <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
 <table class="data-table">
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+    {{--@if(in_array('user_help',$templets))--}}
     <tbody>
-        @if(in_array('user_know',$templets))
+        {{--@if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.peringatan</th>
         </tr>
@@ -407,8 +407,8 @@ s.parentNode.insertBefore(atag, s);
                                         <a href="mail:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>
                                         ),perusahaan kami memiliki hak interpretasi akhir.</p>
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+{{--        @if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.cara penggantian dan pengembalian</th>
         </tr>
@@ -438,7 +438,7 @@ Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layana
                     理您的請求，退換貨所產生的運費由我方承擔。
                 </p> -->
             </td></tr>
-        @endif
+        {{--@endif--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.alur penggantian dan pengembalian</th>
         </tr>
@@ -464,7 +464,7 @@ Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layana
         </tr>
                 <tr class="first odd"></tr>
             </tbody>
-        @endif
+        {{--@endif--}}
 </table>
 <style>
     .footer2{

@@ -389,10 +389,10 @@
     <table class="data-table">
 
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+    {{--@if(in_array('user_help',$templets))--}}
     <tbody>
         
-        @if(in_array('user_know',$templets))
+        {{--@if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">người sử dụng dùng cần biết</th>
         </tr>
@@ -402,8 +402,8 @@
                                         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>
                                         ) ,công ty chúng tôi có quyền giải thích cuối cùng. </p>
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+{{--        @if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">xin trả hàng và đổi hàng làm thế nào </th>
         </tr>
@@ -419,8 +419,8 @@
                                         phục vụ sau khi bán hàng sẽ trong1- 3 ngày nhận được email này,  xử lý yêu cầu của quý vị, phí vận chuyển của trả hàng và đổi hàng do công ty chúng tôi chịu. 
                 </p>
             </td></tr>
-            @endif
-        @if(in_array('exchange_of_goods',$templets))
+            {{--@endif--}}
+{{--        @if(in_array('exchange_of_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">quá trình trả hàng và đổi hàng</th>
         </tr>
@@ -443,13 +443,13 @@ Xét duyệt trả hàng và đổi hàng -trả tiền/đổi hàng.
             </td>
 
         </tr>
-        @endif
+        {{--@endif--}}
                 <tr class="first odd">
           
             
         </tr>
     </tbody>
-    @endif
+    {{--@endif--}}
 </table>
 <style>
     .footer2{

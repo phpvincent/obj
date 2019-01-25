@@ -491,9 +491,9 @@
 <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
 <table class="data-table">
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+    {{--@if(in_array('user_help',$templets))--}}
     <tbody>
-        @if(in_array('user_know',$templets))
+        {{--@if(in_array('user_know',$templets))--}}
         <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
         </tr>
@@ -505,11 +505,11 @@
                                         <a href="https://mail.google.com/mail/" style="color:#F8770E">yejforlh@gmail.com</a>
                                         ) for assistance. </p>
             </td></tr> -->
-        @endif
+        {{--@endif--}}
         <tr class="first odd">
-            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
         </tr>
-        @if(in_array('apply_goods',$templets))
+        {{--@if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
         </tr>
@@ -540,7 +540,7 @@
                     理您的請求，退換貨所產生的運費由我方承擔。
                 </p> -->
             </td></tr>
-        @endif
+        {{--@endif--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">.RETURENS POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy_1">CLICK HERE FOR DETAILS</span></th>
         </tr>
@@ -552,7 +552,7 @@
 
         </tr>
                 <tr class="first odd"></tr>
-        @endif
+        {{--@endif--}}
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">

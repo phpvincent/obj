@@ -395,10 +395,10 @@
     <table class="data-table">
 
     {{--用户帮助模块--}}
-    @if(in_array('user_help',$templets))
+    {{--@if(in_array('user_help',$templets))--}}
     <tbody>
         
-        @if(in_array('user_know',$templets))
+        {{--@if(in_array('user_know',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: right;">اشعار العميل </th>
         </tr>
@@ -408,8 +408,8 @@
                 قد تختلف نتائج هذا المنتج وفقا لاختلاف الاشخاص ,لا نضمن نفس النتائج لجميع العملاء ,لجميع الشكاوي والاستفسارات نرجو منكم التواصل معنا عبر البريد الالكتروني(<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>) او خدمه العملاء تحتفظ الشركه بحقوق الرد النهائيه
                 </p>
             </td></tr>
-        @endif
-        @if(in_array('apply_goods',$templets))
+        {{--@endif--}}
+{{--        @if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: right;">تقديم طلب الارجاع أو الابدال </th>
         </tr>
@@ -423,8 +423,8 @@
                                         طلب ارجاع أو استبدال المنتج لاسباب تتعلق بجودة المنتج :تواصل مع خدمه العملاء في خلال 7 أيام من تاريخ استلام المنتج ,او تواصل معنا عبر البريد الالكتروني (<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>),سيتم الرد عليك في خلال 3 ايام عمل من تاريخ استلام الطلب ,ستتحمل الشركه مصاريف الشحن                                       
                 </p>
             </td></tr>
-            @endif
-        @if(in_array('exchange_of_goods',$templets))
+            {{--@endif--}}
+{{--        @if(in_array('exchange_of_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: right;">عمليه ابدال او ارجاع المنتج </th>
         </tr>
@@ -445,13 +445,13 @@
             </td>
 
         </tr>
-        @endif
+        {{--@endif--}}
                 <tr class="first odd">
           
             
         </tr>
     </tbody>
-    @endif
+    {{--@endif--}}
 </table>
 <style>
     .footer2{

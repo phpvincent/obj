@@ -1,9 +1,11 @@
 <?php
 namespace App\channel;
 
+use App\goods;
 use App\goods_kind;
 use App\kind_val;
 use App\price;
+use App\url;
 use Excel;
 
 class excelData{
@@ -551,63 +553,282 @@ class excelData{
      */
     public static function ydnxy($data,$filename)
     {
-       $cellData[] = ['数量(为必填项，货物实际数量)','运费付款方式(为必填项)','到付运费金额','到付运费币种','转单号码','订单编号(为必填项且小于20给字符)','件数(为必填项，小包数量)','包装类型(为必填项)','收费实重','收费材重','指定路线','目的地(为必填项)','中文品名','英文品名(为必填项)','申报价值(为必填项)','申报币别(为必填项)','寄件公司','寄件人(为必填项)','寄件人电话','寄件人手机','寄件地址(为必填项)','寄件国家','寄件省','寄件城市','寄件邮编','收件人(为必填项)','收件人电话(为必填项)','收件地址(为必填项)','收件省','收件城市(为必填项)','收件地区','收件邮编(为必填项)','代收款','代收款币别','货物类型(为必填项)','赠品'];
-        foreach($data as $k => $v) {
+//       $cellData[] = ['数量(为必填项，货物实际数量)','运费付款方式(为必填项)','到付运费金额','到付运费币种','转单号码','订单编号(为必填项且小于20给字符)','件数(为必填项，小包数量)','包装类型(为必填项)','收费实重','收费材重','指定路线','目的地(为必填项)','中文品名','英文品名(为必填项)','申报价值(为必填项)','申报币别(为必填项)','寄件公司','寄件人(为必填项)','寄件人电话','寄件人手机','寄件地址(为必填项)','寄件国家','寄件省','寄件城市','寄件邮编','收件人(为必填项)','收件人电话(为必填项)','收件地址(为必填项)','收件省','收件城市(为必填项)','收件地区','收件邮编(为必填项)','代收款','代收款币别','货物类型(为必填项)','赠品'];
+//        foreach($data as $k => $v) {
+//            $exdata = [];
+//            //数量(为必填项，货物实际数量)
+//            $exdata[1] = $v['order_num'];
+//
+//            //运费付款方式(为必填项)
+//            $exdata[2] = ' ';
+//
+//            //到付运费金额
+//            $exdata[3] = ' ';
+//
+//            //到付运费币种
+//            $exdata[4] = ' ';
+//
+//            //转单号码
+//            $exdata[5] = ' ';
+//
+//            //订单编号(为必填项且小于20给字符)
+//            $exdata[6] = $v['order_single_id'];
+//
+//            //件数(为必填项，小包数量)
+//            $exdata[7] = 1;
+//
+//            //包装类型(为必填项)
+//            $exdata[8] = 'WPX';
+//
+//            //收费实重
+//            $exdata[9] = 0.1;
+//
+//            //收费材重
+//            $exdata[10] = 0.1;
+//
+//            //指定路线
+//            $exdata[11] = '印尼专线';
+//
+//            //目的地(为必填项)
+//            $exdata[12] = 'INA';
+//
+//            //中文品名
+//            $order_config = \App\order_config::where('order_primary_id', $v['order_id'])->get();
+//            if ($order_config->count() > 0) {
+//                $config_data = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->first();//产品属性
+//                if($config_data){
+//                    $config_msg = $config_data->goods_kind_name;
+//                    $config_english_msg = $config_data->goods_kind_english_name;
+//                }else{
+//                    $config_msg = '';
+//                    $config_english_msg = '';
+//                }
+////                $config_msg = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');//产品属性
+//                $i = 0;
+//                foreach ($order_config as $va) {
+//                    $i++;
+//                    $orderarr = explode(',', $va['order_config']);
+//                    $config_val = '';
+//                    $config_english_val = '';
+//                    foreach ($orderarr as $key => $val) {
+//                        $conmsg = \App\config_val::where('config_val_id', $val)
+//                            ->where(function ($query) use ($v) {
+//                                if ($v['goods_is_update'] == '1') {
+//                                    $query->where('kind_val_id', '>', 0);
+//                                }
+//                            })
+//                            ->first();
+//                        if ($conmsg == null) {
+//                            $conmsg = \App\config_val::where('config_val_id', $val)->first();
+//                        }
+//
+//                        if (isset($conmsg->kind_val_id) && $conmsg->kind_val_id) {
+//                            $config_val_data = kind_val::where('kind_val_id', $conmsg->kind_val_id)->first();
+//                            if($config_val_data){
+//                                $config_val_msg = $config_val_data->kind_val_msg;
+//                                $kind_val_english_msg = $config_val_data->kind_val_english_msg;
+//                            }else{
+//                                $config_val_msg = '';
+//                                $kind_val_english_msg = '';
+//                            }
+////                            $config_val_msg = kind_val::where('kind_val_id', $conmsg->kind_val_id)->value('kind_val_msg');
+//                        } else {
+//                            $config_val_msg = $conmsg['config_val_msg'];
+//                            $kind_val_english_msg = '';
+//                        }
+//                        $config_val .= $config_val_msg;
+//                        $config_english_val .= $kind_val_english_msg;
+//
+//                    }
+//                    $config_msg .= ','.$config_val;
+//                    $config_english_msg .= ','.$config_english_val;
+//                }
+//                //中文品名
+//                $exdata[13] = $config_msg;
+//
+//                //英文品名(为必填项)
+//                $exdata[14] = $config_english_msg;
+//            } else {
+//                //中文品名
+//                $exdata[13] = "";
+//
+//                //英文品名(为必填项)
+//                $exdata[14] = "";
+//            }
+//
+//            //申报价值(为必填项)
+//            $exdata[15] = $v['order_price'];
+//
+//
+//            //申报币别(为必填项)
+//            $exdata[16] = \App\currency_type::where('currency_type_id', $v['order_currency_id'])->value('currency_english_name');
+//
+//            //寄件公司
+//            $exdata[17] = 'ORIENTAL MAGIC';
+//
+//            //寄件人(为必填项)
+//            $exdata[18] = 'Miss Guo';
+//
+//            //寄件人电话
+//            $exdata[19] = '18739903577';
+//
+//            //寄件人手机
+//            $exdata[20] = '18739903577';
+//
+//            //寄件地址(为必填项)
+//            $exdata[21] = 'Jinshui District CBD Road Jin Building，Zhengzhou, China ';
+//
+//            //寄件国家
+//            $exdata[22] = 'CHINA';
+//
+//            //寄件省
+//            $exdata[23] = 'HENAN';
+//
+//            //寄件城市
+//            $exdata[24] = 'ZHENGZHOU';
+//
+//            //寄件邮编
+//            $exdata[25] = '450000';
+//
+//            //收件人(为必填项)
+//            $exdata[26] = $v['order_name'];
+//
+//            //收件人(为必填项)
+//            $exdata[27] = $v['order_tel'];
+//
+//            //收件地址(为必填项)
+//            if ($v['order_zip']) {
+//                $str = $v['order_add'];
+//                $pattern = '/(.*)\(Zip:(.*?)\)/';
+//                preg_match_all($pattern, $str, $p);
+//                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//                //收件地址(为必填项)
+//                $exdata[28] = $v['order_state'] . ' ' . $v['order_city']. ' ' . $v['order_village'] . '(' . $area_info . ')';
+//                //收件省
+//                $exdata[29] = $v['order_state'];
+//                //收件城市(为必填项)
+//                $exdata[30] = $v['order_city'];
+//                //收件地区
+//                $exdata[31] = $v['order_village'];
+//                //收件邮编(为必填项)
+//                $exdata[32] = $v['order_zip'];
+//            } else {
+//                $str = $v['order_add'];
+//                $pattern = '/(.*)\(Zip:(.*?)\)/';
+//                preg_match_all($pattern, $str, $p);
+//                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+//                //收件地址(为必填项)
+//                $exdata[28] = $v['order_state'] . ' ' . $v['order_city']. ' ' . $v['order_village'] . '(' . $area_info . ')';
+//                //收件省
+//                $exdata[29] = $v['order_state'];
+//                //收件城市(为必填项)
+//                $exdata[30] = $v['order_city'];
+//                //收件地区
+//                $exdata[31] = $v['order_village'];
+//                //收件邮编(为必填项)
+//                $exdata[32] = isset($p[2][0]) ? $p[2][0] : '';
+//            }
+//
+//            //代收款
+//            $exdata[33] = $v['order_price'];
+//
+//            //代代收款币别
+//            $exdata[34] = \App\currency_type::where('currency_type_id', $v['order_currency_id'])->value('currency_english_name');
+//
+//            //货物类型(为必填项)
+//            $exdata[35] = '普货';
+//
+//            //赠品
+//            $exdata[36] = price::where('price_id',$v['order_price_id'])->value('price_name');
+//
+//            array_push($cellData,$exdata);
+//        }
+       $cellData[] = ['订单编号','运单编号','收件人','收货地邮编','收件人电话','收件省份','收件城市','收件地区','收件详细地址','重量KG','体积','代收货款','保价费RMB','货物类型','备注','中文品名','英文品名','件数','申报价值','申报价值币别','物品分类1','物品分类2','物品分类3','物品描述','URL','目的国家','订单类型'];
+       foreach($data as $k => $v) {
             $exdata = [];
-            //数量(为必填项，货物实际数量)
-            $exdata[1] = $v['order_num'];
 
-            //运费付款方式(为必填项)
-            $exdata[2] = ' ';
+            //订单编号
+            $exdata[1] = $v['order_single_id'];
 
-            //到付运费金额
-            $exdata[3] = ' ';
+            //运单编号
+            $exdata[2] = "";
 
-            //到付运费币种
-            $exdata[4] = ' ';
+            //收件人
+            $exdata[3] = $v['order_name'];
 
-            //转单号码
-            $exdata[5] = ' ';
+            //收件地址(为必填项)
+            if ($v['order_zip']) {
+                $str = $v['order_add'];
+                $pattern = '/(.*)\(Zip:(.*?)\)/';
+                preg_match_all($pattern, $str, $p);
+                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                //收货地邮编
+                $exdata[4] = $v['order_zip'];
+                //收件人电话
+                $exdata[5] = $v['order_tel'];
+                //收件省
+                $exdata[6] = $v['order_state'];
+                //收件城市(为必填项)
+                $exdata[7] = $v['order_city'];
+                //收件地区
+                $exdata[8] = $v['order_village'];
+                //收件详细地址
+                $exdata[9] = $v['order_state'] . ' ' . $v['order_city']. ' ' . $v['order_village'] . '(' . $area_info . ')';
+            } else {
+                $str = $v['order_add'];
+                $pattern = '/(.*)\(Zip:(.*?)\)/';
+                preg_match_all($pattern, $str, $p);
+                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                //收件邮编(为必填项)
+                $exdata[4] = isset($p[2][0]) ? $p[2][0] : '';
+                //收件人电话
+                $exdata[5] = $v['order_tel'];
+                //收件省
+                $exdata[6] = $v['order_state'];
+                //收件城市(为必填项)
+                $exdata[7] = $v['order_city'];
+                //收件地区
+                $exdata[8] = $v['order_village'];
+                //收件详细地址
+                $exdata[9] = $v['order_state'] . ' ' . $v['order_city']. ' ' . $v['order_village'] . '(' . $area_info . ')';
+            }
 
-            //订单编号(为必填项且小于20给字符)
-            $exdata[6] = $v['order_single_id'];
+            //重量KG
+           $exdata[10] =0.01;
 
-            //件数(为必填项，小包数量)
-            $exdata[7] = 1;
+           //体积
+           $exdata[11] = "";
 
-            //包装类型(为必填项)
-            $exdata[8] = 'WPX';
+           //代收货款
+           $exdata[12] = $v['order_price'];
 
-            //收费实重
-            $exdata[9] = 0.1;
+           //保价费RMB
+           $exdata[13] = "";
 
-            //收费材重
-            $exdata[10] = 0.1;
+           //货物类型
+           $exdata[14] = "普货";
 
-            //指定路线
-            $exdata[11] = '印尼专线';
-
-            //目的地(为必填项)
-            $exdata[12] = 'INA';
-
-            //中文品名
-            $order_config = \App\order_config::where('order_primary_id', $v['order_id'])->get();
-            if ($order_config->count() > 0) {
+           $order_config = \App\order_config::where('order_primary_id', $v['order_id'])->get();
+           if ($order_config->count() > 0) {
                 $config_data = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->first();//产品属性
                 if($config_data){
+                    //备注
+                    $exdata[15] = $config_data->goods_kind_name;
+                    //英文品名
+                    $exdata[17] = $config_data->goods_kind_english_name;
                     $config_msg = $config_data->goods_kind_name;
-                    $config_english_msg = $config_data->goods_kind_english_name;
                 }else{
+                    //备注
+                    $exdata[15] = '';
+                    //英文品名
+                    $exdata[17] = '';
                     $config_msg = '';
-                    $config_english_msg = '';
                 }
-//                $config_msg = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_name');//产品属性
                 $i = 0;
                 foreach ($order_config as $va) {
                     $i++;
                     $orderarr = explode(',', $va['order_config']);
                     $config_val = '';
-                    $config_english_val = '';
                     foreach ($orderarr as $key => $val) {
                         $conmsg = \App\config_val::where('config_val_id', $val)
                             ->where(function ($query) use ($v) {
@@ -624,134 +845,68 @@ class excelData{
                             $config_val_data = kind_val::where('kind_val_id', $conmsg->kind_val_id)->first();
                             if($config_val_data){
                                 $config_val_msg = $config_val_data->kind_val_msg;
-                                $kind_val_english_msg = $config_val_data->kind_val_english_msg;
                             }else{
                                 $config_val_msg = '';
-                                $kind_val_english_msg = '';
                             }
-//                            $config_val_msg = kind_val::where('kind_val_id', $conmsg->kind_val_id)->value('kind_val_msg');
                         } else {
                             $config_val_msg = $conmsg['config_val_msg'];
-                            $kind_val_english_msg = '';
                         }
                         $config_val .= $config_val_msg;
-                        $config_english_val .= $kind_val_english_msg;
-
                     }
                     $config_msg .= ','.$config_val;
-                    $config_english_msg .= ','.$config_english_val;
+                    $special = price::where('price_id',$v['order_price_id'])->value('price_name');
+                    if($special){
+                        $config_msg .= '赠：'.$special;
+                    }
                 }
+
                 //中文品名
-                $exdata[13] = $config_msg;
+                $exdata[16] = $config_msg;
+           } else {
+               //备注
+               $exdata[15] = '';
+               //中文品名
+               $exdata[16] = "";
+               //英文品名
+               $exdata[17] = '';
+           }
 
-                //英文品名(为必填项)
-                $exdata[14] = $config_english_msg;
-            } else {
-                //中文品名
-                $exdata[13] = "";
+           //件数
+           $exdata[18] = $v['order_num'];
 
-                //英文品名(为必填项)
-                $exdata[14] = "";
-            }
+           //申报价值
+           $exdata[19] = $v['order_price'];
 
-            //申报价值(为必填项)
-            $exdata[15] = $v['order_price'];
+           //申报价值币别
+           $exdata[20] = "";
 
+           //物品分类1
+           $exdata[21] = "";
 
-            //申报币别(为必填项)
-            $exdata[16] = \App\currency_type::where('currency_type_id', $v['order_currency_id'])->value('currency_english_name');
+           //物品分类2
+           $exdata[22] = "";
 
-            //寄件公司
-            $exdata[17] = 'ORIENTAL MAGIC';
+           //物品分类3
+           $exdata[23] = "";
 
-            //寄件人(为必填项)
-            $exdata[18] = 'Miss Guo';
+           //物品描述
+           $exdata[24] = "";
 
-            //寄件人电话
-            $exdata[19] = '18739903577';
+           //URL
+           $exdata[25] = url::where('url_goods_id',$v['goods_id'])->value('url_url');
 
-            //寄件人手机
-            $exdata[20] = '18739903577';
+           //目的国家
+           $exdata[26] = "IDN";
 
-            //寄件地址(为必填项)
-            $exdata[21] = 'Jinshui District CBD Road Jin Building，Zhengzhou, China ';
+           //订单类型
+           $exdata[27] = "";
 
-            //寄件国家
-            $exdata[22] = 'CHINA';
-
-            //寄件省
-            $exdata[23] = 'HENAN';
-
-            //寄件城市
-            $exdata[24] = 'ZHENGZHOU';
-
-            //寄件邮编
-            $exdata[25] = '450000';
-
-            //收件人(为必填项)
-            $exdata[26] = $v['order_name'];
-
-            //收件人(为必填项)
-            $exdata[27] = $v['order_tel'];
-
-            //收件地址(为必填项)
-            if ($v['order_zip']) {
-                $str = $v['order_add'];
-                $pattern = '/(.*)\(Zip:(.*?)\)/';
-                preg_match_all($pattern, $str, $p);
-                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                //收件地址(为必填项)
-                $exdata[28] = $v['order_state'] . ' ' . $v['order_city']. ' ' . $v['order_village'] . '(' . $area_info . ')';
-                //收件省
-                $exdata[29] = $v['order_state'];
-                //收件城市(为必填项)
-                $exdata[30] = $v['order_city'];
-                //收件地区
-                $exdata[31] = $v['order_village'];
-                //收件邮编(为必填项)
-                $exdata[32] = $v['order_zip'];
-            } else {
-                $str = $v['order_add'];
-                $pattern = '/(.*)\(Zip:(.*?)\)/';
-                preg_match_all($pattern, $str, $p);
-                $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                //收件地址(为必填项)
-                $exdata[28] = $v['order_state'] . ' ' . $v['order_city']. ' ' . $v['order_village'] . '(' . $area_info . ')';
-                //收件省
-                $exdata[29] = $v['order_state'];
-                //收件城市(为必填项)
-                $exdata[30] = $v['order_city'];
-                //收件地区
-                $exdata[31] = $v['order_village'];
-                //收件邮编(为必填项)
-                $exdata[32] = isset($p[2][0]) ? $p[2][0] : '';
-            }
-
-            //代收款
-            $exdata[33] = $v['order_price'];
-
-            //代代收款币别
-            $exdata[34] = \App\currency_type::where('currency_type_id', $v['order_currency_id'])->value('currency_english_name');
-
-            //货物类型(为必填项)
-            $exdata[35] = '普货';
-
-            //赠品
-            $exdata[36] = price::where('price_id',$v['order_price_id'])->value('price_name');
-
-            array_push($cellData,$exdata);
-        }
+           array_push($cellData,$exdata);
+       }
         // 菜单 样式
         Excel::create($filename,function($excel) use ($cellData,$filename){
             $excel->sheet($filename, function($sheet) use ($cellData) {
                 $sheet->rows($cellData);
-                $i = 1;
-                foreach ($cellData as $k=>$value) {
-                    $sheet->cells('H'.$i.':L'.$i, function($cells) {
-                        $cells->setFontColor('#F51322');
-                    });
-                    $i++;
-                }
             });
         })->export('xls');
     }
