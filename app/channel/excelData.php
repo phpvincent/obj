@@ -812,17 +812,13 @@ class excelData{
            if ($order_config->count() > 0) {
                 $config_data = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->first();//产品属性
                 if($config_data){
-                    //备注
-                    $exdata[15] = $config_data->goods_kind_name;
-                    //英文品名
-                    $exdata[17] = $config_data->goods_kind_english_name;
                     $config_msg = $config_data->goods_kind_name;
+                    $config_name_msg = $config_data->goods_kind_name;
+                    $config_msg_name_english = $config_data->goods_kind_english_name;
                 }else{
-                    //备注
-                    $exdata[15] = '';
-                    //英文品名
-                    $exdata[17] = '';
                     $config_msg = '';
+                    $config_name_msg = '';
+                    $config_msg_name_english = '';
                 }
                 $i = 0;
                 foreach ($order_config as $va) {
@@ -859,9 +855,12 @@ class excelData{
                         $config_msg .= '赠：'.$special;
                     }
                 }
-
+                //备注
+                $exdata[15] = $config_name_msg;
                 //中文品名
                 $exdata[16] = $config_msg;
+                //英文品名
+                $exdata[17] = $config_msg_name_english;
            } else {
                //备注
                $exdata[15] = '';
