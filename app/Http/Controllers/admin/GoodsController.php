@@ -1927,15 +1927,5 @@ class GoodsController extends Controller
             return response()->json(['err' => 1, 'str' => '保存成功！']);
         }
     }
-
-    /**
-     * 调试数据 2019-01-25
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function delete_dev()
-    {
-        goods_templet::where('templet_id',29)->delete();
-        return response()->json(['err' => 1, 'str' => '清楚标识成功！']);
-    }
 }
   
