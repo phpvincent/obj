@@ -37,7 +37,7 @@
 <div class="djs">
 <div class="djstu1">
 <a href="/cate/">
-<img src="{{  }}" width="308" height="380">
+<img src="" width="308" height="380">
 </a>
 </div>
 <div class="djstu2">
