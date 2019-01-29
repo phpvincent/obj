@@ -9,7 +9,6 @@ class SiteController extends Controller
 {
     public function index(Request $request)
     {
-    	dd('?');
     	$site_id=$request->get('site_id');
     	if($site_id<=0){
     		\Log::info($_SERVER['SERVER_NAME'].'获取site_id失败,site_id:'.$site_id.'ip:'.$request->getClientIp());
