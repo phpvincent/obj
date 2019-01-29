@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\home;
 
+use App\site_active;
 use App\site_class;
+use App\site_img;
 use App\url;
 use App\goods;
 use App\img;
@@ -30,7 +32,9 @@ class SiteController extends Controller
     	$site=site::where([['sites_id',$site_id],['status',0]])->first();
     	$site->url = url::where('url_site_id', $site_id)->value('url_url');
     	$cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show',1)->where('site_site_id', $site_id)->get();
-    	return view('home.ydzshome.index')->with(compact('site','cates'));
+    	$banners = site_img::where('site_site_id',$site_id)->get();
+    	$activities = site_active::where('site_id', $site_id)->orderBy('site_active_type','asc')->get()->toArray();
+    	return view('home.ydzshome.index')->with(compact('site','cates', 'banners', 'activities'));
     }
     public function get_site_goods(Request $request)
     {

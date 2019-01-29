@@ -13,27 +13,26 @@
     <link rel="shortcut icon" href="https://vivishop.looaon.com/favicon/default/logo-159t2ljb68a6xlehh7s62t79r1.png"
           type="image/x-icon"/>
     <link rel="alternate" media="only screen and (max-width: 640px)" href="{{ $site->url }}">
-    <link rel="stylesheet" type="text/css" href="css/site_css/default.css"/>
-    <link rel="stylesheet" type="text/css" href="css/site_css/iconfont.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="css/site_css/style.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="css/site_css/swiper.min.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="css/site_css/public.css" media="all"/>
-    {{--<script type="text/javascript" src="js/site_js/require.js"></script>--}}
-    <script type="text/javascript" src="js/site_js/prototype.js"></script>
-    <script type="text/javascript" src="js/site_js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/site_js/noconflict.js"></script>
-    <script type="text/javascript" src="js/site_js/validation.js"></script>
-    <script type="text/javascript" src="js/site_js/js.js"></script>
-    <script type="text/javascript" src="js/site_js/form.js"></script>
-    <script type="text/javascript" src="js/site_js/translate.js"></script>
-    <script type="text/javascript" src="js/site_js/cookies.js"></script>
-    <script type="text/javascript" src="js/site_js/simple-share.js"></script>
-    <script type="text/javascript" src="js/site_js/total.js"></script>
-    <script type="text/javascript" src="js/site_js/main.js"></script>
-    <script type="text/javascript" src="js/site_js/base.js"></script>
-    <script type="text/javascript" src="js/site_js/index.js"></script>
-    <script type="text/javascript" src="js/site_js/hhswipe.js"></script>
-    <script type="text/javascript" src="js/site_js/swiper-3.4.0.jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/site_css/default.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/site_css/iconfont.css') }}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/site_css/style.css') }}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/site_css/swiper.min.css') }}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/site_css/public.css') }}" media="all"/>
+    <script type="text/javascript" src="{{ asset('js/site_js/prototype.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/jquery-1.10.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/noconflict.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/js.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/form.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/translate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/simple-share.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/total.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/base.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/hhswipe.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/swiper-3.4.0.jquery.min.js') }}"></script>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 </head>
