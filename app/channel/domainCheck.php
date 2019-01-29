@@ -248,6 +248,7 @@ class domainCheck{
             $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
             if($goods_id==0){
             	if($request->has('goods_id')) $vis->vis_goods_id=$request->input('goods_id');
+            	if(isset($request->goods_id)&&$request->goods_id>0) $vis->vis_goods_id=$request->goods_id;
             }
             $vis->save();  
             setcookie('isr_vis',$vis->vis_id,time()+600);
@@ -276,6 +277,7 @@ class domainCheck{
               $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
               if($goods_id==0){
               	if($request->has('goods_id')) $vis->vis_goods_id=$request->input('goods_id');
+              	if(isset($request->goods_id)&&$request->goods_id>0) $vis->vis_goods_id=$request->goods_id;
               }
               $vis->save();  
               setcookie('isr_vis',$vis->vis_id,time()+600);

@@ -41,8 +41,8 @@
     <div class="global-site-notice noscript">
         <div class="notice-inner">
             <p>
-                <strong>JavaScript的似乎要在您的瀏覽器禁用。</strong><br/>
-                您必須在瀏覽器中啟用JavaScript才能使用本網站的功能。 </p>
+                <strong>You must enable JavaScript in your browser to use the functionality of this site.</strong><br/>
+            </p>
         </div>
     </div>
 </noscript>
@@ -50,7 +50,7 @@
 <header class="maintop">
     <div class="header">
         <a href="javascript:void(0);" id="cd-menu-trigger"><span class="cd-menu-icon"></span></a>
-        <a href="http://{{ $site->url }}"><img alt="{{ $site->sites_name }}" src="picture/logo.png"/></a>
+        <a href="/"><img alt="{{ $site->sites_name }}" src="picture/logo.png"/></a>
         <a href="#" class="seach newiconfont newicon-sousuotiaofangdajingqz11" data-animation="fade"
            data-reveal-id="myModal"></a>
     </div>
