@@ -1,4 +1,4 @@
-﻿@extends('home.site.header')
+﻿@extends('home.ydzshome.header')
 @section('content')
 <div class="std"><p>
 </p></div>
