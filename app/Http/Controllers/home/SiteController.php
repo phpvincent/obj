@@ -17,4 +17,5 @@ class SiteController extends Controller
     	$site=site::where([['sites_id',$site_id],['status',0]])->first();
     	return view('home.ydzshome.index')->with(compact('site'));
     }
+
 }

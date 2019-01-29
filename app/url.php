@@ -29,6 +29,13 @@ class url extends Model
         if(substr($url,0,4)=='www.'){
             $url=substr($url, 4);
         }
+        if(url::where('url_url',$url)->first()['url_site_id']>0){
+            if($request->has('goods_id')){
+                return $request->input('goods_id');
+            }else{
+                return 4;
+            }
+        }
         $level=self::where('url_url',$url)->first(['url_zz_level']);
         if($level==null){
             $level='4';
