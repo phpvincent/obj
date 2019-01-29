@@ -285,4 +285,4 @@
 <main class="cd-main-content">
     @yield('content')
 </main>
-@include('home.site.footer')
+@include('home.ydzshome.footer')
