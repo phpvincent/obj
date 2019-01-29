@@ -2,8 +2,19 @@
 
 namespace App\Http\Controllers\home;
 
+use App\site_active;
 use App\site_class;
+use App\site_img;
 use App\url;
+use App\goods;
+use App\img;
+use App\comment;
+use App\des;
+use App\par;
+use App\cuxiao;
+use App\order;
+use App\vis;
+use App\templet_show;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\site;
@@ -21,7 +32,9 @@ class SiteController extends Controller
     	$site=site::where([['sites_id',$site_id],['status',0]])->first();
     	$site->url = url::where('url_site_id', $site_id)->value('url_url');
     	$cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show',1)->where('site_site_id', $site_id)->get();
-    	return view('home.ydzshome.index')->with(compact('site','cates'));
+    	$banners = site_img::where('site_site_id',$site_id)->get();
+    	$activities = site_active::where('site_id', $site_id)->orderBy('site_active_type','asc')->get()->toArray();
+    	return view('home.ydzshome.index')->with(compact('site','cates', 'banners', 'activities'));
     }
     public function get_site_goods(Request $request)
     {
@@ -45,5 +58,129 @@ class SiteController extends Controller
 	    ->limit($limit)
 	    ->get();
 	    return json_encode($goods);
+    }
+    public function goods(Request $request,$goods_id)
+    {
+    	$site_id=$request->get('site_id');
+    	$site=site::where([['sites_id',$site_id],['status',0]])->first();
+    	$site->url = url::where('url_site_id', $site_id)->value('url_url');
+    	$cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show',1)->where('site_site_id', $site_id)->get();
+    	$imgs=img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->get(['img_url']);
+    	$goods=goods::where('goods_id',$goods_id)->first();
+    	if($goods==null) return view('home.ydzshome.404')->with(compact('site','cates'));
+    	$comment=comment::where(['com_goods_id'=>$goods_id,'com_isshow'=>'1'])->orderBy('com_order','desc')->get();
+        foreach($comment as $v=> $key){
+           /* $usename=mb_substr($key->com_name,0,1);
+            $usename.='*';
+            if(strlen($key->com_name)>2){
+              $usename.=mb_substr($key->com_name,2);
+            }
+            $comment[$v]->com_name=$usename;*/
+            $com_imgs=\App\com_img::where('com_primary_id',$key->com_id)->get();
+            if(count($com_imgs)>0){
+                 $comment[$v]->com_img=$com_imgs;
+             }else{
+                $comment[$v]->com_img=null;
+             }
+            $comment[$v]->com_time=date('Y-m-d H:i:s',time()-rand(68400,129600));
+        }
+    	$des_img=des::where('des_goods_id',$goods_id)->get();
+    	$par_img=par::where('par_goods_id',$goods_id)->get();
+    	$cuxiao=cuxiao::where('cuxiao_goods_id',$goods_id)->orderBy('cuxiao_id','asc')->first();
+    	//获取倒计时计算为秒数
+        $timer=$goods->goods_end;
+        $parsed = date_parse($timer);
+        $goods->goods_end=$parsed['hour'] * 3600+$parsed['minute'] * 60+$parsed['second'];
+
+        //获取页面显示内容(2018-10-31 修改代码)
+        $goods_templet_ids = \App\goods_templet::where('goods_id',$goods_id)->pluck('templet_id')->toArray();
+        $templets = templet_show::whereIn('templet_show_id',$goods_templet_ids)->pluck('templet_english_name')->toArray();
+        $center_nav = count($templets);
+//        $goods_templet = \App\goods_templet::where('goods_id',$goods_id)->get();
+//        $templets = [];
+//        $center_nav = 0;  //中部导航显示个数
+//        if(!$goods_templet->isEmpty()){
+//            foreach ($goods_templet as $item)
+//            {
+//                if(isset($item->templet_has_show->templet_english_name)){
+//                    if($item->templet_has_show->templet_english_name == 'introduce'){
+//                        $center_nav++;
+//                    }
+//                    if($item->templet_has_show->templet_english_name == 'specifications'){
+//                        $center_nav++;
+//                    }
+//                    if($item->templet_has_show->templet_english_name == 'evaluate'){
+//                        $center_nav++;
+//                    }
+//                    array_push($templets,$item->templet_has_show->templet_english_name);
+//                }
+//            }
+//        }
+
+        //模板渲染
+        $blade_type=$goods->goods_blade_type;
+        switch ($blade_type) {
+            case '0':
+            return view('home.TaiwanFan.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+                break;
+            case '1':
+            return view('home.TaiwanJian.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+                break;
+            case '2':
+            return view('home.zhongdong.zhongdong')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+                break;
+            case '3':
+            return  view('home.MaLaiXiYa.mlxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '4':
+            return view('home.TaiGuo.taiguo')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '5':
+            return view('home.RiBen.riben')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '6':
+            return view('home.YinDuNiXiYa.ydnxy')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '7':
+            return view('home.FeiLvBin.flb')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '8':
+            return view('home.YingGuo.yg')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '9':
+            $user_type=get_user_new_type();
+            if(in_array($user_type,['Android','iPhone','iPad'])){
+            return view('home.YingGuo.yg')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            }
+            return view('home.googlePC.index')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '10':
+            return view('home.MeiGuo.us')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '11':
+            return view('home.YueNan.yn')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '12':
+            return view('home.ShaTe.st')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '13':
+            return view('home.ShaTeEnglish.st')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '14':
+            return view('home.KaTaEr.kte')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '15':
+            return view('home.KaTaErEnglish.kte')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '16':
+            return view('home.ZD.zd')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            case '17':
+            return view('home.ZDEnglish.zd')->with(compact('imgs','goods','comment','des_img','par_img','cuxiao','templets','center_nav'));
+            break;
+            default:
+                # code...
+                break;
+        }
     }
 }

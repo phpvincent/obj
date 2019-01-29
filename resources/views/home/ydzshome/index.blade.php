@@ -2,23 +2,22 @@
 @section('content')
 <div class="std"><p>
 </p></div>
+@if(count($banners)>0)
 <div class="addWrap">
 <div class="swipe" id="mySwipes" style="visibility: visible;">
 <div class="swipe-wrap">
-<div><a href="/light-thin.html"><img class="img-responsive" src="picture/mianma-730x400.jpg" alt=""></a></div>
-<div><a href="/zngym-bag.html"><img class="img-responsive" src="picture/qq图片20180227150004-730x400.jpg" alt=""></a></div>
-<div><a href="/as-pillow.html"><img class="img-responsive" src="picture/hometw1654-730x400.jpg" alt=""></a></div>
-<div><a href="/kitchen-supplies-korea-rice-stone-fry.html"><img class="img-responsive" src="picture/qq图片20180112160501-730x400.jpg" alt=""></a></div>
+    @foreach($banners as $banner)
+    <div><a @if($banner->site_goods_id) href="/goods/{{ $banner->site_goods_id }}" @else href="" @endif><img class="img-responsive" src="{{ $banner->site_img }}" alt=""></a></div>
+    @endforeach
 </div>
 </div>
 <ul id="position">
-<li class="cur"></li>
-<li class=" "></li>
-<li class=" "></li>
-<li class=" "></li>
+    @foreach($banners as $banner)
+ <li class=" "></li>
+    @endforeach
 </ul>
 </div>
-
+@endif
 <div class="static_nav">
 <div class="ind-nav" style="visibility: visible;">
 <ul class="li_nav">
@@ -37,8 +36,8 @@
 </div>
 <div class="djs">
 <div class="djstu1">
-<a href="/yundongxie.html">
-<img src="picture/jop.jpg" width="308" height="380">
+<a href="/cate/">
+<img src="" width="308" height="380">
 </a>
 </div>
 <div class="djstu2">
