@@ -23,8 +23,19 @@
     cursor:pointer;
 }
 .box li:nth-child(odd){background:#F4F4F4;}
-.deletes{
+.deletes,.xinpin_deletes,.miaosha_deletes,.remai_deletes{
     cursor: pointer;
+}
+.xinpin_add,.miaosha_add,.remai_add{
+    cursor: pointer;
+    display: inline-block;
+    margin-left:6px;
+    border:1px solid #666;
+    padding:2px 6px;
+}
+.title{
+    font-size:20px;
+    color:#333
 }
 </style>
     <article class="page-container">
@@ -98,23 +109,51 @@
                     {{--<input type="text" class="input-text" value="" placeholder="" id="role_name" name="role_name">--}}
                 {{--</div>--}}
                 <div class="col-xs-10 col-sm-10">
-                    <label for="">新品推荐</label>
-                    <div>
-                        关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
-                        <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
-                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                    <div class="xinpin">
+                        <label class="title" for="">新品推荐</label><span class="xinpin_add">添加</span>
+                        <div style="margin-top:10px;    position: relative;">
+                            <div>
+                                关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                                <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+                                <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                                <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
+                            </div>
+                            <div class="box" style="display: none;">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <label for="">秒杀抢购</label>
-                    <div>
-                        关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
-                        <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
-                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                    <div class="miaosha" style="margin-top:10px">
+                        <label class="title" for="">秒杀抢购</label><span class="miaosha_add">添加</span>
+                        <div style="margin-top:10px;    position: relative;">
+                            <div>
+                                关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                                <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+                                <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                                <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
+                            </div>
+                            <div class="box" style="display: none;">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <label for="">热卖推荐</label>
-                    <div>
-                        关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
-                        <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
-                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                    <div class="remai" style="margin-top:10px">
+                        <label class="title" for="">热卖推荐</label><span class="remai_add">添加</span>
+                        <div style="margin-top:10px;    position: relative;">
+                            <div>
+                                关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                                <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
+                                <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                                <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
+                            </div>
+                            <div class="box" style="display: none;">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -181,7 +220,64 @@
 		$("#pzhtml").append(html);
 		index+=1;
 	});
-	$('body').on("click",".deletes",function(){
+    $('body').on("click",".deletes",function(){
+		$(this).parent().remove();
+	})
+    // 新品推荐添加
+    $('.xinpin_add').on("click",function(){
+        var html = '<div style="margin-top:10px; position: relative;">'
+                        +'<div>'
+                            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">'
+                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">'
+                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,"$1");}).call(this)" onblur="this.v();"  id="goods_config" name="">'
+                            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
+                        +'</div>'
+                        +'<div class="box" style="display: none;">'
+                            +'<ul>'
+                            +'</ul>'
+                        +'</div>'
+                    +'</div>';
+        $('.xinpin').append(html)
+    })
+	$('body').on("click",".xinpin_deletes",function(){
+		$(this).parent().remove();
+	})
+    // 秒杀添加
+    $('.miaosha_add').on("click",function(){
+        var html = '<div style="margin-top:10px; position: relative;">'
+                        +'<div>'
+                            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">'
+                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">'
+                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,"$1");}).call(this)" onblur="this.v();"  id="goods_config" name="">'
+                            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
+                        +'</div>'
+                        +'<div class="box" style="display: none;">'
+                            +'<ul>'
+                            +'</ul>'
+                        +'</div>'
+                    +'</div>';
+        $('.miaosha').append(html)
+    })
+	$('body').on("click",".miaosha_deletes",function(){
+		$(this).parent().remove();
+	})
+    // 热卖添加
+    $('.remai_add').on("click",function(){
+        var html = '<div style="margin-top:10px; position: relative;">'
+                        +'<div>'
+                            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">'
+                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">'
+                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,"$1");}).call(this)" onblur="this.v();"  id="goods_config" name="">'
+                            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
+                        +'</div>'
+                        +'<div class="box" style="display: none;">'
+                            +'<ul>'
+                            +'</ul>'
+                        +'</div>'
+                    +'</div>';
+        $('.remai').append(html)
+    })
+	$('body').on("click",".remai_deletes",function(){
 		$(this).parent().remove();
 	})
     // 搜索下拉框
