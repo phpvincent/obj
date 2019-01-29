@@ -53,12 +53,6 @@ use App\channel\mailControl;
 	Route::match(['get', 'post'], '/endsuccess','home\IndexController@endsuccess');
 	Route::match(['get', 'post'], '/endfail','home\IndexController@endfail');
 	Route::match(['get', 'post'], '/expressCheckoutSuccess','home\IndexController@expressCheckoutSuccess');
-
-	//测试使用开始
-	Route::get('test', 'home\IndexController@test');
-	Route::get('header', 'home\IndexController@header');
-	Route::get('footer', 'home\IndexController@footer');
-	//测试使用结束
 });
 Route::middleware([])->group(function(){
 	Route::any('/order/save_testcom','home\IndexController@savetestform');

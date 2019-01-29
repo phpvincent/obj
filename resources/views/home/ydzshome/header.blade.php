@@ -3,10 +3,10 @@
 <head>
     <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>{{ $site.site_name }}</title>
+    <title>{{ $site.sites_name }}</title>
     <meta name="format-detection" content="telephone=no">
-    <meta name="description" content=" {{ $site.site_name }}"/>
-    <meta name="keywords" content="{{ $site.site_name }}"/>
+    <meta name="description" content=" {{ $site.sites_name }}"/>
+    <meta name="keywords" content="{{ $site.sites_name }}"/>
     <meta name="robots" content="INDEX,FOLLOW"/>
     <link rel="icon" href="https://vivishop.looaon.com/favicon/default/logo-159t2ljb68a6xlehh7s62t79r1.png"
           type="image/x-icon"/>
@@ -51,14 +51,9 @@
 <header class="maintop">
     <div class="header">
         <a href="javascript:void(0);" id="cd-menu-trigger"><span class="cd-menu-icon"></span></a>
-        {{--<a href="https://www.vivishop.tw/customer/account/"><span--}}
-                    {{--class="yh-icon newiconfont newicon-yonghu3"></span></a>--}}
-        <a href="https://www.vivishop.tw/"><img alt="VIVISHOP嚴選品牌旗艦店" src="picture/logo.png"/></a>
+        <a href="{{ $site.url }}"><img alt="{{ $site.sites_name }}" src="picture/logo.png"/></a>
         <a href="#" class="seach newiconfont newicon-sousuotiaofangdajingqz11" data-animation="fade"
            data-reveal-id="myModal"></a>
-        {{--<a id="bag" class="cat newiconfont newicon-gouwudai" href="https://www.vivishop.tw/checkout/cart/">--}}
-            {{--<i data-number="0">0</i>--}}
-        {{--</a>--}}
     </div>
 </header>
 <nav id="cd-lateral-nav" class="">

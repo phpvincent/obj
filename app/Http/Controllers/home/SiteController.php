@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\home;
 
+use App\site_class;
+use App\url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\site;
@@ -15,6 +17,8 @@ class SiteController extends Controller
     		 return redirect('index/fb');
     	}
     	$site=site::where([['sites_id',$site_id],['status',0]])->first();
-    	return view('home.ydzshome.index')->with(compact('site'));
+    	$site->url = url::where('url_site_id', $site_id)->value('url_url');
+    	$cates = site_class::where('site_site_id', $site_id)->orderBy('site_class_sort')->get();
+    	return view('home.ydzshome.index')->with(compact('site','cates'));
     }
 }
