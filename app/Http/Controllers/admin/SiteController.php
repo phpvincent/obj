@@ -159,12 +159,12 @@ class SiteController extends Controller
             $goods_type_sort = $request->input('goods_type_sort');
             $site_class = [];
             foreach ($goods_type_id as $key=>$item) {
-                $arr['site_class_sort'] = $goods_type_sort[$key];
-                $arr['site_class_show_name'] = $goods_type_show_name[$key];
-                $arr['site_goods_type_id'] = $item;
-                $arr['site_is_show'] = isset($goods_type_isshow[$key]) ? 0 : 1;
-                $arr['site_site_id'] = $site->sites_id;
-                array_push($site_class,$arr);
+                $arra['site_class_sort'] = $goods_type_sort[$key];
+                $arra['site_class_show_name'] = $goods_type_show_name[$key];
+                $arra['site_goods_type_id'] = $item;
+                $arra['site_is_show'] = isset($goods_type_isshow[$key]) ? 0 : 1;
+                $arra['site_site_id'] = $site->sites_id;
+                array_push($site_class,$arra);
             }
 
             $data_class = site_class::insert($site_class);
@@ -175,7 +175,7 @@ class SiteController extends Controller
             //特殊分类 //1.新品推荐;2.秒杀抢购;3.热卖推荐
             $site_active = $request->input('site_active');
             foreach ($site_active as $key => $value){
-                $img = $request->file($site_active[$key]['img']);
+                $img = $request->file('site_active')[$key]['img'];
                 if(filesize($img) > 8192*1024){
                     return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
                 }
@@ -201,7 +201,7 @@ class SiteController extends Controller
                 $site_active_good = [];
                 foreach ($goods_id as $keys=>$item){
                     $array['site_good_id'] = $item;
-                    $array['site_active_id'] = $data_site_active->site_active_id;
+                    $array['site_active_id'] = $ss->site_active_id;
                     $array['sort'] = $sort[$keys];
                     array_push($site_active_good,$array);
                 }

@@ -132,6 +132,7 @@
         });
         $('#add-site').on('click',function () {
             layer_show('新增站点','/admin/sites/add',1200,800);
+            dataTable.ajax.reload();
         });
 
         function del_vis(id){
