@@ -63,13 +63,14 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点轮播图：</label>
-                <div style="margin:0px auto; width: 73%;margin-left:18%; " id="pzhtml">
+                <div style="margin:0 auto; width: 73%;margin-left:18%; " id="pzhtml">
                     <input type="button" class="btn btn-default" value="增加轮播图" id="addpz" style="margin-left:18%;" />
-                    <div  style="margin-top:6px;    position: relative; " >
+                    <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" id="num" name="num">
+                    <div  style="margin-top:6px;position: relative; " >
                         <div>
-                            关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
-                            <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
-                            轮播图片:<input type="file" id="size_file"style="width: 22%;" class="input-text" value="" placeholder=""name="size_file" accept="image/png,image/gif,image/jpg,image/jpeg">
+                            关联商品:<input type="text" style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                            <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="goods[0]" value="">
+                            轮播图片:<input type="file" id="size_file" style="width: 22%;" class="input-text" value="" placeholder="" name="size_file[0]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <span class="deletes"><i class="Hui-iconfont"></i></span>
                         </div>
                         <div class="box" style="display: none;">
@@ -85,41 +86,36 @@
                     @foreach($goods_type as $item)
                     <div style="margin-top: 10px">
                         <label>商品分类:</label> <input type="text" readonly style="width: 20%;vertical-align:middle; " class="input-text" value="{{$item->goods_type_name}}" placeholder="" id="goods_config">
-                        <label>展示分类:</label> <input type="text" style="width: 20%;vertical-align:middle; " class="input-text" value="" placeholder="" id="goods_config" name="">
-                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
-                        <input type="checkbox" id="config_isshow" class="price" name="" style="vertical-align:middle;cursor:pointer;" value="1"><label for="price">隐藏分类</label>
+                        <input type="text" style="display: none" class="input-text" value="{{$item->goods_type_id}}" name="goods_type_id[{{$item->goods_type_id}}]" id="goods_config">
+                        <label>展示分类:</label> <input type="text" style="width: 20%;vertical-align:middle; " class="input-text" value="" placeholder="" id="goods_config" name="goods_type_show_name[{{$item->goods_type_id}}]">
+                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="goods_type_sort[{{$item->goods_type_id}}]">
+                        <input type="checkbox" checked id="config_isshow" class="price" name="goods_type_isshow[{{$item->goods_type_id}}]" style="vertical-align:middle;cursor:pointer;" value="1"><label for="price">隐藏分类</label>
                     </div>
                     @endforeach
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>特殊分类：</label>
-                {{--<div class="formControls col-xs-8 col-sm-9">--}}
-                    {{--<input type="text" class="input-text" value="" placeholder="" id="role_name" name="role_name">--}}
-                {{--</div>--}}
                 <div class="col-xs-10 col-sm-10">
-                    <label for="">新品推荐</label>
+                    <label style="margin-top: 10px" for="">新品推荐</label>
                     <div>
-                        关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                        关联商品:<input type="text" style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
                         <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
                         <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
                     </div>
-                    <label for="">秒杀抢购</label>
+                    <label style="margin-top: 10px" for="">秒杀抢购</label>
                     <div>
-                        关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                        关联商品:<input type="text" style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
                         <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
                         <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
                     </div>
-                    <label for="">热卖推荐</label>
+                    <label style="margin-top: 10px" for="">热卖推荐</label>
                     <div>
-                        关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                        关联商品:<input type="text" style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
                         <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">
                         <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
                     </div>
                 </div>
-
-
-
             </div>
 
             <div class="row cl">
@@ -166,11 +162,14 @@
         });
         var index=1;
 	$("#addpz").on("click",function(){
+        var a = $('#num').val();
+        a++;
+        console.log(a+"==================");
 		var html='<div  style="margin-top:6px;    position: relative; " >'
                         +'<div>'
                             +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">'
-                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">'
-                            +'轮播图片:<input type="file" id="size_file"style="width: 22%;" class="input-text" value="" placeholder=""name="size_file" accept="image/png,image/gif,image/jpg,image/jpeg">'
+                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods['+ a +']" value="">'
+                            +'轮播图片:<input type="file" id="size_file"style="width: 22%;" class="input-text" value="" placeholder=""name="size_file['+ a +']" accept="image/png,image/gif,image/jpg,image/jpeg">'
                             +'<span class="deletes"><i class="Hui-iconfont"></i></span>'
                         +'</div>'
                         +'<div class="box" style="display: none;">'
@@ -178,7 +177,8 @@
                             +'</ul>'
 					    +'</div>'
                     +'</div>';
-		$("#pzhtml").append(html);
+        $('#num').val(a);
+        $("#pzhtml").append(html);
 		index+=1;
 	});
 	$('body').on("click",".deletes",function(){
@@ -190,10 +190,11 @@
         var datathis= $(this).parent().next().children("ul");
 		// $('.box_+id').show(400);
 		var a=$(this).val();
-		$.ajax({
+        var goods_blade_type = $('#goods_blade_type').val();
+        $.ajax({
 			//请求方式
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}?name='+a,
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+a+'&goods_blade_type='+goods_blade_type,
 			dataType:'json',
 			data:{},
 			success:function(data){
@@ -216,11 +217,12 @@
 		datathis.empty();
 		$(this).parent().next().show(400);
 		var a=$(this).val();
+        var goods_blade_type = $('#goods_blade_type').val();
         console.log($(this))
 		$.ajax({
 			//请求方式
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}?name='+a,
+			url:'{{url("admin/goods/goods_kind_s")}}?name='+a+'&goods_blade_type='+goods_blade_type,
 			dataType:'json',
 			data:{},
 			success:function(data){

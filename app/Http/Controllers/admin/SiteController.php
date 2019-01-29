@@ -105,7 +105,7 @@ class SiteController extends Controller
             $goods_type = goods_type::all();
             return view('admin.sites.add')->with(compact('goods_type'));
         }elseif($request->isMethod('post')){
-
+            dd($request->all());
         }
     }
 }
