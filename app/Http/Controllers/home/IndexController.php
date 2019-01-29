@@ -1439,24 +1439,4 @@ class IndexController extends Controller
        }
    }
 
-/*   public function sendmail(Request $request)
-   {       
-           $name = 'test';
-           $order=\App\order::where('order_id','39')->first();
-           $goods=\App\goods::where('goods_id','1')->first();
-           $url=url::where('url_goods_id',$goods->goods_id)->first();
-            if($url==null){
-                $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
-            }
-            $flag = \Mail::send('home.TaiwanFan.endsuccess',['order'=>$order,'goods'=>$goods,'url'=>$url],function($message){
-                $to = 'wxhwxhwxh@qq.com';
-                $message ->to($to)->subject('order notice');
-            });
-            if(\Mail::failures()==[]){
-                echo '发送邮件成功，请查收！';
-            }else{
-                echo '发送邮件失败，请重试！';
-            }
-   }*/
-
 }
