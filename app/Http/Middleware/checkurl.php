@@ -49,8 +49,7 @@ class checkurl
          if($is_site){
            $site_id=site::get_id($url);
            $domainCheck->setParam(['site_id'=>$site_id]);
-           $request->attributes->add(['is_site'=>true]);
-           $request->attributes->add(['site_id'=>$site_id]);
+           $request->attributes->add(['is_site'=>true,'site_id'=>$site_id]);
          }else{
            $level=url::getlevel();
            $for=url::getzzfor();

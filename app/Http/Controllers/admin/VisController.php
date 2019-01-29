@@ -22,6 +22,7 @@ class VisController extends Controller
 //	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
 //	        	}
               		$query->whereIn('vis_goods_id',admin::get_goods_id());
+              		$query->orWhere('vis.vis_goods_id',0);
              })
 	        ->count();
     	return view('admin.vis.index')->with('counts',$counts);
@@ -41,10 +42,12 @@ class VisController extends Controller
 //	        		$query->whereIn('vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
 //	        	}
 	        		$query->whereIn('vis_goods_id',admin::get_goods_id());
+	        		$query->orWhere('vis.vis_goods_id',0);
              })
 	        ->count();
 	        $newcount=DB::table('vis')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
+	        ->leftjoin('sites','sites.sites_id','vis.vis_site_id')
 	        ->where(function($query)use($search){
 	        		 $query->where('goods.goods_name','like',"%$search%");
 				        $query->orWhere('vis.vis_ip','like',"%$search%");
@@ -57,6 +60,7 @@ class VisController extends Controller
 				        $query->orWhere('vis.vis_type','like',"%$search%");
 				        $query->orWhere('vis.vis_url','like',"%$search%");
 				        $query->orWhere('goods.goods_real_name','like',"%$search%");
+				        $query->orWhere('sites.sites_name','like',"%$search%");
 	        })
 	        ->where(function($query)use($info){
 	        	//ip是否屏蔽
@@ -96,12 +100,13 @@ class VisController extends Controller
 //	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
 //	        			}
                 $query->whereIn('vis.vis_goods_id',admin::get_goods_id());
-
+                $query->orWhere('vis.vis_goods_id',0);
             })
 	        ->count();
 	        $data=DB::table('vis')
-	        ->select('vis.*','goods.goods_real_name')
+	        ->select('vis.*','goods.goods_real_name','sites.sites_name')
 	        ->leftjoin('goods','goods.goods_id','vis.vis_goods_id')
+	        ->leftjoin('sites','sites.sites_id','vis.vis_site_id')
 	        ->where(function($query)use($search){
 	        	 	 $query->where('goods.goods_name','like',"%$search%");
 				        $query->orWhere('vis.vis_ip','like',"%$search%");
@@ -152,6 +157,7 @@ class VisController extends Controller
 //	        			$query->whereIn('vis.vis_goods_id',\App\goods::get_ownid(Auth::user()->admin_id));
 //	        			}
                 $query->whereIn('vis.vis_goods_id',admin::get_goods_id());
+                $query->orWhere('vis.vis_goods_id',0);
             })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)

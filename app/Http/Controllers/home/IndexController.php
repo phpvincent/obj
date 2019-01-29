@@ -43,7 +43,9 @@ class IndexController extends Controller
         /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
         if($request->get('is_site')==true){
-            return redirect()->action('home\SiteController@index');
+            $SiteController=new SiteController;
+            return $SiteController->index($request);
+            //return redirect()->action('home\SiteController@index');
         }
         if(\Session::get('test_id',0)!=0){
             $goods_id=\Session::get('test_id');
