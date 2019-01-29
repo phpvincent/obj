@@ -189,4 +189,70 @@ class admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
             return implode(',',$data);
         }
     }
+
+    /**
+     * 获取模板名称
+     * @param $blade
+     * @return string
+     */
+    public static function getBladeName($blade)
+    {
+        switch ($blade){
+            case "0":
+                $name = "台湾模板";
+                break;
+            case "1":
+                $name = "简体模板";
+                break;
+            case "2":
+                $name = "阿联酋模板";
+                break;
+            case "3":
+                $name = "马来西亚模板";
+                break;
+            case "4":
+                $name = "泰国模板（旧版）";
+                break;
+            case "5":
+                $name = "日本模板（旧版）";
+                break;
+            case "6":
+                $name = "印度尼西亚";
+                break;
+            case "7":
+                $name = "菲律宾";
+                break;
+            case "8":
+                $name = "英国（旧版）";
+                break;
+            case "9":
+                $name = "Google-PC（旧版）";
+                break;
+            case "10":
+                $name = "美国（旧版）";
+                break;
+            case "11":
+                $name = "越南（旧版）";
+                break;
+            case "12":
+                $name = "沙特";
+                break;
+            case "13":
+                $name = "沙特英文";
+                break;
+            case "14":
+                $name = "卡塔尔";
+                break;
+            case "15":
+                $name = "卡塔尔英文";
+                break;
+            case "16":
+                $name = "中东阿语";
+                break;
+            case "17":
+                $name = "中东英语";
+                break;
+        }
+        return $name;
+    }
 }

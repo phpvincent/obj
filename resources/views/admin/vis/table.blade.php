@@ -34,6 +34,12 @@
 					<td>{{$val}}</td>
 				@endforeach
 			</tr>
+			<tr class="text-c">
+				<td>相对转化</td>
+				@foreach($data['relatcountl'] as $val)
+					<td>{{$val}}</td>
+				@endforeach
+			</tr>
 			{{--<tr class="text-c">--}}
 				{{--<td>评论转化</td>--}}
 				{{--@foreach($data['comcountl'] as $val)--}}
