@@ -3,16 +3,16 @@
 <head>
     <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>{{ $site.site_name }}</title>
+    <title>{{ $site->sites_name }}</title>
     <meta name="format-detection" content="telephone=no">
-    <meta name="description" content=" {{ $site.site_name }}"/>
-    <meta name="keywords" content="{{ $site.site_name }}"/>
+    <meta name="description" content=" {{ $site->sites_name }}"/>
+    <meta name="keywords" content="{{ $site->sites_name }}"/>
     <meta name="robots" content="INDEX,FOLLOW"/>
     <link rel="icon" href="https://vivishop.looaon.com/favicon/default/logo-159t2ljb68a6xlehh7s62t79r1.png"
           type="image/x-icon"/>
     <link rel="shortcut icon" href="https://vivishop.looaon.com/favicon/default/logo-159t2ljb68a6xlehh7s62t79r1.png"
           type="image/x-icon"/>
-    <link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.vivishop.tw/">
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="{{ $site->url }}">
     <link rel="stylesheet" type="text/css" href="css/site_css/default.css"/>
     <link rel="stylesheet" type="text/css" href="css/site_css/iconfont.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="css/site_css/style.css" media="all"/>
@@ -51,74 +51,20 @@
 <header class="maintop">
     <div class="header">
         <a href="javascript:void(0);" id="cd-menu-trigger"><span class="cd-menu-icon"></span></a>
-        {{--<a href="https://www.vivishop.tw/customer/account/"><span--}}
-                    {{--class="yh-icon newiconfont newicon-yonghu3"></span></a>--}}
-        <a href="https://www.vivishop.tw/"><img alt="VIVISHOP嚴選品牌旗艦店" src="picture/logo.png"/></a>
+        <a href="{{ $site->url }}"><img alt="{{ $site->sites_name }}" src="picture/logo.png"/></a>
         <a href="#" class="seach newiconfont newicon-sousuotiaofangdajingqz11" data-animation="fade"
            data-reveal-id="myModal"></a>
-        {{--<a id="bag" class="cat newiconfont newicon-gouwudai" href="https://www.vivishop.tw/checkout/cart/">--}}
-            {{--<i data-number="0">0</i>--}}
-        {{--</a>--}}
     </div>
 </header>
 <nav id="cd-lateral-nav" class="">
     <div class="nav-container">
         <ul id="nav">
-            <li class="level0 nav-1 first active selected level-top"><a href="https://www.vivishop.tw/women-dress.html"
-                                                                        class="level-top"><span>潮流女裝 </span></a></li>
-            <li class="level0 nav-2 level-top"><a href="https://www.vivishop.tw/women-shoes.html"
-                                                  class="level-top"><span>時尚女鞋</span></a></li>
-            <li class="level0 nav-3 level-top"><a href="https://www.vivishop.tw/lady-bags.html" class="level-top"><span>百搭女包</span></a>
-            </li>
-            <li class="level0 nav-4 level-top"><a href="https://www.vivishop.tw/new-men-shoes.html"
-                                                  class="level-top"><span>新品男鞋</span></a></li>
-            <li class="level0 nav-5 level-top"><a href="https://www.vivishop.tw/men-wear.html" class="level-top"><span>精品男裝</span></a>
-            </li>
-            <li class="level0 nav-6 level-top"><a href="https://www.vivishop.tw/m-package.html" class="level-top"><span>精選男包</span></a>
-            </li>
-            <li class="level0 nav-7 level-top"><a href="https://www.vivishop.tw/underwear.html" class="level-top"><span>性感內衣</span></a>
-            </li>
-            <li class="level0 nav-8 level-top"><a href="https://www.vivishop.tw/3c.html"
-                                                  class="level-top"><span>樂享3C</span></a></li>
-            <li class="level0 nav-9 level-top"><a href="https://www.vivishop.tw/household.html" class="level-top"><span>家居用品</span></a>
-            </li>
-            <li class="level0 nav-10 level-top"><a href="https://www.vivishop.tw/baby-products.html"
-                                                   class="level-top"><span>母嬰用品</span></a></li>
-            <li class="level0 nav-11 last level-top"><a href="https://www.vivishop.tw/kitchen-supplies.html"
-                                                        class="level-top"><span>廚房用品</span></a></li>
+            @foreach($cates as $cate)
+            <li class="level0 nav-{{$cate->site_class_id}} level-top"><a href="/cate/{{ $cate->site_goods_type_id }}"
+                                                                        class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
+            @endforeach
         </ul>
     </div>
-    <ul class="cd-navigation" style="display:none">
-        <li class="item-has-children currency-select">
-            <a href="#">幣種</a><span class="rightico"><i class="gw-i"></i></span>
-            <ul class="sub-menu">
-                <li>
-                    <a class="TWD"
-                       href="https://www.vivishop.tw/directory/currency/switch/currency/TWD/uenc/aHR0cHM6Ly93d3cudml2aXNob3AudHcvd29tZW4tZHJlc3MuaHRtbA,,/"
-                       title="TWD"><span></span> TWD</a>
-                </li>
-                <li>asd</li>
-                <li>
-                    <a class="JPY"
-                       href="https://www.vivishop.tw/directory/currency/switch/currency/JPY/uenc/aHR0cHM6Ly93d3cudml2aXNob3AudHcvd29tZW4tZHJlc3MuaHRtbA,,/"
-                       title="JPY"><span></span> JPY</a>
-                </li>
-                <li>asd</li>
-                <li>
-                    <a class="EUR"
-                       href="https://www.vivishop.tw/directory/currency/switch/currency/EUR/uenc/aHR0cHM6Ly93d3cudml2aXNob3AudHcvd29tZW4tZHJlc3MuaHRtbA,,/"
-                       title="EUR"><span></span> EUR</a>
-                </li>
-                <li>asd</li>
-                <li>
-                    <a class="THB"
-                       href="https://www.vivishop.tw/directory/currency/switch/currency/THB/uenc/aHR0cHM6Ly93d3cudml2aXNob3AudHcvd29tZW4tZHJlc3MuaHRtbA,,/"
-                       title="THB"><span></span> THB</a>
-                </li>
-                <li>asd</li>
-            </ul>
-        </li>
-    </ul>
 </nav>
 <script type="text/javascript">
     jQuery(function () {
@@ -128,7 +74,7 @@
     })
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
-    <div class="return-icon"><img src="https://www.vivishop.tw//skin/frontend/yisainuo/wap/images/return.svg"></div>
+    <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
     <form id="top-search" action="https://www.vivishop.tw/catalogsearch/result/" method="get">
         <div class="search">
             <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="請輸入關鍵字或品牌">
