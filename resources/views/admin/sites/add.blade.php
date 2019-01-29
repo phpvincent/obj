@@ -28,7 +28,7 @@
 }
 </style>
     <article class="page-container">
-        <form class="form form-horizontal" id="form-role-update" enctype="multipart/form-data" action="{{url('admin/admin/addrole')}}" method="post">
+        <form class="form form-horizontal" id="form-role-update" enctype="multipart/form-data" action="{{url('admin/sites/add')}}" method="post">
             {{csrf_field()}}
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点名称：</label>
@@ -64,8 +64,13 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点分类：</label>
-                <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="role_name" name="role_name">
+                <div class="row" style="height: 40px;" >
+                    <div class="col-xs-9 col-sm-9" style="display: inline;">
+                        <label>商品分类:</label> <input type="text" readonly style="width: 20%;vertical-align:middle; " class="input-text" value="" placeholder="" id="goods_config">
+                        <label>展示分类:</label> <input type="text" style="width: 20%;vertical-align:middle; " class="input-text" value="" placeholder="" id="goods_config" name="">
+                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="">
+                        <input type="checkbox" id="config_isshow" class="price" name="" style="vertical-align:middle;" value="1"><label for="price">隐藏分类</label>
+                    </div>
                 </div>
             </div>
             <div class="row cl">
@@ -99,7 +104,7 @@
             submitHandler:function(form){
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "{{url('admin/admin/addrole')}}",
+                    url: "{{url('admin/sites/add')}}",
                     success: function(data){
                         if(data.err==1){
                             layer.msg('添加成功!',{time:2*1000},function() {
