@@ -25,14 +25,16 @@ use App\Jobs\SendHerbEmail;
 class IndexController extends Controller
 {
     protected $provider;
-
     /** 构造方法，初始化参数
      * IndexController constructor.
      */
     public function __construct() {
         $this->provider = new ExpressCheckout();
     }
-
+    public function site(Request $request)
+    {
+        return view('view.fb');
+    }
     /** 前台首页
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -40,6 +42,9 @@ class IndexController extends Controller
     public function index(Request $request){
         /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
+        if($request->get('is_site')==true){
+            return redirect()->action('home\SiteController@index');
+        }
         if(\Session::get('test_id',0)!=0){
             $goods_id=\Session::get('test_id');
         }else{
@@ -1414,7 +1419,6 @@ class IndexController extends Controller
             return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }
    }
-
     /**
      * 发送短信
      * @param Request $request
@@ -1434,6 +1438,7 @@ class IndexController extends Controller
 //           return response()->json(['err'=>0,'url'=>$data_info['msg']]);
        }
    }
+
 /*   public function sendmail(Request $request)
    {       
            $name = 'test';
@@ -1453,4 +1458,5 @@ class IndexController extends Controller
                 echo '发送邮件失败，请重试！';
             }
    }*/
+
 }
