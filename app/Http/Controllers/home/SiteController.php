@@ -34,6 +34,7 @@ class SiteController extends Controller
     	->leftjoin('goods','site_active_goods.site_good_id','goods.goods_id')
     	->leftjoin('img','goods.goods_id','img.img_goods_id')
     	->where('site_actives.site_id',$site_id)
+    	->where('goods.is_del',0)
     	->where(function($query)use($request){
     		if($request->has('active_type')){
     			$query->where('site_active_goods.site_active_id',$request->input('active_type'));
