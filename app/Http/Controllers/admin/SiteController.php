@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\admin;
+use App\goods_type;
 use DB;
 use Auth;
 use Illuminate\Http\Request;
@@ -101,7 +102,8 @@ class SiteController extends Controller
     public function add(Request $request)
     {
         if($request->isMethod('get')) {
-            return view('admin.sites.add');
+            $goods_type = goods_type::all();
+            return view('admin.sites.add')->with('goods_type');
         }elseif($request->isMethod('post')){
 
         }
