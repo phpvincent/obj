@@ -110,33 +110,6 @@ class SiteController extends Controller
             $goods_type = goods_type::all();
             return view('admin.sites.add')->with(compact('goods_type'));
         }elseif($request->isMethod('post')){
-
-            //特殊分类
-            $site_active = $request->input('site_active');
-            foreach ($site_active as $key => $value){
-//                $img = $request->file($site_active[$key]['img']);
-//                $ss = new site_active();
-//                $ss->site_active_img = $site_active[$key]['img'];
-//                $ss->site_active_type = $key;
-//                $ss->site_id = $site->sites_id;
-//                $data_site_active = $ss->save();
-//                if(!$data_site_active){
-//                    return response()->json(['err'=>0,'str'=>'新增站点失败']);
-//                }
-                $goods_id = $value['goods_id'];
-                $sort = $value['sort'];
-                $site_active_good = [];
-                foreach ($goods_id as $key=>$item){
-                    $array['site_good_id'] = $item;
-                    $array['site_active_id'] = $data_site_active->site_active_id;
-                    array_push($site_active_good,$array);
-                }
-                $data_site_active_good = site_active_good::insert($site_active_good);
-                if(!$data_site_active_good){
-                    return response()->json(['err'=>0,'str'=>'新增站点失败']);
-                }
-            }
-            dd(111);
             //1.站点名称不可以重复
             $site_name = $request->input('site_name');
             $site = site::where('sites_name',$site_name)->first();
@@ -189,7 +162,7 @@ class SiteController extends Controller
                 $arr['site_class_sort'] = $goods_type_sort[$key];
                 $arr['site_class_show_name'] = $goods_type_show_name[$key];
                 $arr['site_goods_type_id'] = $item;
-                $arr['site_is_show'] = $goods_type_isshow[$key];
+                $arr['site_is_show'] = isset($goods_type_isshow[$key]) ? 0 : 1;
                 $arr['site_site_id'] = $site->sites_id;
                 array_push($site_class,$arr);
             }
@@ -199,11 +172,24 @@ class SiteController extends Controller
                 return response()->json(['err'=>0,'str'=>'新增站点失败']);
             }
 
-            //特殊分类
+            //特殊分类 //1.新品推荐;2.秒杀抢购;3.热卖推荐
             $site_active = $request->input('site_active');
             foreach ($site_active as $key => $value){
+                $img = $request->file($site_active[$key]['img']);
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $name=$img->getClientOriginalName();//得到视频名；
+                $ext=$img->getClientOriginalExtension();//得到视频后缀；
+                $fileName=md5(uniqid($name));
+                $newfilename='site_active'."_".$fileName.'.'.$ext;//生成新的的文件名
+                $filedir="upload/site_imgs/";
+                $msg=$img->move($filedir,$newfilename);
+                if(!$msg){
+                    return response()->json(['err'=>0,'str'=>'文件上传失败']);
+                }
                 $ss = new site_active();
-                $ss->site_active_img = $site_active[$key]['img'];
+                $ss->site_active_img = $filedir.$newfilename;
                 $ss->site_active_type = $key;
                 $ss->site_id = $site->sites_id;
                 $data_site_active = $ss->save();
@@ -211,19 +197,20 @@ class SiteController extends Controller
                     return response()->json(['err'=>0,'str'=>'新增站点失败']);
                 }
                 $goods_id = $value['goods_id'];
-                $sort = $value['goods_id'];
-                $img = $value['goods_id'];
-                foreach ($value['goods_id'] as $item){
-
-
+                $sort = $value['sort'];
+                $site_active_good = [];
+                foreach ($goods_id as $keys=>$item){
+                    $array['site_good_id'] = $item;
+                    $array['site_active_id'] = $data_site_active->site_active_id;
+                    $array['sort'] = $sort[$keys];
+                    array_push($site_active_good,$array);
+                }
+                $data_site_active_good = site_active_good::insert($site_active_good);
+                if(!$data_site_active_good){
+                    return response()->json(['err'=>0,'str'=>'新增站点失败']);
                 }
             }
-            //1.新品推荐
-
-            //2.秒杀抢购
-            //3.热卖推荐
-
-            dd($request->all());
+            return response()->json(['err'=>0,'str'=>'新增站点成功']);
         }
     }
 }

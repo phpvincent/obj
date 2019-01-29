@@ -25,14 +25,16 @@ use App\Jobs\SendHerbEmail;
 class IndexController extends Controller
 {
     protected $provider;
-
     /** 构造方法，初始化参数
      * IndexController constructor.
      */
     public function __construct() {
         $this->provider = new ExpressCheckout();
     }
-
+    public function site(Request $request)
+    {
+        return view('view.fb');
+    }
     /** 前台首页
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -40,6 +42,11 @@ class IndexController extends Controller
     public function index(Request $request){
         /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
+        if($request->get('is_site')==true){
+            $SiteController=new SiteController;
+            return $SiteController->index($request);
+            //return redirect()->action('home\SiteController@index');
+        }
         if(\Session::get('test_id',0)!=0){
             $goods_id=\Session::get('test_id');
         }else{
@@ -1414,7 +1421,6 @@ class IndexController extends Controller
             return redirect("/endsuccess?type=1&goods_id={$goods_id}&order_id={$order_id}");
         }
    }
-
     /**
      * 发送短信
      * @param Request $request
@@ -1435,35 +1441,4 @@ class IndexController extends Controller
        }
    }
 
-   public function header(Request $request)
-   {
-       return view('home.site.header',['title' => 'ydzsshop', 'description' => '这是一个测试', 'keyword' => 'test']);
-   }
-   public function test(Request $request)
-   {
-       return view('home.site.test',['title' => 'ydzsshop', 'description' => '这是一个测试', 'keywords' => 'test']);
-   }
-   public function footer(Request $request)
-   {
-       return view('home.site.footer');
-   }
-/*   public function sendmail(Request $request)
-   {       
-           $name = 'test';
-           $order=\App\order::where('order_id','39')->first();
-           $goods=\App\goods::where('goods_id','1')->first();
-           $url=url::where('url_goods_id',$goods->goods_id)->first();
-            if($url==null){
-                $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
-            }
-            $flag = \Mail::send('home.TaiwanFan.endsuccess',['order'=>$order,'goods'=>$goods,'url'=>$url],function($message){
-                $to = 'wxhwxhwxh@qq.com';
-                $message ->to($to)->subject('order notice');
-            });
-            if(\Mail::failures()==[]){
-                echo '发送邮件成功，请查收！';
-            }else{
-                echo '发送邮件失败，请重试！';
-            }
-   }*/
 }

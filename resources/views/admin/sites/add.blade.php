@@ -109,10 +109,14 @@
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>特殊分类：</label>
                 <div class="col-xs-10 col-sm-10">
                     <div class="xinpin">
+                        <div>
                         <label class="title" for="">新品推荐</label><span class="xinpin_add">添加</span>
                         <div style="margin-top:10px;position: relative;">
                             新品推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <input type="text" style="display: none" id="new_sell" value="0">
+                        </div>
+                        </div>
+                        <div style="margin-top:10px;    position: relative;">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
                                 <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="site_active[1][goods_id][0]" value="">
@@ -127,10 +131,14 @@
                         
                     </div>
                     <div class="miaosha" style="margin-top:10px">
+                        <div>
                         <label class="title" for="">秒杀抢购</label><span class="miaosha_add">添加</span>
                         <div style="margin-top:10px;position: relative;">
                             秒杀抢购图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <input type="text" style="display: none" id="zeno_sell" value="0">
+                        </div>
+                        </div>
+                        <div class="miaosha_1"style="margin-top:10px;    position: relative;">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
                                 <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[2][goods_id][0]" value="">
@@ -144,17 +152,19 @@
                         </div>
                     </div>
                     <div class="remai" style="margin-top:10px">
+                        <div>
                         <label class="title" for="">热卖推荐</label><span class="remai_add">添加</span>
+                        </div>
                         <div style="margin-top:10px;    position: relative;">
-                            热卖推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                            热卖推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[3][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <input type="text" style="display: none" id="fire_sell" value="0">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
-                                <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[3][goods_id][0]" value="">
+                                <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="site_active[3][goods_id][0]" value="">
                                 <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[3][sort][0]">
                                 <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
                             </div>
-                            <div class="box" style="display: none;">
+                            <div class="box" style="display: none;margin-top: 25px">
                                 <ul>
                                 </ul>
                             </div>
@@ -163,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="row cl">
+            <div class="row cl" style="margin-top: 150px">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
                 </div>
@@ -226,7 +236,7 @@
 		index+=1;
 	});
     $('body').on("click",".deletes",function(){
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
 	})
     // 新品推荐添加
     $('.xinpin_add').on("click",function(){
@@ -236,7 +246,7 @@
                         +'<div>'
                             +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin" name=""  value="" placeholder="" id="chanpin_prize">'
                             +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[1][goods_id]['+ b +']" value="">'
-                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,"$1");}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[1][sort]['+ b +']">'
+                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[1][sort]['+ b +']">'
                             +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
                         +'</div>'
                         +'<div class="box" style="display: none;">'
@@ -245,47 +255,51 @@
                         +'</div>'
                     +'</div>';
         $('.xinpin').append(html)
-    })
+    });
 	$('body').on("click",".xinpin_deletes",function(){
-		$(this).parent().remove();
-	})
+		$(this).parent().parent().remove();
+	});
     // 秒杀添加
-    $('.miaosha_add').on("click",function(){
+    $(".miaosha_add").click(function () {
+        var b = $('#zeno_sell').val();
+        b++;
         var html = '<div style="margin-top:10px; position: relative;">'
-                        +'<div>'
-                            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">'
-                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">'
-                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,"$1");}).call(this)" onblur="this.v();"  id="goods_config" name="">'
-                            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
-                        +'</div>'
-                        +'<div class="box" style="display: none;">'
-                            +'<ul>'
-                            +'</ul>'
-                        +'</div>'
-                    +'</div>';
+            +'<div>'
+            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin" name=""  value="" placeholder="" id="chanpin_prize">'
+            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[2][goods_id]['+ b +']" value="">'
+            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[2][sort]['+ b +']">'
+            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
+            +'</div>'
+            +'<div class="box" style="display: none;">'
+            +'<ul>'
+            +'</ul>'
+            +'</div>'
+            +'</div>';
         $('.miaosha').append(html)
-    })
+   });
 	$('body').on("click",".miaosha_deletes",function(){
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
 	})
     // 热卖添加
     $('.remai_add').on("click",function(){
+        var b = $('#fire_sell').val();
+        b++;
         var html = '<div style="margin-top:10px; position: relative;">'
-                        +'<div>'
-                            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">'
-                            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="goods_kind" value="">'
-                            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,"$1");}).call(this)" onblur="this.v();"  id="goods_config" name="">'
-                            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
-                        +'</div>'
-                        +'<div class="box" style="display: none;">'
-                            +'<ul>'
-                            +'</ul>'
-                        +'</div>'
-                    +'</div>';
+            +'<div>'
+            +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin" name=""  value="" placeholder="" id="chanpin_prize">'
+            +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[3][goods_id]['+ b +']" value="">'
+            +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[3][sort]['+ b +']">'
+            +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
+            +'</div>'
+            +'<div class="box" style="display: none;">'
+            +'<ul>'
+            +'</ul>'
+            +'</div>'
+            +'</div>';
         $('.remai').append(html)
     })
 	$('body').on("click",".remai_deletes",function(){
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
 	})
     // 搜索下拉框
 	$("body").on('focus','.chanpin',function(){
@@ -297,15 +311,18 @@
         $.ajax({
 			//请求方式
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}?name='+a+'&goods_blade_type='+goods_blade_type,
+			url:'{{url("admin/vis/get_goods_name")}}?name='+a+'&goods_blade_type='+goods_blade_type,
 			dataType:'json',
 			data:{},
 			success:function(data){
-				xialaCheck =false;
-				var str='';
-				jQuery.each(data,function(key,value){
-                        str+='<li data-id='+value.goods_kind_id + '>'+value.goods_kind_name+'</li>'
-				}) 
+                xialaCheck =false;
+                var str='';
+                jQuery.each(data.data,function(key,value){
+
+                    str+='<li data-id='+value.goods_id + '>' + value.goods_real_name + '</li>'
+
+                })
+                // $('.box ul').html(str);
 				datathis.html(str);
 			},
 			error:function(jqXHR){
@@ -325,15 +342,19 @@
 		$.ajax({
 			//请求方式
 			type:'GET',
-			url:'{{url("admin/goods/goods_kind_s")}}?name='+a+'&goods_blade_type='+goods_blade_type,
+			url:'{{url("admin/vis/get_goods_name")}}?name='+a+'&goods_blade_type='+goods_blade_type,
 			dataType:'json',
 			data:{},
 			success:function(data){
 				var str='';
-				if(data.length !=0 ){
-					jQuery.each(data,function(key,value){ 
-                            str+='<li data-id='+value.goods_kind_id + '>'+value.goods_kind_name+'</li>'
-					}) 
+				if(data.data.length !=0 ){
+                    // xialaCheck =false;
+                    var str='';
+                    jQuery.each(data.data,function(key,value){
+
+                        str+='<li data-id='+value.goods_id + '>' + value.goods_real_name + '</li>'
+
+                    })
 					datathis.html(str);
 				}else{
 					datathis.html('<span >没有相应产品</span>');

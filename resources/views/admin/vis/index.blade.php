@@ -35,7 +35,7 @@
 	<table class="table table-border table-bordered table-bg" id="vis_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="15">访问记录</th>
+				<th scope="col" colspan="16">访问记录</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
@@ -49,6 +49,7 @@
 				<th width="40">访问时间</th>
 				<th width="40">语言</th>
 				<th width="60">访问单品</th>
+				<th width="60">访问站点</th>
 				<th width="60">访问url</th>
 				<th width="60">来源url</th>
 				<th width="30">是否屏蔽</th>
@@ -84,7 +85,7 @@
 		"order": [[ 8, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [1,2,3,4,5,7,9,10,11,12,13,14],
+		   "targets": [1,2,3,4,5,7,9,10,11,12,13,14,15],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -113,6 +114,7 @@
 		{'data':'vis_lan'},
 		{'data':'goods_real_name'},
 		{'defaultContent':"","className":"td-manager"},
+		{'defaultContent':"","className":"td-manager"},
 		{'data':'vis_from'},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
@@ -133,11 +135,16 @@
 				info+='<a title="解除屏蔽" href="javascript:;"  onclick="back_vis(\''+data.vis_id+'\')" class="ml-5" style="text-decoration:none"><i style="size:20px;" class="Hui-iconfont">&#xe605;</i></a>';
 			}
 			var url='<a href="http://'+data.vis_url+'" style="margin:0px auto;" target="view_window" >'+data.vis_url+'</a>';
-		
+		    if(data.sites_name==null){
+		    	var site='单页访问';
+		    }else{
+		    	var site=data.sites_name;
+		    }
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(14)').html(info);
-			$(row).find('td:eq(13)').html(isroot);
-			$(row).find('td:eq(11)').html(url);
+			$(row).find('td:eq(15)').html(info);
+			$(row).find('td:eq(14)').html(isroot);
+			$(row).find('td:eq(12)').html(url);
+			$(row).find('td:eq(11)').html(site);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/
