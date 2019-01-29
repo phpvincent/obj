@@ -21,4 +21,5 @@ class SiteController extends Controller
     	$cates = site_class::where('site_site_id', $site_id)->orderBy('site_class_sort')->get();
     	return view('home.ydzshome.index')->with(compact('site','cates'));
     }
+
 }

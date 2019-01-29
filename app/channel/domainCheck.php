@@ -216,7 +216,7 @@ class domainCheck{
         } 
 	}
 	public function save_vis(Request $request)
-	{
+	{	
 		$goods_id=$this->goods_id;
 		$site_id=$this->site_id;
 		$arr=$this->arr;
@@ -247,7 +247,7 @@ class domainCheck{
             $vis->vis_url=$_SERVER['SERVER_NAME'];
             $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
             if($goods_id==0){
-            	if($request->has('goods_id'))$vis->goods_id=$request->input('goods_id');
+            	if($request->has('goods_id')) $vis->vis_goods_id=$request->input('goods_id');
             }
             $vis->save();  
             setcookie('isr_vis',$vis->vis_id,time()+600);
@@ -275,7 +275,7 @@ class domainCheck{
               $vis->vis_url=$_SERVER['SERVER_NAME'];
               $vis->vis_from=isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
               if($goods_id==0){
-              	if($request->has('goods_id'))$vis->goods_id=$request->input('goods_id');
+              	if($request->has('goods_id')) $vis->vis_goods_id=$request->input('goods_id');
               }
               $vis->save();  
               setcookie('isr_vis',$vis->vis_id,time()+600);

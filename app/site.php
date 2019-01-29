@@ -11,7 +11,7 @@ class site extends Model
     	if($url==null){
     		return false;
     	}
-    	if(site::where('sites_id',$url->url_site_id)->first()['status']==0) return false;
+    	if(site::where('sites_id',$url->url_site_id)->first()['status']==1) return false;
     	return true;
     }
     public static function get_id($url)
