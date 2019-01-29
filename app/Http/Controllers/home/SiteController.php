@@ -15,6 +15,6 @@ class SiteController extends Controller
     		 return redirect('index/fb');
     	}
     	$site=site::where([['sites_id',$site_id],['status',0]])->first();
-    	return view('home.site.index')->with(compact('site'));
+    	return view('home.ydzshome.index')->with(compact('site'));
     }
 }
