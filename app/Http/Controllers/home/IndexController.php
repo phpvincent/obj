@@ -1434,6 +1434,19 @@ class IndexController extends Controller
 //           return response()->json(['err'=>0,'url'=>$data_info['msg']]);
        }
    }
+
+   public function header(Request $request)
+   {
+       return view('home.site.header',['title' => 'ydzsshop', 'description' => '这是一个测试', 'keyword' => 'test']);
+   }
+   public function test(Request $request)
+   {
+       return view('home.site.test',['title' => 'ydzsshop', 'description' => '这是一个测试', 'keywords' => 'test']);
+   }
+   public function footer(Request $request)
+   {
+       return view('home.site.footer');
+   }
 /*   public function sendmail(Request $request)
    {       
            $name = 'test';
