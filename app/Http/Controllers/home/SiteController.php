@@ -20,7 +20,7 @@ class SiteController extends Controller
     	}
     	$site=site::where([['sites_id',$site_id],['status',0]])->first();
     	$site->url = url::where('url_site_id', $site_id)->value('url_url');
-    	$cates = DB::table('site_classes')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show',1)->where('site_site_id', $site_id)->get();
+    	$cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show',1)->where('site_site_id', $site_id)->get();
     	return view('home.ydzshome.index')->with(compact('site','cates'));
     }
     public function get_site_goods(Request $request)
