@@ -24,8 +24,9 @@ class SiteController extends Controller
     	$site->url = url::where('url_site_id', $site_id)->value('url_url');
     	$cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show',1)->where('site_site_id', $site_id)->get();
     	$banners = site_img::where('site_site_id',$site_id)->get();
-    	$activities = site_active::where('site_id', $site_id)->orderBy('site_active_type','asc')->get()->toArray();
-    	return view('home.ydzshome.index')->with(compact('site','cates', 'banners', 'activities'));
+    	$activitie1 = site_active::where('site_id', $site_id)->orderBy('site_active_type',1)->first();
+        $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>',1)->orderBy('site_active_type', 'asc')->first();
+    	return view('home.ydzshome.index')->with(compact('site','cates', 'banners', 'activitie1', 'activities'));
     }
     public function get_site_goods(Request $request)
     {
