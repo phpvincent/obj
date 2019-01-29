@@ -188,9 +188,26 @@ class vis extends Model
             }
         }
 
+        $data3['name'] = '相对转化率';
+        //购买转化率
+        foreach ($data5['data'] as  $key => $item)
+        {
+            foreach ($data6['data'] as $k=> $val)
+            {
+                if($key == $k){
+                    if($item != 0){
+                        $data3['data'][$k] = sprintf('%.6f',$val/$item);
+                    }else{
+                        $data3['data'][$k] = 0;
+                    }
+                }
+            }
+        }
+
         //折线图
         $datas[]=$data1;  //购买转化率
         $datas[]=$data2;  //下单转化率
+        $datas[]=$data3;  //相对转化率
         $datacount[]=$data4;  //浏览量
         $datacount[]=$data5;  //购买量
         $datacount[]=$data6;  //下单量

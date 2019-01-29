@@ -530,6 +530,17 @@ class VisController extends Controller
                }
                $data['ordercountl'] = $item['data'];
            }
+           if($item['name']=='相对转化率'){
+               foreach ($item['data'] as &$item_data)
+               {
+                   if($item_data == 0){
+                       $item_data = 0;
+                   }else{
+                       $item_data = sprintf('%.4f',$item_data*100).'%';
+                   }
+               }
+               $data['relatcountl'] = $item['data'];
+           }
        }
        foreach ($count['datacount'] as $item)
        {
