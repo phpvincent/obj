@@ -35,7 +35,7 @@ class SiteController extends Controller
         $banners = site_img::where('site_site_id', $site_id)->get();
         $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 1)->first();
         $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>', 1)->orderBy('site_active_type', 'asc')->get();
-        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.index')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities', 'hot_search'));
     }
 
@@ -64,7 +64,7 @@ class SiteController extends Controller
                 break;
         }
         $type = 'activity';
-        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
 
@@ -81,7 +81,7 @@ class SiteController extends Controller
         $type = 'cate';
         $active_type = $cate_id;
         $position = site_class::where('site_site_id', $site_id)->where('site_is_show', 1)->where('site_goods_type_id', $cate_id)->value('site_class_show_name');
-        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
 
@@ -100,7 +100,7 @@ class SiteController extends Controller
         $active_type = $q;
         $language = goods::get_language($site->sites_blade_type);
         $position =  config("language.index.seckill.{$language}") . ':' . $q;
-        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
 
@@ -304,38 +304,39 @@ class SiteController extends Controller
         }
     }
 
-    private function hot_search_goods($goods_blade_type)
+    private function hot_search_goods($keyword)
     {
-        if (in_array($goods_blade_type, [8, 9, 10, 13, 15, 17])) { //英语
-            $left_goods = ['sleeve dress', 'running shoes'];
-            $right_goods = ['Trendy Backpack'];
-        } elseif (in_array($goods_blade_type, [0])) { // 繁体中文
-            $left_goods = ['平底沙滩鞋', '萬能轉換插頭'];
-            $right_goods = ['车载电热杯', '大碼彈力顯瘦牛仔褲'];
-        } elseif (in_array($goods_blade_type, [16])) { // 阿语
-            $left_goods = ['POLO', 'الشحن لسيارة'];
-            $right_goods = ['حذاء يدوي لين مريح', 'الشحن لسيارة'];
-        } elseif (in_array($goods_blade_type, [3])) { // 马来
-            $left_goods = ['dress', 'Men cowhide leather'];
-            $right_goods = ['Roll Up Piano'];
-        } elseif (in_array($goods_blade_type, [4])) { // 泰语
-            $left_goods = ['Micro Current', 'เสื้อกันแดด'];
-            $right_goods = ['รองเท้าลำลองรุ่นผู้ชาย สไตล์อังกฤษ'];
-        } elseif (in_array($goods_blade_type, [5])) { // 日语
-            $left_goods = ['レギンス'];
-            $right_goods = ['大判ストール チェック柄'];
-        } elseif (in_array($goods_blade_type, [6])) { // 印尼
-            $left_goods = ['Kasur lipat'];
-            $right_goods = ['Sepatu rajutan pria'];
-        } elseif (in_array($goods_blade_type, [11])) { // 越南
-            $left_goods = [''];
-            $right_goods = [''];
-        } else {
-            $left_goods = [''];
-            $right_goods = [''];
-        }
-
-        return ['left' => $left_goods, 'right' => $right_goods];
+//        if (in_array($goods_blade_type, [8, 9, 10, 13, 15, 17])) { //英语
+//            $left_goods = ['sleeve dress', 'running shoes'];
+//            $right_goods = ['Trendy Backpack'];
+//        } elseif (in_array($goods_blade_type, [0])) { // 繁体中文
+//            $left_goods = ['平底沙滩鞋', '萬能轉換插頭'];
+//            $right_goods = ['车载电热杯', '大碼彈力顯瘦牛仔褲'];
+//        } elseif (in_array($goods_blade_type, [16])) { // 阿语
+//            $left_goods = ['POLO', 'الشحن لسيارة'];
+//            $right_goods = ['حذاء يدوي لين مريح', 'الشحن لسيارة'];
+//        } elseif (in_array($goods_blade_type, [3])) { // 马来
+//            $left_goods = ['dress', 'Men cowhide leather'];
+//            $right_goods = ['Roll Up Piano'];
+//        } elseif (in_array($goods_blade_type, [4])) { // 泰语
+//            $left_goods = ['Micro Current', 'เสื้อกันแดด'];
+//            $right_goods = ['รองเท้าลำลองรุ่นผู้ชาย สไตล์อังกฤษ'];
+//        } elseif (in_array($goods_blade_type, [5])) { // 日语
+//            $left_goods = ['レギンス'];
+//            $right_goods = ['大判ストール チェック柄'];
+//        } elseif (in_array($goods_blade_type, [6])) { // 印尼
+//            $left_goods = ['Kasur lipat'];
+//            $right_goods = ['Sepatu rajutan pria'];
+//        } elseif (in_array($goods_blade_type, [11])) { // 越南
+//            $left_goods = [''];
+//            $right_goods = [''];
+//        } else {
+//            $left_goods = [''];
+//            $right_goods = [''];
+//        }
+        $keyworks = explode(';', $keyword);
+        $chunk_result = array_chunk($keyworks, 2);
+        return ['left' => $chunk_result[0], 'right' => count($chunk_result) > 1 ? $chunk_result[1] : ''];
     }
 
     public function get_footer(Request $request, $type)
@@ -348,7 +349,7 @@ class SiteController extends Controller
         }
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.menus')->with(compact('site', 'cates', 'type','hot_search'));
     }
 }
