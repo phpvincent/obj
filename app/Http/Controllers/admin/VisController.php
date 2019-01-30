@@ -321,6 +321,11 @@ class VisController extends Controller
                                     $query->where('goods_type.goods_type_id',$goods_type_id);
                                 }
                             })
+                            ->where(function($query)use($request){
+                                if($request->has('goods_blade_type')){
+                                    $query->where('goods.goods_blade_type',$request->input('goods_blade_type'));
+                                }
+                            })
                             ->get();
         if($goods->isEmpty()){
             return response()->json(['status'=>1,'data'=>$goods,'str'=>'所选产品不存在']);

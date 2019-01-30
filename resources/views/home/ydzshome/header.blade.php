@@ -59,7 +59,7 @@
     <div class="nav-container">
         <ul id="nav">
             @foreach($cates as $cate)
-            <li class="level0 nav-{{$cate->site_class_id}} level-top"><a href="/cate/{{ $cate->site_goods_type_id }}"
+            <li class="level0 nav-{{$cate->site_class_id}} level-top"><a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}"
                                                                         class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
             @endforeach
         </ul>
