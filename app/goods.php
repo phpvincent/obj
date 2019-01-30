@@ -220,4 +220,67 @@ class goods extends Model
         }
         return $blade_name;
     }
+    public static function get_language($blade_type)
+    {
+        switch ($blade_type) {
+            case 0:
+                $lan='Chinese-fan';
+                break;
+            case 1:
+                $lan='Chinese';
+                break;
+            case 2:
+                $lan='English';
+                break;
+            case 3:
+                $lan='English';
+                break;
+            case 4:
+                $lan='Thai';
+                break;
+            case 5:
+                $lan='Japan';
+                break;
+            case 6:
+                $lan='Indonesia';
+                break;
+            case 7:
+                $lan='English';
+                break;
+            case 8:
+                $lan='English';
+                break;
+            case 9:
+                $lan='English';
+                break;
+            case 10:
+                $lan='English';
+                break;
+            case 11:
+                $lan='Vietnam';
+                break;
+            case 12:
+                $lan='Arab';
+                break;
+            case 13:
+                $lan='English';
+                break;
+            case 14:
+                $lan='Arab';
+                break;
+            case 15:
+                $lan='English';
+                break;
+            case 16:
+                $lan='Arab';
+                break;
+            case 17:
+                $lan='English';
+                break;
+            default:
+                 $lan='English';
+                break;
+        }
+      return $lan;
+    }
 }

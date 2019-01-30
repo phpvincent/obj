@@ -34,6 +34,7 @@ use App\channel\mailControl;
 		App\channel\sendMessage::message_notice();
 	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
+	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
 	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '[0-9]+');
     Route::get('/activity/{activity_id}', 'home\SiteController@activity')->where('activity_id', '[1-3]');

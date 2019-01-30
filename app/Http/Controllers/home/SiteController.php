@@ -96,7 +96,7 @@ class SiteController extends Controller
         return json_encode($goods);
     }
     public function get_site_goods(Request $request)
-    {
+    {   
     	$page=$request->input('page');
     	$limit=$request->input('limit',6);
     	$site_id=$request->get('site_id');
@@ -245,5 +245,20 @@ class SiteController extends Controller
                 # code...
                 break;
         }
+    }
+    public function get_footer(Request $request,$type)
+    {       
+     $site_id=$request->get('site_id');
+     $site=site::where([['sites_id',$site_id],['status',0]])->first();
+     if($site==null)  return view('home.ydzshome.405');
+     if(!in_array($type, ['about','shipping','return','privacy'])){
+            return view('home.ydzshome.405');
+        }
+    $site->url = url::where('url_site_id', $site_id)->value('url_url');
+    $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
+    $banners = site_img::where('site_site_id', $site_id)->get();
+    $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 1)->first();
+    $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>', 1)->orderBy('site_active_type', 'asc')->get();
+     return view('home.ydzshome.menus')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities','type'));
     }
 }
