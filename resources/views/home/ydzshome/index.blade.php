@@ -70,95 +70,16 @@
         </div>
     </div>
     <div class="new-sale-big">
-        <a href="/tooxie.html"><img src="picture/xinpin.jpg"/></a>
+        <a href="/tooxie.html"><img src="img/zlt.jpg"/></a>
     </div>
     <div class="clear"></div>
     <div class="home_category_list">
-        <ul class="prolist">
-            <li>
-                <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/xiushen-niuzaiku.html"><img src="picture/2_1_8.jpg" width="400"
-                                                                                 height="400" alt=""/></a>
-                </div>
-                <div class="pro-tex">
-                    <h3><a href="https://www.vivishop.tw/xiushen-niuzaiku.html">新款女修身小腳牛仔褲 【加$400再來一件】</a></h3>
-                    <div class="p3">
-                        <span class="newprice">NT$ 1,298</span>
-                        <span class="oldprice">NT$ 3,998</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/500-59678.html"><img
-                                src="picture/711ok51h722k55y9g2gu981p281_1_.jpg" width="400" height="400" alt=""/></a>
-                </div>
-                <div class="pro-tex">
-                    <h3><a href="https://www.vivishop.tw/500-59678.html">韓版氣質針織網紗拼接連衣裙【第二件僅$500】</a></h3>
-                    <div class="p3">
-                        <span class="newprice">NT$ 1,380</span>
-                        <span class="oldprice">NT$ 2,760</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/v-1381.html"><img src="picture/4n15t515op76t4g83wt1uui1b601.jpg"
-                                                                       width="400" height="400" alt=""/></a>
-                </div>
-                <div class="pro-tex">
-                    <h3><a href="https://www.vivishop.tw/v-1381.html">【爆紅款】時尚V領長袖針織開衫【第二件僅需$300】</a></h3>
-                    <div class="p3">
-                        <span class="newprice">NT$ 1,380</span>
-                        <span class="oldprice">NT$ 3,998</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/poscilla-500.html"><img
-                                src="picture/o15ww9w6o17m55oz071uqwr658banner2.jpg" width="400" height="400"
-                                alt=""/></a>
-                </div>
-                <div class="pro-tex">
-                    <h3><a href="https://www.vivishop.tw/poscilla-500.html">POSCILLA針織拼接連衣裙【第二件僅售$500】</a></h3>
-                    <div class="p3">
-                        <span class="newprice">NT$ 1,360</span>
-                        <span class="oldprice">NT$ 3,620</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/400-59657.html"><img
-                                src="picture/006a73f19cd4614d8b1f9643cd91f57b.jpg" width="400" height="400" alt=""/></a>
-                </div>
-                <div class="pro-tex">
-                    <h3><a href="https://www.vivishop.tw/400-59657.html">高腰甜美雪紡網紗百褶裙【第二件僅400】</a></h3>
-                    <div class="p3">
-                        <span class="newprice">NT$ 1,260</span>
-                        <span class="oldprice">NT$ 4,200</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/cotton-and-linen-pants.html"><img
-                                src="picture/f70a2dfc933f46cd13be90160b55b6e3.jpg" width="400" height="400" alt=""/></a>
-                </div>
-                <div class="pro-tex">
-                    <h3><a href="https://www.vivishop.tw/cotton-and-linen-pants.html">日系薄款冰絲棉麻小脚褲，視覺增高5cm！【三色可選】</a>
-                    </h3>
-                    <div class="p3">
-                        <span class="newprice">NT$ 1,280</span>
-                        <span class="oldprice">NT$ 1,880</span>
-                    </div>
-                </div>
-            </li>
+        <ul class="prolist active_type1">
+            
         </ul>
         <div class="clear"></div>
     </div>
-    <div class="hsale-title">
+    <!-- <div class="hsale-title">
         <div class="timer" id="timer">
         </div>
     </div>
@@ -200,7 +121,7 @@
         <ul class="prolist">
             <li>
                 <div class="pro-tu">
-                    <a href="https://www.vivishop.tw/xichenqi.html"><img src="picture/xcq-1.jpg" width="400"
+                    <a href="https://www.vivishop.tw/xichenqi.html"><img src="img/zlt.jpg" width="400"
                                                                          height="400" alt=""/></a>
                 </div>
                 <div class="pro-tex">
@@ -214,7 +135,7 @@
             <li>
                 <div class="pro-tu">
                     <a href="https://www.vivishop.tw/lipstick-microphone.html"><img
-                                src="picture/g15s4ys17u64v3bpgphi60z5r275001.jpg" width="400" height="400" alt=""/></a>
+                                src="img/zlt.jpg" width="400" height="400" alt=""/></a>
                 </div>
                 <div class="pro-tex">
                     <h3><a href="https://www.vivishop.tw/lipstick-microphone.html">mr.leaf迷你口紅唱吧麥克風【第二隻僅需300！】</a></h3>
@@ -226,9 +147,8 @@
             </li>
         </ul>
         <div class="clear"></div>
-    </div>
-    <div id="load" style="width:100%;text-algin:center;height:40px;padding:8px 0;"><img src="picture/loading.gif"
-                                                                                        style="width:auto;margin:0 auto;display:none;">
+    </div> -->
+    <div id="load" style="width:100%;text-algin:center;height:40px;padding:8px 0;"><img src="images/loading.gif" style="width:30px;margin:0 auto;display:none;">
     </div>
 
     <style>#descDiv .prolist li {
@@ -279,8 +199,10 @@
         })
     </script>
     <script>
-        jQuery(document).ready(function () {
+        var site_id = {{ $site->sites_id }}
+        jQuery(document).ready(function ($) {
             var state = true;
+            var page =1;
             var linum = jQuery("#descDiv ul li").length;
             jQuery("#descDiv ul li:lt(4)").show();
             jQuery(window).scroll(function () {
@@ -289,17 +211,44 @@
                     if (state == true) {
                         state = false;
                         jQuery("#load img").css("display", "block");
-                        setTimeout(function () {
-                            jQuery("#load img").css("display", "none");
-                            var lilen = jQuery("#descDiv ul li:visible").length;
-                            var lilent = lilen + 4;
-                            jQuery("#descDiv ul li:lt(" + lilent + ")").show();
-                            if (lilent >= linum) {
-                                jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
-                            } else {
-                                state = true;
+                        $.ajax({
+                            type:'get',
+                            url:'/index/get_site_goods?site_id='+site_id+'&page='+page+'&active_type=1',
+                            success:function(data){
+                                var addli = '';
+                                $.each(JSON.parse(data),function(i,item){
+                                    addli += '<li><div class="pro-tu">'
+                                           + '<a href="#"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
+                                        +'</div>'
+                                        +'<div class="pro-tex">'
+                                            +'<h3><a href="#">'+item.goods_name+'</a></h3>'
+                                            +'<div class="p3">'
+                                                +'<span class="newprice">NT$ '+item.goods_real_price+'</span>'
+                                                +'<span class="oldprice">NT$ '+item.goods_real_price+'</span>'
+                                            +'</div>'
+                                        +'</div></li>'
+                                })
+                                $('.active_type1').append(addli);
+                                // jQuery("#load img").css("display", "none");
+                                if(data.length<6){
+                                    jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                                }else{
+                                  state = true;
+                                  page++;
+                                }
                             }
-                        }, 1000);
+                        });
+                        // setTimeout(function () {
+                        //     jQuery("#load img").css("display", "none");
+                        //     var lilen = jQuery("#descDiv ul li:visible").length;
+                        //     var lilent = lilen + 4;
+                        //     jQuery("#descDiv ul li:lt(" + lilent + ")").show();
+                        //     if (lilent >= linum) {
+                        //         jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                        //     } else {
+                        //         state = true;
+                        //     }
+                        // }, 1000);
                     }
                 }
             });
