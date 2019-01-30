@@ -25,7 +25,7 @@
     <script type="text/javascript" src="{{ asset('js/site_js/js.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/form.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/translate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>
+    {{--    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/site_js/simple-share.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/total.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/main.js') }}"></script>
@@ -59,8 +59,9 @@
     <div class="nav-container">
         <ul id="nav">
             @foreach($cates as $cate)
-            <li class="level0 nav-{{$cate->site_class_id}} level-top"><a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}"
-                                                                        class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
+                <li class="level0 nav-{{$cate->site_class_id}} level-top"><a
+                            href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}"
+                            class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
             @endforeach
         </ul>
     </div>
@@ -71,6 +72,7 @@
             jQuery('.reveal-modal').slideDown();
         });
     })
+
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
     <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
@@ -110,30 +112,16 @@
     </div>
 </div>
 <div style="display:none">
-    <section style="position: fixed;top:50px;left: 0;right: 0;z-index:2;" id="top-banner-fix">
-        <p><a href="customer/account/login/"><img src="https://vivishop.looaon.com/wysiwyg/wap/670-60_labor-day.jpg"
-                                                  alt=""></a><span class="ibox"></span></p>
-        <img id="top-close" src="https://www.vivishop.tw//skin/frontend/yisainuo/wap/images/close.png"
-             style="position: absolute; right: 4px; top: 80px; width: 20px;">
-    </section>
-    <script type="text/javascript">var bH = jQuery('html,body').width() / 640 * 60;
+
+    <script type="text/javascript">
+        var bH = jQuery('html,body').width() / 640 * 60;
         jQuery('body').css('padding-top', 50);
-        jQuery('#top-close').css('top', (bH - 20) / 2)
-        jQuery('#top-close').click(function (e) {
-            jQuery('#top-banner-fix').hide();
-            jQuery('body').css('padding-top', 120);
-            e.stopPropagation()
-        });
         jQuery(function () {
             jQuery('.return-icon').click(function () {
                 jQuery('.reveal-modal').slideUp();
             });
-            jQuery.ajax({
-                url: '/customshippingmethod/cartcount/index', type: 'post', success: function (data) {
-                    jQuery('.newicon-gouwudai i').html(data);
-                }
-            });
-        });</script>
+        });
+    </script>
 </div>
 <main class="cd-main-content">
     @yield('content')

@@ -7,7 +7,7 @@
             <div class="swipe" id="mySwipes" style="visibility: visible;">
                 <div class="swipe-wrap">
                     @foreach($banners as $banner)
-                        <div><a @if($banner->site_goods_id) href="{{ url('goods/') .'/'.$banner->site_goods_id }}"
+                        <div><a @if($banner->site_goods_id) href="{{ url('/index/site_goods/') .'/'.$banner->site_goods_id }}"
                                 @else href="" @endif><img class="img-responsive" src="{{ url($banner->site_img) }}"
                                                           alt=""></a></div>
                     @endforeach
@@ -54,7 +54,7 @@
             <div class="djstu2">
                 @foreach($activities as $key=>$activity)
                     <div class="djs0{{ $key }}">
-                        <a href="http://{{ url('activity/') . '/' . $activity->site_active_type }}">
+                        <a href="{{ url('activity/') . '/' . $activity->site_active_type }}">
                             <img src="{{ url($activity->site_active_img) }}" width="308" height="190">
                         </a>
                     </div>
@@ -168,7 +168,6 @@
             font-size: 18px;
         }</style>
 
-    <script type="text/javascript" src="js/ld.js" async="true"></script>
 
     <script type="text/javascript">window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
@@ -203,8 +202,8 @@
         jQuery(document).ready(function ($) {
             var state = true;
             var page =1;
-            var linum = jQuery("#descDiv ul li").length;
-            jQuery("#descDiv ul li:lt(4)").show();
+            // var linum = jQuery("#descDiv ul li").length;
+            // jQuery("#descDiv ul li:lt(4)").show();
             jQuery(window).scroll(function () {
                 var scrot = jQuery(document).scrollTop() + 100;
                 if (scrot >= jQuery(document).height() - jQuery(window).height()) {
@@ -218,10 +217,10 @@
                                 var addli = '';
                                 $.each(JSON.parse(data),function(i,item){
                                     addli += '<li><div class="pro-tu">'
-                                           + '<a href="#"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
+                                           + '<a href="http://'+item.goods_url+'"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
                                         +'</div>'
                                         +'<div class="pro-tex">'
-                                            +'<h3><a href="#">'+item.goods_name+'</a></h3>'
+                                            +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
                                             +'<div class="p3">'
                                                 +'<span class="newprice">NT$ '+item.goods_real_price+'</span>'
                                                 +'<span class="oldprice">NT$ '+item.goods_real_price+'</span>'

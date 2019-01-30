@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\home;
 
+use App\currency_type;
 use App\site_active;
 use App\site_class;
 use App\site_img;
@@ -49,7 +50,7 @@ class SiteController extends Controller
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $active_id = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
+        $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
 //        $products = DB::table('goods')->join('site_active_goods', 'goods_id', '=', 'site_good_id')->where('site_active_id', $active->site_active_id)->get();
         switch ($activity_id) {
             case 1:
@@ -63,7 +64,7 @@ class SiteController extends Controller
                 break;
         }
         $type = 'activity';
-        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_id', 'type'));
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type'));
     }
 
     public function cate(Request $request, $cate_id)
@@ -76,9 +77,10 @@ class SiteController extends Controller
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $type = 'cate';
+		$type = 'cate';
+		$active_type = $cate_id;
         $position = site_class::where('site_site_id', $site_id)->where('site_is_show', 1)->where('site_goods_type_id', $cate_id)->value('site_class_show_name');
-        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'cate_id', 'type'));
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type'));
     }
 
     public function get_goods_by_cate(Request $request)
@@ -87,12 +89,18 @@ class SiteController extends Controller
         $limit = $request->input('limit', 6);
         $site_id = $request->get('site_id');
         $goods = \DB::table('goods')
-            ->select('goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'img.img_url')
+            ->select('goods.goods_id','goods.goods_name', 'goods.goods_real_price', 'goods.goods_price','goods.goods_id','goods.goods_currency_id', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
+            ->where('goods.goods_blade_type', $request->input('active_type'))
             ->offset($page)
             ->limit($limit)
             ->get();
+        foreach($goods as $k => &$v){
+            $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
+            $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
+        }
         return json_encode($goods);
     }
     public function get_site_goods(Request $request)
@@ -101,14 +109,14 @@ class SiteController extends Controller
     	$limit=$request->input('limit',6);
     	$site_id=$request->get('site_id');
     	$goods=\DB::table('site_actives')
-    	->select('goods.goods_name','goods.goods_real_price','goods.goods_price','goods.goods_id','site_actives.site_active_type','site_actives.site_active_id','site_actives.site_active_img','site_active_goods.sort')
+    	->select('goods.goods_name','goods.goods_real_price','goods.goods_price','goods.goods_id','goods.goods_currency_id','site_actives.site_active_type','site_actives.site_active_id','site_actives.site_active_img','site_active_goods.sort')
     	->leftjoin('site_active_goods','site_actives.site_active_id','site_active_goods.site_active_id')
     	->leftjoin('goods','site_active_goods.site_good_id','goods.goods_id')
     	->where('site_actives.site_id',$site_id)
     	->where('goods.is_del',0)
     	->where(function($query)use($request){
     		if($request->has('active_type')){
-    			$query->where('site_active_goods.site_active_id',$request->input('active_type'));
+    			$query->where('site_actives.site_active_type',$request->input('active_type'));
     		}
     	})
     	->orderBy('site_active_goods.sort','desc')
@@ -118,6 +126,7 @@ class SiteController extends Controller
         foreach($goods as $k => &$v){
             $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
             $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
         }
 	    return json_encode($goods);
     }
