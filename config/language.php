@@ -86,7 +86,7 @@ return [
         'seckill' => ['Chinese' => '秒杀抢购', 'English' => 'FLASH SALE', 'Chinese-fan' => '秒杀抢购', 'Indonesia' => 'siapa cepat dia dapat', 'Arab'=> 'سريع الإشتراء'],
         'search' => ['Chinese' => '搜索', 'English' => 'search', 'Chinese-fan' => '搜索', 'Indonesia' => 'cari', 'Arab'=> 'البحث'],
         'hot_search' => ['Chinese' => '热门搜索', 'English' => 'hot search', 'Chinese-fan' => '热门搜索', 'Indonesia' => 'pencarian populer', 'Arab'=> 'بحث الشائع'],
-        'input_keyworks' => ['Chinese' => '热门搜索', 'English' => 'enter search keywords', 'Chinese-fan' => '請輸入關鍵字', 'Indonesia' => 'silakan masukkan kata kunci', 'Arab'=> 'إضبط الكلمة الهامّة'],
-        'alreay_bottom' => ['Chinese' => '热门搜索', 'English' => 'end', 'Chinese-fan' => '已經到最底部了', 'Indonesia' => 'sudah sampai bagian terakhir', 'Arab'=> 'إلي نهاية الصفحة'],
+        'input_keyworks' => ['Chinese' => '请输入关键字', 'English' => 'enter search keywords', 'Chinese-fan' => '請輸入關鍵字', 'Indonesia' => 'silakan masukkan kata kunci', 'Arab'=> 'إضبط الكلمة الهامّة'],
+        'alreay_bottom' => ['Chinese' => '已经到最底部了', 'English' => 'end', 'Chinese-fan' => '已經到最底部了', 'Indonesia' => 'sudah sampai bagian terakhir', 'Arab'=> 'إلي نهاية الصفحة'],
         ]
 ];

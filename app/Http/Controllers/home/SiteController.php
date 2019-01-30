@@ -33,8 +33,8 @@ class SiteController extends Controller
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $banners = site_img::where('site_site_id', $site_id)->get();
-        $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 1)->first();
-        $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>', 1)->orderBy('site_active_type', 'asc')->get();
+        $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 2)->first();
+        $activities = site_active::where('site_id', $site_id)->whereIn('site_active_type',[1,3])->orderBy('site_active_type', 'asc')->get();
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.index')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities', 'hot_search'));
     }
@@ -49,8 +49,9 @@ class SiteController extends Controller
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
+//        $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
 //        $products = DB::table('goods')->join('site_active_goods', 'goods_id', '=', 'site_good_id')->where('site_active_id', $active->site_active_id)->get();
+        $active_type = $activity_id;
         $language = goods::get_language($site->sites_blade_type);
         switch ($activity_id) {
             case 1:
@@ -96,7 +97,7 @@ class SiteController extends Controller
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $type = 'search';
-        $q= $request->input('q');
+        $q = $request->input('q');
         $active_type = $q;
         $language = goods::get_language($site->sites_blade_type);
         $position =  config("language.index.seckill.{$language}") . ':' . $q;
@@ -106,7 +107,7 @@ class SiteController extends Controller
 
     public function get_goods_by_search(Request $request)
     {
-        $page = $request->input('page');
+        $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $q = $request->input('q');
         $goods = \DB::table('goods')
@@ -120,11 +121,19 @@ class SiteController extends Controller
                     ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
                     ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
             })
-            ->offset($page)
+            ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
-            $v->img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            if(!$img_url){
+               $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
+            }else{
+                if(stripos($_SERVER['SERVER_NAME'],$img_url) === false) {
+                    $img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+                }
+            }
+            $v->img_url = $img_url;
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
             $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
@@ -133,18 +142,26 @@ class SiteController extends Controller
 
     public function get_goods_by_cate(Request $request)
     {
-        $page = $request->input('page');
+        $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
             ->where('goods.goods_blade_type', $request->input('active_type'))
-            ->offset($page)
+            ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
-            $v->img_url = $_SERVER['SERVER_NAME'] . '/' . img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            if(!$img_url){
+                $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
+            }else{
+                if(stripos($_SERVER['SERVER_NAME'],$img_url) === false) {
+                    $img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+                }
+            }
+            $v->img_url = $img_url;
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
             $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
@@ -153,9 +170,8 @@ class SiteController extends Controller
 
     public function get_site_goods(Request $request)
     {
-        $page = $request->input('page');
+        $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
-        $offset=($page-1)*$limit;
         $site_id = $request->get('site_id');
         $goods = \DB::table('site_actives')
             ->select('goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'site_actives.site_active_type', 'site_actives.site_active_id', 'site_actives.site_active_img', 'site_active_goods.sort')
@@ -169,11 +185,19 @@ class SiteController extends Controller
                 }
             })
             ->orderBy('site_active_goods.sort', 'desc')
-            ->offset($offset)
+            ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
-            $v->img_url = $_SERVER['SERVER_NAME'] . '/' . img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            if(!$img_url){
+                $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
+            }else{
+                if(stripos($_SERVER['SERVER_NAME'],$img_url) === false) {
+                    $img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+                }
+            }
+            $v->img_url = $img_url;
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
             $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
