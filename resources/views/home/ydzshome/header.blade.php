@@ -78,13 +78,13 @@
     <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
     <form id="top-search" action="{{ url('/search') }}" method="get">
         <div class="search">
-            <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="{!! config("language.footer-name.index.input_keyworks.".\App\goods::get_language($site->sites_blade_type)) !!}">
-            <button type="submit" title="{!! config("language.footer-name.index.search.".\App\goods::get_language($site->sites_blade_type)) !!}" class="button"><span><span>{!! config("language.footer-name.index.search.".\App\goods::get_language($site->sites_blade_type)) !!}</span></span></button>
+            <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="{!! config("language.index.input_keyworks.".\App\goods::get_language($site->sites_blade_type)) !!}">
+            <button type="submit" title="{!! config("language.index.search.".\App\goods::get_language($site->sites_blade_type)) !!}" class="button"><span><span>{!! config("language.index.search.".\App\goods::get_language($site->sites_blade_type)) !!}</span></span></button>
             <div id="search_autocomplete" class="search-autocomplete"></div>
         </div>
     </form>
     <div class="hot">
-        <div class="title">熱門搜尋</div>
+        <div class="title">{!! config("language.index.hot_search.".\App\goods::get_language($site->sites_blade_type)) !!}</div>
         <ul class="hot-left">
             @foreach($hot_search['left'] as $hot)
             <li><a href="{{ url('/search/') .'?q=' .$hot }}">{{ $hot }}</a></li>

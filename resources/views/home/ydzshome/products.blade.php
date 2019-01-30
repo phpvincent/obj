@@ -98,8 +98,9 @@
                         console.log('pr',datas.length)
                         if(datas.length<6){
                             console.log('after',datas.length)
-                            state = false;
-                            jQuery('main').append("<p style='text-align:center;line-height:25px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                            state = false
+                            var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            jQuery('main').append("<p style='text-align:center;line-height:25px;font-size:14px;'>"+   bottom +"</p>").css({"margin-top": "1px"});
                             console.log("22")
                         }else{
                           state = true;

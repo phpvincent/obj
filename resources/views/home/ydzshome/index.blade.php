@@ -44,7 +44,7 @@
     </div>
     <div class="newsale-title">
         <div class="newsale_r">
-            限量搶購中
+            {!! config("language.index.new.".\App\goods::get_language($site->sites_blade_type)) !!}
         </div>
     </div>
     <div class="new-sale-big">
@@ -209,7 +209,8 @@
                                 $('.active_type1').append(addli);
                                 // jQuery("#load img").css("display", "none");
                                 if(datas.length<6){
-                                    jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                                    var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                                    jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>"+   bottom +"</p>").css({"margin-top": "1px"});
                                 }else{
                                   state = true;
                                   page++;

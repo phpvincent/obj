@@ -51,15 +51,16 @@ class SiteController extends Controller
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
 //        $products = DB::table('goods')->join('site_active_goods', 'goods_id', '=', 'site_good_id')->where('site_active_id', $active->site_active_id)->get();
+        $language = goods::get_language($site->sites_blade_type);
         switch ($activity_id) {
             case 1:
-                $position = '新品推荐';
+                $position = config("language.index.new.{$language}");
                 break;
             case 2:
-                $position = '秒杀抢购';
+                $position = config("language.index.seckill.{$language}");
                 break;
             case 3:
-                $position = '热卖推荐';
+                $position = config("language.index.hot.{$language}");
                 break;
         }
         $type = 'activity';
@@ -97,7 +98,8 @@ class SiteController extends Controller
         $type = 'search';
         $q= $request->input('q');
         $active_type = $q;
-        $position = '搜索結果：' . $q;
+        $language = goods::get_language($site->sites_blade_type);
+        $position =  config("language.index.seckill.{$language}") . ':' . $q;
         $hot_search = $this->hot_search_goods($site->sites_blade_type);
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
