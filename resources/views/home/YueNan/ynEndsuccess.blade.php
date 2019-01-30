@@ -67,7 +67,7 @@
 @endif
 </head>
 <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay';})()"></a>
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
         <h1 class="mui-title">xác nhận đơn đặt hàng</h1>
 </header>
     <div class="mui-content">
@@ -82,7 +82,7 @@
                                             <!--同一个币种不同团队的邮箱不一样-->
                                             Xin vui lòng duy trì điện thoại thông suốt, để người phân phối có thể liên lạc ngay với quý khách, nếu có vấn đề gì xin vui lòng liên hệ với phục vụ khách hàng trên mạng của chúng tôi. Chúc quý khách mua hàng vui vẻ nhé! <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a> </div> </div>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">quay lại trang chủ &gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="goHome()">quay lại trang chủ &gt;&gt;</button>
             </div>
     </div>
 </div>

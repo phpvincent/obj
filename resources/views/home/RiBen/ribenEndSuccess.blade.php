@@ -69,7 +69,7 @@
 <body style="">
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay';})()"></a>
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
         <h1 class="mui-title">オーダー確認 </h1>
 </header>
     <div class="mui-content">
@@ -84,7 +84,7 @@
                                             <!--同一个币种不同团队的邮箱不一样-->
                                             配送する時、携帯電話が掛かるようにお願いします、何か質問があれば、オンラインサービスまでご連絡ください。では、お買い物を楽しみに<a href="mailto:esdkhjes@gmail.com" style="color:#F8770E">esdkhjes@gmail.com</a>      </div>            </div>
             <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="(function(){window.location.href = '/';})()">ホームへ戻る&gt;&gt;</button>
+                <button type="button" class="succuss_center_a" style="" onclick="goHome()">ホームへ戻る&gt;&gt;</button>
             </div>
     </div>
 </div>
