@@ -20,6 +20,7 @@ use App\channel\mailControl;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
+	
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
 		@header('Content-type: text/html;charset=UTF-8');
@@ -35,6 +36,7 @@ use App\channel\mailControl;
 		App\channel\sendMessage::message_notice();
 	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
+	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '[0-9]+');
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
 	Route::post('/comment','home\IndexController@comment');

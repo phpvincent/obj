@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 class site extends Model
 {
+    public $table = 'sites';
+    protected $primaryKey ='sites_id';
+
     public static function is_site($url)
     {
     	$url=url::where([['url_url',$url],['url_site_id','>',0],['url_type',1]])->first();
