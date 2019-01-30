@@ -38,9 +38,11 @@ use App\channel\mailControl;
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
     Route::get('/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
+	Route::get('index/get_goods_by_search','home\SiteController@get_goods_by_search');
 	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '[0-9]+');
     Route::get('/activity/{activity_id}', 'home\SiteController@activity')->where('activity_id', '[1-3]');
     Route::get('/cate/{activity_id}', 'home\SiteController@cate')->where('cate_id', '[0-9]+');
+    Route::get('/search', 'home\SiteController@search');
 	Route::get('/','home\IndexController@index');
 	/*Route::get('/{rand}','home\IndexController@index');*/
 	Route::post('/comment','home\IndexController@comment');
