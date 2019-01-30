@@ -12,10 +12,10 @@
         <div class="footmenu-list">
             <ul class="f-list">
                 <li>
-                    <a href="/footer/about">關於我們</a>
-                    <a href="/footer/shipping">物流條款</a>
-                    <a href="/footer/return">退換貨政策</a>
-                    <a href="/footer/privacy">隱私協議</a>
+                    <a href="/footer/about">{!! config("language.footer-name.about.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/shipping">{!! config("language.footer-name.shipping.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/return">{!! config("language.footer-name.return.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/privacy">{!! config("language.footer-name.privacy.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
                 </li>
                 <li>© 2019 <a href="/" title="">ydzsshop.tw</a>. All rights reserved</li>
             </ul>
