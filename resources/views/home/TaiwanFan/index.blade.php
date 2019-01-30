@@ -783,7 +783,7 @@ $(function(){
                
             } catch(e) {}
 
-            var action ='/pay';
+            var action ='/pay?goods_id='+{{$goods->goods_id}};
            /* var tjArr = localStorage.getItem("jsArr");
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
