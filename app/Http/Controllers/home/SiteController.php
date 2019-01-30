@@ -124,7 +124,7 @@ class SiteController extends Controller
         foreach ($goods as $k => &$v) {
             $v->img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
-            $v->currency = currency_type::where('currency_type_id', goods_currency_id)->value('currency_type_name');
+            $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
         return json_encode($goods);
     }
@@ -346,9 +346,7 @@ class SiteController extends Controller
         }
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $banners = site_img::where('site_site_id', $site_id)->get();
-        $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 1)->first();
-        $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>', 1)->orderBy('site_active_type', 'asc')->get();
-        return view('home.ydzshome.menus')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities', 'type'));
+        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        return view('home.ydzshome.menus')->with(compact('site', 'cates', 'type','hot_search'));
     }
 }
