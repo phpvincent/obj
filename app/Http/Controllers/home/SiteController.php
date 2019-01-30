@@ -97,9 +97,9 @@ class SiteController extends Controller
             ->limit($limit)
             ->get();
         foreach($goods as $k => &$v){
-            $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
+            $v->img_url=$_SERVER['SERVER_NAME'] .'/'.img::where('img_goods_id',$v->goods_id)->first()['img_url'];
             $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
-            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
+            $v->currency = currency_type::where('currency_type_id',$v->goods_currency_id)->value('currency_type_name');
         }
         return json_encode($goods);
     }
@@ -124,9 +124,9 @@ class SiteController extends Controller
 	    ->limit($limit)
 	    ->get();
         foreach($goods as $k => &$v){
-            $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
+            $v->img_url=$_SERVER['SERVER_NAME'].'/'.img::where('img_goods_id',$v->goods_id)->first()['img_url'];
             $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
-            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
+            $v->currency = currency_type::where('currency_type_id',$v->goods_currency_id)->value('currency_type_name');
         }
 	    return json_encode($goods);
     }
