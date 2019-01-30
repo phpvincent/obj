@@ -7,7 +7,7 @@
             <div class="swipe" id="mySwipes" style="visibility: visible;">
                 <div class="swipe-wrap">
                     @foreach($banners as $banner)
-                        <div><a @if($banner->site_goods_id) href="{{ url('goods/') .'/'.$banner->site_goods_id }}"
+                        <div><a @if($banner->site_goods_id) href="{{ url('/index/site_goods/') .'/'.$banner->site_goods_id }}"
                                 @else href="" @endif><img class="img-responsive" src="{{ url($banner->site_img) }}"
                                                           alt=""></a></div>
                     @endforeach
@@ -168,7 +168,6 @@
             font-size: 18px;
         }</style>
 
-    <script type="text/javascript" src="{{ asset('js/site_js/ld.js') }}" async="true"></script>
 
     <script type="text/javascript">window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
