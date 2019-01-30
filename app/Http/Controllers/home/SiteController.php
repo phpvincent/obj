@@ -13,8 +13,6 @@ use App\comment;
 use App\des;
 use App\par;
 use App\cuxiao;
-use App\order;
-use App\vis;
 use App\templet_show;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,7 +35,8 @@ class SiteController extends Controller
         $banners = site_img::where('site_site_id', $site_id)->get();
         $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 1)->first();
         $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>', 1)->orderBy('site_active_type', 'asc')->get();
-        return view('home.ydzshome.index')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities'));
+        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        return view('home.ydzshome.index')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities', 'hot_search'));
     }
 
     public function activity(Request $request, $activity_id)
@@ -64,7 +63,8 @@ class SiteController extends Controller
                 break;
         }
         $type = 'activity';
-        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type'));
+        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type','hot_search'));
     }
 
     public function cate(Request $request, $cate_id)
@@ -80,14 +80,56 @@ class SiteController extends Controller
 		$type = 'cate';
 		$active_type = $cate_id;
         $position = site_class::where('site_site_id', $site_id)->where('site_is_show', 1)->where('site_goods_type_id', $cate_id)->value('site_class_show_name');
-        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type'));
+        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
 
+    public function search(Request $request,$q)
+    {
+        $site_id = $request->get('site_id');
+        if ($site_id <= 0) {
+            \Log::info($_SERVER['SERVER_NAME'] . '获取site_id失败,site_id:' . $site_id . 'ip:' . $request->getClientIp());
+            return redirect('index/fb');
+        }
+        $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
+        $site->url = url::where('url_site_id', $site_id)->value('url_url');
+        $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
+        $type = 'search';
+        $active_type = $q;
+        $position = '搜索結果：' . $q;
+        $hot_search = $this->hot_search_goods($site->sites_blade_type);
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
+    }
+    public function get_goods_by_search(Request $request)
+    {
+        $page = $request->input('page');
+        $limit = $request->input('limit', 6);
+        $q = $request->input('q');
+        $goods = \DB::table('goods')
+            ->select('goods.goods_id','goods.goods_name', 'goods.goods_real_price', 'goods.goods_price','goods.goods_id','goods.goods_currency_id', 'img.img_url')
+            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
+            ->leftjoin('goods_kind', 'goods_kind.goods_kind_id', 'goods.goods_kind_id')
+            ->where('goods.is_del', 0)
+            ->where(function ($query) use ($q) {
+                $query->where('goods.goods_name', 'like','%'. $q .'%')
+                    ->orWhere('goods.goods_real_name','like','%'. $q .'%')
+                    ->orWhere('goods_kind.goods_kind_name','like','%'. $q .'%')
+                    ->orWhere('goods_kind.goods_kind_english_name','like','%'. $q .'%');
+            })
+            ->offset($page)
+            ->limit($limit)
+            ->get();
+        foreach($goods as $k => &$v){
+            $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
+            $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
+        }
+        return json_encode($goods);
+    }
     public function get_goods_by_cate(Request $request)
     {
         $page = $request->input('page');
         $limit = $request->input('limit', 6);
-        $site_id = $request->get('site_id');
         $goods = \DB::table('goods')
             ->select('goods.goods_id','goods.goods_name', 'goods.goods_real_price', 'goods.goods_price','goods.goods_id','goods.goods_currency_id', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
@@ -254,5 +296,39 @@ class SiteController extends Controller
                 # code...
                 break;
         }
+    }
+
+    private function hot_search_goods($goods_blade_type)
+    {
+        if (in_array($goods_blade_type, [8,9,10,13,15,17])){ //英语
+                $left_goods = ['sleeve dress', 'running shoes'];
+                $right_goods = ['Trendy Backpack'];
+        }elseif(in_array($goods_blade_type, [0])) { // 繁体中文
+            $left_goods = ['平底沙滩鞋', '萬能轉換插頭'];
+            $right_goods = ['车载电热杯','大碼彈力顯瘦牛仔褲'];
+        }elseif(in_array($goods_blade_type, [16])) { // 阿语
+            $left_goods = ['POLO', 'الشحن لسيارة'];
+            $right_goods = ['حذاء يدوي لين مريح','الشحن لسيارة'];
+        }elseif(in_array($goods_blade_type, [3])) { // 马来
+            $left_goods = ['dress', 'Men cowhide leather'];
+            $right_goods = ['Roll Up Piano'];
+        }elseif(in_array($goods_blade_type, [4])) { // 泰语
+            $left_goods = ['Micro Current', 'เสื้อกันแดด'];
+            $right_goods = ['รองเท้าลำลองรุ่นผู้ชาย สไตล์อังกฤษ'];
+        }elseif(in_array($goods_blade_type, [5])) { // 日语
+            $left_goods = ['レギンス'];
+            $right_goods = ['大判ストール チェック柄'];
+        }elseif(in_array($goods_blade_type, [6])) { // 印尼
+            $left_goods = ['Kasur lipat'];
+            $right_goods = ['Sepatu rajutan pria'];
+        }elseif(in_array($goods_blade_type, [11])) { // 越南
+            $left_goods = [''];
+            $right_goods = [''];
+        }else{
+            $left_goods = [''];
+            $right_goods = [''];
+        }
+
+        return ['left' => $left_goods, 'right' => $right_goods];
     }
 }

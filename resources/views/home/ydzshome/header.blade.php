@@ -76,7 +76,7 @@
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
     <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
-    <form id="top-search" action="https://www.vivishop.tw/catalogsearch/result/" method="get">
+    <form id="top-search" action="{{ url('/search/') }}" method="get">
         <div class="search">
             <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="請輸入關鍵字或品牌">
             <button type="submit" title="搜索" class="button"><span><span>搜索</span></span></button>
@@ -86,28 +86,14 @@
     <div class="hot">
         <div class="title">熱門搜尋</div>
         <ul class="hot-left">
-            <li><a href="/catalogsearch/result/?q=塑身褲">塑身褲</a></li>
-            <li><a href="/catalogsearch/result/?q=收腹褲">收腹褲</a></li>
-            <li><a href="/catalogsearch/result/?q=牛仔褲">牛仔褲</a></li>
-            <li><a href="/catalogsearch/result/?q=運動鞋">運動鞋</a></li>
-            <li><a href="/catalogsearch/result/?q=按摩棒">按摩棒</a></li>
-            <li><a href="/catalogsearch/result/?q=休閒皮鞋">休閒皮鞋</a></li>
-            <li><a href="/catalogsearch/result/?q=藍牙音響">藍牙音響</a></li>
-            <li><a href="/catalogsearch/result/?q=as快眠枕">as快眠枕</a></li>
-            <li><a href="/catalogsearch/result/?q=單肩斜挎包">單肩斜挎包</a></li>
-            <li><a href="/catalogsearch/result/?q=車用吸塵器">車用吸塵器</a></li>
-            <li><a href="/catalogsearch/result/?q=多功能錢包">多功能錢包</a></li>
+            @foreach($hot_search['left'] as $hot)
+            <li><a href="{{ url('/search/') .'/' .$hot }}">{{ $hot }}</a></li>
+            @endforeach
         </ul>
         <ul class="hot-right">
-            <li><a href="/catalogsearch/result/?q=麥飯石炒鍋">麥飯石炒鍋</a></li>
-            <li><a href="/catalogsearch/result/?q=無痕殺菌內褲">無痕殺菌內褲</a></li>
-            <li><a href="/catalogsearch/result/?q=OKO蜂巢不沾鍋">OKO蜂巢不沾鍋</a></li>
-            <li><a href="/catalogsearch/result/?q=優奇仕钛鑽鍍膜">優奇仕钛鑽鍍膜</a></li>
-            <li><a href="/catalogsearch/result/?q=骨傳導藍牙耳機">骨傳導藍牙耳機</a></li>
-            <li><a href="/catalogsearch/result/?q=INTEX懶人充氣沙發">INTEX懶人充氣沙發</a></li>
-            <li><a href="/catalogsearch/result/?q=CoolBell防盜後背包">CoolBell防盜後背包</a></li>
-            <li><a href="/catalogsearch/result/?q=Rontion磁懸浮地球儀">Rontion磁懸浮地球儀</a></li>
-            <li><a href="/catalogsearch/result/?q=Maidini油蠟牛皮托特包">Maidini油蠟牛皮托特包</a></li>
+            @foreach($hot_search['right'] as $hot)
+                <li><a href="{{ url('/search/') .'/' .$hot }}">{{ $hot }}</a></li>
+            @endforeach
         </ul>
     </div>
 </div>
