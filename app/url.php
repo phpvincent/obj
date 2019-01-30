@@ -214,17 +214,17 @@ class url extends Model
         if(substr($url,0,4) == 'www.'){
             $url = substr($url,4);
         };
-        $url = url::where('url_url',$url)->first();
-        if($url){
+        $urls = url::where('url_url',$url)->first();
+        if(!$url){
             return false;
         }
-        if($url->url_site_id){
+        if($urls->url_site_id){
             return $url.'/index/site_goods/'.$goods_id;
         }
-        if($url->url_goods_id){
+        if($urls->url_goods_id){
             return $url;
         }
-        if($url->url_zz_goods_id){
+        if($urls->url_zz_goods_id){
             return $url;
         }
         return false;
