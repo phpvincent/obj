@@ -153,6 +153,7 @@ class SiteController extends Controller
     {
         $page = $request->input('page');
         $limit = $request->input('limit', 6);
+        $offset=($page-1)*$limit;
         $site_id = $request->get('site_id');
         $goods = \DB::table('site_actives')
             ->select('goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'site_actives.site_active_type', 'site_actives.site_active_id', 'site_actives.site_active_img', 'site_active_goods.sort')
@@ -166,7 +167,7 @@ class SiteController extends Controller
                 }
             })
             ->orderBy('site_active_goods.sort', 'desc')
-            ->offset($page)
+            ->offset($offset)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
