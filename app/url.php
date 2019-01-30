@@ -153,6 +153,9 @@ class url extends Model
             $url=substr($url, 4);
         }
         $level=self::where('url_url',$url)->first(['url_zz_level']);
+        if($level==null){
+            \Log::notice('getlevel出错,url:'.$url);
+        }
         return $level->url_zz_level;
     }
     public static function getzzfor(){
