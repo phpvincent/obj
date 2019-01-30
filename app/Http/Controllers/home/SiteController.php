@@ -107,7 +107,7 @@ class SiteController extends Controller
 
     public function get_goods_by_search(Request $request)
     {
-        $page = $request->input('page');
+        $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $q = $request->input('q');
         $goods = \DB::table('goods')
@@ -134,7 +134,7 @@ class SiteController extends Controller
 
     public function get_goods_by_cate(Request $request)
     {
-        $page = $request->input('page');
+        $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'img.img_url')
@@ -154,7 +154,7 @@ class SiteController extends Controller
 
     public function get_site_goods(Request $request)
     {
-        $page = $request->input('page');
+        $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $site_id = $request->get('site_id');
         $goods = \DB::table('site_actives')
