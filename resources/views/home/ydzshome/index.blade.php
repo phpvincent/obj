@@ -8,7 +8,7 @@
                 <div class="swipe-wrap">
                     @foreach($banners as $banner)
                         <div><a @if($banner->site_goods_id) href="{{ url('/index/site_goods/') .'/'.$banner->site_goods_id }}"
-                                @else href="" @endif><img class="img-responsive" src="{{ url($banner->site_img) }}"
+                                @else href="" @endif><img class="img-responsive" width="375" height="205" src="{{ url($banner->site_img) }}"
                                                           alt=""></a></div>
                     @endforeach
                 </div>
@@ -44,7 +44,18 @@
     </div>
     <div class="newsale-title">
         <div class="newsale_r">
-            限量搶購中
+            新品推荐
+        </div>
+    </div>
+    <div class="home_category_list">
+        <ul class="prolist active_type1">
+            
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="newsale-title">
+        <div class="newsale_r">
+            {!! config("language.index.new.".\App\goods::get_language($site->sites_blade_type)) !!}
         </div>
     </div>
     <div class="new-sale-big">
@@ -52,7 +63,7 @@
     </div>
     <div class="clear"></div>
     <div class="home_category_list">
-        <ul class="prolist active_type1">
+        <ul class="prolist active_type2">
             
         </ul>
         <div class="clear"></div>
@@ -180,8 +191,29 @@
         jQuery(document).ready(function ($) {
             var state = true;
             var page =1;
-            // var linum = jQuery("#descDiv ul li").length;
-            // jQuery("#descDiv ul li:lt(4)").show();
+            //新品推荐不用懒加载
+            $.ajax({
+                type:'get',
+                url:'/index/get_site_goods?site_id='+site_id+'&active_type=1',
+                success:function(data){
+                    var addli = '';
+                    datas= JSON.parse(data)
+                    $.each(datas,function(i,item){
+                        addli += '<li><div class="pro-tu">'
+                               + '<a href="http://'+item.goods_url+'"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
+                            +'</div>'
+                            +'<div class="pro-tex">'
+                                +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
+                                +'<div class="p3">'
+                                    +'<span class="newprice">NT$ '+item.goods_real_price+'</span>'
+                                    +'<span class="oldprice">NT$ '+item.goods_real_price+'</span>'
+                                +'</div>'
+                            +'</div></li>'
+                    })
+                    $('.active_type1').append(addli);
+                }
+            });
+
             jQuery(window).scroll(function () {
                 var scrot = jQuery(document).scrollTop() + 100;
                 if (scrot >= jQuery(document).height() - jQuery(window).height()) {
@@ -190,7 +222,7 @@
                         jQuery("#load img").css("display", "block");
                         $.ajax({
                             type:'get',
-                            url:'/index/get_site_goods?site_id='+site_id+'&page='+page+'&active_type=1',
+                            url:'/index/get_site_goods?site_id='+site_id+'&page='+page+'&active_type=2',
                             success:function(data){
                                 var addli = '';
                                 datas= JSON.parse(data)
@@ -206,10 +238,11 @@
                                             +'</div>'
                                         +'</div></li>'
                                 })
-                                $('.active_type1').append(addli);
-                                // jQuery("#load img").css("display", "none");
+                                $('.active_type2').append(addli);
+                                jQuery("#load img").css("display", "none");
                                 if(datas.length<6){
-                                    jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                                    var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                                    jQuery("#load").append("<p style='text-align:center;line-height:30px;font-size:14px;'>"+   bottom +"</p>").css({"margin-top": "1px"});
                                 }else{
                                   state = true;
                                   page++;
