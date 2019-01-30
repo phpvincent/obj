@@ -50,7 +50,7 @@
 <header class="maintop">
     <div class="header">
         <a href="javascript:void(0);" id="cd-menu-trigger"><span class="cd-menu-icon"></span></a>
-        <a href="/"><img alt="{{ $site->sites_name }}" src="/img/site.png"/></a>
+        <a href="/"><img alt="{{ $site->sites_name }}" src="{{ asset('img/site.png') }}"/></a>
         <a href="#" class="seach newiconfont newicon-sousuotiaofangdajingqz11" data-animation="fade"
            data-reveal-id="myModal"></a>
     </div>
