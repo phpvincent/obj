@@ -96,7 +96,7 @@ class SiteController extends Controller
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $type = 'search';
-        $q= $request->input('q');
+        $q = $request->input('q');
         $active_type = $q;
         $language = goods::get_language($site->sites_blade_type);
         $position =  config("language.index.seckill.{$language}") . ':' . $q;
@@ -120,7 +120,7 @@ class SiteController extends Controller
                     ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
                     ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
             })
-            ->offset($page)
+            ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
@@ -140,7 +140,7 @@ class SiteController extends Controller
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
             ->where('goods.goods_blade_type', $request->input('active_type'))
-            ->offset($page)
+            ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
@@ -168,7 +168,7 @@ class SiteController extends Controller
                 }
             })
             ->orderBy('site_active_goods.sort', 'desc')
-            ->offset($page)
+            ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
