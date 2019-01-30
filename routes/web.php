@@ -19,8 +19,7 @@ use Qcloud\Sms\SmsSingleSender;
 use App\channel\mailControl;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
-	Route::match(['get', 'post'],'/index/get_site_goods','home\SiteController@get_site_goods');
-    Route::match(['get', 'post'], '/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
+
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
 		@header('Content-type: text/html;charset=UTF-8');
@@ -36,6 +35,8 @@ use App\channel\mailControl;
 		App\channel\sendMessage::message_notice();
 	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
+	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
+    Route::get('/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
 	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '[0-9]+');
     Route::get('/activity/{activity_id}', 'home\SiteController@activity')->where('activity_id', '[1-3]');
     Route::get('/cate/{activity_id}', 'home\SiteController@cate')->where('cate_id', '[0-9]+');

@@ -32,6 +32,8 @@ class url extends Model
         if(url::where('url_url',$url)->first()['url_site_id']>0){
             if($request->has('goods_id')){
                 return $request->input('goods_id');
+            }elseif(isset($request->goods_id)&&$request->goods_id>0){
+                return $request->goods_id;
             }else{
                 return 4;
             }

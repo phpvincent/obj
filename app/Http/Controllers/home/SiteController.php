@@ -98,26 +98,29 @@ class SiteController extends Controller
     }
     public function get_site_goods(Request $request)
     {
-        $page = $request->input('page',1);
-        $limit = $request->input('limit', 6);
-        $site_id = $request->get('site_id');
-        $goods = \DB::table('site_actives')
-            ->select('goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'img.img_url', 'site_actives.site_active_type', 'site_actives.site_active_id', 'site_actives.site_active_img', 'site_active_goods.sort')
-            ->leftjoin('site_active_goods', 'site_actives.site_active_id', 'site_active_goods.site_active_id')
-            ->leftjoin('goods', 'site_active_goods.site_good_id', 'goods.goods_id')
-            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
-            ->where('site_actives.site_id', $site_id)
-            ->where('goods.is_del', 0)
-            ->where(function ($query) use ($request) {
-                if ($request->has('active_type')) {
-                    $query->where('site_active_goods.site_active_id', $request->input('active_type'));
-                }
-            })
-            ->orderBy('site_active_goods.sort', 'desc')
-            ->offset($page)
-            ->limit($limit)
-            ->get();
-        return json_encode($goods);
+    	$page=$request->input('page');
+    	$limit=$request->input('limit',6);
+    	$site_id=$request->get('site_id');
+    	$goods=\DB::table('site_actives')
+    	->select('goods.goods_name','goods.goods_real_price','goods.goods_price','goods.goods_id','site_actives.site_active_type','site_actives.site_active_id','site_actives.site_active_img','site_active_goods.sort')
+    	->leftjoin('site_active_goods','site_actives.site_active_id','site_active_goods.site_active_id')
+    	->leftjoin('goods','site_active_goods.site_good_id','goods.goods_id')
+    	->where('site_actives.site_id',$site_id)
+    	->where('goods.is_del',0)
+    	->where(function($query)use($request){
+    		if($request->has('active_type')){
+    			$query->where('site_actives.site_active_type',$request->input('active_type'));
+    		}
+    	})
+    	->orderBy('site_active_goods.sort','desc')
+    	->offset($page)
+	    ->limit($limit)
+	    ->get();
+        foreach($goods as $k => &$v){
+            $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
+            $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+        }
+	    return json_encode($goods);
     }
 
     public function goods(Request $request, $goods_id)

@@ -44,6 +44,9 @@ class UrlController extends Controller
                 $query->orWhere(function($query)use($search){
                     $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
                 });
+                $query->orWhere(function($query)use($search){
+                    $query->whereIn('url.url_site_id',\App\site::get_search_arr($search));
+                });
             })
             ->where(function($query)use($request){
                 if($request->input('url_flag_fb')!=0){
@@ -73,6 +76,9 @@ class UrlController extends Controller
                         $query->whereNull('url.url_goods_id');
                         $query->whereNull('url.url_zz_goods_id');
                         break;
+                    case '5'://绑定站点
+                        $query->whereNotNull('url.url_site_id');
+                        break;
                 }
             })
             ->where(function($query){
@@ -90,6 +96,9 @@ class UrlController extends Controller
                 });
                 $query->orWhere(function($query)use($search){
                   $query->whereIn('url.url_zz_goods_id',\App\goods::get_search_arr($search));
+                });
+                 $query->orWhere(function($query)use($search){
+                    $query->whereIn('url.url_site_id',\App\site::get_search_arr($search));
                 });
             })
             ->where(function($query)use($request){
@@ -120,6 +129,9 @@ class UrlController extends Controller
                       $query->whereNull('url.url_goods_id');
                       $query->whereNull('url.url_zz_goods_id');
                       break;
+                  case '5'://绑定站点
+                        $query->whereNotNull('url.url_site_id');
+                        break;
                 }
             })
             ->where(function($query){
@@ -133,11 +145,16 @@ class UrlController extends Controller
                 foreach($data as $key => $v) {
                     $url_goods=\App\goods::where('goods_id',$v->url_goods_id)->first();
                     $url_zz_goods=\App\goods::where('goods_id',$v->url_zz_goods_id)->first();
+                    $url_site=\App\site::where('sites_id',$v->url_site_id)->first();
                     if($url_goods!=null){
                         $data[$key]->url_goods_id=$url_goods->goods_real_name;
                     }
                     if($url_zz_goods!=null){
                         $data[$key]->url_zz_goods_id=$url_zz_goods->goods_real_name;
+                    }
+                    if($url_site!=null){
+                        $data[$key]->url_site_id=$url_site->sites_name;
+                        $data[$key]->url_site_blade=\App\admin::getBladeName($url_site->sites_blade_type);
                     }
                     $data[$key]->url_flag=explode(',',$v->url_flag);
                 }
@@ -216,6 +233,11 @@ class UrlController extends Controller
       //修改域名配置信息
 //   	    $msg=$request->all();
    	    $msg=$request->except('_token');
+        if(isset($msg['url_site_id'])&&$msg['url_site_id']>0){
+          $msg['url_site_id']=(int)$msg['url_site_id'];
+        }else{
+          $msg['url_site_id']=null;
+        }
         if(isset($msg['url_goods_id'])&&$msg['url_goods_id']=='null'){
           unset($msg['url_goods_id']);
         }
@@ -225,7 +247,11 @@ class UrlController extends Controller
    	    $url=url::where('url_id',$msg['url_id'])->first();
    	    if($url==null){
    	    	$url=new url();
-   	    	$url->url_goods_id=$msg['id'];
+          if(isset($msg['url_site_id'])){
+            $url->url_site_id=$msg['url_site_id'];
+          }else{
+             $url->url_goods_id=$msg['id'];
+          }
           $url->url_admin_id=Auth::user()->admin_id;
    	    	$url->url_url=$msg['url_url'];
    	    	$url->url_type=$msg['url_type'];
@@ -235,7 +261,22 @@ class UrlController extends Controller
    	    	}else{
    	    		return json_encode(false);
    	    	}
-   	    }else{
+   	    }elseif(isset($msg['url_site_id'])){
+          $code=\App\goods::where(function($query)use($url){
+            $query->where('goods_id',$url->url_goods_id);
+            $query->orWhere('goods_id',$url->url_zz_goods_id);
+          })
+          ->update(['bd_type'=>'0']);
+          //if($code==false) return response()->json(['err'=>0,'str'=>'更改失败！域名原有产品页解除绑定失败！']);
+          $url->url_goods_id=null;
+          $url->url_zz_goods_id=null; 
+          $url->url_site_id=$msg['url_site_id'];
+          $code=$url->save();
+          if($code==false){
+            return response()->json(['err'=>0,'str'=>'更改失败！域名数据更新失败！']);
+          } 
+          return response()->json(['err'=>1,'str'=>'更改成功！站点绑定成功!']);
+        }else{
           $isalive=url::where('url_url',$msg['url_url'])->first();
           if($isalive!=null&&$isalive->url_id!=$url->url_id){
                  return response()->json(['err'=>0,'str'=>'更改失败！该域名已存在！']);
@@ -316,6 +357,7 @@ class UrlController extends Controller
    	    	$url->url_zz_for=$msg['url_zz_for'];
           $url->url_admin_id=Auth::user()->admin_id;
           $url->url_ad_account_id=isset($msg['ad_account'])?implode(',', $msg['ad_account']):null;
+          $url->url_site_id=null;
    	    	$bool=$url->save();
    	    	if($bool)
          {

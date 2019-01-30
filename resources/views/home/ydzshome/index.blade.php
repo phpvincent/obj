@@ -45,7 +45,7 @@
     <div class="djs">
         @if($activitie1)
             <div class="djstu1">
-                <a href="{{ url('activity/') . '/' . $activitie1->site_active_id }}">
+                <a href="{{ url('activity/1') }}">
                     <img src="{{ url($activitie1->site_active_img) }}" width="308" height="380">
                 </a>
             </div>
@@ -54,7 +54,7 @@
             <div class="djstu2">
                 @foreach($activities as $key=>$activity)
                     <div class="djs0{{ $key }}">
-                        <a href="{{ url('activity/') . '/' . $activity->site_active_id }}">
+                        <a href="{{ url('activity/') . '/' . $activity->site_active_type }}">
                             <img src="{{ url($activity->site_active_img) }}" width="308" height="190">
                         </a>
                     </div>
