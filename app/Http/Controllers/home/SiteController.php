@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\home;
 
+use App\currency_type;
 use App\site_active;
 use App\site_class;
 use App\site_img;
@@ -88,7 +89,7 @@ class SiteController extends Controller
         $limit = $request->input('limit', 6);
         $site_id = $request->get('site_id');
         $goods = \DB::table('goods')
-            ->select('goods.goods_id','goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'img.img_url')
+            ->select('goods.goods_id','goods.goods_name', 'goods.goods_real_price', 'goods.goods_price','goods.goods_id','goods.goods_currency_id', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
             ->where('goods.goods_blade_type', $request->input('active_type'))
@@ -98,6 +99,7 @@ class SiteController extends Controller
         foreach($goods as $k => &$v){
             $v->img_url=$_SERVER['SERVER_NAME'] .'/'.img::where('img_goods_id',$v->goods_id)->first()['img_url'];
             $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
         }
         return json_encode($goods);
     }
@@ -107,7 +109,7 @@ class SiteController extends Controller
     	$limit=$request->input('limit',6);
     	$site_id=$request->get('site_id');
     	$goods=\DB::table('site_actives')
-    	->select('goods.goods_name','goods.goods_real_price','goods.goods_price','goods.goods_id','site_actives.site_active_type','site_actives.site_active_id','site_actives.site_active_img','site_active_goods.sort')
+    	->select('goods.goods_name','goods.goods_real_price','goods.goods_price','goods.goods_id','goods.goods_currency_id','site_actives.site_active_type','site_actives.site_active_id','site_actives.site_active_img','site_active_goods.sort')
     	->leftjoin('site_active_goods','site_actives.site_active_id','site_active_goods.site_active_id')
     	->leftjoin('goods','site_active_goods.site_good_id','goods.goods_id')
     	->where('site_actives.site_id',$site_id)
@@ -124,6 +126,7 @@ class SiteController extends Controller
         foreach($goods as $k => &$v){
             $v->img_url=$_SERVER['SERVER_NAME'].'/'.img::where('img_goods_id',$v->goods_id)->first()['img_url'];
             $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+            $v->currency = currency_type::where('currency_type_id',goods_currency_id)->value('currency_type_name');
         }
 	    return json_encode($goods);
     }
