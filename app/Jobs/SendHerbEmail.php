@@ -42,16 +42,22 @@ class SendHerbEmail implements ShouldQueue
          }
             $name = 'ZSSHOP';
             $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
-           $url=url::where(function($query)use($goods){
+         
+           $url=$order->order_goods_url;
+           if($url==null){
+              $url=url::where(function($query)use($goods){
                $query->where('url_goods_id',$goods->goods_id);
                $query->orWhere('url_zz_goods_id',$goods->goods_id);
-           })->first();
-           if($url==null){
-            /*$url=new \App\url();
-            $url->url_url='xsxxh.xyz';*/
-            $url='xsxxh.xyz';
-           }else{
-            $url=$url->url_url;
+               })->first();
+               if($url==null){
+                /*$url=new \App\url();
+                $url->url_url='xsxxh.xyz';*/
+                //$url='xsxxh.xyz';
+                $site_id=\App\Site::where('sites_blade_type',$goods->goods_blade_type)->first()['sites_id'];
+                $url=url::where('url_site_id',$site_id)->first()['url_url'];
+               }else{
+                $url=$url->url_url;
+               }
            }
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
