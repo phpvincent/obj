@@ -237,9 +237,11 @@ class goods extends Model
                 break;
             case 4:
                 $lan='Thai';
+                $lan='English';
                 break;
             case 5:
                 $lan='Japan';
+                $lan='English';
                 break;
             case 6:
                 $lan='Indonesia';
@@ -258,6 +260,7 @@ class goods extends Model
                 break;
             case 11:
                 $lan='Vietnam';
+                $lan='English';
                 break;
             case 12:
                 $lan='Arab';
