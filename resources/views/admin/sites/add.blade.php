@@ -74,6 +74,7 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点轮播图：</label>
+                <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：轮播图片宽：730像素，高：400像素</span>
                 <div style="margin:0 auto; width: 73%;margin-left:18%; " id="pzhtml">
                     <input type="button" class="btn btn-default" value="增加轮播图" id="addpz" style="margin-left:18%;" />
                     <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" id="num" name="num">
@@ -116,6 +117,7 @@
                             <input type="text" style="display: none" id="new_sell" value="0">
                         </div>
                         </div>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：新品推荐图片宽：308像素，高：380像素</span>
                         <div style="margin-top:10px;    position: relative;">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
@@ -138,6 +140,7 @@
                             <input type="text" style="display: none" id="zeno_sell" value="0">
                         </div>
                         </div>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：秒杀抢购图片宽：308像素，高：190像素</span>
                         <div class="miaosha_1"style="margin-top:10px;    position: relative;">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
@@ -153,11 +156,14 @@
                     </div>
                     <div class="remai" style="margin-top:10px">
                         <div>
-                        <label class="title" for="">热卖推荐</label><span class="remai_add">添加</span>
+                            <label class="title" for="">热卖推荐</label><span class="remai_add">添加</span>
+                            <div style="margin-top:10px;    position: relative;">
+                                热卖推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[3][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                                <input type="text" style="display: none" id="fire_sell" value="0">
+                            </div>
                         </div>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：热卖推荐图片宽：308像素，高：190像素</span>
                         <div style="margin-top:10px;    position: relative;">
-                            热卖推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[3][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
-                            <input type="text" style="display: none" id="fire_sell" value="0">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
                                 <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="site_active[3][goods_id][0]" value="">
@@ -172,7 +178,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">站点热搜词：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <textarea rows="3" cols="110" placeholder="热搜词格式：男士豆豆鞋,女士豆豆鞋；每个热搜词以 ',' 隔开" name="site_fire_word"></textarea>
+                    {{--<input type="text" class="input-text" value="" placeholder="" id="site_name" name="site_name">--}}
+                </div>
+            </div>
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
@@ -414,7 +426,12 @@
 		// $('.chanpin').val(content);
 		// $('#goods_kind').val(content_id);
 		$('.box ul').empty();
-	})
+	});
 
+    //模板、商品联动
+    $('#goods_blade_type').on('change',function () {
+        // var tab = $(this).val();
+        $('.chanpin').val('');
+    })
     </script>
 @endsection

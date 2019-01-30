@@ -75,6 +75,7 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点轮播图：</label>
+                <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：轮播图片宽：730像素，高：400像素</span>
                 <div style="margin:0 auto; width: 73%;margin-left:18%; " id="pzhtml">
                     <input type="button" class="btn btn-default" value="增加轮播图" id="addpz" style="margin-left:18%;" />
                     <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="{{count($site_imgs)}}" id="num" name="num">
@@ -122,7 +123,8 @@
                                 <input type="text" style="display: none" name="site_active[1][site_active_id]" value="{{isset($site_active[1]['site_active_id']) ? $site_active[1]['site_active_id'] : ''}}">
                             </div>
                         </div>
-                        @if(!empty($site_active[1]['goods']))
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：新品推荐图片宽：308像素，高：380像素</span>
+                    @if(!empty($site_active[1]['goods']))
                             @foreach($site_active[1]['goods'] as $key => $val)
                             <div style="margin-top:10px;    position: relative;">
                                 <div>
@@ -151,7 +153,8 @@
                                 <input type="text" style="display: none" name="site_active[2][site_active_id]" value="{{isset($site_active[2]['site_active_id']) ? $site_active[2]['site_active_id'] : ""}}">
                             </div>
                         </div>
-                        @if(!empty($site_active[2]['goods']))
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：秒杀抢购图片宽：308像素，高：190像素</span>
+                    @if(!empty($site_active[2]['goods']))
                             @foreach($site_active[2]['goods'] as $key => $val)
                             <div class="miaosha_1" style="margin-top:10px;    position: relative;">
                                 <div>
@@ -180,7 +183,8 @@
                                 <input type="text" style="display: none" name="site_active[3][site_active_id]" value="{{isset($site_active[3]['site_active_id']) ? $site_active[3]['site_active_id'] : ''}}">
                             </div>
                         </div>
-                        @if(!empty($site_active[3]['goods']))
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：热卖推荐图片宽：308像素，高：190像素</span>
+                    @if(!empty($site_active[3]['goods']))
                             @foreach($site_active[3]['goods'] as $key => $val)
                             <div style="margin-top:10px;    position: relative;">
                                 <div>
@@ -202,7 +206,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">站点热搜词：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <textarea rows="3" cols="110" placeholder="热搜词格式：男士豆豆鞋,女士豆豆鞋；每个热搜词以 ',' 隔开" name="site_fire_word">{{$site->site_fire_word}}</textarea>
+                    {{--<input type="text" class="input-text" value="" placeholder="" id="site_name" name="site_name">--}}
+                </div>
+            </div>
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>

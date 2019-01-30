@@ -127,11 +127,23 @@ class SiteController extends Controller
             //2.站点轮播图数据
             $size_file = $request->file('size_file');
             $goods = $request->input('goods');
-            if(count($size_file) != count($goods) ){
-                return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
-            }
+//            if(count($size_file) != count($goods) ){
+//                return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
+//            }
             foreach ($goods as $k => $v)
             {
+                //轮播图片限制width:730 height:400
+                if(isset($size_file[$k])){
+                    if(filesize($size_file[$k]) > 8192*1024){
+                        return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                    }
+                    $photo_size = getimagesize($size_file[$k]);
+                    if($photo_size[0] != 730 && $photo_size[1] != 400){
+                        return response()->json(['err'=>0,'str'=>'轮播图片不符合尺寸']);
+                    }
+                }else{
+                    return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
+                }
                 if(!trim($v)){
                     return response()->json(['err'=>0,'str'=>'请选择轮播图片关联商品']);
                 }
@@ -161,14 +173,62 @@ class SiteController extends Controller
                     }
                 }
             }
-            if(!isset($request->file('site_active')[1]['img']) || !isset($request->file('site_active')[2]['img']) || !isset($request->file('site_active')[3]['img'])){
-                return response()->json(['err'=>0,'str'=>'请上传特殊分类所有图片']);
-            };
 
+            //新品推荐
+            if(isset($request->file('site_active')[1]['img'])){
+                $img = $request->file('site_active')[1]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 380){
+                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
+                }
+            }else{
+                return response()->json(['err'=>0,'str'=>'请上传新品推荐图片']);
+            }
+
+            //秒杀抢购
+            if(isset($request->file('site_active')[2]['img'])){
+                $img = $request->file('site_active')[2]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
+                }
+            }else{
+                return response()->json(['err'=>0,'str'=>'请上传秒杀抢购图片']);
+            }
+
+            //热卖推荐
+            if(isset($request->file('site_active')[3]['img'])){
+                $img = $request->file('site_active')[3]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'热卖推荐图片不符合尺寸']);
+                }
+            }else{
+                return response()->json(['err'=>0,'str'=>'请上传热卖推荐图片']);
+            }
+
+            $site_fire_word = trim($request->input('site_fire_word')) ? $request->input('site_fire_word') : '';
+            if($site_fire_word){
+                $site_word = explode(',',$site_fire_word);
+                if(count($site_word) == 1){
+                    $site_word = explode('，',$site_fire_word);
+                }
+                $site_fire_word = implode(',',$site_word);
+            }
             //保存站点数据
             $site = new site();
             $site->sites_name = $site_name;
             $site->sites_blade_type = $request->input('goods_blade_type');
+            $site->site_fire_word = $site_fire_word;
             $site->sites_admin_id = Auth::user()->admin_id;
             $site->status = 0;
             $site_data = $site->save();
@@ -178,9 +238,6 @@ class SiteController extends Controller
             //保存站点轮播图
             $plant = [];
             foreach ($size_file as $k=>$item){
-                if(filesize($item) > 8192*1024){
-                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
-                }
                 $name=$item->getClientOriginalName();//得到视频名；
                 $ext=$item->getClientOriginalExtension();//得到视频后缀；
                 $fileName=md5(uniqid($name));
@@ -319,6 +376,13 @@ class SiteController extends Controller
             $goods = $request->input('goods');
             foreach ($goods as $k => $v)
             {
+                //轮播图片限制width:730 height:400
+                if(isset($size_file[$k])){
+                    $photo_size = getimagesize($size_file[$k]);
+                    if($photo_size[0] != 730 && $photo_size[1] != 400){
+                        return response()->json(['err'=>0,'str'=>'轮播图片不符合尺寸']);
+                    }
+                }
                 if(!isset($site_img_id[$k]) && !isset($size_file[$k])){
                     return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
                 }
@@ -354,8 +418,54 @@ class SiteController extends Controller
                 }
             }
 
+            //新品推荐
+            if(isset($request->file('site_active')[1]['img'])){
+                $img = $request->file('site_active')[1]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 380){
+                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
+                }
+            }
+
+            //秒杀抢购
+            if(isset($request->file('site_active')[2]['img'])){
+                $img = $request->file('site_active')[2]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
+                }
+            }
+
+            //热卖推荐
+            if(isset($request->file('site_active')[3]['img'])){
+                $img = $request->file('site_active')[3]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'热卖推荐图片不符合尺寸']);
+                }
+            }
+
+            $site_fire_word = trim($request->input('site_fire_word')) ? $request->input('site_fire_word') : '';
+            if($site_fire_word){
+                $site_word = explode(',',$site_fire_word);
+                if(count($site_word) == 1){
+                    $site_word = explode('，',$site_fire_word);
+                }
+                $site_fire_word = implode(',',$site_word);
+            }
+
             //保存站点数据
             $site->sites_blade_type = $request->input('goods_blade_type');
+            $site->site_fire_word = $site_fire_word;
             $site_data = $site->save();
             if(!$site_data){
                 return response()->json(['err'=>0,'str'=>'站点信息保存失败']);
@@ -418,9 +528,6 @@ class SiteController extends Controller
 
                 $img = isset($request->file('site_active')[$key]['img']) ? $request->file('site_active')[$key]['img'] : false;
                 if($img){
-                    if(filesize($img) > 8192*1024){
-                        return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
-                    }
                     $name=$img->getClientOriginalName();//得到视频名；
                     $ext=$img->getClientOriginalExtension();//得到视频后缀；
                     $fileName=md5(uniqid($name));
