@@ -21,8 +21,7 @@ return [
         'Arab' => '<h3>ضمان البائع </h3>
             <p><em></em>إإذا لم تأخذ البضائع .سنرجع الأموال كلّها</p>
             <p><em></em>إذا البضلئع تختلف عن صورتها <b>سنرجع أموالك كلّها أو بعضها</b></p>',
-    ]
-    ,
+    ],
     'about' => [
         'Chinese' => 'ZSSSHOP嚴選商城，秉承一貫的嚴謹態度,深入世界各地,嚴格把關所有商品的產地、工藝、原材料,甄選服飾、鞋包、居家、廚房、運動等各類商品,力求給你最優質的商品。',
         'English' => 'A long way walking reveals shoe quality.My grandfather is a shoemaker whose exquisite craftsmanship transcending time and trends. Every time someone came to order, he always asked the customer to take off the shoes and carefully observed the wearing trace.<br/>Everyone\'s walking posture and habit are different, so is the wear on shoes. A good shoemaker can not only measure the actual size, but also find out the difference in walking habits to make a pair of shoes that ingeniously fit.<br/>Good shoes are rare to get. Once used to the effortless comfort, you will always be a paranoid for the shoe selection. Over the years, I have been on the way for over 7,000 kilometers in more than 500 pairs of shoes, out of which I choose the best 8 pairs whose comfort is as unconditionally unique as own wear habits<br/>Searching is never ending and the update selection will never fail you.<br/>Here, may you find one and the only pair!',

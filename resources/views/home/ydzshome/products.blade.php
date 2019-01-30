@@ -60,21 +60,23 @@
 <script>
     var site_id = {{ $site->sites_id }}
     var type = '{{ $type }}'
+    var active_type = '{{ $active_type}}'
     if(type == 'cate'){
         var url = '/index/get_goods_by_cate'
-        var active_type = {{ $active_type}}
     }else if(type =='activity') {
         var url = '/index/get_site_goods'
-        var active_type = {{ $active_type}}
+    }else if(type =='search') {
+        var url = '/index/get_goods_by_search'
     }
     
         jQuery(document).ready(function ($) {
             var state = true;
             var page =1;
             var addprodu= function() {
+                var q = jQuery('#search').val()
                 $.ajax({
                     type:'get',
-                    url:url + '?site_id='+site_id+'&page='+page+'&active_type=' + active_type+'&limit=6',
+                    url:url + '?site_id='+site_id+'&page='+page+'&active_type=' + active_type+'&q='+q+'&limit=6',
                     success:function(data){
                         var addli = '';
                         datas= JSON.parse(data)
@@ -84,10 +86,8 @@
                                             +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
                                             +'<div class="p3">'
                                                 +'<div class="price-box"><p class="special-price">'
-                                                        +'<span class="price-label">Special Price:</span>'
                                                         +'<span class="price" id="product-price-46198">'+item.currency+item.goods_real_price+' </span></p>'
                                                         +'<p class="old-price">'
-                                                        +'<span class="price-label">常規價格：</span>'
                                                         +'<span class="price" id="old-price-46198">'+item.currency+item.goods_price+' </span></p>'
                                                         +'</div>'
                                                         +'</div>'
@@ -99,7 +99,7 @@
                         if(datas.length<6){
                             console.log('after',datas.length)
                             state = false;
-                            jQuery('.footer4').prepend("<p style='text-align:center;line-height:25px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                            jQuery('main').append("<p style='text-align:center;line-height:25px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
                             console.log("22")
                         }else{
                           state = true;
