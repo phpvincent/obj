@@ -196,8 +196,7 @@
         </ul>
     </div>
     <script>
-        var site_id =
-                {{ $site->sites_id }}
+        var site_id = {{ $site->sites_id }}
         var type = '{{ $type }}'
         var active_type = '{{ $active_type}}'
         if (type == 'cate') {
@@ -206,13 +205,13 @@
             var url = '/index/get_site_goods'
         } else if (type == 'search') {
             var url = '/index/get_goods_by_search'
+            var q = '{{ $active_type}}'
         }
 
         jQuery(document).ready(function ($) {
             var state = true;
             var page = 1;
             var addprodu = function () {
-                var q = jQuery('#search').val()
                 $.ajax({
                     type: 'get',
                     url: url + '?site_id=' + site_id + '&page=' + page + '&active_type=' + active_type + '&q=' + q + '&limit=6',
