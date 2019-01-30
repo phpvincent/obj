@@ -23,7 +23,7 @@
     <div class="djs">
         @if($activitie1)
             <div class="djstu1">
-                <a href="{{ url('activity/1') }}">
+                <a href="{{ url('activity/2') }}">
                     <img src="{{ url($activitie1->site_active_img) }}" width="308" height="380">
                 </a>
             </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="newsale-title">
         <div class="newsale_r">
-            新品推荐
+            {!! config("language.index.new.".\App\goods::get_language($site->sites_blade_type)) !!}
         </div>
     </div>
     <div class="home_category_list">
@@ -55,11 +55,11 @@
     </div>
     <div class="newsale-title">
         <div class="newsale_r">
-            {!! config("language.index.new.".\App\goods::get_language($site->sites_blade_type)) !!}
+            {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
         </div>
     </div>
     <div class="new-sale-big">
-        <a href="/tooxie.html"><img src="img/zlt.jpg"/></a>
+        <a href="/"><img src="img/zlt.jpg"/></a>
     </div>
     <div class="clear"></div>
     <div class="home_category_list">
@@ -162,14 +162,7 @@
         window.dataLayer.push({
             "event": "crto_homepage", "crto": {"email": ""}
         });</script>
-    <script type="text/javascript">
-        try {
-            var searchForm = new Varien.searchForm('search_mini_form', 'search', '在這裡搜索整個商店...');
-            searchForm.initAutocomplete('https://www.vivishop.tw/catalogsearch/ajax/suggest/', 'search_autocomplete');
-        }
-        catch (e) {
-        }
-    </script>
+
 
     <script>
         var bullets = document.getElementById('position').getElementsByTagName('li');
@@ -194,19 +187,19 @@
             //新品推荐不用懒加载
             $.ajax({
                 type:'get',
-                url:'/index/get_site_goods?site_id='+site_id+'&active_type=1',
+                url:'/index/get_site_goods?site_id='+site_id+'&active_type=2',
                 success:function(data){
                     var addli = '';
                     datas= JSON.parse(data)
                     $.each(datas,function(i,item){
                         addli += '<li><div class="pro-tu">'
-                               + '<a href="http://'+item.goods_url+'"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
+                               + '<a href="http://'+item.goods_url+'"><img src="'+item.img_url+'" width="400" height="400" alt=""/></a>'
                             +'</div>'
                             +'<div class="pro-tex">'
                                 +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
                                 +'<div class="p3">'
-                                    +'<span class="newprice">NT$ '+item.goods_real_price+'</span>'
-                                    +'<span class="oldprice">NT$ '+item.goods_real_price+'</span>'
+                                    +'<span class="newprice">'+ item.currency +item.goods_real_price+'</span>'
+                                    +'<span class="oldprice">'+ item.currency +item.goods_real_price+'</span>'
                                 +'</div>'
                             +'</div></li>'
                     })
@@ -222,19 +215,19 @@
                         jQuery("#load img").css("display", "block");
                         $.ajax({
                             type:'get',
-                            url:'/index/get_site_goods?site_id='+site_id+'&page='+page+'&active_type=2',
+                            url:'/index/get_site_goods?site_id='+site_id+'&page='+page+'&active_type=1',
                             success:function(data){
                                 var addli = '';
                                 datas= JSON.parse(data)
                                 $.each(datas,function(i,item){
                                     addli += '<li><div class="pro-tu">'
-                                           + '<a href="http://'+item.goods_url+'"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
+                                           + '<a href="http://'+item.goods_url+'"><img src="'+item.img_url+'" width="400" height="400" alt=""/></a>'
                                         +'</div>'
                                         +'<div class="pro-tex">'
                                             +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
                                             +'<div class="p3">'
-                                                +'<span class="newprice">NT$ '+item.goods_real_price+'</span>'
-                                                +'<span class="oldprice">NT$ '+item.goods_real_price+'</span>'
+                                        +'<span class="newprice">'+ item.currency +item.goods_real_price+'</span>'
+                                        +'<span class="oldprice">'+ item.currency +item.goods_real_price+'</span>'
                                             +'</div>'
                                         +'</div></li>'
                                 })

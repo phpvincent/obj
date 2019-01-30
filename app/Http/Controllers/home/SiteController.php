@@ -33,8 +33,8 @@ class SiteController extends Controller
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $banners = site_img::where('site_site_id', $site_id)->get();
-        $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 1)->first();
-        $activities = site_active::where('site_id', $site_id)->where('site_active_type', '>', 1)->orderBy('site_active_type', 'asc')->get();
+        $activitie1 = site_active::where('site_id', $site_id)->where('site_active_type', 2)->first();
+        $activities = site_active::where('site_id', $site_id)->whereIn('site_active_type',[1,3])->orderBy('site_active_type', 'asc')->get();
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.index')->with(compact('site', 'cates', 'banners', 'activitie1', 'activities', 'hot_search'));
     }
@@ -49,8 +49,9 @@ class SiteController extends Controller
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
+//        $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
 //        $products = DB::table('goods')->join('site_active_goods', 'goods_id', '=', 'site_good_id')->where('site_active_id', $active->site_active_id)->get();
+        $active_type = $activity_id;
         $language = goods::get_language($site->sites_blade_type);
         switch ($activity_id) {
             case 1:

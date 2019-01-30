@@ -15,32 +15,14 @@
                 <button class="filer" data-dialog-close="">精選</button>
                 <div class="sortby">
                     <select>
-                        <option value="https://www.vivishop.tw/best-selling.html?___store=englishwap&amp;dir=asc&amp;order=position"
-                                selected="selected">
-                            位置
-                        </option>
-                        <option value="https://www.vivishop.tw/best-selling.html?___store=englishwap&amp;dir=asc&amp;order=name">
-                            名稱
-                        </option>
-                        <option value="https://www.vivishop.tw/best-selling.html?___store=englishwap&amp;dir=asc&amp;order=price">
-                            價格
-                        </option>
-                        <option value="https://www.vivishop.tw/best-selling.html?___store=englishwap&amp;dir=asc&amp;order=group_price">
-                            Group Price
-                        </option>
-                        <option value="https://www.vivishop.tw/best-selling.html?___store=englishwap&amp;dir=asc&amp;order=tag_off">
-                            Discount Off
-                        </option>
+
                     </select>
                 </div>
             </div>
             <div class="limiter" style="display: none;">
                 <label>顯示</label>
                 <select onchange="setLocation(this.value)">
-                    <option value="https://www.vivishop.tw/best-selling.html?___store=englishwap&amp;limit=50"
-                            selected="selected">
-                        50
-                    </option>
+
                 </select>
             </div>
             <div style="display: none;">
