@@ -26,7 +26,7 @@
 <ul class="rightmenu">
     <li id="go_top" style="display: block;"></li>
 </ul>
-<script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+<script type="text/javascript" src="{{ asset('js/site_js/ld.js') }}" async="true"></script>
 <script>
     jQuery(document).ready(function () {
     jQuery("#go_top").hide();

@@ -19,8 +19,8 @@ use Qcloud\Sms\SmsSingleSender;
 use App\channel\mailControl;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
-	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
-
+	Route::match(['get', 'post'],'/index/get_site_goods','home\SiteController@get_site_goods');
+    Route::match(['get', 'post'], '/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
 		@header('Content-type: text/html;charset=UTF-8');
