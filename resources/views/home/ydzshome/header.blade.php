@@ -78,8 +78,8 @@
     <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
     <form id="top-search" action="{{ url('/search') }}" method="get">
         <div class="search">
-            <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="請輸入關鍵字或品牌">
-            <button type="submit" title="搜索" class="button"><span><span>搜索</span></span></button>
+            <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="{!! config("language.footer-name.index.input_keyworks.".\App\goods::get_language($site->sites_blade_type)) !!}">
+            <button type="submit" title="{!! config("language.footer-name.index.search.".\App\goods::get_language($site->sites_blade_type)) !!}" class="button"><span><span>{!! config("language.footer-name.index.search.".\App\goods::get_language($site->sites_blade_type)) !!}</span></span></button>
             <div id="search_autocomplete" class="search-autocomplete"></div>
         </div>
     </form>

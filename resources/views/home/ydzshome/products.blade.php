@@ -1,7 +1,7 @@
 ﻿@extends('home.ydzshome.header')
 @section('content')
             <div class="breadcrumbs">
-                <a href="/" title="前往主頁">主頁</a>
+                <a href="/" title="home" style="width: 3%;height: 3%"><img src="/img/home.jpg"></a>
                 <span></span>
                 {{ $position }}
             </div>
