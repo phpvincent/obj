@@ -203,4 +203,27 @@ class url extends Model
             return $goods_id['url_zz_goods_id'];
         }
     }
+
+    /**
+     * 根据域名返回域名
+     * @param $url
+     * @return bool|string
+     */
+    public static function get_site_url($url,$goods_id)
+    {
+        $url = url::where('url_url',$url)->first();
+        if($url){
+            return false;
+        }
+        if($url->url_site_id){
+            return $url.'/index/site_goods/'.$goods_id;
+        }
+        if($url->url_goods_id){
+            return $url;
+        }
+        if($url->url_zz_goods_id){
+            return $url;
+        }
+        return false;
+    }
 }

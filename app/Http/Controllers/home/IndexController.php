@@ -459,8 +459,15 @@ class IndexController extends Controller
     	}
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
-        $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
-    	$urls=url::where('url_goods_id',$goods->goods_id)->first();
+//        $order->order_goods_url= url::where('url_goods_id',$order_goods_id)->value('url_url');
+        $url = url::get_site_url($_SERVER['SERVER_NAME'],$order_goods_id);
+        if(!$url){
+            \Log::notice('ip:'.$request->getClientIp().'下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
+            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+        }
+        $order->order_goods_url= $url;
+
+//        $urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($request->input('messaga_code')) {
             $tel = $request->input('telephone');
             $tel = message::AreaCode($goods->goods_blade_type,$tel);
@@ -480,15 +487,15 @@ class IndexController extends Controller
                 }
             }
         }
-        if($urls==null){
-            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
-        }else{
-            $url=$urls->url_url;
-        }
-        if($url==null){
-            \Log::notice('ip:'.$request->getClientIp().'下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
-          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
-        }
+//        if($urls==null){
+//            $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+//        }else{
+//            $url=$urls->url_url;
+//        }
+//        if($url==null){
+//            \Log::notice('ip:'.$request->getClientIp().'下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
+//          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+//        }
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
         if($request->has('goodsAtt')&&$request->input('goodsAtt')){
@@ -714,16 +721,20 @@ class IndexController extends Controller
             $order->order_price='test';
             $order->order_single_id='NR000000000000000';
         }
-        $urls=url::where('url_goods_id',$goods->goods_id)->first();
-        if($urls==null){
-            $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
-            $url=isset($url['url_url'])?$url['url_url']:'#';
-        }else{
-            $url=$urls->url_url;
-        }
-        if($url==null){
+        $url = url::get_site_url($_SERVER['SERVER_NAME'],$goods->goods_id);
+        if(!$url){
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
+//        $urls=url::where('url_goods_id',$goods->goods_id)->first();
+//        if($urls==null){
+//            $url=url::where('url_zz_goods_id',$goods->goods_id)->first();
+//            $url=isset($url['url_url'])?$url['url_url']:'#';
+//        }else{
+//            $url=$urls->url_url;
+//        }
+//        if($url==null){
+//          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+//        }
         if($goods->goods_blade_type == 0){
             return view('home.TaiwanFan.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
         }
@@ -1050,16 +1061,21 @@ class IndexController extends Controller
        }
        $order->order_goods_id=$order_goods_id;
        $goods=goods::where('goods_id',$order_goods_id)->first();
-       $urls=url::where('url_goods_id',$order_goods_id)->first();
-       if($urls==null){
-           $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
-       }else{
-           $url=$urls->url_url;
-       }
-       if($url==null){
+       $url = url::get_site_url($_SERVER['SERVER_NAME'],$order_goods_id);
+       if(!$url){
         \Log::notice('ip:'.$request->getClientIp().'下单时非法url:'.$_SERVER['SERVER_NAME'].'num:'.$request->input('specNumber'));
           return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
        }
+//       $urls=url::where('url_goods_id',$order_goods_id)->first();
+//       if($urls==null){
+//           $url=url::where('url_zz_goods_id',$goods->goods_id)->first()->url_url;
+//       }else{
+//           $url=$urls->url_url;
+//       }
+//       if($url==null){
+//        \Log::notice('ip:'.$request->getClientIp().'下单时非法url:'.$_SERVER['SERVER_NAME'].'num:'.$request->input('specNumber'));
+//          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+//       }
        $order->order_goods_url= $url;
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
