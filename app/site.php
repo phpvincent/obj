@@ -22,4 +22,17 @@ class site extends Model
     	}
     	return $url['url_site_id'];
     }
+    public static function get_search_arr($search,$type=true)
+    {
+        $arr=self::where('sites_name','like',"%".$search."%")->get(['sites_id'])->toArray();
+        $re_arr=[];
+            foreach($arr as $k => $v){
+                $re_arr[]=$v;
+            }
+        if($type){
+            return $re_arr;
+        }else{
+            return implode(',', $re_arr);
+        }
+    }
 }

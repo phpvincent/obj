@@ -197,6 +197,7 @@ class admin extends Model implements \Illuminate\Contracts\Auth\Authenticatable
      */
     public static function getBladeName($blade)
     {
+        $name=null;
         switch ($blade){
             case "0":
                 $name = "台湾模板";

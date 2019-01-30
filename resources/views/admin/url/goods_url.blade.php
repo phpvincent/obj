@@ -37,6 +37,7 @@
 						<option value="1">仅绑定商品</option>
 						<option value="2">仅绑定遮罩</option>
 						<option value="3">绑定遮罩和商品</option>
+						<option value="5">绑定站点</option>
 						<option value="4">未绑定域名</option>
 					</select>
 					</span> </div>
@@ -45,13 +46,14 @@
 	<table class="table table-border table-bordered table-hover table-bg" id="url_goods">
 		<thead>
 			<tr>
-				<th scope="col" colspan="7">域名分配</th>
+				<th scope="col" colspan="8">域名分配</th>
 			</tr>
 			<tr class="text-c">
 				<th width="40">ID</th>
 				<th width="80">域名</th>
 				<th width="200">正常单品</th>
 				<th width="200">遮罩单品</th>
+				<th width="200">站点</th>
 				<th width="40">状态</th>
 				<th width="80">标记</th>
 				<th width="70">操作</th>
@@ -72,7 +74,7 @@
 		"order": [[ 0, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [1,2,3,4,5],
+		   "targets": [1,2,3,4,5,6,7],
 		   "orderable": false
 		}],
 		"processing": true,
@@ -93,6 +95,7 @@
 		{'defaultContent':"","className":"td-manager"},
 		{"data":'url_goods_id'},
 		{"data":'url_zz_goods_id'},
+		{"data":'url_site_id'},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
 		{'defaultContent':"","className":"td-manager"},
@@ -130,9 +133,9 @@
 			}
 			/*var checkbox='<input type="checkbox" name="" value="">';*/
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(6)').html(info);
-			$(row).find('td:eq(5)').html(flag);
-			$(row).find('td:eq(4)').html(isroot);
+			$(row).find('td:eq(7)').html(info);
+			$(row).find('td:eq(6)').html(flag);
+			$(row).find('td:eq(5)').html(isroot);
 			$(row).find('td:eq(1)').html(url);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
