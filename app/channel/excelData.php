@@ -892,7 +892,7 @@ class excelData{
            $exdata[24] = "";
 
            //URL
-           $exdata[25] = url::where('url_goods_id',$v['goods_id'])->value('url_url');
+           $exdata[25] = $v['order_goods_url'];
 
            //目的国家
            $exdata[26] = "IDN";
