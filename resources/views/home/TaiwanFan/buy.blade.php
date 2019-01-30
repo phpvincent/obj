@@ -196,7 +196,7 @@
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/';})()"></a>
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :history.back(-1);"></a>
     <h1 class="mui-title">確認訂單</h1>
 </header>
 
@@ -452,6 +452,7 @@
 layer.load(2);
 layer.closeAll();
 var datasObj={};
+    datasObj.goods_id = {{$goods->goods_id}};
 var layerMsg= function(){layer.msg('請填寫完整商品屬性信息');}
 var payFun=function (){
      
