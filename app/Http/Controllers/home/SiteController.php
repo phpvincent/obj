@@ -49,7 +49,7 @@ class SiteController extends Controller
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $active_id = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
+        $active_type = site_active::where('site_active_type', $activity_id)->where('site_id', $site_id)->value('site_active_id');
 //        $products = DB::table('goods')->join('site_active_goods', 'goods_id', '=', 'site_good_id')->where('site_active_id', $active->site_active_id)->get();
         switch ($activity_id) {
             case 1:
@@ -63,7 +63,7 @@ class SiteController extends Controller
                 break;
         }
         $type = 'activity';
-        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_id', 'type'));
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type'));
     }
 
     public function cate(Request $request, $cate_id)
@@ -76,9 +76,10 @@ class SiteController extends Controller
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
-        $type = 'cate';
+		$type = 'cate';
+		$active_type = $cate_id;
         $position = site_class::where('site_site_id', $site_id)->where('site_is_show', 1)->where('site_goods_type_id', $cate_id)->value('site_class_show_name');
-        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'cate_id', 'type'));
+        return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type'));
     }
 
     public function get_goods_by_cate(Request $request)
