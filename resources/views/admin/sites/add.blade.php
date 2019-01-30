@@ -173,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="row cl" style="margin-top: 150px">
+            <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
                 </div>
@@ -188,7 +188,6 @@
                 site_name:{
                     required:true,
                 },
-
             },
             onkeyup:false,
             focusCleanup:true,
@@ -338,7 +337,6 @@
 		$(this).parent().next().show(400);
 		var a=$(this).val();
         var goods_blade_type = $('#goods_blade_type').val();
-        console.log($(this))
 		$.ajax({
 			//请求方式
 			type:'GET',
