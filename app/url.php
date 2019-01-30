@@ -211,6 +211,9 @@ class url extends Model
      */
     public static function get_site_url($url,$goods_id)
     {
+        if(substr($url,0,4) == 'www.'){
+            $url = substr($url,4);
+        };
         $url = url::where('url_url',$url)->first();
         if($url){
             return false;
