@@ -76,7 +76,7 @@
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
     <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
-    <form id="top-search" action="{{ url('/search/') }}" method="get">
+    <form id="top-search" action="{{ url('/search') }}" method="get">
         <div class="search">
             <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="請輸入關鍵字或品牌">
             <button type="submit" title="搜索" class="button"><span><span>搜索</span></span></button>
@@ -87,12 +87,12 @@
         <div class="title">熱門搜尋</div>
         <ul class="hot-left">
             @foreach($hot_search['left'] as $hot)
-            <li><a href="{{ url('/search/') .'/' .$hot }}">{{ $hot }}</a></li>
+            <li><a href="{{ url('/search/') .'?q=' .$hot }}">{{ $hot }}</a></li>
             @endforeach
         </ul>
         <ul class="hot-right">
             @foreach($hot_search['right'] as $hot)
-                <li><a href="{{ url('/search/') .'/' .$hot }}">{{ $hot }}</a></li>
+                <li><a href="{{ url('/search/') .'?q=' .$hot }}">{{ $hot }}</a></li>
             @endforeach
         </ul>
     </div>

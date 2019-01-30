@@ -84,7 +84,7 @@ class SiteController extends Controller
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
 
-    public function search(Request $request, $q)
+    public function search(Request $request)
     {
         $site_id = $request->get('site_id');
         if ($site_id <= 0) {
@@ -95,6 +95,7 @@ class SiteController extends Controller
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $type = 'search';
+        $q= $request->input('q');
         $active_type = $q;
         $position = '搜索結果：' . $q;
         $hot_search = $this->hot_search_goods($site->sites_blade_type);
