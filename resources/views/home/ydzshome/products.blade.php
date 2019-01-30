@@ -63,7 +63,7 @@
     if(type == 'cate'){
         var url = '/index/get_goods_by_cate'
         var active_type = {{ $active_type}}
-    }else if($type =='activity') {
+    }else if(type =='activity') {
         var url = '/index/get_site_goods'
         var active_type = {{ $active_type}}
     }
@@ -71,42 +71,51 @@
         jQuery(document).ready(function ($) {
             var state = true;
             var page =1;
+            var addprodu= function() {
+                $.ajax({
+                    type:'get',
+                    url:url + '?site_id='+site_id+'&page='+page+'&active_type=' + active_type+'&limit=6',
+                    success:function(data){
+                        var addli = '';
+                        datas= JSON.parse(data)
+                        $.each(datas,function(i,item){    
+                            addli += '<li><div class="pro-tu"><a href="http://'+item.goods_url+'"><img alt="['+ item.goods_name +']" src="http://'+item.img_url+'" width="400" height="400"></a></div>'
+                                        +'<div class="pro-tex">'
+                                            +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
+                                            +'<div class="p3">'
+                                                +'<div class="price-box"><p class="special-price">'
+                                                        +'<span class="price-label">Special Price:</span>'
+                                                        +'<span class="price" id="product-price-46198">'+item.currency+item.goods_real_price+' </span></p>'
+                                                        +'<p class="old-price">'
+                                                        +'<span class="price-label">常規價格：</span>'
+                                                        +'<span class="price" id="old-price-46198">'+item.currency+item.goods_price+' </span></p>'
+                                                        +'</div>'
+                                                        +'</div>'
+                                                        +'</div></li>'
+                        })
+                        $('.active_type1').append(addli);
+                        jQuery("#load img").css("display", "none");
+                        console.log('pr',datas.length)
+                        if(datas.length<6){
+                            console.log('after',datas.length)
+                            state = false;
+                            jQuery('.footer4').prepend("<p style='text-align:center;line-height:25px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
+                            console.log("22")
+                        }else{
+                          state = true;
+                          page++;
+                        }
+                    }
+                });
+            }
+            addprodu()
             jQuery(window).scroll(function () {
                 var scrot = jQuery(document).scrollTop() + 100;
                 if (scrot >= jQuery(document).height() - jQuery(window).height()) {
                     if (state == true) {
                         state = false;
                         jQuery("#load img").css("display", "block");
-                        $.ajax({
-                            type:'get',
-                            url:url + '?site_id='+site_id+'&page='+page+'&active_type=' + active_type,
-                            success:function(data){
-                                var addli = '';
-                                $.each(JSON.parse(data),function(i,item){    
-                                    addli += '<li><div class="pro-tu"><a href="http://'+item.goods_url+'"><img alt="['+ item.goods_name +']" src="http://'+item.img_url+'" width="400" height="400"></a></div>'
-                                                +'<div class="pro-tex">'
-                                                    +'<h3><a href="http'+item.goods_url+'">'+item.goods_name+'</a></h3>'
-                                                    +'<div class="p3">'
-                                                        +'<div class="price-box"><p class="special-price">'
-                                                                +'<span class="price-label">Special Price:</span>'
-                                                                +'<span class="price" id="product-price-46198">'+item.currency+item.goods_real_price+' </span></p>'
-                                                                +'<p class="old-price">'
-                                                                +'<span class="price-label">常規價格：</span>'
-                                                                +'<span class="price" id="old-price-46198">'+item.currency+item.goods_price+' </span></p>'
-                                                                +'</div>'
-                                                                +'</div>'
-                                                                +'</div></li>'
-                                })
-                                $('.active_type1').append(addli);
-                                jQuery("#load img").css("display", "none");
-                                if(data.length<6){
-                                    jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
-                                }else{
-                                  state = true;
-                                  page++;
-                                }
-                            }
-                        });
+                        addprodu()
                     }
                 }
             });

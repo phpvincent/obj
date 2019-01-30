@@ -20,28 +20,6 @@
             </ul>
         </div>
     @endif
-    <div class="static_nav">
-        <div class="ind-nav" style="visibility: visible;">
-            <ul class="li_nav">
-                <li><a href="/women-dress.html"><img class="img-responsive" src="picture/jog-150x168.jpg" alt=""></a>
-                </li>
-                <li><a href="/lady-bags.html"><img class="img-responsive" src="picture/wer-150x168.jpg" alt=""></a></li>
-                <li><a href="/women-shoes.html"><img class="img-responsive" src="picture/kuiui-150x168.jpg" alt=""></a>
-                </li>
-                <li><a href="/underwear.html"><img class="img-responsive" src="picture/twny-150x168.jpg" alt=""></a>
-                </li>
-                <li><a href="/3c.html"><img class="img-responsive" src="picture/asd-150x168.jpg" alt=""></a></li>
-                <li><a href="/men-wear.html"><img class="img-responsive" src="picture/jgui-150x168.jpg" alt=""></a></li>
-                <li><a href="/m-package.html"><img class="img-responsive" src="picture/yuh-150x168.jpg" alt=""></a></li>
-                <li><a href="/new-men-shoes.html"><img class="img-responsive" src="picture/jguk-150x168.jpg" alt=""></a>
-                </li>
-                <li><a href="/kitchen-supplies.html"><img class="img-responsive" src="picture/jiaju-150x168.jpg" alt=""></a>
-                </li>
-                <li><a href="/women-dress.html"><img class="img-responsive" src="picture/eew-150x168.jpg" alt=""></a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="djs">
         @if($activitie1)
             <div class="djstu1">
@@ -215,7 +193,8 @@
                             url:'/index/get_site_goods?site_id='+site_id+'&page='+page+'&active_type=1',
                             success:function(data){
                                 var addli = '';
-                                $.each(JSON.parse(data),function(i,item){
+                                datas= JSON.parse(data)
+                                $.each(datas,function(i,item){
                                     addli += '<li><div class="pro-tu">'
                                            + '<a href="http://'+item.goods_url+'"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
                                         +'</div>'
@@ -229,7 +208,7 @@
                                 })
                                 $('.active_type1').append(addli);
                                 // jQuery("#load img").css("display", "none");
-                                if(data.length<6){
+                                if(datas.length<6){
                                     jQuery("#load").html("<p style='text-align:center;line-height:30px;font-size:14px;'>已經到最底端了</p>").css({"margin-top": "1px"});
                                 }else{
                                   state = true;
