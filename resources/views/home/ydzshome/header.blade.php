@@ -25,7 +25,7 @@
     <script type="text/javascript" src="{{ asset('js/site_js/js.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/form.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/translate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>
+{{--    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/site_js/simple-share.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/total.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/main.js') }}"></script>
@@ -124,16 +124,7 @@
             jQuery('body').css('padding-top', 120);
             e.stopPropagation()
         });
-        jQuery(function () {
-            jQuery('.return-icon').click(function () {
-                jQuery('.reveal-modal').slideUp();
-            });
-            jQuery.ajax({
-                url: '/customshippingmethod/cartcount/index', type: 'post', success: function (data) {
-                    jQuery('.newicon-gouwudai i').html(data);
-                }
-            });
-        });</script>
+    </script>
 </div>
 <main class="cd-main-content">
     @yield('content')

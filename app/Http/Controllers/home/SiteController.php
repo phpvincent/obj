@@ -87,9 +87,10 @@ class SiteController extends Controller
         $limit = $request->input('limit', 6);
         $site_id = $request->get('site_id');
         $goods = \DB::table('goods')
-            ->select('goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'img.img_url')
+            ->select('goods.goods_id','goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
+            ->where('goods.goods_blade_type', $request->input('active_type'))
             ->offset($page)
             ->limit($limit)
             ->get();
@@ -108,7 +109,7 @@ class SiteController extends Controller
     	->where('goods.is_del',0)
     	->where(function($query)use($request){
     		if($request->has('active_type')){
-    			$query->where('site_active_goods.site_active_id',$request->input('active_type'));
+    			$query->where('site_actives.site_active_type',$request->input('active_type'));
     		}
     	})
     	->orderBy('site_active_goods.sort','desc')

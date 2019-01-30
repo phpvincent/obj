@@ -54,7 +54,7 @@
             <div class="djstu2">
                 @foreach($activities as $key=>$activity)
                     <div class="djs0{{ $key }}">
-                        <a href="http://{{ url('activity/') . '/' . $activity->site_active_type }}">
+                        <a href="{{ url('activity/') . '/' . $activity->site_active_type }}">
                             <img src="{{ url($activity->site_active_img) }}" width="308" height="190">
                         </a>
                     </div>
@@ -168,7 +168,7 @@
             font-size: 18px;
         }</style>
 
-    <script type="text/javascript" src="js/ld.js" async="true"></script>
+    <script type="text/javascript" src="{{ asset('js/site_js/ld.js') }}" async="true"></script>
 
     <script type="text/javascript">window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
