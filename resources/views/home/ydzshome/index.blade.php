@@ -8,7 +8,7 @@
                 <div class="swipe-wrap">
                     @foreach($banners as $banner)
                         <div><a @if($banner->site_goods_id) href="{{ url('/index/site_goods/') .'/'.$banner->site_goods_id }}"
-                                @else href="" @endif><img class="img-responsive" src="{{ url($banner->site_img) }}"
+                                @else href="" @endif><img class="img-responsive" width="375" height="205" src="{{ url($banner->site_img) }}"
                                                           alt=""></a></div>
                     @endforeach
                 </div>
