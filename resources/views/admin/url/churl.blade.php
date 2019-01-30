@@ -104,6 +104,18 @@
 			</div>
 			 
 	</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">绑定站点：<span style="color:red;">(绑定站点后将自动解绑与该域名相关的单品页)</span></label>
+				<div class="formControls col-xs-8 col-sm-9">
+				<select name="url_site_id" id="url_site_id" class="select">
+					<option value="0"><span style="color:red;">无</span></option>
+					@foreach(\App\site::where('status',0)->get() as $k => $v)
+						<option @if($url->url_site_id==$v->sites_id) selected @endif value="{{$v->sites_id}}">{{$v->sites_name}}({{\App\admin::getBladeName($v->sites_blade_type)}})</option>
+					@endforeach
+				</select>
+				</div>
+			</div>
+	</div>
 	<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">关联广告账户：</label>
 			<div class="formControls col-xs-8 col-sm-9 ">
@@ -180,6 +192,12 @@
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
+			if($('#url_site_id').val()!=0){
+					var msg =confirm("绑定站点后将自动解绑与该域名相关的产品页，确定？");
+					if(!msg){
+						return false;
+					}
+			}
 			$(form).ajaxSubmit({
 				type: 'post',
 				url: "{{url('admin/url/ajaxup')}}" ,
@@ -360,6 +378,15 @@ $(".chanpin").focus(function(){
     $('.chanpin1').on('blur',function(){
         $('.zhezhao').hide(400);
     });
-
+    $('#url_site_id').on('change',function(){
+    	if($(this).val()!=0){
+    		$('.chanpin').css("color","red");
+    		$('.chanpin1').css("color","red");
+    		$('.chanpin1').val('无');
+    		$('.chanpin').val('无');
+    		$('#url_zz_goods_id').val(null);
+    		$('#url_goods_id').val(null);
+    	}
+    })
 </script>
 @endsection

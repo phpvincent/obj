@@ -21,17 +21,18 @@ class checkurl
     public function handle($request, Closure $next)
     {
     //判断是否为预览操作
-    $is_test=\Session::get('test_id',0);
-    if($is_test!=0){
-        view()->share('vis_id',0);
-        return $next($request);
-    }   
+    
     //域名解析逻辑
         $url=$_SERVER['SERVER_NAME'];
         //将www二级域名去除
         if(substr($url,0,4)=='www.'){
             $url=substr($url, 4);
         } 
+        $is_test=\Session::get('test_id',0);
+        if($is_test!=0&&!site::is_site($url)){
+            view()->share('vis_id',0);
+            return $next($request);
+        }   
         //示例域名检测SDK
          $arr=getclientcity($request);
          $lan=getclientlan(); 

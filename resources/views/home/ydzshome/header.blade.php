@@ -25,7 +25,7 @@
     <script type="text/javascript" src="{{ asset('js/site_js/js.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/form.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/translate.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>
+    {{--    <script type="text/javascript" src="{{ asset('js/site_js/cookies.') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/site_js/simple-share.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/total.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/site_js/main.js') }}"></script>
@@ -50,7 +50,7 @@
 <header class="maintop">
     <div class="header">
         <a href="javascript:void(0);" id="cd-menu-trigger"><span class="cd-menu-icon"></span></a>
-        <a href="/"><img alt="{{ $site->sites_name }}" src="picture/logo.png"/></a>
+        <a href="/"><img alt="{{ $site->sites_name }}" src="{{ asset('img/site.png') }}"/></a>
         <a href="#" class="seach newiconfont newicon-sousuotiaofangdajingqz11" data-animation="fade"
            data-reveal-id="myModal"></a>
     </div>
@@ -59,8 +59,9 @@
     <div class="nav-container">
         <ul id="nav">
             @foreach($cates as $cate)
-            <li class="level0 nav-{{$cate->site_class_id}} level-top"><a href="/cate/{{ $cate->site_goods_type_id }}"
-                                                                        class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
+                <li class="level0 nav-{{$cate->site_class_id}} level-top"><a
+                            href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}"
+                            class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
             @endforeach
         </ul>
     </div>
@@ -71,10 +72,11 @@
             jQuery('.reveal-modal').slideDown();
         });
     })
+
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
     <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
-    <form id="top-search" action="https://www.vivishop.tw/catalogsearch/result/" method="get">
+    <form id="top-search" action="{{ url('/search') }}" method="get">
         <div class="search">
             <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" placeholder="請輸入關鍵字或品牌">
             <button type="submit" title="搜索" class="button"><span><span>搜索</span></span></button>
@@ -84,56 +86,28 @@
     <div class="hot">
         <div class="title">熱門搜尋</div>
         <ul class="hot-left">
-            <li><a href="/catalogsearch/result/?q=塑身褲">塑身褲</a></li>
-            <li><a href="/catalogsearch/result/?q=收腹褲">收腹褲</a></li>
-            <li><a href="/catalogsearch/result/?q=牛仔褲">牛仔褲</a></li>
-            <li><a href="/catalogsearch/result/?q=運動鞋">運動鞋</a></li>
-            <li><a href="/catalogsearch/result/?q=按摩棒">按摩棒</a></li>
-            <li><a href="/catalogsearch/result/?q=休閒皮鞋">休閒皮鞋</a></li>
-            <li><a href="/catalogsearch/result/?q=藍牙音響">藍牙音響</a></li>
-            <li><a href="/catalogsearch/result/?q=as快眠枕">as快眠枕</a></li>
-            <li><a href="/catalogsearch/result/?q=單肩斜挎包">單肩斜挎包</a></li>
-            <li><a href="/catalogsearch/result/?q=車用吸塵器">車用吸塵器</a></li>
-            <li><a href="/catalogsearch/result/?q=多功能錢包">多功能錢包</a></li>
+            @foreach($hot_search['left'] as $hot)
+            <li><a href="{{ url('/search/') .'?q=' .$hot }}">{{ $hot }}</a></li>
+            @endforeach
         </ul>
         <ul class="hot-right">
-            <li><a href="/catalogsearch/result/?q=麥飯石炒鍋">麥飯石炒鍋</a></li>
-            <li><a href="/catalogsearch/result/?q=無痕殺菌內褲">無痕殺菌內褲</a></li>
-            <li><a href="/catalogsearch/result/?q=OKO蜂巢不沾鍋">OKO蜂巢不沾鍋</a></li>
-            <li><a href="/catalogsearch/result/?q=優奇仕钛鑽鍍膜">優奇仕钛鑽鍍膜</a></li>
-            <li><a href="/catalogsearch/result/?q=骨傳導藍牙耳機">骨傳導藍牙耳機</a></li>
-            <li><a href="/catalogsearch/result/?q=INTEX懶人充氣沙發">INTEX懶人充氣沙發</a></li>
-            <li><a href="/catalogsearch/result/?q=CoolBell防盜後背包">CoolBell防盜後背包</a></li>
-            <li><a href="/catalogsearch/result/?q=Rontion磁懸浮地球儀">Rontion磁懸浮地球儀</a></li>
-            <li><a href="/catalogsearch/result/?q=Maidini油蠟牛皮托特包">Maidini油蠟牛皮托特包</a></li>
+            @foreach($hot_search['right'] as $hot)
+                <li><a href="{{ url('/search/') .'?q=' .$hot }}">{{ $hot }}</a></li>
+            @endforeach
         </ul>
     </div>
 </div>
 <div style="display:none">
-    <section style="position: fixed;top:50px;left: 0;right: 0;z-index:2;" id="top-banner-fix">
-        <p><a href="customer/account/login/"><img src="https://vivishop.looaon.com/wysiwyg/wap/670-60_labor-day.jpg"
-                                                  alt=""></a><span class="ibox"></span></p>
-        <img id="top-close" src="https://www.vivishop.tw//skin/frontend/yisainuo/wap/images/close.png"
-             style="position: absolute; right: 4px; top: 80px; width: 20px;">
-    </section>
-    <script type="text/javascript">var bH = jQuery('html,body').width() / 640 * 60;
+
+    <script type="text/javascript">
+        var bH = jQuery('html,body').width() / 640 * 60;
         jQuery('body').css('padding-top', 50);
-        jQuery('#top-close').css('top', (bH - 20) / 2)
-        jQuery('#top-close').click(function (e) {
-            jQuery('#top-banner-fix').hide();
-            jQuery('body').css('padding-top', 120);
-            e.stopPropagation()
-        });
         jQuery(function () {
             jQuery('.return-icon').click(function () {
                 jQuery('.reveal-modal').slideUp();
             });
-            jQuery.ajax({
-                url: '/customshippingmethod/cartcount/index', type: 'post', success: function (data) {
-                    jQuery('.newicon-gouwudai i').html(data);
-                }
-            });
-        });</script>
+        });
+    </script>
 </div>
 <main class="cd-main-content">
     @yield('content')

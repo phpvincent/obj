@@ -2,9 +2,9 @@
     <div class="baozhang">
         <div class="buy-logo"><img src="{{asset('img/site_img/buy-logo.png')}}"></div>
         <div class="buy-p">
-            <h3>買家保障</h3>
-            <p><em></em>如果您未收到商品<b>全額退款！</b></p>
-            <p><em></em>如果您購買的商品與描述不符，<b>全額或部分退款！</b></p>
+           {!! config("language.footer-promess.".\App\goods::get_language($site->sites_blade_type)) !!}
+        
+        
         </div>
     </div>
     <div class="footmenu">
@@ -12,13 +12,12 @@
         <div class="footmenu-list">
             <ul class="f-list">
                 <li>
-                    <a href="/about">關於我們</a>
-                    <a href="/service">服務條款</a>
-                    <a href="/shipping">物流條款</a>
-                    <a href="/return">退換貨政策</a>
-                    <a href="/privacy">隱私協議</a>
+                    <a href="/footer/about">{!! config("language.footer-name.about.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/shipping">{!! config("language.footer-name.shipping.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/return">{!! config("language.footer-name.return.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/privacy">{!! config("language.footer-name.privacy.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
                 </li>
-                <li>© 2017 <a href="/" title="">ydzsshop.tw</a>. All rights reserved</li>
+                <li>© 2019 <a href="/" title="">ydzsshop.tw</a>. All rights reserved</li>
             </ul>
         </div>
     </div>
@@ -26,7 +25,6 @@
 <ul class="rightmenu">
     <li id="go_top" style="display: block;"></li>
 </ul>
-<script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
 <script>
     jQuery(document).ready(function () {
     jQuery("#go_top").hide();
