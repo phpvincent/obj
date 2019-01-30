@@ -203,8 +203,8 @@
         jQuery(document).ready(function ($) {
             var state = true;
             var page =1;
-            var linum = jQuery("#descDiv ul li").length;
-            jQuery("#descDiv ul li:lt(4)").show();
+            // var linum = jQuery("#descDiv ul li").length;
+            // jQuery("#descDiv ul li:lt(4)").show();
             jQuery(window).scroll(function () {
                 var scrot = jQuery(document).scrollTop() + 100;
                 if (scrot >= jQuery(document).height() - jQuery(window).height()) {
@@ -218,10 +218,10 @@
                                 var addli = '';
                                 $.each(JSON.parse(data),function(i,item){
                                     addli += '<li><div class="pro-tu">'
-                                           + '<a href="#"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
+                                           + '<a href="http://'+item.goods_url+'"><img src="'+item.site_active_img+'" width="400" height="400" alt=""/></a>'
                                         +'</div>'
                                         +'<div class="pro-tex">'
-                                            +'<h3><a href="#">'+item.goods_name+'</a></h3>'
+                                            +'<h3><a href="http://'+item.goods_url+'">'+item.goods_name+'</a></h3>'
                                             +'<div class="p3">'
                                                 +'<span class="newprice">NT$ '+item.goods_real_price+'</span>'
                                                 +'<span class="oldprice">NT$ '+item.goods_real_price+'</span>'
