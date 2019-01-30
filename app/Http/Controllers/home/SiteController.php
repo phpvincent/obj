@@ -95,6 +95,10 @@ class SiteController extends Controller
             ->offset($page)
             ->limit($limit)
             ->get();
+        foreach($goods as $k => &$v){
+            $v->img_url=img::where('img_goods_id',$v->goods_id)->first()['img_url'];
+            $v->goods_url=$_SERVER['SERVER_NAME'].'/index/site_goods/'.$v->goods_id;
+        }
         return json_encode($goods);
     }
     public function get_site_goods(Request $request)
