@@ -771,7 +771,7 @@ $(function(){
            }
        })
        if(bladeStyle==1){
-           $("#iframePayDiv").html('<iframe src="/pay" id="iframePay" scrolling="yes" frameborder="yes" width="100%" height="100%" ></iframe>')
+           $("#iframePayDiv").html('<iframe src="/pay?goods_id={{$goods->goods_id}}" id="iframePay" scrolling="yes" frameborder="yes" width="100%" height="100%" ></iframe>')
        }
        console.log("goods_blade_style",bladeStyle);
        console.log("goods_google_pix",goods_google_pix);
@@ -787,7 +787,7 @@ $(function(){
                
             } catch(e) {}
 
-            var action ='/pay';
+            var action ='/pay?goods_id={{$goods->goods_id}}';
            /* var tjArr = localStorage.getItem("jsArr");
             var tjI = tjArrRd.length - 1;*/
             var btime=getNowDate();
