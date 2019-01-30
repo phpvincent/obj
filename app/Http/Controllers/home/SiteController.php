@@ -125,7 +125,15 @@ class SiteController extends Controller
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
-            $v->img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            if(!$img_url){
+               $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
+            }else{
+                if(stripos($_SERVER['SERVER_NAME'],$img_url) === false) {
+                    $img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+                }
+            }
+            $v->img_url = $img_url;
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
             $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
@@ -145,7 +153,15 @@ class SiteController extends Controller
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
-            $v->img_url = $_SERVER['SERVER_NAME'] . '/' . img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            if(!$img_url){
+                $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
+            }else{
+                if(stripos($_SERVER['SERVER_NAME'],$img_url) === false) {
+                    $img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+                }
+            }
+            $v->img_url = $img_url;
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
             $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
@@ -173,7 +189,15 @@ class SiteController extends Controller
             ->limit($limit)
             ->get();
         foreach ($goods as $k => &$v) {
-            $v->img_url = $_SERVER['SERVER_NAME'] . '/' . img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+            if(!$img_url){
+                $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
+            }else{
+                if(stripos($_SERVER['SERVER_NAME'],$img_url) === false) {
+                    $img_url = $_SERVER['SERVER_NAME'] . '/' .img::where('img_goods_id', $v->goods_id)->first()['img_url'];
+                }
+            }
+            $v->img_url = $img_url;
             $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
             $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
         }
