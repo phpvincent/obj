@@ -8,7 +8,7 @@
                 <div class="swipe-wrap">
                     @foreach($banners as $banner)
                         <div><a @if($banner->site_goods_id) href="{{ url('goods/') .'/'.$banner->site_goods_id }}"
-                                @else href="" @endif><img class="img-responsive" src="{{ $banner->site_img }}"
+                                @else href="" @endif><img class="img-responsive" src="{{ url($banner->site_img) }}"
                                                           alt=""></a></div>
                     @endforeach
                 </div>
@@ -45,17 +45,17 @@
     <div class="djs">
         @if($activitie1)
             <div class="djstu1">
-                <a href="http://{{ url('activity/1') }}">
-                    <img src="http://{{ $activitie1->site_active_img }}" width="308" height="380">
+                <a href="{{ url('activity/1') }}">
+                    <img src="{{ url($activitie1->site_active_img) }}" width="308" height="380">
                 </a>
             </div>
         @endif
         @if($activities)
             <div class="djstu2">
                 @foreach($activities as $key=>$activity)
-                    <div class="djs0{{ $key+1 }}">
+                    <div class="djs0{{ $key }}">
                         <a href="http://{{ url('activity/') . '/' . $activity->site_active_type }}">
-                            <img src="http://{{ $activity->site_active_img }}" width="308" height="190">
+                            <img src="{{ url($activity->site_active_img) }}" width="308" height="190">
                         </a>
                     </div>
                 @endforeach
