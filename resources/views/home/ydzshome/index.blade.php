@@ -34,14 +34,12 @@
                                 </a>
                             </li>
                         @endif
-                        @if($key >= 9)
-                                <li>
-                                    <a href="{{ url('/cate/') .'/'.$cates[0]->site_goods_type_id  }}">
-                                        <img class="img-responsive" src="{{ asset('img/site_img/more.png') }}">
-                                    </a>
-                                </li>
-                        @endif
                     @endforeach
+                        <li>
+                            <a href="{{ url('/cate/') .'/'.$cates[0]->site_goods_type_id  }}">
+                                <img class="img-responsive" src="{{ asset('img/site_img/more.png') }}">
+                            </a>
+                        </li>
                 </ul>
             </div>
         </div>
