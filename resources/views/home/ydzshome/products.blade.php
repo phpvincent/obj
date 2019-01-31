@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div id="load" style="width:100%;text-algin:center;height:40px;padding:8px 0;"><img
+    <div id="load" style="width:100%;text-algin:center;padding:8px 0;"><img
                 src="{{ asset('images/loading.gif')}}" style="width:30px;margin:0 auto;display:none;"></div>
     <style>body, html {
             height: 100%;
@@ -238,7 +238,7 @@
                             console.log('after', datas.length)
                             state = false
                             var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
-                            jQuery('main').append("<p style='text-align:center;line-height:25px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
+                            jQuery('#load').append("<p style='text-align:center;line-height:25px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
                             console.log("22")
                         } else {
                             state = true;
