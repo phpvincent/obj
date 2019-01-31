@@ -59,6 +59,12 @@ class SendHerbEmail implements ShouldQueue
                 $url=$url->url_url;
                }
            }
+           if(strpos($url,'/index/site_goods/')!== false){
+              $site_id=\App\Site::where('sites_blade_type',$goods->goods_blade_type)->first()['sites_id'];
+              $home_url=url::where('url_site_id',$site_id)->first()['url_url'];
+           }else{
+              $home_url=$url;
+           }
            //获取模板名称
            $blade_name=\App\goods::get_success_blade($goods);
            //获取商品图片
@@ -98,7 +104,7 @@ class SendHerbEmail implements ShouldQueue
              $order->order_currency=\App\currency_type::where('currency_type_id',$order->order_currency_id)->first()['currency_type_name'];
              //发送邮件
            try{
-            $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url],function($message)use($email){
+            $flag = \Mail::send($blade_name,['order'=>$order,'goods'=>$goods,'url'=>$url,'home_url'=>$home_url],function($message)use($email){
                 $to = $email;
                 $message ->to($to)->subject('order notice');
             });
