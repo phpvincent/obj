@@ -14,6 +14,7 @@ use App\des;
 use App\par;
 use App\cuxiao;
 use App\templet_show;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\site;
@@ -110,6 +111,7 @@ class SiteController extends Controller
         $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $q = $request->input('q');
+        $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
@@ -120,6 +122,12 @@ class SiteController extends Controller
                     ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
                     ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
                     ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
+            })
+            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+            ->where(function ($query) use($goods_not_in) {
+                if($goods_not_in) {
+                    $query->whereNotIn('goods.goods_id', $goods_not_in);
+                }
             })
             ->offset(($page-1) * $limit)
             ->limit($limit)
@@ -144,11 +152,18 @@ class SiteController extends Controller
     {
         $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
+        $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'img.img_url')
             ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
             ->where('goods.goods_blade_type', $request->input('active_type'))
+            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+            ->where(function ($query) use($goods_not_in) {
+                if($goods_not_in) {
+                    $query->whereNotIn('goods_id', $goods_not_in);
+                }
+            })
             ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
@@ -173,6 +188,7 @@ class SiteController extends Controller
         $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $site_id = $request->get('site_id');
+        $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('site_actives')
             ->select('goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'site_actives.site_active_type', 'site_actives.site_active_id', 'site_actives.site_active_img', 'site_active_goods.sort')
             ->leftjoin('site_active_goods', 'site_actives.site_active_id', 'site_active_goods.site_active_id')
@@ -184,6 +200,12 @@ class SiteController extends Controller
                     $query->where('site_actives.site_active_type', $request->input('active_type'));
                 }
             })
+//            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+//            ->where(function ($query) use($goods_not_in) {
+//                if($goods_not_in) {
+//                    $query->whereNotIn('goods.goods_id', $goods_not_in);
+//                }
+//            })
             ->orderBy('site_active_goods.sort', 'desc')
             ->offset(($page-1) * $limit)
             ->limit($limit)

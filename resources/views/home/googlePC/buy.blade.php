@@ -514,7 +514,7 @@ Items can only be returned for a refund if they are unopened, unused and in a re
   }
 function url_href()
 {
-    window.location.href = '/';
+    window.location.href = 'http://{{ $home_url }}';
 }
     var issubmit=true;
     var formnum=1; //商品属性组数计数；
