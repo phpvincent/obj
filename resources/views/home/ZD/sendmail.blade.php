@@ -117,7 +117,7 @@
             <td colspan="3"    style=" padding: 20px 0 0 20px;color:#666;font-size:14px">
                 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="2">
                                 <tbody><tr>
-                        <td width="100" height="100"  style="vertical-align: top;"><div align="center"><a target="_blank" href="http://{{$url}}"><img src="http://{{$_SERVER['SERVER_NAME']}}/{{$goods->img}}" width="100" height="100"></a></div></td>
+                        <td width="100" height="100"  style="vertical-align: top;"><div align="center"><a target="_blank" href="http://{{$url}}"><img src="http://{{$home_url}}/{{$goods->img}}" width="100" height="100"></a></div></td>
                         <td width="585" colspan="2" style=" padding-left: 20px;">
                             <p style="margin:6px 0 10px 0; "><font style="vertical-align: inherit;color:#333"><font style="vertical-align: inherit;">{{$goods->goods_name}}</font></font></p>
                             
