@@ -233,6 +233,9 @@ class SiteController extends Controller
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $imgs = img::where('img_goods_id', $goods_id)->orderBy('img_id', 'asc')->get(['img_url']);
+        foreach($imgs as $k => $v){
+
+        }
         $goods = goods::where('goods_id', $goods_id)->first();
         if ($goods == null) return view('home.ydzshome.404')->with(compact('site', 'cates'));
         $comment = comment::where(['com_goods_id' => $goods_id, 'com_isshow' => '1'])->orderBy('com_order', 'desc')->get();
