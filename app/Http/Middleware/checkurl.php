@@ -52,6 +52,7 @@ class checkurl
            $domainCheck->setParam(['site_id'=>$site_id]);
            $request->attributes->add(['is_site'=>true,'site_id'=>$site_id]);
          }else{
+           if(!url::is_use($url)) return redirect('index/fb');
            $level=url::getlevel();
            $for=url::getzzfor();
            $goods_id=url::get_id();
