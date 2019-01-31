@@ -27,12 +27,19 @@
             <div class="ind-nav" style="visibility: visible;">
                 <ul class="li_nav">
                     @foreach($cates as $key=>$cate)
-                        @if($key < 10)
+                        @if($key < 9)
                             <li>
                                 <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
                             </li>
+                        @endif
+                        @if($key >= 9)
+                                <li>
+                                    <a href="{{ url('/cate/') .'/'.$cates[0]->site_goods_type_id  }}">
+                                        <img class="img-responsive" src="{{ asset('img/site_img/more.png') }}">
+                                    </a>
+                                </li>
                         @endif
                     @endforeach
                 </ul>
