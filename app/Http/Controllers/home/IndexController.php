@@ -236,6 +236,18 @@ class IndexController extends Controller
         }else{
             $goods->img = '';
         }
+        //获取产品页首页地址
+        $now_url=$_SERVER['SERVER_NAME'];
+        //将www二级域名去除
+        if(substr($now_url,0,4)=='www.'){
+            $now_url=substr($now_url, 4);
+        } 
+        $is_site=\App\Site::is_site($now_url);
+        if($is_site){
+            $home_url=$now_url.'/index/site_goods/'.$goods_id;
+        }else{
+            $home_url=$now_url;
+        }
         //支持支付方式
         $goods->goods_pay_type = explode(',',$goods->goods_pay_type);
         $img=img::where('img_goods_id',$goods_id)->first();
@@ -292,64 +304,64 @@ class IndexController extends Controller
         $goods_config_arr=(string)json_encode($sort);
         $blade_type=$goods->goods_blade_type;
         if($blade_type==0){
-            return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==1){
-            return view('home.TaiwanJian.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.TaiwanJian.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==2){
-            return view('home.zhongdong.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.zhongdong.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==3){
-            return view('home.MaLaiXiYa.mlxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.MaLaiXiYa.mlxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==4){
-            return view('home.TaiGuo.taiguoBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.TaiGuo.taiguoBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==5){
-            return view('home.RiBen.ribenBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.RiBen.ribenBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==6){
-            return view('home.YinDuNiXiYa.ydnxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.YinDuNiXiYa.ydnxyBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==7){
-            return view('home.FeiLvBin.flbBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.FeiLvBin.flbBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==8){
-            return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==9){
              $user_type=get_user_new_type();
             if(in_array($user_type,['Android','iPhone','iPad'])){
-            return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.YingGuo.ygBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
             }
-            return view('home.googlePC.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.googlePC.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==10){
-            return view('home.MeiGuo.usBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.MeiGuo.usBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==11){
-            return view('home.YueNan.ynBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.YueNan.ynBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==12){
-            return view('home.ShaTe.stBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.ShaTe.stBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==13){
-            return view('home.ShaTeEnglish.stBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.ShaTeEnglish.stBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==14){
-            return view('home.KaTaEr.kteBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.KaTaEr.kteBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==15){
-            return view('home.KaTaErEnglish.kteBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.KaTaErEnglish.kteBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==16){
-            return view('home.ZD.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.ZD.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
         if($blade_type==17){
-            return view('home.ZDEnglish.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+            return view('home.ZDEnglish.zdBuy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
         }
-    	return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num'));
+    	return view('home.TaiwanFan.buy')->with(compact('goods','img','cuxiao','goods_config_arr','cuxiao_num','home_url'));
     }
 
     /** 前台活动模板

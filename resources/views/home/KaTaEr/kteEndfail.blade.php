@@ -33,8 +33,8 @@
 </div>
 <script language="javascript">
     function goHome(){
-       
-    location.href=u;
+        var u = 'http://{{$url}}';
+        location.href=u;
         //window.location.href=u;
     }
 </script>
