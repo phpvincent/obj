@@ -200,12 +200,12 @@ class SiteController extends Controller
                     $query->where('site_actives.site_active_type', $request->input('active_type'));
                 }
             })
-            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
-            ->where(function ($query) use($goods_not_in) {
-                if($goods_not_in) {
-                    $query->whereNotIn('goods.goods_id', $goods_not_in);
-                }
-            })
+//            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+//            ->where(function ($query) use($goods_not_in) {
+//                if($goods_not_in) {
+//                    $query->whereNotIn('goods.goods_id', $goods_not_in);
+//                }
+//            })
             ->orderBy('site_active_goods.sort', 'desc')
             ->offset(($page-1) * $limit)
             ->limit($limit)
