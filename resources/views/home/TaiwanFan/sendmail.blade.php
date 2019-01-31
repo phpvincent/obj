@@ -19,7 +19,7 @@
             <td height="21" colspan="3"><table width="800" border="0" align="center" cellpadding="0" cellspacing="2">
               <tbody><tr>
                 
-                <td width="204" rowspan="3"><img  style="border: 1px solid #F29400; border-radius: 8%;" src="http://{{$url}}/images/ydzs.png" width="100"></td>
+                <td width="204" rowspan="3"><img  style="border: 1px solid #F29400; border-radius: 8%;" src="http://{{$home_url}}/images/ydzs.png" width="100"></td>
                 <td width="179" height="21">&nbsp;</td>
                 <!-- <td width="409"><div align="right"><font style="vertical-align: inherit; font-size: 32px;font-weight: bold; color: #F29400;">订单通知</font></div></td> -->
               </tr>
