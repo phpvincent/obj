@@ -411,39 +411,6 @@
             }
             $('.box').hide(400);
         });
-        function chanbingCheck(){
-            var Check=true;
-            var a=$(this).val();
-            $.ajax({
-                type:'GET',
-                url:'{{url("admin/goods/goods_kind_s")}}?name='+'',
-                dataType:'json',
-                async:false,
-                data:{},
-                success:function(data){
-
-                    jQuery.each(data,function(key,value){
-                        if(a==value.goods_kind_name){
-                            Check=false;
-                        }
-                    });
-                    if(Check){
-                        var target_top = $("#goods_kind_name").offset().top;
-                        // $("html,body").animate({scrollTop: target_top}, 1000);  //带滑动效果的跳转
-                        $("html,body").scrollTop(target_top);
-                        setTimeout('layer.alert("此产品不存在,请选择产品！");',1200);
-                    }
-                },
-                error:function(jqXHR){
-
-                }
-            });
-            if(Check){
-                return false;
-            }else{
-                return true;
-            }
-        }
         $('body').on('mousedown','.box li',function(){
 
             $('.box').hide(400);

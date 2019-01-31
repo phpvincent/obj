@@ -224,7 +224,7 @@ s.parentNode.insertBefore(atag, s);
             </div>
             @endif
         	@foreach($imgs as $key)
-                        <div class="swiper-slide"><img class="banner-img" src="{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
+                        <div class="swiper-slide"><img class="banner-img" src="/{{$key->img_url}}" style="width: 100%;"  alt="" /></div>
             @endforeach
         </div>
         <div class="swiper-pagination"></div>
