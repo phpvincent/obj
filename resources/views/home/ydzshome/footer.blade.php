@@ -43,6 +43,7 @@
             return false;
         });
     });
+    jQuery(".footmenu-list .f-list li:last a").text(window.location.host)
 });
 </script>
 <script type="text/javascript">
