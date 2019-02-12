@@ -106,13 +106,14 @@
 	</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">绑定站点：<span style="color:red;">(绑定站点后将自动解绑与该域名相关的单品页)</span></label>
-				<div class="formControls col-xs-8 col-sm-9">
+				<div class="formControls col-xs-8 col-sm-9"><span class="select-box">
 				<select name="url_site_id" id="url_site_id" class="select">
 					<option value="0"><span style="color:red;">无</span></option>
 					@foreach(\App\site::where('status',0)->get() as $k => $v)
 						<option @if($url->url_site_id==$v->sites_id) selected @endif value="{{$v->sites_id}}">{{$v->sites_name}}({{\App\admin::getBladeName($v->sites_blade_type)}})</option>
 					@endforeach
 				</select>
+					</span>
 				</div>
 			</div>
 	</div>

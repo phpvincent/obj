@@ -80,7 +80,7 @@ class SiteController extends Controller
             })
             ->count();
         $data=DB::table('sites')
-            ->select('sites.*','url.url_url','url.url_type','admin.admin_show_name')
+            ->select('sites.*','url.url_url','url.url_type','admin.admin_show_name','url.url_id')
             ->leftjoin('url','sites.sites_id','=','url.url_site_id')
             ->join('admin','sites.sites_admin_id','=','admin.admin_id')
             ->where('sites.status',0)
