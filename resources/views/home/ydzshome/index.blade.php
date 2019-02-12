@@ -70,6 +70,7 @@
             <div class="cp_fl">
             </div>
             <div class="newsale-title">
+                <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div>
                 <div class="newsale_r">
                     {!! config("language.index.new.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
