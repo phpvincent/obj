@@ -94,9 +94,7 @@
                 </ul>
                 <div class="clear"></div>
             </div>
-            <div class="new-sale-big">
-                <a href="/"><img src="img/zlt.jpg"/></a>
-            </div>
+            
             <!-- <div class="hsale-title">
                 <div class="timer" id="timer">
                 </div>
@@ -169,7 +167,9 @@
             <div id="load" style="width:100%;text-algin:center;height:40px;padding:8px 0;"><img src="images/loading.gif"
                                                                                                 style="width:30px;margin:0 auto;display:none;">
             </div>
-
+            <div class="new-sale-big">
+                <a href="/"><img src="img/zlt.jpg"/></a>
+            </div>
             <style>#descDiv .prolist li {
                     padding: 5px;
                     box-sizing: border-box;
