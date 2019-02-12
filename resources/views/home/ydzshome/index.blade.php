@@ -258,7 +258,7 @@
                                                 + '<div class="pro-tex">'
                                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                                 + '<div class="p3">'
-                                                + '<span class="newprice">' + item.currency + item.goods_real_price + '</span>'
+                                                + '<span class="newprice">' + item.currency + item.goods_price + '</span>'
                                                 + '<span class="oldprice">' + item.currency + item.goods_real_price + '</span>'
                                                 + '</div>'
                                                 + '</div></li>'
