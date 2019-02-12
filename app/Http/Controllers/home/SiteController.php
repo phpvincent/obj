@@ -192,7 +192,7 @@ class SiteController extends Controller
     public function get_site_goods(Request $request)
     {
         $page = $request->input('page',1);
-        $limit = $request->input('limit', 6);
+        $limit = $request->input('limit', 2);
         $site_id = $request->get('site_id');
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('site_actives')
