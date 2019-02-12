@@ -391,7 +391,12 @@ class SiteController extends Controller
 //            $right_goods = [''];
 //        }
         $keyworks = array_filter(array_unique(explode(',', $keyword)));
-        $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
+        if($keyworks){
+            $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
+        }else{
+            $chunk_result = [[],[]];
+        }
+        // $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
         return ['left' => $chunk_result[0], 'right' => count($chunk_result) > 1 ? $chunk_result[1] : ''];
     }
 
@@ -407,5 +412,24 @@ class SiteController extends Controller
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.menus')->with(compact('site', 'cates', 'type','hot_search'));
+    }
+    public function countdown(){
+        if(!isset($_COOKIE['countdown'])){
+            $time=86400;
+            $time=86400-mt_rand(1000,50000);
+            setcookie('countdown',$time,time()+10800);
+            setcookie('countdown_time',time(),time()+10800);
+            return $time;
+        }else{
+            if(isset($_COOKIE['countdown_time'])){
+                $countdown_time=$_COOKIE['countdown_time'];
+            }else{
+                $countdown_time=time();
+                setcookie('countdown_time',time(),time()+10800);
+            }
+            $time=$_COOKIE['countdown']-time()+$countdown_time;
+            return $time;
+        }
+        
     }
 }

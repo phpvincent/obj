@@ -81,13 +81,12 @@
                 <div class="clear"></div>
             </div>
             <div class="newsale-title">
+                <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div>
                 <div class="newsale_r">
                     {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
             </div>
-            <div class="new-sale-big">
-                <a href="/"><img src="img/zlt.jpg"/></a>
-            </div>
+            
             <div class="clear"></div>
             <div class="home_category_list">
                 <ul class="prolist active_type2">
@@ -95,6 +94,7 @@
                 </ul>
                 <div class="clear"></div>
             </div>
+            
             <!-- <div class="hsale-title">
                 <div class="timer" id="timer">
                 </div>
@@ -167,7 +167,9 @@
             <div id="load" style="width:100%;text-algin:center;height:40px;padding:8px 0;"><img src="images/loading.gif"
                                                                                                 style="width:30px;margin:0 auto;display:none;">
             </div>
-
+            <div class="new-sale-big">
+                <a href="/"><img src="img/zlt.jpg"/></a>
+            </div>
             <style>#descDiv .prolist li {
                     padding: 5px;
                     box-sizing: border-box;
@@ -236,7 +238,7 @@
                     });
 
                     jQuery(window).scroll(function () {
-                        var scrot = jQuery(document).scrollTop() + 100;
+                        var scrot = jQuery(document).scrollTop() + 500;
                         if (scrot >= jQuery(document).height() - jQuery(window).height()) {
                             if (state == true) {
                                 state = false;
@@ -285,6 +287,40 @@
                         }
                     });
                 });
+            </script>
+            <script language="javascript">
+                (function($){
+                    var endtime = '24:00:00';
+                     $.ajaxSetup({
+                        headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+                    });
+                    $.ajax({
+                        type:'post',
+                        url:'/customshippingmethod/countdown/index',
+                        data:{'endtime':endtime},
+                        success:function(datetime){
+                            if(datetime){
+                                countDown(datetime);
+                            }
+                        }
+                    });
+                    function countDown(datetime){
+                        var h = Math.floor(datetime/3600);
+                        var m = Math.floor((datetime%3600)/60);
+                        var s = (datetime%3600)%60;
+
+                        if(h<10) h = "0" + h;
+                        if(m<10) m = "0" + m;
+                        if(s<10) s = "0" + s;
+
+                        $("#timer").html('<span></span><span id="h" class="timerk">' + h + '</span>:<span id="m" class="timerk">' + m + '</span>:<span id="s" class="timerk">' + s + '</span>');
+
+                        setTimeout(function(){
+                            countDown(datetime-1);
+                        }, 1000);
+                    }
+
+                })(jQuery);
             </script>
 @endsection
 
