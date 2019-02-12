@@ -11,4 +11,10 @@
 	</div>
 	<br><br><div style="width: 80%;margin: 0 auto;"><p style="text-align:center;"><img src="{{ asset('img/site.png') }}"></p><br/>{!! config("language.".$type.".".\App\goods::get_language($site->sites_blade_type)) !!}</div>
 </p>
+<br>
+<br>
+<br>
+<div class="new-sale-big" style="width: 100%;">
+                <a href="/"><img src="/img/zlt.jpg"/></a>
+</div>
 @endsection

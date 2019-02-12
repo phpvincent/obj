@@ -29,10 +29,12 @@
                     @foreach($cates as $key=>$cate)
                         @if($key < 9)
                             <li style="position:relative;">
-                                <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
+                             <div>
+                             <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
                                 <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>{{$cate->site_class_show_name}}</b></span>
+                             </div>
                             </li>
                         @endif
                     @endforeach
@@ -86,9 +88,7 @@
                     {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
             </div>
-            <div class="new-sale-big">
-                <a href="/"><img src="img/zlt.jpg"/></a>
-            </div>
+            
             <div class="clear"></div>
             <div class="home_category_list">
                 <ul class="prolist active_type2">
@@ -96,6 +96,7 @@
                 </ul>
                 <div class="clear"></div>
             </div>
+            
             <!-- <div class="hsale-title">
                 <div class="timer" id="timer">
                 </div>
@@ -168,7 +169,9 @@
             <div id="load" style="width:100%;text-algin:center;height:40px;padding:8px 0;"><img src="images/loading.gif"
                                                                                                 style="width:30px;margin:0 auto;display:none;">
             </div>
-
+            <div class="new-sale-big">
+                <a href="/"><img src="img/zlt.jpg"/></a>
+            </div>
             <style>#descDiv .prolist li {
                     padding: 5px;
                     box-sizing: border-box;
@@ -237,14 +240,14 @@
                     });
 
                     jQuery(window).scroll(function () {
-                        var scrot = jQuery(document).scrollTop() + 100;
+                        var scrot = jQuery(document).scrollTop() + 500;
                         if (scrot >= jQuery(document).height() - jQuery(window).height()) {
                             if (state == true) {
                                 state = false;
                                 jQuery("#load img").css("display", "block");
                                 $.ajax({
                                     type: 'get',
-                                    url: '/index/get_site_goods?site_id=' + site_id + '&page=' + page + '&active_type=1',
+                                    url: '/index/get_site_goods?site_id=' + site_id + '&page=' + page + '&active_type=1&limit=4',
                                     success: function (data) {
                                         var addli = '';
                                         datas = JSON.parse(data)
@@ -255,14 +258,14 @@
                                                 + '<div class="pro-tex">'
                                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                                 + '<div class="p3">'
-                                                + '<span class="newprice">' + item.currency + item.goods_real_price + '</span>'
+                                                + '<span class="newprice">' + item.currency + item.goods_price + '</span>'
                                                 + '<span class="oldprice">' + item.currency + item.goods_real_price + '</span>'
                                                 + '</div>'
                                                 + '</div></li>'
                                         })
                                         $('.active_type2').append(addli);
                                         jQuery("#load img").css("display", "none");
-                                        if (datas.length < 6) {
+                                        if (datas.length < 4) {
                                             var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
                                             jQuery("#load").append("<p style='text-align:center;line-height:30px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
                                         } else {
@@ -312,7 +315,7 @@
                         if(m<10) m = "0" + m;
                         if(s<10) s = "0" + s;
 
-                        $("#timer").html('<span>倒数</span><span id="h" class="timerk">' + h + '</span>:<span id="m" class="timerk">' + m + '</span>:<span id="s" class="timerk">' + s + '</span>结束');
+                        $("#timer").html('<span></span><span id="h" class="timerk">' + h + '</span>:<span id="m" class="timerk">' + m + '</span>:<span id="s" class="timerk">' + s + '</span>');
 
                         setTimeout(function(){
                             countDown(datetime-1);
