@@ -188,7 +188,7 @@
         <ul id="nav1">
             @if(count($cates) > 0)
                 @foreach($cates as $cate)
-                    <li class="level0 nav-{{$cate->site_class_id}} first level-top @if($type == 'cate' && $active_type == $cate->site_goods_type_id) selected @endif">
+                    <li style="height: 245px;" class="level0 nav-{{$cate->site_class_id}} first level-top @if($type == 'cate' && $active_type == $cate->site_goods_type_id) selected @endif">
                         <a href=" {{ url('/cate/') .'/'.$cate->site_goods_type_id  }}"
                            class="level-top"><span>{{ $cate->site_class_show_name }}</span></a></li>
                 @endforeach
