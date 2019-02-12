@@ -29,10 +29,12 @@
                     @foreach($cates as $key=>$cate)
                         @if($key < 9)
                             <li style="position:relative;">
-                                <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
+                             <div>
+                             <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
                                 <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>{{$cate->site_class_show_name}}</b></span>
+                             </div>
                             </li>
                         @endif
                     @endforeach
