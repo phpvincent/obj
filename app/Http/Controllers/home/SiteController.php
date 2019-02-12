@@ -413,8 +413,10 @@ class SiteController extends Controller
             $time=86400;
             $time=86400-mt_rand(1000,50000);
             setcookie('countdown',$time,time()+10800);
+            setcookie('countdown_time',time(),time()+10800);
             return $time;
         }else{
+            $time=$_COOKIE['countdown']-time()+(isset($_COOKIE['countdown_time'])?$_COOKIE['countdown_time']:0);
             return $_COOKIE['countdown'];
         }
         
