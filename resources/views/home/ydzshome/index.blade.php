@@ -32,6 +32,7 @@
                                 <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
+                                <span>{{$cate->site_class_show_name}}</span>
                             </li>
                         @endif
                     @endforeach
