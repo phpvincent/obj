@@ -213,6 +213,7 @@ class SiteController extends Controller
 //                }
 //            })
             ->orderBy('site_active_goods.sort', 'desc')
+            ->orderBy('goods.goods_id', 'desc')
             ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
