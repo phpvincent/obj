@@ -271,6 +271,12 @@ class UrlController extends Controller
           $url->url_goods_id=null;
           $url->url_zz_goods_id=null; 
           $url->url_site_id=$msg['url_site_id'];
+          $url->url_url=$msg['url_url'];
+          $url->url_type=$msg['url_type'];
+          $url->url_zz_level=$msg['url_zz_level'];
+          $url->url_zz_for=$msg['url_zz_for'];
+          $url->url_admin_id=Auth::user()->admin_id;
+          $url->url_ad_account_id=isset($msg['ad_account'])?implode(',', $msg['ad_account']):null;
           $code=$url->save();
           if($code==false){
             return response()->json(['err'=>0,'str'=>'更改失败！域名数据更新失败！']);
