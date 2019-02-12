@@ -390,8 +390,8 @@ class SiteController extends Controller
 //            $left_goods = [''];
 //            $right_goods = [''];
 //        }
-        $keyworks = explode(';', $keyword);
-        $chunk_result = array_chunk($keyworks, 2);
+        $keyworks = array_filter(array_unique(explode(',', $keyword)));
+        $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
         return ['left' => $chunk_result[0], 'right' => count($chunk_result) > 1 ? $chunk_result[1] : ''];
     }
 
