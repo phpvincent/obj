@@ -159,7 +159,7 @@ function getQueryParam()
    {
         var url_arr = current_url.split('?');
         param = url_arr[1];
-        if(!getQueryString('from'))
+       if(getQueryString('from') != '')
         {
             param += "&from="+from;
         }                    
@@ -217,15 +217,15 @@ jQuery(function(){
     }; 
     var href = jQuery(this).attr('href') || '';      
     if(from=='native') return;
-    if(href in ignore) return; 
-    
+    if(href in ignore) return;
+
     if(href.indexOf('?')!='-1')
     {
-        if(param != '') href += '&' + param;        
+        if(param != '') href += '&' + param;
     }   
     else
     {        
-        if(param != '') href += "?" + param;                    
+        if(param != '') href += "?" + param;
     }  
     jQuery(this).attr('href', href);                
   });
