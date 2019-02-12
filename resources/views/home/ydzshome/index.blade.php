@@ -290,6 +290,9 @@
             <script language="javascript">
                 (function($){
                     var endtime = '24:00:00';
+                     $.ajaxSetup({
+                        headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+                    });
                     $.ajax({
                         type:'post',
                         url:'/customshippingmethod/countdown/index',
