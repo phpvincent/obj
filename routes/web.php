@@ -61,6 +61,7 @@ use App\channel\mailControl;
 	Route::match(['get', 'post'], '/endsuccess','home\IndexController@endsuccess');
 	Route::match(['get', 'post'], '/endfail','home\IndexController@endfail');
 	Route::match(['get', 'post'], '/expressCheckoutSuccess','home\IndexController@expressCheckoutSuccess');
+	Route::match(['get', 'post'], '/customshippingmethod/countdown/index','home\SiteController@countdown');
 });
 Route::middleware([])->group(function(){
 	Route::any('/order/save_testcom','home\IndexController@savetestform');

@@ -408,4 +408,9 @@ class SiteController extends Controller
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.menus')->with(compact('site', 'cates', 'type','hot_search'));
     }
+    public function countdown(){
+        $time=86400;
+        $time=86400-mt_rand(1000,50000);
+        return $time;
+    }
 }
