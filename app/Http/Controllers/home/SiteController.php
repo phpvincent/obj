@@ -101,7 +101,7 @@ class SiteController extends Controller
         $q = $request->input('q');
         $active_type = $q;
         $language = goods::get_language($site->sites_blade_type);
-        $position =  config("language.index.seckill.{$language}") . ':' . $q;
+        $position =  config("language.index.search.{$language}") . ':' . $q;
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
