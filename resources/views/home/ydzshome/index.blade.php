@@ -312,7 +312,7 @@
                         if(m<10) m = "0" + m;
                         if(s<10) s = "0" + s;
 
-                        $("#timer").html('<span>倒数</span><span id="h" class="timerk">' + h + '</span>:<span id="m" class="timerk">' + m + '</span>:<span id="s" class="timerk">' + s + '</span>结束');
+                        $("#timer").html('<span></span><span id="h" class="timerk">' + h + '</span>:<span id="m" class="timerk">' + m + '</span>:<span id="s" class="timerk">' + s + '</span>');
 
                         setTimeout(function(){
                             countDown(datetime-1);
