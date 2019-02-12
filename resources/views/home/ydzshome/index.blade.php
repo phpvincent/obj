@@ -247,7 +247,7 @@
                                 jQuery("#load img").css("display", "block");
                                 $.ajax({
                                     type: 'get',
-                                    url: '/index/get_site_goods?site_id=' + site_id + '&page=' + page + '&active_type=1',
+                                    url: '/index/get_site_goods?site_id=' + site_id + '&page=' + page + '&active_type=1&limit=4',
                                     success: function (data) {
                                         var addli = '';
                                         datas = JSON.parse(data)
@@ -265,7 +265,7 @@
                                         })
                                         $('.active_type2').append(addli);
                                         jQuery("#load img").css("display", "none");
-                                        if (datas.length < 6) {
+                                        if (datas.length < 4) {
                                             var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
                                             jQuery("#load").append("<p style='text-align:center;line-height:30px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
                                         } else {
