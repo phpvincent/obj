@@ -391,12 +391,7 @@ class SiteController extends Controller
 //            $right_goods = [''];
 //        }
         $keyworks = array_filter(array_unique(explode(',', $keyword)));
-        if($keyworks){
-            $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
-        }else{
-            $chunk_result = [[],[]];
-        }
-        // $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
+        $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
         return ['left' => $chunk_result[0], 'right' => count($chunk_result) > 1 ? $chunk_result[1] : ''];
     }
 
