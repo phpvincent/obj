@@ -411,6 +411,6 @@ class SiteController extends Controller
     public function countdown(){
         $time=86400;
         $time=86400-mt_rand(1000,50000);
-        return json_encode($time);
+        return json_encode(['time'=>$time]);
     }
 }
