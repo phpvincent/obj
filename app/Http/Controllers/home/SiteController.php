@@ -113,8 +113,8 @@ class SiteController extends Controller
         $q = $request->input('q');
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
-            ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'img.img_url')
-            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
+            ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
+//            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->leftjoin('goods_kind', 'goods_kind.goods_kind_id', 'goods.goods_kind_id')
             ->where('goods.is_del', 0)
             ->where(function ($query) use ($q) {
@@ -154,8 +154,8 @@ class SiteController extends Controller
         $limit = $request->input('limit', 6);
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
-            ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id', 'img.img_url')
-            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
+            ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
+//            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
             ->where('goods.goods_blade_type', $request->input('active_type'))
             ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
