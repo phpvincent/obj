@@ -355,7 +355,13 @@ class VisController extends Controller
                 $end_time = date('Y-m-d',time()+24*3600).' 00:00:00';
             }
             $count = \App\vis::visCount($start_time,$end_time,$goods_id);
-            return response()->json($count);
+            //删除相对转化折线（如果展示，删除foreach即可）
+            foreach ($count['data'] as $key=>$item) {
+                if ($item['name'] == '相对转化率') {
+                    unset($count['data'][$key]);
+                }
+            }
+        return response()->json($count);
    	}
    }
    public function statistic_b(Request $request){
