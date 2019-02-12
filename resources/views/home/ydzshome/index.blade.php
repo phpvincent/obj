@@ -86,15 +86,16 @@
                     {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
             </div>
-            <div class="new-sale-big">
-                <a href="/"><img src="img/zlt.jpg"/></a>
-            </div>
+            
             <div class="clear"></div>
             <div class="home_category_list">
                 <ul class="prolist active_type2">
 
                 </ul>
                 <div class="clear"></div>
+            </div>
+            <div class="new-sale-big">
+                <a href="/"><img src="img/zlt.jpg"/></a>
             </div>
             <!-- <div class="hsale-title">
                 <div class="timer" id="timer">
