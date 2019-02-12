@@ -700,6 +700,7 @@ class GoodsController extends Controller
          }
          $url->url_goods_id=null;
          $url->url_zz_goods_id=null;
+         $url->url_site_id=null;
          if($url->save()){
              $ip = $request->getClientIp();
              //加log日志

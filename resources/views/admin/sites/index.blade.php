@@ -98,16 +98,16 @@
                 if(data.url_type==0||data.url_type==null){
                     var isroot='<span class="label label-default radius">×</span>';
                     if(data.url_url!=null){
-                        info+='<a title="启用" href="javascript:;" onclick="goods_online(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="启用"><i class="Hui-iconfont">&#xe601;</i></span></a>'
+                        info+='<a title="启用" href="javascript:;" onclick="goods_online(\''+data.url_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="启用"><i class="Hui-iconfont">&#xe601;</i></span></a>'
                     }else{
                         info+='<a title="域名绑定" href="{{url("admin/url/goods_url")}}"  class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="域名绑定"><i class="Hui-iconfont">&#xe601;</i></span></a>'
                     }
 
                 }else{
                     var isroot='<span class="label label-success radius">√</span>';
-                    info+='<a title="停止" href="javascript:;" onclick="goods_close(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="停止"><i class="Hui-iconfont">&#xe6e4;</i></span></a>'
+                    info+='<a title="停止" href="javascript:;" onclick="goods_close(\''+data.url_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="停止"><i class="Hui-iconfont">&#xe6e4;</i></span></a>'
                 }
-                var url='<a href="http://'+data.vis_url+'" style="margin:0px auto;" target="view_window" >'+data.vis_url ? data.vis_url : ''+'</a>';
+                var url='<a href="http://'+data.url_url+'" style="margin:0px auto;" target="view_window" >'+data.url_url ? data.url_url : ''+'</a>';
 
                 /*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
                 $(row).find('td:eq(7)').html(info);
@@ -154,6 +154,60 @@
                         }
                     }
                 })
+            }else{
+
+            }
+        }
+        //启动站点
+        function goods_online(id){
+            var msg =confirm("确定要启用此站点吗？");
+            if(msg){
+                layer.msg('启用中');
+                $.ajax({
+                    url:"{{url('admin/goods/online')}}",
+                    type:'get',
+                    data:{'id':id},
+                    datatype:'json',
+                    success:function(msg){
+                        if(msg['err']==1){
+                            layer.msg(msg.str);
+                            $('#vis_index_table').dataTable().fnClearTable();
+                        }else if(msg['err']==0){
+                            layer.msg(msg.str);
+                        }else{
+                            layer.msg('启动失败！');
+                        }
+                    }
+                })
+
+            }else{
+
+            }
+        }
+        //关闭站点
+        function goods_close(id){
+            var msg =confirm("确定要下线此站点吗？");
+            if(msg){
+                layer.msg('操作中');
+                $.ajax({
+                    url:"{{url('admin/goods/close')}}",
+                    type:'get',
+                    data:{'id':id},
+                    datatype:'json',
+                    success:function(msg){
+                        if(msg['err']==1){
+                            layer.msg(msg.str);
+                            $('#vis_index_table').dataTable().fnClearTable();
+                            /*$(".del"+id).prev("input").remove();
+                         $(".del"+id).val('已删除');*/
+                        }else if(msg['err']==0){
+                            layer.msg(msg.str);
+                        }else{
+                            layer.msg('下线失败！');
+                        }
+                    }
+                })
+
             }else{
 
             }
