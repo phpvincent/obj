@@ -238,7 +238,7 @@
                     });
 
                     jQuery(window).scroll(function () {
-                        var scrot = jQuery(document).scrollTop() + 100;
+                        var scrot = jQuery(document).scrollTop() + 500;
                         if (scrot >= jQuery(document).height() - jQuery(window).height()) {
                             if (state == true) {
                                 state = false;
