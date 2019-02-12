@@ -111,17 +111,23 @@ class SiteController extends Controller
         $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $q = $request->input('q');
+        $search = explode(',', $q);
+        $search = implode('|', array_filter(array_unique($search)));
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->leftjoin('goods_kind', 'goods_kind.goods_kind_id', 'goods.goods_kind_id')
             ->where('goods.is_del', 0)
-            ->where(function ($query) use ($q) {
-                $query->where('goods.goods_name', 'like', '%' . $q . '%')
-                    ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
-                    ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
-                    ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
+            ->where(function ($query) use ($search) {
+//                $query->where('goods.goods_name', 'like', '%' . $q . '%')
+//                    ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
+//                    ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
+//                    ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
+                $query->where('goods.goods_name', 'regexp', $search)
+                    ->orWhere('goods.goods_real_name', 'regexp', $search )
+                    ->orWhere('goods_kind.goods_kind_name', 'regexp', $search)
+                    ->orWhere('goods_kind.goods_kind_english_name', 'regexp', $search);
             })
             ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
