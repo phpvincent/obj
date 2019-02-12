@@ -19,7 +19,7 @@ use Qcloud\Sms\SmsSingleSender;
 use App\channel\mailControl;
 	Route::get('/index/index','home\IndexController@channelindex')->name('index');
 	Route::get('/index/fb','home\IndexController@fb');
-
+	Route::post('/customshippingmethod/countdown/index','home\SiteController@countdown');
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
 		@header('Content-type: text/html;charset=UTF-8');
@@ -61,7 +61,6 @@ use App\channel\mailControl;
 	Route::match(['get', 'post'], '/endsuccess','home\IndexController@endsuccess');
 	Route::match(['get', 'post'], '/endfail','home\IndexController@endfail');
 	Route::match(['get', 'post'], '/expressCheckoutSuccess','home\IndexController@expressCheckoutSuccess');
-	Route::post('/customshippingmethod/countdown/index','home\SiteController@countdown');
 });
 Route::middleware([])->group(function(){
 	Route::any('/order/save_testcom','home\IndexController@savetestform');
