@@ -28,11 +28,11 @@
                 <ul class="li_nav">
                     @foreach($cates as $key=>$cate)
                         @if($key < 9)
-                            <li>
+                            <li style="position:relative;">
                                 <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
-                                <span>{{$cate->site_class_show_name}}</span>
+                                <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>{{$cate->site_class_show_name}}</b></span>
                             </li>
                         @endif
                     @endforeach
@@ -81,6 +81,7 @@
                 <div class="clear"></div>
             </div>
             <div class="newsale-title">
+                <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div>
                 <div class="newsale_r">
                     {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
@@ -285,6 +286,40 @@
                         }
                     });
                 });
+            </script>
+            <script language="javascript">
+                (function($){
+                    var endtime = '24:00:00';
+                     $.ajaxSetup({
+                        headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+                    });
+                    $.ajax({
+                        type:'post',
+                        url:'/customshippingmethod/countdown/index',
+                        data:{'endtime':endtime},
+                        success:function(datetime){
+                            if(datetime){
+                                countDown(datetime);
+                            }
+                        }
+                    });
+                    function countDown(datetime){
+                        var h = Math.floor(datetime/3600);
+                        var m = Math.floor((datetime%3600)/60);
+                        var s = (datetime%3600)%60;
+
+                        if(h<10) h = "0" + h;
+                        if(m<10) m = "0" + m;
+                        if(s<10) s = "0" + s;
+
+                        $("#timer").html('<span>倒数</span><span id="h" class="timerk">' + h + '</span>:<span id="m" class="timerk">' + m + '</span>:<span id="s" class="timerk">' + s + '</span>结束');
+
+                        setTimeout(function(){
+                            countDown(datetime-1);
+                        }, 1000);
+                    }
+
+                })(jQuery);
             </script>
 @endsection
 

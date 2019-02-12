@@ -101,7 +101,7 @@ class SiteController extends Controller
         $q = $request->input('q');
         $active_type = $q;
         $language = goods::get_language($site->sites_blade_type);
-        $position =  config("language.index.seckill.{$language}") . ':' . $q;
+        $position =  config("language.index.search.{$language}") . ':' . $q;
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.products')->with(compact('site', 'cates', 'position', 'active_type', 'type', 'hot_search'));
     }
@@ -111,17 +111,23 @@ class SiteController extends Controller
         $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
         $q = $request->input('q');
+        $search = explode(',', $q);
+        $search = implode('|', array_filter(array_unique($search)));
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->leftjoin('goods_kind', 'goods_kind.goods_kind_id', 'goods.goods_kind_id')
             ->where('goods.is_del', 0)
-            ->where(function ($query) use ($q) {
-                $query->where('goods.goods_name', 'like', '%' . $q . '%')
-                    ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
-                    ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
-                    ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
+            ->where(function ($query) use ($search) {
+//                $query->where('goods.goods_name', 'like', '%' . $q . '%')
+//                    ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
+//                    ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
+//                    ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
+                $query->where('goods.goods_name', 'regexp', $search)
+                    ->orWhere('goods.goods_real_name', 'regexp', $search )
+                    ->orWhere('goods_kind.goods_kind_name', 'regexp', $search)
+                    ->orWhere('goods_kind.goods_kind_english_name', 'regexp', $search);
             })
             ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
@@ -384,8 +390,8 @@ class SiteController extends Controller
 //            $left_goods = [''];
 //            $right_goods = [''];
 //        }
-        $keyworks = explode(';', $keyword);
-        $chunk_result = array_chunk($keyworks, 2);
+        $keyworks = array_filter(array_unique(explode(',', $keyword)));
+        $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
         return ['left' => $chunk_result[0], 'right' => count($chunk_result) > 1 ? $chunk_result[1] : ''];
     }
 
@@ -401,5 +407,16 @@ class SiteController extends Controller
         $cates = DB::table('site_class')->join('goods_type', 'site_goods_type_id', '=', 'goods_type_id', 'left')->where('site_is_show', 1)->where('site_site_id', $site_id)->get();
         $hot_search = $this->hot_search_goods($site->site_fire_word);
         return view('home.ydzshome.menus')->with(compact('site', 'cates', 'type','hot_search'));
+    }
+    public function countdown(){
+        if(!isset($_COOKIE['countdown'])){
+            $time=86400;
+            $time=86400-mt_rand(1000,50000);
+            setcookie('countdown',$time,time()+10800);
+            return $time;
+        }else{
+            return $_COOKIE['countdown'];
+        }
+        
     }
 }
