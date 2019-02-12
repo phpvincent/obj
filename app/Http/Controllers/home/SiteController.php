@@ -192,7 +192,7 @@ class SiteController extends Controller
     public function get_site_goods(Request $request)
     {
         $page = $request->input('page',1);
-        $limit = $request->input('limit', 2);
+        $limit = $request->input('limit', 6);
         $site_id = $request->get('site_id');
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('site_actives')
@@ -391,12 +391,7 @@ class SiteController extends Controller
 //            $right_goods = [''];
 //        }
         $keyworks = array_filter(array_unique(explode(',', $keyword)));
-        if($keyworks){
-            $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
-        }else{
-            $chunk_result = [[],[]];
-        }
-        // $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
+        $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
         return ['left' => $chunk_result[0], 'right' => count($chunk_result) > 1 ? $chunk_result[1] : ''];
     }
 
