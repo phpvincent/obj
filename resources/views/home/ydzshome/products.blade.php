@@ -188,7 +188,7 @@
         <ul id="nav1">
             @if(count($cates) > 0)
                 @foreach($cates as $cate)
-                    <li style="height: 245px;" class="level0 nav-{{$cate->site_class_id}} first level-top @if($type == 'cate' && $active_type == $cate->site_goods_type_id) selected @endif">
+                    <li class="level0 nav-{{$cate->site_class_id}} first level-top @if($type == 'cate' && $active_type == $cate->site_goods_type_id) selected @endif">
                         <a href=" {{ url('/cate/') .'/'.$cate->site_goods_type_id  }}"
                            class="level-top"><span>{{ $cate->site_class_show_name }}</span></a></li>
                 @endforeach
@@ -219,7 +219,7 @@
                         var addli = '';
                         datas = JSON.parse(data)
                         $.each(datas, function (i, item) {
-                            addli += '<li><div class="pro-tu"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" src="http://' + item.img_url + '" width="400" height="400"></a></div>'
+                            addli += '<li style="height: 245px;"><div class="pro-tu"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" src="http://' + item.img_url + '" width="400" height="400"></a></div>'
                                 + '<div class="pro-tex">'
                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                 + '<div class="p3">'

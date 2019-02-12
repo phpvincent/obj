@@ -224,7 +224,7 @@
                             var addli = '';
                             datas = JSON.parse(data)
                             $.each(datas, function (i, item) {
-                                addli += '<li><div class="pro-tu">'
+                                addli += '<li style="height: 245px;"><div class="pro-tu">'
                                     + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" width="400" height="400" alt=""/></a>'
                                     + '</div>'
                                     + '<div class="pro-tex">'
