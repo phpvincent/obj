@@ -219,7 +219,7 @@
                         var addli = '';
                         datas = JSON.parse(data)
                         $.each(datas, function (i, item) {
-                            addli += '<li style="height: 245px;"><div class="pro-tu"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" src="http://' + item.img_url + '" width="400" height="400"></a></div>'
+                            addli += '<li style="height: 245px;"><div class="pro-tu"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" src="http://' + item.img_url + '"></a></div>'
                                 + '<div class="pro-tex">'
                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                 + '<div class="p3">'
