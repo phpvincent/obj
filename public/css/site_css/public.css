@@ -2159,7 +2159,7 @@ transform: translateY(0);}
 .home_category_banner , .home_category_list{max-width: 780px;margin: 0 auto;}
 .newprice{  width: auto;color: #d62672;font-size: 14px;font-weight: bold;}
 .oldprice{display: inline-block;color: #bbb;text-decoration: line-through;font-size: 12px;}
-.home_category_list .prolist li .pro-tex{height: 45px;}
+.home_category_list .prolist li .pro-tex{height: 60px;}
 
 .new-sale-big { width:100%; height:190px;}
 .new-sale-big a img { width:100%; height:190px;}
