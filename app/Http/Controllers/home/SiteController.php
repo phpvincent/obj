@@ -409,8 +409,14 @@ class SiteController extends Controller
         return view('home.ydzshome.menus')->with(compact('site', 'cates', 'type','hot_search'));
     }
     public function countdown(){
-        $time=86400;
-        $time=86400-mt_rand(1000,50000);
-        return $time;
+        if(!isset($__COOKIE['countdown'])){
+            $time=86400;
+            $time=86400-mt_rand(1000,50000);
+            setcookie('countdown',$time,time()+10800);
+            return $time;
+        }else{
+            return $__COOKIE['countdown'];
+        }
+        
     }
 }
