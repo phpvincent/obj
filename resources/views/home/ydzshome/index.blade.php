@@ -224,8 +224,9 @@
                             var addli = '';
                             datas = JSON.parse(data)
                             $.each(datas, function (i, item) {
-                                addli += '<li style="height: 245px;"><div class="pro-tu">'
-                                    + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" width="400" height="400" alt=""/></a>'
+                                addli += '<li>'
+                                    +'<div class="pro-tu" style="height: 200px; text-align: center;">'
+                                    + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style="height: 200px;width: 200px;"/></a>'
                                     + '</div>'
                                     + '<div class="pro-tex">'
                                     + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
@@ -252,8 +253,9 @@
                                         var addli = '';
                                         datas = JSON.parse(data)
                                         $.each(datas, function (i, item) {
-                                            addli += '<li style="height: 245px;><div class="pro-tu">'
-                                                + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '"/></a>'
+                                            addli += '<li>'
+                                                +'<div class="pro-tu" style="height: 200px; text-align: center;">'
+                                                + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style="height: 200px;width: 200px;"/></a>'
                                                 + '</div>'
                                                 + '<div class="pro-tex">'
                                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'

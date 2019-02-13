@@ -205,10 +205,12 @@
             focusCleanup:true,
             success:"valid",
             submitHandler:function(form){
+                var indexs=layer.load(2, {shade: [0.15, '#393D49']});
                 $(form).ajaxSubmit({
                     type: 'post',
                     url: "{{url('admin/sites/add')}}",
                     success: function(data){
+                        layer.close(indexs);
                         if(data.err==1){
                             layer.msg('添加成功!',{time:2*1000},function() {
                                 //回调
@@ -265,6 +267,7 @@
                             +'</ul>'
                         +'</div>'
                     +'</div>';
+        $('#new_sell').val(b);
         $('.xinpin').append(html)
     });
 	$('body').on("click",".xinpin_deletes",function(){
@@ -286,6 +289,7 @@
             +'</ul>'
             +'</div>'
             +'</div>';
+        $('#zeno_sell').val(b);
         $('.miaosha').append(html)
    });
 	$('body').on("click",".miaosha_deletes",function(){
@@ -307,6 +311,7 @@
             +'</ul>'
             +'</div>'
             +'</div>';
+        $('#fire_sell').val(b);
         $('.remai').append(html)
     })
 	$('body').on("click",".remai_deletes",function(){
