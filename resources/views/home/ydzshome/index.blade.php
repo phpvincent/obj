@@ -226,7 +226,7 @@
                             $.each(datas, function (i, item) {
                                 addli += '<li>'
                                     +'<div class="pro-tu" style="height: 200px; text-align: center;">'
-                                    + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style="height: 200px;"/></a>'
+                                    + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style="height: 200px;width: 200px;"/></a>'
                                     + '</div>'
                                     + '<div class="pro-tex">'
                                     + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
@@ -254,8 +254,8 @@
                                         datas = JSON.parse(data)
                                         $.each(datas, function (i, item) {
                                             addli += '<li>'
-                                                +'<div class="pro-tu" style="height: 200px; text-align: center;>'
-                                                + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style="height: 200px;/></a>'
+                                                +'<div class="pro-tu" style="height: 200px; text-align: center;">'
+                                                + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style="height: 200px;width: 200px;"/></a>'
                                                 + '</div>'
                                                 + '<div class="pro-tex">'
                                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
