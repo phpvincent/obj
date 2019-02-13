@@ -214,12 +214,12 @@
             var addprodu = function () {
                 $.ajax({
                     type: 'get',
-                    url: url + '?site_id=' + site_id + '&page=' + page + '&active_type=' + active_type + '&q=' + q + '&limit=6',
+                    url: url + '?site_id=' + site_id + '&page=' + page + '&active_type=' + active_type + '&q=' + q + '&limit=4',
                     success: function (data) {
                         var addli = '';
                         datas = JSON.parse(data)
                         $.each(datas, function (i, item) {
-                            addli += '<li><div class="pro-tu"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" src="http://' + item.img_url + '" width="400" height="400"></a></div>'
+                            addli += '<li style="height: 245px;"><div class="pro-tu"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" src="http://' + item.img_url + '"></a></div>'
                                 + '<div class="pro-tex">'
                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                 + '<div class="p3">'
@@ -234,7 +234,7 @@
                         $('.active_type1').append(addli);
                         jQuery("#load img").css("display", "none");
                         console.log('pr', datas.length)
-                        if (datas.length < 6) {
+                        if (datas.length < 4) {
                             console.log('after', datas.length)
                             state = false
                             var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';

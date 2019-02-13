@@ -293,6 +293,7 @@
                 +'</ul>'
                 +'</div>'
                 +'</div>';
+            $('#new_sell').val(b);
             $('.xinpin').append(html)
         });
         $('body').on("click",".xinpin_deletes",function(){
@@ -300,13 +301,13 @@
         });
         // 秒杀添加
         $(".miaosha_add").click(function () {
-            var b = $('#zeno_sell').val();
-            b++;
+            var c = $('#zeno_sell').val();
+            c++;
             var html = '<div style="margin-top:10px; position: relative;">'
                 +'<div>'
                 +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin" name=""  value="" placeholder="" id="chanpin_prize">'
-                +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[2][goods_id]['+ b +']" value="">'
-                +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[2][sort]['+ b +']">'
+                +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[2][goods_id]['+ c +']" value="">'
+                +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[2][sort]['+ c +']">'
                 +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
                 +'</div>'
                 +'<div class="box" style="display: none;">'
@@ -314,6 +315,7 @@
                 +'</ul>'
                 +'</div>'
                 +'</div>';
+            $('#zeno_sell').val(c);
             $('.miaosha').append(html)
         });
         $('body').on("click",".miaosha_deletes",function(){
@@ -321,13 +323,14 @@
         })
         // 热卖添加
         $('.remai_add').on("click",function(){
-            var b = $('#fire_sell').val();
-            b++;
+            var d = $('#fire_sell').val();
+            d++;
+            console.log(d+"mmmmmmm");
             var html = '<div style="margin-top:10px; position: relative;">'
                 +'<div>'
                 +'关联商品:<input type="text"style="width: 10%;" class="input-text chanpin" name=""  value="" placeholder="" id="chanpin_prize">'
-                +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[3][goods_id]['+ b +']" value="">'
-                +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[3][sort]['+ b +']">'
+                +'<input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[3][goods_id]['+ d +']" value="">'
+                +'<label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\\d{0,4})?.*$/,\'$1\');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[3][sort]['+ d +']">'
                 +'<span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>'
                 +'</div>'
                 +'<div class="box" style="display: none;">'
@@ -335,6 +338,7 @@
                 +'</ul>'
                 +'</div>'
                 +'</div>';
+            $('#fire_sell').val(d);
             $('.remai').append(html)
         })
         $('body').on("click",".remai_deletes",function(){

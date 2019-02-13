@@ -213,6 +213,7 @@ class SiteController extends Controller
 //                }
 //            })
             ->orderBy('site_active_goods.sort', 'desc')
+            ->orderBy('goods.goods_id', 'desc')
             ->offset(($page-1) * $limit)
             ->limit($limit)
             ->get();
@@ -392,7 +393,7 @@ class SiteController extends Controller
 //        }
         $keyworks = array_filter(array_unique(explode(',', $keyword)));
         if($keyworks){
-            $chunk_result = array_chunk($keyworks, round(count($keyworks)/2));
+            $chunk_result = array_chunk($keyworks, round(count($keyworks)/2)); 
         }else{
             $chunk_result = [[],[]];
         }

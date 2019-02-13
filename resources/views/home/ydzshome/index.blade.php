@@ -224,7 +224,7 @@
                             var addli = '';
                             datas = JSON.parse(data)
                             $.each(datas, function (i, item) {
-                                addli += '<li><div class="pro-tu">'
+                                addli += '<li style="height: 245px;"><div class="pro-tu">'
                                     + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" width="400" height="400" alt=""/></a>'
                                     + '</div>'
                                     + '<div class="pro-tex">'
@@ -247,25 +247,25 @@
                                 jQuery("#load img").css("display", "block");
                                 $.ajax({
                                     type: 'get',
-                                    url: '/index/get_site_goods?site_id=' + site_id + '&page=' + page + '&active_type=1',
+                                    url: '/index/get_site_goods?site_id=' + site_id + '&page=' + page + '&active_type=1&limit=4',
                                     success: function (data) {
                                         var addli = '';
                                         datas = JSON.parse(data)
                                         $.each(datas, function (i, item) {
-                                            addli += '<li><div class="pro-tu">'
-                                                + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" width="400" height="400" alt=""/></a>'
+                                            addli += '<li style="height: 245px;><div class="pro-tu">'
+                                                + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '"/></a>'
                                                 + '</div>'
                                                 + '<div class="pro-tex">'
                                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                                 + '<div class="p3">'
-                                                + '<span class="newprice">' + item.currency + item.goods_real_price + '</span>'
+                                                + '<span class="newprice">' + item.currency + item.goods_price + '</span>'
                                                 + '<span class="oldprice">' + item.currency + item.goods_real_price + '</span>'
                                                 + '</div>'
                                                 + '</div></li>'
                                         })
                                         $('.active_type2').append(addli);
                                         jQuery("#load img").css("display", "none");
-                                        if (datas.length < 6) {
+                                        if (datas.length < 4) {
                                             var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
                                             jQuery("#load").append("<p style='text-align:center;line-height:30px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
                                         } else {
