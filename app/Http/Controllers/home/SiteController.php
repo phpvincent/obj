@@ -113,12 +113,15 @@ class SiteController extends Controller
         $q = $request->input('q');
         $search = explode(',', $q);
         $search = implode('|', array_filter(array_unique($search)));
+        $site_id = $request->get('site_id');
+        $site = site::find($site_id);
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->leftjoin('goods_kind', 'goods_kind.goods_kind_id', 'goods.goods_kind_id')
             ->where('goods.is_del', 0)
+            ->where('goods.goods_blade_type', $site->sites_blade_type)
             ->where(function ($query) use ($search) {
 //                $query->where('goods.goods_name', 'like', '%' . $q . '%')
 //                    ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
@@ -158,12 +161,15 @@ class SiteController extends Controller
     {
         $page = $request->input('page',1);
         $limit = $request->input('limit', 6);
+        $site_id = $request->get('site_id');
+        $site = site::find($site_id);
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
-            ->where('goods.goods_blade_type', $request->input('active_type'))
+            ->where('goods.goods_blade_type', $site->sites_blade_type)
+            ->where('goods.goods_type', $request->input('active_type'))
             ->where('goods.goods_up_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
                 if($goods_not_in) {
