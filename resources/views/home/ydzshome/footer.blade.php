@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="footmenu">
-        <div class="fot-zf"><img src="{{asset('img/site_img/zhifuyinh02.png')}}" alt=""></div>
+        <!-- <div class="fot-zf"><img src="{{asset('img/site_img/zhifuyinh02.png')}}" alt=""></div> -->
         <div class="footmenu-list">
             <ul class="f-list">
                 <li>

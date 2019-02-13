@@ -83,7 +83,7 @@
                 <div class="clear"></div>
             </div>
             <div class="newsale-title">
-                <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div>
+               <!--  <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div> -->
                 <div class="newsale_r">
                     {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
@@ -291,7 +291,7 @@
                 });
             </script>
             <script language="javascript">
-                (function($){
+                /*(function($){
                     var endtime = '24:00:00';
                      $.ajaxSetup({
                         headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -322,7 +322,7 @@
                         }, 1000);
                     }
 
-                })(jQuery);
+                })(jQuery);*/
             </script>
 @endsection
 
