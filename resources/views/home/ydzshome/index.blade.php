@@ -33,7 +33,7 @@
                              <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
-                                <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>{{$cate->site_class_show_name}}</b></span>
+                                <span style="position:absolute;bottom:0;width:100%;text-align:center;font-size: 12px;line-height: 14px;"><b>{{$cate->site_class_show_name}}</b></span>
                              </div>
                             </li>
                         @endif
