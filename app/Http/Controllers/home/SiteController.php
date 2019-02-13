@@ -129,7 +129,7 @@ class SiteController extends Controller
                     ->orWhere('goods_kind.goods_kind_name', 'regexp', $search)
                     ->orWhere('goods_kind.goods_kind_english_name', 'regexp', $search);
             })
-            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+            ->where('goods.goods_up_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
                 if($goods_not_in) {
                     $query->whereNotIn('goods.goods_id', $goods_not_in);
@@ -164,7 +164,7 @@ class SiteController extends Controller
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
             ->where('goods.is_del', 0)
             ->where('goods.goods_blade_type', $request->input('active_type'))
-            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+            ->where('goods.goods_up_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
                 if($goods_not_in) {
                     $query->whereNotIn('goods_id', $goods_not_in);
@@ -206,7 +206,7 @@ class SiteController extends Controller
                     $query->where('site_actives.site_active_type', $request->input('active_type'));
                 }
             })
-//            ->where('goods.goods_check_time', '>', Carbon::now()->subMonths(2))
+//            ->where('goods.goods_up_time', '>', Carbon::now()->subMonths(2))
 //            ->where(function ($query) use($goods_not_in) {
 //                if($goods_not_in) {
 //                    $query->whereNotIn('goods.goods_id', $goods_not_in);
