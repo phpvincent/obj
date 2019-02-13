@@ -233,10 +233,12 @@
             focusCleanup:true,
             success:"valid",
             submitHandler:function(form){
+                var indexs=layer.load(2, {shade: [0.15, '#393D49']});
                 $(form).ajaxSubmit({
                     type: 'post',
                     url: "{{url('admin/sites/post_update')}}",
                     success: function(data){
+                        layer.close(indexs);
                         if(data.err==1){
                             layer.msg('修改成功!',{time:2*1000},function() {
                                 //回调
