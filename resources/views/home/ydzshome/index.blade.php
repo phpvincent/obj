@@ -38,11 +38,13 @@
                             </li>
                         @endif
                     @endforeach
-                        <li>
+                        <li style="position:relative;">
+                            <div>
                             <a href="{{ url('/cate/') .'/'.$cates[0]->site_goods_type_id  }}">
                                 <img class="img-responsive" src="{{ asset('img/site_img/more1.png') }}">
                             </a>
                               <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>More</b></span>
+                            </div>
                         </li>
                 </ul>
             </div>
