@@ -40,8 +40,9 @@
                     @endforeach
                         <li>
                             <a href="{{ url('/cate/') .'/'.$cates[0]->site_goods_type_id  }}">
-                                <img class="img-responsive" src="{{ asset('img/site_img/more.png') }}">
+                                <img class="img-responsive" src="{{ asset('img/site_img/more.jpg') }}">
                             </a>
+                              <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>More</b></span>
                         </li>
                 </ul>
             </div>
