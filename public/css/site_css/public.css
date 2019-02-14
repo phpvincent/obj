@@ -374,7 +374,7 @@ div.flicking_con a.on{ background:#C36;}
 .f-list{ overflow:hidden;padding-top:5px;}
 .f-list li{ width:100%; text-align:center; color:#999; font-size:12px;line-height: 13px;}
 .f-list li:nth-child(1){overflow: hidden;}
-.f-list li:nth-child(1) a{ color:#444; font-size:12px;display: block; width: 20%; margin-bottom: 10px; float: left;}
+.f-list li:nth-child(1) a{ color:#444; font-size:14px;display: block; width: 25%; margin-bottom: 10px; float: left;}
 .f-list li img{ display:block; width:60px; height:60px; overflow:hidden; margin:0 auto;}
 .f-list li h3{ font-size:13px; color:#fff; margin:10px 0; text-align:center;}
 .footer{ overflow:hidden; padding:10px; -moz-box-sizing: border-box;box-sizing: border-box;}

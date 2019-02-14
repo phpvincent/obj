@@ -114,5 +114,6 @@ return [
         'hot_search' => ['Chinese' => '热门搜索', 'English' => 'hot search', 'Chinese-fan' => '热门搜索', 'Indonesia' => 'pencarian populer', 'Arab'=> 'بحث الشائع'],
         'input_keyworks' => ['Chinese' => '请输入关键字', 'English' => 'enter search keywords', 'Chinese-fan' => '請輸入關鍵字', 'Indonesia' => 'silakan masukkan kata kunci', 'Arab'=> 'إضبط الكلمة الهامّة'],
         'alreay_bottom' => ['Chinese' => '已经到最底部了', 'English' => 'end', 'Chinese-fan' => '已經到最底部了', 'Indonesia' => 'sudah sampai bagian terakhir', 'Arab'=> 'إلي نهاية الصفحة'],
-        ]
+        'noting' => ['Chinese' => '没有数据', 'English' => 'nothing', 'Chinese-fan' => '沒有數據', 'Indonesia' => 'tidak ada data', 'Arab'=> ' لا يوجد شيء'],
+    ]
 ];
