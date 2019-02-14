@@ -237,7 +237,12 @@
                         if (datas.length < 6) {
                             console.log('after', datas.length)
                             state = false
-                            var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            if(page == 1 && datas.length == 0) {
+                                var bottom = '{!! config("language.index.noting.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            }else{
+                                var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            }
+
                             jQuery('#load').append("<p style='text-align:center;line-height:25px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
                             console.log("22")
                         } else {
