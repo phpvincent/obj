@@ -16,6 +16,7 @@
                     <a href="/footer/shipping">{!! config("language.footer-name.shipping.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
                     <a href="/footer/return">{!! config("language.footer-name.return.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
                     <a href="/footer/privacy">{!! config("language.footer-name.privacy.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                    <a href="/footer/contact">{!! config("language.footer-name.contact.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
                 </li>
                 <li>© 2019 <a href="/" title="">ydzsshop.tw</a>. All rights reserved</li>
             </ul>
