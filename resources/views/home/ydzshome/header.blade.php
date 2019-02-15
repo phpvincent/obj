@@ -35,6 +35,41 @@
     <script type="text/javascript" src="{{ asset('js/site_js/swiper-3.4.0.jquery.min.js') }}"></script>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <style>
+    @media screen and (min-width: 780px){
+.nav-container {
+    width: 1200px;
+    margin: 0 auto;
+}}
+.nav-9999 div ul {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 36px;
+    left:0;
+    z-index: 9999999999999;
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+}
+/* .nav-9999 a:hover ul{display:block;} */
+@media screen and (min-width: 780px){
+#cd-lateral-nav .level-top>div {
+    width: 150px;
+    padding: 0 10px;
+    text-align: center;
+}
+}
+#cd-lateral-nav .level-top>div {
+    display: block;
+    line-height: 28px;
+    cursor: pointer;
+    padding: 5px 0px 5px 20px;
+    font-size: 16px;
+    color: #333;
+    float: left;
+}
+    </style>
 </head>
 <body style="padding-top: 50px;">
 <noscript>
@@ -65,6 +100,29 @@
                             class="level-top"><span>{{ $cate->site_class_show_name }} </span></a></li>
             @endforeach
             @endif
+            <li class="level0 nav-9999 level-top">
+                <div style="    position: relative;"class="level-top">
+                    <span>Q & A </span>
+                    <ul>
+                    <li>
+                            <a href="/footer/about">{!! config("language.footer-name.about.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                        </li>
+                        <li>
+                        <a href="/footer/shipping">{!! config("language.footer-name.shipping.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                        </li>
+                        <li>
+                        <a href="/footer/return">{!! config("language.footer-name.return.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                        </li>
+                        <li>
+                        <a href="/footer/privacy">{!! config("language.footer-name.privacy.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                        </li>
+                        <li>
+                        <a href="/footer/contact">{!! config("language.footer-name.contact.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </li>
         </ul>
     </div>
 </nav>
@@ -73,6 +131,26 @@
         jQuery('.seach').click(function () {
             jQuery('.reveal-modal').slideDown();
         });
+        // jQuery(".nav-9999 a").mouseover(function(e){
+        //     // jQuery(".nav-9999 a ul").hide(400);  //隐藏
+        //     e.stopPropagation();
+        //     console.log(2)
+        // })
+        // jQuery(".nav-9999 a").mouseout(function(e){
+        //     // jQuery(".nav-9999 a ul").show(400);  //显示
+        //     e.stopPropagation();
+        //     console.log(1)
+        // })
+        jQuery('.nav-9999>div').hover(function() {
+            jQuery(".nav-9999 div ul").css('display', 'block');
+        }, function() {
+            jQuery(".nav-9999 div ul").css('display', 'none');
+        });
+        jQuery(".nav-9999 div ul").hover(function() {
+            jQuery(this).css('display', 'block');;
+        }, function() {
+            jQuery(this).css('display', 'none');
+        })
     })
 
 </script>
