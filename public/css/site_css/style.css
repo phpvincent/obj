@@ -264,7 +264,7 @@ header.is-fixed {
 	top:46px;
 	z-index: 9999;
 	width: 260px;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 	-webkit-transform: translateZ(0);
 	-webkit-backface-visibility: hidden;
 	-webkit-transition-property: -webkit-transform;
@@ -309,11 +309,11 @@ header.is-fixed {
 	background: #f6f6f6;
 }
 #cd-lateral-nav .sub-menu li span a{padding-left: 30px; font-size: 14px; line-height: 26px;}
-#cd-lateral-nav a {
+#cd-lateral-nav .level-top>a {
 	display: block;
 	line-height: 36px;
 	padding: 5px 0px 5px 20px; font-size:16px;
-	color: #333; width:86%; float:left 
+	color: #000; width:86%; float:left 
 }
 
 #cd-lateral-nav .rightico{ width:10%; float:right; display: block;

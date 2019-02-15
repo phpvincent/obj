@@ -78,7 +78,7 @@ a.back{
 	top: 0px;
 	left: 10px;}
 .Edit{ height:44px; width:58px; display:block; position:absolute; top:2px; right:20px; text-align:right; font-size:1.4rem; line-height:44px;}
-.header img{position:relative; max-height:34px; top:4px}
+.header img{position:relative; max-height:40px; top:2px}
 
 	
 .content{-moz-box-sizing: border-box;box-sizing: border-box; background:#fff;}
@@ -189,9 +189,9 @@ div.flicking_con a.on{ background:#C36;}
 .home-djs span{ height: 22px; width: 22px; display: inline-block; background: #fff; border-radius: 2px; text-align: center; line-height: 22px; margin: 0 5px; color:#333;}
 .prolist{ overflow:hidden; clear:both; width:102%; margin:0 auto 20px; position:relative;}
 .prolist li{ width:48%; max-width:400px; margin-right:2%;overflow:hidden;background:#fff; float:left;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; margin-bottom:10px; position:relative;}
-.prolist li .pro-tu{ width:100%;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; border:1px solid #e7e7e7; line-height:0; position:relative}
+.prolist li .pro-tu{ width:100%;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; border:1px solid #e7e7e7; line-height:0; position:relative; height: 200px;}
 .prolist li .pro-tu a{ display:block;width:100%;overflow: hidden;}
-.prolist li .pro-tu img{ width:100%; height:auto;}
+.prolist li .pro-tu img{ width:100%; height:auto; width: 200px;height: 200px;}
 .prolist li .pro-tex{ width:98%; padding:0 1%;}
 .prolist li .pro-tex h3{ font-size:14px; color:#444; height:40px; line-height:20px; width:100%; overflow:hidden; text-align:left; font-weight:normal; margin:5px 0 0 0;}
 .prolist li .pro-tex p.leiji{line-height:24px;color:#e62889;text-align:left; position:relative; display:none}
@@ -3469,6 +3469,9 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 	}
 	.prom-time-text{margin-left: 11px;}
 }
+.nav-9999 {
+	display: none;
+}
 /*促销页面action_list****----end-----*/
 @media screen and (min-width:780px){
 	body {
@@ -3505,6 +3508,9 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 	#cd-menu-trigger {
 		display: none;
 	}
+	.nav-9999 {
+		display: block;
+	}
 	.nav-container {
 		width: 1000px;
         margin: 0 auto;
@@ -3514,10 +3520,10 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 		height: 40px;
 		transition: none;
 		transform: none;
-		top: 45px;
+		top: 60px;
 		z-index: 2;
 	}
-	#cd-lateral-nav a {
+	#cd-lateral-nav .level-top>a {
 		width: 150px;
 		padding: 0 10px;
 		text-align: center
@@ -3532,13 +3538,23 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
         right: 150px;
 	}
 	.cd-main-content {
-		margin-top: 40px;
+		margin-top: 55px;
 	}
 	.addWrap .swipe-wrap {
 		margin-top: 40px;
 	}
 	.addWrap .swipe-wrap img {
         width: 1000px;
+	}
+	.new-sale-big {
+		max-width: 1000px;
+	}
+	header {
+		height: 60px;
+		box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+	}
+	.header {
+		box-shadow: none;
 	}
 	/* 联系我们页面样式*/
 	.cd-main-content .breadcrumbs,.category-products,.load {
