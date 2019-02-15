@@ -78,7 +78,7 @@ a.back{
 	top: 0px;
 	left: 10px;}
 .Edit{ height:44px; width:58px; display:block; position:absolute; top:2px; right:20px; text-align:right; font-size:1.4rem; line-height:44px;}
-.header img{position:relative; max-height:34px; top:4px}
+.header img{position:relative; max-height:40px; top:2px}
 
 	
 .content{-moz-box-sizing: border-box;box-sizing: border-box; background:#fff;}
