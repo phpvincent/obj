@@ -74,6 +74,9 @@
             </div>
             <div class="cp_fl">
             </div>
+            <div class="new-sale-big tu">
+                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
+            </div>
             <div class="newsale-title">
                 <div class="newsale_r">
                     {!! config("language.index.new.".\App\goods::get_language($site->sites_blade_type)) !!}
@@ -174,7 +177,6 @@
             </div>
             <div class="new-sale-big">
                 <a href="/"><img src="img/zlt.jpg"/></a>
-                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <style>#descDiv .prolist li {
                     padding: 5px;
@@ -191,7 +193,21 @@
                 #descDiv .prolist li .newprice .fprice {
                     font-style: normal;
                     font-size: 18px;
-                }</style>
+                }
+                @media screen and (min-width: 780px){
+                    .new-sale-big.tu {
+                        max-width: 80%;
+                    }}
+                .prolist li:hover{
+                    box-shadow: 3px 3px 10px rgba(0,0,0,.15)!important;
+                }
+                .prolist li img:hover{
+                    opacity: 0.3
+                }
+                .djs img:hover{
+                    opacity: 0.3
+                }
+                </style>
 
 
             <script type="text/javascript">window.dataLayer = window.dataLayer || [];

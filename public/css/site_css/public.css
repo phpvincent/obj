@@ -3469,6 +3469,9 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 	}
 	.prom-time-text{margin-left: 11px;}
 }
+.nav-9999 {
+	display: none;
+}
 /*促销页面action_list****----end-----*/
 @media screen and (min-width:780px){
 	body {
@@ -3505,6 +3508,9 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 	#cd-menu-trigger {
 		display: none;
 	}
+	.nav-9999 {
+		display: block;
+	}
 	.nav-container {
 		width: 1000px;
         margin: 0 auto;
@@ -3517,7 +3523,7 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 		top: 60px;
 		z-index: 2;
 	}
-	#cd-lateral-nav a {
+	#cd-lateral-nav .level-top>a {
 		width: 150px;
 		padding: 0 10px;
 		text-align: center

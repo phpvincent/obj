@@ -1,7 +1,17 @@
 @extends('home.ydzshome.header')
 @section('content')
+<style>
+@media screen and (min-width: 780px) {
+	.cd-main-content .breadcrumbs, .category-products, .load {
+    margin: 40px auto;
+    width: 80%;
+	margin-top: 50px;
+	border:none;
+	padding:0
+}}
+</style>
 <div class="breadcrumbs">
-<a href="/" title="home" style="width: 3%;height: 3%"><img src="/img/home.jpg"></a>
+<a href="/" title="home" style="width: 24px;height: 24px"><img src="/img/home.jpg"></a>
 <span></span>
 <a href="javascript:void(0)">{!! config("language.footer-name.$type.".\App\goods::get_language($site->sites_blade_type)) !!}</a>
 </div>
@@ -15,6 +25,9 @@
 <br>
 <br>
 <div class="new-sale-big" style="width: 100%;">
-                <a href="/"><img src="/img/zlt.jpg"/></a>
+				<!-- <a href="/"><img src="/img/zlt.jpg"/></a> -->
+	<a href="/">
+	<img src="/img/site_img/ourstory.jpg">
+	</a>
 </div>
 @endsection
