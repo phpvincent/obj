@@ -230,6 +230,8 @@
                 .STPRY span{
                     background: #fff;
                     position: absolute;
+                    left: 50%;
+    transform: translateX(-50%);
                 }
                 </style>
 
