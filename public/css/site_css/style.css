@@ -313,7 +313,7 @@ header.is-fixed {
 	display: block;
 	line-height: 36px;
 	padding: 5px 0px 5px 20px; font-size:16px;
-	color: #333; width:86%; float:left 
+	color: #000; width:86%; float:left 
 }
 
 #cd-lateral-nav .rightico{ width:10%; float:right; display: block;
