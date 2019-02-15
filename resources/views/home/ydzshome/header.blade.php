@@ -93,6 +93,9 @@
 <nav id="cd-lateral-nav" class="">
     <div class="nav-container">
         <ul id="nav">
+            <li class="level0 nav-9999 level-top"><a
+                            href="/"
+                            class="level-top"><span>{!! config("language.index.home_page.".\App\goods::get_language($site->sites_blade_type)) !!} </span></a></li>
             @if($cates)
             @foreach($cates as $cate)
                 <li class="level0 nav-{{$cate->site_class_id}} level-top"><a
