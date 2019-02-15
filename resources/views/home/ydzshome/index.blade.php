@@ -174,7 +174,7 @@
             </div>
             <div class="new-sale-big">
                 <a href="/"><img src="img/zlt.jpg"/></a>
-                <a href="/"><img src="img/20181221112640_2000x.jpg"/></a>
+                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <style>#descDiv .prolist li {
                     padding: 5px;
