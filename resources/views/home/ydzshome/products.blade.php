@@ -7,7 +7,7 @@
     </div>
     <div class="category-products">
         <div class="content padtb padzy cate">
-            <ul class="prolist active_type1">
+            <ul class="prolist active_type3">
             </ul>
         </div>
         <div class="toolbar-bottom" style="display: none;">
@@ -231,7 +231,7 @@
                                 + '</div>'
                                 + '</div></li>'
                         })
-                        $('.active_type1').append(addli);
+                        $('.active_type3').append(addli);
                         jQuery("#load img").css("display", "none");
                         console.log('pr', datas.length)
                         if (datas.length < 6) {
