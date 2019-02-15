@@ -111,9 +111,9 @@
                 <div class="col-xs-10 col-sm-10">
                     <div class="xinpin">
                         <div>
-                        <label class="title" for="">新品推荐</label><span class="xinpin_add">添加</span>
+                        <label class="title" for="">秒杀抢购</label><span class="xinpin_add">添加</span>
                         <div style="margin-top:10px;position: relative;">
-                            新品推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                            秒杀抢购图片<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <input type="text" style="display: none" id="new_sell" value="0">
                         </div>
                         </div>
@@ -134,9 +134,9 @@
                     </div>
                     <div class="miaosha" style="margin-top:10px">
                         <div>
-                        <label class="title" for="">秒杀抢购</label><span class="miaosha_add">添加</span>
+                        <label class="title" for="">新品推荐</label><span class="miaosha_add">添加</span>
                         <div style="margin-top:10px;position: relative;">
-                            秒杀抢购图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                            新品推荐图片：：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <input type="text" style="display: none" id="zeno_sell" value="0">
                         </div>
                         </div>

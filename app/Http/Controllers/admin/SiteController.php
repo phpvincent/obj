@@ -418,7 +418,7 @@ class SiteController extends Controller
                 }
             }
 
-            //新品推荐
+            //秒杀抢购
             if(isset($request->file('site_active')[1]['img'])){
                 $img = $request->file('site_active')[1]['img'];
                 if(filesize($img) > 8192*1024){
@@ -430,7 +430,7 @@ class SiteController extends Controller
                 }
             }
 
-            //秒杀抢购
+            //新品推荐
             if(isset($request->file('site_active')[2]['img'])){
                 $img = $request->file('site_active')[2]['img'];
                 if(filesize($img) > 8192*1024){
@@ -518,7 +518,7 @@ class SiteController extends Controller
                     return response()->json(['err'=>0,'str'=>'修改站点失败']);
                 }
             }
-            //特殊分类 //1.新品推荐;2.秒杀抢购;3.热卖推荐
+            //特殊分类 //1.秒杀抢购;2.新品推荐;3.热卖推荐
             foreach ($site_active as $key => $value){
                 if($value['site_active_id']){
                     $site_act = site_active::where('site_active_id',$value['site_active_id'])->first();
