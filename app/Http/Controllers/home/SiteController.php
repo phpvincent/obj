@@ -416,7 +416,7 @@ class SiteController extends Controller
         $site_id = $request->get('site_id');
         $site = site::where([['sites_id', $site_id], ['status', 0]])->first();
         if ($site == null) return view('home.ydzshome.405');
-        if (!in_array($type, ['about', 'shipping', 'return', 'privacy'])) {
+        if (!in_array($type, ['about', 'shipping', 'return', 'privacy','contact'])) {
             return view('home.ydzshome.405');
         }
         $site->url = url::where('url_site_id', $site_id)->value('url_url');
