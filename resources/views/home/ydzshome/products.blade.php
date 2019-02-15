@@ -214,7 +214,7 @@
             var addprodu = function () {
                 $.ajax({
                     type: 'get',
-                    url: url + '?site_id=' + site_id + '&page=' + page + '&active_type=' + active_type + '&q=' + q + '&limit=4',
+                    url: url + '?site_id=' + site_id + '&page=' + page + '&active_type=' + active_type + '&q=' + q + '&limit=6',
                     success: function (data) {
                         var addli = '';
                         datas = JSON.parse(data)
@@ -224,9 +224,9 @@
                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                 + '<div class="p3">'
                                 + '<div class="price-box"><p class="special-price">'
-                                + '<span class="price" id="product-price-46198">' + item.currency + item.goods_real_price + ' </span></p>'
+                                + '<span class="price" id="product-price-46198">' + item.currency + item.goods_price + ' </span></p>'
                                 + '<p class="old-price">'
-                                + '<span class="price" id="old-price-46198">' + item.currency + item.goods_price + ' </span></p>'
+                                + '<span class="price" id="old-price-46198">' + item.currency + item.goods_real_price+ ' </span></p>'
                                 + '</div>'
                                 + '</div>'
                                 + '</div></li>'
@@ -234,10 +234,15 @@
                         $('.active_type1').append(addli);
                         jQuery("#load img").css("display", "none");
                         console.log('pr', datas.length)
-                        if (datas.length < 4) {
+                        if (datas.length < 6) {
                             console.log('after', datas.length)
                             state = false
-                            var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            if(page == 1 && datas.length == 0) {
+                                var bottom = '{!! config("language.index.noting.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            }else{
+                                var bottom = '{!! config("language.index.alreay_bottom.".\App\goods::get_language($site->sites_blade_type)) !!}';
+                            }
+
                             jQuery('#load').append("<p style='text-align:center;line-height:25px;font-size:14px;'>" + bottom + "</p>").css({"margin-top": "1px"});
                             console.log("22")
                         } else {

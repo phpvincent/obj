@@ -33,15 +33,18 @@
                              <a href="{{ url('/cate/') .'/'.$cate->site_goods_type_id  }}">
                                     <img class="img-responsive" src="{{ url('') }}/{{ $cate->goods_type_img }}" alt="{{ $cate->site_class_show_name }}">
                                 </a>
-                                <span style="position:absolute;bottom:0;width:100%;text-align:center;"><b>{{$cate->site_class_show_name}}</b></span>
+                                <span style="position:absolute;bottom:0;width:100%;text-align:center;font-size: 12px;line-height: 14px;"><b>{{$cate->site_class_show_name}}</b></span>
                              </div>
                             </li>
                         @endif
                     @endforeach
-                        <li>
+                        <li style="position:relative;">
+                            <div>
                             <a href="{{ url('/cate/') .'/'.$cates[0]->site_goods_type_id  }}">
-                                <img class="img-responsive" src="{{ asset('img/site_img/more.png') }}">
+                                <img class="img-responsive" src="{{ asset('img/site_img/more.jpg') }}">
                             </a>
+                              <span style="position:absolute;bottom:0;width:100%;text-align:center;font-size: 12px;line-height: 14px;"><b>More</b></span>
+                            </div>
                         </li>
                 </ul>
             </div>
@@ -83,7 +86,7 @@
                 <div class="clear"></div>
             </div>
             <div class="newsale-title">
-                <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div>
+               <!--  <div class="timer" id="timer"><span></span><span id="h" class="timerk">09</span>:<span id="m" class="timerk">02</span>:<span id="s" class="timerk">46</span></div> -->
                 <div class="newsale_r">
                     {!! config("language.index.seckill.".\App\goods::get_language($site->sites_blade_type)) !!}
                 </div>
@@ -171,6 +174,7 @@
             </div>
             <div class="new-sale-big">
                 <a href="/"><img src="img/zlt.jpg"/></a>
+                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <style>#descDiv .prolist li {
                     padding: 5px;
@@ -231,7 +235,7 @@
                                     + '<div class="pro-tex">'
                                     + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                     + '<div class="p3">'
-                                    + '<span class="newprice">' + item.currency + item.goods_real_price + '</span>'
+                                    + '<span class="newprice">' + item.currency + item.goods_price  + '</span>'
                                     + '<span class="oldprice">' + item.currency + item.goods_real_price + '</span>'
                                     + '</div>'
                                     + '</div></li>'
@@ -293,7 +297,7 @@
                 });
             </script>
             <script language="javascript">
-                (function($){
+                /*(function($){
                     var endtime = '24:00:00';
                      $.ajaxSetup({
                         headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -324,7 +328,7 @@
                         }, 1000);
                     }
 
-                })(jQuery);
+                })(jQuery);*/
             </script>
 @endsection
 
