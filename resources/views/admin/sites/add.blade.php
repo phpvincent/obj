@@ -109,38 +109,16 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>特殊分类：</label>
                 <div class="col-xs-10 col-sm-10">
-                    <div class="xinpin">
-                        <div>
-                        <label class="title" for="">秒杀抢购</label><span class="xinpin_add">添加</span>
-                        <div style="margin-top:10px;position: relative;">
-                            秒杀抢购图片<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
-                            <input type="text" style="display: none" id="new_sell" value="0">
-                        </div>
-                        </div>
-                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：新品推荐图片宽：308像素，高：380像素</span>
-                        <div style="margin-top:10px;    position: relative;">
-                            <div>
-                                关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
-                                <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="site_active[1][goods_id][0]" value="">
-                                <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[1][sort][0]">
-                                <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
-                            </div>
-                            <div class="box" style="display: none;">
-                                <ul>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                    </div>
+
                     <div class="miaosha" style="margin-top:10px">
                         <div>
-                        <label class="title" for="">新品推荐</label><span class="miaosha_add">添加</span>
+                        <label class="title" for="">秒杀抢购</label><span class="miaosha_add">添加</span>
                         <div style="margin-top:10px;position: relative;">
-                            新品推荐图片：：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                            秒杀抢购图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                             <input type="text" style="display: none" id="zeno_sell" value="0">
                         </div>
                         </div>
-                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：秒杀抢购图片宽：308像素，高：190像素</span>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：新品推荐图片宽：308像素，高：380像素</span>
                         <div class="miaosha_1"style="margin-top:10px;    position: relative;">
                             <div>
                                 关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
@@ -153,6 +131,29 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                    <div class="xinpin">
+                        <div>
+                            <label class="title" for="">新品推荐</label><span class="xinpin_add">添加</span>
+                            <div style="margin-top:10px;position: relative;">
+                                新品推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                                <input type="text" style="display: none" id="new_sell" value="0">
+                            </div>
+                        </div>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：秒杀抢购图片宽：308像素，高：190像素</span>
+                        <div style="margin-top:10px;    position: relative;">
+                            <div>
+                                关联商品:<input type="text"style="width: 10%;" class="input-text chanpin"  value="" placeholder="" id="chanpin_prize">
+                                <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="site_active[1][goods_id][0]" value="">
+                                <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="0" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[1][sort][0]">
+                                <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
+                            </div>
+                            <div class="box" style="display: none;">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="remai" style="margin-top:10px">
                         <div>

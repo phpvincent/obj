@@ -114,16 +114,45 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>特殊分类：</label>
                 <div class="col-xs-10 col-sm-10">
+                    <div class="miaosha" style="margin-top:10px">
+                        <div>
+                            <label class="title" for="">秒杀抢购</label><span class="miaosha_add">添加</span>
+                            <div style="margin-top:10px;position: relative;">
+                                秒杀抢购图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                                <input type="text" style="display: none" id="zeno_sell" value="{{isset($site_active[2]['goods']) ? count($site_active[2]['goods']) : 0}}">
+                                <input type="text" style="display: none" name="site_active[2][site_active_id]" value="{{isset($site_active[2]['site_active_id']) ? $site_active[2]['site_active_id'] : ""}}">
+                            </div>
+                        </div>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：新品推荐图片宽：308像素，高：380像素</span>
+                        @if(!empty($site_active[2]['goods']))
+                            @foreach($site_active[2]['goods'] as $key => $val)
+                                <div class="miaosha_1" style="margin-top:10px;    position: relative;">
+                                    <div>
+                                        关联商品:<input type="text" style="width: 10%;" class="input-text chanpin"  value="{{$val['goods_name']}}" placeholder="" id="chanpin_prize">
+                                        <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[2][goods_id][{{$key}}]" value="{{$val['site_good_id']}}">
+                                        <input type="text" style="display: none;" class="input-text" autocomplete="off" name="site_active[2][site_active_good_id][{{$key}}]" value="{{$val['site_active_good_id']}}">
+                                        <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="{{$val['sort']}}" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[2][sort][{{$key}}]">
+                                        <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
+                                    </div>
+                                    <div class="box" style="display: none;">
+                                        <ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                        @endif
+                    </div>
                     <div class="xinpin">
                         <div>
-                            <label class="title" for="">秒杀抢购</label><span class="xinpin_add">添加</span>
+                            <label class="title" for="">新品推荐</label><span class="xinpin_add">添加</span>
                             <div style="margin-top:10px;position: relative;">
-                                秒杀抢购图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
+                                新品推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[1][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
                                 <input type="text" style="display: none" id="new_sell" value="{{isset($site_active[1]['goods']) ? count($site_active[1]['goods']) : 0}}">
                                 <input type="text" style="display: none" name="site_active[1][site_active_id]" value="{{isset($site_active[1]['site_active_id']) ? $site_active[1]['site_active_id'] : ''}}">
                             </div>
                         </div>
-                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：新品推荐图片宽：308像素，高：380像素</span>
+                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：秒杀抢购图片宽：308像素，高：190像素</span>
                     @if(!empty($site_active[1]['goods']))
                             @foreach($site_active[1]['goods'] as $key => $val)
                             <div style="margin-top:10px;    position: relative;">
@@ -132,36 +161,6 @@
                                     <input type="text" style="display: none;" class="input-text chanpin" autocomplete="off" id="goods_kind" name="site_active[1][goods_id][{{$key}}]" value="{{$val['site_good_id']}}">
                                     <input type="text" style="display: none;" class="input-text" autocomplete="off" name="site_active[1][site_active_good_id][{{$key}}]" value="{{$val['site_active_good_id']}}">
                                     <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="{{$val['sort']}}" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[1][sort][{{$key}}]">
-                                    <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
-                                </div>
-                                <div class="box" style="display: none;">
-                                    <ul>
-                                    </ul>
-                                </div>
-                            </div>
-                            @endforeach
-                        @else
-
-                        @endif
-                    </div>
-                    <div class="miaosha" style="margin-top:10px">
-                        <div>
-                            <label class="title" for="">新品推荐</label><span class="miaosha_add">添加</span>
-                            <div style="margin-top:10px;position: relative;">
-                                新品推荐图片：<input type="file" id="size_file" style="width: 22%;vertical-align:middle;margin-bottom: 10px" value="" placeholder="" name="site_active[2][img]" accept="image/png,image/gif,image/jpg,image/jpeg">
-                                <input type="text" style="display: none" id="zeno_sell" value="{{isset($site_active[2]['goods']) ? count($site_active[2]['goods']) : 0}}">
-                                <input type="text" style="display: none" name="site_active[2][site_active_id]" value="{{isset($site_active[2]['site_active_id']) ? $site_active[2]['site_active_id'] : ""}}">
-                            </div>
-                        </div>
-                        <span class="c-red" style="display: inline-block;height: 30px;line-height: 30px;">注意：秒杀抢购图片宽：308像素，高：190像素</span>
-                    @if(!empty($site_active[2]['goods']))
-                            @foreach($site_active[2]['goods'] as $key => $val)
-                            <div class="miaosha_1" style="margin-top:10px;    position: relative;">
-                                <div>
-                                    关联商品:<input type="text" style="width: 10%;" class="input-text chanpin"  value="{{$val['goods_name']}}" placeholder="" id="chanpin_prize">
-                                    <input type="text" style="display: none;" class="input-text chanpin"autocomplete="off" id="goods_kind" name="site_active[2][goods_id][{{$key}}]" value="{{$val['site_good_id']}}">
-                                    <input type="text" style="display: none;" class="input-text" autocomplete="off" name="site_active[2][site_active_good_id][{{$key}}]" value="{{$val['site_active_good_id']}}">
-                                    <label>排序:</label> <input type="text" style="width: 15%;vertical-align:middle; " class="input-text" value="{{$val['sort']}}" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d{0,4})?.*$/,'$1');}).call(this)" onblur="this.v();"  id="goods_config" name="site_active[2][sort][{{$key}}]">
                                     <span class="xinpin_deletes" style="margin-left:8px"><i class="Hui-iconfont"></i></span>
                                 </div>
                                 <div class="box" style="display: none;">

@@ -1016,7 +1016,7 @@ class OrderController extends Controller
           return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
        //订单导出
-       $data=order::select('order.order_id','order.order_zip','admin.admin_show_name','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -1299,7 +1299,8 @@ class OrderController extends Controller
               $new_exdata[$k]['remark'] = $v['order_remark'];
               $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
               $new_exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
-              $new_exdata[$k]['admin_show_name'] = $v['admin_show_name'];
+              $admin_ids = goods::where('goods_id',$v['goods_id'])->value('goods_admin_id');
+              $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$admin_ids)->value('admin_show_name');
            }
          if($request->has('min')&&$request->has('max')){
           $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
