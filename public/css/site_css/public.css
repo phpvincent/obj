@@ -3531,9 +3531,18 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 		position: absolute;
         right: 150px;
 	}
+	.cd-main-content {
+		margin-top: 40px;
+	}
+	.addWrap .swipe-wrap {
+		margin-top: 40px;
+	}
+	.addWrap .swipe-wrap img {
+        width: 1000px;
+	}
 	/* 联系我们页面样式*/
 	.cd-main-content .breadcrumbs,.category-products,.load {
-		margin: 40px auto;
+		margin: 0 auto;
 		width: 1080px;
 		padding: 0 80px;
 	}
