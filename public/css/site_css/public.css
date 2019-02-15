@@ -3469,6 +3469,11 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 	}
 	.prom-time-text{margin-left: 11px;}
 }
+#load {
+	width: 100%;
+	text-align: center;
+	padding: 8px 0;
+}
 .nav-9999 {
 	display: none;
 }
@@ -3557,7 +3562,7 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 		box-shadow: none;
 	}
 	/* 联系我们页面样式*/
-	.cd-main-content .breadcrumbs,.category-products,.load {
+	.cd-main-content .breadcrumbs,.category-products,#load {
 		margin: 0 auto;
 		width: 1080px;
 		padding: 0 80px;
