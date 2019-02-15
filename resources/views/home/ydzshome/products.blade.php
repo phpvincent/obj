@@ -29,9 +29,10 @@
             </div>
         </div>
     </div>
-    <div id="load" style="width:100%;text-algin:center;padding:8px 0;"><img
+    <div id="load" style=""><img
                 src="{{ asset('images/loading.gif')}}" style="width:30px;margin:0 auto;display:none;"></div>
-    <style>body, html {
+    <style>
+    body, html {
             height: 100%;
         }
 
@@ -160,7 +161,15 @@
             .category-products .cate {
                 padding-left: 65px;
             }
-        }</style>
+
+        }
+        .prolist li:hover{
+                    box-shadow: 3px 3px 10px rgba(0,0,0,.15)!important;
+                }
+        .prolist li img:hover{
+                    opacity: 0.3
+                }
+        </style>
     <script type="text/javascript">jQuery(function () {
             var nt = !1;
             jQuery(window).bind("scroll", function () {
