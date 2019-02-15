@@ -74,7 +74,13 @@
             </div>
             <div class="cp_fl">
             </div>
-            <div class="new-sale-big tu">
+            <div class="STPRY">
+                <div></div>
+                <span>
+                    OUR STPRY
+                </span>
+            </div>
+            <div class="new-sale-big tu" style="margin-bottom:10px">
                 <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <div class="newsale-title">
@@ -204,8 +210,26 @@
                 .prolist li img:hover{
                     opacity: 0.3
                 }
-                .djs img:hover{
+                .djs img:hover,.tu img:hover{
                     opacity: 0.3
+                }
+                .STPRY{
+                    height:20px;
+                    margin-bottom:6px;
+                    line-height: 20px;
+                    position: relative;
+                    text-align: center;
+                }
+                .STPRY div{
+                    position: absolute;
+                    top: 9px;
+                    border-top: 1px solid #666;
+                    width: 80%;
+                    left: 10%;
+                }
+                .STPRY span{
+                    background: #fff;
+                    position: absolute;
                 }
                 </style>
 
