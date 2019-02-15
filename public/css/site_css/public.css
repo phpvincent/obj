@@ -2138,7 +2138,7 @@ transform: translateY(0);}
 #show_nav.fixed { position: fixed; top: 45px;z-index:2; width:80px;float: none;right: auto;left: 0;}
 @media screen and (min-width: 768px){
 	#show_nav , #show_nav.fixed {width: 100px;}
-	.category-products .cate{padding-left: 110px;}
+	/* .category-products .cate{padding-left: 110px;} */
 	#show_nav #nav li {font-size: 22px;}
 	#show_nav #nav li a{min-height: 44px;line-height: 44px;font-size: 16px;}
 }
@@ -3532,12 +3532,20 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
         right: 150px;
 	}
 	/* 联系我们页面样式*/
-	.cd-main-content {
-		margin-top: 40px;
+	.cd-main-content .breadcrumbs,.category-products,.load {
+		margin: 40px auto;
+		width: 1080px;
+		padding: 0 80px;
 	}
 	/* 列表页面样式*/
 	.prolist li {
-		width: 30%;
+		width: 31%;
+		float: none;
+		display: inline-block;
+	}
+	.cd-main-content .category-products .cate {
+		padding-left: 10px ;
+		padding-right: 10px ;
 	}
 
 
