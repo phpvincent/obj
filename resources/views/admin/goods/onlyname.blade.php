@@ -46,7 +46,7 @@
             @endif
              <div class="row cl">
                 <div class="clearfix">
-                <label class="form-label col-xs-4 col-sm-2">是否附带评论：</label>
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否附带复制评论：</label>
                 <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                     <div class="check-box">
                         是 <input type="radio" id="copy_com" class="is_nav" name="copy_com" checked="checked" value="1">

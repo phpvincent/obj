@@ -116,7 +116,7 @@ class SiteController extends Controller
         $site_id = $request->get('site_id');
         $site = site::find($site_id);
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
-        $currency = \Admin\goods::get_currency($site->sites_blade_type);
+        $currency = \App\goods::get_currency($site->sites_blade_type);
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
