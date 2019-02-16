@@ -228,13 +228,17 @@
                         var addli = '';
                         datas = JSON.parse(data)
                         $.each(datas, function (i, item) {
+                            var dspnone = '';
+                                if(item.goods_price >= item.goods_real_price) {
+                                    dspnone = 'dspnone'
+                                }
                             addli += '<li><div class="pro-tu" style="text-align: center;"><a href="http://' + item.goods_url + '"><img alt="[' + item.goods_name + ']" style="" src="http://' + item.img_url + '"></a></div>'
                                 + '<div class="pro-tex">'
                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                 + '<div class="p3">'
                                 + '<div class="price-box"><p class="special-price">'
                                 + '<span class="price" id="product-price-46198">' + item.currency + item.goods_price + ' </span></p>'
-                                + '<p class="old-price">'
+                                + '<p class="old-price '+dspnone+'">'
                                 + '<span class="price" id="old-price-46198">' + item.currency + item.goods_real_price+ ' </span></p>'
                                 + '</div>'
                                 + '</div>'
