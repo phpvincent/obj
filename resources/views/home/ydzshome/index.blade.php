@@ -223,7 +223,7 @@
                 .STPRY div{
                     position: absolute;
                     top: 9px;
-                    border-top: 1px solid #666;
+                    border-top: 2px solid #000;
                     width: 80%;
                     left: 10%;
                 }

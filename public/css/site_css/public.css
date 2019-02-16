@@ -1,6 +1,6 @@
 ﻿
 html{ font-size:62.5%;}
-body{background-color: #fff;font-family: Arial, Helvetica, Verdana;font-size: 14px;line-height: 22px;color: #666;position: relative;-webkit-text-size-adjust: none; padding-top: 45px !important;}
+body{background-color: #fff;font-family: Arial, Helvetica, Verdana;font-size: 14px;line-height: 12px;color: #666;position: relative;-webkit-text-size-adjust: none; padding-top: 45px !important;}
 body *{text-shadow: none;}
 body{max-width: 780px;margin: 0 auto;}
 
