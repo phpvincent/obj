@@ -1475,23 +1475,27 @@ class IndexController extends Controller
        $goods = goods::all();
        $true_string = '';
        $false_string = '';
+       $ec_string = '';
        foreach ($goods as $items){
            if($items->goods_real_price >= $items->goods_price * 2){
-//               if($items->goods_blade_type == 6 || $items->goods_blade_type == 11){
-//                   $number = ceil($items->goods_real_price / 1000 * 0.65)*1000;
-//               }else{
-//                   $number = ceil($items->goods_real_price * 0.65);
-//               }
-//               $bool = goods::where('goods_id',$items->goods_id)->update(['goods_price'=>$number]);
-//               if($bool){
+               if($items->goods_blade_type == 6 || $items->goods_blade_type == 11){
+                   $number = ceil($items->goods_price / 1000 / 0.6)*1000;
+               }else{
+                   $number = ceil($items->goods_price / 0.6);
+               }
+               if($number / $items->goods_real_price >= 2 || $items->goods_real_price / $number >= 2 ){
+                   $ec_string .= '原价：'.$items->goods_real_price.',修改后原价：'.$number.'商品ID:'.$items->goods_id.'=======';
+               }
+               $bool = goods::where('goods_id',$items->goods_id)->update(['goods_real_price'=>$number]);
+               if($bool){
                    $true_string .= $items->goods_id .',';
-//               }else{
-//                   $false_string = $items->goods_id .',';
-//               }
+               }else{
+                   $false_string = $items->goods_id .',';
+               }
            }
        }
        Log::info('修改成功'.$true_string.',修改失败'.$false_string);
-       return response()->json(['修改成功'=>$true_string,'修改失败'=>$false_string]);
+       return response()->json(['修改成功'=>$true_string,'修改失败'=>$false_string,'异常数据'=>$ec_string]);
    }
 
 }
