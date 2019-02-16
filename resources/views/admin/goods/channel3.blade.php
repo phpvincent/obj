@@ -112,7 +112,7 @@
 				{{--@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach--}}
 				{{--<option value="-1">添加赠品</option>--}}
 			{{--</select>--}}
-			<input type="hidden" name="new_cuxiao[0][free]" value="0">
+			<input type="hidden" name="new_cuxiao[0][free]" value="0" disabled="disabled">
 			<span class="deletes"><i class="Hui-iconfont"></i></span></div>
 	</div>
 
@@ -130,7 +130,6 @@
         // var reg = new RegExp('disabled="disabled"',"g");//g,表示全部替换。
 		html = html.replace(new RegExp('disabled="disabled"',"g"),"");
 		html = html.replace(/new_cuxiao\[0\]/g, 'new_cuxiao[' + count + ']');
-		console.log(html);
 		$("#pzhtml").append(html);
 	})
 	$('body').on("click",".deletes",function(){
