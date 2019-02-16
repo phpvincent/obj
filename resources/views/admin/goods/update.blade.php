@@ -1016,6 +1016,13 @@
 			@else
 				var msg =confirm("确定要修改此商品吗？");
 			@endif
+            //判断真实价格不能超过原有价格五折
+            $goods_real_price = $('#goods_real_price').val();
+            $goods_price = $('#goods_price').val();
+            if($goods_real_price >= $goods_price * 2){
+                layer.msg('商品原价必须大于商品定价2倍，请重新填写');
+                return false;
+            }
 				if(msg){
                 		var indexs=layer.load(2, {shade: [0.15, '#393D49']})
 						$(form).ajaxSubmit({

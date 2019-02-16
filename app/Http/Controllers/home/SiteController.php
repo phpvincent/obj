@@ -224,16 +224,16 @@ class SiteController extends Controller
 //            })
             ->orderBy('site_active_goods.sort', 'desc')
             ->orderBy('goods.goods_id', 'desc')
-//            ->offset(($page-1) * $limit)
-//            ->limit($limit)
+            ->offset(($page-1) * $limit)
+            ->limit($limit)
             ->get();
 
-        if(!$goods->isEmpty()){
-            $goods = $goods->toArray();
+//        if(!$goods->isEmpty()){
+//            $goods = $goods->toArray();
             foreach ($goods as $k => &$v) {
-                if($v->goods_real_price >=  $v->goods_price * 2){
-                    unset($goods[$k]);
-                }else{
+//                if($v->goods_real_price >=  $v->goods_price * 2){
+//                    unset($goods[$k]);
+//                }else{
                     $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
                     if(!$img_url){
                         $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
@@ -246,9 +246,9 @@ class SiteController extends Controller
                     $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
                     $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
                 }
-            }
-            $goods = array_slice($goods,($page-1) * $limit,$limit);
-        }
+//            }
+//            $goods = array_slice($goods,($page-1) * $limit,$limit);
+//        }
         return json_encode($goods);
     }
 
