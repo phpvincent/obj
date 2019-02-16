@@ -81,7 +81,7 @@
                 </span>
             </div>
             <div class="new-sale-big tu" style="margin-bottom:10px">
-                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
+                <a href="/footer/about"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <div class="newsale-title">
                 <div class="newsale_r">
