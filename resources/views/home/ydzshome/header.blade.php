@@ -93,6 +93,9 @@
 <nav id="cd-lateral-nav" class="">
     <div class="nav-container">
         <ul id="nav">
+            <li class="level0 nav-9999 level-top"><a
+                            href="/"
+                            class="level-top"><span>{!! config("language.index.home_page.".\App\goods::get_language($site->sites_blade_type)) !!} </span></a></li>
             @if($cates)
             @foreach($cates as $cate)
                 <li class="level0 nav-{{$cate->site_class_id}} level-top"><a
@@ -155,7 +158,7 @@
 
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
-    <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
+    <div class="return-icon" style="background-color: #000;border-radius: 20%;text-align: center;"><img src="{{ asset('img/site_img/return.svg') }}"></div>
     <form id="top-search" action="{{ url('/search') }}" method="get">
         <div class="search">
             <input id="search" type="text" name="q" value="" class="input-text" maxlength="128"

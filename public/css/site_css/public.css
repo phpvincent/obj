@@ -1,6 +1,6 @@
 ﻿
 html{ font-size:62.5%;}
-body{background-color: #fff;font-family: Arial, Helvetica, Verdana;font-size: 14px;line-height: 22px;color: #666;position: relative;-webkit-text-size-adjust: none; padding-top: 45px !important;}
+body{background-color: #fff;font-family: Arial, Helvetica, Verdana;font-size: 14px;line-height: 12px;color: #666;position: relative;-webkit-text-size-adjust: none; padding-top: 45px !important;}
 body *{text-shadow: none;}
 body{max-width: 780px;margin: 0 auto;}
 
@@ -2818,11 +2818,11 @@ body{
 }
 .reveal-modal .search{
 	padding: 10px 20px 10px 40px;
-	background: #e40681;
+	background: #FFF;
 }
 .reveal-modal .search input{
 	color: #fff;
-	background: #c7016f;
+	background: #ccc;
 	border: none;
 	height: 36px;
 	line-height: 36px;

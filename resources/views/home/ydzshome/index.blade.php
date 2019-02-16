@@ -81,7 +81,7 @@
                 </span>
             </div>
             <div class="new-sale-big tu" style="margin-bottom:10px">
-                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
+                <a href="/footer/about"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <div class="newsale-title">
                 <div class="newsale_r">
@@ -223,7 +223,7 @@
                 .STPRY div{
                     position: absolute;
                     top: 9px;
-                    border-top: 1px solid #666;
+                    border-top: 2px solid #000;
                     width: 80%;
                     left: 10%;
                 }

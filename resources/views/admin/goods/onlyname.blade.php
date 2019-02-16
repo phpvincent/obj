@@ -19,6 +19,7 @@
                     <input type="checkbox" id="pay_type" @if(in_array('1',$goods->goods_pay_type)) checked="checked"  @endif  name="pay_type[]" value="1">
                 </div>
             </div>
+
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
                 <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -43,6 +44,18 @@
                 </div>
             </div>
             @endif
+             <div class="row cl">
+                <div class="clearfix">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否附带复制评论：</label>
+                <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                    <div class="check-box">
+                        是 <input type="radio" id="copy_com" class="is_nav" name="copy_com" checked="checked" value="1">
+                        否 <input type="radio" id="copy_com" class="is_nav" name="copy_com"  value="0">
+                        <label for="checkbox-pinglun">&nbsp;</label>
+                    </div>
+                </div>
+                </div>
+            </div>
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 提交</button>

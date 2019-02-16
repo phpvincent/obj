@@ -1485,47 +1485,49 @@ class GoodsController extends Controller
                 return response()->json(['err' => '0', 'msg' => '复制失败!']);
             }
         }
-
-        //处理商品评价模块
-        $comment=comment::where('com_goods_id',$id)->where('com_isuser','0')->get();
-        if(!$comment->isEmpty()){
-            $comment = $comment->toArray();
-            foreach ($comment as $item)
-            {
-                $com_img = com_img::where('com_primary_id',$item['com_id'])->get();
-                unset($item['com_id']);
-                $item['com_goods_id'] = $goods_id;
-                $comment_id = comment::insertGetId($item);
-                if(!$com_img->isEmpty()){
-                    $com_img = $com_img->toArray();
-                    foreach ($com_img as $val)
-                    {
-                        unset($val['com_img_id']);
-                        //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
-                        if($val['com_url']){
-                            $image = substr($val['com_url'],7);
-                            $ext = strrchr($val['com_url'], '.');
-                            $newImages = '/commment_img/fzcommment_img_'.md5(microtime()).rand(10000,100000).$ext;
-                            if(Storage::disk('public')->exists($image)){
-                                Storage::disk('public')->copy($image, $newImages);
-                                $val['com_url'] = '/upload'.$newImages;
-                            }else{
-                                $val['com_url'] = '';
-                            }
-                        }
-                        $val['com_primary_id'] = $comment_id;
-                        //复制新商品属性值
-                        $bool = \App\com_img::insert($val);
-                        if(!$bool){
-                            return response()->json(['err' => '0', 'msg' => '复制失败!']);
-                        }
-                    }
-                }
-            }
-            if(!$bool){
-                return response()->json(['err' => '0', 'msg' => '复制失败!']);
-            }
+        if($request->has('copy_com')&&$request->input('copy_com')==1){
+          //处理商品评价模块
+          $comment=comment::where('com_goods_id',$id)->where('com_isuser','0')->get();
+          if(!$comment->isEmpty()){
+              $comment = $comment->toArray();
+              foreach ($comment as $item)
+              {
+                  $com_img = com_img::where('com_primary_id',$item['com_id'])->get();
+                  unset($item['com_id']);
+                  $item['com_goods_id'] = $goods_id;
+                  $comment_id = comment::insertGetId($item);
+                  if(!$com_img->isEmpty()){
+                      $com_img = $com_img->toArray();
+                      foreach ($com_img as $val)
+                      {
+                          unset($val['com_img_id']);
+                          //处理图片（图片不可以和原来属性使用一张，防止一个商品改动，其它商品也随之改动）
+                          if($val['com_url']){
+                              $image = substr($val['com_url'],7);
+                              $ext = strrchr($val['com_url'], '.');
+                              $newImages = '/commment_img/fzcommment_img_'.md5(microtime()).rand(10000,100000).$ext;
+                              if(Storage::disk('public')->exists($image)){
+                                  Storage::disk('public')->copy($image, $newImages);
+                                  $val['com_url'] = '/upload'.$newImages;
+                              }else{
+                                  $val['com_url'] = '';
+                              }
+                          }
+                          $val['com_primary_id'] = $comment_id;
+                          //复制新商品属性值
+                          $bool = \App\com_img::insert($val);
+                          if(!$bool){
+                              return response()->json(['err' => '0', 'msg' => '复制失败!']);
+                          }
+                      }
+                  }
+              }
+              if(!$bool){
+                  return response()->json(['err' => '0', 'msg' => '复制失败!']);
+              }
+          }
         }
+          
 
         $ip = $request->getClientIp();
         //加log日志

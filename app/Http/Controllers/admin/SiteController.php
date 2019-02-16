@@ -181,8 +181,8 @@ class SiteController extends Controller
                     return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
                 }
                 $img_size = getimagesize($img);
-                if($img_size[0] != 308 && $img_size[1] != 380){
-                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
                 }
             }else{
                 return response()->json(['err'=>0,'str'=>'请上传新品推荐图片']);
@@ -195,8 +195,8 @@ class SiteController extends Controller
                     return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
                 }
                 $img_size = getimagesize($img);
-                if($img_size[0] != 308 && $img_size[1] != 190){
-                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
+                if($img_size[0] != 308 && $img_size[1] != 380){
+                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
                 }
             }else{
                 return response()->json(['err'=>0,'str'=>'请上传秒杀抢购图片']);
@@ -418,27 +418,27 @@ class SiteController extends Controller
                 }
             }
 
-            //秒杀抢购
+            //新品推荐
             if(isset($request->file('site_active')[1]['img'])){
                 $img = $request->file('site_active')[1]['img'];
                 if(filesize($img) > 8192*1024){
                     return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
                 }
                 $img_size = getimagesize($img);
-                if($img_size[0] != 308 && $img_size[1] != 380){
-                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
                 }
             }
 
-            //新品推荐
+            //秒杀抢购
             if(isset($request->file('site_active')[2]['img'])){
                 $img = $request->file('site_active')[2]['img'];
                 if(filesize($img) > 8192*1024){
                     return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
                 }
                 $img_size = getimagesize($img);
-                if($img_size[0] != 308 && $img_size[1] != 190){
-                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
+                if($img_size[0] != 308 && $img_size[1] != 380){
+                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
                 }
             }
 
@@ -518,7 +518,7 @@ class SiteController extends Controller
                     return response()->json(['err'=>0,'str'=>'修改站点失败']);
                 }
             }
-            //特殊分类 //1.秒杀抢购;2.新品推荐;3.热卖推荐
+            //特殊分类 //1.新品推荐;2.秒杀抢购;3.热卖推荐
             foreach ($site_active as $key => $value){
                 if($value['site_active_id']){
                     $site_act = site_active::where('site_active_id',$value['site_active_id'])->first();
