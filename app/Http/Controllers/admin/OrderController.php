@@ -1298,7 +1298,7 @@ class OrderController extends Controller
                }
               $new_exdata[$k]['remark'] = $v['order_remark'];
               $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
-              $new_exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
+//              $new_exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
               $admin_ids = goods::where('goods_id',$v['goods_id'])->value('goods_admin_id');
               $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$admin_ids)->value('admin_show_name');
            }
@@ -1312,9 +1312,9 @@ class OrderController extends Controller
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
        if($goods_blade_type == 6 || $goods_blade_type == 7){
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称','商品所属人'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','商品所属人'];
        }else{
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','赠品名称','商品所属人'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','商品所属人'];
        }
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }

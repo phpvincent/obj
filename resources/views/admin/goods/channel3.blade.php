@@ -76,13 +76,14 @@
 					促销名:<input type="text" style="width: 10%;" class="input-text" value="{{$key->cuxiao_msg}}" placeholder="" id="cuxiao_msg" name="cuxiao_msg[{{$key->cuxiao_id}}]">
 					件数:<input type="text" style="width: 10%;" class="input-text" value="{{explode(',',$key->cuxiao_config)[0]}}" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" id="cuxiao_num" name="cuxiao_num[{{$key->cuxiao_id}}]">
 					价格:<input type="text" style="width: 10%;" class="input-text" value="{{explode(',',$key->cuxiao_config)[1]}}" placeholder="" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" id="cuxiao_prize" name="cuxiao_prize[{{$key->cuxiao_id}}]">
-					赠品:<select name="cuxiao_special[{{$key->cuxiao_id}}]" class="select slectchange"  style="width:30%;" id="slectchange1" onchange="add_giveaway(this)">
-							<option value="0" >无</option>
-								@foreach(\App\price::get() as $v)
-							<option value="{{$v->price_id}}"';@if($v->price_id==$key->special_price_id) selected="selected" style="float:right;" @endif  >{{$v->price_name}}</option>
-								@endforeach
-							<option value="-1">添加赠品</option>
-						</select>
+					{{--赠品:<select name="cuxiao_special[{{$key->cuxiao_id}}]" class="select slectchange"  style="width:30%;" id="slectchange1" onchange="add_giveaway(this)">--}}
+							{{--<option value="0" >无</option>--}}
+								{{--@foreach(\App\price::get() as $v)--}}
+							{{--<option value="{{$v->price_id}}"';@if($v->price_id==$key->special_price_id) selected="selected" style="float:right;" @endif  >{{$v->price_name}}</option>--}}
+								{{--@endforeach--}}
+							{{--<option value="-1">添加赠品</option>--}}
+						{{--</select>--}}
+						<input type="hidden" name="cuxiao_special[{{$key->cuxiao_id}}]" value="0">
 						<span class="deletes"><i class="Hui-iconfont"></i></span>
 					</div>
 		
@@ -91,13 +92,14 @@
 		<div>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao[0][msg]">
 			件数:<input type="text" style="width: 10%;" class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="" id="cuxiao_num" name="new_cuxiao[0][num]">
 			价格:<input type="text" style="width: 10%;" class="input-text" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" placeholder="" id="goods_end2" name="new_cuxiao[0][price]">
-			赠品:<select name="new_cuxiao[0][free]" class="select slectchange" style="width:30%;" id="slectchange1" onchange="add_giveaway(this)">
-				<option value="0" >无</option>
-				@foreach(\App\price::get() as $v)
-					<option value="{{$v->price_id}}">{{$v->price_name}}</option>
-				@endforeach
-				<option value="-1">添加赠品</option>
-			</select>
+			{{--赠品:<select name="new_cuxiao[0][free]" class="select slectchange" style="width:30%;" id="slectchange1" onchange="add_giveaway(this)">--}}
+				{{--<option value="0" >无</option>--}}
+				{{--@foreach(\App\price::get() as $v)--}}
+					{{--<option value="{{$v->price_id}}">{{$v->price_name}}</option>--}}
+				{{--@endforeach--}}
+				{{--<option value="-1">添加赠品</option>--}}
+			{{--</select>--}}
+			<input type="hidden" name="new_cuxiao[0][free]" value="0">
 			<span class="deletes"><i class="Hui-iconfont"></i></span></div>
 		@endif
 	</div>
@@ -105,11 +107,12 @@
 		<div>促销名:<input type="text" style="width: 10%;" class="input-text" value="" placeholder="" id="cuxiao_msg" name="new_cuxiao[0][msg]" disabled="disabled">
 			件数:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="cuxiao_num" name="new_cuxiao[0][num]" disabled="disabled">
 			价格:<input type="text" style="width: 10%;" onkeyup="(this.v=function(){this.value=this.value.replace(/^\\D*([0-9]\\d*\\.?\\d{0,2})?.*$/,'$1');}).call(this)" onblur="this.v();" class="input-text" value="" placeholder="" id="goods_end2" name="new_cuxiao[0][price]" disabled="disabled">
-			赠品:<select name="new_cuxiao[0][free]" class="select slectchange" style="width:30%;"  onchange="add_giveaway(this)" disabled="disabled">
-				<option value="0" >无</option>
-				@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach
-				<option value="-1">添加赠品</option>
-			</select>
+			{{--赠品:<select name="new_cuxiao[0][free]" class="select slectchange" style="width:30%;"  onchange="add_giveaway(this)" disabled="disabled">--}}
+				{{--<option value="0" >无</option>--}}
+				{{--@foreach(\App\price::get() as $v)<option value="{{$v->price_id}}">{{$v->price_name}}</option> @endforeach--}}
+				{{--<option value="-1">添加赠品</option>--}}
+			{{--</select>--}}
+			<input type="hidden" name="new_cuxiao[0][free]" value="0">
 			<span class="deletes"><i class="Hui-iconfont"></i></span></div>
 	</div>
 
