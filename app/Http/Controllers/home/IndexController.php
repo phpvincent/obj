@@ -1493,16 +1493,28 @@ class IndexController extends Controller
 //                   $false_string = $items->goods_id .',';
 //               }
 //           }
-           if($items->goods_price > $items->goods_real_price){
-               $true_string .= '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
-           }
+//           if($items->goods_price > $items->goods_real_price){
+//               $true_string .= '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
+//           }
            if($items->goods_price == $items->goods_real_price){
-               $false_string .= '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
+               if($items->goods_blade_type == 6 || $items->goods_blade_type == 11){
+                   $number = ceil($items->goods_price / 1000 / 0.6)*1000;
+               }else{
+                   $number = ceil($items->goods_price / 0.6);
+               }
+               $bool = goods::where('goods_id',$items->goods_id)->update(['goods_real_price'=>$number]);
+               if($bool){
+                   $true_string .= $items->goods_id .',';
+               }else{
+                   $false_string .= $items->goods_id .',';
+               }
+//               $false_string .= '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
            }
        }
 //       Log::info('修改成功'.$true_string.',修改失败'.$false_string);
-       return response()->json(['现价大于原价'=>$true_string,'现价等于原价'=>$false_string]);
+//       return response()->json(['现价大于原价'=>$true_string,'现价等于原价'=>$false_string]);
 //       return response()->json(['修改成功'=>$true_string,'修改失败'=>$false_string,'异常数据'=>$ec_string]);
+       return response()->json(['修改成功'=>$true_string,'修改失败'=>$false_string]);
    }
 
 }
