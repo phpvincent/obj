@@ -1497,7 +1497,7 @@ class IndexController extends Controller
                $true_string .= '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
            }
            if($items->goods_price == $items->goods_real_price){
-               $false_string = '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
+               $false_string .= '商品ID:'.$items->goods_id.',原价：'.$items->goods_real_price.'现价：'.$items->goods_price.'=================';
            }
        }
 //       Log::info('修改成功'.$true_string.',修改失败'.$false_string);
