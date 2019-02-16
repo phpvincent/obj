@@ -158,7 +158,7 @@
 
 </script>
 <div class="reveal-modal" id="review-form" style="display: none;">
-    <div class="return-icon"><img src="{{ asset('img/site_img/return.svg') }}"></div>
+    <div class="return-icon" style="background-color: #000;border-radius: 20%;text-align: center;"><img src="{{ asset('img/site_img/return.svg') }}"></div>
     <form id="top-search" action="{{ url('/search') }}" method="get">
         <div class="search">
             <input id="search" type="text" name="q" value="" class="input-text" maxlength="128"
