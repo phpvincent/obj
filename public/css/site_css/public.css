@@ -1,6 +1,6 @@
 ﻿
 html{ font-size:62.5%;}
-body{background-color: #fff;font-family: Arial, Helvetica, Verdana;font-size: 14px;line-height: 22px;color: #666;position: relative;-webkit-text-size-adjust: none; padding-top: 45px !important;}
+body{background-color: #fff;font-family: Arial, Helvetica, Verdana;font-size: 14px;line-height: 12px;color: #666;position: relative;-webkit-text-size-adjust: none; padding-top: 45px !important;}
 body *{text-shadow: none;}
 body{max-width: 780px;margin: 0 auto;}
 
@@ -2364,7 +2364,7 @@ a.fancybox{
 .home_category_list ul.prolist li , .prolist li{border: 1px solid rgb(222, 222, 222);border-radius: 0 0 5px 5px;box-shadow: 0 0 2px rgba(0,0,0,0.1);margin:8px 1%!important;}
 .prolist li .pro-tu{border:0}
 .prolist li .pro-tex{padding: 0 2%;width: 96%;}
-.prolist li .pro-tex .special-price { width:40px; font-size: 16px;}
+.prolist li .pro-tex .special-price { width:44px; font-size: 16px;}
 .prolist li .pro-tex .old-price { margin-left: 20px;}
 
 
@@ -2818,11 +2818,11 @@ body{
 }
 .reveal-modal .search{
 	padding: 10px 20px 10px 40px;
-	background: #e40681;
+	background: #FFF;
 }
 .reveal-modal .search input{
 	color: #fff;
-	background: #c7016f;
+	background: #ccc;
 	border: none;
 	height: 36px;
 	line-height: 36px;
@@ -3477,6 +3477,7 @@ ul#payment_form_cryozonic_stripe.stripe-new #cryozonic_stripe_cc_type_cvv_div{
 .nav-9999 {
 	display: none;
 }
+.dspnone {display: none; }
 /*促销页面action_list****----end-----*/
 @media screen and (min-width:780px){
 	body {

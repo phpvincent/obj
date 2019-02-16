@@ -81,7 +81,7 @@
                 </span>
             </div>
             <div class="new-sale-big tu" style="margin-bottom:10px">
-                <a href="/"><img src="img/site_img/ourstory.jpg"/></a>
+                <a href="/footer/about"><img src="img/site_img/ourstory.jpg"/></a>
             </div>
             <div class="newsale-title">
                 <div class="newsale_r">
@@ -223,7 +223,7 @@
                 .STPRY div{
                     position: absolute;
                     top: 9px;
-                    border-top: 1px solid #666;
+                    border-top: 2px solid #000;
                     width: 80%;
                     left: 10%;
                 }
@@ -270,6 +270,10 @@
                             var addli = '';
                             datas = JSON.parse(data)
                             $.each(datas, function (i, item) {
+                                var dspnone = '';
+                                if(item.goods_price >= item.goods_real_price) {
+                                    dspnone = 'dspnone'
+                                }
                                 addli += '<li>'
                                     +'<div class="pro-tu" style="text-align: center;">'
                                     + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style=""/></a>'
@@ -277,8 +281,8 @@
                                     + '<div class="pro-tex">'
                                     + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                     + '<div class="p3">'
-                                    + '<span class="newprice">' + item.currency + item.goods_price  + '</span>'
-                                    + '<span class="oldprice">' + item.currency + item.goods_real_price + '</span>'
+                                    + '<span class="newprice">' + item.currency + item.goods_price  + '</span>&nbsp;'
+                                    + '<span class="oldprice '+dspnone+'">' + item.currency + item.goods_real_price + '</span>'
                                     + '</div>'
                                     + '</div></li>'
                             })
@@ -299,6 +303,10 @@
                                         var addli = '';
                                         datas = JSON.parse(data)
                                         $.each(datas, function (i, item) {
+                                            var dspnone = '';
+                                             if(item.goods_price >= item.goods_real_price) {
+                                                 dspnone = 'dspnone'
+                                             }
                                             addli += '<li>'
                                                 +'<div class="pro-tu" style="text-align: center;">'
                                                 + '<a href="http://' + item.goods_url + '"><img src="http://' + item.img_url + '" style=""/></a>'
@@ -306,8 +314,8 @@
                                                 + '<div class="pro-tex">'
                                                 + '<h3><a href="http://' + item.goods_url + '">' + item.goods_name + '</a></h3>'
                                                 + '<div class="p3">'
-                                                + '<span class="newprice">' + item.currency + item.goods_price + '</span>'
-                                                + '<span class="oldprice">' + item.currency + item.goods_real_price + '</span>'
+                                                + '<span class="newprice">' + item.currency + item.goods_price + '</span>&nbsp;'
+                                                + '<span class="oldprice '+dspnone+'">' + item.currency + item.goods_real_price + '</span>'
                                                 + '</div>'
                                                 + '</div></li>'
                                         })

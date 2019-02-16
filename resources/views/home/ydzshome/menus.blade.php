@@ -26,7 +26,7 @@
 <br>
 <div class="new-sale-big" style="width: 100%;">
 				<!-- <a href="/"><img src="/img/zlt.jpg"/></a> -->
-	<a href="/">
+	<a href="/footer/about">
 	<img src="/img/site_img/ourstory.jpg">
 	</a>
 </div>

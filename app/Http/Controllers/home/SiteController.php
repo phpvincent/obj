@@ -116,7 +116,7 @@ class SiteController extends Controller
         $site_id = $request->get('site_id');
         $site = site::find($site_id);
         $goods_not_in = url::where('url_zz_goods_id','>',0)->pluck('url_zz_goods_id')->toArray();
-        $currency = \Admin\goods::get_currency($site->sites_blade_type);
+        $currency = \App\goods::get_currency($site->sites_blade_type);
         $goods = \DB::table('goods')
             ->select('goods.goods_id', 'goods.goods_name', 'goods.goods_real_price', 'goods.goods_price', 'goods.goods_id', 'goods.goods_currency_id')
 //            ->leftjoin('img', 'goods.goods_id', 'img.img_goods_id')
@@ -224,16 +224,16 @@ class SiteController extends Controller
 //            })
             ->orderBy('site_active_goods.sort', 'desc')
             ->orderBy('goods.goods_id', 'desc')
-//            ->offset(($page-1) * $limit)
-//            ->limit($limit)
+            ->offset(($page-1) * $limit)
+            ->limit($limit)
             ->get();
 
-        if(!$goods->isEmpty()){
-            $goods = $goods->toArray();
+//        if(!$goods->isEmpty()){
+//            $goods = $goods->toArray();
             foreach ($goods as $k => &$v) {
-                if($v->goods_real_price >=  $v->goods_price * 2){
-                    unset($goods[$k]);
-                }else{
+//                if($v->goods_real_price >=  $v->goods_price * 2){
+//                    unset($goods[$k]);
+//                }else{
                     $img_url = img::where('img_goods_id', $v->goods_id)->first()['img_url'];
                     if(!$img_url){
                         $img_url = $_SERVER['SERVER_NAME'] . '/img/site_img/cb-404.png';
@@ -246,9 +246,9 @@ class SiteController extends Controller
                     $v->goods_url = $_SERVER['SERVER_NAME'] . '/index/site_goods/' . $v->goods_id;
                     $v->currency = currency_type::where('currency_type_id', $v->goods_currency_id)->value('currency_type_name');
                 }
-            }
-            $goods = array_slice($goods,($page-1) * $limit,$limit);
-        }
+//            }
+//            $goods = array_slice($goods,($page-1) * $limit,$limit);
+//        }
         return json_encode($goods);
     }
 
