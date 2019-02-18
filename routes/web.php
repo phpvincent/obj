@@ -21,7 +21,9 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	/*Route::any('/paypal',function(Request $request){
+/*	Route::any('/paypal',function(Request $request){
+		dd(\App\channel\skuSDK::from62('zZzz',false));
+		dd(\App\channel\skuSDK::num_return('zz',false));
 		@header('Content-type: text/html;charset=UTF-8');
 		error_reporting(0);
 		ignore_user_abort(); // run script in background

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\home;
 
 use App\channel\sendMessage;
 use App\currency_type;
+use App\kind_config;
 use App\special;
 use App\templet_show;
 use Illuminate\Http\Request;
