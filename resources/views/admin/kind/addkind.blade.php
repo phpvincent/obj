@@ -11,8 +11,9 @@
             <div class="con-value">
                 <div class="row" style="height: 40px;" >
                     <div class="col-xs-8 col-sm-8" style="display: inline">
-                        <label>属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config">
-                        <label>英文属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_english">
+                        <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text sexi" value="" placeholder="" id="goods_config" name="goods_config">
+                        <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_english">
+                        <label>色系:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_english">
                     </div>
                     <div style="display: inline;">
                         <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
@@ -23,7 +24,8 @@
         {{--商品属性值--}}
         <div class="row" style="height: 40px;display: none;" id="configclo-value">
             <div class="col-xs-8 col-sm-8" style="display: inline">
-                属性值: <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config[]">
+                属性值: <input type="text" style="width: 40%;margin-top:10px; " class="input-text sexi" value="" placeholder="" id="goods_config" name="goods_config[]">
+                英文属性值: <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config[]">
                 英文属性值: <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config[]">
             </div>
         </div>
@@ -209,8 +211,22 @@
                             <div class="con-value">
                                 <div class="row" style="height: 40px;" >
                                     <div class="col-xs-8 col-sm-8" style="display: inline">
-                                        <label>属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
-                                        <label>英文属性值:</label> <input type="text" style="width: 40%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_name[0][msg][0][goods_config_english]">
+                                        <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text sexi" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                                        <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_name[0][msg][0][goods_config_english]">
+                                        <label>色系:</label> 
+                                        <select name="goods_type_chose" id="sexi"style="width: 26%;height: 30px; " class="select">
+                                                <option value="">选择色系</option>
+                                                <option value="00">黑色</option>
+                                                <option value="10">灰色</option>
+                                                <option value="20">蓝色</option>
+                                                <option value="30">绿色</option>
+                                                <option value="40">棕色</option>
+                                                <option value="50">红色</option>
+                                                <option value="60">紫色</option>
+                                                <option value="70">黄色</option>
+                                                <option value="80">白色</option>
+                                                <option value="90">混色色</option>
+                                        </select>
                                     </div>
                                     <div style="display: inline;">
                                         <span class="btn btn-primary" style="margin-top:10px; " title="添加"  onclick="addConfig(this)"><i class="Hui-iconfont">&#xe600;</i></span><span style="margin-top:10px; " class="btn btn-primary" onclick="rmConfig(this)" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span>
@@ -346,5 +362,63 @@
                 /*parent.layer.close(index);*/
             }
         });
+        $('body').on('input propertychange','.sexi',function(){
+            var arr=$(this).val();
+            if(arr.length==0){
+                $("#sexi").val("")
+            }
+            var aa = false;
+            for (let i = 0; i < arr.length; i++) {
+                var a=arr.substr(i,1)
+                switch (a){
+                    case "黑":
+                    $("#sexi").val("00")
+                    aa=true
+                        break;
+                    case "灰":
+                    $("#sexi").val("10")
+                    aa=true
+                        break;
+                    case "蓝":
+                    $("#sexi").val("20")
+                    aa=true
+                        break;
+                    case "绿":
+                    $("#sexi").val("30")
+                    aa=true
+                        break;
+                    case "棕":
+                    $("#sexi").val("40")
+                    aa=true
+                        break;
+                    case "红":
+                    $("#sexi").val("50")
+                    aa=true
+                        break;
+                    case "紫":
+                    $("#sexi").val("60")
+                    aa=true
+                        break;
+                    case "黄":
+                    $("#sexi").val("70")
+                    aa=true
+                        break;
+                    case "白":
+                    $("#sexi").val("80")
+                    aa=true
+                        break;
+                    case "混":
+                    $("#sexi").val("90")
+                    aa=true
+                        break;
+                    default:
+                    $("#sexi").val("")
+                }
+                if(aa){
+                    break;
+                }
+                
+            }
+        })
     </script>
 @endsection
