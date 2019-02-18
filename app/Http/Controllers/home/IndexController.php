@@ -1471,13 +1471,4 @@ class IndexController extends Controller
        }
    }
 
-   public function attr()
-   {
-       $kind_config = kind_config::select('kind_primary_id',DB::raw('count(kind_primary_id) as num'))
-           ->groupBy('kind_primary_id')
-           ->get();
-
-       return response()->json($kind_config);
-   }
-
 }
