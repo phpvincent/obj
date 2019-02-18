@@ -4,6 +4,7 @@ namespace App\Http\Controllers\home;
 
 use App\channel\sendMessage;
 use App\currency_type;
+use App\kind_config;
 use App\special;
 use App\templet_show;
 use Illuminate\Http\Request;
@@ -1468,6 +1469,15 @@ class IndexController extends Controller
            return response()->json(['err'=>0,'url'=>'fail']);
 //           return response()->json(['err'=>0,'url'=>$data_info['msg']]);
        }
+   }
+
+   public function attr()
+   {
+       $kind_config = kind_config::select('kind_primary_id',DB::raw('count(kind_primary_id) as num'))
+           ->groupBy('kind_primary_id')
+           ->get();
+
+       return response()->json($kind_config);
    }
 
 }
