@@ -382,6 +382,10 @@
             //属性名键值
             var a = $('#num').val();
             a++;
+            if(a > 3) {
+                layer.msg('产品属性最多添加三组')
+                return false;
+            }
             if (a == 0) {
                 configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');
                 configdiv.children('.row').find('input').eq(1).attr('name','goods_config_name['+a+'][goods_config_english_name]');

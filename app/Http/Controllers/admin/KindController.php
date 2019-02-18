@@ -106,6 +106,9 @@ class KindController extends Controller
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
+            if(count($goods_config_name) > 3) {
+                return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
+            }
             if ($goods_config_name) {
                 foreach ($goods_config_name as $item) {
                     if (count($goods_config_name) == 1) {
@@ -317,6 +320,9 @@ class KindController extends Controller
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
+            if(count($goods_config_name) > 3) {
+                return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
+            }
             if ($goods_config_name) {
                 foreach ($goods_config_name as $item) {
                     if (count($goods_config_name) == 1) {
