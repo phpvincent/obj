@@ -21,10 +21,10 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	Route::any('/paypal',function(Request $request){
-		dd(\App\channel\skuSDK::from62('8578169',false));
+/*	Route::any('/paypal',function(Request $request){
+		dd(\App\channel\skuSDK::from62('zZzz',false));
 		dd(\App\channel\skuSDK::num_return('zz',false));
-		/*@header('Content-type: text/html;charset=UTF-8');
+		@header('Content-type: text/html;charset=UTF-8');
 		error_reporting(0);
 		ignore_user_abort(); // run script in background
 		set_time_limit(0); // run script forever
@@ -34,8 +34,8 @@ use App\channel\mailControl;
 		$res=$obj->mailReceived();
 		echo "<pre>";print_r($res);
 		 die;
-		App\channel\sendMessage::message_notice();*/
-	});
+		App\channel\sendMessage::message_notice();
+	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
