@@ -21,7 +21,10 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-/*	Route::any('/paypal',function(Request $request){
+	Route::any('/paypal',function(Request $request){
+		//dd(App\channel\skuSDK::num_return(24));
+		$skuSDK=new App\channel\skuSDK(39,1,1);
+		dd($skuSDK->get_sku_first_to_forth());
 		dd(\App\channel\skuSDK::from62('zZzz',false));
 		dd(\App\channel\skuSDK::num_return('zz',false));
 		@header('Content-type: text/html;charset=UTF-8');
@@ -35,7 +38,7 @@ use App\channel\mailControl;
 		echo "<pre>";print_r($res);
 		 die;
 		App\channel\sendMessage::message_notice();
-	});*/
+	});
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
@@ -206,6 +209,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::get('/admin/kind/upgoods_kind','admin\KindController@upgoods_kind');//修改产品
     Route::any('/admin/kind/post_update','admin\KindController@post_update');//修改产品
     Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
+    Route::get('/admin/kind/del_sku','admin\KindController@del_sku');//释放产品
     //辅助工具
     Route::any('/admin/message/send_phone','admin\ToolController@send_phone');//短信推送
     Route::any('/admin/message/send_mail','admin\ToolController@send_mail');//邮箱推送
