@@ -88,6 +88,22 @@
                 </div>
             </div>
             <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品受众：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+             <span class="select-box">
+                <select name="goods_kind_user_type" id="goods_kind_user_type" class="select" disabled="disabled" style="background-color: #EEEEEE;">
+                    <option value="0" selected="selected" @if($goods_kinds->goods_kind_user_type==0) selected="selected" @endif >通用</option>
+                    <option value="1" @if($goods_kinds->goods_kind_user_type==1) selected="selected" @endif >男士</option>
+                    <option value="2" @if($goods_kinds->goods_kind_user_type==2) selected="selected" @endif >女士</option>
+                    <option value="3" @if($goods_kinds->goods_kind_user_type==3) selected="selected" @endif >男童</option>
+                    <option value="4" @if($goods_kinds->goods_kind_user_type==4) selected="selected" @endif >女童</option>
+                    <option value="5" @if($goods_kinds->goods_kind_user_type==5) selected="selected" @endif >男老</option>
+                    <option value="6" @if($goods_kinds->goods_kind_user_type==6) selected="selected" @endif >女老</option>
+                </select>
+            </span>
+                </div>
+            </div>
+            <div class="row cl">
                 <label for="goods_kind_img" class="form-label col-xs-4 col-sm-2">产品图片：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="file" class="input-text" value="{{$goods_kinds->goods_kind_img}}" placeholder="" id="goods_kind_img" name="goods_kind_img">
@@ -520,6 +536,10 @@
                 //属性名键值
                 var a = $('#num').val();
                 a++;
+                if(a > 3) {
+                    layer.msg('产品属性最多添加三组')
+                    return false;
+                }
                 console.log(a)
                 if (a == 0) {
                     var configdiv=$('#configclo').clone();

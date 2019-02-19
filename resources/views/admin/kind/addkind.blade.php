@@ -98,11 +98,26 @@
             </div>
             <br>
             <hr>
-
             <div class="row cl">
                 <label for="goods_kind_name" class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>新增产品名：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" value="" placeholder="" id="goods_kind_name" name="goods_kind_name">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品受众：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+             <span class="select-box">
+                <select name="goods_kind_user_type" id="goods_kind_user_type" class="select">
+                    <option value="0" selected="selected">通用</option>
+                    <option value="1">男士</option>
+                    <option value="2">女士</option>
+                    <option value="3">男童</option>
+                    <option value="4">女童</option>
+                    <option value="5">男老</option>
+                    <option value="6">女老</option>
+                </select>
+            </span>
                 </div>
             </div>
             <div class="row cl">
@@ -256,7 +271,7 @@
                         <span class="btn btn-primary" title="添加" id="addconfig"><i class="Hui-iconfont">&#xe600;</i></span><span class="btn btn-primary" id="rmconfig" title="删除"><i class="Hui-iconfont">&#xe6a1;</i></span><br>
                         <div class="config" id="configclo">
                             <div class="row" style="margin-left: 0px;">
-                                属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' readonly value="颜色" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
+                                属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="颜色" placeholder="" id="goods_config_name" name="goods_config_name[0][goods_config_name]">
                                 英文属性名: <input type="text" style="width: 25%;margin-top:10px;" class="input-text attribute" attr='goods_config_name[0][msg]' value="color" placeholder="" id="goods_config_english_name" name="goods_config_name[0][goods_config_english_name]">
                                 <input type="text" style="width: 10%;margin-top:10px;display: none" class="input-text attribute" value="0" name="num">
                             </div>
@@ -323,7 +338,10 @@
             //属性名键值
             var a = $('#num').val();
             a++;
-
+            if(a > 3) {
+                layer.msg('产品属性最多添加三组')
+                return false;
+            }
             if (a == 0) {
                 var configdiv=$('#configclo').clone();
                 configdiv.children('.row').find('input:first').attr('name','goods_config_name['+a+'][goods_config_name]');

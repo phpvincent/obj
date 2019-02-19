@@ -80,6 +80,9 @@
             "createdRow":function(row,data,dataIndex){
                 // {'data':'num'},
                 var info='<a title="修改产品属性" href="javascript:;" onclick="goods_show(\'修改产品属性\',\'{{url("admin/kind/upgoods_kind")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="修改产品属性"><i class="Hui-iconfont">&#xe6df;</i></span></a><a title="删除产品" href="javascript:;" onclick="del_goods('+data.goods_kind_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除产品"><i class="Hui-iconfont">&#xe6e2;</i></span></a>';
+                    if(data.goods_kind_sku_status!=1){
+                        info+='<a title="释放产品SKU" href="javascript:;" onclick="del_sku('+data.goods_kind_id+')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="释放产品SKU"><i class="Hui-iconfont"></i></span></a>';
+                    }
                 var check='<a title="属性详情" href="javascript:;" onclick="goods_show(\'查看属性详情\',\'{{url("admin/kind/show")}}?id='+data.goods_kind_id+'\',\'2\',\'600\',\'500\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:green;">查看属性详情</span></a>';
                 var num='<a title="商品列表" href="javascript:;" onclick="goods_info(\'{{url("admin/goods/index")}}?id='+data.goods_kind_id+'\',\''+ data.num + '\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:red;">'+ data.num +'</span></a>';
                 // if(data.goods_buy_url!=null&&data.goods_buy_url!=''){
@@ -127,7 +130,36 @@
 
             }
         }
+        //释放产品SKU
+        function del_sku(id){
+            var msg =confirm("确定要释放此产品SKU吗？！！一旦释放无法恢复，请确定此产品不再使用！！！");
+            if(msg){
+                msg_again=confirm('已确定？');
+            }else{
+                return;
+            }
+            if(msg_again){
+                layer.msg('释放中，请不要进行其它操作');
+                $.ajax({
+                    url:"{{url('admin/kind/del_sku')}}",
+                    type:'get',
+                    data:{'id':id},
+                    datatype:'json',
+                    success:function(msg){
+                        if(msg['err']==1){
+                            layer.msg(msg.str);
+                            $('#goods_index_table').dataTable().fnClearTable();
+                        }else if(msg['err']==0){
+                            layer.msg(msg.str);
+                        }else{
+                            layer.msg('释放失败！');
+                        }
+                    }
+                })
+            }else{
 
+            }
+        }
         //跳转到商品列表页
         function  goods_info(url,num)
         {

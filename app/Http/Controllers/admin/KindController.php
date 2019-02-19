@@ -109,6 +109,9 @@ class KindController extends Controller
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
             $goods_config_color = [];
             $goods_color_sku = [];
+            if(count($goods_config_name) > 3) {
+                return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
+            }
             if ($goods_config_name) {
                 foreach ($goods_config_name as $key=>$item) {
                     if (count($goods_config_name) == 1) { //判断颜色是否为空
@@ -162,6 +165,7 @@ class KindController extends Controller
             $goods_kind->goods_kind_english_name = $request->input('goods_kind_english_name') ? $request->input('goods_kind_english_name') : '';
             $goods_kind->goods_kind_volume = $request->input('width', 0) . 'cm*' . $request->input('depth', 0) . 'cm*' . $request->input('height', 0) . 'cm';
             $goods_kind->goods_kind_postage = $request->input('goods_kind_postage', 0) == null ? 0 : $request->input('goods_kind_postage', 0);
+            $goods_kind->goods_kind_user_type = $request->input('goods_kind_user_type', 0) == null ? 0 : $request->input('goods_kind_user_type', 0);
             $img = $request->file('goods_kind_img');
             $img_name = '';
             if ($img) {
@@ -185,7 +189,13 @@ class KindController extends Controller
             $goods_kind->goods_kind_time = date("Y-m-d H:i:s", time());
             $goods_kind->goods_product_id = $request->input('product_type_id');
             $msg = $goods_kind->save();
-
+            //生成SKU
+            $sku_sdk=new \App\channel\skuSDK($goods_kind->goods_kind_id,$request->input('product_type_id'),$request->input('goods_kind_user_type'));
+            $msg=$sku_sdk->set_sku();
+            if(!$msg) {
+                $goods_kind->delete();
+                return response()->json(['err' => '0', 'msg' => $sku_sdk->error]);
+            }
             $kind_primary_id = $goods_kind->goods_kind_id;
             if ($msg) {
                 if ($request->input('supplier_url') || $request->input('supplier_tel') || $request->input('supplier_contact') || $request->input('supplier_price') || $request->input('supplier_num') || $request->input('supplier_remark')) {
@@ -342,6 +352,9 @@ class KindController extends Controller
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
             $goods_config_color = [];
             $goods_color_sku = [];
+            if(count($goods_config_name) > 3) {
+                return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
+            }
             if ($goods_config_name) {
                 foreach ($goods_config_name as $key=>$item) {
                     if (count($goods_config_name) == 1) {
@@ -499,5 +512,42 @@ class KindController extends Controller
         }
         return view('admin.kind.show')->with(compact('goods_config'));
     }
-
+    /**
+     * 释放产品SKU
+     * @param  Request $request 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function del_sku(Request $request)
+    {
+        $id=$request->input('id');
+        $goods_ids=goods::select('goods_id')->
+        where(function($query)use($id){
+            $query->where('goods_kind_id',$id);
+            $query->where('is_del',0);
+        })
+        ->get();
+        $using_ids=[];
+        foreach($goods_ids as $k => $v){
+            $url=\App\url::where('url_goods_id',$v->goods_id)->orWhere('url_zz_goods_id',$v->goods_id)->first();
+            if($url!=null) $using_ids[]=$v->goods_id;
+        }
+        if($using_ids!=null)  return response()->json(['err' => '0', 'str' => '释放失败!id为'.implode(',',$using_ids).'的产品有域名绑定，请先解绑域名！']);
+        $goods_kind=\App\goods_kind::where('goods_kind_id',$id)->first();
+        $last_kind=\App\goods_kind::select('goods_kind_id')->where('goods_product_id',$goods_kind->goods_product_id)->orderBy('goods_kind_time','desc')->first();
+        if($last_kind->goods_kind_id==$goods_kind->goods_kinds_id) return response()->json(['err' => '0', 'str' => '释放失败!无法释放改品类下最后一个产品，请选择其它产品释放']);
+        $goods_kind->goods_kind_sku_status=1;
+        $msg=$goods_kind->save();
+        if ($msg) {
+            if(\App\sku_free::where('sku_free_msg',$goods_kind->goods_kind_sku)->first()==null){
+                $sku_free=new \App\sku_free;
+                $sku_free->sku_free_type=$goods_kind->goods_product_id;
+                $sku_free->sku_free_msg=$goods_kind->goods_kind_sku;
+                $sku_free->sku_free_time=date("Y-m-d H:i:s", time());
+                $sku_free->save();
+            }
+            return response()->json(['err' => '1', 'str' => '释放成功!']);
+        } else {
+            return response()->json(['err' => '0', 'str' => '释放失败!数据操作错误']);
+        }
+    }
 }
