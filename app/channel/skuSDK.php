@@ -5,6 +5,7 @@ namespace App\channel;
 use App\kind_config;
 use App\kind_val;
 use App\goods_kind;
+use phpDocumentor\Reflection\Types\This;
 
 class skuSDK{
 	//产品id
@@ -33,6 +34,7 @@ class skuSDK{
 	public function set_sku()
 	{
 		$num=$this->get_sku_first_to_forth();
+		$this->set_sku_by_attr(); //  设置后六位
 		if($num){
 				if($this->is_replay){
 						goods_kind::where('goods_kind_id',$this->kind_id)->update(['goods_kind_sku'=>$num,'goods_kind_sku_status'=>'2']);
@@ -195,7 +197,8 @@ class skuSDK{
 	  return $dec;
 	}
 
-	public static function get_attr_sku_by_kind($kind_id, $kind_val_ids)
+	// 通过产品属性值id 获取sku码
+	private function get_attr_sku_by_kind($kind_val_ids)
     {
         if(is_string($kind_val_ids)) {
             $kind_val_ids = explode(',', $kind_val_ids);
@@ -204,7 +207,7 @@ class skuSDK{
             return ;
         }
         $sku = '';
-        $kind_config_ids = self::get_attr_sku_config_sort($kind_id);
+        $kind_config_ids = $this->get_attr_sku_config_sort($this->kind_id);
         $kind_vals = kind_val::whereIn('kind_val_id', $kind_val_ids)->pluck('kind_val_sku', 'kind_type_id')->toArray();
         foreach ($kind_config_ids as $kind_config_id){
             if($kind_config_id) {
@@ -216,16 +219,16 @@ class skuSDK{
         return $sku;
     }
     // 获取sku各位置对应的属性名
-    private static function get_attr_sku_config_sort($kind_id)
+    private  function get_attr_sku_config_sort()
     {
         $sku_ids = [];
-        $kind_configs = kind_config::where('kind_primary_id', $kind_id)->orderBy('kind_config_id')->get();
+        $kind_configs = kind_config::where('kind_primary_id', $this->kind_id)->orderBy('kind_config_id')->get();
         $config_count = count($kind_configs);
-        $x45 = self::has_attr('color',$kind_configs);
+        $x45 = $this->has_attr('color',$kind_configs);
         if($x45){
             $sku_ids['x45'] = $x45;
         }
-        $x67 = self::has_attr('size',$kind_configs);
+        $x67 = $this->has_attr('size',$kind_configs);
         if($x67){
             $sku_ids['x67'] = $x67;
         }
@@ -277,39 +280,41 @@ class skuSDK{
         ksort($sku_ids);
         return $sku_ids;
     }
-	public static function set_sku_by_attr($kind_id)
+
+    // 设置sku码 后六位或后四位
+	private function set_sku_by_attr()
     {
-        $kind_configs = kind_config::where('kind_primary_id', $kind_id)->get();
-        $x45 = self::has_attr('color',$kind_configs);
+        $kind_configs = kind_config::where('kind_primary_id', $this->kind_id)->get();
+        $x45 = $this->has_attr('color',$kind_configs);
         $count_config = count($kind_configs);
         if($count_config > 0) {
             foreach ($kind_configs as $kind_config){
                 if($x45 == $kind_config->kind_config_id){
                     continue;
                 }
-                $vals = kind_val::where('kind_primary_id',$kind_id)->where('kind_type_id', $kind_config->kind_config_id)->orderBy('kind_val_id')->get();
+                $vals = kind_val::where('kind_primary_id',$this->kind_id)->where('kind_type_id', $kind_config->kind_config_id)->orderBy('kind_val_id')->get();
                 foreach ($vals as $val){
-                    self::set_sku_by_sort($val->kind_val_id);
+                    $this->set_sku_by_sort($val->kind_val_id);
                 }
             }
         }
     }
-    public static function has_attr($attr_name,$kind_configs)
+    public function has_attr($attr_name,$kind_configs)
     {
         $is_has = false;
         switch ($attr_name){
             case 'color':
-                $is_has = self::has_color($kind_configs);
+                $is_has = $this->has_color($kind_configs);
                 break;
             case 'size':
-                $is_has = self::has_size($kind_configs);
+                $is_has = $this->has_size($kind_configs);
                 break;
             default:
                 break;
         }
         return $is_has;
     }
-    private static function has_color($kind_configs)
+    private function has_color($kind_configs)
     {
         foreach ($kind_configs as $kind_config) {
             if (strtolower($kind_config->kind_config_english_msg） == 'color') || in_array($kind_config->kind_config_msg, ['颜色', '顏色']) || strtolower($kind_config->kind_config_msg) == 'color') {
@@ -318,7 +323,7 @@ class skuSDK{
         }
         return false;
     }
-    private static function has_size($kind_configs)
+    private function has_size($kind_configs)
     {
         foreach ($kind_configs as $kind_config) {
             if (strtolower($kind_config->kind_config_english_msg） == 'size') || in_array($kind_config->kind_config_msg, ['尺寸', '尺码', '规格', '尺碼', '規格']) || strtolower($kind_config->kind_config_msg) == 'size') {
@@ -327,12 +332,12 @@ class skuSDK{
         }
         return false;
     }
-	public static function get_msg_by_sku($sku,$kind_type_id,$kind_id)
+	public function get_msg_by_sku($sku,$kind_type_id)
     {
-        $value = kind_val::where('kind_primary_id',$kind_id)->where('kind_type_id',$kind_type_id)->where('sku', $sku)->first();
+        $value = kind_val::where('kind_primary_id',$this->kind_id)->where('kind_type_id',$kind_type_id)->where('sku', $sku)->first();
         return $value->kind_val_msg;
     }
-	public static function set_sku_by_sort($kind_val_id)
+	public function set_sku_by_sort($kind_val_id)
     {
         $kind_val = kind_val::find($kind_val_id);
         $count = kind_val::where('kind_primary_id', $kind_val->kind_primary_id)->where('kind_type_id', $kind_val->kind_type_id)->where('kind_val_id','<', $kind_val->kind_val_id)->orderBy('kind_val_id')->count();
