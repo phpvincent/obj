@@ -249,10 +249,14 @@ class KindController extends Controller
             }
             //生成产品SKU
             $sku_sdk=new \App\channel\skuSDK($goods_kind->goods_kind_id,$request->input('product_type_id'),$request->input('goods_kind_user_type'));
-            $mark=$sku_sdk->set_sku();
-            if(!$mark) {
-                $goods_kind->delete();
-                return response()->json(['err' => '0', 'msg' => $sku_sdk->error]);
+            try{
+                $mark=$sku_sdk->set_sku();
+                if(!$mark) {
+                    $goods_kind->delete();
+                    return response()->json(['err' => '0', 'msg' => $sku_sdk->get_error()]);
+                }
+            }catch(\Exception $e){
+                 return response()->json(['err' => '0', 'msg' => 'SKU生成失败！']);
             }
             if ($msg) {
                 $ip = $request->getClientIp();
@@ -477,11 +481,16 @@ class KindController extends Controller
             }
              //生成产品SKU
             $sku_sdk=new \App\channel\skuSDK($goods_kind->goods_kind_id,$request->input('product_type_id'),$request->input('goods_kind_user_type'));
-            $mark=$sku_sdk->set_sku();
-            if(!$mark) {
-                $goods_kind->delete();
-                return response()->json(['err' => '0', 'msg' => $sku_sdk->error]);
+            try{
+                $mark=$sku_sdk->set_sku();
+                if(!$mark) {
+                    $goods_kind->delete();
+                    return response()->json(['err' => '0', 'msg' => $sku_sdk->get_error()]);
+                }
+            }catch(\Exception $e){
+                 return response()->json(['err' => '0', 'msg' => 'SKU生成失败！']);
             }
+            
             $ip = $request->getClientIp();
             //加log日志
             operation_log($ip, $goods_kind->goods_kind_name . '产品修改成功');
