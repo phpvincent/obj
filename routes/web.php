@@ -22,6 +22,19 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
+		/*\App\kind_val::where('kind_val_id','>',0)->update(['kind_val_sku'=>null]);
+		\App\goods_kind::where('goods_kind_id','>',0)->update(['goods_kind_sku'=>null]);die;*/
+		$goods_kinds=\App\goods_kind::whereNull('goods_kind_sku')->orderBy('goods_kind_time','asc')->orderBy('goods_kind_id','asc')->get();
+		$arr=[];
+		foreach($goods_kinds as $k => $v)
+		{
+			$skuSDK=new App\channel\skuSDK($v->goods_kind_id,$v->goods_product_id,$v->goods_kind_user_type);
+			$msg=$skuSDK->set_sku();
+			if(!$msg){
+				$arr[]=$goods_kinds;
+			}
+
+		}dd('失败的有<br/>',$arr);
 		//dd(App\channel\skuSDK::num_return(24));
 		$skuSDK=new App\channel\skuSDK(39,1,1);
 		dd($skuSDK->get_sku_first_to_forth());
