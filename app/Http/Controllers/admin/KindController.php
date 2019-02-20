@@ -148,7 +148,6 @@ class KindController extends Controller
                     }
                 }
             }
-            dd($goods_config_name);
             if (!$request->has('goods_kind_name') || $request->input('goods_kind_name') == '' || $request->input('goods_kind_name') == null) {
                 return response()->json(['err' => '0', 'msg' => '信息错误!']);
             }
