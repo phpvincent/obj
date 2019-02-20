@@ -32,10 +32,10 @@ class skuSDK{
 	 * 根据产品id设置sku吗
 	 */
 	public function set_sku()
-	{
+	{	
 		$num=$this->get_sku_first_to_forth();
 		$this->set_sku_by_attr(); //  设置后六位
-		if($num){
+		if($num&&\App\goods_kind::select('goods_kind_sku')->where('goods_kind_id',$this->kind_id)->first()['goods_kind_sku']!=null){
 				if($this->is_replay){
 						goods_kind::where('goods_kind_id',$this->kind_id)->update(['goods_kind_sku'=>$num,'goods_kind_sku_status'=>'2']);
 				}else{
