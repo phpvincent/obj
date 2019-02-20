@@ -18,7 +18,7 @@
     <table class="table table-border table-bordered table-bg" id="goods_index_table">
         <thead>
         <tr>
-            <th scope="col" colspan="14">单品列表</th>
+            <th scope="col" colspan="15">单品列表</th>
         </tr>
         <tr class="text-c">
             <th width="25"><input type="checkbox" name="" value=""></th>
@@ -32,6 +32,7 @@
             <th width="110">产品重量</th>
             <th width="110">产品体积</th>
             <th width="110">邮费（元）</th>
+            <th width="80">SKU绑定状态</th>
             <th width="70">添加时间</th>
             <th width="100">操作</th>
         </tr>
@@ -74,6 +75,7 @@
                 {'defaultContent':"","className":"td-manager"},
                 {'data':'goods_kind_volume'},
                 {'data':'goods_kind_postage'},
+                {'defaultContent':"","className":"td-manager"},
                 {'data':'goods_kind_time'},
                 {'defaultContent':"","className":"td-manager"},
             ],
@@ -95,8 +97,16 @@
                 }else {
                     var img = '';
                 }
-
-                $(row).find('td:eq(12)').html(info);
+                if(data.goods_kind_sku_status==0){
+                    var sku='<span class="l"><button type="button"  class="btn btn-primary-outline radius" style="border-radius: 0%;color:green;" <b style="color:green;" onclick="sku_show(\'SKU状态\',\'{{url("admin/kind/sku_show")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')">正常</b></button></span>';
+                }else if(data.goods_kind_sku_status==1){
+                    var sku='<span class="l"><button type="button"  class="btn btn-primary-outline radius" style="border-radius: 0%;color:#ccc;" <b style="color:#ccc;" onclick="sku_show(\'SKU状态\',\'{{url("admin/kind/sku_show")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')">已释放</b></button></span>';
+                    info='<span class="l"><button type="button"  class="btn btn-primary-outline radius" style="border-radius: 0%;color:#ccc;" <b style="color:#ccc;" onclick="sku_show(\'SKU状态\',\'{{url("admin/kind/sku_show")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')">已释放</b></button></span>';
+                }else if(data.goods_kind_sku_status==2){
+                    var sku='<span class="l"><button type="button"  class="btn btn-primary-outline radius" style="border-radius: 0%;color:brown;" <b style="color:brown;" onclick="sku_show(\'SKU状态\',\'{{url("admin/kind/sku_show")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')">重用SKU</b></button></span>';
+                }
+                $(row).find('td:eq(13)').html(info);
+                $(row).find('td:eq(11)').html(sku);
                 $(row).find('td:eq(8)').html(data.goods_buy_weight + 'kg');
                 $(row).find('td:eq(6)').html(check);
                 $(row).find('td:eq(7)').html(num);
@@ -194,6 +204,10 @@
         }
         //产品详情
         function goods_show(title,url,type,w,h){
+            layer_show(title,url,w,h);
+        }
+        //SKU绑定状态
+        function sku_show(title,url,type,w,h){
             layer_show(title,url,w,h);
         }
     </script>

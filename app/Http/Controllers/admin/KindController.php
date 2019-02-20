@@ -587,4 +587,27 @@ class KindController extends Controller
             return response()->json(['err' => '0', 'str' => '释放失败!数据操作错误']);
         }
     }
+    public function sku_show(Request $request)
+    {
+        $id=$request->get('id');
+        $goods_kind=\App\goods_kind::where('goods_kind_id',$id)->first();
+        return view('admin.kind.sku_show')->with(compact('goods_kind'));
+    }
+    public function sku_search(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('admin.kind.sku_search');
+        }elseif($request->isMethod('post')){
+            $sku=trim($request->input('sku'));
+            if($sku==null||strlen($sku)<4){
+                return '<span style="color:red;">无法查询对应数据！</span>';
+            }
+            $kind_sku=substr($sku, 0,4);
+            $goods_kinds=goods_kind::where('goods_kind_sku',$kind_sku)->get();
+            if($goods_kinds->count()<=0){
+                return '<span style="color:red;">无对应数据！</span>';
+            }
+            return view('admin.kind.sku_ajax')->with(compact('goods_kinds'));
+        }
+    }
 }
