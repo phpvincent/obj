@@ -160,6 +160,32 @@ class skuSDK{
 			return base_convert($num,36,10);
 		}
 	}
+
+    /**
+     * 获取商品颜色SKU
+     * @param $num //色系值
+     * @param $goods_sku_color  //sku拼接参数 [70=>1,80=>2,....]
+     * @return string
+     */
+	public static function get_color_sku($num,&$goods_sku_color)
+    {
+        $val = ' ';
+        if(!empty($goods_sku_color)){
+            foreach ($goods_sku_color as $key => &$value){
+                if($num == $key){
+                    if($num/10 >= 1){
+                        $val = $num/10 .self::to62($value);
+                        $value--;
+                    }else{
+                        $val = 0 .self::to62($value+1);
+                        $value--;
+                    }
+                }
+            }
+        }
+        return $val;
+    }
+
 	/**
 	 * 十进制数转换成62进制
 	 *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\admin;
+use App\channel\skuSDK;
 use App\goods;
 use App\goods_kind;
 use App\kind_config;
@@ -106,27 +107,42 @@ class KindController extends Controller
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
+            $goods_config_color = [];
+            $goods_color_sku = [];
             if(count($goods_config_name) > 3) {
                 return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
             }
             if ($goods_config_name) {
-                foreach ($goods_config_name as $item) {
-                    if (count($goods_config_name) == 1) {
-                        if (!$item['goods_config_name']) {
-                            foreach ($item['msg'] as $val) {
-                                if (!$val['goods_config'] || !$val['goods_config_english']) {
-                                    $data_null = true;
+                foreach ($goods_config_name as $key=>$item) {
+                    if (count($goods_config_name) == 1) { //判断颜色是否为空
+                        foreach ($item['msg'] as $k=>$vals) {
+                            if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
+                                if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
+                                    $data_null = false;
+                                }
+                            }else{
+                                if (!$vals['goods_config'] || !$vals['goods_config_english'] || !$vals['color']) {
+                                    return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                                 }
                             }
                         }
                     }
+
                     if ($data_null == false) {
                         if (!isset($item['goods_config_name']) || !$item['goods_config_name'] || !isset($item['msg']) || empty($item['msg']) || !isset($item['goods_config_english_name']) || !$item['goods_config_english_name']) {
                             return response()->json(['err' => '0', 'msg' => '产品属性名，或产品英文属性名，属性值，属性英文值均不能为空!']);
                         }
                         foreach ($item['msg'] as $val) {
+                            if(isset($val['color']) && $val['color']){
+                                if(in_array($val['color'],$goods_config_color)){
+                                    $goods_color_sku[$val['color']]++;
+                                }else{
+                                    $goods_color_sku[$val['color']] = 0;
+                                    array_push($goods_config_color,$val['color']);
+                                }
+                            }
                             if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
-                                return response()->json(['err' => '0', 'msg' => '产品属性值或产品英文属性值不能为空!']);
+                                return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                             }
                         }
                     }
@@ -212,12 +228,17 @@ class KindController extends Controller
                     $kind_config->kind_primary_id = $kind_primary_id;
                     $kind_config_bool = $kind_config->save();
                     $kind_config_id = $kind_config->kind_config_id;
-                    //新增属性值
+                        //新增属性值
                     if ($kind_config_bool) {
                         foreach ($item['msg'] as $value) {
+                            $kind_val_sku = '';
+                            if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')) {
+                                $kind_val_sku = isset($value['color']) ? skuSDK::get_color_sku($value['color'],$goods_color_sku) : '00';
+                            }
                             $kind_val = new kind_val();
                             $kind_val->kind_val_msg = $value['goods_config'];
                             $kind_val->kind_val_english_msg = $value['goods_config_english'] ? $value['goods_config_english'] : '';
+                            $kind_val->kind_val_sku = isset($value['color']) ? $kind_val_sku : '';
                             $kind_val->kind_primary_id = $kind_primary_id;
                             $kind_val->kind_type_id = $kind_config_id;
                             $kind_val->save();
@@ -290,6 +311,16 @@ class KindController extends Controller
             if ($goods_config != null) {
                 foreach ($goods_config as $k => $v) {
                     $arr = \App\kind_val::where('kind_type_id', $v->kind_config_id)->orderBy('kind_val_id', 'asc')->get()->toArray();
+                    if($v->kind_config_msg == '颜色' || $v->kind_config_msg == '顏色'){
+                        foreach ($arr as &$items){ //筛选色系
+                            if(substr($items['kind_val_sku'],0,1) == '0'){
+                                $items['color'] = substr($items['kind_val_sku'],0,1).'1';
+                            }else{
+                                $items['color'] = substr($items['kind_val_sku'],0,1).'0';
+                            }
+                        }
+                    }
+
                     $goods_config[$k]->config_msg = $arr;
                 }
             }
@@ -328,16 +359,27 @@ class KindController extends Controller
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
+            $goods_config_color = [];
+            $goods_color_sku = [];
             if(count($goods_config_name) > 3) {
                 return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
             }
             if ($goods_config_name) {
-                foreach ($goods_config_name as $item) {
+                foreach ($goods_config_name as $key=>$item) {
                     if (count($goods_config_name) == 1) {
                         if (!$item['goods_config_name']) {
-                            foreach ($item['msg'] as $val) {
-                                if (!$val['goods_config'] || !$val['goods_config_english']) {
-                                    $data_null = true;
+                            foreach ($item['msg'] as $k=>$vals) {
+//                                if (!$val['goods_config'] || !$val['goods_config_english']) {
+//                                    $data_null = true;
+//                                }
+                                if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
+                                    if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
+                                        $data_null = false;
+                                    }
+                                }else{
+                                    if (!$vals['goods_config'] || !$vals['goods_config_english'] || !$vals['color']) {
+                                        return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
+                                    }
                                 }
                             }
                         }
@@ -347,8 +389,18 @@ class KindController extends Controller
                             return response()->json(['err' => '0', 'msg' => '产品属性名，产品英文属性名，属性值，属性英文名均不能为空!']);
                         }
                         foreach ($item['msg'] as $val) {
+                            if(isset($val['color']) && $val['color']){
+                                $kind_val_sku = isset($val['kind_val_sku']) ? (substr($val['kind_val_sku'],0,1) == 0 ? substr($val['kind_val_sku'],0,1).'1' :  substr($val['kind_val_sku'],0,1).'0') : '';
+                                $color_num = $kind_val_sku ? $kind_val_sku : $val['color'];
+                                if(in_array($color_num,$goods_config_color)){
+                                    $goods_color_sku[$color_num]++;
+                                }else{
+                                    $goods_color_sku[$color_num] = 0;
+                                    array_push($goods_config_color,$color_num);
+                                }
+                            }
                             if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
-                                return response()->json(['err' => '0', 'msg' => '产品属性值或产品英文属性值不能为空!']);
+                                return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                             }
                         }
                     }
@@ -374,6 +426,9 @@ class KindController extends Controller
                                 $kind_val = kind_val::where('kind_val_id', $value['id'])->first();
                             } else {
                                 $kind_val = new kind_val();
+                            }
+                            if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')) {
+                                $kind_val->kind_val_sku = isset($value['kind_val_sku']) ? $value['kind_val_sku'] : (isset($value['color']) ? skuSDK::get_color_sku($value['color'],$goods_color_sku) : '00');
                             }
                             $kind_val->kind_val_msg = $value['goods_config'];
                             $kind_val->kind_val_english_msg = $value['goods_config_english'] ? $value['goods_config_english'] : '';
