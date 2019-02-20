@@ -210,6 +210,8 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::any('/admin/kind/post_update','admin\KindController@post_update');//修改产品
     Route::any('/admin/kind/addkind','admin\KindController@addkind');//新增产品
     Route::get('/admin/kind/del_sku','admin\KindController@del_sku');//释放产品
+    Route::get('/admin/kind/sku_show','admin\KindController@sku_show');//产品SKU状态
+    Route::any('/admin/kind/sku_search','admin\KindController@sku_search');//产品SKU查询
     //辅助工具
     Route::any('/admin/message/send_phone','admin\ToolController@send_phone');//短信推送
     Route::any('/admin/message/send_mail','admin\ToolController@send_mail');//邮箱推送

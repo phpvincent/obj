@@ -36,6 +36,7 @@ class skuSDK{
 		$this->set_sku_by_attr(); //  设置后六位
 		if($num&&\App\goods_kind::select('goods_kind_sku')->where('goods_kind_id',$this->kind_id)->first()['goods_kind_sku']==null){
 				if($this->is_replay){
+						\App\sku_free::where('sku_free_msg',$num)->delete();
 						goods_kind::where('goods_kind_id',$this->kind_id)->update(['goods_kind_sku'=>$num,'goods_kind_sku_status'=>'2']);
 				}else{
 						goods_kind::where('goods_kind_id',$this->kind_id)->update(['goods_kind_sku'=>$num,'goods_kind_sku_status'=>'0']);
@@ -62,6 +63,7 @@ class skuSDK{
 		$last_sku=goods_kind::select('goods_kind_sku')->where(function($query){
 			$query->where('goods_product_id',$this->product_type_id);
 			$query->where('goods_kind_id',"<>",$this->kind_id);
+			$query->where('goods_kind_sku',"<>",'');
 			$query->whereNotNull('goods_kind_sku');
 			$query->where('goods_kind_sku_status',0);
 		})->orderBy('goods_kind_time','desc')->first();
@@ -126,11 +128,11 @@ class skuSDK{
 		})
 		->first();
 		if($free_sku!=null){
-			$msg=\App\sku_free::where('sku_free_msg',$free_sku->sku_free_msg)->delete();
-			if($msg){
+			//$msg=\App\sku_free::where('sku_free_msg',$free_sku->sku_free_msg)->delete();
+			//if($msg){
 							return $free_sku['sku_free_msg'];
-			}
-			return false;
+			/*}
+			return false;*/
 		}
 		return false;
 	}
