@@ -546,20 +546,17 @@
             }
         });
         $('body').on('input propertychange','.attrName',function(){
-            var a=$(this).val()
+            var a=$(this).val();
+            var msg = $(this).parent().find('input:first').attr('attr');
             if(a=='颜色'){
-                console.log($(this).parent().next().children().children("div.col-sm-8").length)
-                var arr=$(this).parent().next().children().children("div.col-sm-8").length
-                console.log(arr)
+                var arr=$(this).parent().next().children().children("div.col-sm-8").length;
                 for (var i = 0; i < arr; i++) {
                     var configdiv=$('#selectSexi').clone();
                     configdiv.css('display','inline');
-                    $(configdiv).find('select').attr('name','goods_config_name['+i+'][color]rrr');
+                    $(configdiv).find('select').attr('name',msg+'['+i+']'+'[color]');
                     $($(this).parent().next().children().children("div.col-sm-8").get(i)).append(configdiv);
                 }
-
             }else{
-
                 $(this).parent().next().find(".selectSexi").remove()
             }
             
