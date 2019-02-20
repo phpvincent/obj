@@ -61,4 +61,8 @@
     <br>
     <hr>
     <br>
+    <p>@foreach($goods_kind->attrs as $attr)
+            {{ $attr }}
+        @endforeach</p>
+
 @endforeach

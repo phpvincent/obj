@@ -581,9 +581,16 @@ class KindController extends Controller
                 return '<span style="color:red;">无法查询对应数据！</span>';
             }
             $kind_sku=substr($sku, 0,4);
+            $attr_sku = substr($sku,-6);
             $goods_kinds=goods_kind::where('goods_kind_sku',$kind_sku)->get();
+
+
             if($goods_kinds->count()<=0){
                 return '<span style="color:red;">无对应数据！</span>';
+            }
+            foreach ($goods_kinds as $goods_kind){
+                $skuSDK = new skuSDK($goods_kind->kind_id, $goods_kind->product_type_id,$goods_kind->goods_kind_user_type);
+                $goods_kind->attrs = $skuSDK->get_attr_by_sku($attr_sku);
             }
             return view('admin.kind.sku_ajax')->with(compact('goods_kinds'));
         }
