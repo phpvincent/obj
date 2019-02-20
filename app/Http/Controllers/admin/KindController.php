@@ -389,11 +389,13 @@ class KindController extends Controller
                         }
                         foreach ($item['msg'] as $val) {
                             if(isset($val['color']) && $val['color']){
-                                if(in_array($val['color'],$goods_config_color)){
-                                    $goods_color_sku[$val['color']]++;
+                                $kind_val_sku = isset($val['kind_val_sku']) ? (substr($val['kind_val_sku'],0,1) == 0 ? substr($val['kind_val_sku'],0,1).'1' :  substr($val['kind_val_sku'],0,1).'0') : '';
+                                $color_num = $kind_val_sku ? $kind_val_sku : $val['color'];
+                                if(in_array($color_num,$goods_config_color)){
+                                    $goods_color_sku[$color_num]++;
                                 }else{
-                                    $goods_color_sku[$val['color']] = 0;
-                                    array_push($goods_config_color,$val['color']);
+                                    $goods_color_sku[$color_num] = 0;
+                                    array_push($goods_config_color,$color_num);
                                 }
                             }
                             if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
