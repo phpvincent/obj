@@ -179,10 +179,10 @@ class skuSDK{
             foreach ($goods_sku_color as $key => &$value){
                 if($num == $key){
                     if($num/10 >= 1){
-                        $val = $num/10 .self::to62($value);
+                        $val = $num/10 .self::num_return($value);
                         $value--;
                     }else{
-                        $val = 0 .self::to62($value+1);
+                        $val = 0 .self::num_return($value+1);
                         $value--;
                     }
                 }
