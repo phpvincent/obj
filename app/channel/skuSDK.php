@@ -5,7 +5,6 @@ namespace App\channel;
 use App\kind_config;
 use App\kind_val;
 use App\goods_kind;
-use phpDocumentor\Reflection\Types\This;
 
 class skuSDK{
 	//产品id
@@ -313,7 +312,7 @@ class skuSDK{
     }
 
     // 设置sku码 后六位或后四位
-	private function set_sku_by_attr()
+	public function set_sku_by_attr()
     {
         $kind_configs = kind_config::where('kind_primary_id', $this->kind_id)->get();
         $x45 = $this->has_attr('color',$kind_configs);

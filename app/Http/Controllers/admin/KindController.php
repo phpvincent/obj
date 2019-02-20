@@ -429,6 +429,8 @@ class KindController extends Controller
             }
             //修改产品信息
             $goods_kind->save();
+            $sku = new skuSDK($kind_primary_id, $goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
+            $sku->set_sku_by_attr();
             if ($request->input('supplier_id') || $request->input('supplier_url') || $request->input('supplier_tel') || $request->input('supplier_contact') || $request->input('supplier_price') || $request->input('supplier_num') || $request->input('supplier_remark')) {
                 if ($request->input('supplier_id')) {
                     $supplier = supplier::find($request->input('supplier_id'));
