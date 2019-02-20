@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\home;
 
 use App\channel\sendMessage;
+use App\channel\skuSDK;
 use App\currency_type;
+use App\goods_kind;
 use App\kind_config;
+use App\kind_val;
 use App\special;
 use App\templet_show;
 use Illuminate\Http\Request;
@@ -1469,6 +1472,88 @@ class IndexController extends Controller
            return response()->json(['err'=>0,'url'=>'fail']);
 //           return response()->json(['err'=>0,'url'=>$data_info['msg']]);
        }
+   }
+
+    /**
+     * 测试2019-02-20
+     * @return \Illuminate\Http\JsonResponse
+     */
+   public function get_color_data()
+   {
+        //1.获取所有产品
+        $goods_kinds = goods_kind::pluck('goods_kind_id')->toArray();
+        //2.根据产品找到属性名为颜色的属性
+       $str_true = '';
+       $str_false = '';
+       foreach ($goods_kinds as $goods_kind){
+           $kind_config = kind_config::where('kind_primary_id',$goods_kind)->get();
+           if(!$kind_config->isEmpty()){
+                foreach ($kind_config as $item){
+                    if (strtolower($item->kind_config_english_msg） == 'color') || in_array($item->kind_config_msg, ['颜色', '顏色']) || strtolower($item->kind_config_msg) == 'color') {
+                        //3.获取颜色产品属性sku并填充到数据库
+                        $kind_type_ids = kind_val::where('kind_type_id',$item->kind_config_id)->get();
+                        $goods_config_color = [];
+                        if(!$kind_type_ids->isEmpty()){
+                            foreach ($kind_type_ids as $kind_val){
+                                $kind_val_msg = $kind_val->kind_val_msg;
+                                $kind_val_msg_num = strlen($kind_val_msg);
+                                if(!$kind_val_msg){
+                                    $num = '00';
+                                }else{
+                                    $num = '90';
+                                    for($i = 0; $i < $kind_val_msg_num; $i += 3){
+                                        $font = substr($kind_val_msg,$i,3);
+                                            switch ($font){
+                                                case '黑':
+                                                    $num = '01';
+                                                    break;
+                                                case '灰':
+                                                    $num = '10';
+                                                    break;
+                                                case '蓝':
+                                                    $num = '20';
+                                                    break;
+                                                case '绿':
+                                                    $num = '30';
+                                                    break;
+                                                case '棕':
+                                                    $num = '40';
+                                                    break;
+                                                case '红':
+                                                    $num = '50';
+                                                    break;
+                                                case '紫':
+                                                    $num = '60';
+                                                    break;
+                                                case '黄':
+                                                    $num = '70';
+                                                    break;
+                                                case '白':
+                                                    $num = '80';
+                                                    break;
+                                                default:
+                                            }
+//                                        }
+                                    }
+                                }
+                                array_push($goods_config_color,$num);
+                                $ac=array_count_values($goods_config_color);
+                                if(!trim($kind_val->kind_val_sku)){
+                                    $kind_val->kind_val_sku = $num/10 < 1 ? '0' .skuSDK::num_return($ac[$num])  : $num/10 .skuSDK::num_return($ac[$num]-1);
+                                    $bool = $kind_val->save();
+                                    if($bool){
+                                        $str_true .= $kind_val->kind_val_id.'=======';
+                                    }else{
+                                        $str_false .= $kind_val->kind_val_id.'=======';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+           }
+       }
+       return response()->json(['成功'=>$str_true,'失败'=>$str_false]);
    }
 
 }

@@ -214,7 +214,7 @@
             <div class="row cl">
                 <label for="supplier_url" class="form-label col-xs-4 col-sm-2" >供货商地址（链接）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="supplier_url" name="supplier_url">
+                    <input type="text" class="input-text" value="" placeholder="" id="supplier_url" name="supplier_url" maxlength="255">
                 </div>
             </div>
             <div class="row cl">
@@ -257,7 +257,7 @@
             <div class="row cl">
                 <label for="spare_supplier_url" class="form-label col-xs-4 col-sm-2" >备用供货商地址（链接）：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_url" name="spare_supplier_url">
+                    <input type="text" class="input-text" value="" placeholder="" id="spare_supplier_url" name="spare_supplier_url" maxlength="255">
                 </div>
             </div>
             <div class="row cl">
@@ -455,6 +455,12 @@
             rules:{
                 goods_type_name:{
                     required:true,
+                },
+                supplier_url:{
+                    maxlength:255,
+                },
+                spare_supplier_url:{
+                    maxlength:255,
                 },
             },
             onkeyup:false,

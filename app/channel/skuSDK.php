@@ -5,7 +5,6 @@ namespace App\channel;
 use App\kind_config;
 use App\kind_val;
 use App\goods_kind;
-use phpDocumentor\Reflection\Types\This;
 
 class skuSDK{
 	//产品id
@@ -179,10 +178,10 @@ class skuSDK{
             foreach ($goods_sku_color as $key => &$value){
                 if($num == $key){
                     if($num/10 >= 1){
-                        $val = $num/10 .self::to62($value);
+                        $val = $num/10 .self::num_return($value);
                         $value--;
                     }else{
-                        $val = 0 .self::to62($value+1);
+                        $val = 0 .self::num_return($value+1);
                         $value--;
                     }
                 }
@@ -313,7 +312,7 @@ class skuSDK{
     }
 
     // 设置sku码 后六位或后四位
-	private function set_sku_by_attr()
+	public function set_sku_by_attr()
     {
         $kind_configs = kind_config::where('kind_primary_id', $this->kind_id)->get();
         $x45 = $this->has_attr('color',$kind_configs);
