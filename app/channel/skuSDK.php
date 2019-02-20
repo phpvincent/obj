@@ -173,8 +173,13 @@ class skuSDK{
         if(!empty($goods_sku_color)){
             foreach ($goods_sku_color as $key => &$value){
                 if($num == $key){
-                    $val = $num/10 .self::to62($value);
-                    $value--;
+                    if($num/10 >= 1){
+                        $val = $num/10 .self::to62($value);
+                        $value--;
+                    }else{
+                        $val = 0 .self::to62($value+1);
+                        $value--;
+                    }
                 }
             }
         }

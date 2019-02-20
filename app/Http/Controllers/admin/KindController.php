@@ -116,7 +116,7 @@ class KindController extends Controller
                 foreach ($goods_config_name as $key=>$item) {
                     if (count($goods_config_name) == 1) { //判断颜色是否为空
                         foreach ($item['msg'] as $k=>$vals) {
-                            if($k === 0){
+                            if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
                                 if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
                                     $data_null = false;
                                 }
@@ -234,13 +234,17 @@ class KindController extends Controller
                     $kind_config->kind_primary_id = $kind_primary_id;
                     $kind_config_bool = $kind_config->save();
                     $kind_config_id = $kind_config->kind_config_id;
-                    //新增属性值
+                        //新增属性值
                     if ($kind_config_bool) {
                         foreach ($item['msg'] as $value) {
+                            $kind_val_sku = '';
+                            if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')) {
+                                $kind_val_sku = isset($value['color']) ? skuSDK::get_color_sku($value['color'],$goods_color_sku) : '00';
+                            }
                             $kind_val = new kind_val();
                             $kind_val->kind_val_msg = $value['goods_config'];
                             $kind_val->kind_val_english_msg = $value['goods_config_english'] ? $value['goods_config_english'] : '';
-                            $kind_val->kind_val_sku = isset($value['color']) ? skuSDK::get_color_sku($value['color'],$goods_color_sku) : '';
+                            $kind_val->kind_val_sku = isset($value['color']) ? $kind_val_sku : '';
                             $kind_val->kind_primary_id = $kind_primary_id;
                             $kind_val->kind_type_id = $kind_config_id;
                             $kind_val->save();
@@ -308,7 +312,11 @@ class KindController extends Controller
                     $arr = \App\kind_val::where('kind_type_id', $v->kind_config_id)->orderBy('kind_val_id', 'asc')->get()->toArray();
                     if($v->kind_config_msg == '颜色' || $v->kind_config_msg == '顏色'){
                         foreach ($arr as &$items){ //筛选色系
-                            $items['color'] = substr($items['kind_val_sku'],0,1).'0';
+                            if(substr($items['kind_val_sku'],0,1) == '0'){
+                                $items['color'] = substr($items['kind_val_sku'],0,1).'1';
+                            }else{
+                                $items['color'] = substr($items['kind_val_sku'],0,1).'0';
+                            }
                         }
                     }
 
@@ -363,7 +371,7 @@ class KindController extends Controller
 //                                if (!$val['goods_config'] || !$val['goods_config_english']) {
 //                                    $data_null = true;
 //                                }
-                                if($k === 0){
+                                if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
                                     if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
                                         $data_null = false;
                                     }
@@ -416,10 +424,12 @@ class KindController extends Controller
                             } else {
                                 $kind_val = new kind_val();
                             }
+                            if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')) {
+                                $kind_val->kind_val_sku = isset($value['kind_val_sku']) ? $value['kind_val_sku'] : (isset($value['color']) ? skuSDK::get_color_sku($value['color'],$goods_color_sku) : '00');
+                            }
                             $kind_val->kind_val_msg = $value['goods_config'];
                             $kind_val->kind_val_english_msg = $value['goods_config_english'] ? $value['goods_config_english'] : '';
                             $kind_val->kind_primary_id = $kind_primary_id;
-                            $kind_val->kind_val_sku = isset($value['kind_val_sku']) ? $value['kind_val_sku'] : (isset($value['color']) ? skuSDK::get_color_sku($value['color'],$goods_color_sku) : '');
                             $kind_val->kind_type_id = $kind_config_id;
                             $kind_val->save();
                         }

@@ -16,7 +16,7 @@
                         <label>色系:</label>
                         <select name="goods_config_name[0][msg][0][color]" id="sexi"style="width: 26%;height: 30px; " class="select">
                             <option value="">选择色系</option>
-                            <option value="00">黑色</option>
+                            <option value="01">黑色</option>
                             <option value="10">灰色</option>
                             <option value="20">蓝色</option>
                             <option value="30">绿色</option>
@@ -61,7 +61,7 @@
                 <label>色系:</label>
                 <select name="goods_config_name[0][msg][0][color]" id="sexi" style="width: 26%;height: 30px; " class="select">
                     <option value="">选择色系</option>
-                    <option value="00">黑色</option>
+                    <option value="01">黑色</option>
                     <option value="10">灰色</option>
                     <option value="20">蓝色</option>
                     <option value="30">绿色</option>
@@ -283,7 +283,7 @@
                                         <label>色系:</label> 
                                         <select name="goods_config_name[0][msg][0][color]" id="sexi" style="width: 26%;height: 30px; " class="select">
                                                 <option value="">选择色系</option>
-                                                <option value="00">黑色</option>
+                                                <option value="01">黑色</option>
                                                 <option value="10">灰色</option>
                                                 <option value="20">蓝色</option>
                                                 <option value="30">绿色</option>
@@ -338,7 +338,7 @@
             //属性名键值
             var a = $('#num').val();
             a++;
-            if(a > 3) {
+            if(a > 2) {
                 layer.msg('产品属性最多添加三组')
                 return false;
             }
@@ -458,7 +458,7 @@
                 switch (a){
                     case "黑":
                     // $("#sexi").val("00")
-                        $(this).parent().children("select:last").val("00")
+                        $(this).parent().children("select:last").val("01")
                     aa=true
                         break;
                     case "灰":

@@ -12,9 +12,9 @@
                         <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text sexi" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
                         <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_name[0][msg][0][goods_config_english]">
                         <label>色系:</label>
-                        <select name="goods_config_name[0][msg][0][color]" id="sexi"style="width: 26%;height: 30px; " class="select">
+                        <select name="goods_config_name[0][msg][0][color]" id="sexi" style="width: 26%;height: 30px; " class="select">
                             <option value="">选择色系</option>
-                            <option value="00">黑色</option>
+                            <option value="01">黑色</option>
                             <option value="10">灰色</option>
                             <option value="20">蓝色</option>
                             <option value="30">绿色</option>
@@ -57,7 +57,7 @@
                 <label>色系:</label>
                 <select name="goods_config_name[0][msg][0][color]" id="sexi" style="width: 26%;height: 30px; " class="select">
                     <option value="">选择色系</option>
-                    <option value="00">黑色</option>
+                    <option value="01">黑色</option>
                     <option value="10">灰色</option>
                     <option value="20">蓝色</option>
                     <option value="30">绿色</option>
@@ -354,12 +354,12 @@
                                 <div class="con-value">
                                     <div class="row" style="height: 40px;" >
                                         <div class="col-xs-8 col-sm-8" style="display: inline">
-                                            <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
+                                            <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text sexi" value="" placeholder="" id="goods_config" name="goods_config_name[0][msg][0][goods_config]">
                                             <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="" placeholder="" id="goods_config_english" name="goods_config_name[0][msg][0][goods_config_english]">
                                             <label>色系:</label>
                                             <select name="goods_config_name[0][msg][0][color]" id="sexi"style="width: 26%;height: 30px; " class="select">
                                                 <option value="">选择色系</option>
-                                                <option value="00">黑色</option>
+                                                <option value="01">黑色</option>
                                                 <option value="10">灰色</option>
                                                 <option value="20">蓝色</option>
                                                 <option value="30">绿色</option>
@@ -401,7 +401,7 @@
                                         @foreach($v->config_msg as $key=>$item)
                                             <div class="row" style="height: 40px;" >
                                                 <div class="col-xs-8 col-sm-8" style="display: inline">
-                                                    <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="{{$item['kind_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
+                                                    <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text sexi" value="{{$item['kind_val_msg']}}" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config]">
                                                     <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text" value="{{$item['kind_val_english_msg']}}" placeholder="" id="goods_config_english" name="goods_config_name[{{$k}}][msg][{{$key}}][goods_config_english]">
                                                     <input type="text" style="display: none " class="input-text" value="{{$item['kind_val_id']}}" name="goods_config_name[{{$k}}][msg][{{$key}}][id]">
                                                     @if($k === 0 && isset($item['color']))
@@ -409,7 +409,7 @@
                                                         <label>色系:</label>
                                                         <select name="goods_config_name[{{$k}}][msg][{{$key}}][color]" id="sexi" style="width: 26%;height: 30px; " class="select">
                                                             <option value="">选择色系</option>
-                                                            <option @if($item['color']=='00') selected="selected" @endif value="00">黑色</option>
+                                                            <option @if($item['color']=='01') selected="selected" @endif value="01">黑色</option>
                                                             <option @if($item['color']=='10') selected="selected" @endif value="10">灰色</option>
                                                             <option @if($item['color']=='20') selected="selected" @endif value="20">蓝色</option>
                                                             <option @if($item['color']=='30') selected="selected" @endif value="30">绿色</option>
@@ -446,12 +446,12 @@
                                         <div id="con-value">
                                             <div class="row" style="height: 40px;" >
                                                 <div class="col-xs-8 col-sm-8" style="display: inline">
-                                                    <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config" name="goods_config[]">
-                                                    <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config_english" name="goods_config[]">
+                                                    <label>属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text attribute sexi" value="" placeholder="" id="goods_config" name="goods_config_name[{{$k}}][msg][0][goods_config]">
+                                                    <label>英文属性值:</label> <input type="text" style="width: 26%;margin-top:10px; " class="input-text attribute" value="" placeholder="" id="goods_config_english" name="goods_config_name[{{$k}}][msg][0][goods_config_english]">
                                                     <label>色系:</label>
-                                                    <select name="goods_config[]" id="sexi"style="width: 26%;height: 30px; " class="select">
+                                                    <select name="goods_config_name[{{$k}}][msg][0][color]" id="sexi"style="width: 26%;height: 30px; " class="select">
                                                         <option value="">选择色系</option>
-                                                        <option value="00">黑色</option>
+                                                        <option value="01">黑色</option>
                                                         <option value="10">灰色</option>
                                                         <option value="20">蓝色</option>
                                                         <option value="30">绿色</option>
@@ -663,4 +663,64 @@
                     }});
             }
         });
+        $('body').on('input propertychange','.sexi',function(){
+            var arr=$(this).val();
+            if(arr.length==0){
+                $(this).parent().children("select:last").val("")
+            }
+            console.log(arr)
+            var aa = false;
+            for (let i = 0; i < arr.length; i++) {
+                var a=arr.substr(i,1)
+                switch (a){
+                    case "黑":
+                        // $("#sexi").val("00")
+                        $(this).parent().children("select:last").val("01")
+                        aa=true
+                        break;
+                    case "灰":
+                        $(this).parent().children("select:last").val("10")
+                        aa=true
+                        break;
+                    case "蓝":
+                        $(this).parent().children("select:last").val("20")
+                        aa=true
+                        break;
+                    case "绿":
+                        $(this).parent().children("select:last").val("30")
+                        aa=true
+                        break;
+                    case "棕":
+                        $(this).parent().children("select:last").val("40")
+                        aa=true
+                        break;
+                    case "红":
+                        $(this).parent().children("select:last").val("50")
+                        aa=true
+                        break;
+                    case "紫":
+                        $(this).parent().children("select:last").val("60")
+                        aa=true
+                        break;
+                    case "黄":
+                        $(this).parent().children("select:last").val("70")
+                        aa=true
+                        break;
+                    case "白":
+                        $(this).parent().children("select:last").val("80")
+                        aa=true
+                        break;
+                    case "混":
+                        $(this).parent().children("select:last").val("90")
+                        aa=true
+                        break;
+                    default:
+                        $(this).parent().children("select:last").val("")
+                }
+                if(aa){
+                    break;
+                }
+
+            }
+        })
     </script>
