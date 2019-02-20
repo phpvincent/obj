@@ -548,7 +548,7 @@
         $('body').on('input propertychange','.attrName',function(){
             var a=$(this).val();
             var msg = $(this).parent().find('input:first').attr('attr');
-            if(a=='颜色'){
+            if(a=='颜色' || a=='顏色'){
                 var arr=$(this).parent().next().children().children("div.col-sm-8").length;
                 for (var i = 0; i < arr; i++) {
                     var configdiv=$('#selectSexi').clone();
