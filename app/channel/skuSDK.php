@@ -66,7 +66,7 @@ class skuSDK{
 			$query->where('goods_kind_sku',"<>",'');
 			$query->whereNotNull('goods_kind_sku');
 			$query->where('goods_kind_sku_status',0);
-		})->orderBy('goods_kind_time','desc')->first();
+		})->orderBy('goods_kind_time','desc')->orderBy('goods_kind_id','desc')->first();
 		if($last_sku==null){
 			$uper=1;
 			$end_num=$this->product_type_id.'01';
