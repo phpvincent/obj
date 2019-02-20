@@ -190,13 +190,7 @@ class KindController extends Controller
             $goods_kind->goods_kind_time = date("Y-m-d H:i:s", time());
             $goods_kind->goods_product_id = $request->input('product_type_id');
             $msg = $goods_kind->save();
-            //生成SKU
-            $sku_sdk=new \App\channel\skuSDK($goods_kind->goods_kind_id,$request->input('product_type_id'),$request->input('goods_kind_user_type'));
-            $msg=$sku_sdk->set_sku();
-            if(!$msg) {
-                $goods_kind->delete();
-                return response()->json(['err' => '0', 'msg' => $sku_sdk->error]);
-            }
+            
             $kind_primary_id = $goods_kind->goods_kind_id;
             if ($msg) {
                 if ($request->input('supplier_url') || $request->input('supplier_tel') || $request->input('supplier_contact') || $request->input('supplier_price') || $request->input('supplier_num') || $request->input('supplier_remark')) {
@@ -253,6 +247,17 @@ class KindController extends Controller
                     }
 
                 }
+            }
+            //生成产品SKU
+            $sku_sdk=new \App\channel\skuSDK($goods_kind->goods_kind_id,$request->input('product_type_id'),$request->input('goods_kind_user_type'));
+            try{
+                $mark=$sku_sdk->set_sku();
+                if(!$mark) {
+                    $goods_kind->delete();
+                    return response()->json(['err' => '0', 'msg' => $sku_sdk->get_error()]);
+                }
+            }catch(\Exception $e){
+                 return response()->json(['err' => '0', 'msg' => 'SKU生成失败！']);
             }
             if ($msg) {
                 $ip = $request->getClientIp();
@@ -481,6 +486,18 @@ class KindController extends Controller
                 $spare_supplier->goods_kind_primary_id = $kind_primary_id;
                 $spare_supplier->save();
             }
+             //生成产品SKU
+            $sku_sdk=new \App\channel\skuSDK($goods_kind->goods_kind_id,$request->input('product_type_id'),$request->input('goods_kind_user_type'));
+            try{
+                $mark=$sku_sdk->set_sku();
+                if(!$mark) {
+                    $goods_kind->delete();
+                    return response()->json(['err' => '0', 'msg' => $sku_sdk->get_error()]);
+                }
+            }catch(\Exception $e){
+                 return response()->json(['err' => '0', 'msg' => 'SKU生成失败！']);
+            }
+            
             $ip = $request->getClientIp();
             //加log日志
             operation_log($ip, $goods_kind->goods_kind_name . '产品修改成功');

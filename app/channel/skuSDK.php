@@ -19,7 +19,7 @@ class skuSDK{
 	//是否为重用SKU码
 	protected $is_replay=false;
 	//错误提示
-	public $error;
+	protected $error;
 	public function __construct($kind_id,$product_type_id,$user_type){
 		$this->kind_id=$kind_id;
 		$this->product_type_id=$product_type_id;
@@ -32,18 +32,21 @@ class skuSDK{
 	 * 根据产品id设置sku吗
 	 */
 	public function set_sku()
-	{
+	{	
 		$num=$this->get_sku_first_to_forth();
 		$this->set_sku_by_attr(); //  设置后六位
-		if($num){
+		if($num&&\App\goods_kind::select('goods_kind_sku')->where('goods_kind_id',$this->kind_id)->first()['goods_kind_sku']==null){
 				if($this->is_replay){
 						goods_kind::where('goods_kind_id',$this->kind_id)->update(['goods_kind_sku'=>$num,'goods_kind_sku_status'=>'2']);
 				}else{
 						goods_kind::where('goods_kind_id',$this->kind_id)->update(['goods_kind_sku'=>$num,'goods_kind_sku_status'=>'0']);
 				}
-			return $num;
+		}	
+		if(\App\goods_kind::select('goods_kind_sku')->where('goods_kind_id',$this->kind_id)->first()['goods_kind_sku']==null)
+		{	
+			return false;
 		}
-		return false;
+		return \App\goods_kind::select('goods_kind_sku')->where('goods_kind_id',$this->kind_id)->first()['goods_kind_sku'];
 	}
 	/**
 	 * 生成sku码1-4位数
@@ -59,6 +62,8 @@ class skuSDK{
 		}
 		$last_sku=goods_kind::select('goods_kind_sku')->where(function($query){
 			$query->where('goods_product_id',$this->product_type_id);
+			$query->where('goods_kind_id',"<>",$this->kind_id);
+			$query->whereNotNull('goods_kind_sku');
 			$query->where('goods_kind_sku_status',0);
 		})->orderBy('goods_kind_time','desc')->first();
 		if($last_sku==null){
@@ -376,5 +381,13 @@ class skuSDK{
 	public function get_sku()
 	{
 		return $this->sku_code;
+	}
+	public function get_error()
+	{
+		if($this->error!=null){
+			return $this->error;
+		}else{
+			return false;
+		}
 	}
 }
