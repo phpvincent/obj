@@ -117,11 +117,11 @@ class KindController extends Controller
                     if (count($goods_config_name) == 1) { //判断颜色是否为空
                         foreach ($item['msg'] as $k=>$vals) {
                             if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
-                                if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
-                                    $data_null = false;
-                                }
+                                    if (!$vals['goods_config'] || !$vals['goods_config_english'] || !$vals['color']) {
+                                        return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
+                                    }
                             }else{
-                                if (!$vals['goods_config'] || !$vals['goods_config_english'] || !$vals['color']) {
+                                if (!$vals['goods_config'] || !$vals['goods_config_english']) {
                                     return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                                 }
                             }
@@ -148,6 +148,7 @@ class KindController extends Controller
                     }
                 }
             }
+            dd($goods_config_name);
             if (!$request->has('goods_kind_name') || $request->input('goods_kind_name') == '' || $request->input('goods_kind_name') == null) {
                 return response()->json(['err' => '0', 'msg' => '信息错误!']);
             }
@@ -368,18 +369,24 @@ class KindController extends Controller
                     if (count($goods_config_name) == 1) {
                         if (!$item['goods_config_name']) {
                             foreach ($item['msg'] as $k=>$vals) {
-//                                if (!$val['goods_config'] || !$val['goods_config_english']) {
-//                                    $data_null = true;
-//                                }
                                 if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
-                                    if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
-                                        $data_null = false;
-                                    }
-                                }else{
                                     if (!$vals['goods_config'] || !$vals['goods_config_english'] || !$vals['color']) {
                                         return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                                     }
+                                }else{
+                                    if (!$vals['goods_config'] || !$vals['goods_config_english']) {
+                                        return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
+                                    }
                                 }
+//                                if(in_array($item['goods_config_name'],['颜色','顏色','color']) || strtolower($item['goods_config_english_name'] == 'color')){
+//                                    if($vals['goods_config'] == 00 && $vals['goods_config_english'] == 00 ){
+//                                        $data_null = false;
+//                                    }
+//                                }else{
+//                                    if (!$vals['goods_config'] || !$vals['goods_config_english'] || !$vals['color']) {
+//                                        return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
+//                                    }
+//                                }
                             }
                         }
                     }
