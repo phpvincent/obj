@@ -23,7 +23,7 @@ use App\channel\mailControl;
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
 		/*\App\kind_val::where('kind_val_id','>',0)->update(['kind_val_sku'=>null]);*/
-		\App\goods_kind::where('goods_kind_id','>',0)->update(['goods_kind_sku'=>null]);die;
+		/*\App\goods_kind::where('goods_kind_id','>',0)->update(['goods_kind_sku'=>null]);die;*/
 		$goods_kinds=\App\goods_kind::whereNull('goods_kind_sku')->orderBy('goods_kind_time','asc')->orderBy('goods_kind_id','asc')->get();
 		$arr=[];
 		foreach($goods_kinds as $k => $v)
