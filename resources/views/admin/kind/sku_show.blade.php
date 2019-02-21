@@ -17,7 +17,22 @@
                         <td rowspan = '2'>@if($goods_kind->goods_kind_sku_status==0) <span color='green'>正常</span> @elseif($goods_kind->goods_kind_sku_status==1) <span style="color:#ccc;">已被释放</span> @else <span style="color:brown;">重用SKU</span> @endif </td>
                     </tr>
                
-        </table>    
+        </table>
+        @if($goods_kind->attrs)
+            <table class="table table-border table-bordered table-bg">
+            <tr class="text-c">
+                <th>产品属性名/产品英文属性值</th><th>产品属性值/产品英文属性值</th><th>sku</th>
+            </tr>
+
+        @foreach($goods_kind->attrs as $attr)
+            <tr class="text-c">
+                <td>{{ $attr->kind_config_msg }}/{{ $attr->kind_config_english_msg }}</td>
+                <td>{{ $attr->kind_val_msg }}/{{ $attr->kind_val_msg }}</td>
+                <td>{{ $attr->kind_val_sku }}</td>
+            </tr>
+        @endforeach
+            </table>
+        @endif
         <br>
         <br>
         <br>

@@ -57,7 +57,7 @@ class GoodsController extends Controller
             $order='goods_id';
           }
 	        $draw=isset($info['draw']) ? $info['draw'] : 1;
-	        $start=$info['start'];
+	        $start=isset($info['start']) ? $info['start'] : 0;
 	        $len=$info['length'];
 	        $search=trim($info['search']['value']);
 	        $counts=DB::table('goods')

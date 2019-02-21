@@ -333,6 +333,7 @@ class KindController extends Controller
             $goods_kind->goods_kind_english_name = $request->input('goods_kind_english_name') ? $request->input('goods_kind_english_name') : '';
             $goods_kind->goods_kind_volume = $request->input('width', 0) . 'cm*' . $request->input('depth', 0) . 'cm*' . $request->input('height', 0) . 'cm';
             $goods_kind->goods_kind_postage = $request->input('goods_kind_postage', 0) == null ? 0 : $request->input('goods_kind_postage', 0);
+            $goods_kind->goods_kind_user_type = $request->input('goods_kind_user_type', 0) == null ? 0 : $request->input('goods_kind_user_type', 0);
             $img = $request->file('goods_kind_img');
             $img_name = '';
             if ($img) {
@@ -347,12 +348,12 @@ class KindController extends Controller
                 $filedir = "upload/goods_kind/" . date('Ymd') . '/';
                 $img->move($filedir, $newImagesName);
                 $img_name = $filedir . $newImagesName;
+                $goods_kind->goods_kind_img = $img_name;
             }
-            $goods_kind->goods_kind_img = $img_name;
 //            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
 //            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight',0) == null ? 0 : $request->input('goods_buy_weight',0);
-            $goods_kind->goods_kind_admin = Auth::user()->admin_id;
+            /*$goods_kind->goods_kind_admin = Auth::user()->admin_id;*/
             $goods_kind->goods_product_id = $request->input('product_type_id');
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
@@ -570,6 +571,8 @@ class KindController extends Controller
     {
         $id=$request->get('id');
         $goods_kind=\App\goods_kind::where('goods_kind_id',$id)->first();
+        $goods_kind->attrs = DB::table('kind_config as kc')->join('kind_val as kv', 'kc.kind_config_id', 'kv.kind_type_id', 'join')
+            ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->get();
         return view('admin.kind.sku_show')->with(compact('goods_kind'));
     }
     public function sku_search(Request $request)

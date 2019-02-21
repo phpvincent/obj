@@ -112,7 +112,7 @@
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品受众：</label>
                 <div class="formControls col-xs-8 col-sm-9">
              <span class="select-box">
-                <select name="goods_kind_user_type" id="goods_kind_user_type" class="select" disabled="disabled" style="background-color: #EEEEEE;">
+                <select name="goods_kind_user_type" id="goods_kind_user_type" class="select" style="background-color: #EEEEEE;">
                     <option value="0" selected="selected" @if($goods_kinds->goods_kind_user_type==0) selected="selected" @endif >通用</option>
                     <option value="1" @if($goods_kinds->goods_kind_user_type==1) selected="selected" @endif >男士</option>
                     <option value="2" @if($goods_kinds->goods_kind_user_type==2) selected="selected" @endif >女士</option>
@@ -698,14 +698,15 @@
                             layer.msg(data.msg,{time:2*1000},function() {
                                 //回调
                                 index = parent.layer.getFrameIndex(window.name);
-                                setTimeout("parent.layer.close(index);",2000);
-                                window.parent.location.reload();
+                                setTimeout("parent.layer.close(index);",100);
+                                parent.shuaxin(); 
                             });
                         }else{
                             layer.msg(data.msg);
                         }
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
+                        layer.close(indexs);
                         layer.msg('error!');
                     }});
             }
