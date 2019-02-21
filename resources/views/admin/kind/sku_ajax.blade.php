@@ -32,10 +32,14 @@
                     <tr class="text-c">
                         <td>产品上线时间</td>
                         <td>{{$goods_kind->goods_kind_time}}</td>
+                        
                     </tr>
                     <tr class="text-c">
                         <td>产品名下单品数</td>
-                        <td>{{\App\goods::where('goods_kind_id',$goods_kind->goods_kind_id)->count()}}</td>
+                       <!--  <td>{{\App\goods::where('goods_kind_id',$goods_kind->goods_kind_id)->count()}}</td> -->
+                        <td>
+                            <a title="商品列表" href="javascript:;" onclick="goods_info('http://52.14.183.239/admin/goods/index?id={{$goods_kind->goods_kind_id}}','{{\App\goods::where('goods_kind_id',$goods_kind->goods_kind_id)->count()}}')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:red;">1</span></a>
+                        </td>
                     </tr>
                     <tr class="text-c">
                         <td>产品图片</td>
