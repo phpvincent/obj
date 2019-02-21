@@ -16,6 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/get_color_data','home\IndexController@get_color_data');
+/*Route::get('/get_color_data','home\IndexController@get_color_data');*/
 
 
