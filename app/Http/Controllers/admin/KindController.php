@@ -333,6 +333,7 @@ class KindController extends Controller
             $goods_kind->goods_kind_english_name = $request->input('goods_kind_english_name') ? $request->input('goods_kind_english_name') : '';
             $goods_kind->goods_kind_volume = $request->input('width', 0) . 'cm*' . $request->input('depth', 0) . 'cm*' . $request->input('height', 0) . 'cm';
             $goods_kind->goods_kind_postage = $request->input('goods_kind_postage', 0) == null ? 0 : $request->input('goods_kind_postage', 0);
+            $goods_kind->goods_kind_user_type = $request->input('goods_kind_user_type', 0) == null ? 0 : $request->input('goods_kind_user_type', 0);
             $img = $request->file('goods_kind_img');
             $img_name = '';
             if ($img) {
@@ -347,8 +348,8 @@ class KindController extends Controller
                 $filedir = "upload/goods_kind/" . date('Ymd') . '/';
                 $img->move($filedir, $newImagesName);
                 $img_name = $filedir . $newImagesName;
+                $goods_kind->goods_kind_img = $img_name;
             }
-            $goods_kind->goods_kind_img = $img_name;
 //            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
 //            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight',0) == null ? 0 : $request->input('goods_buy_weight',0);
