@@ -353,7 +353,7 @@ class KindController extends Controller
 //            $goods_kind->goods_buy_url = $request->input('goods_buy_url');
 //            $goods_kind->goods_buy_msg = $request->input('goods_buy_msg');
             $goods_kind->goods_buy_weight = $request->input('goods_buy_weight',0) == null ? 0 : $request->input('goods_buy_weight',0);
-            $goods_kind->goods_kind_admin = Auth::user()->admin_id;
+            /*$goods_kind->goods_kind_admin = Auth::user()->admin_id;*/
             $goods_kind->goods_product_id = $request->input('product_type_id');
             //1.验证字段是否漏填
             $goods_config_name = $request->input('goods_config_name');
