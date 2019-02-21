@@ -570,6 +570,8 @@ class KindController extends Controller
     {
         $id=$request->get('id');
         $goods_kind=\App\goods_kind::where('goods_kind_id',$id)->first();
+        $goods_kind->attrs = DB::table('kind_config as kc')->join('kind_val as kv', 'kc.kind_config_id', 'kv.kind_type_id', 'join')
+            ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->get();
         return view('admin.kind.sku_show')->with(compact('goods_kind'));
     }
     public function sku_search(Request $request)
