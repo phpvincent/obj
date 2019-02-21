@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\admin;
 use App\channel\skuSDK;
 use App\goods;
+use App\goods_config;
 use App\goods_kind;
 use App\kind_config;
 use App\kind_val;
@@ -589,8 +590,12 @@ class KindController extends Controller
                 return '<span style="color:red;">无对应数据！</span>';
             }
             foreach ($goods_kinds as $goods_kind){
-                $skuSDK = new skuSDK($goods_kind->kind_id, $goods_kind->product_type_id,$goods_kind->goods_kind_user_type);
-                $goods_kind->attrs = $skuSDK->get_attr_by_sku($attr_sku);
+                $goods_kind->attrs = DB::table('kind_config as kc')->join('kind_val as kv', 'kc.kind_config_id', 'kv.kind_type_id', 'join')
+                    ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->get();
+//                $goods_kind->attrs = kind_config::with('vals')->where('kind_primary_id',$goods_kind->goods_kind_id)->get();
+                $skuSDK = new skuSDK($goods_kind->goods_kind_id, $goods_kind->product_type_id,$goods_kind->goods_kind_user_type);
+                $current_attrs = $skuSDK->get_attr_by_sku($attr_sku);
+                $goods_kind->current_attrs = array_column($current_attrs, 'kind_val_id');
             }
             return view('admin.kind.sku_ajax')->with(compact('goods_kinds'));
         }

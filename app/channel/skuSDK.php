@@ -231,13 +231,14 @@ class skuSDK{
 
 	public function get_attr_by_sku($sku)
     {
-        $kind_config_ids = ($this->get_attr_sku_config_sort());
+        $kind_config_ids = array_values($this->get_attr_sku_config_sort());
+//        dd($kind_config_ids);
         $kind_vals = [];
         foreach ($kind_config_ids as $k=>$kind_config_id){
             if(!$kind_config_id){
                 continue;
             }
-            $kind_vals[] = kind_val::where('kind_primary_id', $this->kind_id)->where('kind_config_id', $kind_config_id)->where('kind_val_sku',substr($sku,$k*2,2))->value('kind_val_msg');
+            $kind_vals[] = kind_val::where('kind_primary_id', $this->kind_id)->where('kind_type_id', $kind_config_id)->where('kind_val_sku',substr($sku,$k*2,2))->first();
         }
         return $kind_vals;
     }
@@ -316,6 +317,13 @@ class skuSDK{
                     $sku_ids['x45'] = 0;
                     $sku_ids['x67'] = 0;
                     $sku_ids['x89'] = $sku_ids['x89'][0];
+                }else{
+                    if(isset($sku_ids['x45'])) {
+                        $sku_ids['x67'] = 0;
+                    }else{
+                        $sku_ids['x45'] = 0;
+                    }
+                    $sku_ids['x89'] = 0;
                 }
                 break;
             default :
