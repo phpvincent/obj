@@ -391,4 +391,26 @@ class skuSDK{
 			return false;
 		}
 	}
+
+    /**
+     * 获取产品完整SKU
+     * @param $kind_val_ids
+     * @return bool|string
+     */
+	public function get_all_sku($kind_val_ids)
+    {
+        //获取后六位SKU
+        $last_six_sku = $this->get_attr_sku_by_kind($kind_val_ids);
+        if(!$last_six_sku){
+            return false;
+        }
+        dd($kind_val_ids);
+        //获取前四位SKU
+        $first_four_sku = goods_kind::where('goods_kind_sku_status','!=',1)->where('goods_kind_id',$this->kind_id)->value('goods_kind_sku');
+        if(!$first_four_sku){
+            return false;
+        }
+        //返回完整SKU
+        return $last_six_sku.$first_four_sku;
+    }
 }
