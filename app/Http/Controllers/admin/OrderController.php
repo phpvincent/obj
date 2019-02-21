@@ -1211,7 +1211,7 @@ class OrderController extends Controller
                        $config_english_msg = '';
                        $goods_config_msg = '';//商品展示属性
                        $goods_all_sku = '';
-                       $goods_kind_val_id = '';
+
                        $i = 0;
                        foreach($order_config  as  $va){
                            $i++;
@@ -1262,6 +1262,7 @@ class OrderController extends Controller
                            if(!empty($config_attr)){
                                $orderarr = $config_attr;
                            }
+                           $goods_kind_val_id = '';
                            foreach($orderarr as $key => $val){
                                $conmsg = \App\config_val::where('config_val_id',$val)
                                    ->where(function($query)use($v){
@@ -1274,20 +1275,20 @@ class OrderController extends Controller
                                    $conmsg = \App\config_val::where('config_val_id',$val)->first();
                                }
                                if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
+                                   //===============================================
+                                   //获取产品完整SKU
+                                   $goods_kind_val_id .= $conmsg->kind_val_id.',';
+                                   //================================================
                                    $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
                                    $kind_english_msg .= kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_english_msg');
                                }else{
                                    $config_val_msg = $conmsg['config_val_msg'];
                                    $kind_english_msg .= '';
                                }
-                               //===============================================
-                               //获取产品完整SKU
-                               $goods_kind_val_id .= $conmsg->kind_val_id.',';
-                               //================================================
                                $goods_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
                                $kind_msg .= '<td>'.$config_val_msg.'</td>';
                            }
-                           $goods_all_sku .= '<tr><td>'.$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td></tr>';
+                           $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td></tr>';
                            $config_msg .= '<tr>'.$kind_msg.'</tr>';
                            $config_english_msg .= $kind_english_msg.',';
                            $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
