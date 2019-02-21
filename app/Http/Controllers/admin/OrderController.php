@@ -5,10 +5,12 @@ namespace App\Http\Controllers\admin;
 use App\admin;
 use App\channel\excelData;
 use App\channel\sendMessage;
+use App\channel\skuSDK;
 use App\config_val;
 use App\currency_type;
 use App\goods;
 use App\goods_config;
+use App\goods_kind;
 use App\kind_val;
 use App\message;
 use App\order_config;
@@ -1113,6 +1115,10 @@ class OrderController extends Controller
           $goods_blade_type = $request->input('goods_blade_type');
           $new_exdata=[];
            foreach($data as $k => $v){
+               $goods_kind = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->first();
+               if($goods_kind){
+                   //获取数据信息
+                   $skuSDK = new skuSDK($v['goods_kind_id'],$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
 //            switch ($v['order_type']) {
 //               case '0':
 //                 $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
@@ -1145,162 +1151,173 @@ class OrderController extends Controller
 //                  $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
 //                  break;
 //            }
-            //重组新格式
-              $new_exdata[$k]['order_time'] = $v['order_time'];
-              $new_exdata[$k]['order_single_id'] = $v['order_single_id'];
-              $new_exdata[$k]['name'] = $v['order_name'];
-              $new_exdata[$k]['tel'] = $v['order_tel'];
-               if($v['order_zip']){
-                   $str = $v['order_add'];
-                   $pattern = '/(.*)\(Zip:(.*?)\)/';
-                   preg_match_all($pattern,$str,$p);
-                   $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
+                   //重组新格式
+                   $new_exdata[$k]['order_time'] = $v['order_time'];
+                   $new_exdata[$k]['order_single_id'] = $v['order_single_id'];
+                   $new_exdata[$k]['name'] = $v['order_name'];
+                   $new_exdata[$k]['tel'] = $v['order_tel'];
+                   if($v['order_zip']){
+                       $str = $v['order_add'];
+                       $pattern = '/(.*)\(Zip:(.*?)\)/';
+                       preg_match_all($pattern,$str,$p);
+                       $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
 
-                   if($goods_blade_type == 6 || $goods_blade_type == 7){
-                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
-                       $new_exdata[$k]['order_state'] = $v['order_state'];
-                       $new_exdata[$k]['order_city'] = $v['order_city'];
-                       $new_exdata[$k]['order_village'] = $v['order_village'];
+                       if($goods_blade_type == 6 || $goods_blade_type == 7){
+                           $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
+                           $new_exdata[$k]['order_state'] = $v['order_state'];
+                           $new_exdata[$k]['order_city'] = $v['order_city'];
+                           $new_exdata[$k]['order_village'] = $v['order_village'];
+                       }else{
+                           $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
+                           $new_exdata[$k]['order_state'] = $v['order_state'];
+                           $new_exdata[$k]['order_city'] = $v['order_city'];
+                       }
+                       $new_exdata[$k]['area_info'] = $area_info;
+                       $new_exdata[$k]['order_zip'] = $v['order_zip'];
                    }else{
+                       $str=$v['order_add'];
+                       $pattern='/(.*)\(Zip:(.*?)\)/';
+                       preg_match_all($pattern,$str,$p);
+                       $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
                        $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
                        $new_exdata[$k]['order_state'] = $v['order_state'];
                        $new_exdata[$k]['order_city'] = $v['order_city'];
+                       if($goods_blade_type == 6 || $goods_blade_type == 7){
+                           $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
+                           $new_exdata[$k]['order_state'] = $v['order_state'];
+                           $new_exdata[$k]['order_city'] = $v['order_city'];
+                           $new_exdata[$k]['order_village'] = $v['order_village'];
+                       }else{
+                           $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
+                           $new_exdata[$k]['order_state'] = $v['order_state'];
+                           $new_exdata[$k]['order_city'] = $v['order_city'];
+                       }
+                       $new_exdata[$k]['area_info'] = $area_info;
+                       $new_exdata[$k]['order_zip'] = isset($p[2][0]) ? $p[2][0] : '';
                    }
-                   $new_exdata[$k]['area_info'] = $area_info;
-                   $new_exdata[$k]['order_zip'] = $v['order_zip'];
-               }else{
-                   $str=$v['order_add'];
-                   $pattern='/(.*)\(Zip:(.*?)\)/';
-                   preg_match_all($pattern,$str,$p);
-                   $area_info = (isset($p[1][0]) && $p[1][0]) ? $p[1][0] : $v['order_add'];
-                   $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
-                   $new_exdata[$k]['order_state'] = $v['order_state'];
-                   $new_exdata[$k]['order_city'] = $v['order_city'];
-                   if($goods_blade_type == 6 || $goods_blade_type == 7){
-                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
-                       $new_exdata[$k]['order_state'] = $v['order_state'];
-                       $new_exdata[$k]['order_city'] = $v['order_city'];
-                       $new_exdata[$k]['order_village'] = $v['order_village'];
-                   }else{
-                       $new_exdata[$k]['area_data_info'] = $v['order_state'].' '.$v['order_city'].' '. $v['order_village'] .'('.$area_info.')';
-                       $new_exdata[$k]['order_state'] = $v['order_state'];
-                       $new_exdata[$k]['order_city'] = $v['order_city'];
-                   }
-                   $new_exdata[$k]['area_info'] = $area_info;
-                   $new_exdata[$k]['order_zip'] = isset($p[2][0]) ? $p[2][0] : '';
-               }
-              $goods_kind = \App\goods_kind::where('goods_kind_id',$v['goods_kind_id'])->first();
-              $new_exdata[$k]['goods_real_name'] = $goods_kind->goods_kind_name;
-              $new_exdata[$k]['goods_real_english_name'] = $goods_kind->goods_kind_english_name;
-              $new_exdata[$k]['goods_name'] = $v['goods_real_name'];
-              $new_exdata[$k]['payof'] = \App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
-              $new_exdata[$k]['order_price'] = $v['order_price'];
-              $new_exdata[$k]['order_num'] = $v['order_num'];
+                   $goods_kind = \App\goods_kind::where('goods_kind_id',$v['goods_kind_id'])->first();
+                   $new_exdata[$k]['goods_real_name'] = $goods_kind->goods_kind_name;
+                   $new_exdata[$k]['goods_real_english_name'] = $goods_kind->goods_kind_english_name;
+                   $new_exdata[$k]['goods_name'] = $v['goods_real_name'];
+                   $new_exdata[$k]['payof'] = \App\currency_type::where('currency_type_id',$v['order_currency_id'])->value('currency_english_name');
+                   $new_exdata[$k]['order_price'] = $v['order_price'];
+                   $new_exdata[$k]['order_num'] = $v['order_num'];
 //              $new_exdata[$k]['kind_weight'] = $goods_kind->goods_buy_weight ? $goods_kind->goods_buy_weight . 'kg' : '';
 //              $new_exdata[$k]['kind_volume'] = $goods_kind->goods_kind_volume == '0cm*0cm*0cm' ? '' : $goods_kind->goods_kind_volume;
-               //尺寸信息
-               $order_config = \App\order_config::where('order_primary_id',$v['order_id'])->get();
-               if($order_config->count() > 0){
-                   $config_msg = '';//产品属性
-                   $config_english_msg = '';
-                   $goods_config_msg = '';//商品展示属性
-                   $i = 0;
-                   foreach($order_config  as  $va){
-                       $i++;
-                       $goods_msg = "<td>第".$i."件</td>";
-                       $kind_msg = "<td>第".$i."件</td>";
-                       $kind_english_msg = "";
-                       $orderarr = explode(',',$va['order_config']);
-                       //================================================
-                       $config_attr = [];
-                       $sort_config_msg = [];
-                       $sort_config_msg1 = [];
-                       foreach($orderarr as $key => $val){
-                           $sort_config = config_val::where('config_val_id',$val)->select('kind_config.kind_config_msg')->join('kind_val','kind_val.kind_val_id','=','config_val.kind_val_id')->join('kind_config','kind_config_id','=','kind_val.kind_type_id')->first();
-                            if($sort_config){
-                                $sort_config_msg1[$val] = $sort_config->kind_config_msg;
-                            }
-                       }
-                       if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1)) || (in_array('尺寸',$sort_config_msg1) && in_array('颜色',$sort_config_msg1))){
-                              $size =  array_keys($sort_config_msg1,"尺码");
-                              $color =  array_keys($sort_config_msg1,"颜色");
-                              $size1 =  array_keys($sort_config_msg1,"尺碼");
-                              $color1 =  array_keys($sort_config_msg1,"顏色");
-                              $size2 =  array_keys($sort_config_msg1,"尺寸");
-                              if(!empty($size) && !empty($color)){
-                                  array_push($sort_config_msg,$color[0]);
-                                  array_push($sort_config_msg,$size[0]);
-                                  unset($sort_config_msg1[$color[0]]);
-                                  unset($sort_config_msg1[$size[0]]);
-                              }else if(!empty($size1) && !empty($color1)){
-                                  array_push($sort_config_msg,$color1[0]);
-                                  array_push($sort_config_msg,$size1[0]);
-                                  unset($sort_config_msg1[$color1[0]]);
-                                  unset($sort_config_msg1[$size1[0]]);
-                              }else if(!empty($size2) && !empty($color)){
-                                  array_push($sort_config_msg,$color[0]);
-                                  array_push($sort_config_msg,$size2[0]);
-                                  unset($sort_config_msg1[$color[0]]);
-                                  unset($sort_config_msg1[$size2[0]]);
-                              }
+                   //尺寸信息
+                   $order_config = \App\order_config::where('order_primary_id',$v['order_id'])->get();
+                   if($order_config->count() > 0){
+                       $config_msg = '';//产品属性
+                       $config_english_msg = '';
+                       $goods_config_msg = '';//商品展示属性
+                       $goods_all_sku = '';
 
-                              if(!empty($sort_config_msg1)){
-                                  $arr = array_keys($sort_config_msg1);
-                                  $config_attr = array_merge($sort_config_msg,$arr);
-                              }else{
-                                  $config_attr = $sort_config_msg;
-                              }
-                       }
-                       if(!empty($config_attr)){
-                           $orderarr = $config_attr;
-                       }
-                       //================================================
-                       foreach($orderarr as $key => $val){
-                           $conmsg = \App\config_val::where('config_val_id',$val)
-                               ->where(function($query)use($v){
-                                   if($v['goods_is_update'] == '1'){
-                                       $query->where('kind_val_id','>',0);
-                                   }
-                               })
-                               ->first();
-                           if($conmsg == null){
-                               $conmsg = \App\config_val::where('config_val_id',$val)->first();
+                       $i = 0;
+                       foreach($order_config  as  $va){
+                           $i++;
+                           $goods_msg = "<td>第".$i."件</td>";
+                           $kind_msg = "<td>第".$i."件</td>";
+                           $kind_english_msg = "";
+                           $orderarr = explode(',',$va['order_config']);
+                           //================================================
+                           $config_attr = [];
+                           $sort_config_msg = [];
+                           $sort_config_msg1 = [];
+                           foreach($orderarr as $key => $val){
+                               $sort_config = config_val::where('config_val_id',$val)->select('kind_config.kind_config_msg')->join('kind_val','kind_val.kind_val_id','=','config_val.kind_val_id')->join('kind_config','kind_config_id','=','kind_val.kind_type_id')->first();
+                               if($sort_config){
+                                   $sort_config_msg1[$val] = $sort_config->kind_config_msg;
+                               }
                            }
-                           if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
-                               $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
-                               $kind_english_msg .= kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_english_msg');
+                           if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1)) || (in_array('尺寸',$sort_config_msg1) && in_array('颜色',$sort_config_msg1))){
+                               $size =  array_keys($sort_config_msg1,"尺码");
+                               $color =  array_keys($sort_config_msg1,"颜色");
+                               $size1 =  array_keys($sort_config_msg1,"尺碼");
+                               $color1 =  array_keys($sort_config_msg1,"顏色");
+                               $size2 =  array_keys($sort_config_msg1,"尺寸");
+                               if(!empty($size) && !empty($color)){
+                                   array_push($sort_config_msg,$color[0]);
+                                   array_push($sort_config_msg,$size[0]);
+                                   unset($sort_config_msg1[$color[0]]);
+                                   unset($sort_config_msg1[$size[0]]);
+                               }else if(!empty($size1) && !empty($color1)){
+                                   array_push($sort_config_msg,$color1[0]);
+                                   array_push($sort_config_msg,$size1[0]);
+                                   unset($sort_config_msg1[$color1[0]]);
+                                   unset($sort_config_msg1[$size1[0]]);
+                               }else if(!empty($size2) && !empty($color)){
+                                   array_push($sort_config_msg,$color[0]);
+                                   array_push($sort_config_msg,$size2[0]);
+                                   unset($sort_config_msg1[$color[0]]);
+                                   unset($sort_config_msg1[$size2[0]]);
+                               }
+
+                               if(!empty($sort_config_msg1)){
+                                   $arr = array_keys($sort_config_msg1);
+                                   $config_attr = array_merge($sort_config_msg,$arr);
+                               }else{
+                                   $config_attr = $sort_config_msg;
+                               }
+                           }
+                           if(!empty($config_attr)){
+                               $orderarr = $config_attr;
+                           }
+                           $goods_kind_val_id = '';
+                           foreach($orderarr as $key => $val){
+                               $conmsg = \App\config_val::where('config_val_id',$val)
+                                   ->where(function($query)use($v){
+                                       if($v['goods_is_update'] == '1'){
+                                           $query->where('kind_val_id','>',0);
+                                       }
+                                   })
+                                   ->first();
+                               if($conmsg == null){
+                                   $conmsg = \App\config_val::where('config_val_id',$val)->first();
+                               }
+                               if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
+                                   //===============================================
+                                   //获取产品完整SKU
+                                   $goods_kind_val_id .= $conmsg->kind_val_id.',';
+                                   //================================================
+                                   $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
+                                   $kind_english_msg .= kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_english_msg');
+                               }else{
+                                   $config_val_msg = $conmsg['config_val_msg'];
+                                   $kind_english_msg .= '';
+                               }
+                               $goods_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
+                               $kind_msg .= '<td>'.$config_val_msg.'</td>';
+                           }
+                           $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td></tr>';
+                           $config_msg .= '<tr>'.$kind_msg.'</tr>';
+                           $config_english_msg .= $kind_english_msg.',';
+                           $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
+                       }
+                       $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
+                       if (rtrim($config_english_msg, ',') == '') {
+                           $new_exdata[$k]['config_english_msg'] =  '';
+                       } else {
+                           if ($goods_kind->goods_kind_english_name) {
+                               $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
                            }else{
-                               $config_val_msg = $conmsg['config_val_msg'];
-                               $kind_english_msg .= '';
+                               $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',') ;
                            }
-                           $goods_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
-                           $kind_msg .= '<td>'.$config_val_msg.'</td>';
                        }
-                       $config_msg .= '<tr>'.$kind_msg.'</tr>';
-                       $config_english_msg .= $kind_english_msg.',';
-                       $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
+                       $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
+                       //TODO sku
+                       $new_exdata[$k]['get_all_sku'] = '<table border=1>'. $goods_all_sku .'</table>';
+                   }else{
+                       $new_exdata[$k]['config_msg'] = "暂无属性信息";
+                       $new_exdata[$k]['config_english_msg'] = "暂无属性信息";
+                       $new_exdata[$k]['goods_config_msg'] = "暂无属性信息";
+                       $new_exdata[$k]['get_all_sku'] = "暂无sku信息";
                    }
-                   $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
-                   if (rtrim($config_english_msg, ',') == '') {
-                       $new_exdata[$k]['config_english_msg'] =  '';
-                   } else {
-                       if ($goods_kind->goods_kind_english_name) {
-                           $new_exdata[$k]['config_english_msg'] =  $goods_kind->goods_kind_english_name . ',' . rtrim($config_english_msg, ',') ;
-                       }else{
-                           $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',') ;
-                       }
-                   }
-                   $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
-               }else{
-                   $new_exdata[$k]['config_msg'] = "暂无属性信息";
-                   $new_exdata[$k]['config_english_msg'] = "暂无属性信息";
-                   $new_exdata[$k]['goods_config_msg'] = "暂无属性信息";
-               }
-              $new_exdata[$k]['remark'] = $v['order_remark'];
-              $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
+                   $new_exdata[$k]['remark'] = $v['order_remark'];
+                   $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
 //              $new_exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
-              $admin_ids = goods::where('goods_id',$v['goods_id'])->value('goods_admin_id');
-              $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$admin_ids)->value('admin_show_name');
+                   $admin_ids = goods::where('goods_id',$v['goods_id'])->value('goods_admin_id');
+                   $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$admin_ids)->value('admin_show_name');
+               }
            }
          if($request->has('min')&&$request->has('max')){
           $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
@@ -1312,9 +1329,9 @@ class OrderController extends Controller
 /*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
         //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
        if($goods_blade_type == 6 || $goods_blade_type == 7){
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','商品所属人'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人'];
        }else{
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','备注','支付方式','商品所属人'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人'];
        }
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
