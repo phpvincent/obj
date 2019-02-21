@@ -25,10 +25,10 @@
                         <td>产品上线时间</td>
                         <td>{{$goods_kind->goods_kind_time}}</td>
                     </tr>
-                    <!-- <tr class="text-c">
+                    <tr class="text-c">
                         <td>产品发布人</td>
                         <td>{{\App\admin::select('admin_show_name')->where('admin_id',$goods_kind->goods_kind_admin)->first()['admin_show_name']}}</td>
-                    </tr> -->
+                    </tr>
                     <tr class="text-c">
                         <td>产品上线时间</td>
                         <td>{{$goods_kind->goods_kind_time}}</td>
