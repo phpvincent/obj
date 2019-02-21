@@ -698,7 +698,7 @@
                             layer.msg(data.msg,{time:2*1000},function() {
                                 //回调
                                 index = parent.layer.getFrameIndex(window.name);
-                                setTimeout("parent.layer.close(index);",2000);
+                                setTimeout("parent.layer.close(index);",100);
                                 parent.shuaxin(); 
                             });
                         }else{
