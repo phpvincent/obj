@@ -60,7 +60,7 @@
         <tr class="text-c"><td>产品属性</td><td>
                 @if($goods_kind->attrs)
                 @foreach($goods_kind->attrs as $attr)
-                {{ $attr->kind_val_msg }} @if(in_array($attr->kind_val_id,$goods_kind->current_attrs)) √ @endif<br>
+              @if(in_array($attr->kind_val_id,$goods_kind->current_attrs)) <span style="color:red;"> {{ $attr->kind_val_msg }}  √ </span>@else {{ $attr->kind_val_msg }} @endif<br>
                 @endforeach
                 @endif
             </td></tr>
