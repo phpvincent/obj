@@ -699,13 +699,14 @@
                                 //回调
                                 index = parent.layer.getFrameIndex(window.name);
                                 setTimeout("parent.layer.close(index);",2000);
-                                window.parent.location.reload();
+                                parent.shuaxin(); 
                             });
                         }else{
                             layer.msg(data.msg);
                         }
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
+                        layer.close(indexs);
                         layer.msg('error!');
                     }});
             }
