@@ -1463,6 +1463,15 @@ class IndexController extends Controller
      */
    public function sendMessages(Request $request)
    {
+       $count=\App\message::where(function($query){
+            $query->where('message_mobile_num',$request->input('telephone'));
+            $query->where('message_status',0);
+            $query->where('message_gettime','>',date('Y-m-d H:i:s',time()-1800));
+       })->count();
+       if($count>=5){
+            \Log::notice($request->input('telephone').'尝试发送短信次数过多，拒绝响应');
+           return response()->json(['err'=>0,'url'=>'Too many attempts']);
+       }
        $num = rand(100000, 999999); //验证码
        $blade_id=goods::find(url::get_goods($request))->goods_blade_type;
        $text=sendMessage::send_text($blade_id,$num);
