@@ -1,5 +1,16 @@
 @extends('admin.father.css')
 @section('content')
+<script type="text/javascript">
+	//跳转到商品列表页
+        function  goods_info(url,num)
+        {
+            if(num == 0){
+                layer.msg('该产品无商品绑定');
+            }else{
+                window.location.href = url;
+            }
+        }
+</script>
 <article class="page-container">
 	<br>
 	<br>
