@@ -205,7 +205,7 @@
 		"order": [[ 7, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,2,3,4,6,8,10,11,12,14],
+		   "targets": [0,2,3,4,6,8,10,11,12,13,15],
 		   "orderable": false
 		}],
 	/*	scrollX:        true,
