@@ -50,7 +50,7 @@
                             通用
                             @endif
                         </td>
-                        <td>{{\App\admin::select('admin_show_name')->where('admin_id',$goods_kind->goods_kind_admin)->first()['admin_show_name']}}</td>
+                       
                     </tr>
                     <tr class="text-c">
                         <td>产品名下单品数</td>
