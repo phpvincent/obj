@@ -168,6 +168,7 @@
 				<th width="60">快递单号</th>
 				<th width="60">促销信息</th>
 				<th width="100">属性信息</th>
+				<th width="100">sku信息</th>
 				<th width="60">收货人邮箱</th>
 				<th width="60">收货人地区</th>
 				<th width="40">核审时间</th>
@@ -342,6 +343,7 @@ function states(){
 		{'data':'order_send'},
 		{'data':'order_cuxiao_id'},
 		{'data':'config_msg'},
+		{'data':'goods_sku'},
 		{'data':'order_email'},
 		{'defaultContent':"","className":"td-manager"},
 		{'data':'order_return_time'},
