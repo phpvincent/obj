@@ -1463,7 +1463,7 @@ class IndexController extends Controller
      */
    public function sendMessages(Request $request)
    {
-       $count=\App\message::where(function($query){
+       $count=\App\message::where(function($query)use($request){
             $query->where('message_mobile_num',$request->input('telephone'));
             $query->where('message_status',0);
             $query->where('message_gettime','>',date('Y-m-d H:i:s',time()-1800));
