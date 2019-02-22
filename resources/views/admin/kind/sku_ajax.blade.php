@@ -30,9 +30,27 @@
                         <td>{{\App\admin::select('admin_show_name')->where('admin_id',$goods_kind->goods_kind_admin)->first()['admin_show_name']}}</td>
                     </tr>
                     <tr class="text-c">
-                        <td>产品上线时间</td>
-                        <td>{{$goods_kind->goods_kind_time}}</td>
-                        
+                        <td>产品受众</td>
+                        <td>
+                            @if($goods_kind->goods_kind_user_type==0)
+                            通用
+                            @elseif($goods_kind->goods_kind_user_type==1)
+                            男士
+                            @elseif($goods_kind->goods_kind_user_type==2)
+                            女士
+                            @elseif($goods_kind->goods_kind_user_type==3)
+                            男童
+                            @elseif($goods_kind->goods_kind_user_type==4)
+                            女童
+                            @elseif($goods_kind->goods_kind_user_type==5)
+                            男老
+                            @elseif($goods_kind->goods_kind_user_type==6)
+                            女老
+                            @else
+                            通用
+                            @endif
+                        </td>
+                        <td>{{\App\admin::select('admin_show_name')->where('admin_id',$goods_kind->goods_kind_admin)->first()['admin_show_name']}}</td>
                     </tr>
                     <tr class="text-c">
                         <td>产品名下单品数</td>
