@@ -139,6 +139,7 @@
 				<th width="60">快递单号</th>
 				<th width="60">促销信息</th>
 				<th width="60">属性信息</th>
+				<th width="60">sku信息</th>
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
 			</tr>
@@ -245,7 +246,8 @@
 		{'data':'order_send'},
 		{'data':'order_cuxiao_id'},
 		{'data':'config_msg'},
-		{'data':'order_return_time'},
+        {'data':'goods_sku'},
+        {'data':'order_return_time'},
 		{'data':'admin_show_name'},
 		],
         //每行回调函数

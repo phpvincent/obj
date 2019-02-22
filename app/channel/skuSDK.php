@@ -244,7 +244,10 @@ class skuSDK{
 	// 通过产品属性值id 获取sku码
 	private function get_attr_sku_by_kind($kind_val_ids)
     {
-        if(is_string($kind_val_ids) && $kind_val_ids != '') {
+        if($kind_val_ids == ''){
+            return '000000';
+        }
+        if(is_string($kind_val_ids)) {
             $kind_val_ids = explode(',', $kind_val_ids);
         }
         if(!is_array($kind_val_ids) || count($kind_val_ids) < 1){
@@ -255,7 +258,7 @@ class skuSDK{
         $kind_vals = kind_val::whereIn('kind_val_id', $kind_val_ids)->pluck('kind_val_sku', 'kind_type_id')->toArray();
         foreach ($kind_config_ids as $kind_config_id){
             if($kind_config_id) {
-                $sku .= $kind_vals[$kind_config_id];
+                $sku .= isset($kind_vals[$kind_config_id]) ? $kind_vals[$kind_config_id] : '00';
             }else{
                 $sku .= '00';
             }
@@ -423,7 +426,7 @@ class skuSDK{
     {
         //获取后六位SKU
         $last_six_sku = $this->get_attr_sku_by_kind($kind_val_ids);
-        if(!$last_six_sku){
+        if($last_six_sku === false){
             return false;
         }
         //获取前四位SKU

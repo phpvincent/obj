@@ -26,22 +26,6 @@ use Excel;
 class OrderController extends Controller
 {
    public function index(){
-//         $admin_id=Auth::user()->admin_id;
-//     if(Auth::user()->is_root!='1'){
-//      $admins=\App\admin::get_group($admin_id);
-//      $garr=order::get_group_order($admin_id);
-//      $counts=DB::table('order')
-//      ->where(function($query){
-//        $query->where('is_del','0');
-//      })
-//      ->whereIn('order_goods_id',$garr)
-//      ->count();
-//     return view('admin.order.index_notroot')->with(compact('counts','admins'));
-//     }else{
-//      $admins=\App\admin::get();
-//      $counts=order::where(function($query){
-//        $query->where('is_del','0');
-//      })->count();
      $admins = admin::whereIn('admin_id',admin::get_admins_id())->get();
      $counts = DB::table('order')
      ->where(function($query){
@@ -51,15 +35,14 @@ class OrderController extends Controller
      ->count();
      $languages = admin::$LANGUAGES;
      if(\Auth::user()->admin_is_order!='1'){
-      return view('admin.order.index_notroot')->with(compact('counts','admins','languages'));
+         return view('admin.order.index_notroot')->with(compact('counts','admins','languages'));
      }else{
-      return view('admin.order.index')->with(compact('counts','admins','languages'));
+        return view('admin.order.index')->with(compact('counts','admins','languages'));
      }
-//     }
-
    }
 
-   /** 修改订单
+   /**
+    * 修改订单
     * @param Request $request
     * @return \Illuminate\Http\JsonResponse
     */
@@ -222,7 +205,8 @@ class OrderController extends Controller
 
        return response()->json(['err' => 1, 'str' => '保存成功！']);
    }
-    /** 订单列表数据
+    /**
+     * 订单列表数据
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -343,7 +327,7 @@ class OrderController extends Controller
 
              //列表数据
             $data=DB::table('order')
-            ->select('order.*','goods.goods_real_name','admin.admin_show_name')
+            ->select('order.*','goods.goods_real_name','admin.admin_show_name','goods.goods_kind_id')
             ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
             ->where(function($query)use($search){
@@ -430,7 +414,7 @@ class OrderController extends Controller
           }else{ //root用户
 
           $newcount=DB::table('order')
-          ->select('order.*','goods.goods_real_name','admin.admin_show_name')
+          ->select('order.*','goods.goods_real_name','admin.admin_show_name','goods.goods_kind_id')
           ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
           ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
           ->where(function($query)use($search){
@@ -515,7 +499,7 @@ class OrderController extends Controller
 
           //table表格数据
           $data=DB::table('order')
-          ->select('order.*','goods.goods_real_name','admin.admin_show_name')
+          ->select('order.*','goods.goods_real_name','admin.admin_show_name','goods.goods_kind_id')
           ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
           ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
           ->where(function($query)use($search){
@@ -666,28 +650,40 @@ class OrderController extends Controller
     //                $special= special::select('price.price_name')->leftjoin('price','price.price_id','special.special_price_id')->where('special.special_id',$v->order_price_id)->first();
                   $special = price::where('price_id',$v->order_price_id)->value('price_name');
               }
-              if($order_config->count()>0){
-                  $config_msg='';
-                  $i=0;
-                  foreach($order_config  as  $va){
-                      $i++;
-                      $config_msg.="第".$i."件：";
-                      $orderarr=explode(',',$va['order_config']);
-                      foreach($orderarr as $key => $val){
-                          $conmsg=\App\config_val::where('config_val_id',$val)->first();
-                          $config_msg.=$conmsg['config_val_msg'].'-';
+              $goods_kind = goods_kind::where('goods_kind_id',$v->goods_kind_id)->first();
+              if($goods_kind){
+
+                  $skuSDK = new skuSDK($v->goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
+                  if($order_config->count()>0){
+                      $config_msg='';
+                      $get_all_sku='';
+                      $i=0;
+
+                      foreach($order_config  as  $va){
+                          $i++;
+                          $config_msg .="第".$i."件：";
+                          $get_all_sku .= "第".$i."件：";
+                          $goods_kind_val_id = '';
+                          $orderarr=explode(',',$va['order_config']);
+                          foreach($orderarr as $key => $val){
+                              $conmsg=\App\config_val::where('config_val_id',$val)->first();
+                              $config_msg.=$conmsg['config_val_msg'].'-';
+                              $goods_kind_val_id .= $conmsg['kind_val_id'].',';
+                          }
+                          $get_all_sku .= $skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'<br/>';
+                          $config_msg=rtrim($config_msg,'-');
+                          $config_msg.='<br/>';
                       }
-                      $config_msg=rtrim($config_msg,'-');
-                      $config_msg.='<br/>';
+                      if($special){
+                          $config_msg .= '<hr>赠：'.$special;
+                      }
+                      $data[$k]->config_msg=$config_msg;
+                      $v->goods_sku=$get_all_sku;
+                  }else{
+                      $config_msg = $special ? "暂无属性信息<hr>赠：".$special : "暂无属性信息";
+                      $data[$k]->config_msg=$config_msg;
+                      $v->goods_sku="第1件：".$skuSDK->get_all_sku('');
                   }
-                  if($special){
-                      $config_msg .= '<hr>赠：'.$special;
-                  }
-                    /*$config_msg=rtrim($config_msg,'<br/>');*/
-                  $data[$k]->config_msg=$config_msg;
-              }else{
-                  $config_msg = $special ? "暂无属性信息<hr>赠：".$special : "暂无属性信息";
-                  $data[$k]->config_msg=$config_msg;
               }
               $iparea=getclientcity($request,$v->order_ip);
               $data[$k]->order_ip=($iparea['country']==$iparea['city']?$v->order_ip."<br/>".$iparea['country']:$v->order_ip."<br/>".$iparea['country'].'-'.$iparea['city']);
@@ -707,7 +703,8 @@ class OrderController extends Controller
       return $html;
    }
 
-    /** 订单审核页面
+    /**
+     * 订单审核页面
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -770,7 +767,8 @@ class OrderController extends Controller
      return view('admin/order/message_logs')->with(compact('logs'));
    }
 
-    /** 订单批量审核
+    /**
+     * 订单批量审核
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -835,7 +833,8 @@ class OrderController extends Controller
       }
    }
 
-    /** 审核订单
+    /**
+     * 审核订单
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -868,7 +867,8 @@ class OrderController extends Controller
    	  }
    }
 
-    /** 删除订单（软删除）
+    /**
+     * 删除订单（软删除）
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -916,107 +916,9 @@ class OrderController extends Controller
      * @return string
      */
    public function outorder(Request $request){
-//        //判断导出时间
-//        if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
-//          return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
-//        }
-//
-//       //订单导出
-//       $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
-//           ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
-//           ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
-//           ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
-//           ->where(function($query){
-//            if(Auth::user()->is_root!='1'){
-//              $query->whereIn('goods_admin_id', admin::get_admins_id());
-//            }
-//           })
-//           ->where(function($query){
-//            $query->where('order.is_del','0');
-//           })
-//           ->where(function($query)use($request){
-//              if($request->has('min')&&$request->has('max')){
-//                $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
-//              }else{
-//                $now_date=date('Y-m-d',time()).' 00:00:00';
-//                $query->where('order.order_time','>',$now_date);
-//              }
-//           })
-//           ->where(function($query)use($request){
-//            $goods_search=$request->input('admin_name');
-//            //筛选不同账户条件
-//              if($goods_search!=0){
-//                   $garr=\App\goods::get_only_slef_id($goods_search);
-//                $query->whereIn('order_goods_id',$garr);
-//                }
-//           })
-//           ->where(function($query)use($request){
-//             $order_type=$request->input('order_type');
-//              $pay_type=$request->input('pay_type');
-//              if($order_type!='null'){
-//                if($order_type==0){
-//                  $query->whereIn('order.order_type',[0,11]);
-//                }else{
-//                  $query->where('order.order_type',$order_type);
-//                }
-//              }else{
-//                $query->where('order.order_type','1');
-//              }
-//              if($pay_type!='null'){
-//                  $query->where('order.order_pay_type',$pay_type);
-//              }
-//              //根据语言搜索
-//              if($request->has('languages')&&$request->input('languages')!='0'){
-//                  //按语言查询（根据模板置换语言）
-//                  $band = goods::get_blade($request->input('languages'));
-//                  if($band){
-//                      $query->whereIn('goods.goods_blade_type',$band);
-//                  }
-//              }
-//
-//               //根据地区搜索
-//               if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
-//                   //按语言查询（根据模板置换语言）
-//                   $band = goods::get_area_blade($request->input('goods_blade_type'));
-//                   if($band){
-//                       $query->whereIn('goods.goods_blade_type',$band);
-//                   }
-//               }
-//           })
-//           ->orderBy('order.order_time','desc')
-//           ->get()->toArray();
-//           if($request->has('min')&&$request->has('max')){
-//               $start_time = substr($request->input('min'),5,5);
-//               $end = substr($request->input('max'),5,5);
-//               $filename=$start_time.'__'.$end.'订单记录'.date('m-d H时i分s秒',time());
-//           }else{
-//               $filename='订单记录'.date('Y年m月d日 H时i分s秒',time());
-//           }
-//       //默认
-//       excelData::unify($data,$filename);
-//       $goods_blade_type = $request->input('goods_blade_type');
-//       if($goods_blade_type == 7){
-//           //菲律宾
-//           $cellData = excelData::flb($data);
-//           Excel::create($filename,function ($excel) use ($cellData,$filename){
-//               $excel->sheet($filename, function ($sheet) use ($cellData){
-//                   $sheet->rows($cellData);
-//               });
-//           })->export('xls');
-//       }else if($goods_blade_type == 2){
-//           //中东地区
-//           excelData::zd($data,$filename);
-//       }else{
-//           //默认
-//           excelData::unify($data,$filename);
-//       }
-
-
-
-       //==============================================================================
-        if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
+       if(strtotime($request->input('max'))-strtotime($request->input('min'))>604800){
           return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
-        }
+       }
        //订单导出
        $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -1119,38 +1021,7 @@ class OrderController extends Controller
                if($goods_kind){
                    //获取数据信息
                    $skuSDK = new skuSDK($v['goods_kind_id'],$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
-//            switch ($v['order_type']) {
-//               case '0':
-//                 $data[$k]['order_type']='<span class="label label-success radius" style="color:#ccc;">未核审</span>';
-//                  break;
-//               case '1':
-//                 $data[$k]['order_type']='<span class="label label-default radius" style="color:green;">核审通过</span>';
-//                 break;
-//               case '2':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">核审驳回</span>';
-//                 break;
-//               case '3':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:brown;">已发货</span>';
-//                 break;
-//               case '4':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#6699ff;">已签收</span>';
-//                 break;
-//               case '5':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货未退款</span>';
-//                 break;
-//               case '6':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">退货并已退款</span>';
-//                 break;
-//               case '7':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">未退货并已退款</span>';
-//                 break;
-//               case '8':
-//                 $data[$k]['order_type']=' <span class="label label-default radius" style="color:#red;">拒签</span>';
-//                 break;
-//               default:
-//                  $data[$k]['order_type']=' <span class="label label-default radius" style="color:red;">数据错误！</span>';
-//                  break;
-//            }
+
                    //重组新格式
                    $new_exdata[$k]['order_time'] = $v['order_time'];
                    $new_exdata[$k]['order_single_id'] = $v['order_single_id'];
@@ -1305,12 +1176,12 @@ class OrderController extends Controller
                        }
                        $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
                        //TODO sku
-                       $new_exdata[$k]['get_all_sku'] = '<table border=1>'. $goods_all_sku .'</table>';
+                       $new_exdata[$k]['get_all_sku'] = $goods_all_sku;
                    }else{
                        $new_exdata[$k]['config_msg'] = "暂无属性信息";
                        $new_exdata[$k]['config_english_msg'] = "暂无属性信息";
                        $new_exdata[$k]['goods_config_msg'] = "暂无属性信息";
-                       $new_exdata[$k]['get_all_sku'] = "暂无sku信息";
+                       $new_exdata[$k]['get_all_sku'] = '<table border=1>'. $skuSDK->get_all_sku('') .'</table>';
                    }
                    $new_exdata[$k]['remark'] = $v['order_remark'];
                    $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
@@ -1324,10 +1195,7 @@ class OrderController extends Controller
          }else{
             $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
          }
-/*         $zdname=['订单id','订单编号','下单者ip','单品名','促销信息','订单价格','订单类型','反馈信息','下单时间','反馈时间','核审人员','商品件数','快递单号'];
-*/
-/*        order_time . name.tel.send_msg.state.city.area_msg.zip.goods_kind_name.goods_name.currency_type.account.count.color.remark.pay_type*/
-        //$zdname=['下单时间','产品名称','商品名','型号/尺寸/颜色','数量','币种','总金额','支付方式','客户名字','客户电话','地区','城市','详细地址','邮寄地址','邮政编码','备注'];
+
        if($goods_blade_type == 6 || $goods_blade_type == 7){
            $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人'];
        }else{
@@ -1511,8 +1379,13 @@ class OrderController extends Controller
           $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data,'allaccount'=>$allaccount,'allcount'=>$allcount,'allprecount'=>$allprecount];
           return response()->json($arr);
       }
-      public function send_mail(Request $request)
-      //邮件补发
+
+    /**
+     * 邮件补发
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+   public function send_mail(Request $request)
       {
         if($request->isMethod('get')){
            $order=\App\order::findorfail($request->input('id'));
@@ -1540,7 +1413,8 @@ class OrderController extends Controller
             }
         }
       }
-  public function change_exl(Request $request)
+
+   public function change_exl(Request $request)
   {
     if($request->isMethod('get')){
       return view('admin.order.change_exl');
