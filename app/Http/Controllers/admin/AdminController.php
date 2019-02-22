@@ -129,7 +129,7 @@ class AdminController extends Controller
 		    	}else{
 		    	    $time = date('Y-m-d',time());
                     //1.获取今天数据订单
-                    $orders = \App\order::where('order_time','like',$time.'%')->whereIn('order_goods_id',$goodsidarr)->where(function($query){
+                    $orders = \App\order::where('order_time','like',$time.'%')->where('order_goods_admin_id',Auth::user()->admin_id)->where(function($query){
                         $query->whereIn('order.order_type',\App\order::get_sale_type());
                         $query->where('order.is_del','0');
                     })->get();
