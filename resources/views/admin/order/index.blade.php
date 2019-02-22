@@ -149,7 +149,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="22" style="white-space: nowrap">订单列表</th>
+				<th scope="col" colspan="23" style="white-space: nowrap">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value="0"></th>
@@ -298,7 +298,7 @@ function states(){
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21],
+		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22],
 		   "orderable": false
 		}],
 		scrollX:        true,
@@ -484,10 +484,10 @@ function states(){
 			var checkbox='<input type="checkbox" name="aaaa" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(21)').html(info);
-			$(row).find('td:eq(20)').html(emailsend);
+			$(row).find('td:eq(22)').html(info);
+			$(row).find('td:eq(21)').html(emailsend);
 			$(row).find('td:eq(8)').html(isroot);
-			$(row).find('td:eq(17)').html(data.order_state+'-'+data.order_city);
+			$(row).find('td:eq(18)').html(data.order_state+'-'+data.order_city);
 			/*$(row).find('td:eq(0)').html(checkbox);*/
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
