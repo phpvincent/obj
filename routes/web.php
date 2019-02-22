@@ -22,17 +22,19 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
-		$orders=\App\order::whereBetween('order_id',[35000,40000])->get();
+		$orders=\App\order::whereNull('order_goods_admin_id')->get();
 		$err=[];
+		$err1=[];
 		foreach($orders as $k => $v){
 			$goods=\App\goods::select('goods_admin_id')->where('goods_id',$v->order_goods_id)->first()['goods_admin_id'];
 			if($goods!=null){
 							\App\order::where('order_id',$v->order_id)->update(['order_goods_admin_id'=>$goods]);
+							$err1[]=$v->order_goods_id;
 			}else{
 				$err[]=$v->order_goods_id;
 			}
 		}
-		dd($err);die;
+		dd($err,$err1);die;
 		\App\kind_val::where('kind_val_id','>',0)->update(['kind_val_sku'=>null]);
 		\App\goods_kind::where('goods_kind_id','>',0)->update(['goods_kind_sku'=>null]);die;
 		$goods_kinds=\App\goods_kind::whereNull('goods_kind_sku')->orderBy('goods_kind_time','asc')->orderBy('goods_kind_id','asc')->get();
