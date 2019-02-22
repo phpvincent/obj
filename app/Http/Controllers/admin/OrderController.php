@@ -1176,7 +1176,7 @@ class OrderController extends Controller
                        }
                        $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
                        //TODO sku
-                       $new_exdata[$k]['get_all_sku'] = $goods_all_sku;
+                       $new_exdata[$k]['get_all_sku'] = '<table border=1>'. $goods_all_sku.'</table>';
                    }else{
                        $new_exdata[$k]['config_msg'] = "暂无属性信息";
                        $new_exdata[$k]['config_english_msg'] = "暂无属性信息";

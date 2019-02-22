@@ -225,6 +225,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::get('/admin/kind/del_sku','admin\KindController@del_sku');//释放产品
     Route::get('/admin/kind/sku_show','admin\KindController@sku_show');//产品SKU状态
     Route::any('/admin/kind/sku_search','admin\KindController@sku_search');//产品SKU查询
+    Route::get('/admin/kind/outkind','admin\KindController@outkind');//产品SKU查询
     //辅助工具
     Route::any('/admin/message/send_phone','admin\ToolController@send_phone');//短信推送
     Route::any('/admin/message/send_mail','admin\ToolController@send_mail');//邮箱推送
