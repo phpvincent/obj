@@ -14,6 +14,16 @@
                         <td>{{$goods_kind->goods_kind_name}}</td>
                     </tr>
                     <tr class="text-c">
+                        <td>产品英文名</td>
+                        <td>
+                            @if($goods_kind->goods_kind_english_name==null||$goods_kind->goods_kind_english_name=='')
+                            <span style="color:red;">暂无产品英文名</span>
+                            @else
+                            {{$goods_kind->goods_kind_english_name}}
+                            @endif
+                        </td>
+                    </tr>
+                    <tr class="text-c">
                         <td>产品类型</td>
                         <td>{{\App\product_type::where('product_type_id',$goods_kind->goods_product_id)->first()['product_type_name']}}</td>
                     </tr>
