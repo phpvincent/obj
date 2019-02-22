@@ -22,7 +22,7 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
-		$orders=\App\order::where('order_id','>',0)->get();
+		$orders=\App\order::where('order_id','<',5000)->get();
 		$err=[];
 		foreach($orders as $k => $v){
 			$goods=\App\goods::select('goods_admin_id')->where('goods_id',$v->order_goods_id)->first()['goods_admin_id'];
