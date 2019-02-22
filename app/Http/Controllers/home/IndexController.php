@@ -483,6 +483,7 @@ class IndexController extends Controller
             return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
         }
         $order->order_goods_url= $url;
+        $order->order_goods_admin_id= $goods->goods_admin_id;
 
 //        $urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($request->input('messaga_code')) {
@@ -1094,6 +1095,7 @@ class IndexController extends Controller
 //          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
 //       }
        $order->order_goods_url= $url;
+       $order->order_goods_admin_id= $goods->goods_admin_id;
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
        if($request->has('goodsAtt')&&$request->input('goodsAtt')){
