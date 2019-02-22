@@ -584,7 +584,7 @@ class KindController extends Controller
             if($sku==null||strlen($sku)<4){
                 return '<span style="color:red;">SKU码必须为4位或10位！</span>';
             }
-            if(strlen($sku)!=4||strlen($sku)!=10){
+            if(strlen($sku)!=4&&strlen($sku)!=10){
                 return '<span style="color:red;">SKU码必须为4位或10位！</span>';
             }
             $kind_sku=substr($sku, 0,4);
