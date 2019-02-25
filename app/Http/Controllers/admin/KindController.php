@@ -667,6 +667,9 @@ class KindController extends Controller
                 }
             })->orderBy('goods_kind.goods_kind_id','desc')
             ->get()->toArray();
+        if(count($data) > 80){
+            return '<span style="color:red;display:block;width:100%;text-align:center;">导出数据过多，请缩短筛选时间并保持数据在80条以内！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+        }
         if($request->has('min')&&$request->has('max')){
             $min = date('Y年m月d',strtotime($request->input('min')));
             $max = date('Y年m月d',strtotime($request->input('max')));
