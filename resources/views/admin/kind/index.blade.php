@@ -74,8 +74,8 @@
             "ajax": {
                 "data":{
                     product_type_id:function(){return $('#product_type_id').val()},
-                    mintime:function(){return $('#datemin').val()},
-                    maxtime:function(){return $('#datemax').val()},
+                    min:function(){return $('#datemin').val()},
+                    max:function(){return $('#datemax').val()},
                 },
                 "url": "{{url('admin/kind/get_table')}}",
                 "type": "POST",
@@ -198,7 +198,7 @@
          });
         //产品按照时间搜索
         $('#seavis1').on('click',function(){
-            $('#order_index_table').dataTable().fnClearTable();
+            $('#goods_index_table').dataTable().fnClearTable();
 
         });
         //产品导出表格
