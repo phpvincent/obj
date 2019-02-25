@@ -1,5 +1,16 @@
 @extends('admin.father.css')
-@section('content') <img id="img" width="100%" src="" style="display: none;">
+@section('content')
+    {{--<div class="page-container">--}}
+        {{--<div class="text-c"> 日期范围：--}}
+            {{--<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">--}}
+            {{-----}}
+            {{--<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">--}}
+            {{--<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->--}}
+            {{--<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>--}}
+            {{--&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 产品导出</button>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    <img id="img" width="100%" src="" style="display: none;">
     <div class="page-container">
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
 		<button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
@@ -62,7 +73,9 @@
             "serverSide": true,
             "ajax": {
                 "data":{
-                product_type_id:function(){return $('#product_type_id').val()},
+                    product_type_id:function(){return $('#product_type_id').val()},
+                    mintime:function(){return $('#datemin').val()},
+                    maxtime:function(){return $('#datemax').val()},
                 },
                 "url": "{{url('admin/kind/get_table')}}",
                 "type": "POST",
@@ -92,11 +105,6 @@
                     }
                 var check='<a title="属性详情" href="javascript:;" onclick="goods_show(\'查看属性详情\',\'{{url("admin/kind/show")}}?id='+data.goods_kind_id+'\',\'2\',\'600\',\'500\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:green;">查看属性详情</span></a>';
                 var num='<a title="商品列表" href="javascript:;" onclick="goods_info(\'{{url("admin/goods/index")}}?id='+data.goods_kind_id+'\',\''+ data.num + '\')" class="ml-5"><span class="label label-default radius" style="background-color:#ccc;color:red;">'+ data.num +'</span></a>';
-                // if(data.goods_buy_url!=null&&data.goods_buy_url!=''){
-                //       var goods_buy_url='<a title="商品采购地址" href="'+ data.goods_buy_url + '" target="_blank">'+data.goods_buy_url+'</a>';
-                // }else{
-                //     var goods_buy_url='';
-                // }
                 if ( data.goods_kind_img != null && data.goods_kind_img != '') {
                     var img = '<img alt="产品图片"  src="/' + data.goods_kind_img + '" target="_blank" width="50px" onclick="layer_img($(this).attr(\'src\'))">'
                 }else {
@@ -184,9 +192,60 @@
                 window.location.href = url;
             }
         }
+        //产品按照分类搜索
          $('#product_type_id').on('change',function(){
             $('#goods_index_table').dataTable().fnClearTable();
          });
+        //产品按照时间搜索
+        $('#seavis1').on('click',function(){
+            $('#order_index_table').dataTable().fnClearTable();
+
+        });
+        //产品导出表格
+        $('#outorder').on('click',function(){
+            var urls='{{url("admin/kind/outkind")}}'+'?';
+            var is_time=false;
+            //日期参数
+            var mintime=$('#datemin').val();
+            var maxtime=$('#datemax').val();
+            if(mintime&&maxtime){
+                is_time = true;
+                urls+='min='+mintime+'&max='+maxtime;
+            }
+            //产品分类参数
+            var product_type_id=$('#product_type_id').val();
+            if(product_type_id>=0){
+                if(is_time){
+                    urls+='&product_type_id='+product_type_id;
+                }else{
+                    urls+='product_type_id='+product_type_id;
+                }
+            }else{
+                if(is_time){
+                    urls+='&product_type_id=0';
+                }else{
+                    urls+='product_type_id=0';
+                }
+            }
+
+            // layer.msg('请稍等');
+            $.ajax({
+                url:urls,
+                type:'get',
+                datatype:'json',
+                success:function(msg){
+                    if(msg['err']==1){
+                        layer.msg(msg.str);
+                        $('#goods_index_table').dataTable().fnClearTable();
+                    }else if(msg['err']==0){
+                        layer.msg(msg.str);
+                    }else{
+                        layer.msg('释放失败！');
+                    }
+                }
+            })
+            // location.href=urls;
+        });
         //新增产品
         $('#addgoods_kind').on('click',function(){
             layer_show('产品添加','{{url("admin/kind/addkind")}}',1400,800);

@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\vis;
 use DB;
+use Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -52,6 +53,8 @@ class KindController extends Controller
         //产品个数
         $newcount = goods_kind::where(function ($query) use ($search) {
             $query->where('goods_kind_name', 'like', "%$search%");
+            $query->orWhere('goods_kind_sku', 'like', "$search%");
+            $query->orWhere('goods_kind_english_name', 'like', "%$search%");
         })
             ->where(function ($query) {
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
@@ -66,6 +69,8 @@ class KindController extends Controller
         //产品信息
         $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id','left')->where(function ($query) use ($search) {
             $query->where('goods_kind_name', 'like', "%$search%");
+            $query->orWhere('goods_kind_sku', 'like', "$search%");
+            $query->orWhere('goods_kind_english_name', 'like', "%$search%");
         })
             ->where(function ($query) {
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
@@ -582,7 +587,10 @@ class KindController extends Controller
         }elseif($request->isMethod('post')){
             $sku=trim($request->input('sku'));
             if($sku==null||strlen($sku)<4){
-                return '<span style="color:red;">无法查询对应数据！</span>';
+                return '<span style="color:red;">SKU码必须为4位或10位！</span>';
+            }
+            if(strlen($sku)!=4&&strlen($sku)!=10){
+                return '<span style="color:red;">SKU码必须为4位或10位！</span>';
             }
             $kind_sku=substr($sku, 0,4);
             $attr_sku = substr($sku,-6);
@@ -602,5 +610,97 @@ class KindController extends Controller
             }
             return view('admin.kind.sku_ajax')->with(compact('goods_kinds'));
         }
+    }
+
+    public function outkind(Request $request)
+    {
+        //订单导出
+        $data=goods_kind::leftjoin('admin','goods_kind.goods_kind_admin','=','admin.admin_id')
+            ->where(function($query){
+                if(Auth::user()->is_root!='1'){
+                    $query->whereIn('goods_kind.goods_kind_admin', admin::get_admins_id());
+                }
+            })
+            ->where(function($query)use($request){ //时间筛选
+                if($request->has('min')&&$request->has('max')){
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+                }else{
+                    $now_date=date('Y-m-d',time()).' 00:00:00';
+                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                }
+            })
+
+            ->where(function($query)use($request){
+                $product_type_id=$request->input('product_type_id');
+                //产品分类
+                if($product_type_id!=0){
+                    $query->whereIn('goods_kind.goods_product_id',$product_type_id);
+                }
+            })
+            ->orderBy('goods_kind.goods_kind_id','desc')
+            ->get()->toArray();
+
+        if($request->has('min')&&$request->has('max')){
+            $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
+        }else{
+//            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
+            $filename='订单记录'.time().'.xls';
+        }
+        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间'];
+
+//        Excel::create($filename,function ($excel) use ($cellData,$filename,$data){
+//            $excel->sheet($filename, function ($sheet) use ($cellData,$data){
+//                $sheet->rows($cellData);
+//                $num = 2;
+//                foreach ($data as $key=>$v)
+//                {
+//                    //产品属性信息
+//                    $order_config = kind_config::where('kind_primary_id', $v['goods_kind_id'])->get()->toArray();
+//                    if(!empty($order_config)){
+//                        foreach ($order_config as $item){
+//                            $arr[] = kind_val::where('kind_type_id',$item['kind_config_id'])->pluck('kind_val_msg')->toArray();
+//                        }
+//                    }
+//                    $config_num = 2;
+//                    $sheet->setMergeColumn([
+//                        'columns' => ['A', 'B', 'C', 'D'],
+//                        'rows' => [
+//                            [$num, $num+$config_num-1],
+//                        ],
+//                    ]);
+//                    // 设置多个列
+//                    $sheet->setWidth([
+//                        'A' => 10,
+//                        'B' => 10,
+//                        'C' => 10,
+//                        'D' => 10,
+//                    ]);
+//
+////                    for($j = 0;$j<$config_num;$j++) {
+////                        $sheet->cell('O'.($num+$j),$config_msg[$j]);
+////                        $sheet->cell('P'.($num+$j),$config_msg[$j]);
+////                    }
+//                    $sheet->cell('A'.$num,$v['goods_kind_name']);
+//                    $sheet->cell('B'.$num,$v['goods_kind_english_name']);
+//                    //判断文件是否存在
+//                    if(Storage::exists($v['goods_kind_img'])){
+//                        $objDrawing = new \PHPExcel_Worksheet_Drawing;
+//                        $objDrawing->setPath($v['goods_kind_img']);
+//                        $objDrawing->setCoordinates('C' . $num);
+//                        $objDrawing->setHeight(80);
+//                        $objDrawing->setOffsetX(1);
+//                        $objDrawing->setRotation(1);
+//                        $objDrawing->setWorksheet($sheet);
+//                    }else{
+//                        $sheet->cell('C'.$num,'');
+//                    }
+//
+//
+//                    $sheet->cell('D'.$num,$v['goods_kind_time']);
+//
+//                    $num += $config_num;
+//                }
+//            });
+//        })->export('xls');
     }
 }

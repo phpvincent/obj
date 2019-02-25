@@ -16,7 +16,7 @@
 	<br>
 	<br>
 	<br>
-		<form class="form form-horizontal" id="form-check-update" enctype="multipart/form-data" action="{{url('/admin/check/set')}}">
+		<form class="form form-horizontal" id="form-check-update" enctype="multipart/form-data" action="">
 				{{csrf_field()}}
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>请输入SKU码：</label>
