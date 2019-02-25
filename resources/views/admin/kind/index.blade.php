@@ -1,15 +1,15 @@
 @extends('admin.father.css')
 @section('content')
-    {{--<div class="page-container">--}}
-        {{--<div class="text-c"> 日期范围：--}}
-            {{--<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">--}}
-            {{-----}}
-            {{--<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">--}}
-            {{--<!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->--}}
-            {{--<button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>--}}
-            {{--&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 产品导出</button>--}}
-        {{--</div>--}}
-    {{--</div>--}}
+    <div class="page-container">
+        <div class="text-c"> 日期范围：
+            <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d %H:%m:%s\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+            -
+            <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d %H:%m:%s' })" id="datemax" class="input-text Wdate" style="width:120px;">
+            <!-- <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name=""> -->
+            <button type="submit" class="btn btn-success" id="seavis1" name=""><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" style="border-radius: 8%;" id="outorder" name=""><i class="Hui-iconfont">&#xe640;</i> 产品导出</button>
+        </div>
+    </div>
     <img id="img" width="100%" src="" style="display: none;">
     <div class="page-container">
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
@@ -203,48 +203,33 @@
         });
         //产品导出表格
         $('#outorder').on('click',function(){
-            var urls='{{url("admin/kind/outkind")}}'+'?';
-            var is_time=false;
+            var url='{{url("admin/kind/outkind")}}'+'?';
             //日期参数
             var mintime=$('#datemin').val();
             var maxtime=$('#datemax').val();
-            if(mintime&&maxtime){
-                is_time = true;
-                urls+='min='+mintime+'&max='+maxtime;
-            }
+            is_time = false;
             //产品分类参数
             var product_type_id=$('#product_type_id').val();
-            if(product_type_id>=0){
+            var urls = '';
+            if(mintime&&maxtime) {
+                is_time=true;
+                url+='min='+mintime+'&max='+maxtime;
+            }
+            if(product_type_id>=0) {
                 if(is_time){
-                    urls+='&product_type_id='+product_type_id;
+                    url+='&product_type_id='+product_type_id;
                 }else{
-                    urls+='product_type_id='+product_type_id;
+                    url+='product_type_id='+product_type_id;
                 }
             }else{
                 if(is_time){
-                    urls+='&product_type_id=0';
+                    url+='&product_type_id=0';
                 }else{
-                    urls+='product_type_id=0';
+                    url+='product_type_id=0';
                 }
             }
-
-            // layer.msg('请稍等');
-            $.ajax({
-                url:urls,
-                type:'get',
-                datatype:'json',
-                success:function(msg){
-                    if(msg['err']==1){
-                        layer.msg(msg.str);
-                        $('#goods_index_table').dataTable().fnClearTable();
-                    }else if(msg['err']==0){
-                        layer.msg(msg.str);
-                    }else{
-                        layer.msg('释放失败！');
-                    }
-                }
-            })
-            // location.href=urls;
+            layer.msg('请稍等');
+            location.href= url;
         });
         //新增产品
         $('#addgoods_kind').on('click',function(){

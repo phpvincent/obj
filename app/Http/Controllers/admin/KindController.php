@@ -10,6 +10,7 @@ use App\goods_kind;
 use App\kind_config;
 use App\kind_val;
 use App\order;
+use App\product_type;
 use App\special;
 use App\spend;
 use App\supplier;
@@ -637,66 +638,69 @@ class KindController extends Controller
             ->get()->toArray();
 
         if($request->has('min')&&$request->has('max')){
-            $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
+            $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time());
         }else{
 //            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
-            $filename='订单记录'.time().'.xls';
+            $filename='订单记录'.time();
         }
-        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间'];
+        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间','产品供应商链接','产品种类'];
 
-//        Excel::create($filename,function ($excel) use ($cellData,$filename,$data){
-//            $excel->sheet($filename, function ($sheet) use ($cellData,$data){
-//                $sheet->rows($cellData);
-//                $num = 2;
-//                foreach ($data as $key=>$v)
-//                {
-//                    //产品属性信息
-//                    $order_config = kind_config::where('kind_primary_id', $v['goods_kind_id'])->get()->toArray();
-//                    if(!empty($order_config)){
-//                        foreach ($order_config as $item){
-//                            $arr[] = kind_val::where('kind_type_id',$item['kind_config_id'])->pluck('kind_val_msg')->toArray();
-//                        }
+        Excel::create($filename,function ($excel) use ($cellData,$filename,$data){
+            $excel->sheet($filename, function ($sheet) use ($cellData,$data){
+                $sheet->rows($cellData);
+                $num = 2;
+                foreach ($data as $key=>$v)
+                {
+                    //产品属性信息
+                    $order_config = kind_config::where('kind_primary_id', $v['goods_kind_id'])->get()->toArray();
+                    if(!empty($order_config)){
+                        foreach ($order_config as $item){
+                            $arr[] = kind_val::where('kind_type_id',$item['kind_config_id'])->pluck('kind_val_msg')->toArray();
+                        }
+                    }
+                    $config_num = 2;
+                    $sheet->setMergeColumn([
+                        'columns' => ['A', 'B', 'C', 'D', 'E', 'F'],
+                        'rows' => [
+                            [$num, $num+$config_num-1],
+                        ],
+                    ]);
+                    // 设置多个列
+                    $sheet->setWidth([
+                        'A' => 30,
+                        'B' => 50,
+                        'C' => 30,
+                        'D' => 30,
+                        'E' => 30,
+                        'F' => 50,
+                    ]);
+
+//                    for($j = 0;$j<$config_num;$j++) {
+//                        $sheet->cell('O'.($num+$j),$config_msg[$j]);
+//                        $sheet->cell('P'.($num+$j),$config_msg[$j]);
 //                    }
-//                    $config_num = 2;
-//                    $sheet->setMergeColumn([
-//                        'columns' => ['A', 'B', 'C', 'D'],
-//                        'rows' => [
-//                            [$num, $num+$config_num-1],
-//                        ],
-//                    ]);
-//                    // 设置多个列
-//                    $sheet->setWidth([
-//                        'A' => 10,
-//                        'B' => 10,
-//                        'C' => 10,
-//                        'D' => 10,
-//                    ]);
-//
-////                    for($j = 0;$j<$config_num;$j++) {
-////                        $sheet->cell('O'.($num+$j),$config_msg[$j]);
-////                        $sheet->cell('P'.($num+$j),$config_msg[$j]);
-////                    }
-//                    $sheet->cell('A'.$num,$v['goods_kind_name']);
-//                    $sheet->cell('B'.$num,$v['goods_kind_english_name']);
-//                    //判断文件是否存在
-//                    if(Storage::exists($v['goods_kind_img'])){
-//                        $objDrawing = new \PHPExcel_Worksheet_Drawing;
-//                        $objDrawing->setPath($v['goods_kind_img']);
-//                        $objDrawing->setCoordinates('C' . $num);
-//                        $objDrawing->setHeight(80);
-//                        $objDrawing->setOffsetX(1);
-//                        $objDrawing->setRotation(1);
-//                        $objDrawing->setWorksheet($sheet);
-//                    }else{
-//                        $sheet->cell('C'.$num,'');
-//                    }
-//
-//
-//                    $sheet->cell('D'.$num,$v['goods_kind_time']);
-//
-//                    $num += $config_num;
-//                }
-//            });
-//        })->export('xls');
+                    $sheet->cell('A'.$num,$v['goods_kind_name']);
+                    $sheet->cell('B'.$num,$v['goods_kind_english_name']);
+                    //判断文件是否存在
+                    if(file_exists($v['goods_kind_img'])){
+                        $objDrawing = new \PHPExcel_Worksheet_Drawing;
+                        $objDrawing->setPath($v['goods_kind_img']);
+                        $objDrawing->setCoordinates('C' . $num);
+                        $objDrawing->setHeight(80);
+                        $objDrawing->setOffsetX(1);
+                        $objDrawing->setRotation(1);
+                        $objDrawing->setWorksheet($sheet);
+                    }else{
+                        $sheet->cell('C'.$num,'');
+                    }
+
+                    $sheet->cell('D'.$num,$v['goods_kind_time']);
+                    $sheet->cell('E'.$num,product_type::where('product_type_id',$v['goods_product_id'])->value('product_type_name'));
+                    $sheet->cell('F'.$num,supplier::where('goods_kind_primary_id',$v['goods_kind_id'])->value('supplier_url'));
+
+                    $num += $config_num;
+                }
+            });
+        })->export('xls');
     }
 }
