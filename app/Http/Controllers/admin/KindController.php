@@ -69,8 +69,12 @@ class KindController extends Controller
                 if($request->input('min')&&$request->input('max')){
                     $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
                 }else{
+//                    $now_date=date('Y-m-d',time()).' 00:00:00';
+//                    $query->where('goods_kind.goods_kind_time','<',$now_date);
                     $now_date=date('Y-m-d',time()).' 00:00:00';
-                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
+//                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
                 }
             })
             ->count();
@@ -635,6 +639,9 @@ class KindController extends Controller
      */
     public function outkind(Request $request)
     {
+        if(strtotime($request->input('max'))-strtotime($request->input('min'))>864000){
+            return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出十天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+        }
         //订单导出
         $data=goods_kind::leftjoin('admin','goods_kind.goods_kind_admin','=','admin.admin_id')
             ->where(function($query){
@@ -645,9 +652,11 @@ class KindController extends Controller
             ->where(function($query)use($request){ //时间筛选
                 if($request->input('min')&&$request->input('max')){
                     $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
-                }else{
+                }else{ //默认近10天
                     $now_date=date('Y-m-d',time()).' 00:00:00';
-                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
+//                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
                 }
             })
             ->where(function($query)use($request){
