@@ -54,6 +54,8 @@ class KindController extends Controller
         //产品个数
         $newcount = goods_kind::where(function ($query) use ($search) {
             $query->where('goods_kind_name', 'like', "%$search%");
+            $query->orWhere('goods_kind_sku', 'like', "$search%");
+            $query->orWhere('goods_kind_english_name', 'like', "%$search%");
         })
             ->where(function ($query) {
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
@@ -68,6 +70,8 @@ class KindController extends Controller
         //产品信息
         $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id','left')->where(function ($query) use ($search) {
             $query->where('goods_kind_name', 'like', "%$search%");
+            $query->orWhere('goods_kind_sku', 'like', "$search%");
+            $query->orWhere('goods_kind_english_name', 'like', "%$search%");
         })
             ->where(function ($query) {
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());

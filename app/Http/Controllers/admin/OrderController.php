@@ -1181,7 +1181,7 @@ class OrderController extends Controller
                        $new_exdata[$k]['config_msg'] = "暂无属性信息";
                        $new_exdata[$k]['config_english_msg'] = "暂无属性信息";
                        $new_exdata[$k]['goods_config_msg'] = "暂无属性信息";
-                       $new_exdata[$k]['get_all_sku'] = '<table border=1>'. $skuSDK->get_all_sku('') .'</table>';
+                       $new_exdata[$k]['get_all_sku'] = $skuSDK->get_all_sku('');
                    }
                    $new_exdata[$k]['remark'] = $v['order_remark'];
                    $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';

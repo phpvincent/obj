@@ -266,7 +266,7 @@ class skuSDK{
         return $sku;
     }
     // 获取sku各位置对应的属性名
-    private  function get_attr_sku_config_sort()
+    public function get_attr_sku_config_sort()
     {
         $sku_ids = [];
         $kind_configs = kind_config::where('kind_primary_id', $this->kind_id)->orderBy('kind_config_id')->get();
