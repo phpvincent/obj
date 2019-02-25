@@ -23,44 +23,55 @@ class goods_kind extends Model
         $skuSDK = new skuSDK($goods_kind_id, $goods_kind->goods_product_id, $goods_kind->goods_kind_user_type);
         $config_sort = $skuSDK->get_attr_sku_config_sort();
         $kind_configs = kind_config::with('vals')->where('kind_primary_id', $goods_kind_id)->get()->toArray();
+        $result_arr = [];
         if ($kind_configs) {
-            $result_arr = [];
             $first_configs = array_shift($kind_configs);
             foreach ($first_configs['vals'] as $val) {
                 $val['kind_config_msg'] = $first_configs['kind_config_msg'];
                 $val['kind_config_english_msg'] = $first_configs['kind_config_english_msg'];
-                $result_arr[] = $val;
+                if($kind_configs){
+                    $result_arr[$first_configs['kind_config_id']] = $val;
+                }else{
+                    $result_arr[] = [$first_configs['kind_config_id']=>$val];
+                }
+
             }
-            foreach ($kind_configs as $v) {
-                $result2 = [];
-                foreach ($result_arr as $k1 => $item1) {
-                    foreach ($v['vals'] as $item2) {
-                        $item2['kind_config_msg'] = $v['kind_config_msg'];
-                        $item2['kind_config_english_msg'] = $v['kind_config_english_msg'];
-                        if (array_key_exists('kind_config_msg', $item1)) {
-                            $temp[$item1['kind_type_id']] = $item1;
-                        } else {
-                            $temp = $item1;
+                foreach ($kind_configs as $v) {
+                    $result2 = [];
+                    foreach ($result_arr as $k1 => $item1) {
+                        foreach ($v['vals'] as $item2) {
+                            $item2['kind_config_msg'] = $v['kind_config_msg'];
+                            $item2['kind_config_english_msg'] = $v['kind_config_english_msg'];
+                            if (array_key_exists('kind_config_msg', $item1)) {
+                                $temp[$item1['kind_type_id']] = $item1;
+                            } else {
+                                $temp = $item1;
+                            }
+                            $temp[$item2['kind_type_id']] = $item2;
+                            $result2[] = $temp;
                         }
-                        $temp[$item2['kind_type_id']] = $item2;
-                        $result2[] = $temp;
+                    }
+                    $result_arr = $result2;
+                }
+
+
+        }
+        if($result_arr){
+            foreach ($result_arr as &$value) {
+                $value['sku'] = '';
+                $value['val'] = '';
+                foreach ($config_sort as $item) {
+                    if(isset($value[$item])){
+                        $value['sku'] .= $value[$item]['kind_val_sku'];
+                        $value['val'] .= $value[$item]['kind_val_msg'] . ',';
+                    }else{
+                        $value['sku'] .= '00';
                     }
                 }
-                $result_arr = $result2;
             }
+            unset($value);
         }
-        foreach ($result_arr as &$value) {
-            $value['sku'] = '';
-            $value['val'] = '';
-            foreach ($config_sort as $item) {
-                if(isset($value[$item])){
-                    $value['sku'] .= $value[$item]['kind_val_sku'];
-                    $value['val'] .= $value[$item]['kind_val_msg'] . ',';
-                }else{
-                    $value['sku'] .= '00';
-                }
-            }
-        }
+
         return $result_arr;
     }
 

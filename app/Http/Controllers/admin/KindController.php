@@ -647,7 +647,7 @@ class KindController extends Controller
 //            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
             $filename='订单记录'.time();
         }
-        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间','产品供应商链接','产品种类'];
+        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间','产品种类','产品供应商链接','商品属性','商品SKU'];
 
         Excel::create($filename,function ($excel) use ($cellData,$filename,$data){
             $excel->sheet($filename, function ($sheet) use ($cellData,$data){
@@ -656,19 +656,19 @@ class KindController extends Controller
                 foreach ($data as $key=>$v)
                 {
                     //产品属性信息
-                    $order_config = kind_config::where('kind_primary_id', $v['goods_kind_id'])->get()->toArray();
-                    if(!empty($order_config)){
-                        foreach ($order_config as $item){
-                            $arr[] = kind_val::where('kind_type_id',$item['kind_config_id'])->pluck('kind_val_msg')->toArray();
-                        }
+                    $product_attr = goods_kind::attr_cartesian_product($v['goods_kind_id']);
+                    //获取产品前四位SKU
+                    $first_four_num = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_sku');
+                    $config_num = count($product_attr);
+                    if($config_num != 0){
+                        $sheet->setMergeColumn([
+                            'columns' => ['A', 'B', 'C', 'D', 'E', 'F'],
+                            'rows' => [
+                                [$num, $num+$config_num-1],
+                            ],
+                        ]);
                     }
-                    $config_num = 2;
-                    $sheet->setMergeColumn([
-                        'columns' => ['A', 'B', 'C', 'D', 'E', 'F'],
-                        'rows' => [
-                            [$num, $num+$config_num-1],
-                        ],
-                    ]);
+
                     // 设置多个列
                     $sheet->setWidth([
                         'A' => 30,
@@ -677,12 +677,23 @@ class KindController extends Controller
                         'D' => 30,
                         'E' => 30,
                         'F' => 50,
+                        'G' => 50,
+                        'H' => 50,
                     ]);
+                    // 总分 右对齐
+                    $sheet->cells('G:H', function($cells) {
+                        $cells->setAlignment('left');
+                    });
 
-//                    for($j = 0;$j<$config_num;$j++) {
-//                        $sheet->cell('O'.($num+$j),$config_msg[$j]);
-//                        $sheet->cell('P'.($num+$j),$config_msg[$j]);
-//                    }
+                    if($config_num == 0){
+                        $sheet->cell('G'.$num,'');
+                        $sheet->cell('H'.$num,'');
+                    }else{
+                        for($j = 0;$j<$config_num;$j++) {
+                            $sheet->cell('G'.($num+$j),rtrim($product_attr[$j]['val'],','));
+                            $sheet->cell('H'.($num+$j),$first_four_num.$product_attr[$j]['sku']);
+                        }
+                    }
                     $sheet->cell('A'.$num,$v['goods_kind_name']);
                     $sheet->cell('B'.$num,$v['goods_kind_english_name']);
                     //判断文件是否存在
@@ -701,8 +712,11 @@ class KindController extends Controller
                     $sheet->cell('D'.$num,$v['goods_kind_time']);
                     $sheet->cell('E'.$num,product_type::where('product_type_id',$v['goods_product_id'])->value('product_type_name'));
                     $sheet->cell('F'.$num,supplier::where('goods_kind_primary_id',$v['goods_kind_id'])->value('supplier_url'));
-
-                    $num += $config_num;
+                    if($config_num == 0){
+                        $num ++;
+                    }else{
+                        $num += $config_num;
+                    }
                 }
             });
         })->export('xls');
