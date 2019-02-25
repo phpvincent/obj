@@ -65,6 +65,14 @@ class KindController extends Controller
                     $query->where('goods_product_id', $request->input('product_type_id'));
                 }
             })
+            ->where(function($query)use($request){ //时间筛选
+                if($request->input('min')&&$request->input('max')){
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+                }else{
+                    $now_date=date('Y-m-d',time()).' 00:00:00';
+                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                }
+            })
             ->count();
 
         //产品信息
@@ -75,6 +83,14 @@ class KindController extends Controller
         })
             ->where(function ($query) {
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
+            })
+            ->where(function($query)use($request){ //时间筛选
+                if($request->input('min')&&$request->input('max')){
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+                }else{
+                    $now_date=date('Y-m-d',time()).' 00:00:00';
+                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                }
             })
             ->where(function ($query) use ($request) {
                 if ($request->input('product_type_id') != 0) {
@@ -613,6 +629,10 @@ class KindController extends Controller
         }
     }
 
+    /**
+     * 产品导出
+     * @param Request $request
+     */
     public function outkind(Request $request)
     {
         //订单导出
@@ -623,29 +643,27 @@ class KindController extends Controller
                 }
             })
             ->where(function($query)use($request){ //时间筛选
-                if($request->has('min')&&$request->has('max')){
+                if($request->input('min')&&$request->input('max')){
                     $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
                 }else{
                     $now_date=date('Y-m-d',time()).' 00:00:00';
                     $query->where('goods_kind.goods_kind_time','<',$now_date);
                 }
             })
-
             ->where(function($query)use($request){
                 $product_type_id=$request->input('product_type_id');
                 //产品分类
                 if($product_type_id!=0){
                     $query->whereIn('goods_kind.goods_product_id',$product_type_id);
                 }
-            })
-            ->orderBy('goods_kind.goods_kind_id','desc')
+            })->orderBy('goods_kind.goods_kind_id','desc')
             ->get()->toArray();
-
         if($request->has('min')&&$request->has('max')){
-            $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time());
+            $min = date('Y年m月d',strtotime($request->input('min')));
+            $max = date('Y年m月d',strtotime($request->input('max')));
+            $filename= $min.'=>'.$max.'订单记录';
         }else{
-//            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
-            $filename='订单记录'.time();
+            $filename='订单记录'.date("Y年m月d日");
         }
         $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间','产品种类','产品供应商链接','商品属性','商品SKU'];
 
@@ -687,11 +705,17 @@ class KindController extends Controller
 
                     if($config_num == 0){
                         $sheet->cell('G'.$num,'');
-                        $sheet->cell('H'.$num,'');
+                        $sheet->cell('H'.$num,$first_four_num.'000000');
                     }else{
                         for($j = 0;$j<$config_num;$j++) {
+                            $sku_value = $first_four_num.$product_attr[$j]['sku'];
                             $sheet->cell('G'.($num+$j),rtrim($product_attr[$j]['val'],','));
-                            $sheet->cell('H'.($num+$j),$first_four_num.$product_attr[$j]['sku']);
+                            $pattern='/e/';
+                            if(preg_match($pattern,$sku_value)){
+                                $sheet->cell('H'.($num+$j),$sku_value." ");
+                            }else{
+                                $sheet->cell('H'.($num+$j),$sku_value);
+                            }
                         }
                     }
                     $sheet->cell('A'.$num,$v['goods_kind_name']);
