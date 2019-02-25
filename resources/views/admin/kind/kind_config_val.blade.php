@@ -112,14 +112,14 @@
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品受众：</label>
                 <div class="formControls col-xs-8 col-sm-9">
              <span class="select-box">
-                <select name="goods_kind_user_type" id="goods_kind_user_type" class="select" style="background-color: #EEEEEE;">
-                    <option value="0" selected="selected" @if($goods_kinds->goods_kind_user_type==0) selected="selected" @endif >通用</option>
-                    <option value="1" @if($goods_kinds->goods_kind_user_type==1) selected="selected" @endif >男士</option>
-                    <option value="2" @if($goods_kinds->goods_kind_user_type==2) selected="selected" @endif >女士</option>
-                    <option value="3" @if($goods_kinds->goods_kind_user_type==3) selected="selected" @endif >男童</option>
-                    <option value="4" @if($goods_kinds->goods_kind_user_type==4) selected="selected" @endif >女童</option>
-                    <option value="5" @if($goods_kinds->goods_kind_user_type==5) selected="selected" @endif >男老</option>
-                    <option value="6" @if($goods_kinds->goods_kind_user_type==6) selected="selected" @endif >女老</option>
+                <select name="goods_kind_user_type" id="goods_kind_user_type" class="select"  style="background-color: #EEEEEE;">
+                    <option value="0" disabled="disabled"  @if($goods_kinds->goods_kind_user_type==0) selected="selected" @endif >通用</option>
+                    <option value="1" disabled="disabled" @if($goods_kinds->goods_kind_user_type==1) selected="selected" @endif >男士</option>
+                    <option value="2" disabled="disabled" @if($goods_kinds->goods_kind_user_type==2) selected="selected" @endif >女士</option>
+                    <option value="3" disabled="disabled" @if($goods_kinds->goods_kind_user_type==3) selected="selected" @endif >男童</option>
+                    <option value="4" disabled="disabled" @if($goods_kinds->goods_kind_user_type==4) selected="selected" @endif >女童</option>
+                    <option value="5" disabled="disabled" @if($goods_kinds->goods_kind_user_type==5) selected="selected" @endif >男老</option>
+                    <option value="6" disabled="disabled" @if($goods_kinds->goods_kind_user_type==6) selected="selected" @endif >女老</option>
                 </select>
             </span>
                 </div>
@@ -134,9 +134,9 @@
                 <label class="form-label col-xs-4 col-sm-2">所属种类：</label>
                 <div class="formControls col-xs-8 col-sm-9">
              <span class="select-box">
-                <select name="product_type_id" id="product_type_id" class="select">
+                <select name="product_type_id" id="product_type_id" class="select" style="background-color: #EEEEEE;">
                     @foreach(\App\product_type::get() as $k => $v)
-                        <option @if($goods_kinds->goods_product_id==$v->product_type_id) selected='selected' @endif value="{{$v->product_type_id}}">{{$v->product_type_name}}</option>
+                        <option disabled="disabled" @if($goods_kinds->goods_product_id==$v->product_type_id) selected='selected' @endif value="{{$v->product_type_id}}">{{$v->product_type_name}}</option>
                     @endforeach
                 </select>
             </span>
