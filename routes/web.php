@@ -239,9 +239,10 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     //站点
     Route::get('/admin/sites/index','admin\SiteController@index');//站点列表
     Route::post('/admin/sites/get_table','admin\SiteController@get_table');//
-    Route::any('/admin/sites/add','admin\SiteController@add');//新增产品
-    Route::any('/admin/sites/post_update','admin\SiteController@post_update');//新增产品
-    Route::get('/admin/sites/delete_site','admin\SiteController@delete_site');//新增产品
+    Route::any('/admin/sites/add','admin\SiteController@add');//新增站点
+    Route::any('/admin/sites/post_update','admin\SiteController@post_update');//新增站点
+    Route::get('/admin/sites/delete_site','admin\SiteController@delete_site');//删除站点
+    Route::any('/admin/sites/site_copy','admin\SiteController@site_copy');//复制站点
 
 });
 
