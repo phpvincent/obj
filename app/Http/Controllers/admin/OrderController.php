@@ -898,7 +898,7 @@ class OrderController extends Controller
          //$order->is_del='1';
          if($msg){
              //加log日志
-             operation_log($ip,'订单删除成功,订单id：'.$request->input('id'));
+             operation_log($ip,'订单删除成功,订单id：'.$request->input('id')); 
              return response()->json(['err'=>1,'str'=>'删除成功']);
          }else{
 	   	    	return response()->json(['err'=>0,'str'=>'删除失败']);
