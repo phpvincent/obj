@@ -647,7 +647,7 @@
 <!-- /contact section -->
 <!-- footer -->
 <div class="footer">
-	<p class="text-center">Copyright &copy; 2016.Company name All rights reserved.</p>
+	<p class="text-center">Copyright &copy; 2019.Company name All rights reserved.</p>
 </div>
 <!-- /footer -->
 <!-- back to top -->
