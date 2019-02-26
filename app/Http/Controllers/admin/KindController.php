@@ -10,6 +10,7 @@ use App\goods_kind;
 use App\kind_config;
 use App\kind_val;
 use App\order;
+use App\product_type;
 use App\special;
 use App\spend;
 use App\supplier;
@@ -64,6 +65,11 @@ class KindController extends Controller
                     $query->where('goods_product_id', $request->input('product_type_id'));
                 }
             })
+            ->where(function($query)use($request){ //时间筛选
+                if($request->input('min')&&$request->input('max')){
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+                }
+            })
             ->count();
 
         //产品信息
@@ -74,6 +80,11 @@ class KindController extends Controller
         })
             ->where(function ($query) {
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
+            })
+            ->where(function($query)use($request){ //时间筛选
+                if($request->input('min')&&$request->input('max')){
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+                }
             })
             ->where(function ($query) use ($request) {
                 if ($request->input('product_type_id') != 0) {
@@ -612,8 +623,15 @@ class KindController extends Controller
         }
     }
 
+    /**
+     * 产品导出
+     * @param Request $request
+     */
     public function outkind(Request $request)
     {
+        if(strtotime($request->input('max'))-strtotime($request->input('min'))>864000){
+            return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出十天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+        }
         //订单导出
         $data=goods_kind::leftjoin('admin','goods_kind.goods_kind_admin','=','admin.admin_id')
             ->where(function($query){
@@ -622,85 +640,111 @@ class KindController extends Controller
                 }
             })
             ->where(function($query)use($request){ //时间筛选
-                if($request->has('min')&&$request->has('max')){
+                if($request->input('min')&&$request->input('max')){
                     $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
-                }else{
+                }else{ //默认近10天
                     $now_date=date('Y-m-d',time()).' 00:00:00';
-                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
+//                    $query->where('goods_kind.goods_kind_time','<',$now_date);
+                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
                 }
             })
-
             ->where(function($query)use($request){
                 $product_type_id=$request->input('product_type_id');
                 //产品分类
                 if($product_type_id!=0){
                     $query->whereIn('goods_kind.goods_product_id',$product_type_id);
                 }
-            })
-            ->orderBy('goods_kind.goods_kind_id','desc')
+            })->orderBy('goods_kind.goods_kind_id','desc')
             ->get()->toArray();
-
-        if($request->has('min')&&$request->has('max')){
-            $filename='['.$request->input('min').']—'.'['.$request->input('max').']'.'订单记录'.date('Y-m-d H:i:s',time()).'.xls';
-        }else{
-//            $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
-            $filename='订单记录'.time().'.xls';
+        if(count($data) > 80){
+            return '<span style="color:red;display:block;width:100%;text-align:center;">导出数据过多，请缩短筛选时间并保持数据在80条以内！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
-        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间'];
+        if($request->has('min')&&$request->has('max')){
+            $min = date('Y年m月d',strtotime($request->input('min')));
+            $max = date('Y年m月d',strtotime($request->input('max')));
+            $filename= $min.'=>'.$max.'订单记录';
+        }else{
+            $filename='订单记录'.date("Y年m月d日");
+        }
+        $cellData[] = ['产品名称','产品英文名','产品图片','产品录入时间','产品种类','产品供应商链接','商品属性','商品SKU'];
 
-//        Excel::create($filename,function ($excel) use ($cellData,$filename,$data){
-//            $excel->sheet($filename, function ($sheet) use ($cellData,$data){
-//                $sheet->rows($cellData);
-//                $num = 2;
-//                foreach ($data as $key=>$v)
-//                {
-//                    //产品属性信息
-//                    $order_config = kind_config::where('kind_primary_id', $v['goods_kind_id'])->get()->toArray();
-//                    if(!empty($order_config)){
-//                        foreach ($order_config as $item){
-//                            $arr[] = kind_val::where('kind_type_id',$item['kind_config_id'])->pluck('kind_val_msg')->toArray();
-//                        }
-//                    }
-//                    $config_num = 2;
-//                    $sheet->setMergeColumn([
-//                        'columns' => ['A', 'B', 'C', 'D'],
-//                        'rows' => [
-//                            [$num, $num+$config_num-1],
-//                        ],
-//                    ]);
-//                    // 设置多个列
-//                    $sheet->setWidth([
-//                        'A' => 10,
-//                        'B' => 10,
-//                        'C' => 10,
-//                        'D' => 10,
-//                    ]);
-//
-////                    for($j = 0;$j<$config_num;$j++) {
-////                        $sheet->cell('O'.($num+$j),$config_msg[$j]);
-////                        $sheet->cell('P'.($num+$j),$config_msg[$j]);
-////                    }
-//                    $sheet->cell('A'.$num,$v['goods_kind_name']);
-//                    $sheet->cell('B'.$num,$v['goods_kind_english_name']);
-//                    //判断文件是否存在
-//                    if(Storage::exists($v['goods_kind_img'])){
-//                        $objDrawing = new \PHPExcel_Worksheet_Drawing;
-//                        $objDrawing->setPath($v['goods_kind_img']);
-//                        $objDrawing->setCoordinates('C' . $num);
-//                        $objDrawing->setHeight(80);
-//                        $objDrawing->setOffsetX(1);
-//                        $objDrawing->setRotation(1);
-//                        $objDrawing->setWorksheet($sheet);
-//                    }else{
-//                        $sheet->cell('C'.$num,'');
-//                    }
-//
-//
-//                    $sheet->cell('D'.$num,$v['goods_kind_time']);
-//
-//                    $num += $config_num;
-//                }
-//            });
-//        })->export('xls');
+        Excel::create($filename,function ($excel) use ($cellData,$filename,$data){
+            $excel->sheet($filename, function ($sheet) use ($cellData,$data){
+                $sheet->rows($cellData);
+                $num = 2;
+                foreach ($data as $key=>$v)
+                {
+                    //产品属性信息
+                    $product_attr = goods_kind::attr_cartesian_product($v['goods_kind_id']);
+                    //获取产品前四位SKU
+                    $first_four_num = goods_kind::where('goods_kind_id',$v['goods_kind_id'])->value('goods_kind_sku');
+                    $config_num = count($product_attr);
+                    if($config_num != 0){
+                        $sheet->setMergeColumn([
+                            'columns' => ['A', 'B', 'C', 'D', 'E', 'F'],
+                            'rows' => [
+                                [$num, $num+$config_num-1],
+                            ],
+                        ]);
+                    }
+
+                    // 设置多个列
+                    $sheet->setWidth([
+                        'A' => 30,
+                        'B' => 50,
+                        'C' => 30,
+                        'D' => 30,
+                        'E' => 30,
+                        'F' => 50,
+                        'G' => 50,
+                        'H' => 50,
+                    ]);
+                    // 总分 右对齐
+                    $sheet->cells('G:H', function($cells) {
+                        $cells->setAlignment('left');
+                    });
+
+                    if($config_num == 0){
+                        $sheet->cell('G'.$num,'');
+                        $sheet->cell('H'.$num,$first_four_num.'000000');
+                    }else{
+                        for($j = 0;$j<$config_num;$j++) {
+                            $sku_value = $first_four_num.$product_attr[$j]['sku'];
+                            $sheet->cell('G'.($num+$j),rtrim($product_attr[$j]['val'],','));
+                            $pattern='/e/';
+                            if(preg_match($pattern,$sku_value)){
+                                $sheet->cell('H'.($num+$j),$sku_value." ");
+                            }else{
+                                $sheet->cell('H'.($num+$j),$sku_value);
+                            }
+                        }
+                    }
+                    $sheet->cell('A'.$num,$v['goods_kind_name']);
+                    $sheet->cell('B'.$num,$v['goods_kind_english_name']);
+                    //判断文件是否存在
+                    if(file_exists($v['goods_kind_img'])){
+                        $objDrawing = new \PHPExcel_Worksheet_Drawing;
+                        $objDrawing->setPath($v['goods_kind_img']);
+                        $objDrawing->setCoordinates('C' . $num);
+                        $objDrawing->setHeight(80);
+                        $objDrawing->setOffsetX(1);
+                        $objDrawing->setRotation(1);
+                        $objDrawing->setWorksheet($sheet);
+                    }else{
+                        $sheet->cell('C'.$num,'');
+                    }
+
+                    $sheet->cell('D'.$num,$v['goods_kind_time']);
+                    $sheet->cell('E'.$num,product_type::where('product_type_id',$v['goods_product_id'])->value('product_type_name'));
+                    $sheet->cell('F'.$num,supplier::where('goods_kind_primary_id',$v['goods_kind_id'])->value('supplier_url'));
+                    if($config_num == 0){
+                        $num ++;
+                    }else{
+                        $num += $config_num;
+                    }
+                }
+            });
+        })->export('xls');
     }
 }
