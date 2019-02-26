@@ -893,11 +893,12 @@ class OrderController extends Controller
                return response()->json(['err'=>1,'str'=>'删除成功']);
            }
          }
-   	     $order=order::where('order_id',$request->input('id'))->first();
-         $order->is_del='1';
-         if($order->save()){
+   	     //$order=order::where('order_id',$request->input('id'))->first();
+         $msg=order::where('order_id',$request->input('id'))->update(['is_del'=>'1']);
+         //$order->is_del='1';
+         if($msg){
              //加log日志
-             operation_log($ip,'订单删除成功,订单号：'.$order->order_single_id);
+             operation_log($ip,'订单删除成功,订单id：'.$request->input('id'));
              return response()->json(['err'=>1,'str'=>'删除成功']);
          }else{
 	   	    	return response()->json(['err'=>0,'str'=>'删除失败']);
