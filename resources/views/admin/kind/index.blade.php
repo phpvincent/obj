@@ -117,12 +117,12 @@
                 }else if(data.goods_kind_sku_status==2){
                     var sku='<span class="l"><button type="button"  class="btn btn-primary-outline radius" style="border-radius: 0%;color:brown;" <b style="color:brown;" onclick="sku_show(\'SKU状态\',\'{{url("admin/kind/sku_show")}}?id='+data.goods_kind_id+'\',\'2\',\'1400\',\'800\')">重用SKU</b></button></span>';
                 }
-                $(row).find('td:eq(13)').html(info);
-                $(row).find('td:eq(11)').html(sku);
-                $(row).find('td:eq(8)').html(data.goods_buy_weight + 'kg');
-                $(row).find('td:eq(6)').html(check);
-                $(row).find('td:eq(7)').html(num);
-                $(row).find('td:eq(4)').html(img);
+                $(row).find('td:eq(12)').html(info);
+                $(row).find('td:eq(10)').html(sku);
+                $(row).find('td:eq(7)').html(data.goods_buy_weight + 'kg');
+                $(row).find('td:eq(5)').html(check);
+                $(row).find('td:eq(6)').html(num);
+                $(row).find('td:eq(3)').html(img);
                 $(row).addClass('text-c');
 
             }
