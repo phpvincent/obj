@@ -56,6 +56,9 @@ class SendHerbEmail implements ShouldQueue
                 //$url='xsxxh.xyz';
                 $site_id=\App\Site::where('sites_blade_type',$goods->goods_blade_type)->first()['sites_id'];
                 $url=url::where('url_site_id',$site_id)->first()['url_url'];
+                if($url==null){
+                  $url='http://ydeea.xyz/index/site_goods/'.$order->order_goods_id;
+                }
                }else{
                 $url=$url->url_url;
                }
@@ -67,7 +70,9 @@ class SendHerbEmail implements ShouldQueue
               }else{
                   $home_url=url::where('url_site_id','>', 0)->first()['url_url'];
               }
-
+              if($home_url==null){
+                $home_url='hsydzs.cn';
+              }
            }else{
               $home_url=$url;
            }
