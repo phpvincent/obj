@@ -15,7 +15,7 @@
     <div class="page-container">
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
 		<button type="button" class="btn btn-primary-outline radius" style="border-radius: 8%;" id="addgoods_kind" name=""><i class="Hui-iconfont">&#xe61f;</i> 添加新产品</button></span> <span class="r">共有数据：<strong>{{$counts}}</strong> 条</span> </div>
-         <label class="form-label col-xs-1 col-sm-1">单品分类：</label>
+         <label class="form-label col-xs-1 col-sm-1">产品分类：</label>
             <div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
                 <select name="product_type_id" id="product_type_id" class="select">
                     <option value="0">所有</option>
@@ -30,10 +30,9 @@
     <table class="table table-border table-bordered table-bg" id="goods_index_table">
         <thead>
         <tr>
-            <th scope="col" colspan="15">单品列表</th>
+            <th scope="col" colspan="15">产品列表</th>
         </tr>
         <tr class="text-c">
-            <th width="25"><input type="checkbox" name="" value=""></th>
             <th width="40">ID</th>
             <th width="110">产品名</th>
             <th width="110">产品英文名</th>
@@ -64,7 +63,7 @@
             "info":   true,
             "searching": true,
             "ordering": true,
-            "order": [[ 1, "desc" ]],
+            "order": [[ 0, "desc" ]],
             "stateSave": false,
             "columnDefs": [{
                 "targets": [0,2,3,4,5,6,7,8,9,10,11,12],
@@ -83,7 +82,6 @@
                 'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
             },
             "columns": [
-                {'defaultContent':"","className":"td-manager"},
                 {"data":'goods_kind_id'},
                 {'data':'goods_kind_name'},
                 {'data':'goods_kind_english_name'},
