@@ -16,7 +16,7 @@
 			@endif
 		</dl>
 		@endforeach
-		@if(\Auth::user()->admin_storage==1||\Auth::user()->is_root==1)
+		
 		<dl id="menu-picture">
 			<dt><i class="Hui-iconfont">&#xe613;</i> 仓储信息管理系统<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -25,6 +25,6 @@
 			</ol>
 			</dd>
 		</dl>
-		@endif
+		
 </div>
 </aside>
