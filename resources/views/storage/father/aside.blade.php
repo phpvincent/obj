@@ -1,6 +1,6 @@
 <div class="layui-side layui-side-menu">
         <div class="layui-side-scroll">
-          <div class="layui-logo" lay-href="/admin/storage/blade?type=home/console.html">
+          <div class="layui-logo" lay-href="/admin/storage/home">
             <span>仓储信息管理系统</span>
           </div>
           
