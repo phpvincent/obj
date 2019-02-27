@@ -10,6 +10,9 @@ class StorageController extends Controller
     public function index(){
     	return view('storage.father.father');
     }
+    public function homepage(){
+    	return view('storage.index.index');
+    }
     public function notallow(){
     	return view('storage.notallow');
     }
