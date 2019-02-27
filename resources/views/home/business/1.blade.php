@@ -116,7 +116,7 @@
 <section class="banner-w3ls" id="homesles">
 	<div class='header'>
 		<div class="logo-agileits">
-			<a class="logo-w3ls" href="http://www.phpvincent.top"><h1>YDZS</h1></a>
+			<a class="logo-w3ls" href="http://www.ydeea.xyz"><h1>YDZS</h1></a>
 		</div>	
 	</div>	
 </section>
@@ -192,7 +192,7 @@
 				<div class="col-xs-8 addr-agileits2">
 					<div class="addr-w3l">
 						<h3>Email Us</h3>
-						<p><a href="mailto:support@company.com">google@gmail.com</a></p>
+						<p><a href="mailto:isnfclpo@gmail.com">isnfclpo@gmail.com</a></p>
 						
 					</div>	
 				</div>
@@ -647,7 +647,7 @@
 <!-- /contact section -->
 <!-- footer -->
 <div class="footer">
-	<p class="text-center">Copyright &copy; 2016.Company name All rights reserved.</p>
+	<p class="text-center">Copyright &copy; 2019.Company name All rights reserved.</p>
 </div>
 <!-- /footer -->
 <!-- back to top -->

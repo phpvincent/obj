@@ -243,6 +243,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::any('/admin/sites/post_update','admin\SiteController@post_update');//新增站点
     Route::get('/admin/sites/delete_site','admin\SiteController@delete_site');//删除站点
     Route::any('/admin/sites/site_copy','admin\SiteController@site_copy');//复制站点
-
+	Route::group(['prefix' => 'admin/storage'], function ($router)
+	    {
+ 			require(__DIR__ . '/storage.php');  
+ 	    });
 });
 

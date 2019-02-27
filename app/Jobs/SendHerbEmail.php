@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\order;
 use App\url;
+
 class SendHerbEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -55,13 +56,23 @@ class SendHerbEmail implements ShouldQueue
                 //$url='xsxxh.xyz';
                 $site_id=\App\Site::where('sites_blade_type',$goods->goods_blade_type)->first()['sites_id'];
                 $url=url::where('url_site_id',$site_id)->first()['url_url'];
+                if($url==null){
+                  $url='http://ydeea.xyz/index/site_goods/'.$order->order_goods_id;
+                }
                }else{
                 $url=$url->url_url;
                }
            }
            if(strpos($url,'/index/site_goods/')!== false){
               $site_id=\App\site::where('sites_blade_type',$goods->goods_blade_type)->first()['sites_id'];
-              $home_url=url::where('url_site_id',$site_id)->first()['url_url'];
+              if($site_id){
+                  $home_url=url::where('url_site_id',$site_id)->first()['url_url'];
+              }else{
+                  $home_url=url::where('url_site_id','>', 0)->first()['url_url'];
+              }
+              if($home_url==null){
+                $home_url='hsydzs.cn';
+              }
            }else{
               $home_url=$url;
            }
@@ -79,7 +90,7 @@ class SendHerbEmail implements ShouldQueue
                 $goods->img = $imgs[$mycount];
             }else{
                 $goods->img = '';
-            } 
+            }
             //拼装订单属性信息
                $order_config=\App\order_config::where('order_primary_id',$order->order_id)->get();
                     if($order_config->count()>0){

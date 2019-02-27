@@ -712,6 +712,9 @@ class IndexController extends Controller
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
         if($request->order_id!=0){
              $order=\App\order::where("order_id",$request->order_id)->first();
+             if($order==null){
+                return view('home.MeiGuo.usEndFail');
+             }
              if($order['order_isfirst']==1){
                 $order['order_isfirst']='0';
                 $order->save();  
