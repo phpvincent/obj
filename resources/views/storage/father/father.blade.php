@@ -1,5 +1,5 @@
-
-
+@extends('storage.father.static')
+@section('content')
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +10,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.css')}}" media="all">
   <link rel="stylesheet" href="{{asset('/admin/layuiadmin/style/admin.css')}}" media="all">
-  
   <!-- <script>
   /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
   </script> -->
@@ -124,8 +123,8 @@
       <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>
   </div>
-
-  <script src="{{asset('/admin/layuiadmin/layui/layui.js')}}"></script>
+@endsection
+@section('js')
   <script>
   layui.config({
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
@@ -133,18 +132,6 @@
     index: 'lib/index' //主入口模块
   }).use('index');
   </script>
-  
-  <!-- 百度统计 -->
-  <script>
-  var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  })();
-  </script>
+  @endsection
 </body>
 </html>
-
-
