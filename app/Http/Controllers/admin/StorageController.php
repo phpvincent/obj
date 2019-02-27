@@ -21,4 +21,8 @@ class StorageController extends Controller
     	\View::addExtension('html','php');
 		return  view()->file(public_path().'/admin/layuiadmin/html/'.$type);
     }
+    public function admin_info(Request $request)
+    {
+    	return view('storage.admin.info');
+    }
 }

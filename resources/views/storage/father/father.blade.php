@@ -28,7 +28,7 @@
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
-            <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+            <a href="/admin/index" target="_blank" title="信息管理系统">
               <i class="layui-icon layui-icon-website"></i>
             </a>
           </li>
@@ -68,10 +68,10 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite>贤心</cite>
+              <cite>{{Auth::user()->admin_name}}</cite>
             </a>
             <dl class="layui-nav-child">
-              <dd><a lay-href="/admin/storage/blade?type=set/user/info.html">基本资料</a></dd>
+              <dd><a lay-href="/admin/storage/admin_info">基本资料</a></dd>
               <dd><a lay-href="/admin/storage/blade?type=set/user/password.html">修改密码</a></dd>
               <hr>
               <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
