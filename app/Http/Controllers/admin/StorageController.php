@@ -13,4 +13,9 @@ class StorageController extends Controller
     public function notallow(){
     	return view('storage.notallow');
     }
+    public function blade(Request $request){
+    	$type=$request->has('type')?$request->input('type'):'index.balde.php';
+    	\View::addExtension('html','php');
+		return  view()->file(public_path().'/admin/layuiadmin/html/'.$type);
+    }
 }
