@@ -15,8 +15,12 @@ class storage
      */
     public function handle($request, Closure $next)
     {
-        if(\Auth::user()->admin_storage!=1){
-            return redirect('/admin/storage/notallow');
+        try{
+            if(\Auth::user()->admin_storage!=1&&\Auth::user()->is_root!=1){
+                return redirect('/admin/storage/notallow');
+            }
+        }catch(\Exception $e){
+                return redirect('/admin/storage/notallow');
         }
         return $next($request);
     }
