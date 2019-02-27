@@ -472,7 +472,7 @@
   <script src="{{asset('/admin/layuiadmin/layui/layui.js')}}"></script>
   <script>
   layui.config({
-    base: '{{asset("/admin/layuiadmin/")}}' //静态资源所在路径
+    base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
   }).use('index');
