@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 class StorageController extends Controller
 {
     public function index(){
-    	return 'Fuck U Up,asshole!';
+    	return view('storage.father.father');
     }
     public function notallow(){
     	return view('storage.notallow');
