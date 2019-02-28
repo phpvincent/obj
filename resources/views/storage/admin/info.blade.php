@@ -23,21 +23,32 @@
               <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="username" value="xianxin" readonly class="layui-input">
+                  <input type="text" name="admin_name" value="{{Auth::user()->admin_name}}" disabled class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
               </div>
-              <div class="layui-form-item">
-                <label class="layui-form-label">昵称</label>
+               <div class="layui-form-item">
+                <label class="layui-form-label">上次登陆时间</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="nickname" value="贤心" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                  <input type="text" name="admin_time" value="{{Auth::user()->admin_time}}" disabled class="layui-input">
+                </div>
+              </div>
+               <div class="layui-form-item">
+                <label class="layui-form-label">上次登陆ip</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="admin_ip" value="{{Auth::user()->admin_ip}}" disabled class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
-                <label class="layui-form-label">性别</label>
-                <div class="layui-input-block">
-                  <input type="radio" name="sex" value="男" title="男">
-                  <input type="radio" name="sex" value="女" title="女" checked>
+                <label class="layui-form-label">真实姓名</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="admin_real_name" value="{{Auth::user()->admin_real_name}}" lay-verify="nickname" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">名下单品数</label>
+                <div class="layui-input-inline">
+                	<blockquote class="layui-elem-quote">{{\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->count()}}</blockquote>
                 </div>
               </div>
               <div class="layui-form-item">
@@ -52,7 +63,7 @@
                   <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button >
                 </div>
              </div>
-              <div class="layui-form-item">
+           <!--    <div class="layui-form-item">
                 <label class="layui-form-label">手机</label>
                 <div class="layui-input-inline">
                   <input type="text" name="cellphone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
@@ -69,7 +80,7 @@
                 <div class="layui-input-block">
                   <textarea name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
-              </div>
+              </div> -->
               <div class="layui-form-item">
                 <div class="layui-input-block">
                   <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
