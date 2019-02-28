@@ -15,7 +15,7 @@ use DB;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Storage;
 class SiteController extends Controller
 {
     /**
@@ -590,5 +590,125 @@ class SiteController extends Controller
             return response()->json(['err'=>1,'str'=>'站点删除成功']);
         }
         return response()->json(['err'=>0,'str'=>'站点删除失败']);
+    }
+    /**
+     * 复制站点
+     * @param  Request $request [description]
+     * @return [json]           [description]
+     */
+    public function site_copy(Request $request)
+    {
+      if($request->isMethod('get')){
+        $site=\App\site::where('sites_id',$request->input('id'))->first();
+        if($site==null) return '此站点无对应数据，无法复制';
+        return view('admin.sites.site_copy')->with(compact('site'));
+      }elseif($request->isMethod('post')){
+        if(!$request->has('sites_name')||$request->input('sites_name')==null) return response()->json(['err' => 0, 'str' => '复制失败！请输入站点名！']);
+        if(\App\site::where('sites_name',$request->input('sites_name'))->first()!=null)  return response()->json(['err' => 0, 'str' => '复制失败！站点名已经被使用!']);
+        $site=\App\site::where('sites_id',$request->input('id'))->first();
+        $new_site=new \App\site;
+        $new_site->sites_blade_type=$site->sites_blade_type;
+        $new_site->sites_name=$request->input('sites_name');
+        $new_site->site_fire_word=$site->site_fire_word;
+        if($request->has('site_admin')&&is_numeric($request->input('site_admin'))&&Auth::user()->is_root=='1'){
+            $new_site->sites_admin_id=$request->input('site_admin');
+        }else{
+            $new_site->sites_admin_id=Auth::user()->admin_id;
+        }
+        $new_site->status=0;
+        $msg=$new_site->save();
+        if(!$msg)      return response()->json(['err' => 0, 'str' => '复制失败！']);
+        $imgs=\App\site_img::where('site_site_id',$site->sites_id)->get();
+        //复制站点轮播图
+        if($imgs->count()>0){
+          $new_imgs=[];
+            foreach($imgs as $k => $v){
+              $image = substr($v->site_img,6);
+              $ext = strrchr($v->site_img, '.');
+              $newImages = '/site_imgs/site_img_'.md5(microtime()).rand(100000,1000000).$ext;
+              if(Storage::disk('public')->exists($image)){
+                  $arr=[];
+                  Storage::disk('public')->copy($image, $newImages);
+                  $arr['site_img']='upload'.$newImages;
+                  $arr['site_site_id']=$new_site->sites_id;
+                  $arr['site_goods_id']=$v->site_goods_id;
+                  array_push($new_imgs, $arr);
+              }
+            }
+            
+          $msg=\App\site_img::insert($new_imgs);
+          if(!$msg){
+             \App\site::where('sites_id',$new_site->sites_id)->delete();
+             return response()->json(['err' => 0, 'str' => '复制失败！请检查站点图片资源！']);
+          }  
+        }
+        //复制站点品类数据
+        $site_class=\App\site_class::select('site_class_sort','site_is_show','site_class_show_name','site_goods_type_id')->where('site_site_id',$site->sites_id)->get()->toArray();
+        foreach($site_class as $k => &$v)
+        {
+          $v['site_site_id']=$new_site->sites_id;
+        }
+        $msg=\App\site_class::insert($site_class);
+        if(!$msg){
+             \App\site::where('sites_id',$new_site->sites_id)->delete();
+             foreach($new_imgs as $k => $v){
+               @unlink($v['site_img']);
+             }
+             \App\site_img::where('site_site_id',$new_site->sites_id)->delete();
+             return response()->json(['err' => 0, 'str' => '复制失败！请检查站点品类信息！']);
+          }  
+       //复制站点特殊分类
+       $site_actives=\App\site_active::where('site_id',$site->sites_id)->get();
+       if($site_actives->count()<=0){
+        return response()->json(['err' => 0, 'str' => '复制失败！请检查站点特殊活动数据！']);
+       }else{
+        $new_actives=[];
+        foreach($site_actives as $k => $v){
+          //复制站点分类数据
+          $image = substr($v->site_active_img,6);
+          $ext = strrchr($v->site_active_img, '.');
+          $newImages = '/site_imgs/site_active_'.md5(microtime()).rand(100000,1000000).$ext;
+            if(Storage::disk('public')->exists($image)){
+              $arr=[];
+              Storage::disk('public')->copy($image, $newImages);
+              $arr['site_active_type']=$v->site_active_type;
+              $arr['site_id']=$new_site->sites_id;
+              $arr['site_active_img']='upload'.$newImages;
+              array_push($new_actives, $arr);
+            }
+            $site_active_id=\App\site_active::insertGetId($arr);
+            if(!$site_active_id){
+               \App\site::where('sites_id',$new_site->sites_id)->delete();
+               foreach($new_imgs as $k => $v){
+                 @unlink($v['site_img']);
+               }
+                 @unlink($arr['site_active_img']);
+               \App\site_img::where('site_site_id',$new_site->sites_id)->delete();
+               \App\site_active::where('site_id',$new_site->sites_id)->delete();
+               return response()->json(['err' => 0, 'str' => '复制失败！请检查站点特殊活动数据！']);
+            }  
+          //复制站点分类下的产品数据
+          $goods=\App\site_active_good::select('site_good_id','sort')->where('site_active_id',$v->site_active_id)->get()->toArray();
+          if(count($goods)>0){
+            foreach ($goods as $key => &$value) {
+              $value['site_active_id']=$site_active_id;
+            }
+            $msg=\App\site_active_good::insert($goods);
+             if(!$msg){
+                 \App\site::where('sites_id',$new_site->sites_id)->delete();
+                 foreach($new_imgs as $k => $v){
+                   @unlink($v['site_img']);
+                 }
+                   @unlink($arr['site_active_img']);                 
+                 \App\site_img::where('site_site_id',$new_site->sites_id)->delete();
+                 \App\site_active::where('site_id',$new_site->sites_id)->delete();
+                 \App\site_active_good::where('site_active_id',$site_active_id)->delete();
+                 return response()->json(['err' => 0, 'str' => '复制失败！请检查站点特殊活动下的产品数据！']);
+              }
+          }
+        }
+       }  
+       return response()->json(['err' => 1, 'str' => '复制成功!']);
+      }
     }
 }

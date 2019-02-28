@@ -225,7 +225,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     Route::get('/admin/kind/del_sku','admin\KindController@del_sku');//释放产品
     Route::get('/admin/kind/sku_show','admin\KindController@sku_show');//产品SKU状态
     Route::any('/admin/kind/sku_search','admin\KindController@sku_search');//产品SKU查询
-    Route::get('/admin/kind/outkind','admin\KindController@outkind');//产品SKU查询
+    Route::any('/admin/kind/outkind','admin\KindController@outkind');//产品导出
     //辅助工具
     Route::any('/admin/message/send_phone','admin\ToolController@send_phone');//短信推送
     Route::any('/admin/message/send_mail','admin\ToolController@send_mail');//邮箱推送
@@ -239,9 +239,13 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     //站点
     Route::get('/admin/sites/index','admin\SiteController@index');//站点列表
     Route::post('/admin/sites/get_table','admin\SiteController@get_table');//
-    Route::any('/admin/sites/add','admin\SiteController@add');//新增产品
-    Route::any('/admin/sites/post_update','admin\SiteController@post_update');//新增产品
-    Route::get('/admin/sites/delete_site','admin\SiteController@delete_site');//新增产品
-
+    Route::any('/admin/sites/add','admin\SiteController@add');//新增站点
+    Route::any('/admin/sites/post_update','admin\SiteController@post_update');//新增站点
+    Route::get('/admin/sites/delete_site','admin\SiteController@delete_site');//删除站点
+    Route::any('/admin/sites/site_copy','admin\SiteController@site_copy');//复制站点
+	Route::group(['prefix' => 'admin/storage'], function ($router)
+	    {
+ 			require(__DIR__ . '/storage.php');  
+ 	    });
 });
 

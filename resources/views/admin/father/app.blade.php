@@ -29,10 +29,22 @@
 <body style="min-width:1208px">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="{{url('/admin/index')}}">信息管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="{{url('/admin/index')}}">信息管理系统</a> 
-			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+		<div class="container-fluid cl">
+			{{--<a class="logo navbar-logo f-l mr-10 hidden-xs" href="{{url('/admin/index')}}">信息管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="{{url('/admin/index')}}">仓库管理系统</a>--}}
+			{{--<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>--}}
 			<nav class="nav navbar-nav">
 				<ul class="cl">
+					@if(Auth::user()->admin_storage==1||Auth::user()->is_root==1)
+						<li style="width: 190px;margin-left: -30px;" class="dropDown dropDown_hover"><a href="#" class="dropDown_A">信息管理系统 <i class="Hui-iconfont">&#xe6d5;</i></a>
+							<ul class="dropDown-menu menu radius box-shadow">
+								<li><a href="{{url('/admin/index')}}">信息管理系统</a></li>
+								<li><a href="{{url('/admin/storage/index')}}">仓库管理系统</a></li>
+							</ul>
+						</li>
+					@else
+						<li style="width: 190px;margin-left: -42px;" class="dropDown dropDown_hover"><a href="{{url('/admin/index')}}">信息管理系统</a></li>
+					@endif
+
 					<li class="dropDown dropDown_hover"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
 						@if(Auth::user()->is_root=='1')
 						<ul class="dropDown-menu menu radius box-shadow">
