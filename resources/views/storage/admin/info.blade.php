@@ -51,7 +51,7 @@
                 	<blockquote class="layui-elem-quote">{{\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->count()}}</blockquote>
                 </div>
               </div>
-              <div class="layui-form-item">
+             <!--  <div class="layui-form-item">
                 <label class="layui-form-label">头像</label>
                 <div class="layui-input-inline">
                   <input name="avatar" lay-verify="required" id="LAY_avatarSrc" placeholder="图片地址" value="http://cdn.layui.com/avatar/168.jpg" class="layui-input">
@@ -62,7 +62,7 @@
                   </button>
                   <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button >
                 </div>
-             </div>
+             </div> -->
            <!--    <div class="layui-form-item">
                 <label class="layui-form-label">手机</label>
                 <div class="layui-input-inline">
@@ -101,6 +101,9 @@
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'console']);
+  }).use(['index', 'set'],function(){
+
+  });
+  
   </script>
 @endsection
