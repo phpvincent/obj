@@ -588,7 +588,7 @@ class KindController extends Controller
         $id=$request->get('id');
         $goods_kind=\App\goods_kind::where('goods_kind_id',$id)->first();
         $goods_kind->attrs = DB::table('kind_config as kc')->join('kind_val as kv', 'kc.kind_config_id', 'kv.kind_type_id', 'join')
-            ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->get();
+            ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->orderBy('kv.kind_type_id')->get();
         return view('admin.kind.sku_show')->with(compact('goods_kind'));
     }
     public function sku_search(Request $request)
@@ -613,7 +613,8 @@ class KindController extends Controller
             }
             foreach ($goods_kinds as $goods_kind){
                 $goods_kind->attrs = DB::table('kind_config as kc')->join('kind_val as kv', 'kc.kind_config_id', 'kv.kind_type_id', 'join')
-                    ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->get();
+                    ->where('kc.kind_primary_id',$goods_kind->goods_kind_id)->orderBy('kv.kind_type_id')->get();
+//                dd($goods_kind->attrs);
 //                $goods_kind->attrs = kind_config::with('vals')->where('kind_primary_id',$goods_kind->goods_kind_id)->get();
                 $skuSDK = new skuSDK($goods_kind->goods_kind_id, $goods_kind->product_type_id,$goods_kind->goods_kind_user_type);
                 $current_attrs = $skuSDK->get_attr_by_sku($attr_sku);
