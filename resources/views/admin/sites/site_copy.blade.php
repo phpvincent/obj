@@ -15,24 +15,24 @@
                 <div class="formControls col-xs-8 col-sm-9">
                     <span class="select-box">
                         <select name="site_blade_type" id="site_blade_type" class="select" >
-                            <option disabled="disabled"  value="0" @if($site->site_blade_type==0) selected="selected" @endif>0--台湾模板</option>
-							<option disabled="disabled"  value="1" @if($site->site_blade_type==1) selected="selected" @endif>1--简体模板</option>
-							<option disabled="disabled"  value="2" @if($site->site_blade_type==2) selected="selected" @endif>2--阿联酋模板</option>
-							<option disabled="disabled"  value="3" @if($site->site_blade_type==3) selected="selected" @endif>3--马来西亚模板</option>
-							<option disabled="disabled"  value="4" @if($site->site_blade_type==4) selected="selected" @endif>4--泰国模板（旧版）</option>
-							<option disabled="disabled"  value="5" @if($site->site_blade_type==5) selected="selected" @endif>5--日本模板（旧版）</option>
-							<option disabled="disabled"  value="6" @if($site->site_blade_type==6) selected="selected" @endif>6--印度尼西亚</option>
-							<option disabled="disabled"  value="7" @if($site->site_blade_type==7) selected="selected" @endif>7--菲律宾</option>
-							<option disabled="disabled"  value="8" @if($site->site_blade_type==8) selected="selected" @endif>8--英国（旧版）</option>
-							<option  disabled="disabled" value="9" @if($site->site_blade_type==9) selected="selected" @endif>9--Google-PC（旧版）</option>
-							<option  disabled="disabled" value="10" @if($site->site_blade_type==10) selected="selected" @endif>10--美国（旧版）</option>
-							<option  disabled="disabled" value="11" @if($site->site_blade_type==11) selected="selected" @endif>11--越南（旧版）</option>
-							<option  disabled="disabled" value="12" @if($site->site_blade_type==12) selected="selected" @endif>12--沙特</option>
-							<option  disabled="disabled" value="13" @if($site->site_blade_type==13) selected="selected" @endif>13--沙特英文</option>						
-							<option  disabled="disabled" value="14" @if($site->site_blade_type==14) selected="selected" @endif>14--卡塔尔</option>
-							<option disabled="disabled"  value="15" @if($site->site_blade_type==15) selected="selected" @endif>15--卡塔尔英文</option>
-							<option disabled="disabled"  value="16" @if($site->site_blade_type==16) selected="selected" @endif>16--中东阿语</option>
-							<option disabled="disabled"  value="17" @if($site->site_blade_type==17) selected="selected" @endif>17--中东英语</option>
+                            <option disabled="disabled"  value="0" @if($site->sites_blade_type==0) selected="selected" @endif>0--台湾模板</option>
+							<option disabled="disabled"  value="1" @if($site->sites_blade_type==1) selected="selected" @endif>1--简体模板</option>
+							<option disabled="disabled"  value="2" @if($site->sites_blade_type==2) selected="selected" @endif>2--阿联酋模板</option>
+							<option disabled="disabled"  value="3" @if($site->sites_blade_type==3) selected="selected" @endif>3--马来西亚模板</option>
+							<option disabled="disabled"  value="4" @if($site->sites_blade_type==4) selected="selected" @endif>4--泰国模板（旧版）</option>
+							<option disabled="disabled"  value="5" @if($site->sites_blade_type==5) selected="selected" @endif>5--日本模板（旧版）</option>
+							<option disabled="disabled"  value="6" @if($site->sites_blade_type==6) selected="selected" @endif>6--印度尼西亚</option>
+							<option disabled="disabled"  value="7" @if($site->sites_blade_type==7) selected="selected" @endif>7--菲律宾</option>
+							<option disabled="disabled"  value="8" @if($site->sites_blade_type==8) selected="selected" @endif>8--英国（旧版）</option>
+							<option  disabled="disabled" value="9" @if($site->sites_blade_type==9) selected="selected" @endif>9--Google-PC（旧版）</option>
+							<option  disabled="disabled" value="10" @if($site->sites_blade_type==10) selected="selected" @endif>10--美国（旧版）</option>
+							<option  disabled="disabled" value="11" @if($site->sites_blade_type==11) selected="selected" @endif>11--越南（旧版）</option>
+							<option  disabled="disabled" value="12" @if($site->sites_blade_type==12) selected="selected" @endif>12--沙特</option>
+							<option  disabled="disabled" value="13" @if($site->sites_blade_type==13) selected="selected" @endif>13--沙特英文</option>						
+							<option  disabled="disabled" value="14" @if($site->sites_blade_type==14) selected="selected" @endif>14--卡塔尔</option>
+							<option disabled="disabled"  value="15" @if($site->sites_blade_type==15) selected="selected" @endif>15--卡塔尔英文</option>
+							<option disabled="disabled"  value="16" @if($site->sites_blade_type==16) selected="selected" @endif>16--中东阿语</option>
+							<option disabled="disabled"  value="17" @if($site->sites_blade_type==17) selected="selected" @endif>17--中东英语</option>
                         </select>
 					</span>
                 </div>
