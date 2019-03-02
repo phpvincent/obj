@@ -8,7 +8,8 @@
           <div class="layui-card-header">设置我的资料</div>
           <div class="layui-card-body" pad15>
             
-            <div class="layui-form layui-form-pane "  lay-filter="">
+            <form class="layui-form layui-form-pane " method="post" lay-filter="" action="{{url('admin/storage/up_self')}}">
+              {{csrf_field()}}
               <div class="layui-form-item" >
                 <label class="layui-form-label">我的角色</label>
                 <div class="layui-input-inline" >
@@ -42,7 +43,7 @@
               <div class="layui-form-item">
                 <label class="layui-form-label">真实姓名</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="admin_real_name"  value="{{Auth::user()->admin_real_name}}" lay-verify="required" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
+                  <input type="text" name="admin_show_name"  value="{{Auth::user()->admin_show_name}}" lay-verify="required|admin_show_name" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item" >
@@ -130,11 +131,11 @@
               </div> -->
               <div class="layui-form-item">
                 <div class="layui-input-block">
-                  <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+                  <button class="layui-btn" lay-submit lay-filter="">确认修改</button>
                   <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -147,9 +148,26 @@
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'set','form'],function(){
+  }).use(['index', 'set'],function(){
     var form=layui.form
     var $=layui.jquery
+       form.verify({
+        admin_show_name: function(value, item){ //value：表单的值、item：表单的DOM对象
+          if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+            return '真实姓名不能有特殊字符';
+          }
+          if(/(^\_)|(\__)|(\_+$)/.test(value)){
+            return '真实姓名首尾不能出现下划线\'_\'';
+          }
+          if(/^\d+\d+\d$/.test(value)){
+            return '真实姓名不能全为数字';
+          }
+        }
+      });  
+       form.on('submit',function(data){
+
+       })
+
   });
   
   </script>
