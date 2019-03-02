@@ -73,9 +73,9 @@ class SiteController extends Controller
                 $query->where('sites.sites_name','like',"%$search%");
             })
             ->where(function($query){
-                
+                if(Auth::user()->is_root!='1'){
                     $query->where('sites_admin_id',Auth::user()->admin_id);
-                
+                }
                 $query->where('status','0');
             })
             ->where(function($query)use($request) {
@@ -94,9 +94,9 @@ class SiteController extends Controller
                 $query->where('sites.sites_name','like',"%$search%");
             })
             ->where(function($query){
-                
+                if(Auth::user()->is_root!='1'){
                     $query->where('sites_admin_id',Auth::user()->admin_id);
-                
+                }
                 $query->where('status','0');
             })
             ->where(function($query)use($request) {
