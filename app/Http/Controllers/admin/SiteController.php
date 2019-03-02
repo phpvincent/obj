@@ -72,6 +72,12 @@ class SiteController extends Controller
             ->where(function($query)use($search){
                 $query->where('sites.sites_name','like',"%$search%");
             })
+            ->where(function($query){
+                
+                    $query->where('sites_admin_id',Auth::user()->admin_id);
+                
+                $query->where('status','0');
+            })
             ->where(function($query)use($request) {
                 $admin_id = $request->input('admin_id');
                 if($admin_id!=0){
@@ -86,6 +92,12 @@ class SiteController extends Controller
             ->where('sites.status',0)
             ->where(function($query)use($search){
                 $query->where('sites.sites_name','like',"%$search%");
+            })
+            ->where(function($query){
+                
+                    $query->where('sites_admin_id',Auth::user()->admin_id);
+                
+                $query->where('status','0');
             })
             ->where(function($query)use($request) {
                 $admin_id = $request->input('admin_id');

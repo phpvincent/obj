@@ -8,10 +8,10 @@
           <div class="layui-card-header">设置我的资料</div>
           <div class="layui-card-body" pad15>
             
-            <div class="layui-form" lay-filter="">
-              <div class="layui-form-item">
+            <div class="layui-form layui-form-pane "  lay-filter="">
+              <div class="layui-form-item" >
                 <label class="layui-form-label">我的角色</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline" >
                   <select name="role" lay-verify="">
                   	@foreach(\App\role::get() as $k => $v)
                     <option value="{{$v->role_id}}" @if(Auth::user()->admin_role_id==$v->role_id) selected @else disabled @endif>{{$v->role_name}}</option>
@@ -42,13 +42,13 @@
               <div class="layui-form-item">
                 <label class="layui-form-label">真实姓名</label>
                 <div class="layui-input-inline">
-                  <input type="text" name="admin_real_name" value="{{Auth::user()->admin_real_name}}" lay-verify="nickname" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
+                  <input type="text" name="admin_real_name"  value="{{Auth::user()->admin_real_name}}" lay-verify="required" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
                 </div>
               </div>
-              <div class="layui-form-item">
+              <div class="layui-form-item" >
                 <label class="layui-form-label">名下单品数</label>
                 <div class="layui-input-inline">
-                	<blockquote class="layui-elem-quote">{{\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->count()}}</blockquote>
+                  <input type="text" name="goods_count" disabled value="{{\App\goods::where([['goods_admin_id',Auth::user()->admin_id],['is_del','0']])->count()}}"  autocomplete="off" placeholder="" class="layui-input">
                 </div>
               </div>
              <!--  <div class="layui-form-item">
@@ -81,6 +81,53 @@
                   <textarea name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
               </div> -->
+              <!--  <div class="layui-form-item">
+                <label class="layui-form-label">输入框</label>
+                <div class="layui-input-block">
+                  <input type="text" name="" placeholder="请输入" lay-verify='required' autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">下拉选择框</label>
+                <div class="layui-input-block">
+                  <select name="interest" lay-filter="aihao">
+                    <option value="0">写作</option>
+                    <option value="1">阅读</option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">复选框</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="like[write]" title="写作">
+                  <input type="checkbox" name="like[read]" title="阅读">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">开关关</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" lay-skin="switch">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">开关开</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" checked lay-skin="switch">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">单选框</label>
+                <div class="layui-input-block">
+                  <input type="radio" name="sex" value="0" title="男">
+                  <input type="radio" name="sex" value="1" title="女" checked>
+                </div>
+              </div>
+              <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">请填写描述</label>
+                <div class="layui-input-block">
+                  <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+              </div> -->
               <div class="layui-form-item">
                 <div class="layui-input-block">
                   <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
@@ -88,7 +135,6 @@
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -101,8 +147,9 @@
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'set'],function(){
-
+  }).use(['index', 'set','form'],function(){
+    var form=layui.form
+    var $=layui.jquery
   });
   
   </script>
