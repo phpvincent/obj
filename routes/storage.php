@@ -5,5 +5,6 @@
  			Route::get('/blade','admin\StorageController@blade');
  			Route::get('/home','admin\StorageController@homepage');
  			Route::get('/admin_info','admin\StorageController@admin_info');
+ 			Route::post('/up_self','admin\StorageController@up_self');
  	    });
 	Route::get('/notallow','admin\StorageController@notallow');

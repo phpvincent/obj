@@ -72,6 +72,12 @@ class SiteController extends Controller
             ->where(function($query)use($search){
                 $query->where('sites.sites_name','like',"%$search%");
             })
+            ->where(function($query){
+                if(Auth::user()->is_root!='1'){
+                    $query->where('sites_admin_id',Auth::user()->admin_id);
+                }
+                $query->where('status','0');
+            })
             ->where(function($query)use($request) {
                 $admin_id = $request->input('admin_id');
                 if($admin_id!=0){
@@ -86,6 +92,12 @@ class SiteController extends Controller
             ->where('sites.status',0)
             ->where(function($query)use($search){
                 $query->where('sites.sites_name','like',"%$search%");
+            })
+            ->where(function($query){
+                if(Auth::user()->is_root!='1'){
+                    $query->where('sites_admin_id',Auth::user()->admin_id);
+                }
+                $query->where('status','0');
             })
             ->where(function($query)use($request) {
                 $admin_id = $request->input('admin_id');
@@ -130,24 +142,27 @@ class SiteController extends Controller
             if(count($size_file) != count($goods) ){
                 return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
             }
-            foreach ($goods as $k => $v)
-            {
-                //轮播图片限制width:730 height:400
-                if(isset($size_file[$k])){
-                    if(filesize($size_file[$k]) > 8192*1024){
-                        return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+            if(count($goods) != 0){
+                foreach ($goods as $k => $v)
+                {
+                    //轮播图片限制width:730 height:400
+                    if(isset($size_file[$k])){
+                        if(filesize($size_file[$k]) > 8192*1024){
+                            return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                        }
+                        $photo_size = getimagesize($size_file[$k]);
+                        if($photo_size[0] != 730 && $photo_size[1] != 400){
+                            return response()->json(['err'=>0,'str'=>'轮播图片不符合尺寸']);
+                        }
+                    }else{
+                        return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
                     }
-                    $photo_size = getimagesize($size_file[$k]);
-                    if($photo_size[0] != 730 && $photo_size[1] != 400){
-                        return response()->json(['err'=>0,'str'=>'轮播图片不符合尺寸']);
+                    if(!trim($v)){
+                        return response()->json(['err'=>0,'str'=>'请选择轮播图片关联商品']);
                     }
-                }else{
-                    return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
-                }
-                if(!trim($v)){
-                    return response()->json(['err'=>0,'str'=>'请选择轮播图片关联商品']);
                 }
             }
+
             //3.站点分类信息
             $goods_type_id = $request->input('goods_type_id');
             $goods_type_show_name = $request->input('goods_type_show_name');
@@ -174,20 +189,6 @@ class SiteController extends Controller
                 }
             }
 
-            //新品推荐
-            if(isset($request->file('site_active')[1]['img'])){
-                $img = $request->file('site_active')[1]['img'];
-                if(filesize($img) > 8192*1024){
-                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
-                }
-                $img_size = getimagesize($img);
-                if($img_size[0] != 308 && $img_size[1] != 190){
-                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
-                }
-            }else{
-                return response()->json(['err'=>0,'str'=>'请上传新品推荐图片']);
-            }
-
             //秒杀抢购
             if(isset($request->file('site_active')[2]['img'])){
                 $img = $request->file('site_active')[2]['img'];
@@ -196,10 +197,24 @@ class SiteController extends Controller
                 }
                 $img_size = getimagesize($img);
                 if($img_size[0] != 308 && $img_size[1] != 380){
-                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
+                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
                 }
             }else{
                 return response()->json(['err'=>0,'str'=>'请上传秒杀抢购图片']);
+            }
+
+            //新品推荐
+            if(isset($request->file('site_active')[1]['img'])){
+                $img = $request->file('site_active')[1]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 190){
+                    return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
+                }
+            }else{
+                return response()->json(['err'=>0,'str'=>'请上传新品推荐图片']);
             }
 
             //热卖推荐
@@ -374,20 +389,22 @@ class SiteController extends Controller
             $size_file = $request->file('size_file');
             $site_img_id = $request->input('site_img_id');
             $goods = $request->input('goods');
-            foreach ($goods as $k => $v)
-            {
-                //轮播图片限制width:730 height:400
-                if(isset($size_file[$k])){
-                    $photo_size = getimagesize($size_file[$k]);
-                    if($photo_size[0] != 730 && $photo_size[1] != 400){
-                        return response()->json(['err'=>0,'str'=>'轮播图片不符合尺寸']);
+            if(count($goods) != 0){
+                foreach ($goods as $k => $v)
+                {
+                    //轮播图片限制width:730 height:400
+                    if(isset($size_file[$k])){
+                        $photo_size = getimagesize($size_file[$k]);
+                        if($photo_size[0] != 730 && $photo_size[1] != 400){
+                            return response()->json(['err'=>0,'str'=>'轮播图片不符合尺寸']);
+                        }
                     }
-                }
-                if(!isset($site_img_id[$k]) && !isset($size_file[$k])){
-                    return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
-                }
-                if(!trim($v)){
-                    return response()->json(['err'=>0,'str'=>'请选择轮播图片关联商品']);
+                    if(!isset($site_img_id[$k]) && !isset($size_file[$k])){
+                        return response()->json(['err'=>0,'str'=>'请上传全部轮播图片']);
+                    }
+                    if(!trim($v)){
+                        return response()->json(['err'=>0,'str'=>'请选择轮播图片关联商品']);
+                    }
                 }
             }
             //3.站点分类信息
@@ -418,18 +435,6 @@ class SiteController extends Controller
                 }
             }
 
-            //新品推荐
-            if(isset($request->file('site_active')[1]['img'])){
-                $img = $request->file('site_active')[1]['img'];
-                if(filesize($img) > 8192*1024){
-                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
-                }
-                $img_size = getimagesize($img);
-                if($img_size[0] != 308 && $img_size[1] != 190){
-                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
-                }
-            }
-
             //秒杀抢购
             if(isset($request->file('site_active')[2]['img'])){
                 $img = $request->file('site_active')[2]['img'];
@@ -438,6 +443,18 @@ class SiteController extends Controller
                 }
                 $img_size = getimagesize($img);
                 if($img_size[0] != 308 && $img_size[1] != 380){
+                    return response()->json(['err'=>0,'str'=>'秒杀抢购图片不符合尺寸']);
+                }
+            }
+
+            //新品推荐
+            if(isset($request->file('site_active')[1]['img'])){
+                $img = $request->file('site_active')[1]['img'];
+                if(filesize($img) > 8192*1024){
+                    return response()->json(['err'=>0,'str'=>'上传图片不能超过8M']);
+                }
+                $img_size = getimagesize($img);
+                if($img_size[0] != 308 && $img_size[1] != 190){
                     return response()->json(['err'=>0,'str'=>'新品推荐图片不符合尺寸']);
                 }
             }
