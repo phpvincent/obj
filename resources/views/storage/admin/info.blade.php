@@ -8,7 +8,7 @@
           <div class="layui-card-header">设置我的资料</div>
           <div class="layui-card-body" pad15>
             
-            <form class="layui-form layui-form-pane " method="post" lay-filter="" action="{{url('admin/storage/up_self')}}">
+            <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
               {{csrf_field()}}
               <div class="layui-form-item" >
                 <label class="layui-form-label">我的角色</label>
@@ -148,8 +148,9 @@
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'set'],function(){
+  }).use(['index', 'set','admin'],function(){
     var form=layui.form
+    var admin=layui.admin
     var $=layui.jquery
        form.verify({
         admin_show_name: function(value, item){ //value：表单的值、item：表单的DOM对象
@@ -165,7 +166,30 @@
         }
       });  
        form.on('submit',function(data){
-
+         $.ajax({
+              url:"{{url('admin/storage/up_self')}}",
+              type:'post',
+              data:data.field,
+              datatype:'json',
+              success:function(msg){
+                     if(msg['err']==1){
+                       layer.msg(msg.str);
+                       admin.popupRight({
+                        id:'test',
+                        success:function(){
+                          layui.view(this.id).render("system/more")
+                        }
+                       })
+                       admin.events.refresh()
+                     }else if(msg['err']==0){
+                       layer.msg(msg.str);
+                      
+                     }else{
+                       layer.msg('删除失败！');
+                     }
+              }
+            })
+         return false;
        })
 
   });
