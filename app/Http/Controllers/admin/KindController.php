@@ -42,66 +42,73 @@ class KindController extends Controller
      */
     public function get_table(Request $request)
     {
-        $info = $request->all();
-        $cm = $info['order'][0]['column'];
-        $dsc = $info['order'][0]['dir'];
-        $order = $info['columns']["$cm"]['data'];
-        $draw = $info['draw'];
-        $start = $info['start'];
-        $len = $info['length'];
-        $search = trim($info['search']['value']);
-        $counts = goods_kind::count();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        $search = $request->input('search');
+        //排序参数
+        $field = $request->input('field','goods_kind_id'); //排序字段
+        $dsc = $request->input('order','desc'); //排序顺序
+        $start = ($page-1)*$limit;
+
         //产品个数
-        $newcount = goods_kind::where(function ($query) use ($search) {
-            $query->where('goods_kind_name', 'like', "%$search%");
-            $query->orWhere('goods_kind_sku', 'like', "$search%");
-            $query->orWhere('goods_kind_english_name', 'like', "%$search%");
+        $newcount = goods_kind::join('product_type', 'product_type_id', '=', 'goods_product_id','left')
+        ->where(function ($query) use ($search,$request) {
+            if($request->has('search') && trim($request->input('search'))){
+                $query->where('goods_kind_name', 'like', "%$search%");
+                $query->orWhere('goods_kind_sku', 'like', "$search%");
+                $query->orWhere('goods_kind_english_name', 'like', "%$search%");
+            }
         })
-            ->where(function ($query) {
-                $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
-            })
-            ->where(function ($query) use ($request) {
-                if ($request->input('product_type_id') != 0) {
-                    $query->where('goods_product_id', $request->input('product_type_id'));
-                }
-            })
-            ->where(function($query)use($request){ //时间筛选
-                if($request->input('min')&&$request->input('max')){
-                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
-                }
-            })
-            ->count();
+        ->where(function ($query) {
+            $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
+        })
+        ->where(function ($query) use ($request) {
+            if ($request->input('product_type_id') != 0) {
+                $query->where('goods_product_id', $request->input('product_type_id'));
+            }
+        })
+        ->where(function($query)use($request){ //时间筛选
+            if($request->input('min')&&$request->input('max')){
+                $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min').' 00:00:00',$request->input('max').' 00:00:00']);
+            }
+        })
+        ->count();
 
         //产品信息
-        $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id','left')->where(function ($query) use ($search) {
-            $query->where('goods_kind_name', 'like', "%$search%");
-            $query->orWhere('goods_kind_sku', 'like', "$search%");
-            $query->orWhere('goods_kind_english_name', 'like', "%$search%");
-        })
-            ->where(function ($query) {
+        $data = DB::table('goods_kind')->join('product_type', 'product_type_id', '=', 'goods_product_id','left')
+            ->where(function ($query) use ($search,$request) {
+                //根据用户获取用户查看权限
                 $query->whereIn('goods_kind_admin', \App\admin::get_admins_id());
-            })
-            ->where(function($query)use($request){ //时间筛选
-                if($request->input('min')&&$request->input('max')){
-                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+
+                //关键字搜索
+                if($request->has('search') && trim($request->input('search'))){
+                    $query->where('goods_kind_name', 'like', "%$search%");
+                    $query->orWhere('goods_kind_sku', 'like', "$search%");
+                    $query->orWhere('goods_kind_english_name', 'like', "%$search%");
                 }
-            })
-            ->where(function ($query) use ($request) {
-                if ($request->input('product_type_id') != 0) {
+
+                //根据产品分类搜索
+                if ($request->has('product_type_id') && $request->input('product_type_id') != 0) {
                     $query->where('goods_product_id', $request->input('product_type_id'));
                 }
-            })->select('goods_kind.*','product_type.product_type_name')
-            ->orderBy($order, $dsc)
-            ->offset($start)
-            ->limit($len)
-            ->get();
+
+                //时间筛选
+                if($request->input('min')&&$request->input('max')){
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min').' 00:00:00',$request->input('max').' 00:00:00']);
+                }
+        })
+        ->select('goods_kind.*','product_type.product_type_name')
+        ->orderBy($field, $dsc)
+        ->offset($start)
+        ->limit($limit)
+        ->get();
         if (!$data->isEmpty()) {
             foreach ($data as &$item) {
                 $item->num = goods::where('goods_kind_id', $item->goods_kind_id)->where('is_del', '0')->count();
-//                $item->goods_kind_img =
             }
         }
-        $arr = ['draw' => $draw, 'recordsTotal' => $counts, 'recordsFiltered' => $newcount, 'data' => $data];
+//        $arr = ['draw' => $page, 'recordsTotal' => $counts, 'recordsFiltered' => $newcount, 'data' => $data];
+        $arr = ['code' => 0,"msg"=>"获取数据成功","count"=>$newcount,'data'=>$data];
         return response()->json($arr);
     }
 
