@@ -164,8 +164,9 @@
             return '真实姓名不能全为数字';
           }
         }
-      });  
+      });   
        form.on('submit',function(data){
+        var index = layer.load();
          $.ajax({
               url:"{{url('admin/storage/up_self')}}",
               type:'post',
@@ -173,25 +174,33 @@
               datatype:'json',
               success:function(msg){
                      if(msg['err']==1){
-                       layer.msg(msg.str);
-                       admin.popupRight({
+                       layer.close(index);   
+                       layer.msg(msg.str,{
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                          parent.layui.admin.events.refresh();
+                        });
+                       /*admin.popupRight({
                         id:'test',
                         success:function(){
                           layui.view(this.id).render("system/more")
                         }
-                       })
-                       admin.events.refresh()
+                       })*/
+                       //window.location.reload(); 
+                       //admin.events.closeThisTabs()
+                       //admin.events.closeAllTabs()
+                       //admin.events.refresh()
                      }else if(msg['err']==0){
+                      layer.close(index);   
                        layer.msg(msg.str);
-                      
                      }else{
-                       layer.msg('删除失败！');
+                      layer.close(index);   
+                       layer.msg('修改失败！');
                      }
               }
             })
          return false;
        })
-
   });
   
   </script>

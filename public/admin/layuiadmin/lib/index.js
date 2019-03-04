@@ -82,7 +82,6 @@ layui.extend({
     mods[item] = '{/}' + setter.base + 'lib/extend/' + item;
     layui.extend(mods);
   });
-  
   view().autoRender();
   
   //加载公共模块

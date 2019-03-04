@@ -38,4 +38,18 @@ class StorageController extends Controller
         }
         return response()->json(['err'=>1,'str'=>'修改成功~']);
     }
+    public function password(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('storage.admin.password');
+        }elseif($request->isMethod('post')){
+            $data=$request->only('password');
+            $data['password']=password_hash($data['password'],PASSWORD_BCRYPT);
+            $msg=\app\admin::where('admin_id',\Auth::user()->admin_id)->update($data);
+             if(!$msg){
+                    return response()->json(['err'=>0,'str'=>'密码修改失败！']);
+            }
+            return response()->json(['err'=>1,'str'=>'修改成功~']);
+        }
+    }
 }

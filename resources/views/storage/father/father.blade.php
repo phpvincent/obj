@@ -69,7 +69,7 @@
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="/admin/storage/admin_info">基本资料</a></dd>
-              <dd><a lay-href="/admin/storage/blade?type=set/user/password.html">修改密码</a></dd>
+              <dd><a lay-href="/admin/storage/password">修改密码</a></dd>
               <hr>
               <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
             </dl>
