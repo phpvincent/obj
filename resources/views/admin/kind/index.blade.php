@@ -528,7 +528,7 @@
             });
 
             //监听排序事件
-            table.on('sort(test-table-operate)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            table.on('sort(test-table-operates)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
 
                 //尽管我们的 table 自带排序功能，但并没有请求服务端。
                 //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
