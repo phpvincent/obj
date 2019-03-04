@@ -129,10 +129,13 @@ class SiteController extends Controller
 //                    ->orWhere('goods.goods_real_name', 'like', '%' . $q . '%')
 //                    ->orWhere('goods_kind.goods_kind_name', 'like', '%' . $q . '%')
 //                    ->orWhere('goods_kind.goods_kind_english_name', 'like', '%' . $q . '%');
-                $query->where('goods.goods_name', 'regexp', $search)
-                    ->orWhere('goods.goods_real_name', 'regexp', $search )
-                    ->orWhere('goods_kind.goods_kind_name', 'regexp', $search)
-                    ->orWhere('goods_kind.goods_kind_english_name', 'regexp', $search);
+                if($search){
+                    $query->where('goods.goods_name', 'regexp', $search)
+                        ->orWhere('goods.goods_real_name', 'regexp', $search )
+                        ->orWhere('goods_kind.goods_kind_name', 'regexp', $search)
+                        ->orWhere('goods_kind.goods_kind_english_name', 'regexp', $search);
+                }
+
             })
             ->where('goods.goods_up_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
