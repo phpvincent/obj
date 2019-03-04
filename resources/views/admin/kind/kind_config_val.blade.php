@@ -699,6 +699,7 @@
                                 //回调
                                 index = parent.layer.getFrameIndex(window.name);
                                 setTimeout("parent.layer.close(index);",100);
+                                window.parent.location.reload();
                                 parent.shuaxin();
                             });
                         }else{

@@ -283,6 +283,9 @@
 <script type="text/html" id="test-table-num">
     <a title="商品列表" href="javascript:;" onclick="goods_info('{{url("admin/goods/index")}}?id='+@{{d.goods_kind_id}},@{{ d.num }})" class="ml-5"><span class="layui-btn layui-btn-xs" style="background-color:#ccc;color:red;"> @{{d.num}} </span></a>
 </script>
+<script type="text/html" id="test-table-weight">
+    @{{ parseFloat(d.goods_buy_weight) }}kg
+</script>
 {{--表格绑定产品的商品数量--}}
 <script type="text/html" id="test-table-sku">
     @{{# if (d.goods_kind_sku_status=== '0') { }}
@@ -299,6 +302,7 @@
         </button>
     @{{# } }}
 </script>
+
 
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
@@ -407,9 +411,9 @@
                     ,{field:'goods_kind_english_name', title: '产品英文名'}
                     ,{field:'goods_kind_img', title: '产品图片',align:'center', templet: '#test-table-switchTpl'}
                     ,{field:'product_type_name',width:90, title: '单品分类'}
-                    ,{title: '属性', align:'center',width:140, templet: '#test-table-attr'}
-                    ,{title: '绑定商品个数',align:'center',width:120, templet: '#test-table-num'}
-                    ,{field:'goods_buy_weight'+'kg',width: 100,align:'center',title: '产品重量'}
+                    ,{title:'属性', align:'center',width:140, templet: '#test-table-attr'}
+                    ,{title:'绑定商品个数',align:'center',width:120, templet: '#test-table-num'}
+                    ,{field:'goods_buy_weight'+'kg',width: 100,align:'center',title: '产品重量',templet: '#test-table-weight'}
                     ,{field:'goods_kind_volume',width: 140,align:'center',title: '产品体积'}
                     ,{field:'goods_kind_postage',align:'center',width: 100,title: '邮费'}
                     ,{title: 'SKU绑定状态',align:'center',width: 120,templet: '#test-table-sku'}
