@@ -29,30 +29,31 @@ class goods_kind extends Model
             foreach ($first_configs['vals'] as $val) {
                 $val['kind_config_msg'] = $first_configs['kind_config_msg'];
                 $val['kind_config_english_msg'] = $first_configs['kind_config_english_msg'];
-                if($kind_configs){
-                    $result_arr[$first_configs['kind_config_id']] = $val;
-                }else{
+//                if($kind_configs){
+////                    $result_arr[$first_configs['kind_config_id']] = $val;
+//                    $result_arr[] = [$first_configs['kind_config_id']=>$val];
+//                }else{
                     $result_arr[] = [$first_configs['kind_config_id']=>$val];
-                }
-
+//                }
             }
-                foreach ($kind_configs as $v) {
-                    $result2 = [];
-                    foreach ($result_arr as $k1 => $item1) {
-                        foreach ($v['vals'] as $item2) {
-                            $item2['kind_config_msg'] = $v['kind_config_msg'];
-                            $item2['kind_config_english_msg'] = $v['kind_config_english_msg'];
-                            if (array_key_exists('kind_config_msg', $item1)) {
-                                $temp[$item1['kind_type_id']] = $item1;
-                            } else {
-                                $temp = $item1;
-                            }
-                            $temp[$item2['kind_type_id']] = $item2;
-                            $result2[] = $temp;
+//            dd($result_arr);
+            foreach ($kind_configs as $v) {
+                $result2 = [];
+                foreach ($result_arr as $k1 => $item1) {
+                    foreach ($v['vals'] as $item2) {
+                        $item2['kind_config_msg'] = $v['kind_config_msg'];
+                        $item2['kind_config_english_msg'] = $v['kind_config_english_msg'];
+                        if (array_key_exists('kind_config_msg', $item1)) {
+                            $temp[$item1['kind_type_id']] = $item1;
+                        } else {
+                            $temp = $item1;
                         }
+                        $temp[$item2['kind_type_id']] = $item2;
+                        $result2[] = $temp;
                     }
-                    $result_arr = $result2;
                 }
+                $result_arr = $result2;
+            }
 
 
         }
