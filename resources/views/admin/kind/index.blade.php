@@ -334,8 +334,12 @@
                         {{--<span style="color: red">选择时间应该在10天内,时间不选择默认为近10天</span>--}}
                         {{--</div>--}}
                         {{--</div>--}}
-
                         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                            <div class="layui-form-item">
+                                <div class="layui-inline test-table-reload-btn">
+                                    <button class="layui-btn" id="addgoods_kind">新增产品</button>
+                                </div>
+                            </div>
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <div class="layui-form-item">
@@ -353,7 +357,7 @@
                                                        placeholder="结束日期">
                                             </div>
                                         </div>
-                                        <span style="color: red">选择时间应该在10天内,时间不选择默认为近10天</span>
+                                        <span style="color: red">时间不选择默认为近10天</span>
                                     </div>
                                 </div>
                                 <div class="layui-inline">
@@ -644,11 +648,7 @@
                         var mintime = $('#test-laydate-start').val()//开始时间
                         var maxtime = $('#test-laydate-end').val()//结束时间
                         var search = $('#test-table-demoReload').val() //搜索关键字
-                        // , search: $('#test-table-demoReload').val() //搜索关键字
-                        //         , product_type_id: $('#product_type_id').val()//产品分类
-                        //         , min: $('#test-laydate-start').val()//开始时间
-                        //         , max: $('#test-laydate-end').val()//结束时间
-                        is_time = false;
+                        var is_time = false;
                         //产品分类参数
                         var product_type_id = $('#product_type_id').val();
                         var urls = '';
@@ -681,6 +681,11 @@
                         }
                         layer.msg('请稍等');
                         location.href = url;
+                    });
+
+                    //新增产品
+                    $('#addgoods_kind').on('click', function () {
+                        that.goods_show('产品添加', '{{url("admin/kind/addkind")}}',2,1400,800);
                     });
                 });
 
