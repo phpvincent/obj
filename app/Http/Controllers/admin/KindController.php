@@ -640,33 +640,47 @@ class KindController extends Controller
         if(strtotime($request->input('max'))-strtotime($request->input('min'))>864000){
             return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出十天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
+
         //订单导出
         $data=goods_kind::leftjoin('admin','goods_kind.goods_kind_admin','=','admin.admin_id')
-            ->where(function($query){
+            ->where(function($query)use($request){
+
+                //按照个人权限筛选
                 if(Auth::user()->is_root!='1'){
                     $query->whereIn('goods_kind.goods_kind_admin', admin::get_admins_id());
                 }
-            })
-            ->where(function($query)use($request){ //时间筛选
+
+                //时间筛选
                 if($request->input('min')&&$request->input('max')){
                     $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
                 }else{ //默认近10天
-                    $now_date=date('Y-m-d',time()).' 00:00:00';
-                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
-//                    $query->where('goods_kind.goods_kind_time','<',$now_date);
-                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
+//                    $now_date=date('Y-m-d',time()).' 00:00:00';
+//                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
+//                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
+                }
+
+                //条件筛选
+                if($request->has('search') && trim($request->input('search'))){
+                    $search = trim($request->input('search'));
+                    if($request->has('search') && $search){
+                        $query->where('goods_kind.goods_kind_name', 'like', "%$search%");
+                        $query->orWhere('goods_kind.goods_kind_sku', 'like', "$search%");
+                        $query->orWhere('goods_kind.goods_kind_english_name', 'like', "%$search%");
+                    }
+                }
+
+                //产品分类
+                if ($request->has('product_type_id') && $request->input('product_type_id') != 0) {
+                    $query->where('goods_product_id', $request->input('product_type_id'));
                 }
             })
-            ->where(function($query)use($request){
-                $product_type_id=$request->input('product_type_id');
-                //产品分类
-                if($product_type_id!=0){
-                    $query->whereIn('goods_kind.goods_product_id',$product_type_id);
-                }
-            })->orderBy('goods_kind.goods_kind_id','desc')
+            ->orderBy('goods_kind.goods_kind_id','desc')
             ->get()->toArray();
         if(count($data) > 80){
             return '<span style="color:red;display:block;width:100%;text-align:center;">导出数据过多，请缩短筛选时间并保持数据在80条以内！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
+        }
+        if(count($data) <= 0){
+            return '<span style="color:red;display:block;width:100%;text-align:center;">数据为空，无法导出数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
         }
         if($request->has('min')&&$request->has('max')){
             $min = date('Y年m月d',strtotime($request->input('min')));
