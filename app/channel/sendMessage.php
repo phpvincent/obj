@@ -21,6 +21,7 @@ class sendMessage{
      */
     public static function send($request,$phone,$text,$num)
     {
+        $phone = preg_replace('/\D/','',$phone);  //去掉除数字外的全部其他字符
         $SendSmsApi=new \SendSmsApi();
         $order_id = $request->input('order_id', 0);
         $goods_id = url::get_goods($request);
