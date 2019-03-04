@@ -552,6 +552,7 @@
                 elem: '#test-laydate-start'
                 ,done: function(value, date){
                     //更新结束日期的最小日期
+                    if (value){
                     insEnd.config.min = lay.extend({}, date, {
                         month: date.month - 1
                     });
@@ -559,6 +560,18 @@
                         date: date.date + 10,
                         month: date.month - 1
                     });
+                    } else {
+                    // $("#test-laydate-end").val();
+                    insEnd.config.min = '1900-1-1'
+                    insEnd.config.max = {    	    		
+    	    	      year:2099,
+    	    	      month:11,//关键
+                      date:31,
+                      hours:0,
+                      minutes:0,
+                      seconds:0
+    	            }
+                    }
                     // var year = date.year;
                     // var month = date.month;
                     // var day = date.date;
@@ -595,7 +608,8 @@
                 ,done: function(value, date){
                     // if(date !== {}){
                         //更新开始日期的最大日期
-                        insStart.config.max = lay.extend({}, date, {
+                        if (value){
+                            insStart.config.max = lay.extend({}, date, {
                             month: date.month - 1
                         });
                         //更新开始日期的最小日期
@@ -603,6 +617,17 @@
                             date: date.date - 10,
                             month: date.month - 1
                         });
+                        } else {
+                            insStart.config.min = '1900-1-1'
+                            insStart.config.max = {    	    		
+    	    	              year:2099,
+    	    	              month:11,//关键
+                              date:31,
+                              hours:0,
+                              minutes:0,
+                              seconds:0
+    	                    }
+                        }
                     // }else{
                     //     var myDate = new Date();
                     //     date.year = myDate.getFullYear();
