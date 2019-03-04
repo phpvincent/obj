@@ -634,6 +634,7 @@ class KindController extends Controller
     /**
      * 产品导出
      * @param Request $request
+     * @return string
      */
     public function outkind(Request $request)
     {
@@ -652,10 +653,10 @@ class KindController extends Controller
 
                 //时间筛选
                 if($request->input('min')&&$request->input('max')){
-                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
+                    $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min').' 00:00:00',$request->input('max').' 00:00:00']);
                 }else{ //默认近10天
-                    $now_date=date('Y-m-d',time()).' 00:00:00';
-                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
+                    $now_date=date('Y-m-d',time()+60*60*24).' 00:00:00';
+                    $start_date=date('Y-m-d',time()-9*60*60*24).' 00:00:00';
                     $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
                 }
 

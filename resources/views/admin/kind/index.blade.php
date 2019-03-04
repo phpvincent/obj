@@ -594,31 +594,6 @@
                                   seconds:0
     	                        }
                             }
-                            // var year = date.year;
-                            // var month = date.month;
-                            // var day = date.date;
-                            //
-                            // var stringTime = year+'-'+month+'-'+day+' '+'00:00:00';
-                            // var timestamp2 = Date.parse(new Date(stringTime)) + 10*3600*24*1000;
-                            //
-                            // var myDate = new Date(timestamp2);
-                            // console.log(JSON.stringify(date));
-                            // date.year = myDate.getFullYear();
-                            // date.month = myDate.getMonth() + 1;
-                            // date.date = myDate.getDate();
-                            // // ymd = data.year + '-' + data.month + '-' + data.day;
-                            //
-                            // // console.log(data.year + '-' + data.month + '-' + data.day);
-                            // //更新结束日期的最大日期（10日内）
-                            // insEnd.config.max = lay.extend({}, date, {
-                            //     year: date.year
-                            //     ,month: date.month
-                            //     ,date: date.date
-                            //     ,hours:0
-                            //     ,minutes:0
-                            //     ,seconds:0
-                            // });
-                            // console.log(JSON.stringify(insEnd.config));
                             //自动弹出结束日期的选择器
                             insEnd.config.elem[0].focus();
                         }
@@ -650,18 +625,6 @@
                                 seconds:0
     	                      }
                             }
-                            // }else{
-                            //     var myDate = new Date();
-                            //     date.year = myDate.getFullYear();
-                            //     date.month = myDate.getMonth();
-                            //     date.date = myDate.getDate();
-                            //     //更新结束日期的最小日期
-                            //     insStart.config.max = lay.extend({}, date, {
-                            //         date: date.date,
-                            //         month: date.month
-                            //     });
-                            // }
-                            // console.log(JSON.stringify(date));
                         },
                     });
 
