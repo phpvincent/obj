@@ -654,9 +654,9 @@ class KindController extends Controller
                 if($request->input('min')&&$request->input('max')){
                     $query->whereBetween('goods_kind.goods_kind_time',[$request->input('min'),$request->input('max')]);
                 }else{ //默认近10天
-//                    $now_date=date('Y-m-d',time()).' 00:00:00';
-//                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
-//                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
+                    $now_date=date('Y-m-d',time()).' 00:00:00';
+                    $start_date=date('Y-m-d',time()-10*60*60*24).' 00:00:00';
+                    $query->whereBetween('goods_kind.goods_kind_time',[$start_date,$now_date]);
                 }
 
                 //条件筛选
