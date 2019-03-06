@@ -29,4 +29,19 @@ class IndexController extends Controller
     	return view('admin.index.index')->with(compact('data'));
     }
 
+    public function new_index(Request $request)
+    {
+        $data=getclientcity($request);
+        $hcoun=\App\order::where(function($query){
+            $query->whereIn('order_type',[0,11]);
+            $query->where('is_del','0');
+        })
+        ->where(function($query){
+            $query->whereIn('order.order_goods_id',admin::get_goods_id());
+        })
+        ->count();
+        view()->share('hcoun',$hcoun);
+        return view('admin.index.index')->with(compact('data'));
+    }
+
 }

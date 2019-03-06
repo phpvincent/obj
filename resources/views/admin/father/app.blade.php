@@ -1,160 +1,135 @@
-﻿<!DOCTYPE HTML>
+@extends('admin.father.static')
+@section('content')
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="Bookmark" href="/favicon.ico" >
-<link rel="Shortcut Icon" href="/favicon.ico" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
-<![endif]-->
-<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/h-ui/css/H-ui.min.css')}}" />
-<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/h-ui.admin/css/H-ui.admin.css')}}" />
-<link rel="stylesheet" type="text/css" href="{{asset('/admin/lib/Hui-iconfont/1.0.8/iconfont.css')}}" />
-<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/h-ui.admin/skin/default/skin.css')}}" id="skin" />
-<link rel="stylesheet" type="text/css" href="{{asset('/admin/static/h-ui.admin/css/style.css')}}" />
-@yield('css')
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
-<title>信息管理系统</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+  <meta charset="utf-8">
+  <title>信息管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <!-- <script>
+  /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+  </script> -->
 </head>
-<body style="min-width:1208px">
-<header class="navbar-wrapper">
-	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl">
-			{{--<a class="logo navbar-logo f-l mr-10 hidden-xs" href="{{url('/admin/index')}}">信息管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="{{url('/admin/index')}}">仓库管理系统</a>--}}
-			{{--<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>--}}
-			<nav class="nav navbar-nav">
-				<ul class="cl">
-					@if(Auth::user()->admin_storage==1||Auth::user()->is_root==1)
-						<li style="width: 190px;margin-left: -30px;" class="dropDown dropDown_hover"><a href="#" class="dropDown_A">信息管理系统 <i class="Hui-iconfont">&#xe6d5;</i></a>
-							<ul class="dropDown-menu menu radius box-shadow">
-								<li><a href="{{url('/admin/index')}}">信息管理系统</a></li>
-								<li><a href="{{url('/admin/storage/index')}}">仓库管理系统</a></li>
-							</ul>
-						</li>
-					@else
-						<li style="width: 190px;margin-left: -42px;" class="dropDown dropDown_hover"><a href="{{url('/admin/index')}}">信息管理系统</a></li>
-					@endif
-
-					<li class="dropDown dropDown_hover"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
-						@if(Auth::user()->is_root=='1')
-						<ul class="dropDown-menu menu radius box-shadow">
-							<li><a href="javascript:;" onclick="layer_show('新品添加','{{url("admin/goods/addgoods")}}',1400,800);"><i class="Hui-iconfont">&#xe616;</i> 单品</a></li>
-							<li><a href="javascript:;" onclick="layer_show('添加域名','{{url("admin/url/url_add")}}',500,400);"><i class="Hui-iconfont">&#xe613;</i> 域名</a></li>
-							<li><a href="javascript:;" onclick="layer_show('添加角色','{{url("admin/admin/addrole")}}',300,200);"><i class="Hui-iconfont">&#xe62b;</i> 角色</a></li>
-							<li><a href="javascript:;" onclick="member_add('添加用户','{{url("admin/admin/addadmin")}}',500,400);"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
-					</ul>
-					@endif
-				</li>
-			</ul>
-		</nav>
-		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
-			<ul class="cl">
-				<li>
-					@if(Auth::user()->is_root==1)
-					<li>超级管理员</li>
-					@else
-					{{App\role::where('role_id',Auth::user()->admin_role_id)->first()->role_name}}
-					@endif
-				</li>
-				<li class="dropDown dropDown_hover">
-					<a href="#" class="dropDown_A">{{Auth::user()->admin_name}}<i class="Hui-iconfont">&#xe6d5;</i></a>
-					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
-						<li><a href="{{url('logout')}}">切换账户</a></li>
-						<li><a href="{{url('logout')}}" onclick="return confirm('确定要退出吗？')">退出</a></li>
-				</ul>
-			</li>
-				<li id="Hui-msg"> <a href="#" title="未核审订单"><span class="badge badge-danger">{{$hcoun}}</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
-				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
-					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
-						<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
-						<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
-						<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
-						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
-						<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
-					</ul>
-				</li>
-			</ul>
-		</nav>
-	</div>
-</div>
-</header>
-@include('admin.father.aside')
-<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
-<section class="Hui-article-box">
-	<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
-		<div class="Hui-tabNav-wp">
-			<ul id="min_title_list" class="acrossTab cl">
-				<li class="active">
-					<span title="我的桌面" data-href="welcome.html">我的桌面</span>
-					<em></em></li>
-		</ul>
-	</div>
-		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
-</div>
-	<div id="iframe_box" class="Hui-article">
-		<div class="show_iframe">
-			<div style="display:none" class="loading"></div>
-			<iframe scrolling="yes" frameborder="0" src="{{url('/admin/welcome')}}"></iframe>
-	</div>
-</div>
-</section>
-
-<div class="contextMenu" id="Huiadminmenu">
-	<ul>
-		<li id="closethis">关闭当前 </li>
-		<li id="closeall">关闭全部 </li>
-</ul>
-</div>
-<!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="{{asset('/admin/lib/jquery/1.9.1/jquery.min.js')}}"></script> 
-<script type="text/javascript" src="{{asset('/admin/lib/layer/2.4/layer.js')}}"></script>
-<script type="text/javascript" src="{{asset('/admin/static/h-ui/js/H-ui.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('/admin/static/h-ui.admin/js/H-ui.admin.js')}}"></script> <!--/_footer 作为公共模版分离出去-->
-
-<!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="{{asset('/admin/lib/jquery.contextmenu/jquery.contextmenu.r2.js')}}"></script>
-@yield('js')
-<script type="text/javascript">
-$(function(){
-	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
-		bindings: {
-			'closethis': function(t) {
-				console.log(t);
-				if(t.find("i")){
-					t.find("i").trigger("click");
-				}		
-			},
-			'closeall': function(t) {
-				alert('Trigger was '+t.id+'\nAction was Email');
-			},
-		}
-	});*/
-});
-/*个人信息*/
-function myselfinfo(){
-		layer_show('个人信息','/admin/admin/layershow',800,500);
-}
-
-
-/*用户-添加*/
-function member_add(title,url,w,h){
-	layer_show(title,url,w,h);
-}
-
-
-</script> 
-
+<body class="layui-layout-body">
+  
+  <div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+      <div class="layui-header">
+        <!-- 头部区域 -->
+        <ul class="layui-nav layui-layout-left">
+          <li class="layui-nav-item layadmin-flexible" lay-unselect>
+            <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+              <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="/admin/index" target="_blank" title="信息管理系统">
+              <i class="layui-icon layui-icon-website"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;" layadmin-event="refresh" title="刷新">
+              <i class="layui-icon layui-icon-refresh-3"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+          </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+          
+          <li class="layui-nav-item" lay-unselect>
+            <a lay-href="/admin/storage/blade?type=app/message/index.html" layadmin-event="message" lay-text="消息中心">
+              <i class="layui-icon layui-icon-notice"></i>  
+              
+              <!-- 如果有新消息，则显示小圆点 -->
+              <span class="layui-badge-dot"></span>
+            </a>
+          </li>
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="theme">
+              <i class="layui-icon layui-icon-theme"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="note">
+              <i class="layui-icon layui-icon-note"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="fullscreen">
+              <i class="layui-icon layui-icon-screen-full"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+              <cite>{{Auth::user()->admin_name}}</cite>
+            </a>
+            <dl class="layui-nav-child">
+              <dd><a lay-href="/admin/storage/admin_info">基本资料</a></dd>
+              <dd><a lay-href="/admin/storage/blade?type=set/user/password.html">修改密码</a></dd>
+              <hr>
+              <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+            </dl>
+          </li>
+          
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+          </li>
+          <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+            <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- 侧边菜单 -->
+      @include('admin.father.aside')
+      <!-- 页面标签 -->
+      <div class="layadmin-pagetabs" id="LAY_app_tabs">
+        <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+        <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+        <div class="layui-icon layadmin-tabs-control layui-icon-down">
+          <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+            <li class="layui-nav-item" lay-unselect>
+              <a href="javascript:;"></a>
+              <dl class="layui-nav-child layui-anim-fadein">
+                <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+              </dl>
+            </li>
+          </ul>
+        </div>
+        <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+          <ul class="layui-tab-title" id="LAY_app_tabsheader">
+            <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+          </ul>
+        </div>
+      </div>
+      
+      
+      <!-- 主体内容 -->
+      <div class="layui-body" id="LAY_app_body">
+        <div class="layadmin-tabsbody-item layui-show">
+          <iframe src="/admin/new_index" frameborder="0" class="layadmin-iframe"></iframe>
+        </div>
+      </div>
+      
+      <!-- 辅助元素，一般用于移动设备下遮罩 -->
+      <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+  </div>
+@endsection
+@section('js')
+  <script>
+  layui.config({
+    base: '/admin/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use('index');
+  </script>
+  @endsection
 </body>
 </html>

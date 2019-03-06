@@ -96,6 +96,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     	return redirect('/admin/login');
     });
 	Route::get('/admin/index','admin\IndexController@index');
+	Route::get('/admin/new_index','admin\IndexController@new_index');
 	Route::get('admin','admin\IndexController@index');
 	Route::get('/admin/welcome','admin\IndexController@welcome');
 	//商品相关
