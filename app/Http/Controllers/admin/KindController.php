@@ -163,6 +163,10 @@ class KindController extends Controller
                             if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
                                 return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                             }
+
+                        }
+                        if ((count($item['msg']) != count(array_unique(array_column($item['msg'], 'goods_config')))) || (count($item['msg']) != count(array_unique(array_column($item['msg'], 'goods_config_english'))))){
+                            return response()->json(['err' => '0', 'msg' => '产品属性值或产品英文属性值不能重复!']);
                         }
                     }
                 }
@@ -415,6 +419,9 @@ class KindController extends Controller
                             if (!isset($val['goods_config']) || !$val['goods_config'] || !isset($val['goods_config_english']) || !$val['goods_config_english']) {
                                 return response()->json(['err' => '0', 'msg' => '产品属性值、产品英文属性值、色系不能为空!']);
                             }
+                        }
+                        if ((count($item['msg']) != count(array_unique(array_column($item['msg'], 'goods_config')))) || (count($item['msg']) != count(array_unique(array_column($item['msg'], 'goods_config_english'))))){
+                            return response()->json(['err' => '0', 'msg' => '产品属性值或产品英文属性值不能重复!']);
                         }
                     }
                 }
