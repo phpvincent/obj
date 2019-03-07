@@ -18,7 +18,7 @@
 		@endforeach
 		
 		<dl id="menu-picture">
-			<dt><i class="Hui-iconfont">&#xe613;</i> 仓储信息管理系统<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe613;</i> 仓储信息管理系统<i class="Hui-iconfont menu_dropdown-arrow">&#xe72b;</i></dt>
 			<dd>
 				<ol>
 					<li><a data-href="/admin/storage/index" data-title="进入系统" onclick="parent.location.href='/admin/storage/index';" >进入系统</a></li>
