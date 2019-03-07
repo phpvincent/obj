@@ -730,7 +730,7 @@ class SiteController extends Controller
     }
     public function change_stauts(Request $request)
     {
-        if(!$request->has('id')||!$request->input('status')){
+        if(!$request->has('id')||!$request->has('status')){
                  return response()->json(['err' => 0, 'str' => '状态修改失败！']);
         }
         $goods_id=$request->input('id');
