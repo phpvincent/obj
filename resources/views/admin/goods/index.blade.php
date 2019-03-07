@@ -120,6 +120,11 @@
 @section('js')
 
 <script type="text/javascript">
+
+function shuaxin(){
+$("#goods_index_table").DataTable().draw(false);
+}
+
 	$.tablesetting={
 	"lengthMenu": [[10,20],[10,20]],
 		"paging": true,
