@@ -202,13 +202,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
-                <div id=messagediv>
+                <!-- <div id=messagediv>
                    <span class="messag">أكتب ما وصل إلي جوالك من رمزالتحقق</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
                    <button id="messend" style="background-color: #00923f;border: 1px solid #00923f;" type="button" class="mui-btn but-red">إعادة في إرسال<span id="messpan"></span></button>
                    </div>
-                </div>
+                </div> -->
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color: #00923f;position: absolute;margin-right: 20%;bottom: 0px;right: 0;">تأكيد</button>
@@ -558,15 +558,16 @@ var payFun=function (){
     };
     datasObj.telephone="966"+datasObj.telephone;
     // layer.msg("订单提交中，请稍等...");
-    payFunMessageRight(datasObj)
+    $("#orderlog").show();
+    payFunMessage()
             
 }
 var payFunGo= function (){
-    if(!$("#messageinput").val()){
-        layer.msg('أكتب ما وصل إلي جوالك من رمزالتحقق');
-        return false;
-    };
-    datasObj.messaga_code = $("#messageinput").val();
+    // if(!$("#messageinput").val()){
+    //     layer.msg('أكتب ما وصل إلي جوالك من رمزالتحقق');
+    //     return false;
+    // };
+    // datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:' انتظر قليلا الطلب تحت التأكيد.',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px', 'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -645,7 +646,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
-$('#messend').bind('click',sendMess) // 重新发送按钮
+// $('#messend').bind('click',sendMess) // 重新发送按钮
 var messagesucce =" رمز التحقق قد وصل إلي جوالك . من فضلك إستقبالها جيدا صلاحية رمز التحقق 5 دقائق. ";
 var messageerr =" فشل في إرسال رمز التحقق. أنظر هل رقم الجوال صحيح أم لا ";
 var messnetworkerr= " فشل الطلب من فضلك تأكد من جوده الانترنت .";

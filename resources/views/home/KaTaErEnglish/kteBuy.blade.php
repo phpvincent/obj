@@ -181,13 +181,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
-                <div id=messagediv>
+                <!-- <div id=messagediv>
                    <span class="messag">Please fill in the verification code.</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
                    <button id="messend" style="background-color: #00923f;border: 1px solid #00923f;" type="button" class="mui-btn but-red">Resend<span id="messpan"></span></button>
                    </div>
-                </div>
+                </div> -->
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;background-color: #00923f;">confirm order</button>
@@ -511,15 +511,16 @@ var payFun=function (){
     datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
     // datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     datasObj.telephone="974"+datasObj.telephone;
-    payFunMessage(datasObj)
+    $("#orderlog").show();
+    payFunMessage()
             
 }
 var payFunGo= function (){
-    if(!$("#messageinput").val()){
-        layer.msg('Please fill in the verification code.');
-        return false;
-    };
-    datasObj.messaga_code = $("#messageinput").val();
+    // if(!$("#messageinput").val()){
+    //     layer.msg('Please fill in the verification code.');
+    //     return false;
+    // };
+    // datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     // layer.msg("Please wait for the order submitted");
     var payType=$(".paymentbox input:checked").val();
@@ -596,7 +597,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
-$('#messend').bind('click',sendMess) // 重新发送按钮
+// $('#messend').bind('click',sendMess) // 重新发送按钮
 var messagesucce ="A verification code has been sent to your mobile phone. Please confirm. only valid within 5 minutes";
 var messageerr =" Fail to send the verification code. Please confirm you mobile No. ";
 var messnetworkerr= " Please check the network condition.";
