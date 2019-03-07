@@ -206,13 +206,13 @@
                 <div id="orderlogConten">  
                 </div>
                 <div id="orderlogConten2"></div>
-                <div id=messagediv>
+                <!-- <div id=messagediv>
                    <span class="messag">Silakan masukkan kode verifikasi yang telah dikirim ke ponsel Anda</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
                    <button id="messend" type="button" class="mui-btn but-red">Kirim Ulang<span id="messpan"></span></button>
                    </div>
-                </div>
+                </div> -->
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;"> konfirmasi/ok</button>
@@ -559,15 +559,16 @@ var payFun=function (){
     // }
     datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
     // layer.msg("Pesanan sedang dikirim, Silahkan menunggu");
-    payFunMessage(datasObj)
+    $("#orderlog").show();
+    payFunMessage()
             
 }
 var payFunGo= function (){
-    if(!$("#messageinput").val()){
-        layer.msg('Silakan masukkan kode verifikasi yang telah dikirim ke ponsel Anda');
-        return false;
-    };
-    datasObj.messaga_code = $("#messageinput").val();
+    // if(!$("#messageinput").val()){
+    //     layer.msg('Silakan masukkan kode verifikasi yang telah dikirim ke ponsel Anda');
+    //     return false;
+    // };
+    // datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'Pesanan sedang dikirim, Silakan tunggu',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',  'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -643,7 +644,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
-$('#messend').bind('click',sendMess) // 重新发送按钮
+// $('#messend').bind('click',sendMess) // 重新发送按钮
 var messagesucce ="Kode verifikasi telah dikirim ke ponsel Anda, pastikan untuk menerimanya! kode verifikasi ini berlaku selama 5 menit.";
 var messageerr =" Kode verifikasi gagal. Harap konfirmasi nomor ponsel anda yang benar! ";
 var messnetworkerr= "Pesanan gagal dikirim, Silahkan cek jaringan internet Anda";
