@@ -487,7 +487,7 @@ class IndexController extends Controller
 
 //        $urls=url::where('url_goods_id',$goods->goods_id)->first();
         if($request->input('messaga_code')) {
-            $tel = $request->input('telephone');
+            $tel = preg_replace('/\D/','',$request->input('telephone'));  //去掉除数字外的全部其他字符
             $tel = message::AreaCode($goods->goods_blade_type,$tel);
             //是否获取手机验证码是否正确
             $messages = Message::where('message_mobile_num', $tel)->orderBy('message_id', 'desc')->first();
@@ -575,7 +575,7 @@ class IndexController extends Controller
         }
 
         //手机号
-        $orders_tel = \App\order::where('order_tel',$request->input('telephone'))->get();
+        $orders_tel = \App\order::where('order_tel',preg_replace('/\D/','',$request->input('telephone')))->get();
         if(!$orders_tel->isEmpty()){
             array_push($order_Array,'3');
             foreach ($orders_tel as $item)
@@ -624,7 +624,7 @@ class IndexController extends Controller
     	$order->order_cuxiao_id=$cuxiao_id;
         $order->order_remark=$request->input('notes');
         $order->order_name=$request->input('firstname');
-        $order->order_tel=$request->input('telephone');
+        $order->order_tel=preg_replace('/\D/','',$request->input('telephone'));
         $order->order_state=$request->has('state')?$request->input('state'):'暂无信息';
         $order->order_city=$request->has('city')?$request->input('city'):'暂无信息';
         $order->order_add=$request->input('address1');

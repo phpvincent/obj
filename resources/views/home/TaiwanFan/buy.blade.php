@@ -498,7 +498,7 @@ var payFun=function (){
         layer.msg('請填寫收貨人手機號碼');
         return false;
     }
-    var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+    var re = /^[1-9]\d*$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
     if(!re.test(datasObj.telephone)){
         layer.msg('請輸入有效手機號');
         return false;

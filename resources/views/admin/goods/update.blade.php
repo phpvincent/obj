@@ -151,6 +151,16 @@
 				</div>
 			</div>
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点类目中显示：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						不显示 <input type="radio" id="good_site_status" class=" good_site_status" name="good_site_status"  @if($goods->good_site_status==0) checked="checked" @endif value="0">
+						显示 <input type="radio" id="good_site_status" class=" good_site_status" name="good_site_status"  @if($goods->good_site_status==1) checked="checked" @endif value="1">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>促销类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="goods_cuxiao_type" id="goods_cuxiao_type" class="select">

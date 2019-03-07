@@ -132,6 +132,16 @@
 				</div>
 			</div>
 			<div class="clearfix">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>站点类目中显示：</label>
+				<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<div class="check-box">
+						不显示 <input type="radio" id="good_site_status" class=" good_site_status" name="good_site_status" value="0">
+						显示 <input type="radio" id="good_site_status" class=" good_site_status" name="good_site_status" checked="checked" value="1">
+						<label for="checkbox-pinglun">&nbsp;</label>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>货币类型：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 					<select name="currency_type" id="currency_type" class="select">
