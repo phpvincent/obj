@@ -399,7 +399,7 @@
 </div>
 @endsection
 @section('js')
-    <script src="/admin/layuiadmin/config.js"></script>
+   <!--  <script src="/admin/layuiadmin/config.js"></script> -->
     <script>
         var that = this;
         //var show_kind_img;
