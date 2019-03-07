@@ -446,7 +446,7 @@ class GoodsController extends Controller
          $goods->goods_real_price=$data['goods_real_price'];
          $goods->goods_price=$data['goods_price'];
          $goods->goods_pix=$data['goods_pix'];
-         $goods->good_site_status=$data['good_site_status'];
+         $goods->goods_site_status=$data['goods_site_status'];
          $goods->goods_num=$data['goods_num'];
          $goods->goods_yahoo_pix=$data['goods_yahoo_pix'];
          $goods->goods_google_pix=$data['goods_google_pix'];
@@ -1147,7 +1147,7 @@ class GoodsController extends Controller
 //       $goods->goods_buy_url = $request->has('goods_buy_url') ? $data['goods_buy_url'] : null;
 //       $goods->goods_buy_msg = $request->has('goods_buy_msg') ? $data['goods_buy_msg'] : null;
        $goods->goods_pix = $data['goods_pix'];
-       $goods->good_site_status=$data['good_site_status'];
+       $goods->goods_site_status=$data['goods_site_status'];
        $goods->goods_yahoo_pix = $data['goods_yahoo_pix'];
        $goods->goods_google_pix = $data['goods_google_pix'];
        $goods->goods_type = $data['goods_type'];
