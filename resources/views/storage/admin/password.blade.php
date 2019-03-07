@@ -6,7 +6,7 @@
         <div class="layui-card">
           <div class="layui-card-header">修改密码</div>
           <div class="layui-card-body" pad15>
-            <div class="layui-form" lay-filter="">
+            <form class="layui-form" lay-filter="">
             	{{csrf_field()}}
               <div class="layui-form-item">
                 <label class="layui-form-label">当前密码</label>
@@ -32,7 +32,7 @@
                   <button class="layui-btn" lay-submit lay-filter="setmypass">确认修改</button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
         },
       });   
   		form.on('submit',function(data){
-  			 var index = layer.load();
+  			 var loading = layer.load();
          $.ajax({
               url:"{{url('admin/storage/password')}}",
               type:'post',
@@ -64,9 +64,9 @@
               datatype:'json',
               success:function(msg){
                      if(msg['err']==1){
-                       layer.close(index);   
+                       layer.close(loading);
                        layer.msg(msg.str,{
-                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        time: 3000 //2秒关闭（如果不配置，默认是3秒）
                         }, function(){
                           parent.layui.admin.events.refresh();
                         });
@@ -81,14 +81,15 @@
                        //admin.events.closeAllTabs()
                        //admin.events.refresh()
                      }else if(msg['err']==0){
-                      layer.close(index);   
+                      layer.close(loading);   
                        layer.msg(msg.str);
                      }else{
-                      layer.close(index);   
+                      layer.close(loading);   
                        layer.msg('修改失败！');
                      }
               }
             })
+         return false;
   		})
   });
   </script>

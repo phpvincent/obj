@@ -176,6 +176,7 @@ class SiteController extends Controller
             ->where('goods.goods_blade_type', $site->sites_blade_type)
             ->where('goods.goods_currency_id', $currency)
             ->where('goods.goods_type', $request->input('active_type'))
+            ->where('goods.goods_site_status','1')
             ->where('goods.goods_up_time', '>', Carbon::now()->subMonths(2))
             ->where(function ($query) use($goods_not_in) {
                 if($goods_not_in) {

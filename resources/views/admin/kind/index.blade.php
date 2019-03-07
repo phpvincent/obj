@@ -272,8 +272,9 @@
 </style>
 
 {{--表格插入图片--}}
+    <img src="" id="show_big" width="100%" style="display: none">
 <script type="text/html" id="test-table-switchTpl">
-    <img src="/@{{ d.goods_kind_img }}" width="50px" alt="产品图片" >
+    <img src="/@{{ d.goods_kind_img }}" onclick="show_kind_img('产品图片','/@{{d.goods_kind_img}}')" width="50px" alt="产品图片" >
 </script>
 {{--表格属性信息--}}
 <script type="text/html" id="test-table-attr">
@@ -393,6 +394,7 @@
     <script src="/admin/layuiadmin/config.js"></script>
     <script>
         var that = this;
+        //var show_kind_img;
         layui.config({
             base: '/admin/layuiadmin/' //静态资源所在路径
         }).extend({
@@ -422,7 +424,25 @@
                 ]]
                 ,page: true
             });
-
+            //产品图片展示
+       show_kind_img= function show_kind_img(name,url)
+        {   
+            var $=layui.jquery;
+            $('#show_big').attr('src',url);
+            //console.log($('#show_big').attr('url'));
+            layer.open({
+                type:1,
+                title: false,
+                scrollbar: false,
+                closeBtn: 0,
+                //content: ['浏览器滚动条已锁','no'],
+                shadeClose: true,
+                  area:'800px',
+                  skin: 'layui-layer-nobg', //没有背景色
+                  shadeClose: true,
+                  content:$('#show_big')
+            })
+        }
             //搜索刷新数据
             var $ = layui.$, active = {
                 reload: function(){
@@ -617,6 +637,7 @@
                     // console.log(JSON.stringify(date));
                 },
             });
+
         });
 
         //产品详情,SKU绑定状态
@@ -640,5 +661,22 @@
                 window.location.href = url;
             }
         }
+        
+       /*  function layer_img(src){
+            $('#img').attr('src',src);
+            layer.open({
+              type: 1,
+              title: false,
+              closeBtn: 0,
+              content: '浏览器滚动条已锁',
+              scrollbar: false,
+              shadeClose: true,
+              //area: '516px',
+              area: ['800px'],
+              skin: 'layui-layer-nobg', //没有背景色
+              shadeClose: true,
+              content: $('#img')
+            });
+       }*/
     </script>
 @endsection

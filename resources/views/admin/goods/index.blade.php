@@ -177,6 +177,11 @@
 				var isroot='<span class="label label-success radius">√</span>';
 				info+='<a title="停止" href="javascript:;" onclick="goods_close(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="停止"><i class="Hui-iconfont">&#xe6e4;</i></span></a>'
 			}
+			if(data.goods_site_status=='1'){
+				   info+='<a title="更改为不显示在站点类目栏" href="javascript:;" onclick="site_status(\''+data.goods_id+'\',\'0\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改为不显示在站点类目栏"><i class="Hui-iconfont">&#xe6e0;</i></span></a>'
+			}else{
+				   info+='<a title="更改为显示在站点类目栏" href="javascript:;" onclick="site_status(\''+data.goods_id+'\',\'1\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改为显示在站点类目栏"><i class="Hui-iconfont">&#xe6e1;</i></span></a>'
+			}
 			if(data.bd_type==1){
 				var bd_type='<span style="color:green;">正常单品</span>';
 			}else if(data.bd_type==0){
@@ -324,6 +329,40 @@ function goods_update(title,url,type,w,h){
 }
 function goods_show(title,url,type,w,h){
 	layer_show(title,url,w,h);
+}
+function site_status(id,status){
+	if(status==1){
+		var msg =confirm("确定要在站点类目中显示？");
+	}else if(status==0){
+		var msg =confirm("确定要在站点类目中隐藏？");
+	}else{
+		alert('参数错误！');
+		return false;
+	}
+		if(msg){
+        		layer.msg('操作中');
+        		$.ajax({
+					url:"{{url('admin/sites/change_stauts')}}",
+					type:'get',
+					data:{'id':id,'status':status},
+					datatype:'json',
+					success:function(msg){
+			           if(msg['err']==1){
+			           	 layer.msg(msg.str);
+			           	 $('#goods_index_table').dataTable().fnClearTable();
+			           	 /*$(".del"+id).prev("input").remove();
+        				 $(".del"+id).val('已删除');*/
+			           }else if(msg['err']==0){
+			           	 layer.msg(msg.str);
+			           }else{
+			           	 layer.msg('更新失败！');
+			           }
+					}
+				})
+
+		}else{
+
+		}
 }
 $('#goods_type').on('change',function(){
 	var goods_type=$(this).val();

@@ -728,4 +728,18 @@ class SiteController extends Controller
        return response()->json(['err' => 1, 'str' => '复制成功!']);
       }
     }
+    public function change_stauts(Request $request)
+    {
+        if(!$request->has('id')||!$request->input('status')){
+                 return response()->json(['err' => 0, 'str' => '状态修改失败！']);
+        }
+        $goods_id=$request->input('id');
+        $status=$request->input('status');
+        $msg=\App\goods::where('goods_id',$goods_id)->update(['goods_site_status'=>$status]);
+        if($msg){
+                 return response()->json(['err' => 1, 'str' => '单品站点分类显示状态修改成功！']);
+             }else{
+                 return response()->json(['err' => 0, 'str' => '单品站点分类显示状态修改失败！']);
+             }
+    }
 }
