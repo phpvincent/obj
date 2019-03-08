@@ -22,6 +22,7 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 /*	Route::any('/paypal',function(Request $request){
+		\Log::info('paypal-api调用:'.$request->getClientIp());
 		\App\goods::where('goods_blade_type','6')->update(['goods_site_status'=>0]);
 		die;
 		//\App\kind_val::where('kind_val_id','>',0)->update(['kind_val_sku'=>null]);
