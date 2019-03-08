@@ -21,8 +21,38 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-/*	Route::any('/paypal',function(Request $request){
-		\Log::info('paypal-api调用:'.$request->getClientIp());
+	/*Route::any('/paypal',function(Request $request){
+		set_time_limit(0);
+		$num=0;
+		$time1=time();
+	while($num<100){$num++;
+			$post_data = array(
+
+			    'user' => uniqid("test_",true),
+			    'password' => uniqid("test_",true)
+			);
+			$url='http://du.hupui.com/LoginHome';
+			//$res =send_post('http://www.test.com/index.php?name=act',$post_data);
+			//var_dump($res);
+				$postdata = http_build_query($post_data);
+	      	$options = array(
+	            'http' => array(
+	                'method' => 'POST',//注意要大写
+	                'header' => 'Content-type:application/x-www-form-urlencoded',
+	                'content' => $postdata
+	            )
+	        );
+	        $context = stream_context_create($options);
+	        try{
+	        		        $result = file_get_contents($url, false, $context);
+	        }catch(\Exception $e){
+
+	        }
+	}
+	$time2=time();
+	dd($num,$time1,$time2);
+		die;
+		//\Log::info('paypal-api调用:'.$request->getClientIp());
 		\App\goods::where('goods_blade_type','6')->update(['goods_site_status'=>0]);
 		die;
 		//\App\kind_val::where('kind_val_id','>',0)->update(['kind_val_sku'=>null]);
