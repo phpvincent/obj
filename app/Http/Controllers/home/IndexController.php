@@ -228,6 +228,9 @@ class IndexController extends Controller
            $goods_id=url::get_goods($request);
         }
     	$goods=goods::where('goods_id',$goods_id)->first();
+        if($goods==null){
+            return view('home.ydzshome.405');
+        }
         //处理图片
         $img = \App\img::where('img_goods_id',$goods_id)->orderBy('img_id','asc')->first();
         $str = $goods->goods_des_html;
