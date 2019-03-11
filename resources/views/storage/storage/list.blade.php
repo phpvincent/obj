@@ -1,5 +1,53 @@
 @extends('storage.father.static')
 @section('content')
+  <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+    <div class="layui-form-item">
+      <div class="layui-inline test-table-reload-btn">
+        <button class="layui-btn" id="addgoods_kind">新增仓库</button>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">日期范围：</label>
+            <div class="layui-input-inline">
+              <input type="text" class="layui-input" id="test-laydate-start"
+                     placeholder="开始日期">
+            </div>
+            <div class="layui-form-mid">
+              -
+            </div>
+            <div class="layui-input-inline">
+              <input type="text" class="layui-input" id="test-laydate-end"
+                     placeholder="结束日期">
+            </div>
+          </div>
+          <span style="color: red">时间不选择默认为近10天</span>
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">产品分类</label>
+        <div class="layui-input-block">
+          <select name="product_type_id" id="product_type_id" lay-verify="required">
+            <option value="0">所有</option>
+            @foreach(\App\product_type::all() as $k => $v)
+              <option value="{{$v->product_type_id}}">{{$v->product_type_name}}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="layui-inline test-table-reload-btn">
+        <label>从当前数据中检索:</label>
+        <div class="layui-inline">
+          <input class="layui-input" name="id" id="test-table-demoReload"
+                 autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+        <button class="layui-btn" id="outorder">产品导出</button>
+      </div>
+    </div>
+  </div>
   <table id="storagelist" lay-filter="test"></table>
 @endsection
 @section('js')
@@ -42,6 +90,7 @@
   @{{# } }}
 </script>
 <script>
+    var that = this;
    layui.config({
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
@@ -65,7 +114,27 @@
         ,{field: 'wealth', title: '财富', width: 135, sort: true}*/
       ]]
      });
+
+       //搜索刷新数据
+       var $ = layui.$;
+
+     //新增产品
+     $('#addgoods_kind').on('click', function () {
+         that.goods_show('新增仓库', '{{url("admin/storage/add_storage")}}',2,600,510);
+     });
   });
+
+  //model 模态框
+  function goods_show(title, url, type, w, h) {
+      layer.open({
+          type: type,
+          title: title,
+          area: [w, h],
+          fixed: false, //不固定
+          maxmin: true,
+          content: url
+      });
+  }
 
 </script>
 @endsection

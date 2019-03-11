@@ -6,7 +6,7 @@
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
             @foreach($rules as $v)
               @if($v->rule_level==='0' && $v->rule_system===1)
-              <li data-name="home" class="layui-nav-item layui-nav-itemed">
+              <li data-name="home" class="layui-nav-item">
               <a href="javascript:;" lay-tips="主页" lay-direction="2">
                 <i class="layui-icon">{{$v->rule_icon}}</i>
                 <cite>{{$v->rule_name}}</cite>
