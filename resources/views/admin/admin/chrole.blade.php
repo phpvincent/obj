@@ -1,6 +1,6 @@
 @extends('admin.father.css')
 @section('content')
-<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" id="addrole"  class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 增加角色</a></span></div>
+<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" id="addrole" style="background-color: #009688;border-color: #009688;" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 增加角色</a></span></div>
 <form id="chroles" action="{{url('admin/admin/checkbox')}}" method="post">
 	{{csrf_field()}}
 <div class="row cl">
@@ -24,7 +24,7 @@
 
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3" style="margin-left: 50%;"><br>
-				<button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
+				<button type="submit" style="background-color: #009688;border-color: #009688;" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
 			</div>
 		</div>
 		</form>

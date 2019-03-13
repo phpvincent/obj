@@ -68,20 +68,18 @@ class AdminController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_table(Request $request){
-    		$info=$request->all();
-        	$cm=$info['order'][0]['column'];
-	        $dsc=$info['order'][0]['dir'];
-	        $order=$info['columns']["$cm"]['data'];
-	        $draw=$info['draw'];
-	        $start=$info['start'];
-	        $len=$info['length'];
-	        $search=trim($info['search']['value']);
+    		$page = $request->input('page',1);
+			$limit = $request->input('limit',10);
+			$search = $request->input('search');
+			$order = $request->input('field','admin_id'); //排序字段
+			$dsc = $request->input('order','desc'); //排序顺序
+			$start = ($page-1)*$limit;
 	        $counts=DB::table('admin')
             ->where(function($query){
                 if(Auth::user()->is_root!='1'){
                     $query->whereIn('admin_id',\App\admin::get_group_ids(Auth::user()->admin_id));
                 }
-            })
+			})
 	        ->count();
 	        $newcount=DB::table('admin')
 	        ->select('admin.*','role.role_name'	)
@@ -89,8 +87,9 @@ class AdminController extends Controller
 	        ->orwhere(function($query) use($search){
 	        	$query->where('admin.admin_name','like',"%$search%");
 	        	$query->where('admin.admin_id','like',"%$search%");
-	        	$query->where('role.role_name','like',"%$search%");
-	        })
+				$query->where('role.role_name','like',"%$search%");
+				$query->where('admin_show_name','like','%'.$search.'%');
+			})
             ->where(function($query)use($request){
                 if($request->input('group_name')!=0){
                     $query->where('admin_group',$request->input('group_name'));
@@ -103,8 +102,9 @@ class AdminController extends Controller
 	        ->orwhere(function($query) use($search){
 	        	$query->where('admin.admin_name','like',"%$search%");
 	        	$query->where('admin.admin_id','like',"%$search%");
-	        	$query->where('role.role_name','like',"%$search%");
-	        })
+				$query->where('role.role_name','like',"%$search%");
+				$query->where('admin_show_name','like','%'.$search.'%');
+			})
             ->where(function($query)use($request){
                 if($request->input('group_name')!=0){
                     $query->where('admin_group',$request->input('group_name'));
@@ -112,7 +112,7 @@ class AdminController extends Controller
             })
 	        ->orderBy($order,$dsc)
 	        ->offset($start)
-	        ->limit($len)
+        	->limit($limit)
 	        ->get();
 	        foreach($data as $key => $v){
                 $data[$key]->admin_group=\App\admin_group::where('admin_group_id',$v->admin_group)->first()['admin_group_name'];
@@ -156,7 +156,7 @@ class AdminController extends Controller
                 	$data[$key]->role_name="超级管理员";
                 }
 	        }
-	        $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
+	        $arr=['code'=>0,'msg'=>'success','count'=>$counts,'data'=>$data];
 	        return response()->json($arr);
     }
 
