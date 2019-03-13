@@ -10,34 +10,35 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">仓库名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_name" lay-verify="required|storage_name" value="" class="layui-input">
+                                    <input type="text" name="storage_name" readonly lay-verify="required|storage_name" value="{{$storage->storage_name}}" class="layui-input">
+                                    <input type="text" style="display: none" name="id" readonly lay-verify="required|storage_name" value="{{$storage->storage_id}}" class="layui-input">
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">仓库名称唯一且不可修改。</div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">仓库地址</label>
                                 <div class="layui-input-block">
-                                    <input type="radio" lay-filter="is_local" name="is_local" value="1" title="本地仓">
-                                    <input type="radio" lay-filter="is_local" name="is_local" value="0" title="海外仓" checked>
+                                    <input type="radio" @if($storage->is_local == 1) checked @endif lay-filter="is_local" readonly name="is_local" value="1" title="本地仓">
+                                    <input type="radio" @if($storage->is_local == 0) checked @endif lay-filter="is_local" readonly name="is_local" value="0" title="海外仓">
                                 </div>
                             </div>
                             <div class="layui-form-item item-model-hide">
                                 <div class="layui-inline">
                                     <label class="layui-form-label">仓库模板</label>
                                     <div class="layui-input-inline">
-                                        <select name="template_id" lay-verify="required">
-                                            <option value="0" >台湾</option>
-                                            <option value="2">阿联酋</option>
-                                            <option value="3">马来西亚</option>
-                                            <option value="4">泰国</option>
-                                            <option value="5">日本</option>
-                                            <option value="6">印度尼西亚</option>
-                                            <option value="7">菲律宾</option>
-                                            <option value="8">英国</option>
-                                            <option value="10">美国</option>
-                                            <option value="11">越南</option>
-                                            <option value="12">沙特阿拉伯</option>
-                                            <option value="14">卡塔尔</option>
+                                        <select name="template_id" readonly lay-verify="required">
+                                            <option @if($storage->template_type_primary_id == 0) selected @endif value="0" >台湾</option>
+                                            <option @if($storage->template_type_primary_id == 2) selected @endif  value="2">阿联酋</option>
+                                            <option @if($storage->template_type_primary_id == 3) selected @endif  value="3">马来西亚</option>
+                                            <option @if($storage->template_type_primary_id == 4) selected @endif  value="4">泰国</option>
+                                            <option @if($storage->template_type_primary_id == 5) selected @endif  value="5">日本</option>
+                                            <option @if($storage->template_type_primary_id == 6) selected @endif  value="6">印度尼西亚</option>
+                                            <option @if($storage->template_type_primary_id == 7) selected @endif  value="7">菲律宾</option>
+                                            <option @if($storage->template_type_primary_id == 8) selected @endif  value="8">英国</option>
+                                            <option @if($storage->template_type_primary_id == 10) selected @endif  value="10">美国</option>
+                                            <option @if($storage->template_type_primary_id == 11) selected @endif  value="11">越南</option>
+                                            <option @if($storage->template_type_primary_id == 12) selected @endif  value="12">沙特阿拉伯</option>
+                                            <option @if($storage->template_type_primary_id == 14) selected @endif  value="14">卡塔尔</option>
                                         </select>
                                     </div>
                                 </div>
@@ -45,8 +46,8 @@
                             <div class="layui-form-item  item-model-hide">
                                 <label class="layui-form-label">订单可拆分</label>
                                 <div class="layui-input-block">
-                                    <input type="radio" name="is_split" value="0" title="可拆分">
-                                    <input type="radio" name="is_split" value="1" title="不可拆分" checked>
+                                    <input type="radio" @if($storage->is_split == 0) checked @endif name="is_split" value="0" title="可拆分">
+                                    <input type="radio" @if($storage->is_split == 1) checked @endif name="is_split" value="1" title="不可拆分">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -104,7 +105,7 @@
             form.on('submit',function(data){
                 var index = layer.load();
                 $.ajax({
-                    url:"{{url('admin/storage/list/add_storage')}}",
+                    url:"{{url('admin/storage/list/up_storage')}}",
                     type:'post',
                     data:data.field,
                     datatype:'json',
@@ -114,7 +115,8 @@
                             layer.msg(msg.msg,{
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                parent.layui.admin.events.refresh();
+                                // parent.layui.admin.events.refresh();
+                                window.parent.location.reload();
                             });
                         }else if(msg['err']==0){
                             layer.close(index);
@@ -124,7 +126,7 @@
                             layer.msg('新增失败！');
                         }
                     }
-                })
+                });
                 return false;
             })
         });
