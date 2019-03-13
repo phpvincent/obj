@@ -1077,18 +1077,34 @@ class OrderController extends Controller
 //              $new_exdata[$k]['kind_weight'] = $goods_kind->goods_buy_weight ? $goods_kind->goods_buy_weight . 'kg' : '';
 //              $new_exdata[$k]['kind_volume'] = $goods_kind->goods_kind_volume == '0cm*0cm*0cm' ? '' : $goods_kind->goods_kind_volume;
                    //尺寸信息
-                   $order_config = \App\order_config::where('order_primary_id',$v['order_id'])->get();
-                   if($order_config->count() > 0){
+                   $order_config = \App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v['order_id'])->get()->toArray();/*dd($order_config->toArray());dd(array_unique($order_config->toArray(), SORT_REGULAR));*/
+                   $new=[];
+                   $count=[];
+                   foreach($order_config as $key_s => $vall){
+                    if(in_array($vall, $new)){
+                      //dd(array_keys($new,$v)[0]);
+                      $count[array_keys($new,$vall)[0]]+=1;
+                    }else{
+                      $new[$key_s]=$vall;
+                      $count[$key_s]=1;
+                    }
+                   }
+                   /*foreach($new as $k => $val){
+                    $new[$k]['num']=$count[$k];
+                   }*/
+                   $order_config=$new;
+                   /*if($order_config->count() > 0){*/
+                    if(count($order_config)>0){
                        $config_msg = '';//产品属性
                        $config_english_msg = '';
                        $goods_config_msg = '';//商品展示属性
                        $goods_all_sku = '';
 
                        $i = 0;
-                       foreach($order_config  as  $va){
+                       foreach($order_config  as $keyss=> $va){
                            $i++;
-                           $goods_msg = "<td>第".$i."件</td>";
-                           $kind_msg = "<td>第".$i."件</td>";
+                           $goods_msg = "<td>".$count[$keyss]."件</td>";
+                           $kind_msg = "<td>".$count[$keyss]."件</td>";
                            $kind_english_msg = "";
                            $orderarr = explode(',',$va['order_config']);
                            //================================================
@@ -1162,7 +1178,10 @@ class OrderController extends Controller
                            }
                            $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td></tr>';
                            $config_msg .= '<tr>'.$kind_msg.'</tr>';
-                           $config_english_msg .= $kind_english_msg.',';
+                           for ($i=0; $i <(int)$count[$keyss] ; $i++) { 
+                              $config_english_msg .= $kind_english_msg.',';
+                           }
+                           /*$config_english_msg .= $kind_english_msg.'*'.$count[$keyss].',';*/
                            $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
                        }
                        $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
