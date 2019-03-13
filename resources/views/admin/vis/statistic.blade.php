@@ -54,16 +54,25 @@
 		border-radius: 8px;
 		color: #999;
 	}
+	.tu_1,.tu_2 {
+		width: 47%;
+		display: inline-block;
+	}
+	@media screen and (max-width: 970px){
+		.tu_1,.tu_2 {
+		 width: 100%;
+	}
+	}
 </style>
-<div class="qiehuan">
+<!-- <div class="qiehuan">
 	<span class="a">分布图</span>
 	<span>趋势图</span>
-</div>
-<div class="tu_1" style="width: 100%">
+</div> -->
+<div class="tu_1">
 	<div id="container" style="width: 100%"></div>
 
 </div>
-<div class="tu_2" style="width: 100%">
+<div class="tu_2">
 	<div id="container_1" style="width: 100%"></div>
 
 </div>
@@ -79,24 +88,24 @@
 @section('js')
 <script type="text/javascript">
 	$(function () {
-        $('.qiehuan span.a').css('border','1px solid #5284ec');
-	    $('.tu_2').hide();
+        // $('.qiehuan span.a').css('border','1px solid #5284ec');
+	    // $('.tu_2').hide();
         zhuzhuangtu(0);
 		get_zhexian(0);
         get_ajaxtable(0);
-		$('.qiehuan span').on('click',function () {
-            $('.qiehuan span').css('border','1px solid #e5e5e5');
-            $(this).css('border','1px solid #5284ec');
+		// $('.qiehuan span').on('click',function () {
+        //     $('.qiehuan span').css('border','1px solid #e5e5e5');
+        //     $(this).css('border','1px solid #5284ec');
 
-				var a=$(this).text();
-				if(a=='分布图'){
-                    $('.tu_1').show();
-                    $('.tu_2').hide();
-                }else {
-                    $('.tu_1').hide();
-                    $('.tu_2').show();
-				}
-        })
+		// 		var a=$(this).text();
+		// 		if(a=='分布图'){
+        //             $('.tu_1').show();
+        //             $('.tu_2').hide();
+        //         }else {
+        //             $('.tu_1').hide();
+        //             $('.tu_2').show();
+		// 		}
+        // })
     });
 	$('#hart').on('click',function(){
 		$('#select-box').toggle(300);
