@@ -95,12 +95,12 @@
                             , {field: 'admin_name', width: 110, title: '账户名'}
                             , {field: 'admin_show_name', width: 110, title: '所有人'}
                             , {field: 'admin_ip', width: 110, title: '上次登录IP', align: 'center'}
-                            , {field: 'admin_time', width: 180, title: '上次登陆时间'}
+                            , {field: 'admin_time', minWidth: 180, title: '上次登陆时间'}
                             , {field: 'admin_num', width: 100, align: 'center', title: '登陆次数'}
 							, {field: 'role_name', width: 110, title: '所属角色'}
 							, {field: 'goods_num', width: 110, title: '拥有单品数'}
 							, {field: 'orders_num', width: 110, title: '下单数'}
-							, {field: 'day_sale', width: 140, title: '今日销售额(￥)'}
+							, {field: 'day_sale', minWidth: 140, title: '今日销售额(￥)'}
 							, {field: 'is_root', width: 100, title: '是否超管' ,  templet: function(d){
 								if(d.is_root==0||d.is_root==null){
 			                    	var isroot='<span class="label label-default radius">×</span>';
@@ -116,7 +116,7 @@
 			                    }
 								return bd_type
 							}}
-                            , {field: 'goods_kind_volume', align: 'center', title: '操作', templet: function(d){
+                            , {field: 'goods_kind_volume', fixed: 'right', width: 150, align: 'center', title: '操作', templet: function(d){
 								var info='<a title="编辑" href="javascript:;" lay-event="admin_update" class="ml-5" style="text-decoration:none"><button class="layui-btn layui-btn-xs" title="编辑"><i class="layui-icon">&#xe642;</i></button></a><a title="删除" href="javascript:;" lay-event="del" class="ml-5" style="text-decoration:none"><button class="layui-btn layui-btn-danger layui-btn-xs" title="删除"><i class="layui-icon">&#xe640;</i></button></a>';
 			                    if(d.is_root==0||d.is_root==null){
 			                    	var isroot='<span class="label label-default radius">×</span>';
