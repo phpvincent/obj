@@ -17,8 +17,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">仓库地址</label>
                             <div class="layui-input-block">
-                                <input type="radio" lay-filter="is_local" name="is_local" value="0" title="本地仓">
-                                <input type="radio" lay-filter="is_local" name="is_local" value="1" title="海外仓" checked>
+                                <input type="radio" lay-filter="is_local" name="is_local" value="1" title="本地仓">
+                                <input type="radio" lay-filter="is_local" name="is_local" value="0" title="海外仓" checked>
                             </div>
                         </div>
                         <div class="layui-form-item item-model-hide">
@@ -36,9 +36,8 @@
                                         <option value="8">英国</option>
                                         <option value="10">美国</option>
                                         <option value="11">越南</option>
-                                        <option value="12">沙特</option>
+                                        <option value="12">沙特阿拉伯</option>
                                         <option value="14">卡塔尔</option>
-                                        <option value="16">中东</option>
                                     </select>
                                 </div>
                             </div>
@@ -52,7 +51,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="">确认修改</button>
+                                <button class="layui-btn" lay-submit lay-filter="">确认提交</button>
                                 <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
                             </div>
                         </div>
@@ -76,19 +75,19 @@
             var $=layui.jquery;
 
             var addressID = $("input[name='is_local']:checked").val();
-            if(addressID === 0){
-                $('.item-model-hide').hide();
+            if(addressID === '1'){
+                $('.item-model-hide').addClass('layui-hide');
             }
 
             form.on('radio(is_local)', function () {
                 var addressID = $("input[name='is_local']:checked").val();
-                if(addressID === '0'){
+                if(addressID === '1'){
                     $('.item-model-hide').addClass('layui-hide');
                 }else{
                     $('.item-model-hide').removeClass('layui-hide');
                 }
             });
-            
+
             form.verify({
                 storage_name: function(value, item){ //value：表单的值、item：表单的DOM对象
                     if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
@@ -105,31 +104,28 @@
             form.on('submit',function(data){
                 var index = layer.load();
                 $.ajax({
-                    url:"{{url('admin/storage/add_storage')}}",
+                    url:"{{url('admin/storage/list/add_storage')}}",
                     type:'post',
                     data:data.field,
                     datatype:'json',
                     success:function(msg){
                         if(msg['err']==1){
                             layer.close(index);
-                            layer.msg(msg.str,{
+                            layer.msg(msg.msg,{
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                parent.layui.admin.events.refresh();
+                                // parent.layui.admin.events.refresh();
+                                window.parent.location.reload();
                             });
-                            //window.location.reload();
-                            //admin.events.closeThisTabs()
-                            //admin.events.closeAllTabs()
-                            //admin.events.refresh()
                         }else if(msg['err']==0){
                             layer.close(index);
-                            layer.msg(msg.str);
+                            layer.msg(msg.msg);
                         }else{
                             layer.close(index);
-                            layer.msg('修改失败！');
+                            layer.msg('新增失败！');
                         }
                     }
-                })
+                });
                 return false;
             })
         });

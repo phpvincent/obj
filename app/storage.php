@@ -8,5 +8,4 @@ class storage extends Model
 {
     protected $table = 'storage';
     protected $primaryKey ='storage_id';
-    public $timestamps=false;
 }
