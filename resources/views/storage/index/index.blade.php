@@ -13,45 +13,46 @@
                   <div carousel-item>
                     <ul class="layui-row layui-col-space10">
                       <li class="layui-col-xs3">
-                        <a lay-href="home/homepage1.html">
-                          <i class="layui-icon layui-icon-console"></i>
-                          <cite>主页一</cite>
+                        <a href="#" onclick="parent.location.href='{{url('admin/index')}}'">
+                          <i class="layui-icon layui-icon-home"></i>
+                          <cite>信息管理系统</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="home/homepage2.html">
-                          <i class="layui-icon layui-icon-chart"></i>
-                          <cite>主页二</cite>
+                        <a lay-href="{{url('admin/kind/index')}}">
+                          <i class="layui-icon layui-icon-tabs"></i>
+                          <cite>产品列表</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="component/layer/list.html">
-                          <i class="layui-icon layui-icon-template-1"></i>
-                          <cite>弹层</cite>
+                        <a lay-href="{{url('admin/storage/list')}}">
+                          <i class="layui-icon layui-icon-align-left"></i>
+                          <cite>仓库列表</cite>
+                        </a>
+                      </li>
+                      <li class="layui-col-xs3">
+                        <a lay-href="{{url('storage/admin/admin_info')}}">
+                          <i class="layui-icon layui-icon-user"></i>
+                          <cite>个人信息</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
                         <a layadmin-event="im">
-                          <i class="layui-icon layui-icon-chat"></i>
-                          <cite>聊天</cite>
+                          <i class="layui-icon layui-icon-password"></i>
+                          <cite>密码修改</cite>
                         </a>
                       </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="component/progress/index.html">
-                          <i class="layui-icon layui-icon-find-fill"></i>
-                          <cite>进度条</cite>
-                        </a>
-                      </li>
+                      
                       <li class="layui-col-xs3">
                         <a lay-href="app/workorder/list.html">
-                          <i class="layui-icon layui-icon-survey"></i>
-                          <cite>工单</cite>
+                          <i class="layui-icon layui-icon-prev"></i>
+                          <cite>补货记录</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
                         <a lay-href="user/user/list.html">
-                          <i class="layui-icon layui-icon-user"></i>
-                          <cite>用户</cite>
+                          <i class="layui-icon layui-icon-next"></i>
+                          <cite>出库记录</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
@@ -127,35 +128,35 @@
                   <div carousel-item>
                     <ul class="layui-row layui-col-space10">
                       <li class="layui-col-xs6">
-                        <a lay-href="app/content/comment.html" class="layadmin-backlog-body">
-                          <h3>待审评论</h3>
-                          <p><cite>66</cite></p>
+                        <a lay-href="{{url('admin/kind/index')}}" class="layadmin-backlog-body">
+                          <h3>产品数</h3>
+                          <p><cite>{{\App\goods_kind::count()}}</cite></p>
                         </a>
                       </li>
                       <li class="layui-col-xs6">
-                        <a lay-href="app/forum/list.html" class="layadmin-backlog-body">
-                          <h3>待审帖子</h3>
-                          <p><cite>12</cite></p>
+                        <a lay-href="{{url('admin/storage/list')}}" class="layadmin-backlog-body">
+                          <h3>仓库数</h3>
+                          <p><cite>{{\App\storage::where('storage_status',1)->count()}}</cite></p>
                         </a>
                       </li>
                       <li class="layui-col-xs6">
-                        <a lay-href="template/goodslist.html" class="layadmin-backlog-body">
-                          <h3>待审商品</h3>
-                          <p><cite>99</cite></p>
+                        <a lay-href="{{url('admin/storage/list')}}" class="layadmin-backlog-body">
+                          <h3>未处理补货单</h3>
+                          <p><cite style="color: #FF5722;">5</cite></p>
                         </a>
                       </li>
                       <li class="layui-col-xs6">
-                        <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
+                        <a href="javascript:;"  class="layadmin-backlog-body">
                           <h3>待发货</h3>
-                          <p><cite>20</cite></p>
+                          <p><cite>{{\App\order::where('order_type',1)->count()}}</cite></p>
                         </a>
                       </li>
                     </ul>
                     <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs6">
-                        <a href="javascript:;" class="layadmin-backlog-body">
-                          <h3>待审友情链接</h3>
-                          <p><cite style="color: #FF5722;">5</cite></p>
+                       <li class="layui-col-xs6">
+                        <a href="javascript:;" onclick="layer.tips('请通知订单管理员核审订单', this, {tips: 3});" class="layadmin-backlog-body">
+                          <h3>待审商品</h3>
+                          <p><cite>{{\App\order::where('order_type',0)->count()}}</cite></p>
                         </a>
                       </li>
                     </ul>
@@ -210,32 +211,36 @@
               </colgroup>
               <tbody>
                 <tr>
-                  <td>当前版本</td>
+                  <td>登陆次数</td>
                   <td>
                     <script type="text/html" template>
-                     
-                      <a href="http://fly.layui.com/docs/3/" target="_blank" style="padding-left: 15px;">更新日志</a>
+                     {{\Auth::user()->admin_num}}
                     </script>
                   </td>
                 </tr>
                 <tr>
-                  <td>基于框架</td>
+                  <td>上次登陆时间</td>
                   <td>
                     <script type="text/html" template>
-                 
+                     {{\Auth::user()->admin_time}}
                     </script>
                  </td>
                 </tr>
                 <tr>
-                  <td>主要特色</td>
-                  <td>零门槛 / 响应式 / 清爽 / 极简</td>
+                  <td>账户角色</td>
+                  <td>@if(Auth::user()->is_root==1)
+                    <li>超级管理员</li>
+                    @else
+                    {{App\role::where('role_id',Auth::user()->admin_role_id)->first()->role_name}}
+                    @endif
+                  </td>
                 </tr>
                 <tr>
-                  <td>获取渠道</td>
+                  <td>辅助工具</td>
                   <td style="padding-bottom: 0;">
                     <div class="layui-btn-container">
-                      <a href="http://www.layui.com/admin/" target="_blank" class="layui-btn layui-btn-danger">获取授权</a>
-                      <a href="http://fly.layui.com/download/layuiAdmin/" target="_blank" class="layui-btn">立即下载</a>
+                      <a lay-href="{{url('admin/message/send_phone')}}" target="_blank" class="layui-btn layui-btn-danger">发送短信</a>
+                      <a lay-href="{{url('admin/message/send_mail')}}" target="_blank" class="layui-btn">发送邮件</a>
                     </div>
                   </td>
                 </tr>

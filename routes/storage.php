@@ -11,5 +11,6 @@
  			Route::get('/list','admin\storage\StorageListController@list');
  			Route::get('/list/data','admin\storage\StorageListController@list_data');
  			Route::get('/list/del_storage','admin\storage\StorageListController@del_storage');
+ 			Route::get('/list/product_data','admin\storage\StorageListController@product_data');
  	    });
 	Route::get('/notallow','admin\storage\StorageController@notallow');
