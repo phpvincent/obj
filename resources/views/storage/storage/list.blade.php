@@ -59,7 +59,7 @@
   <script type="text/html" id="use_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建仓库','{{url("")}}',2,1400,800)">新建仓库</b>
+               onclick="goods_show('新建仓库','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建仓库</b>
         </button>
   </script>
   <script type="text/html" id="area">
@@ -112,6 +112,7 @@
 @endsection
 @section('js')
 <script>
+    var that = this;
    layui.config({
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
@@ -170,46 +171,6 @@
       ,theme: 'molv'
       ,calendar: true
     });
-    //table事件监听
-    table.on("tool(button-listen)",function(obj){
-      var data = obj.data; //获得当前行数据
-      var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-      var tr = obj.tr; //获得当前行 tr 的DOM对象
-      if(layEvent=='detail'){
-        layer.open();
-      }else if(layEvent=='edit'){
-        layer.open();
-      }else{
-        layer.confirm('真的删除行么', function(index){
-          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-          layer.close(index);
-          //向服务端发送删除指令
-          $.ajax({
-             url:"{{url('admin/storage/list/del_storage')}}",
-              type:'get',
-              data:{id:data.storage_id},
-              datatype:'json',
-              success:function(msg){
-                     if(msg['err']==1){
-                       layer.close(index);   
-                       layer.msg(msg.str,{
-                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        }, function(){
-                          table.reload('storagelist');
-                          //parent.layui.admin.events.refresh();
-                        });
-                     }else if(msg['err']==0){
-                      layer.close(index);   
-                       layer.msg(msg.str);
-                     }else{
-                      layer.close(index);   
-                       layer.msg('删除失败！');
-                     }
-              }
-          });
-        });
-      }
-    })
     //表格刷新回调
     table.render({ //其它参数在此省略
       done: function(res, curr, count){
@@ -224,6 +185,60 @@
         console.log(count);
       }
     });
+       //搜索刷新数据
+       var $ = layui.$;
+
+       //table事件监听
+       table.on("tool(button-listen)",function(obj){
+           var data = obj.data; //获得当前行数据
+           var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+           var tr = obj.tr; //获得当前行 tr 的DOM对象
+           if(layEvent=='detail'){
+                layer.open({
+                  type:2,
+                  offset:'rb',
+                  title:'库存数据',
+                  area:[365,800],
+                  content:"{{url('/admin/storage/list/product_data_smail?storage_id=')}}"+data.storage_id,
+                });
+                return;
+                parent.layui.index.openTabsPage('/admin/storage/list/product_data?storage_id='+data.storage_id, '库存数据'); //这里要注意的是 parent 的层级关系
+           }else if(layEvent=='edit'){
+               //修改产品
+               that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
+           }else{
+               layer.confirm('真的删除行么', function(index){
+                   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                   layer.close(index);
+                   //向服务端发送删除指令
+                   $.ajax({
+                       url:"{{url('admin/storage/list/del_storage')}}",
+                       type:'get',
+                       data:{id:data.storage_id},
+                       datatype:'json',
+                       success:function(msg){
+                           if(msg['err']==1){
+                               layer.close(index);
+                               layer.msg(msg.str,{
+                                   time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                               }, function(){
+                                   parent.layui.admin.events.refresh();
+                               });
+                           }else if(msg['err']==0){
+                               layer.close(index);
+                               layer.msg(msg.str);
+                           }else{
+                               layer.close(index);
+                               layer.msg('删除失败！');
+                           }
+                       }
+                   });
+               });
+           }
+       })
+
+
+    //model 模态框
     goods_show=function goods_show(title,url,type,w,h){
       if( layui.device().android||layui.device().ios){
         layer.open({
@@ -247,6 +262,7 @@
                   });
       }
     }
+
      var $ = layui.$, active = {
                 reload: function(){
                     //执行重载
@@ -267,6 +283,7 @@
                         var type = $(this).data('type');
                         active[type] ? active[type].call(this) : '';
                     });
-  });
+
+   });
 </script>
 @endsection
