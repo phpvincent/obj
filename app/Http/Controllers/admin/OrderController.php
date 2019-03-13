@@ -1103,8 +1103,8 @@ class OrderController extends Controller
                        $i = 0;
                        foreach($order_config  as $keyss=> $va){
                            $i++;
-                           $goods_msg = "<td>".$count[$keyss]."件</td>";
-                           $kind_msg = "<td>".$count[$keyss]."件</td>";
+                           $goods_msg = "<td>".$count[$keyss]."</td>";
+                           $kind_msg = "<td>".$count[$keyss]."</td>";
                            $kind_english_msg = "";
                            $orderarr = explode(',',$va['order_config']);
                            //================================================
