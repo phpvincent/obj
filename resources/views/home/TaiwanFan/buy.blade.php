@@ -180,13 +180,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
-                <div id=messagediv>
+                <!-- <div id=messagediv>
                    <span class="messag">請輸入已發送至您手機的驗證碼：</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
                    <button id="messend" type="button" class="mui-btn but-red">重新發送<span id="messpan"></span></button>
                    </div>
-                </div>
+                </div> -->
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">確認</button>
@@ -524,15 +524,16 @@ var payFun=function (){
     };
 
     // layer.msg("訂單提交中，請稍等");
-    payFunMessage(datasObj)
+    $("#orderlog").show();
+    payFunMessage()
             
 }
 var payFunGo= function (){
-    if(!$("#messageinput").val()){
-        layer.msg('請輸入已發送至您手機的驗證碼');
-        return false;
-    };
-    datasObj.messaga_code = $("#messageinput").val();
+    // if(!$("#messageinput").val()){
+    //     layer.msg('請輸入已發送至您手機的驗證碼');
+    //     return false;
+    // };
+    // datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
     var index = layer.load(2, {shade: [0.15, '#393D49'],content:'訂單提交中，請稍等',success: function(layero){
         layero.find('.layui-layer-content').css({'padding-top':'40px','width': '245px',   'text-align': 'center', 'color': 'red',  'margin-left':' -80px','background-position-x': '106px'});
@@ -610,7 +611,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun) //封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
-$('#messend').bind('click',sendMess) // 重新发送按钮
+// $('#messend').bind('click',sendMess) // 重新发送按钮
 var messagesucce ="驗證碼已發送至您手機，請注意接收！驗證碼有效時間為5分鐘";
 var messageerr ="驗證碼發送失敗，請確認您的手機號是否填寫正確！";
 var messnetworkerr= "請檢查網絡情況！";

@@ -179,13 +179,13 @@
                 <div id="orderlogConten">
                 </div>
                 <div id="orderlogConten2"></div>
-                <div id=messagediv>
+                <!-- <div id=messagediv>
                    <span class="messag">请输入已发送至您手机的验证码:</span>
                    <div>
                    <input type="text" id="messageinput" name="messagename" class="mui-input-clear" style="width: 50%;">
                    <button id="messend" type="button" class="mui-btn but-red">重新发送<span id="messpan"></span></button>
                    </div>
-                </div>
+                </div> -->
 
             </div>
             <button id="payOk" style="width:60%;color:white;background-color:red;position: absolute;margin-left: 20%;bottom: 0px;">确认</button>
@@ -527,15 +527,16 @@ var payFun=function (){
         layer.msg('请填写完整商品属性');
         return false;
     };
-    payFunMessage(datasObj)
+    $("#orderlog").show();
+    payFunMessage()
             
 }
 var payFunGo= function (){
-    if(!$("#messageinput").val()){
-        layer.msg('请输入已发送至您手机的验证码');
-        return false;
-    };
-    datasObj.messaga_code = $("#messageinput").val();
+    // if(!$("#messageinput").val()){
+    //     layer.msg('请输入已发送至您手机的验证码');
+    //     return false;
+    // };
+    // datasObj.messaga_code = $("#messageinput").val();
     $("#orderlog").hide()
         // layer.msg("订单提交中，请稍等...");
         var index = layer.load(2, {shade: [0.15, '#393D49'],content:'订单提交中，请稍等',success: function(layero){
@@ -612,7 +613,7 @@ var payFunGo= function (){
 }
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交 
-$('#messend').bind('click',sendMess) // 重新发送按钮
+// $('#messend').bind('click',sendMess) // 重新发送按钮
 var messagesucce ="验证码已发送至您手机，请注意接收！验证码有效时间为5分钟";
 var messageerr ="验证码发送失败，请确认您手机号是否填写正确！";
 var messnetworkerr= "请检查网络情况！";
