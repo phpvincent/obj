@@ -19,7 +19,7 @@
 	<div class="page-title">
 	<h1><b>{!! config("language.footer-name.$type.".\App\goods::get_language($site->sites_blade_type)) !!}</b></h1>
 	</div>
-	<br><br><div style="width: 80%;margin: 0 auto;"><p style="text-align:center;"><img src="{{ asset('img/site.png') }}"></p><br/>{!! config("language.".$type.".".\App\goods::get_language($site->sites_blade_type)) !!}</div>
+	<br><br><div style="width: 80%;margin: 0 auto;line-height: 20px;"><p style="text-align:center;"><img src="{{ asset('img/site.png') }}"></p><br/>{!! config("language.".$type.".".\App\goods::get_language($site->sites_blade_type)) !!}</div>
 </p>
 <br>
 <br>

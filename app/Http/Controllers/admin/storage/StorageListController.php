@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\storage;
 
+use App\channel\skuSDK;
 use App\storage_goods_abroad;
 use App\storage_goods_local;
 use Illuminate\Http\Request;
@@ -292,16 +293,28 @@ class StorageListController extends Controller
                 $storage = storage::where('storage_id',$storage_id)->first();
                 if($storage){
                     if($storage->is_local == 1){
-                        $storage_goods = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
-                            ->where('storage_primary_id',$storage)
-                            ->where('goods_kind_id',$id)
+                        $storage_goods = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                            ->select('goods_kind.*', 'storage_goods_local.sku', 'storage_goods_local.sku_attr', 'storage_goods_local.num')
+                            ->where('storage_primary_id',$storage_id)
+                            ->where('storage_goods_local.goods_kind_id',$id)
                             ->get();
                     }else{
-                        $storage_goods = storage_goods_abroad::where('storage_primary_id',$storage)->where('goods_kind_id',$id)->get();
+                        $storage_goods = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                            ->select('goods_kind.*', 'storage_goods_abroad.sku', 'storage_goods_abroad.sku_data as sku_attr', 'storage_goods_abroad.num')
+                            ->where('storage_primary_id',$storage_id)
+                            ->where('storage_goods_abroad.goods_kind_id',$id)
+                            ->get();
                     }
-
+                    if(!$storage_goods->isEmpty()){
+                        $storage_goods = $storage_goods->toArray();
+                        foreach ($storage_goods as &$storage_good){
+                            $storage_good['goods_sku'] = $storage_good['sku'].$storage_good['sku_attr'];
+                            $goods_detail = new skuSDK($storage_good['goods_kind_id'],$storage_good['goods_product_id'],$storage_good['goods_kind_user_type']);
+                            dd($goods_detail);
+                        }
+                    }
+                    return view('storage.product.edit')->with(compact('storage_goods'));
                 }
-                return view('storage.product.index')->with(compact('id','stos'));
             }
         }else{
 
