@@ -10,85 +10,51 @@
     </script>
     <div class="layui-fluid">
         <div class="layui-card">
-            <table id="storagelist" lay-filter='button-listen'></table>
+            <!-- 搜索控件 -->
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">入库时间：</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="test-laydate-out"
+                                           placeholder="日期范围">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">选择仓库</label>
+                        <div class="layui-input-block">
+                            <select name="storage_addr" id="storage_addr" lay-verify="required">
+                                @foreach($stos as $item)
+                                <option @if($item->storage_id == $id) selected @endif value="{{$item->storage_id}}">{{$item->storage_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline test-table-reload-btn">
+                        <label>从当前数据中检索:</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="id" id="test-table-demoReload" autocomplete="off">
+                        </div>
+                        <button class="layui-btn" data-type="reload">搜索</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 表格元素 -->
+            <div class="layui-card-body">
+                <table id="storagelist" lay-filter='button-listen'></table>
+            </div>
         </div>
     </div>
-    <script type="text/html" id="use_button">
-        <div class="layui-inline">
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="test-laydate-start"
-                       placeholder="开始日期">
-            </div> -
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="test-laydate-end"
-                       placeholder="结束日期">
-            </div>
-            <div class="layui-inline">
-                <input class="layui-input" name="id" id="test-table-demoReload"
-                       autocomplete="off" placeholder="检索信息">
-            </div>
-            <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
-                <b style="color:black;"
-                   onclick="goods_show('新建仓库','{{url("")}}',2,1400,800)">检索</b>
-            </button>
-        </div>
-        <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
-            <b style="color:green;"
-               onclick="goods_show('新建仓库','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建仓库</b>
-        </button>
-
-    </script>
-    <script type="text/html" id="area">
-        <div>
-            @{{# if(d.is_local==1){ }}
-            <span style='color:green'>本地仓</span>
-            @{{# }else if(d.template_type_primary_id==0||d.template_type_primary_id==1){ }}
-            <span style='color:brown'>台湾地区仓</span>
-            @{{# }else if(d.template_type_primary_id==2){ }}
-            <span style='color:brown'>阿联酋地区仓</span>
-            @{{# }else if(d.template_type_primary_id==3){ }}
-            <span style='color:brown'>马来西亚地区仓</span>
-            @{{# }else if(d.template_type_primary_id==4){ }}
-            <span style='color:brown'>泰国地区仓</span>
-            @{{# }else if(d.template_type_primary_id==5){ }}
-            <span style='color:brown'>日本地区仓</span>
-            @{{# }else if(d.template_type_primary_id==6){ }}
-            <span style='color:brown'>印尼地区仓</span>
-            @{{# }else if(d.template_type_primary_id==7){ }}
-            <span style='color:brown'>菲律宾地区仓</span>
-            @{{# }else if(d.template_type_primary_id==8){ }}
-            <span style='color:brown'>英国地区仓</span>
-            @{{# }else if(d.template_type_primary_id==9||d.template_type_primary_id==10){ }}
-            <span style='color:brown'>美国地区仓</span>
-            @{{# }else if(d.template_type_primary_id==11){ }}
-            <span style='color:brown'>越南地区仓</span>
-            @{{# }else if(d.template_type_primary_id==12||d.template_type_primary_id==13){ }}
-            <span style='color:brown'>沙特地区仓</span>
-            @{{# }else if(d.template_type_primary_id==14||d.template_type_primary_id==15){ }}
-            <span style='color:brown'>卡塔尔地区仓</span>
-            @{{# }else if(d.template_type_primary_id==16||d.template_type_primary_id==17){ }}
-            <span style='color:brown'>中东地区仓</span>
-            @{{# } }}
-        </div>
-    </script>
-    <script type="text/html" id='is_local'>
-        <div>
-            @{{# if(d.is_local==1){ }}
-            <span style='color:green'>本地仓</span>
-            @{{# }else{ }}
-            <span style='color:brown'>海外仓</span>
-            @{{# } }}
-        </div>
-    </script>
-    <script type="text/html" id="button" >
-        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <script type="text/html" id="test-table-operate-barDemo" >
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
 @endsection
 @section('js')
-
-
     <script>
         var that = this;
         layui.config({
@@ -103,10 +69,13 @@
                 ,height: 312
                 ,url: '/admin/storage/list/get_table' //数据接口
                 ,page: true //开启分页
-                ,toolbar:'#use_button'
                 ,method:'post'
                 ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
                 ,defaultToolbar: ['filter', 'print']
+                ,where: {
+                    id:$('#storage_addr').val(),
+                    search:$('#test-table-demoReload').val(),
+                }
                 ,cols: [[ //表头
                     {field: 'goods_kind_id', title: 'ID', sort: true, fixed: 'left'}
                     ,{field: 'goods_kind_name', title: '仓库名'}
@@ -120,23 +89,35 @@
             });
 
             //搜索刷新数据
-            var $ = layui.$;
+            var active = {
+                reload: function(){
+                    //执行重载
+                    table.reload('storagelist',{
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            search:$('#test-table-demoReload').val(),
+                            id:$('#storage_addr').val(),
+                        }
+                    });
+                }
+            };
 
-            //新增产品
-            {{--$('#addgoods_kind').on('click', function () {--}}
-            {{--that.goods_show('新增仓库', '{{url("admin/storage/add_storage")}}',2,600,510);--}}
-            {{--});--}}
+            //触发搜索事件
+            $('.test-table-reload-btn .layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
 
             //table事件监听
             table.on("tool(button-listen)",function(obj){
                 var data = obj.data; //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
                 var tr = obj.tr; //获得当前行 tr 的DOM对象
-                if(layEvent=='detail'){
-                    layer.open();
-                }else if(layEvent=='edit'){
+                if(layEvent=='edit'){
                     //修改产品
-                    that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
+                    that.goods_show('修改产品库存', '{{url("admin/storage/list/up_storage_stock")}}?id=' + data.goods_kind_id + '&storage_id='+ $('#storage_addr').val(), 2, 600, 510);
                 }else{
                     layer.confirm('真的删除行么', function(index){
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存

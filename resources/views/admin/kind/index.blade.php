@@ -427,7 +427,7 @@
                     ,{field:'goods_kind_volume',width: 140,align:'center',title: '产品体积'}
                     ,{field:'goods_kind_postage',align:'center',width: 100,title: '邮费'}
                     ,{title: 'SKU绑定状态',align:'center',width: 120,templet: '#test-table-sku'}
-                    ,{field:'goods_kind_time',width: 160,align:'center', title: '添加时间'}
+                    ,{field:'goods_kind_time',width: 160,align:'center', title: '添加时间', sort: true}
                     ,{width:150, align:'center', title: '操作', toolbar: '#test-table-operate-barDemo'}
                 ]]
                 ,page: true

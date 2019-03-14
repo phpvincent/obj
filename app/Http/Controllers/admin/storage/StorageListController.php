@@ -144,16 +144,11 @@ class StorageListController extends Controller
      */
     public function product_data(Request $request){
         $id = $request->input('id');//仓库ID，如果没有默认本地仓库
-        if($id){
-            $storage = storage::where('storage_id',$id)->first();
-            if(!$storage){
-                $storage = storage::where('is_local',1)->first();
-            }
-        }else{
-            $storage = storage::where('is_local',1)->first();
+        if(!$id){
+            $id = storage::where('is_local',1)->first()['storage_id'];
         }
-
-        return view('storage.product.index')->with(compact('storage'));
+        $stos = storage::all();
+        return view('storage.product.index')->with(compact('id','stos'));
     }
 
     /**
@@ -165,18 +160,23 @@ class StorageListController extends Controller
     {
         $page = $request->input('page', 1);
         $limit = $request->input('limit', 10);
-        $search = $request->input('search');
+        $search = trim($request->input('search'));
         //排序参数
         $field = $request->input('field', 'goods_kind_id'); //排序字段
         $dsc = $request->input('order', 'desc'); //排序顺序
         $start = ($page - 1) * $limit;
 
-        $id = $request->input('id', 25);
+        $id = $request->input('id', storage::where('is_local',1)->first()['storage_id']);
         $storage = storage::where('storage_id', $id)->first();
         if ($storage) {
             if ($storage->is_local == 1) { //本地仓库
                 $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
                     ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                    ->where(function ($query) use ($request,$search){
+                        if($search){
+                            $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        }
+                    })
                     ->where('storage_goods_local.storage_primary_id', $id)
                     ->groupBy('goods_kind.goods_kind_id')
                     ->orderBy($field, $dsc)
@@ -186,6 +186,11 @@ class StorageListController extends Controller
             } else { //海外仓库
                 $products = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
                     ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                    ->where(function ($query) use ($request,$search){
+                        if($search){
+                            $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        }
+                    })
                     ->where('storage_goods_abroad.storage_primary_id', $id)
                     ->groupBy('goods_kind.goods_kind_id')
                     ->orderBy($field, $dsc)
@@ -193,29 +198,8 @@ class StorageListController extends Controller
                     ->limit($limit)
                     ->get();
             }
-//            $storage_product = [];
-//            $data = [];
-//            if(!$products->isEmpty()){
-//                foreach ($products as $product)
-//                {
-//                    if(in_array($product->goods_kind_id,$storage_product)){
-//                        $data[$product->goods_kind_id]['num'] += $product->num;
-//                    }else{
-//                        $arr['num'] = $product->num;
-//                        $arr['goods_kind_id'] = $product->goods_kind_id;
-//                        $arr['goods_kind_name'] = $product->goods_kind_name;
-//                        $arr['goods_kind_img'] = $product->goods_kind_img;
-//                        $arr['goods_kind_english_name'] = $product->goods_kind_english_name;
-//                        $arr['goods_kind_volume'] = $product->goods_kind_volume;
-//                        $arr['goods_buy_weight'] = $product->goods_buy_weight;
-//                        $arr['goods_kind_sku'] = $product->goods_kind_sku;
-//                        $arr['goods_product_id'] = $product->goods_product_id;
-//                        $data[$product->goods_kind_id] = $arr;
-//                        array_push($storage_product,$product->goods_kind_id);
-//                    }
-//                }
-//            }
-
+        }else{
+            $products = [];
         }
         $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $products];
         return response()->json($arr);
@@ -246,5 +230,35 @@ class StorageListController extends Controller
     public function product_data_smail(Request $request)
     {
         return '?';
+    }
+
+    /**
+     * 编辑产品库存
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function up_storage_stock(Request $request)
+    {
+        if($request->method('get')){
+            if($request->input('id')){
+                $storage_id = $request->input('storage_id');//库存ID
+                $id = $request->input('id');//产品ID
+                $storage = storage::where('storage_id',$storage_id)->first();
+                if($storage){
+                    if($storage->is_local == 1){
+                        $storage_goods = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                            ->where('storage_primary_id',$storage)
+                            ->where('goods_kind_id',$id)
+                            ->get();
+                    }else{
+                        $storage_goods = storage_goods_abroad::where('storage_primary_id',$storage)->where('goods_kind_id',$id)->get();
+                    }
+
+                }
+                return view('storage.product.index')->with(compact('id','stos'));
+            }
+        }else{
+
+        }
     }
 }
