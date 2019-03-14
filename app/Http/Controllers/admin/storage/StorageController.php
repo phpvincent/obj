@@ -52,4 +52,8 @@ class StorageController extends Controller
             return response()->json(['err'=>1,'str'=>'修改成功~']);
         }
     }
+     public function jsq(Request $request)
+    {
+        return view('storage.storage.jsq');
+    }
 }

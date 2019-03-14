@@ -7,6 +7,7 @@
  			Route::get('/admin_info','admin\storage\StorageController@admin_info');
  			Route::post('/up_self','admin\storage\StorageController@up_self');
  			Route::any('/password','admin\storage\StorageController@password');
+ 			Route::get('/jsq','admin\storage\StorageController@jsq');
  			//仓库管理
  			Route::get('/list','admin\storage\StorageListController@list');
  			Route::get('/list/data','admin\storage\StorageListController@list_data');
