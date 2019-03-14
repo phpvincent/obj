@@ -11,7 +11,9 @@
  			Route::get('/list','admin\storage\StorageListController@list');
  			Route::get('/list/data','admin\storage\StorageListController@list_data');
  			Route::any('/list/add_storage','admin\storage\StorageListController@add_storage'); //新增仓库
- 			Route::get('/list/del_storage','admin\storage\StorageListController@del_storage');
- 			Route::any('/list/up_storage','admin\storage\StorageListController@up_storage');
- 	    });
+ 			Route::get('/list/del_storage','admin\storage\StorageListController@del_storage');//删除仓库
+ 			Route::any('/list/up_storage','admin\storage\StorageListController@up_storage');//修改仓库
+            Route::get('list/product_data','admin\storage\StorageListController@product_data');//仓库数据页
+            Route::post('list/get_table','admin\storage\StorageListController@get_table');//仓库数据列表
+        });
 	Route::get('/notallow','admin\storage\StorageController@notallow');

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\admin\storage;
 
+use App\storage_goods_abroad;
+use App\storage_goods_local;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\storage;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -106,5 +109,89 @@ class StorageListController extends Controller
     		return response()->json(['err'=>1,'str'=>'仓库禁用成功！']);
     	}
     	return response()->json(['err'=>0,'str'=>'仓库禁用失败！']);
+    }
+
+    /**
+     * 仓库数据
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function product_data(Request $request){
+        $id = $request->input('id');//仓库ID，如果没有默认本地仓库
+        if($id){
+            $storage = storage::where('storage_id',$id)->first();
+            if(!$storage){
+                $storage = storage::where('is_local',1)->first();
+            }
+        }else{
+            $storage = storage::where('is_local',1)->first();
+        }
+
+        return view('storage.product.index')->with(compact('storage'));
+    }
+
+    /**
+     * 仓库数据列表
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_table(Request $request)
+    {
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        $search = $request->input('search');
+        //排序参数
+        $field = $request->input('field','goods_kind_id'); //排序字段
+        $dsc = $request->input('order','desc'); //排序顺序
+        $start = ($page-1)*$limit;
+
+        $id = $request->input('id',25);
+        $storage = storage::where('storage_id',$id)->first();
+        if($storage){
+            if($storage->is_local == 1){ //本地仓库
+                $products = storage_goods_local::join('goods_kind','goods_kind.goods_kind_id','=','storage_goods_local.goods_kind_id')
+                    ->select('goods_kind.*',DB::Raw('SUM(num) AS num'))
+                    ->where('storage_goods_local.storage_primary_id',$id)
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->orderBy($field, $dsc)
+                    ->offset($start)
+                    ->limit($limit)
+                    ->get();
+            }else{ //海外仓库
+                $products = storage_goods_abroad::join('goods_kind','goods_kind.goods_kind_id','=','storage_goods_abroad.goods_kind_id')
+                    ->select('goods_kind.*',DB::Raw('SUM(num) AS num'))
+                    ->where('storage_goods_abroad.storage_primary_id',$id)
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->orderBy($field, $dsc)
+                    ->offset($start)
+                    ->limit($limit)
+                    ->get();
+            }
+//            $storage_product = [];
+//            $data = [];
+//            if(!$products->isEmpty()){
+//                foreach ($products as $product)
+//                {
+//                    if(in_array($product->goods_kind_id,$storage_product)){
+//                        $data[$product->goods_kind_id]['num'] += $product->num;
+//                    }else{
+//                        $arr['num'] = $product->num;
+//                        $arr['goods_kind_id'] = $product->goods_kind_id;
+//                        $arr['goods_kind_name'] = $product->goods_kind_name;
+//                        $arr['goods_kind_img'] = $product->goods_kind_img;
+//                        $arr['goods_kind_english_name'] = $product->goods_kind_english_name;
+//                        $arr['goods_kind_volume'] = $product->goods_kind_volume;
+//                        $arr['goods_buy_weight'] = $product->goods_buy_weight;
+//                        $arr['goods_kind_sku'] = $product->goods_kind_sku;
+//                        $arr['goods_product_id'] = $product->goods_product_id;
+//                        $data[$product->goods_kind_id] = $arr;
+//                        array_push($storage_product,$product->goods_kind_id);
+//                    }
+//                }
+//            }
+
+        }
+        $arr = ['code' => 0,"msg"=>"获取数据成功",'data'=>$products];
+        return response()->json($arr);
     }
 }
