@@ -163,6 +163,12 @@ class StorageListController extends Controller
     }
     public function product_data_smail(Request $request)
     {
-        return '?';
+        if($request->isMethod('get')){
+            $storage_id=$request->input('storage_id',Storage::first()->storage_id);
+            $storage=storage::where('storage_id',$storage_id)->first();
+            return view('storage.storage.smail_data')->with(compact('storage_id','storage'));
+        }else if($request->isMethod('post')){
+
+        }
     }
 }
