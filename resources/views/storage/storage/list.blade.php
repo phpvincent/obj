@@ -130,6 +130,7 @@
       ,text: {
         none: '暂无仓库数据' 
       }
+      ,autoSort:false
       ,initSort: {
         field: 'check_at' //排序字段，对应 cols 设定的各字段名
         ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
@@ -196,13 +197,12 @@
            if(layEvent=='detail'){
                 layer.open({
                   type:2,
-                  offset:'rb',
+                  offset:'rt',
                   title:'库存数据',
-                  area:[365,800],
+                  area:[400,800],
                   content:"{{url('/admin/storage/list/product_data_smail?storage_id=')}}"+data.storage_id,
                 });
-                return;
-                parent.layui.index.openTabsPage('/admin/storage/list/product_data?storage_id='+data.storage_id, '库存数据'); //这里要注意的是 parent 的层级关系
+
            }else if(layEvent=='edit'){
                //修改产品
                that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
@@ -236,7 +236,22 @@
                });
            }
        })
-
+       //排序监听
+       table.on('sort(button-listen)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                        //尽管我们的 table 自带排序功能，但并没有请求服务端。
+                        //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+                        table.reload('storagelist',{
+                            initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                            , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                                field: obj.field //排序字段
+                                , order: obj.type //排序方式
+                                 ,search:$('#test-table-demoReload').val(),
+                                 storage_type:$('#storage_type').val(),
+                                 start:$('#test-laydate-start').val(),
+                                 out:$('#test-laydate-out').val(),
+                            }
+                        });
+                    });
 
     //model 模态框
     goods_show=function goods_show(title,url,type,w,h){

@@ -19,10 +19,12 @@ class StorageListController extends Controller
     }
     public function list_data(Request $request)
     {
-    	//dd($request->all());
     	$page = $request->input('page',1);
         $limit = $request->input('limit',10);
         $start = ($page-1)*$limit;
+         //排序参数
+        $field = $request->input('field','check_at'); //排序字段
+        $dsc = $request->input('order','desc'); //排序顺序
 		if($request->has('page')&&$request->has('limit')){
 		   $page = $request->input('page',1);
            $limit = $request->input('limit',10);
@@ -35,7 +37,7 @@ class StorageListController extends Controller
                 })
 		    	->offset($start)
 		    	->limit($limit)
-		    	->orderBy($request->input('field','check_at'),$request->input('order','desc'))
+		    	->orderBy($field, $dsc)
 		    	->get();
     		}else{
 		        $data=storage::select('storage.*','admin.admin_show_name')
@@ -44,7 +46,7 @@ class StorageListController extends Controller
                 ->where(function($query)use($request){
                     $this->set_query($query,$request);
                 })
-		    	->orderBy($request->input('field','check_at'),$request->input('order','desc'))
+		    	->orderBy($field, $dsc)
 		    	->get();
     		}
         $count=storage::select('storage.*','admin.admin_show_name')
@@ -226,10 +228,54 @@ class StorageListController extends Controller
                 $query->orWhere('admin.admin_show_name','like',"%".$request->input('search')."%");
             }
     }
-
+    /**
+     * 仓库数据小表
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function product_data_smail(Request $request)
     {
-        return '?';
+        if($request->isMethod('get')){
+            $storage_id=$request->input('storage_id',Storage::first()->storage_id);
+            $storage=storage::where('storage_id',$storage_id)->first();
+            return view('storage.storage.smail_data')->with(compact('storage_id','storage'));
+        }else if($request->isMethod('post')){
+            $search = $request->input('search');
+            //排序参数
+            $field = $request->input('field', 'num'); //排序字段
+            $dsc = $request->input('order', 'desc'); //排序顺序
+            $id = $request->input('id', storage::where('is_local',1)->first()['storage_id']);
+            $storage = storage::where('storage_id', $id)->first();
+            if ($storage) {
+                if ($storage->is_local == 1) { //本地仓库
+                    $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                        ->where('storage_goods_local.storage_primary_id', $id)
+                        ->where(function($query)use($search){
+                            if($search!=null){
+                                $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                            }
+                        })
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->orderBy($field, $dsc)
+                        ->get();
+                } else { //海外仓库
+                    $products = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                        ->where('storage_goods_abroad.storage_primary_id', $id)
+                        ->where(function($query)use($search){
+                            if($search!=null){
+                                $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                            }
+                        })
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->orderBy($field, $dsc)
+                        ->get();
+                }
+            }
+            $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $products];
+            return response()->json($arr);
+        }
     }
 
     /**
