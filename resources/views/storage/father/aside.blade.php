@@ -14,7 +14,7 @@
               <dl class="layui-nav-child">
                 @foreach($rules as $val)
                   @if($val->rule_level==$v->rule_id && $val->rule_system===1)
-                    <dd data-name="console" class="layui-this">
+                    <dd data-name="console" class="">
 {{--                      <a data-href="{{$val->rule_url}}" data-title="{{$val->rule_name}}" href="javascript:void(0)">{{$val->rule_name}}</a>--}}
                       <a lay-href="{{$val->rule_url}}">{{$val->rule_name}}</a>
                     </dd>

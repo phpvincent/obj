@@ -723,10 +723,6 @@
                     // console.log(JSON.stringify(date));
                 },
             });*/
-
-
-
-
                 //跳转到商品列表页
                 function goods_info(url, num) {
                     if (num == 0) {
@@ -735,16 +731,6 @@
                         window.location.href = url;
                     }
                 }
-        //跳转到商品列表页
-        function  goods_info(url,num)
-        {
-            if(num == 0){
-                layer.msg('该产品无商品绑定');
-            }else{
-                window.location.href = url;
-            }
-        }
-        
        /*  function layer_img(src){
             $('#img').attr('src',src);
             layer.open({

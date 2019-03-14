@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
 use Illuminate\Support\Facades\Auth;
-
 class StorageListController extends Controller
 {
     public function list(Request $request)
@@ -19,16 +19,42 @@ class StorageListController extends Controller
     }
     public function list_data(Request $request)
     {
+    	//dd($request->all());
     	$page = $request->input('page',1);
         $limit = $request->input('limit',10);
         $start = ($page-1)*$limit;
-    	$data=storage::select('storage.*','admin.admin_name')
-    	->leftjoin('admin','storage.admin_id','admin.admin_id')
-    	->where('storage.storage_status',1)
-    	->offset($start)
-        ->limit($limit)
-    	->get();
-    	return json_encode(['code'=>0,'msg'=>'','count'=>$data->count(),'data'=>$data]);
+		if($request->has('page')&&$request->has('limit')){
+		   $page = $request->input('page',1);
+           $limit = $request->input('limit',10);
+           $start = ($page-1)*$limit;
+		    	$data=storage::select('storage.*','admin.admin_show_name')
+		    	->leftjoin('admin','storage.admin_id','admin.admin_id')
+		    	->where('storage.storage_status',1)
+                ->where(function($query)use($request){
+                    $this->set_query($query,$request);
+                })
+		    	->offset($start)
+		    	->limit($limit)
+		    	->orderBy($request->input('field','check_at'),$request->input('order','desc'))
+		    	->get();
+    		}else{
+		        $data=storage::select('storage.*','admin.admin_show_name')
+		    	->leftjoin('admin','storage.admin_id','admin.admin_id')
+		    	->where('storage.storage_status',1)
+                ->where(function($query)use($request){
+                    $this->set_query($query,$request);
+                })
+		    	->orderBy($request->input('field','check_at'),$request->input('order','desc'))
+		    	->get();
+    		}
+        $count=storage::select('storage.*','admin.admin_show_name')
+                ->leftjoin('admin','storage.admin_id','admin.admin_id')
+                ->where('storage.storage_status',1)
+                ->where(function($query)use($request){
+                   $this->set_query($query,$request);
+                })
+                ->count();
+    	return json_encode(['code'=>0,'msg'=>'','count'=>$count,'data'=>$data]);
     }
 
     /**
@@ -137,30 +163,30 @@ class StorageListController extends Controller
      */
     public function get_table(Request $request)
     {
-        $page = $request->input('page',1);
-        $limit = $request->input('limit',10);
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
         $search = $request->input('search');
         //排序参数
-        $field = $request->input('field','goods_kind_id'); //排序字段
-        $dsc = $request->input('order','desc'); //排序顺序
-        $start = ($page-1)*$limit;
+        $field = $request->input('field', 'goods_kind_id'); //排序字段
+        $dsc = $request->input('order', 'desc'); //排序顺序
+        $start = ($page - 1) * $limit;
 
-        $id = $request->input('id',25);
-        $storage = storage::where('storage_id',$id)->first();
-        if($storage){
-            if($storage->is_local == 1){ //本地仓库
-                $products = storage_goods_local::join('goods_kind','goods_kind.goods_kind_id','=','storage_goods_local.goods_kind_id')
-                    ->select('goods_kind.*',DB::Raw('SUM(num) AS num'))
-                    ->where('storage_goods_local.storage_primary_id',$id)
+        $id = $request->input('id', 25);
+        $storage = storage::where('storage_id', $id)->first();
+        if ($storage) {
+            if ($storage->is_local == 1) { //本地仓库
+                $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                    ->where('storage_goods_local.storage_primary_id', $id)
                     ->groupBy('goods_kind.goods_kind_id')
                     ->orderBy($field, $dsc)
                     ->offset($start)
                     ->limit($limit)
                     ->get();
-            }else{ //海外仓库
-                $products = storage_goods_abroad::join('goods_kind','goods_kind.goods_kind_id','=','storage_goods_abroad.goods_kind_id')
-                    ->select('goods_kind.*',DB::Raw('SUM(num) AS num'))
-                    ->where('storage_goods_abroad.storage_primary_id',$id)
+            } else { //海外仓库
+                $products = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                    ->where('storage_goods_abroad.storage_primary_id', $id)
                     ->groupBy('goods_kind.goods_kind_id')
                     ->orderBy($field, $dsc)
                     ->offset($start)
@@ -191,7 +217,34 @@ class StorageListController extends Controller
 //            }
 
         }
-        $arr = ['code' => 0,"msg"=>"获取数据成功",'data'=>$products];
+        $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $products];
         return response()->json($arr);
+    }
+
+    /**
+     * 为构建语句设置搜索条件
+     * @param QueryBuilder $query   [语句构建对象]
+     * @param Request      $request [description]
+     */
+    public function set_query(QueryBuilder $query,Request $request)
+    {  
+         if($request->input('start')!=null){
+                $query->whereBetween('created_at',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
+            }
+            if($request->input('out')!=null){
+                $query->whereBetween('check_at',[explode(' - ',$request->input('out'))[0],explode(' - ',$request->input('out'))[1]]);
+            }
+            if($request->input('storage_type')!='#'){
+                $query->where('is_local',$request->input('storage_type'));
+            }
+              if($request->input('search')!=null){
+                $query->where('storage.storage_name','like',"%".$request->input('search')."%");
+                $query->orWhere('admin.admin_show_name','like',"%".$request->input('search')."%");
+            }
+    }
+
+    public function product_data_smail(Request $request)
+    {
+        return '?';
     }
 }
