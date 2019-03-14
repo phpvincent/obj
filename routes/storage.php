@@ -15,7 +15,7 @@
  			Route::any('/list/up_storage','admin\storage\StorageListController@up_storage');//修改仓库
             Route::get('list/product_data','admin\storage\StorageListController@product_data');//仓库数据页
             Route::post('list/get_table','admin\storage\StorageListController@get_table');//仓库数据列表
-            Route::get('/list/product_data_smail','admin\storage\StorageListController@product_data_smail');
+            Route::any('/list/product_data_smail','admin\storage\StorageListController@product_data_smail');
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');
