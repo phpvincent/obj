@@ -286,38 +286,112 @@ class StorageListController extends Controller
      */
     public function up_storage_stock(Request $request)
     {
-        if($request->method('get')){
-            if($request->input('id')){
-                $storage_id = $request->input('storage_id');//库存ID
-                $id = $request->input('id');//产品ID
-                $storage = storage::where('storage_id',$storage_id)->first();
-                if($storage){
-                    if($storage->is_local == 1){
-                        $storage_goods = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
-                            ->select('goods_kind.*', 'storage_goods_local.sku', 'storage_goods_local.sku_attr', 'storage_goods_local.num')
-                            ->where('storage_primary_id',$storage_id)
-                            ->where('storage_goods_local.goods_kind_id',$id)
-                            ->get();
-                    }else{
-                        $storage_goods = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
-                            ->select('goods_kind.*', 'storage_goods_abroad.sku', 'storage_goods_abroad.sku_data as sku_attr', 'storage_goods_abroad.num')
-                            ->where('storage_primary_id',$storage_id)
-                            ->where('storage_goods_abroad.goods_kind_id',$id)
-                            ->get();
-                    }
-                    if(!$storage_goods->isEmpty()){
-                        $storage_goods = $storage_goods->toArray();
-                        foreach ($storage_goods as &$storage_good){
-                            $storage_good['goods_sku'] = $storage_good['sku'].$storage_good['sku_attr'];
-                            $goods_detail = new skuSDK($storage_good['goods_kind_id'],$storage_good['goods_product_id'],$storage_good['goods_kind_user_type']);
-                            dd($goods_detail);
-                        }
-                    }
-                    return view('storage.product.edit')->with(compact('storage_goods'));
+        if($request->isMethod('get')){
+            $id = $request->input('id');//产品ID
+            $storage_id = $request->input('storage_id');//库存ID
+            return view('storage.product.edit')->with(compact('id','storage_id'));
+        }else{
+            $storage_id = $request->input('storage_id');//仓库ID
+            $num = $request->input('num');//产品数量
+            if(!trim($num)){
+                $num = 0;
+            }
+            $four_sku = $request->input('four_sku');
+            $last_sku = $request->input('last_sku');
+            $storage = storage::where('storage_id', $storage_id)->first();
+            if ($storage) {
+                if ($storage->is_local == 1) { //本地仓库
+                    $products = storage_goods_local::where('sku',$four_sku)
+                        ->where('sku_attr',$last_sku)
+                        ->where('storage_primary_id', $storage_id)
+                        ->update(['num'=>$num]);
+                } else { //海外仓库
+                    $products = storage_goods_abroad::where('sku',$four_sku)
+                        ->where('sku_data',$last_sku)
+                        ->where('storage_primary_id', $storage_id)
+                        ->update(['num'=>$num]);
                 }
+
+                if($products){
+                    return response()->json(['err'=>1,'str'=>'修改产品成功！']);
+                }else{
+                    return response()->json(['err'=>0,'str'=>'修改产品失败！']);
+                }
+            }else{
+                return response()->json(['err'=>0,'str'=>'修改产品数据不存在！']);
+            }
+
+        }
+    }
+
+    /**
+     * 产品库存详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storage_stock_show(Request $request)
+    {
+            $storage_id = $request->input('storage_id');//库存ID
+            $id = $request->input('id');//产品ID
+            $storage = storage::where('storage_id',$storage_id)->first();
+            if($storage){
+                if($storage->is_local == 1){
+                    $storage_goods = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->select('goods_kind.*', 'storage_goods_local.sku', 'storage_goods_local.sku_attr', 'storage_goods_local.num')
+                        ->where('storage_primary_id',$storage_id)
+                        ->where('storage_goods_local.goods_kind_id',$id)
+                        ->get();
+                }else{
+                    $storage_goods = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                        ->select('goods_kind.*', 'storage_goods_abroad.sku', 'storage_goods_abroad.sku_data as sku_attr', 'storage_goods_abroad.num')
+                        ->where('storage_primary_id',$storage_id)
+                        ->where('storage_goods_abroad.goods_kind_id',$id)
+                        ->get();
+                }
+                if(!$storage_goods->isEmpty()){
+                    $storage_goods = $storage_goods->toArray();
+                    foreach ($storage_goods as &$storage_good){
+                        $storage_good['goods_sku'] = $storage_good['sku'].$storage_good['sku_attr'];
+                        $skuSDK = new skuSDK($storage_good['goods_kind_id'],$storage_good['goods_product_id'],$storage_good['goods_kind_user_type']);
+                        $current_attrs = $skuSDK->get_attr_by_sku($storage_good['sku_attr']);
+                        $str = '';
+                        foreach ($current_attrs as $attr) {
+                            $str .= $attr->kind_val_msg .',';
+                        }
+                        $storage_good['goods_attr'] = rtrim($str,',');
+                    }
+                }
+                $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $storage_goods];
+                return response()->json($arr);
+            }else {
+                return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => []]);
+            }
+    }
+
+    /**
+     * 删除产品库存
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function del_storage_stock(Request $request)
+    {
+        $storage_id = $request->input('storage_id');//库存ID
+        $id = $request->input('id');//产品ID
+        $storage = storage::where('storage_id',$storage_id)->first();
+        if($storage){
+            if($storage->is_local == 1){
+                $storage_goods = storage_goods_local::where('storage_primary_id',$storage_id)->where('goods_kind_id',$id)->delete();
+            }else{
+                $storage_goods = storage_goods_abroad::where('storage_primary_id',$storage_id)->where('goods_kind_id',$id)->delete();
+            }
+
+            if($storage_goods){
+                return response()->json(['err'=>1,'str'=>'删除产品成功！']);
+            }else{
+                return response()->json(['err'=>0,'str'=>'删除产品失败！']);
             }
         }else{
-
+            return response()->json(['err'=>0,'str'=>'抱歉，删除库存产品不存在或已删除！']);
         }
     }
 }
