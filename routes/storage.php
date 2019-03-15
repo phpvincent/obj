@@ -22,6 +22,8 @@
             //数据校准
             Route::get('/check','admin\storage\StorageListController@check');
             Route::get('/list/order_data','admin\storage\StorageListController@order_data');//订单列表
+            Route::get('/list/back_order','admin\storage\StorageListController@back_order');//订单驳回
+            Route::get('/list/check_order','admin\storage\StorageListController@check_order');//仓储数据校准
             //补货
             Route::get('/add','admin\storage\StorageAddController@add');
         });

@@ -410,4 +410,23 @@ class StorageListController extends Controller
         ];
         return $blade_arr[$blade_id];
     }
+    public function back_order(Request $request)
+    {
+        $id=$request->input('id');
+        $order_msg=\App\order::select('order_return')->where('order_id',$id)->first();
+        if($order_msg==null){
+           return response()->json(['err' => 0, 'str' => '订单检索失败！']);
+        }
+        $admin=Auth::user()->admin_name;
+        $date=date('Y-m-d H:i:s',time());
+        $err=\App\order::where('order_id',$id)->update(['order_type'=>5,'order_return'=>$order_msg['order_return']."<p style='text-align:center'>[".$date."] ".$admin."："."供应驳回"."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+        if(!$err){
+           return response()->json(['err' => 0, 'str' => '订单驳回失败！']);
+        }
+        return response()->json(['err' => 1, 'str' => '订单驳回成功！']);
+    }
+    public function check_order(Request $request)
+    {
+        
+    }
 }

@@ -8,7 +8,7 @@
               <div class="layui-inline">
                   <div class="layui-form-item">
                       <div class="layui-inline">
-                          <label class="layui-form-label">订单日期：</label>
+                          <label class="layui-form-label">核审日期：</label>
                           <div class="layui-input-inline">
                               <input type="text" class="layui-input" id="test-laydate-start"
                                      placeholder="日期范围">
@@ -84,7 +84,7 @@
         </button>
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('库存校准','{{url("admin/storage/list/add_order")}}',2,600,510)">库存校准</b>
+               onclick="goods_show('库存校准','{{url("admin/storage/list/check_order")}}',2,600,510)">库存校准</b>
         </button>
   </script>
   <script type="text/html" id="area">
@@ -138,8 +138,7 @@
 </script>
 <script type="text/html" id="button" >
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">驳回</a>
 </script>
 @endsection
 @section('js')
@@ -157,8 +156,9 @@
       elem: '#order_list'
       ,url: '/admin/storage/list/order_data' //数据接口
       ,page: true //开启分页
+      ,limits:[10,20,30,40,50,60,70,80,90,999999999]
       ,toolbar:'#use_button'
-      ,defaultToolbar: ['filter', 'print']
+      ,defaultToolbar: ['filter','exports', 'print']
       ,text: {
         none: '暂无订单数据' 
       }
@@ -230,27 +230,25 @@
            if(layEvent=='detail'){
                 layer.open({
                   type:2,
-                  offset:'rt',
-                  title:'库存数据',
-                  area:[400,800],
-                  content:"{{url('/admin/storage/list/product_data_smail?storage_id=')}}"+data.storage_id,
+                  offset:'rb',
+                  title:'订单信息',
+                  area:[400,600],
+                  content:"{{url('/admin/order/getaddr?id=')}}"+data.order_id,
                 });
 
-           }else if(layEvent=='edit'){
-               //修改产品
-               that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
-           }else{
-               layer.confirm('真的删除行么', function(index){
-                   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+           }else if(layEvent=='del'){
+               layer.confirm('真的驳回此订单么', function(index){
+                  
                    layer.close(index);
                    //向服务端发送删除指令
                    $.ajax({
-                       url:"{{url('admin/storage/list/del_storage')}}",
+                       url:"{{url('admin/storage/list/back_order')}}",
                        type:'get',
-                       data:{id:data.storage_id},
+                       data:{id:data.order_id},
                        datatype:'json',
                        success:function(msg){
-                           if(msg['err']==1){
+                           if(msg['err']==1){ 
+                               obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                                layer.close(index);
                                layer.msg(msg.str,{
                                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
@@ -262,7 +260,7 @@
                                layer.msg(msg.str);
                            }else{
                                layer.close(index);
-                               layer.msg('删除失败！');
+                               layer.msg('驳回失败！');
                            }
                        }
                    });

@@ -447,11 +447,11 @@ function states(){
 			}else if(data.order_type==2){
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:red;">核审驳回</span></a>';
 			}else if(data.order_type==3){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:brown;">已发货</span></a>';
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:brown;">已扣货</span></a>';
 			}else if(data.order_type==4){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#6699ff;">已签收</span></a>';
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#6699ff;">已出仓</span></a>';
 			}else if(data.order_type==5){
-				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">退货未退款</span></a>';
+				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">供应驳回</span></a>';
 			}else if(data.order_type==6){
 				var isroot='<a href="javascript:;" onclick="order_returninfo('+data.order_id+')" <span class="label label-default radius" style="color:#red;">退货并已退款</span></a>';
 			}else if(data.order_type==7){

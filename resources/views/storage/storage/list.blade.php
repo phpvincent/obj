@@ -208,7 +208,7 @@
                that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
            }else{
                layer.confirm('真的删除行么', function(index){
-                   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                   
                    layer.close(index);
                    //向服务端发送删除指令
                    $.ajax({
@@ -218,6 +218,7 @@
                        datatype:'json',
                        success:function(msg){
                            if(msg['err']==1){
+                               obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                                layer.close(index);
                                layer.msg(msg.str,{
                                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
