@@ -8,16 +8,16 @@
               <div class="layui-inline">
                   <div class="layui-form-item">
                       <div class="layui-inline">
-                          <label class="layui-form-label">建仓日期：</label>
+                          <label class="layui-form-label">核审日期：</label>
                           <div class="layui-input-inline">
                               <input type="text" class="layui-input" id="test-laydate-start"
                                      placeholder="日期范围">
                           </div>
-                           <label class="layui-form-label">出库时间：</label>
+                          <!--  <label class="layui-form-label">出库时间：</label>
                           <div class="layui-input-inline">
                               <input type="text" class="layui-input" id="test-laydate-out"
                                      placeholder="日期范围">
-                          </div>
+                          </div> -->
                          <!--  <div class="layui-form-mid">
                               -
                           </div>
@@ -30,12 +30,33 @@
                   </div>
               </div>
               <div class="layui-inline">
-                  <label class="layui-form-label">仓库分类</label>
+                  <label class="layui-form-label">订单地区</label>
                   <div class="layui-input-block">
-                      <select name="storage_type" id="storage_type" lay-verify="required">
+                      <select name="goods_blade_type" id="goods_blade_type" lay-verify="required">
                           <option value="#">所有</option>
-                          <option value="1">国内仓</option>
-                          <option value="0">海外仓</option>
+                          <option value="1">台湾</option>
+                          <option value="2">阿联酋</option>
+                          <option value="3">马来西亚</option>
+                          <option value="4">泰国</option>
+                          <option value="5">日本</option>
+                          <option value="6">印尼</option>
+                          <option value="7">菲律宾</option>
+                          <option value="8">英国</option>
+                          <option value="9">美国</option>
+                          <option value="11">越南</option>
+                          <option value="12">沙特</option>
+                          <option value="14">卡塔尔</option>
+                          <option value="16">中东</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="layui-inline">
+                  <label class="layui-form-label">订单类型</label>
+                  <div class="layui-input-block">
+                      <select name="order_select_type" id="order_select_type" lay-verify="required">
+                          <option value="#">所有</option>
+                          <option value="1">待扣货</option>
+                          <option value="3">待发货</option>
                       </select>
                   </div>
               </div>
@@ -51,7 +72,7 @@
   </div>
   <!-- 表格元素 -->
     <div class="layui-card-body">
-      <table id="storagelist" lay-filter='button-listen'></table>
+      <table id="order_list" lay-filter='order-listen'></table>
     </div>
 
   </div>
@@ -59,55 +80,25 @@
   <script type="text/html" id="use_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建仓库','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建仓库</b>
+               onclick="goods_show('新建供货单','{{url("admin/storage/list/add_order")}}',2,600,510)">新建供货单</b>
+        </button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
+            <b style="color:green;"
+               onclick="goods_show('库存校准','{{url("admin/storage/list/check_order")}}',2,600,510)">库存校准</b>
         </button>
   </script>
-  <script type="text/html" id="area">
-   <div>
-    @{{# if(d.is_local==1){ }}
-      <span style='color:green'>本地仓</span>
-    @{{# }else if(d.template_type_primary_id==0||d.template_type_primary_id==1){ }}
-      <span style='color:brown'>台湾地区仓</span>
-    @{{# }else if(d.template_type_primary_id==2){ }}
-      <span style='color:brown'>阿联酋地区仓</span>
-    @{{# }else if(d.template_type_primary_id==3){ }}
-      <span style='color:brown'>马来西亚地区仓</span>
-    @{{# }else if(d.template_type_primary_id==4){ }}
-      <span style='color:brown'>泰国地区仓</span>
-    @{{# }else if(d.template_type_primary_id==5){ }}
-      <span style='color:brown'>日本地区仓</span>
-    @{{# }else if(d.template_type_primary_id==6){ }}
-      <span style='color:brown'>印尼地区仓</span>
-    @{{# }else if(d.template_type_primary_id==7){ }}
-      <span style='color:brown'>菲律宾地区仓</span>
-    @{{# }else if(d.template_type_primary_id==8){ }}
-      <span style='color:brown'>英国地区仓</span>
-    @{{# }else if(d.template_type_primary_id==9||d.template_type_primary_id==10){ }}
-      <span style='color:brown'>美国地区仓</span>
-    @{{# }else if(d.template_type_primary_id==11){ }}
-      <span style='color:brown'>越南地区仓</span>
-    @{{# }else if(d.template_type_primary_id==12||d.template_type_primary_id==13){ }}
-      <span style='color:brown'>沙特地区仓</span>
-    @{{# }else if(d.template_type_primary_id==14||d.template_type_primary_id==15){ }}
-      <span style='color:brown'>卡塔尔地区仓</span>
-    @{{# }else if(d.template_type_primary_id==16||d.template_type_primary_id==17){ }}
-      <span style='color:brown'>中东地区仓</span>
-    @{{# } }}
-  </div>
-</script>
-<script type="text/html" id='is_local'>
+<script type="text/html" id='order_type'>
   <div>
-  @{{# if(d.is_local==1){ }}
-    <span style='color:green'>本地仓</span>
+  @{{# if(d.order_type=='待扣货'){ }}
+    <span style='color:#009688'>待扣货</span>
   @{{# }else{ }}
-    <span style='color:brown'>海外仓</span>
+    <span style='color:brown'>待出仓</span>
   @{{# } }}
   </div>
 </script>
 <script type="text/html" id="button" >
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">驳回</a>
 </script>
 @endsection
 @section('js')
@@ -122,33 +113,35 @@
     var laydate = layui.laydate;
     var $ =layui.jquery;
     var options={
-      elem: '#storagelist'
-      ,url: '/admin/storage/list/data' //数据接口
+      elem: '#order_list'
+      ,url: '/admin/storage/list/order_data' //数据接口
       ,page: true //开启分页
+      ,limits:[10,20,30,40,50,60,70,80,90,999999999]
       ,toolbar:'#use_button'
-      ,defaultToolbar: ['filter', 'print']
+      ,defaultToolbar: ['filter','exports', 'print']
       ,text: {
-        none: '暂无仓库数据' 
+        none: '暂无订单数据' 
       }
       ,autoSort:false
       ,initSort: {
-        field: 'check_at' //排序字段，对应 cols 设定的各字段名
+        field: 'order_return_time' //排序字段，对应 cols 设定的各字段名
         ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
       }
       ,where: {
         search:$('#test-table-demoReload').val(),
-        storage_type:$('#storage_type').val(),
+        goods_blade_type:$('#goods_blade_type').val(),
+        order_select_type:$('#order_select_type').val(),
         start:$('#test-laydate-start').val(),
-        out:$('#test-laydate-out').val(),
       }
       ,cols: [[ //表头
-        {field: 'storage_id', title: 'ID', sort: true, fixed: 'left'}
-        ,{field: 'storage_name', title: '仓库名'}
-        ,{field: 'template_type_primary_id', title: '仓库地区',templet:'#area'}
-        ,{field: 'is_local', title: '仓库类型',templet:'#is_local'} 
-        ,{field: 'admin_show_name', title: '仓库所属人'}
-        ,{field: 'check_at', title: '上次出库时间', sort: true}
-        ,{field: 'created_at', title: '仓库建立时间', sort: true}
+        {field: 'order_id', title: 'ID', sort: true, fixed: 'left'}
+        ,{field: 'order_single_id', title: '订单号'}
+        ,{field: 'goods_blade_type', title: '订单地区'}
+        ,{field: 'order_type', title: '订单类型',templet:'#order_type'}
+        ,{field: 'order_return_time', title: '订单核审时间', sort: true} 
+        ,{field: 'admin_show_name', title: '订单核审人'}
+        ,{field: 'order_num', title: '件数', sort: true}
+        ,{field: 'order_pay_type', title: '订单支付类型', templet: '#pay_type'}
         ,{field: 'button', title: '操作', toolbar:'#button'}
         /*,{field: 'score', title: '评分', width: 80, sort: true}
         ,{field: 'classify', title: '职业', width: 80}
@@ -190,34 +183,31 @@
        var $ = layui.$;
 
        //table事件监听
-       table.on("tool(button-listen)",function(obj){
+       table.on("tool(order-listen)",function(obj){
            var data = obj.data; //获得当前行数据
            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
            var tr = obj.tr; //获得当前行 tr 的DOM对象
            if(layEvent=='detail'){
                 layer.open({
                   type:2,
-                  offset:'rt',
-                  title:'库存数据',
-                  area:[400,800],
-                  content:"{{url('/admin/storage/list/product_data_smail?storage_id=')}}"+data.storage_id,
+                  offset:'rb',
+                  title:'订单信息',
+                  area:[400,600],
+                  content:"{{url('/admin/order/getaddr?id=')}}"+data.order_id,
                 });
 
-           }else if(layEvent=='edit'){
-               //修改产品
-               that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
-           }else{
-               layer.confirm('真的删除行么', function(index){
-                   
+           }else if(layEvent=='del'){
+               layer.confirm('真的驳回此订单么', function(index){
+                  
                    layer.close(index);
                    //向服务端发送删除指令
                    $.ajax({
-                       url:"{{url('admin/storage/list/del_storage')}}",
+                       url:"{{url('admin/storage/list/back_order')}}",
                        type:'get',
-                       data:{id:data.storage_id},
+                       data:{id:data.order_id},
                        datatype:'json',
                        success:function(msg){
-                           if(msg['err']==1){
+                           if(msg['err']==1){ 
                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                                layer.close(index);
                                layer.msg(msg.str,{
@@ -230,7 +220,7 @@
                                layer.msg(msg.str);
                            }else{
                                layer.close(index);
-                               layer.msg('删除失败！');
+                               layer.msg('驳回失败！');
                            }
                        }
                    });
@@ -238,18 +228,18 @@
            }
        })
        //排序监听
-       table.on('sort(button-listen)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+       table.on('sort(order-listen)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
                         //尽管我们的 table 自带排序功能，但并没有请求服务端。
                         //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-                        table.reload('storagelist',{
+                        table.reload('order_list',{
                             initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                             , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                                 field: obj.field //排序字段
                                 , order: obj.type //排序方式
                                  ,search:$('#test-table-demoReload').val(),
-                                 storage_type:$('#storage_type').val(),
+                                 goods_blade_type:$('#goods_blade_type').val(),
+                                 order_select_type:$('#order_select_type').val(),
                                  start:$('#test-laydate-start').val(),
-                                 out:$('#test-laydate-out').val(),
                             }
                         });
                     });
@@ -282,15 +272,15 @@
      var $ = layui.$, active = {
                 reload: function(){
                     //执行重载
-                    table.reload('storagelist',{
+                    table.reload('order_list',{
                         page: {
                             curr: 1 //重新从第 1 页开始
                         }
                         ,where: {
                             search:$('#test-table-demoReload').val(),
-                            storage_type:$('#storage_type').val(),
+                            goods_blade_type:$('#goods_blade_type').val(),
+                            order_select_type:$('#order_select_type').val(),
                             start:$('#test-laydate-start').val(),
-                            out:$('#test-laydate-out').val(),
                                 }
                             });
                         }

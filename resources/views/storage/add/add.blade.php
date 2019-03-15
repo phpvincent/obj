@@ -8,12 +8,7 @@
               <div class="layui-inline">
                   <div class="layui-form-item">
                       <div class="layui-inline">
-                          <label class="layui-form-label">建仓日期：</label>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-start"
-                                     placeholder="日期范围">
-                          </div>
-                           <label class="layui-form-label">出库时间：</label>
+                           <label class="layui-form-label">补货时间：</label>
                           <div class="layui-input-inline">
                               <input type="text" class="layui-input" id="test-laydate-out"
                                      placeholder="日期范围">
@@ -59,7 +54,7 @@
   <script type="text/html" id="use_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建仓库','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建仓库</b>
+               onclick="goods_show('新建补货单','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建补货单</b>
         </button>
   </script>
   <script type="text/html" id="area">
@@ -145,7 +140,7 @@
         {field: 'storage_id', title: 'ID', sort: true, fixed: 'left'}
         ,{field: 'storage_name', title: '仓库名'}
         ,{field: 'template_type_primary_id', title: '仓库地区',templet:'#area'}
-        ,{field: 'is_local', title: '仓库类型',templet:'#is_local'} 
+        ,{field: 'is_local', title: '仓库类型',templet:'#is_local'}
         ,{field: 'admin_show_name', title: '仓库所属人'}
         ,{field: 'check_at', title: '上次出库时间', sort: true}
         ,{field: 'created_at', title: '仓库建立时间', sort: true}
@@ -208,7 +203,7 @@
                that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
            }else{
                layer.confirm('真的删除行么', function(index){
-                   
+                   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                    layer.close(index);
                    //向服务端发送删除指令
                    $.ajax({
@@ -218,7 +213,6 @@
                        datatype:'json',
                        success:function(msg){
                            if(msg['err']==1){
-                               obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                                layer.close(index);
                                layer.msg(msg.str,{
                                    time: 2000 //2秒关闭（如果不配置，默认是3秒）

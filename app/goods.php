@@ -352,4 +352,59 @@ class goods extends Model
                 break;
         }
     }
+
+    /**
+     * 根据模板地区，获取模板名称
+     * @param $goods_blade_id
+     * @return int
+     */
+    public static function get_blade_currency($goods_blade_id,$order_country = '')
+    {
+        switch ($goods_blade_id) {
+            case '0':
+            case '1':
+                return '台湾地区';
+            case '2':
+                return '阿联酋地区';
+            case '3':
+                return '马来西亚地区';
+            case '4':
+                return '泰国地区';
+            case '5':
+                return '日本地区';
+            case '6':
+                return '印度尼西亚地区';
+            case '7':
+                return '菲律宾地区';
+            case '8':
+            case '9':
+                return '英国地区';
+            case '10':
+                return '美国地区';
+                break;
+            case '11':
+                return '越南地区';
+                break;
+            case '12':
+            case '13':
+                return '沙特地区';
+            case '14':
+            case '15':
+                return '卡塔尔地区';
+            case '16':
+            case '17':
+                 switch ($order_country){
+                     case 'United Arab Emirates':
+                         return '阿联酋地区';
+                     case 'Saudi Arabia':
+                         return '沙特阿拉伯地区';
+                     case 'Qatar':
+                         return '卡塔尔地区';
+                     default:
+                         return '阿联酋地区';
+                 }
+            default:
+                return '台湾地区';
+        }
+    }
 }

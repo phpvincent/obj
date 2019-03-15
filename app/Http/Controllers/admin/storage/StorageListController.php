@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\admin\storage;
 
 use App\channel\skuSDK;
+use App\goods;
 use App\storage_goods_abroad;
 use App\storage_goods_local;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\storage;
+use App\order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
@@ -393,5 +395,122 @@ class StorageListController extends Controller
         }else{
             return response()->json(['err'=>0,'str'=>'抱歉，删除库存产品不存在或已删除！']);
         }
+    }
+    public function check(Request $request)
+    {
+        return view('storage.check.check_order');
+    }
+    public function order_data(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
+        $search = trim($request->input('search'));
+        $goods_blade_type=self::get_area($request->input('goods_blade_type'));
+        //排序参数
+        $field = $request->input('field', 'order_return_time'); //排序字段
+        $dsc = $request->input('order', 'desc'); //排序顺序
+        $start = ($page - 1) * $limit;
+        $orders = order::select('order.order_id', 'order.order_single_id','order.order_type','order.order_return_time','order.order_num','order.order_pay_type','admin.admin_show_name','goods.goods_blade_type','order.order_country')
+            ->leftjoin('goods','order.order_goods_id','goods.goods_id')
+            ->leftjoin('admin','order.order_admin_id','admin.admin_id')
+            ->where(function ($query) use ($request,$search,$goods_blade_type){
+                if($search){
+                    $query->where('order.order_id','like','%'.$search.'%');
+                    $query->orWhere('order.order_single_id','like','%'.$search.'%');
+                    $query->orWhere('admin.admin_show_name','like','%'.$search.'%');
+                }
+                if($request->has('start')&&$request->input('start')!=null){
+                    $query->whereBetween('order_return_time',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
+                }
+                if($goods_blade_type!='#'){
+                    $query->whereIn('goods.goods_blade_type',$goods_blade_type);
+                }
+                if($request->has('order_select_type')&&$request->input('order_select_type')!='#'){
+                    $query->where('order.order_type',$request->input('order_select_type'));
+                }
+            })
+            ->where(function($query){
+                $query->where('order.order_type',1);
+                $query->orWhere('order.order_type',3);
+            })
+            ->orderBy($field, $dsc)
+            ->offset($start)
+            ->limit($limit)
+            ->get();
+        $count=order::select('order.order_id', 'order.order_single_id','order.order_type','order.order_return_time','order.order_num','order.order_pay_type','admin.admin_show_name','goods.goods_blade_type')
+            ->leftjoin('goods','order.order_goods_id','goods.goods_id')
+            ->leftjoin('admin','order.order_admin_id','admin.admin_id')
+            ->where(function ($query) use ($request,$search,$goods_blade_type){
+                if($search){
+                    $query->where('order.order_id','like','%'.$search.'%');
+                    $query->orWhere('order.order_single_id','like','%'.$search.'%');
+                    $query->orWhere('admin.admin_show_name','like','%'.$search.'%');
+                }
+                if($request->has('start')&&$request->input('start')!=null){
+                    $query->whereBetween('order_return_time',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
+                }
+                if($goods_blade_type!='#'){
+                    $query->whereIn('goods.goods_blade_type',$goods_blade_type);
+                }
+                if($request->has('order_select_type')&&$request->input('order_select_type')!='#'){
+                    $query->where('order.order_type',$request->input('order_select_type'));
+                }
+            })
+            ->where(function($query){
+                $query->where('order.order_type',1);
+                $query->orWhere('order.order_type',3);
+            })
+            ->count();
+        if($count > 0){
+            foreach ($orders as &$order){
+                $order->goods_blade_type = goods::get_blade_currency($order->goods_blade_type,$order->order_country);
+                $order->is_local = $order->is_local === 1 ? '本地仓库' : '海外仓库';
+                $order->order_type = $order->order_type == 1 ? '待扣货': '待出仓';
+                $order->order_pay_type = $order->order_pay_type == 0 ? '货到付款' : 'paypal支付';
+            }
+        }
+
+        $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $orders];
+        return response()->json($arr);
+    }
+    //获取订单地区id
+    private static function get_area($blade_id)
+    {
+        $blade_arr=[
+            '#'=>'#',
+            1=>['0','1'],
+            2=>['2'],
+            3=>['3'],
+            4=>['4'],
+            5=>['5'],
+            6=>['6'],
+            7=>['7'],
+            8=>['8'],
+            9=>['9','10'],
+            11=>['11'],
+            12=>['12','13'],
+            14=>['14','15'],
+            16=>['16','17']
+        ];
+        return $blade_arr[$blade_id];
+    }
+    public function back_order(Request $request)
+    {
+        $id=$request->input('id');
+        $order_msg=\App\order::select('order_return')->where('order_id',$id)->first();
+        if($order_msg==null){
+           return response()->json(['err' => 0, 'str' => '订单检索失败！']);
+        }
+        $admin=Auth::user()->admin_name;
+        $date=date('Y-m-d H:i:s',time());
+        $err=\App\order::where('order_id',$id)->update(['order_type'=>5,'order_return'=>$order_msg['order_return']."<p style='text-align:center'>[".$date."] ".$admin."："."供应驳回"."</p>",'order_return_time'=>$date,'order_admin_id'=>Auth::user()->admin_id]);
+        if(!$err){
+           return response()->json(['err' => 0, 'str' => '订单驳回失败！']);
+        }
+        return response()->json(['err' => 1, 'str' => '订单驳回成功！']);
+    }
+    public function check_order(Request $request)
+    {
+        
     }
 }

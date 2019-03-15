@@ -8,6 +8,7 @@
  			Route::post('/up_self','admin\storage\StorageController@up_self');
  			Route::any('/password','admin\storage\StorageController@password');
  			Route::get('/jsq','admin\storage\StorageController@jsq');
+ 			
  			//仓库管理
  			Route::get('/list','admin\storage\StorageListController@list');
  			Route::get('/list/data','admin\storage\StorageListController@list_data');
@@ -20,6 +21,13 @@
             Route::post('/list/storage_stock_show','admin\storage\StorageListController@storage_stock_show');//商品库存详情
             Route::any('/list/product_data_smail','admin\storage\StorageListController@product_data_smail');
             Route::get('/list/del_storage_stock','admin\storage\StorageListController@del_storage_stock');//删除商品库存
+            //数据校准
+            Route::get('/check','admin\storage\StorageListController@check');
+            Route::get('/list/order_data','admin\storage\StorageListController@order_data');//订单列表
+            Route::get('/list/back_order','admin\storage\StorageListController@back_order');//订单驳回
+            Route::get('/list/check_order','admin\storage\StorageListController@check_order');//仓储数据校准
+            //补货
+            Route::get('/add','admin\storage\StorageAddController@add');
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');

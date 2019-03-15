@@ -31,13 +31,13 @@
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="{{url('storage/admin/admin_info')}}">
+                        <a lay-href="{{url('admin/storage/admin_info')}}">
                           <i class="layui-icon layui-icon-user"></i>
                           <cite>个人信息</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a layadmin-event="im">
+                        <a lay-href="{{url('admin/storage/password')}}">
                           <i class="layui-icon layui-icon-password"></i>
                           <cite>密码修改</cite>
                         </a>

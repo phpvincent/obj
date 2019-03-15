@@ -24,13 +24,13 @@
             </li>
               @endif
             @endforeach
-             <li data-name="home" class="layui-nav-item layui-nav-itemed">
+             <li data-name="home" class="layui-nav-item ">
               <a href="javascript:;" lay-tips="辅助工具" lay-direction="2">
                 <i class="layui-icon layui-icon-star"></i>
                 <cite>辅助工具</cite>
               </a>
               <dl class="layui-nav-child">
-                <dd data-name="console" class="layui-this">
+                <dd data-name="console" >
                   <a lay-href="http://baidu.com">Baidu</a>
                 </dd>
                 <dd data-name="console">
@@ -39,11 +39,8 @@
                 <dd data-name="console">
                   <a lay-href="/admin/message/send_mail">邮件推送</a>
                 </dd>
-                <dd data-name="console">
-                  <a lay-href="http://www.jctrans.com/tool/jsq.htm">计算器1</a>
-                </dd>
                  <dd data-name="console">
-                  <a lay-href="/admin/storage/jsq">计算器2</a>
+                  <a lay-href="/admin/storage/jsq">科学计算器</a>
                 </dd>
               </dl>
             </li>

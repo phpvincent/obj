@@ -4,9 +4,9 @@
 <link rel="stylesheet" href="/css/jsq/default.css">
 <link rel="stylesheet" href="/css/jsq/index.css">
 <link rel="stylesheet" href="/css/jsq/normalize.css">
-<style type="text/css">
-	
-</style>
+
+  <div class="layui-card">
+  	
 <div class="jq22-container">
 		
 		<div class="jq22-content">
@@ -81,6 +81,7 @@
 			</div>
 		</div>
 	
+	</div>
 	</div>
 
 @endsection

@@ -907,7 +907,121 @@ class OrderController extends Controller
    public function getaddr(Request $request){
    	     $id=$request->input('id');
    	     $order=order::where('order_id',$id)->first();
-         return view('admin.order.addr')->with(compact('order'));
+         $goods=\App\goods::where('goods_id',$order->order_goods_id)->first();
+         $goods_kind=\App\goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first();
+         $goods_is_update=$goods['goods_is_update'];
+         $new_exdata=[];
+         $skuSDK = new skuSDK($goods['goods_kind_id'],$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
+         $order_config = \App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$id)->get()->toArray();/*dd($order_config->toArray());dd(array_unique($order_config->toArray(), SORT_REGULAR));*/
+                   $new=[];
+                   $count=[];
+                   foreach($order_config as $key_s => $vall){
+                    if(in_array($vall, $new)){
+                      //dd(array_keys($new,$v)[0]);
+                      $count[array_keys($new,$vall)[0]]+=1;
+                    }else{
+                      $new[$key_s]=$vall;
+                      $count[$key_s]=1;
+                    }
+                   }
+                   /*foreach($new as $k => $val){
+                    $new[$k]['num']=$count[$k];
+                   }*/
+                   $order_config=$new;
+                   /*if($order_config->count() > 0){*/
+                    if(count($order_config)>0){
+                       $config_msg = '';//产品属性
+                       $config_english_msg = '';
+                       $goods_config_msg = '';//商品展示属性
+                       $goods_all_sku = '';
+
+                       $i = 0;
+                       foreach($order_config  as $keyss=> $va){
+                           $i++;
+                           $kind_msg='';
+                           //$kind_msg = "<td>".$count[$keyss]."件</td>";
+                           $kind_english_msg = "";
+                           $orderarr = explode(',',$va['order_config']);
+                           //================================================
+                           $config_attr = [];
+                           $sort_config_msg = [];
+                           $sort_config_msg1 = [];
+                           foreach($orderarr as $key => $val){
+                               $sort_config = config_val::where('config_val_id',$val)->select('kind_config.kind_config_msg')->join('kind_val','kind_val.kind_val_id','=','config_val.kind_val_id')->join('kind_config','kind_config_id','=','kind_val.kind_type_id')->first();
+                               if($sort_config){
+                                   $sort_config_msg1[$val] = $sort_config->kind_config_msg;
+                               }
+                           }
+                           if((in_array('尺码',$sort_config_msg1) && in_array('颜色',$sort_config_msg1)) || (in_array('尺碼',$sort_config_msg1) && in_array('顏色',$sort_config_msg1)) || (in_array('尺寸',$sort_config_msg1) && in_array('颜色',$sort_config_msg1))){
+                               $size =  array_keys($sort_config_msg1,"尺码");
+                               $color =  array_keys($sort_config_msg1,"颜色");
+                               $size1 =  array_keys($sort_config_msg1,"尺碼");
+                               $color1 =  array_keys($sort_config_msg1,"顏色");
+                               $size2 =  array_keys($sort_config_msg1,"尺寸");
+                               if(!empty($size) && !empty($color)){
+                                   array_push($sort_config_msg,$color[0]);
+                                   array_push($sort_config_msg,$size[0]);
+                                   unset($sort_config_msg1[$color[0]]);
+                                   unset($sort_config_msg1[$size[0]]);
+                               }else if(!empty($size1) && !empty($color1)){
+                                   array_push($sort_config_msg,$color1[0]);
+                                   array_push($sort_config_msg,$size1[0]);
+                                   unset($sort_config_msg1[$color1[0]]);
+                                   unset($sort_config_msg1[$size1[0]]);
+                               }else if(!empty($size2) && !empty($color)){
+                                   array_push($sort_config_msg,$color[0]);
+                                   array_push($sort_config_msg,$size2[0]);
+                                   unset($sort_config_msg1[$color[0]]);
+                                   unset($sort_config_msg1[$size2[0]]);
+                               }
+
+                               if(!empty($sort_config_msg1)){
+                                   $arr = array_keys($sort_config_msg1);
+                                   $config_attr = array_merge($sort_config_msg,$arr);
+                               }else{
+                                   $config_attr = $sort_config_msg;
+                               }
+                           }
+                           if(!empty($config_attr)){
+                               $orderarr = $config_attr;
+                           }
+                           $goods_kind_val_id = '';
+                           foreach($orderarr as $key => $val){
+                               $conmsg = \App\config_val::where('config_val_id',$val)
+                                   ->where(function($query)use($goods_is_update){
+                                       if($goods_is_update == '1'){
+                                           $query->where('kind_val_id','>',0);
+                                       }
+                                   })
+                                   ->first();
+                               if($conmsg == null){
+                                   $conmsg = \App\config_val::where('config_val_id',$val)->first();
+                               }
+                               if(isset($conmsg->kind_val_id) && $conmsg->kind_val_id){
+                                   //===============================================
+                                   //获取产品完整SKU
+                                   $goods_kind_val_id .= $conmsg->kind_val_id.',';
+                                   //================================================
+                                   $config_val_msg = kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_msg');
+                                   //$kind_english_msg .= kind_val::where('kind_val_id',$conmsg->kind_val_id)->value('kind_val_english_msg');
+                               }else{
+                                   $config_val_msg = $conmsg['config_val_msg'];
+                                   //$kind_english_msg .= '';
+                               }
+                               $kind_msg .= '<td>'.$config_val_msg.'</td>';
+                           }
+                            $kind_msg = "<td>".$count[$keyss]."件(SKU:".$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).")</td>".$kind_msg;
+                           //$kind_msg.='<td>'.$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td>';
+                           $config_msg .= '<tr>'.$kind_msg.'</tr>';
+                           for ($i=0; $i <(int)$count[$keyss] ; $i++) { 
+                              $config_english_msg .= $kind_english_msg.',';
+                           }
+                           /*$config_english_msg .= $kind_english_msg.'*'.$count[$keyss].',';*/
+                       }
+                       $new_exdata['config_msg'] = $config_msg;
+                     }
+                     $table_html=$new_exdata['config_msg'];//dd($table_html);
+         return view('admin.order.addr')->with(compact('order','table_html','goods_kind'));
 
    }
 

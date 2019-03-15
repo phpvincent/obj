@@ -3,6 +3,45 @@
 <table class="table table-border table-bordered table-bg">
 		<thead>
 			<tr>
+				<th colspan="7" scope="col">产品信息</th>
+			</tr>
+			
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="2">{{$goods_kind->goods_kind_name}}/
+					@if($goods_kind->goods_kind_english_name!=null)
+					{{$goods_kind->goods_kind_english_name}}
+					@else
+					<span style='color:red'>暂无产品英文名</span>
+					@endif
+				</td>
+				<td colspan="2">
+					@if($goods_kind->goods_kind_img!=null)
+					<img src="/{{$goods_kind->goods_kind_img}}">
+					@else
+					<span style='color:red'>暂无产品图片</span>
+					@endif
+				</td>
+			</tr>
+			
+		</tbody>
+</table>
+<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="7" scope="col">属性信息</th>
+			</tr>
+			
+		</thead>
+		<tbody>
+			{!! $table_html !!}
+			
+		</tbody>
+</table>
+<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
 				<th colspan="7" scope="col">收货信息</th>
 			</tr>
 			<tr class="text-c">
