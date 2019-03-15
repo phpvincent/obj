@@ -124,7 +124,7 @@
     table.render(options);
     //打开父页面侧边栏
     show_storage_data=function(){
-      parent.parent.layui.index.openTabsPage('/admin/storage/list/product_data?storage_id='+$('#storage_id').val(), '库存数据');
+      parent.parent.layui.index.openTabsPage('/admin/storage/list/product_data?id='+$('#storage_id').val(), '库存数据');
     }
     //定义表格排序
      table.on('sort(smail-listen)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
