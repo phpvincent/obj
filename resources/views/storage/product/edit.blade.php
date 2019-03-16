@@ -34,7 +34,7 @@
                 }
                 ,cols: [[
                      {field:'goods_kind_name', title:'产品名称'}
-                    ,{field:'sku_attr', title:'SKU'}
+                    ,{field:'goods_sku', title:'SKU'}
                     ,{field:'goods_attr', title:'属性值'}
                     ,{field:'num', title:'库存', style:'background-color: #1ddac9; color: #fff;', edit: 'text'}
                 ]]

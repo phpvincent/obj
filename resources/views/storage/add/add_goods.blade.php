@@ -92,7 +92,7 @@
                     $('.item-model-hide').removeClass('layui-hide');
                 }
             });
-            
+
             form.on('submit',function(data){
                 var index = layer.load();
                 $.ajax({
