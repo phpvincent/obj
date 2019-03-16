@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\storage;
 
+use App\goods_kind;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\storage_append;
@@ -25,7 +26,8 @@ class StorageAddController extends Controller
     public function add_goods(Request $request)
     {
         if($request->isMethod('get')){
-            return view('storage.add.add_goods');
+            $product = goods_kind::all();
+            return view('storage.add.add_goods')->with(compact('product'));
         }elseif($request->isMethod('post')){
 
         }

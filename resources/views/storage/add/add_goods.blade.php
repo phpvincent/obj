@@ -8,11 +8,16 @@
                         <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
                             {{csrf_field()}}
                             <div class="layui-form-item">
-                                <label class="layui-form-label">仓库名称</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="storage_name" lay-verify="required|storage_name" value="" class="layui-input">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">搜索选择框</label>
+                                    <div class="layui-input-inline">
+                                        <select name="goods_kind" lay-verify="required" lay-search="">
+                                            @foreach($product as $item)
+                                            <option value="{{$item->goods_kind_id}}">{{$item->goods_kind_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="layui-form-mid layui-word-aux">仓库名称唯一且不可修改。</div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">仓库地址</label>
@@ -87,20 +92,7 @@
                     $('.item-model-hide').removeClass('layui-hide');
                 }
             });
-
-            form.verify({
-                storage_name: function(value, item){ //value：表单的值、item：表单的DOM对象
-                    if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
-                        return '真实姓名不能有特殊字符';
-                    }
-                    if(/(^\_)|(\__)|(\_+$)/.test(value)){
-                        return '真实姓名首尾不能出现下划线\'_\'';
-                    }
-                    if(/^\d+\d+\d$/.test(value)){
-                        return '真实姓名不能全为数字';
-                    }
-                }
-            });
+            
             form.on('submit',function(data){
                 var index = layer.load();
                 $.ajax({
