@@ -1,6 +1,6 @@
 @extends('storage.father.static')
 @section('content')
-    <div class="layui-fluid">
+    <div class="layui-container">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
@@ -11,7 +11,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">搜索选择框</label>
                                     <div class="layui-input-inline">
-                                        <select name="goods_kind" lay-verify="required" lay-search="">
+                                        <select name="goods_kind" lay-verify="required" lay-search="" lay-filter="goodsSelec">
                                             @foreach($product as $item)
                                             <option value="{{$item->goods_kind_id}}">{{$item->goods_kind_name}}</option>
                                             @endforeach
@@ -20,48 +20,33 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label class="layui-form-label">仓库地址</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" lay-filter="is_local" name="is_local" value="1" title="本地仓">
-                                    <input type="radio" lay-filter="is_local" name="is_local" value="0" title="海外仓" checked>
-                                </div>
-                            </div>
-                            <div class="layui-form-item item-model-hide">
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">仓库模板</label>
-                                    <div class="layui-input-inline">
-                                        <select name="template_id" lay-verify="required">
-                                            <option value="0" >台湾</option>
-                                            <option value="2">阿联酋</option>
-                                            <option value="3">马来西亚</option>
-                                            <option value="4">泰国</option>
-                                            <option value="5">日本</option>
-                                            <option value="6">印度尼西亚</option>
-                                            <option value="7">菲律宾</option>
-                                            <option value="8">英国</option>
-                                            <option value="10">美国</option>
-                                            <option value="11">越南</option>
-                                            <option value="12">沙特阿拉伯</option>
-                                            <option value="14">卡塔尔</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-form-item  item-model-hide">
-                                <label class="layui-form-label">订单可拆分</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="is_split" value="0" title="可拆分">
-                                    <input type="radio" name="is_split" value="1" title="不可拆分" checked>
-                                </div>
+                               <label class="layui-form-label">选择变种:</label>
                             </div>
                             <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="">确认提交</button>
-                                    <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                <div class="layui-inline">
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="" title="豆豆" goods_sku="1" goods_kind_name="豆豆" good_attr="红大" lay-filter="goodsCheck">
+                                        <input type="checkbox" name="" title="香水" goods_sku="2" goods_kind_name="香水" good_attr="白大" lay-filter="goodsCheck"> 
+                                        <input type="checkbox" name="" title="牛仔" goods_sku="3" goods_kind_name="牛仔" good_attr="小女" lay-filter="goodsCheck"> 
+                                    </div>
                                 </div>
                             </div>
                         </form>
                     </div>
+                </div>
+                <div class="layui-card">
+                <div class="layui-card-header">补货单</div>
+                <div class="layui-card-body" pad15>
+                   <form class="layui-form layui-form-pane" method="post" lay-filter="" action="">
+                   <div class="layui-row">
+                       <div class="layui-col-md6">
+                         laofan 
+                       </div>
+                       <div class="layui-col-md6">
+                         laofan 
+                       </div>
+                    </div>
+                   </form>
                 </div>
             </div>
         </div>
@@ -78,6 +63,23 @@
 
             var admin=layui.admin;
             var $=layui.jquery;
+            form.on('select(goodsSelec)', function(data) {
+               console.log('goodsSelec',data)
+               $.ajax({
+                   type: "get",
+                   url: "url",
+                   data: data.value,
+                //    dataType: "dataType",
+                   success: function (response) {
+                       
+                   }
+               });
+            })
+
+            form.on('checkbox(goodsCheck)', function(data) {
+               console.log('goodsCheck',data)
+               console.log('checked',data.elem.checked,$(data.elem).prop("title"),$(data.elem).attr("goods_sku"),$(data.elem).attr("goods_kind_name"), $(data.elem).attr("good_attr") )
+            })
 
             var addressID = $("input[name='is_local']:checked").val();
             if(addressID === '1'){
