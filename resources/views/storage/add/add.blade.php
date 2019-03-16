@@ -13,15 +13,7 @@
                               <input type="text" class="layui-input" id="test-laydate-out"
                                      placeholder="日期范围">
                           </div>
-                         <!--  <div class="layui-form-mid">
-                              -
-                          </div>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-end"
-                                     placeholder="结束日期">
-                          </div> -->
                       </div>
-                      <!-- <span style="color: red">时间不选择默认为近10天</span> -->
                   </div>
               </div>
               <div class="layui-inline">
@@ -40,7 +32,6 @@
                       <input class="layui-input" name="id" id="test-table-demoReload" autocomplete="off">
                   </div>
                   <button class="layui-btn" data-type="reload">搜索</button>
-                 <!--  <button class="layui-btn" id="outstorage">仓库信息导出</button> -->
               </div>
           </div>
   </div>
@@ -54,7 +45,7 @@
   <script type="text/html" id="use_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建补货单','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建补货单</b>
+               onclick="goods_show('新建补货单','{{url("admin/storage/list/add_goods_list")}}',2,600,510)">新建补货单</b>
         </button>
   </script>
   <script type="text/html" id="area">

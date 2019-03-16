@@ -13,17 +13,17 @@
             <!-- 搜索控件 -->
             <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">入库时间：</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" class="layui-input" id="test-laydate-out"
-                                           placeholder="日期范围">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{--<div class="layui-inline">--}}
+                        {{--<div class="layui-form-item">--}}
+                            {{--<div class="layui-inline">--}}
+                                {{--<label class="layui-form-label">入库时间：</label>--}}
+                                {{--<div class="layui-input-inline">--}}
+                                    {{--<input type="text" class="layui-input" id="test-laydate-out"--}}
+                                           {{--placeholder="日期范围">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="layui-inline">
                         <label class="layui-form-label">选择仓库</label>
                         <div class="layui-input-block">

@@ -16,4 +16,18 @@ class StorageAddController extends Controller
 
     	}
     }
+
+    /**
+     * 新增补货单
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function add_goods(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('storage.add.add_goods');
+        }elseif($request->isMethod('post')){
+
+        }
+    }
 }

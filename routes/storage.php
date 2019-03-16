@@ -28,6 +28,7 @@
             Route::get('/list/check_order','admin\storage\StorageListController@check_order');//仓储数据校准
             //补货
             Route::get('/add','admin\storage\StorageAddController@add');
+            Route::get('/add/add_goods','admin\storage\StorageAddController@add_goods');
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');
