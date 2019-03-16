@@ -229,6 +229,11 @@ class skuSDK{
 	  return $dec;
 	}
 
+    /**
+     * 很据后六位SKU获取商品属性
+     * @param $sku //后六位sku
+     * @return array
+     */
 	public function get_attr_by_sku($sku)
     {
         $kind_config_ids = array_values($this->get_attr_sku_config_sort());
@@ -419,7 +424,7 @@ class skuSDK{
 
     /**
      * 获取产品完整SKU
-     * @param $kind_val_ids
+     * @param $kind_val_ids 10,29 //10代表颜色为红色的属性值ID 29代表内存为32G内存的属性ID
      * @return bool|string
      */
 	public function get_all_sku($kind_val_ids)

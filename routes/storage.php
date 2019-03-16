@@ -27,8 +27,9 @@
             Route::get('/list/back_order','admin\storage\StorageListController@back_order');//订单驳回
             Route::get('/list/check_order','admin\storage\StorageListController@check_order');//仓储数据校准
             //补货
-            Route::get('/add','admin\storage\StorageAddController@add');
-            Route::get('/add/add_goods','admin\storage\StorageAddController@add_goods');
+            Route::get('/add','admin\storage\StorageAddController@add');//购置单列表
+            Route::get('/add/add_goods','admin\storage\StorageAddController@add_goods');//新增购置单
+            Route::post('/add/get_goods_config','admin\storage\StorageAddController@get_goods_config');//购置单获取添加产品属性
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');
