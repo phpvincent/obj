@@ -16,16 +16,6 @@
                       </div>
                   </div>
               </div>
-              <div class="layui-inline">
-                  <label class="layui-form-label">仓库分类</label>
-                  <div class="layui-input-block">
-                      <select name="storage_type" id="storage_type" lay-verify="required">
-                          <option value="#">所有</option>
-                          <option value="1">国内仓</option>
-                          <option value="0">海外仓</option>
-                      </select>
-                  </div>
-              </div>
               <div class="layui-inline test-table-reload-btn">
                   <label>从当前数据中检索:</label>
                   <div class="layui-inline">
@@ -109,13 +99,13 @@
     var $ =layui.jquery;
     var options={
       elem: '#storagelist'
-      ,url: '/admin/storage/list/data' //数据接口
+      ,url: '/admin/storage/add/add' //数据接口
       ,page: true //开启分页
       ,toolbar:'#use_button'
-      ,defaultToolbar: ['filter', 'print']
       ,text: {
         none: '暂无仓库数据' 
       }
+      ,type:'post'
       ,autoSort:false
       ,initSort: {
         field: 'check_at' //排序字段，对应 cols 设定的各字段名
