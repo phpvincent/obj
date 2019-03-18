@@ -1217,7 +1217,7 @@ class OrderController extends Controller
                        $i = 0;
                        foreach($order_config  as $keyss=> $va){
                            $i++;
-                           $goods_msg = "<td>".$count[$keyss]."</td>";
+                           $goods_msg = "";
                            $kind_msg = "<td>".$count[$keyss]."</td>";
                            $kind_english_msg = "";
                            $orderarr = explode(',',$va['order_config']);
@@ -1287,7 +1287,7 @@ class OrderController extends Controller
                                    $config_val_msg = $conmsg['config_val_msg'];
                                    $kind_english_msg .= '';
                                }
-                               $goods_msg .= '<td>'.$conmsg['config_val_msg'].'</td>';
+                               $goods_msg .= $conmsg['config_val_msg'] . ',';
                                $kind_msg .= '<td>'.$config_val_msg.'</td>';
                            }
                            $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td></tr>';
@@ -1296,7 +1296,7 @@ class OrderController extends Controller
                               $config_english_msg .= $kind_english_msg.',';
                            }
                            /*$config_english_msg .= $kind_english_msg.'*'.$count[$keyss].',';*/
-                           $goods_config_msg .= '<tr>'.$goods_msg.'</tr>';
+                           $goods_config_msg .= $goods_msg;
                        }
                        $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
                        if (rtrim($config_english_msg, ',') == '') {
@@ -1308,7 +1308,7 @@ class OrderController extends Controller
                                $new_exdata[$k]['config_english_msg'] = rtrim($config_english_msg, ',') ;
                            }
                        }
-                       $new_exdata[$k]['goods_config_msg'] = '<table border=1>'. $goods_config_msg .'</table>';
+                       $new_exdata[$k]['goods_config_msg'] = rtrim($goods_config_msg,',');
                        //TODO sku
                        $new_exdata[$k]['get_all_sku'] = '<table border=1>'. $goods_all_sku.'</table>';
                    }else{

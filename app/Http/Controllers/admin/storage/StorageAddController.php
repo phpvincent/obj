@@ -37,7 +37,7 @@ class StorageAddController extends Controller
 
     public function get_goods_config(Request $request)
     {
-        $id = $request->input('id','1');
+        $id = $request->input('id');
         $goods_kind = goods_kind::where('goods_kind_id',$id)->first();
         if($goods_kind){
 
