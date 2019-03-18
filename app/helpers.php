@@ -453,3 +453,33 @@ if (!function_exists('price_format')) {
         return number_format($num[0]);
     }
 }
+
+if (!function_exists('descartes')) {
+    function descartes($arr,$str = array()){
+        //去除第一个元素
+        $first = array_shift($arr);
+        //判断是否是第一次进行拼接
+        if(count($str) > 1) {
+            foreach ($str as $k => $val) {
+                foreach ($first as $key => $value) {
+                    //最终实现的格式 1,3,76
+                    //可根据具体需求进行变更
+                    $str2[] = $val.','.$value;
+                }
+            }
+        }else{
+            foreach ($first as $key => $value) {
+                //最终实现的格式 1,3,76
+                //可根据具体需求进行变更
+                $str2[] = $value;
+            }
+        }
+
+        //递归进行拼接
+        if(count($arr) > 0){
+            $str2 = descartes($arr,$str2);
+        }
+        //返回最终笛卡尔积
+        return $str2;
+    }
+}

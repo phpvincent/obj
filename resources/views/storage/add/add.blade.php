@@ -8,35 +8,12 @@
               <div class="layui-inline">
                   <div class="layui-form-item">
                       <div class="layui-inline">
-                          <label class="layui-form-label">建仓日期：</label>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-start"
-                                     placeholder="日期范围">
-                          </div>
-                           <label class="layui-form-label">出库时间：</label>
+                           <label class="layui-form-label">补货时间：</label>
                           <div class="layui-input-inline">
                               <input type="text" class="layui-input" id="test-laydate-out"
                                      placeholder="日期范围">
                           </div>
-                         <!--  <div class="layui-form-mid">
-                              -
-                          </div>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-end"
-                                     placeholder="结束日期">
-                          </div> -->
                       </div>
-                      <!-- <span style="color: red">时间不选择默认为近10天</span> -->
-                  </div>
-              </div>
-              <div class="layui-inline">
-                  <label class="layui-form-label">仓库分类</label>
-                  <div class="layui-input-block">
-                      <select name="storage_type" id="storage_type" lay-verify="required">
-                          <option value="#">所有</option>
-                          <option value="1">国内仓</option>
-                          <option value="0">海外仓</option>
-                      </select>
                   </div>
               </div>
               <div class="layui-inline test-table-reload-btn">
@@ -45,7 +22,6 @@
                       <input class="layui-input" name="id" id="test-table-demoReload" autocomplete="off">
                   </div>
                   <button class="layui-btn" data-type="reload">搜索</button>
-                 <!--  <button class="layui-btn" id="outstorage">仓库信息导出</button> -->
               </div>
           </div>
   </div>
@@ -59,7 +35,7 @@
   <script type="text/html" id="use_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建仓库','{{url("admin/storage/list/add_storage")}}',2,600,510)">新建仓库</b>
+               onclick="goods_show('新建补货单','{{url("admin/storage/add/add_goods")}}',2,600,510)">新建补货单</b>
         </button>
   </script>
   <script type="text/html" id="area">
@@ -123,13 +99,13 @@
     var $ =layui.jquery;
     var options={
       elem: '#storagelist'
-      ,url: '/admin/storage/list/data' //数据接口
+      ,url: '/admin/storage/add/add' //数据接口
       ,page: true //开启分页
       ,toolbar:'#use_button'
-      ,defaultToolbar: ['filter', 'print']
       ,text: {
         none: '暂无仓库数据' 
       }
+      ,type:'post'
       ,autoSort:false
       ,initSort: {
         field: 'check_at' //排序字段，对应 cols 设定的各字段名
@@ -145,7 +121,7 @@
         {field: 'storage_id', title: 'ID', sort: true, fixed: 'left'}
         ,{field: 'storage_name', title: '仓库名'}
         ,{field: 'template_type_primary_id', title: '仓库地区',templet:'#area'}
-        ,{field: 'is_local', title: '仓库类型',templet:'#is_local'} 
+        ,{field: 'is_local', title: '仓库类型',templet:'#is_local'}
         ,{field: 'admin_show_name', title: '仓库所属人'}
         ,{field: 'check_at', title: '上次出库时间', sort: true}
         ,{field: 'created_at', title: '仓库建立时间', sort: true}

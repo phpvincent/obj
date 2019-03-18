@@ -13,17 +13,17 @@
             <!-- 搜索控件 -->
             <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">入库时间：</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" class="layui-input" id="test-laydate-out"
-                                           placeholder="日期范围">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{--<div class="layui-inline">--}}
+                        {{--<div class="layui-form-item">--}}
+                            {{--<div class="layui-inline">--}}
+                                {{--<label class="layui-form-label">入库时间：</label>--}}
+                                {{--<div class="layui-input-inline">--}}
+                                    {{--<input type="text" class="layui-input" id="test-laydate-out"--}}
+                                           {{--placeholder="日期范围">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="layui-inline">
                         <label class="layui-form-label">选择仓库</label>
                         <div class="layui-input-block">
@@ -71,7 +71,6 @@
                 ,page: true //开启分页
                 ,method:'post'
                 ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
-                ,defaultToolbar: ['filter', 'print']
                 ,where: {
                     id:$('#storage_addr').val(),
                     search:$('#test-table-demoReload').val(),
@@ -124,9 +123,9 @@
                         layer.close(index);
                         //向服务端发送删除指令
                         $.ajax({
-                            url:"{{url('admin/storage/list/del_storage')}}",
+                            url:"{{url('admin/storage/list/del_storage_stock')}}",
                             type:'get',
-                            data:{id:data.storage_id},
+                            data:{id:data.goods_kind_id,storage_id:$('#storage_addr').val()},
                             datatype:'json',
                             success:function(msg){
                                 if(msg['err']==1){
@@ -148,19 +147,33 @@
                     });
                 }
             })
+
+            //model 模态框
+            goods_show=function goods_show(title,url,type,w,h){
+                layer.open({
+                    skin: 'layui-layer-nobg', //没有背景色
+                    type: type,
+                    title: title,
+                    area: [w, h],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: url,
+                    end: function (){
+                        //执行重载
+                        table.reload('storagelist',{
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                            ,where: {
+                                search:$('#test-table-demoReload').val(),
+                                id:$('#storage_addr').val(),
+                            }
+                        });
+                    }
+                });
+            }
         });
 
-        //model 模态框
-        goods_show=function goods_show(title,url,type,w,h){
-            layer.open({
-                skin: 'layui-layer-nobg', //没有背景色
-                type: type,
-                title: title,
-                area: [w, h],
-                fixed: false, //不固定
-                maxmin: true,
-                content: url
-            });
-        }
+
     </script>
 @endsection

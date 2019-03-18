@@ -94,4 +94,40 @@ class order extends Model
 //       }
        return $total;
    }
+
+   public static function get_order_status($order_type)
+   {
+        switch ($order_type){
+            case '0':
+                return '未核审';
+            case '1':
+                return '通过核审';
+            case '2':
+                return '拒绝核审';
+            case '3':
+                return '已扣货';
+            case '4':
+                return '已出仓';
+            case '5':
+                return '供应驳回';
+            case '6':
+                return '退货并已退款';
+            case '7':
+                return '未退货已退款';
+            case '8':
+                return '拒签';
+            case '9':
+                return '在线支付预付款';
+            case '10':
+                return '在线支付取消付款';
+            case '11':
+                return '在线支付付款成功';
+            case '12':
+                return '在线支付付款失败';
+            case '13':
+                return '支付成功但paypal反馈数据存储失败14';
+            case '14':
+                return '问题订单';
+        }
+   }
 }

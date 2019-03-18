@@ -126,19 +126,10 @@
 </script>
 <script type="text/html" id='order_type'>
   <div>
-  @{{# if(d.order_type==1){ }}
+  @{{# if(d.order_type=='待扣货'){ }}
     <span style='color:#009688'>待扣货</span>
   @{{# }else{ }}
     <span style='color:brown'>待出仓</span>
-  @{{# } }}
-  </div>
-</script>
-<script type="text/html" id='pay_type'>
-  <div>
-  @{{# if(d.order_pay_type==0){ }}
-    <span style='color:#009688'>货到付款</span>
-  @{{# }else{ }}
-    <span style='color:brown'>在线支付</span>
   @{{# } }}
   </div>
 </script>
@@ -182,7 +173,7 @@
       ,cols: [[ //表头
         {field: 'order_id', title: 'ID', sort: true, fixed: 'left'}
         ,{field: 'order_single_id', title: '订单号'}
-        ,{field: 'goods_blade_type', title: '订单地区',templet:'#area'}
+        ,{field: 'goods_blade_type', title: '订单地区'}
         ,{field: 'order_type', title: '订单类型',templet:'#order_type'}
         ,{field: 'order_return_time', title: '订单核审时间', sort: true} 
         ,{field: 'admin_show_name', title: '订单核审人'}

@@ -4,7 +4,6 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">开启单元格编辑</div>
                 <div class="layui-card-body">
                     <table class="layui-hide" id="test-table-cellEdit" lay-filter="test-table-cellEdit"></table>
                 </div>
@@ -22,18 +21,22 @@
             index: 'lib/index' //主入口模块
         }).use(['index', 'table'], function(){
             var table = layui.table;
+            var $ =layui.jquery;
 
             table.render({
                 elem: '#test-table-cellEdit'
-                ,url: layui.setter.base + 'json/table/demo.js'
+                ,url: '/admin/storage/list/storage_stock_show' //数据接口
+                ,method:'post'
+                ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+                ,where: {
+                    id:{{$id}},
+                    storage_id:{{$storage_id}},
+                }
                 ,cols: [[
-                    {type:'checkbox'}
-                    ,{field:'id', title:'ID', width:80, sort: true}
-                    ,{field:'username', title:'用户名', width:120, sort: true, edit: 'text'}
-                    ,{field:'email', title:'邮箱', edit: 'text', minWidth: 150}
-                    ,{field:'sex', title:'性别', width:80, edit: 'text'}
-                    ,{field:'city', title:'城市', edit: 'text', minWidth: 100}
-                    ,{field:'experience', title:'积分', sort: true, edit: 'text'}
+                     {field:'goods_kind_name', title:'产品名称'}
+                    ,{field:'goods_sku', title:'SKU'}
+                    ,{field:'goods_attr', title:'属性值'}
+                    ,{field:'num', title:'库存', style:'background-color: #1ddac9; color: #fff;', edit: 'text'}
                 ]]
             })
 
@@ -42,8 +45,38 @@
                 var value = obj.value //得到修改后的值
                     ,data = obj.data //得到所在行所有键值
                     ,field = obj.field; //得到字段
-                layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value, {
-                    offset: '15px'
+                //向服务端发送删除指令
+                $.ajax({
+                    url:"{{url('admin/storage/list/up_storage_stock')}}",
+                    type:'post',
+                    headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                    data:{id:data.goods_kind_id,storage_id:{{$storage_id}},four_sku:data.goods_kind_sku,last_sku:data.sku_attr,num:value},
+                    datatype:'json',
+                    success:function(msg){
+                        if(msg['err']==1){
+                            layer.msg(msg.str,{
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                if(value === ''){
+                                    //执行重载
+                                    table.reload('test-table-cellEdit',{
+                                        where: {
+                                            id:{{$id}},
+                                            storage_id:{{$storage_id}},
+                                        }
+                                    });
+                                }
+                                // window.parent.location.reload();
+                                // parent.layui.admin.events.refresh();
+                            });
+                        }else if(msg['err']==0){
+                            layer.close(index);
+                            layer.msg(msg.str);
+                        }else{
+                            layer.close(index);
+                            layer.msg('删除失败！');
+                        }
+                    }
                 });
             });
 
