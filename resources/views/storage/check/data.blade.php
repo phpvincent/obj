@@ -114,13 +114,7 @@
     @{{# }else if(d.goods_blade_type==14||d.goods_blade_type==15){ }}
       <span style='color:#9C9C9C'>卡塔尔地区</span>
     @{{# }else if(d.goods_blade_type==16||d.goods_blade_type==17){ }}
-      @{{# if(d.order_country=='Qatar'){ }}
-      <span style='color:#8B7765'>中东混合(卡塔尔地区)</span>
-      @{{# }else if(d.order_country=='United Arab Emirates'){ }}
-      <span style='color:#8B7765'>中东混合(阿联酋地区)</span>
-      @{{# }else if(d.order_country=='Saudi Arabia'){ }}
-      <span style='color:#8B7765'>中东混合(沙特地区)</span>
-      @{{# } }}
+      <span style='color:#8B7765'>中东地区</span>
     @{{# } }}
   </div>
 </script>

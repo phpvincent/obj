@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\storage;
 use App\order;
+use App\config_val;
+use App\kind_val;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class StorageListController extends Controller
 {
@@ -335,7 +338,7 @@ class StorageListController extends Controller
         $field = $request->input('field', 'order_return_time'); //排序字段
         $dsc = $request->input('order', 'desc'); //排序顺序
         $start = ($page - 1) * $limit;
-        $orders = order::select('order.order_id', 'order.order_single_id','order.order_type','order.order_return_time','order.order_num','order.order_pay_type','admin.admin_show_name','goods.goods_blade_type')
+        $orders = order::select('order.order_id','order.order_country', 'order.order_single_id','order.order_type','order.order_return_time','order.order_num','order.order_pay_type','admin.admin_show_name','goods.goods_blade_type')
             ->leftjoin('goods','order.order_goods_id','goods.goods_id')
             ->leftjoin('admin','order.order_admin_id','admin.admin_id')
             ->where(function ($query) use ($request,$search,$goods_blade_type){
@@ -358,6 +361,7 @@ class StorageListController extends Controller
                 $query->where('order.order_type',1);
                 $query->orWhere('order.order_type',3);
             })
+            ->where('order.is_del','0')
             ->orderBy($field, $dsc)
             ->offset($start)
             ->limit($limit)
@@ -385,6 +389,7 @@ class StorageListController extends Controller
                 $query->where('order.order_type',1);
                 $query->orWhere('order.order_type',3);
             })
+            ->where('order.is_del','0')
             ->count();
         $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $orders];
         return response()->json($arr);
@@ -425,8 +430,222 @@ class StorageListController extends Controller
         }
         return response()->json(['err' => 1, 'str' => '订单驳回成功！']);
     }
-    public function check_order(Request $request)
+    /**
+     * 订单数据校准、扣货
+     * @param  boolean $type [默认为校准，false为扣货操作]
+     * @return [type]        [description]
+     */
+    public function check_order($type=true)
     {
-        
+        $orders=\App\order::where([['order_type',1],['is_del','0']])->get();
+        //删除一天前的校准数据
+        $ids=\App\storage_check::select('storage_check_id')->where('storage_check_time','<',date('Y-m-d H:i:s',time()-86400))->get()->toArray();
+        \App\storage_check::whereIn('storage_check_id',$ids)->delete();
+        \App\storage_check_data::whereIn('storage_primary_id',$ids)->delete();
+        \App\storage_check_lack::whereIn('storage_check_lack_primary_id',$ids)->delete();
+        //生成新的校准单
+        $storage_check=new \App\storage_check;
+        $storage_check->storage_check_time=Carbon::now();
+        $storage_check->storage_check_string=time().mt_rand(100000,999999);
+        $storage_check->storage_check_admin=\Auth::user()->admin_id;
+        $storage_check->storage_check_reload_time=date('Y-m-d H:i:s',time()+180);
+        //如果为校准操作开启事务
+        if($type)  DB::beginTransaction();
+        //$storage_goods_abroad=\App\storage_goods_abroad::all();
+        foreach($orders as $k => $v)
+        {   
+            //循环判断订单状态
+            $goods_kind=\App\goods_kind::
+            select('goods_kind_id','goods_product_id','goods_kind_user_type')
+            ->where('goods_kind_id',\App\goods::select('goods_kind_id')->where('goods_id',$v->order_goods_id)->first()['goods_kind_id'])
+            ->first();
+            //实例化SKU复制SDK
+            $skuSDK=new skuSDK($goods_kind['goods_kind_id'],$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
+            $blade_type=\App\goods::select('goods_blade_type')->where('goods_id',$v->order_goods_id)->first()['goods_blade_type'];
+            if($blade_type=='16'||$blade_type=='17'){
+                switch ($v->order_country) {
+                    case 'Saudi Arabia':
+                        $blade_type=12;
+                        break;
+                    case 'United Arab Emirates':
+                        $blade_type=2;
+                        break;
+                    case 'Qatar':
+                        $blade_type=14;
+                        break;
+                    default:
+                        $error = '中东地区未匹配';  
+                        throw new \Exception($error);  
+                        break;
+                }
+             }else{
+                $blade_type=self::get_storage_area($blade_type);
+             }
+            //找到对应国外仓库
+            $storage=\App\storage::where([['template_type_primary_id',$blade_type],['storage_status',1],['is_local',0]])->first();
+            //证明没有对应海外仓
+            if($storage==null) $orders->$k->is_forigen=false;
+            //声明便令记录改订单是否可从国外仓发送状态
+            $is_send=true;
+            //获取订单配置信息数据
+            $order_config=\App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v->order_id)->get()->toArray();
+            //处理数据变更属性组加数目
+            $new=[];
+            $count=[];
+            foreach($order_config as $key_s => $vall){
+             if(in_array($vall, $new)){
+               //dd(array_keys($new,$v)[0]);
+               $count[array_keys($new,$vall)[0]]+=1;
+             }else{
+               $new[$key_s]=$vall;
+               $count[$key_s]=1;
+             }
+            } 
+            foreach($new as $kk => $vv){
+                $new[$kk]['num']=$count[$kk];
+            }
+            $order_config=$new;
+            unset($new,$count);
+            //处理属性数据拼装产品属性id与SKU
+            $is_new=true;//判断该单品是否配置新属性，如未配置新属性则无产品对应，SKU属性码为000000
+            $is_out=true;//判断
+            $is_forigen=true;//判断是否可以从海外仓发货
+            foreach($order_config as $kkk => &$vvv){
+                $order_config_arr=explode(',', $vvv['order_config']);
+                if(count($order_config_arr)<=0){
+                    $vvv['sku']='000000';
+                    continue;
+                }
+                foreach($order_config_arr as $kkkk => $vvvv)
+                {
+                    $config_val=\App\config_val::where([['config_val_id',$vvvv],['kind_val_id','>',0]])->first();
+                    if($config_val==null){
+                        //没有配置新属性
+                        $is_new=false;
+                        $vvv['kind_val_arr']=null;
+                        break;
+                    }
+                    //向订单属性配置数据中增加对应产品属性的id
+                    $vvv['kind_val_arr'][$kkkk]=$config_val['kind_val_id'];
+                    $order_config_arr[$kkkk]=$config_val['kind_val_id'];
+                }
+                if(!$is_new){
+                    $vvv['sku']='000000';
+                    continue;
+                }
+                 //为订单属性非配属性SKU
+                $sku=$skuSDK->get_all_sku($order_config_arr);
+                $vvv['sku']=substr($sku,4);
+                //为订单属性非配属性SKU
+                //$storage_id=$storage->storage_id;
+                //$order_config_sku=$order_config[$kkk]['sku'];
+                /////////////////////////////////////////////////////
+                //开始处理订单
+                //1.判断订单状态（是否从海外仓发货）
+                $is_split=$storage->is_split;
+                $order_config_sku=$order_config[$kkk]['sku'];//改属性SKU码
+                if($is_split=='1'){
+                    //当海外仓允许拆分时
+                    //1.判断海外仓中对应产品的对应属性的货物数目是否足够
+                    $max_num=\App\storage_goods_abroad::where()
+
+                }else{
+                    //当海外仓不允许拆分时
+                }
+            }
+            dd($order_config);
+            //为每一个数据配置属性sku以便与库存中SKU比对
+           /* $is_new=true;
+            $is_out=true;
+            foreach($order_config as $kkk => &$vvv){
+                $order_config_arr=explode(',', $vvv['order_config']);
+                if(count($order_config_arr)<=0){
+                    $vvv['sku']='000000';
+                    continue;
+                }
+                foreach($order_config_arr as $kkkk => $vvvv)
+                {
+                    $config_val=\App\config_val::where([['config_val_id',$vvvv],['kind_val_id','>',0]])->first();
+                    if($config_val==null){
+                        //没有配置新属性
+                        $is_new=false;
+                        $vvv['kind_val_arr']=null;
+                        break;
+                    }
+                    //向订单属性配置数据中增加对应产品属性的id
+                    $vvv['kind_val_arr'][$kkkk]=$config_val['kind_val_id'];
+                    $order_config_arr[$kkkk]=$config_val['kind_val_id'];
+                }
+                if(!$is_new){
+                    $vvv['sku']='000000';
+                    continue;
+                }
+                $sku=$skuSDK->get_all_sku($order_config_arr);
+                $vvv['sku']=substr($sku,4);
+                //获取对应SKU码的仓储数据
+                $storage_id=$storage->storage_id;
+                $order_config_sku=$order_config[$kkk]['sku'];
+                if($storage->is_split!='1'){
+                    //当仓库为不可拆分类型时
+                    $max_num_data=\App\storage_goods_abroad::select('num')
+                                    ->where(function($query)use($storage_id,$order_config_sku){
+                                        $query->where('sku_data', $order_config_sku);
+                                        $query->where('storage_primary_id', $storage_id);
+                                        $query->where('expiry_at','>',date('Y-m-d H:i:s',time()));
+                                    })
+                                    ->orderBy('num','desc')
+                                    ->first();
+                    if($max_num_data['num']<$vvv['num']){
+                        //海外仓中没有足够数量的单个订单以供给此订单，无法从海外仓发单，结束循环并标记订单状态为国内仓发单
+                        $orders->$k->is_forigen=false;
+                        break;
+                    }
+                }
+                $storage_goods_abroad_data=\App\storage_goods_abroad::select('storage_goods_abroad.*','sum(num) as num')
+                                            ->where(function($query)use($storage_id,$order_config_sku){
+                                                $query->where('sku_data', $order_config_sku);
+                                                $query->where('storage_primary_id', $storage_id);
+                                                $query->where('expiry_at','>',date('Y-m-d H:i:s',time()));
+                                            })
+                                            ->orderBy('expiry_at','asc')
+                                            ->get();dd($storage_goods_abroad_data);
+                //开始校准海外仓数据
+                //\DB::beginTransaction();
+                foreach($storage_goods_abroad as $keys => $vals){
+
+                }
+                //$storage_goods_abroad=\App\storage_goods_abroad;
+                $is_order=true;
+            }*/
+            unset($skuSDK);
+        }
+        if($type) \DB::rollback();
+    }
+    /**
+     * 根据订单所属单品模板地区获取订单所属仓库地区
+     * @param  \Illuminate\Database\Eloquent\Collection $blade_type [description]
+     * @return [type]                                               [description]
+     */
+    private static function get_storage_area( $type)
+    {
+        $arr=[
+            0=>0,
+            1=>0,
+            2=>2,
+            3=>3,
+            4=>4,
+            5=>5,
+            6=>6,
+            7=>7,
+            8=>8,
+            9=>10,
+            10=>10,
+            11=>11,
+            12=>12,
+            13=>12,
+            14=>14,
+            15=>14
+        ];
+        return $arr[$type];
     }
 }

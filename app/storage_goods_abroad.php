@@ -10,3 +10,4 @@ class storage_goods_abroad extends Model
     public $timestamps = false;
     //
 }
+
