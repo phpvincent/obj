@@ -454,6 +454,7 @@ if (!function_exists('price_format')) {
     }
 }
 
+//商品属性 笛卡尔积函数
 if (!function_exists('descartes')) {
     function descartes($arr,$str = array()){
         //去除第一个元素

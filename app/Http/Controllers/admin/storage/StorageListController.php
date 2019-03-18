@@ -29,9 +29,6 @@ class StorageListController extends Controller
         $field = $request->input('field','check_at'); //排序字段
         $dsc = $request->input('order','desc'); //排序顺序
 		if($request->has('page')&&$request->has('limit')){
-		   $page = $request->input('page',1);
-           $limit = $request->input('limit',10);
-           $start = ($page-1)*$limit;
 		    	$data=storage::select('storage.*','admin.admin_show_name')
 		    	->leftjoin('admin','storage.admin_id','admin.admin_id')
 		    	->where('storage.storage_status',1)

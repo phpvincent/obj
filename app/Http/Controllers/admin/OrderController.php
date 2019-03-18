@@ -1287,16 +1287,21 @@ class OrderController extends Controller
                                    $config_val_msg = $conmsg['config_val_msg'];
                                    $kind_english_msg .= '';
                                }
-                               $goods_msg .= $conmsg['config_val_msg'] . ',';
+                               $goods_msg .= $conmsg['config_val_msg'] . '-';
                                $kind_msg .= '<td>'.$config_val_msg.'</td>';
                            }
                            $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'</td></tr>';
                            $config_msg .= '<tr>'.$kind_msg.'</tr>';
-                           for ($i=0; $i <(int)$count[$keyss] ; $i++) { 
+                           for ($i=0; $i <(int)$count[$keyss] ; $i++) {
                               $config_english_msg .= $kind_english_msg.',';
+                               $goods_config_msg .= rtrim($goods_msg,'-').' ,';
                            }
                            /*$config_english_msg .= $kind_english_msg.'*'.$count[$keyss].',';*/
-                           $goods_config_msg .= $goods_msg;
+//                           if($count[$keyss] > 1){
+//                               $goods_config_msg .= rtrim($goods_msg,'-').' * '. $count[$keyss] .' ,';
+//                           }else{
+//                               $goods_config_msg .= rtrim($goods_msg,'-').' ,';
+//                           }
                        }
                        $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
                        if (rtrim($config_english_msg, ',') == '') {
