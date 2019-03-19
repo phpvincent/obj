@@ -88,7 +88,7 @@
         </div>
     </div>
    <script id="goodsCheckbox" type="text/html">
-     @{{#  layui.each(d.data, function(index, item){ }}
+     @{{# if(d.data[0].goods_attr===''){d.data[0].goods_attr=d.data[0].goods_kind_name} layui.each(d.data, function(index, item){ }}
      <input type="checkbox" name="" title="@{{item.goods_attr}}" goods_sku="@{{item.goods_sku}}" goods_kind_id="@{{item.goods_kind_id}}" goods_kind_name="@{{item.goods_kind_name}}" goods_attr="@{{item.goods_attr}}" lay-filter="goodsCheck">
      @{{#  }); }}
    </script>
