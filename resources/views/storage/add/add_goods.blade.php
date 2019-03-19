@@ -32,11 +32,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="layui-form-item">
+                            <div class="layui-form-item flag" style="display:none">
                                <label class="layui-form-label">选择变种:</label>
                                <input type="checkbox" name="" title="全选" lay-filter="allGoodsCheck">
                             </div>
-                            <div class="layui-form-item">
+                            <div class="layui-form-item flag" style="display:none">
                                 <div class="layui-inline">
                                     <div class="goodsCheckbox">
                                         <!-- <input type="checkbox" name="" title="豆豆" goods_sku="1" goods_kind_name="豆豆" good_attr="红大" lay-filter="goodsCheck">
@@ -48,7 +48,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="layui-card">
+                <div class="layui-card flag" style="display:none">
                 <div class="layui-card-header">补货单</div>
                 <div class="layui-card-body" pad15>
                    <form class="layui-form layui-form-pane goodsAppendForm" method="post" lay-filter="" action="">
@@ -148,6 +148,7 @@
                             form.render('checkbox');
                           }
                       });
+                      if(response.data.length>0){$('.flag').show()}else{$('.flag').hide()}
                        
                    }
                });
