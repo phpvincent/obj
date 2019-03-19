@@ -172,10 +172,14 @@ class StorageAddController extends Controller
                 array_push($goods_kind_sku,$ary);
             }
 
-            $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $goods_kind_sku];
-            return response()->json($arr);
+            return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $goods_kind_sku]);
         }else{
             return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => []]);
         }
+    }
+
+    public function show_goods_kind(Request $request)
+    {
+        dd(1111);
     }
 }
