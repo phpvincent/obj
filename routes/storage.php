@@ -28,7 +28,7 @@
             Route::get('/list/check_order','admin\storage\StorageListController@check_order');//仓储数据校准
             //补货
             Route::any('/add','admin\storage\StorageAddController@add');//购置单列表
-            Route::get('/add/add_goods','admin\storage\StorageAddController@add_goods');//新增购置单
+            Route::any('/add/add_goods','admin\storage\StorageAddController@add_goods');//新增购置单
             Route::post('/add/get_goods_config','admin\storage\StorageAddController@get_goods_config');//购置单获取添加产品属性
         });
 

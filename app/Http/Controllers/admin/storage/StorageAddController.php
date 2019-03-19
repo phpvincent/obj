@@ -14,6 +14,11 @@ use App\Http\Controllers\Controller;
 
 class StorageAddController extends Controller
 {
+    /**
+     * 采购单列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function add(Request $request)
     {
     	if($request->isMethod('get')){
@@ -72,12 +77,23 @@ class StorageAddController extends Controller
             $product = goods_kind::all();
             return view('storage.add.add_goods')->with(compact('product'));
         }elseif($request->isMethod('post')){
+            $goods_attr = json_decode($request->input('goods_attr'));
+            if(empty($goods_attr)){
+                return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
+            }
             $validator = Validator::make($request->all(), [
-                "storage_name" => "required",
+                "storage_append_single" => "required",
+                "goods_kind" => "required",
+            ],[
+                "storage_append_single.required" => "采购单号不能为空",
+                "goods_kind.required" => "采购单商品不能为空",
             ]);
             if ($validator->fails()) {
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
             }
+
+
+
         }
     }
 

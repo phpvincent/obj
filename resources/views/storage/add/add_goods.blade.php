@@ -8,10 +8,22 @@
                         <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
                             {{csrf_field()}}
                             <div class="layui-form-item">
+                                <label class="layui-form-label">采购单号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="storage_append_single" id="storage_append_single" value="" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">备注</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <div class="layui-inline">
-                                    <label class="layui-form-label">搜索选择框</label>
+                                    <label class="layui-form-label">采购商品</label>
                                     <div class="layui-input-inline">
-                                        <select name="goods_kind" lay-verify="required" lay-search="" lay-filter="goodsSelec">
+                                        <select name="goods_kind" id="goods_kind" lay-verify="required" lay-search="" lay-filter="goodsSelec">
                                         <option value="">请选择</option>
                                             @foreach($product as $item)
                                             <option value="{{$item->goods_kind_id}}">{{$item->goods_kind_name}}</option>
@@ -114,14 +126,12 @@
             var $=layui.jquery;
             // 监听 下拉框变化
             form.on('select(goodsSelec)', function(data) {
-               console.log('goodsSelec',data)
                var index = layer.load();
                $.ajax({
                    type:'post',
                    url: "get_goods_config",
                    data: {id:data.value},
                    headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
-                //    dataType: "dataType",
                    success: function (response) {
                        console.log('response',response)
                        layer.close(index);
@@ -182,11 +192,28 @@
                         $('.goodsAppend tbody input[value="'+$(value).attr("goods_sku")+'"]').parent().parent().remove()
                     })
                 }
-            })
+            });
+
+            //自定义验证规则
+            form.verify({
+                append_single: function (value) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                }
+            });
+
             // 表格提交
             form.on('submit(formDemo)', function(data){
-              console.log(data.field);
-              console.log($(data.form).serializeArray());
+                console.log(222);
+                console.log(data.field);
+                console.log(3333);
+                // layer.alert(JSON.stringify(data.field), {
+                //     title: '最终的提交信息'
+                // })
+                return false;
+
+                // console.log($(data.form).serializeArray());
               var data = $(data.form).serializeArray();
               var num = 0;
               var obj = {};
@@ -207,7 +234,7 @@
                 $.ajax({
                     url:"/admin/storage/add/add_goods",
                     type:'post',
-                    data:JSON.stringify(arr),
+                    data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_append_msg:$('#storage_append_msg').val(),storage_append_single:$('#storage_append_single').val()},
                     // datatype:'json',
                     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                     success:function(msg){
