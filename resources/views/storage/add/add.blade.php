@@ -87,7 +87,7 @@
         ,{field: 'storage_append_single', title: '采购单号'}
         ,{field: 'storage_append_admin', title: '补货人'}
         ,{field: 'storage_append_status', title: '状态'}
-        ,{field: 'storage_append_time', title: '创建时间'}
+        ,{field: 'storage_append_time', title: '采购时间'}
         ,{field: 'storage_append_msg', title: '采购单备注'}
         ,{ title: '操作',templet:'#button'}
         // ,{field: 'is_local', title: '仓库类型',templet:'#is_local'}

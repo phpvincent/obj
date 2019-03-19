@@ -7,10 +7,13 @@ use App\channel\skuSDK;
 use App\goods_kind;
 use App\kind_config;
 use App\kind_val;
+use App\storage_append_data;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\storage_append;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class StorageAddController extends Controller
 {
@@ -77,22 +80,51 @@ class StorageAddController extends Controller
             $product = goods_kind::all();
             return view('storage.add.add_goods')->with(compact('product'));
         }elseif($request->isMethod('post')){
-            $goods_attr = json_decode($request->input('goods_attr'));
-            if(empty($goods_attr)){
+            $goods_attr = json_decode($request->input('goods_attr'),true);
+            if(empty($goods_attr) && !$request->input('goods_kind')){
                 return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
             }
             $validator = Validator::make($request->all(), [
-                "storage_append_single" => "required",
+                "storage_append_single" => "required|unique:storage_append,storage_append_single",
                 "goods_kind" => "required",
             ],[
                 "storage_append_single.required" => "采购单号不能为空",
                 "goods_kind.required" => "采购单商品不能为空",
+                "storage_append_single.unique" => "采购单号不能重复",
             ]);
             if ($validator->fails()) {
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
             }
 
-
+            $storage_append = new storage_append();
+            $storage_append->storage_append_time = $request->input('time');
+            $storage_append->storage_append_admin_id = Auth::user()->id;
+            $storage_append->storage_append_single = $request->input('storage_append_single');
+            $storage_append->storage_append_status = 0;
+            $storage_append->storage_append_msg = $request->input('storage_append_msg');
+            $data  = $storage_append->save();
+            if($data){
+                $data_array = [];
+                if(!empty($goods_attr)){
+                    foreach ($goods_attr as $item){
+                        $arr['storage_append_data_sku'] = substr($item['goods_sku'],0,4);
+                        $arr['storage_append_data_status'] = 2;
+                        $arr['storage_append_id'] = $storage_append->storage_append_id;
+                        $arr['storage_append_data_num'] = $item['num'];
+                        $arr['storage_append_data_sku_attr'] = substr($item['goods_sku'],-6);
+                        $arr['storage_append_kind_id'] = $item['goods_kind_id'];
+                        array_push($data_array,$arr);
+                    }
+                }
+                $storage_append_data = DB::table('storage_append_data')->insert($data_array);
+                if($storage_append_data){
+                    return response()->json(['err' => '1', 'msg' => '添加采购单成功']);
+                }else{
+                    return response()->json(['err' => '0', 'msg' => '添加采购单失败']);
+                }
+            }else{
+                return response()->json(['err' => '0', 'msg' => '添加采购单失败']);
+            }
 
         }
     }

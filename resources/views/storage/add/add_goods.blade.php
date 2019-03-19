@@ -206,15 +206,6 @@
 
             // 表格提交
             form.on('submit(formDemo)', function(data){
-                console.log(222);
-                console.log(data.field);
-                console.log(3333);
-                // layer.alert(JSON.stringify(data.field), {
-                //     title: '最终的提交信息'
-                // })
-                return false;
-
-                // console.log($(data.form).serializeArray());
               var data = $(data.form).serializeArray();
               var num = 0;
               var obj = {};
@@ -230,7 +221,6 @@
                    num++
                  }
               }
-              console.log(arr);
                 var index = layer.load();
                 $.ajax({
                     url:"/admin/storage/add/add_goods",
