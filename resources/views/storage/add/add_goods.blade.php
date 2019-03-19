@@ -8,6 +8,12 @@
                         <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
                             {{csrf_field()}}
                             <div class="layui-form-item">
+                                <label class="layui-form-label">时间</label>
+                                <div class="layui-input-inline">
+                                   <input type="text" class="layui-input" id="goodsdate">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <label class="layui-form-label">采购单号</label>
                                 <div class="layui-input-inline">
                                     <input type="text" name="storage_append_single" id="storage_append_single" value="" lay-verify="required" autocomplete="off" class="layui-input">
@@ -48,7 +54,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="layui-card flag" style="display:none">
+                <div class="layui-card">
                 <div class="layui-card-header">补货单</div>
                 <div class="layui-card-body" pad15>
                    <form class="layui-form layui-form-pane goodsAppendForm" method="post" lay-filter="" action="">
@@ -119,11 +125,16 @@
             base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
         }).extend({
             index: 'lib/index' //主入口模块
-        }).use(['form','index', 'set', 'admin', 'laytpl'],function(){
+        }).use(['form','index', 'set', 'admin', 'laytpl', 'laydate'],function(){
             var form=layui.form;
             var laytpl = layui.laytpl;
             var admin=layui.admin;
             var $=layui.jquery;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            laydate.render({
+              elem: '#goodsdate' //指定元素
+            });
             // 监听 下拉框变化
             form.on('select(goodsSelec)', function(data) {
                var index = layer.load();
@@ -206,6 +217,11 @@
 
             // 表格提交
             form.on('submit(formDemo)', function(data){
+                if($('#storage_append_single').val()===''){
+                layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请填写采购单号' ,{offset: '100px'})
+                console.log("请填写采购单号", '时间', $('#goodsdate').val())
+                return false
+                }
                 console.log(222);
                 console.log(data.field);
                 console.log(3333);
