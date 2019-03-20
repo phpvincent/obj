@@ -68,7 +68,7 @@ return [
             公司地址：152 Beach Road，＃14-02，Gateway East，Singapore 189721（非返货地址，如果您需要获取返货地址，请联系我们的客服）',
 
          'Indonesia' =>'• Phone/Chat: <b>(+65) 8876 8960</b><br/>• Email: <b><a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a></b> <br/><br/>
-            Jika Anda memiliki pertanyaan, silakan tinggalkan pesan, Layanan Pelanggan akan menjawab umumnya dalam waktu 24 (hari kerja)jam / 48 (akhir pekan) jam.<br/>',
+            Jika Anda memiliki pertanyaan, silakan tinggalkan pesan, Layanan Pelanggan akan menjawab umumnya dalam waktu 24 (hari kerja)jam / 48 (akhir pekan) jam.<br/>Untuk informasi umum, seperti proses pembelian, metode pembayaran, opsi pengiriman atau proses sengketa, silakan merujuk ke halaman Bantuan kami.<br/><br/>Jika Anda memerlukan pertanyaan dengan pesanan terbaru Anda, silakan hubungi Pusat Layanan Pelanggan kami di <b><a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a></b><br/><br/>Alamat Perusahaan: 152 Beach Road, # 14-02, Gateway East, Singapura 189721 (Alamat tidak-kembali, jika Anda perlu mendapatkan alamat kembali, silakan hubungi layanan pelanggan kami)',
 
          'Arab' =>'• Phone/Chat: <b>(+65) 8876 8960</b><br/>• Email: <b><a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a></b> <br/><br/>
             If you have any question ,please leave a message ,Customer Service will reply generally within 24(workdays)/48(weekends) hours.<br/><br/><br/>
