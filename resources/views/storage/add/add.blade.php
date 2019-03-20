@@ -68,6 +68,7 @@
       ,url: '/admin/storage/add'//数据接口
       ,page: true //开启分页
       ,toolbar:'#use_button'
+      ,defaultToolbar: []
       ,method:'post'
       ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
       ,text: {
@@ -87,17 +88,10 @@
         ,{field: 'storage_append_single', title: '采购单号'}
         ,{field: 'storage_append_admin', title: '补货人'}
         ,{field: 'storage_append_status', title: '状态'}
-        ,{field: 'storage_append_time', title: '创建时间'}
+        ,{field: 'storage_append_time', title: '采购时间'}
+        ,{field: 'storage_append_end_time', title: '进仓时间'}
         ,{field: 'storage_append_msg', title: '采购单备注'}
         ,{ title: '操作',templet:'#button'}
-        // ,{field: 'is_local', title: '仓库类型',templet:'#is_local'}
-        // ,{field: 'admin_show_name', title: '仓库所属人'}
-        // ,{field: 'check_at', title: '上次出库时间', sort: true}
-        // ,{field: 'created_at', title: '仓库建立时间', sort: true}
-        // ,{field: 'button', title: '操作', toolbar:'#button'}
-        /*,{field: 'score', title: '评分', width: 80, sort: true}
-        ,{field: 'classify', title: '职业', width: 80}
-        ,{field: 'wealth', title: '财富', width: 135, sort: true}*/
       ]]
      };
     //表格初始化
@@ -143,9 +137,9 @@
                 layer.open({
                   type:2,
                   offset:'rt',
-                  title:'库存数据',
-                  area:[400,800],
-                  content:"{{url('/admin/storage/list/product_data_smail?storage_id=')}}"+data.storage_id,
+                  title:'采购单数据',
+                  area:[1200,800],
+                  content:"{{url('/admin/storage/add/show_goods_kind?storage_append_id=')}}"+data.storage_append_id,
                 });
 
            }else if(layEvent=='edit'){

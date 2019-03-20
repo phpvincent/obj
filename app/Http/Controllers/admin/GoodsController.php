@@ -1932,5 +1932,29 @@ class GoodsController extends Controller
             return response()->json(['err' => 1, 'str' => '保存成功！']);
         }
     }
+
+    /**
+     * 域名别名
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function alias(Request $request){
+        if($request->isMethod('get')){
+            $goods_id = $request->input('id');
+            $goods = goods::where('goods_id',$goods_id)->first();
+            if($goods){
+                return view('admin.goods.url_alias')->with(compact('goods'));
+            }
+        }elseif($request->isMethod('post')){
+            $goods_id = $request->input('goods_id');
+            $goods_url_alias = $request->input('goods_url_alias');
+            if(is_numeric($goods_url_alias))   return response()->json(['err' => 0, 'str' => '保存失败！别名不得为空或纯数字']);
+            $data = goods::where('goods_id',$goods_id)->update(['goods_url_alias'=>$goods_url_alias]);
+            if($data){
+                return response()->json(['err' => 1, 'str' => '保存成功！']);
+            }
+            return response()->json(['err' => 0, 'str' => '保存失败！']);
+        }
+    }
 }
   

@@ -8,10 +8,28 @@
                         <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
                             {{csrf_field()}}
                             <div class="layui-form-item">
+                                <label class="layui-form-label">采购单号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="storage_append_single" id="storage_append_single" value="" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">采购时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="storage_append_time" class="layui-input" id="goodsdate">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">备注</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <div class="layui-inline">
-                                    <label class="layui-form-label">搜索选择框</label>
+                                    <label class="layui-form-label">采购商品</label>
                                     <div class="layui-input-inline">
-                                        <select name="goods_kind" lay-verify="required" lay-search="" lay-filter="goodsSelec">
+                                        <select name="goods_kind" id="goods_kind" lay-verify="required" lay-search="" lay-filter="goodsSelec">
                                         <option value="">请选择</option>
                                             @foreach($product as $item)
                                             <option value="{{$item->goods_kind_id}}">{{$item->goods_kind_name}}</option>
@@ -20,11 +38,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="layui-form-item">
+                            <div class="layui-form-item flag" style="display:none">
                                <label class="layui-form-label">选择变种:</label>
                                <input type="checkbox" name="" title="全选" lay-filter="allGoodsCheck">
                             </div>
-                            <div class="layui-form-item">
+                            <div class="layui-form-item flag" style="display:none">
                                 <div class="layui-inline">
                                     <div class="goodsCheckbox">
                                         <!-- <input type="checkbox" name="" title="豆豆" goods_sku="1" goods_kind_name="豆豆" good_attr="红大" lay-filter="goodsCheck">
@@ -70,7 +88,7 @@
         </div>
     </div>
    <script id="goodsCheckbox" type="text/html">
-     @{{#  layui.each(d.data, function(index, item){ }}
+     @{{# if(d.data[0].goods_attr===''){d.data[0].goods_attr=d.data[0].goods_kind_name} layui.each(d.data, function(index, item){ }}
      <input type="checkbox" name="" title="@{{item.goods_attr}}" goods_sku="@{{item.goods_sku}}" goods_kind_id="@{{item.goods_kind_id}}" goods_kind_name="@{{item.goods_kind_name}}" goods_attr="@{{item.goods_attr}}" lay-filter="goodsCheck">
      @{{#  }); }}
    </script>
@@ -107,21 +125,24 @@
             base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
         }).extend({
             index: 'lib/index' //主入口模块
-        }).use(['form','index', 'set', 'admin', 'laytpl'],function(){
+        }).use(['form','index', 'set', 'admin', 'laytpl', 'laydate'],function(){
             var form=layui.form;
             var laytpl = layui.laytpl;
             var admin=layui.admin;
             var $=layui.jquery;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            laydate.render({
+              elem: '#goodsdate' //指定元素
+            });
             // 监听 下拉框变化
             form.on('select(goodsSelec)', function(data) {
-               console.log('goodsSelec',data)
                var index = layer.load();
                $.ajax({
                    type:'post',
                    url: "get_goods_config",
                    data: {id:data.value},
                    headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
-                //    dataType: "dataType",
                    success: function (response) {
                        console.log('response',response)
                        layer.close(index);
@@ -138,6 +159,7 @@
                             form.render('checkbox');
                           }
                       });
+                      if(response.data.length>0){$('.flag').show()}else{$('.flag').hide()}
                        
                    }
                });
@@ -182,11 +204,28 @@
                         $('.goodsAppend tbody input[value="'+$(value).attr("goods_sku")+'"]').parent().parent().remove()
                     })
                 }
-            })
+            });
+
+            //自定义验证规则
+            form.verify({
+                append_single: function (value) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                }
+            });
+
             // 表格提交
             form.on('submit(formDemo)', function(data){
-              console.log(data.field);
-              console.log($(data.form).serializeArray());
+              if($('#storage_append_single').val()===''){
+                  layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请填写采购单号' ,{offset: '100px'})
+                  return false
+              }
+            if($('#goodsdate').val()===''){
+                layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请选择采购时间' ,{offset: '100px'})
+                return false
+            }
+
               var data = $(data.form).serializeArray();
               var num = 0;
               var obj = {};
@@ -202,12 +241,11 @@
                    num++
                  }
               }
-              console.log(arr);
                 var index = layer.load();
                 $.ajax({
                     url:"/admin/storage/add/add_goods",
                     type:'post',
-                    data:JSON.stringify(arr),
+                    data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_append_msg:$('#storage_append_msg').val(),storage_append_single:$('#storage_append_single').val(),storage_append_time:$('#goodsdate').val()},
                     // datatype:'json',
                     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                     success:function(msg){
