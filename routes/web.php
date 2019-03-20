@@ -90,7 +90,7 @@ use App\channel\mailControl;
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
     Route::get('/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
 	Route::get('index/get_goods_by_search','home\SiteController@get_goods_by_search');
-	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '[0-9]+');
+	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '^\w+$');
     Route::get('/activity/{activity_id}', 'home\SiteController@activity')->where('activity_id', '[1-3]');
     Route::get('/cate/{activity_id}', 'home\SiteController@cate')->where('cate_id', '[0-9]+');
     Route::get('/search', 'home\SiteController@search');
@@ -153,6 +153,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::match(['get','post'],'/admin/goods/addgoods_kind','admin\GoodsController@addgoods_kind');
 	Route::any('/admin/goods/attr','admin\GoodsController@goods_attr');
 	Route::post('/admin/goods/add_giveaway', 'admin\GoodsController@add_giveaway');
+	Route::any('/admin/goods/url/alias', 'admin\GoodsController@alias');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
