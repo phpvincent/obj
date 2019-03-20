@@ -97,8 +97,8 @@ class StorageAddController extends Controller
             }
 
             $storage_append = new storage_append();
-            $storage_append->storage_append_time = $request->input('time');
-            $storage_append->storage_append_admin_id = Auth::user()->id;
+            $storage_append->storage_append_time = $request->input('storage_append_time');
+            $storage_append->storage_append_admin_id = Auth::user()->admin_id;
             $storage_append->storage_append_single = $request->input('storage_append_single');
             $storage_append->storage_append_status = 0;
             $storage_append->storage_append_msg = $request->input('storage_append_msg');
@@ -178,8 +178,81 @@ class StorageAddController extends Controller
         }
     }
 
+    /**
+     * 查看采购单数据
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function show_goods_kind(Request $request)
     {
-        dd(1111);
+        if($request->isMethod('get')){
+            $id = $request->input('storage_append_id');
+            return view('storage.add.show_goods_kind')->with(compact('id'));
+        }elseif($request->isMethod('post')){
+            $id = $request->input('storage_append_id');
+            $storage_append = storage_append::where('storage_append_id',$id)->first();
+            if($storage_append){
+                $storage_append_datas = storage_append_data::join('storage_append','storage_append_data.storage_append_id','=','storage_append.storage_append_id')
+                    ->join('goods_kind','goods_kind.goods_kind_id','=','storage_append_data.storage_append_kind_id')
+                    ->select(DB::Raw('SUM(storage_append_data_num) AS num'),'goods_kind.goods_kind_name','storage_append_data.storage_append_kind_id')
+                    ->where('storage_append.storage_append_id',$id)
+                    ->groupBy('storage_append_kind_id')
+                    ->get();
+                if(!$storage_append_datas->isEmpty()){
+                    foreach ($storage_append_datas as &$storage_append_data){
+                        $storage_append_data->storage_append_time = $storage_append->storage_append_time;//采购时间
+                        $storage_append_data->storage_append_end_time = $storage_append->storage_append_end_time;//确认进仓时间
+                        $storage_append_data->storage_append_admin = admin::where('admin_id',$storage_append->storage_append_admin_id)->first()['admin_show_name'];;//补货人
+                        $storage_append_data->storage_append_single = $storage_append->storage_append_single;//补货单号
+                        $storage_append_data->storage_append_msg = $storage_append->storage_append_msg;//补货备注
+                        $storage_append_data->storage_append_id = $storage_append->storage_append_id;//补货单ID
+                        $storage_append_data->storage_append_status = $storage_append->storage_append_status == '0' ? '未补充到仓库' : ($storage_append->storage_append_status == '1' ? '补充到仓库' : '补货取消');//补货单状态
+                    }
+                }
+                return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $storage_append_datas]);
+            }else{
+                return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => []]);
+            }
+        }
+    }
+
+    /**
+     * 删除采购单商品
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function append_goods_del(Request $request)
+    {
+        $storage_append_id = $request->input('storage_append_id');
+        $goods_kind_id = $request->input('goods_kind_id');
+        $storage_append_end_time =  storage_append::where('storage_append_id',$storage_append_id)->first()['storage_append_end_time'];
+        if($storage_append_end_time){
+            return response()->json(['code' => 0, "msg" => "商品已到仓库，不能删除"]);
+        }
+        $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->where('storage_append_kind_id',$goods_kind_id)->delete();
+        if($storage_append_data){
+            return response()->json(['code' => 1, "msg" => "删除数据成功"]);
+        }
+        return response()->json(['code' => 0, "msg" => "删除数据失败"]);
+    }
+
+    public function append_goods_edit(Request $request)
+    {
+        if($request->isMethod('get')){
+            $storage_append_id = $request->input('storage_append_id');
+            $goods_kind_id = $request->input('goods_kind_id');
+            return view('storage.add.add_goods')->with(compact('storage_append_id','goods_kind_id'));
+        }elseif($request->isMethod('post')){
+            $storage_append_id = $request->input('storage_append_id');
+            $goods_kind_id = $request->input('goods_kind_id');
+            $storage_append_datas = storage_append_data::where('storage_append_id',$storage_append_id)->where('storage_append_kind_id',$goods_kind_id)->get();
+            if(!$storage_append_datas->isEmpty()){
+                foreach ($storage_append_datas as &$storage_append_data){
+                    $storage_append_data->goods_kind_name = goods_kind::where('goods_kind_id',$storage_append_data->storage_append_kind_id)->first()['goods_kind_name'];
+                    $storage_append_data->storage_append_data_sku_attr = 1;
+
+                }
+            }
+        }
     }
 }

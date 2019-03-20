@@ -2,29 +2,6 @@
 @section('content')
     <div class="layui-fluid">
         <div class="layui-card">
-            <!-- 搜索控件 -->
-            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">补货时间：</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" class="layui-input" id="test-laydate-out"
-                                           placeholder="日期范围">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-inline test-table-reload-btn">
-                        <label>从当前数据中检索:</label>
-                        <div class="layui-inline">
-                            <input class="layui-input" name="id" id="test-table-demoReload" autocomplete="off">
-                        </div>
-                        <button class="layui-btn" data-type="reload">搜索</button>
-                    </div>
-                </div>
-            </div>
             <!-- 表格元素 -->
             <div class="layui-card-body">
                 <table id="storagelist" lay-filter='button-listen'></table>
@@ -32,24 +9,9 @@
 
         </div>
     </div>
-    <script type="text/html" id="use_button">
-        <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
-            <b style="color:green;"
-               onclick="goods_show('新建补货单','{{url("admin/storage/add/add_goods")}}',2,600,510)">新建补货单</b>
-        </button>
-    </script>
-    <script type="text/html" id='is_local'>
-        <div>
-            @{{# if(d.is_local==1){ }}
-            <span style='color:green'>本地仓</span>
-            @{{# }else{ }}
-            <span style='color:brown'>海外仓</span>
-            @{{# } }}
-        </div>
-    </script>
     <script type="text/html" id="button" >
-        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
 @endsection
 @section('js')
@@ -65,9 +27,8 @@
             var $ =layui.jquery;
             var options={
                 elem: '#storagelist'
-                ,url: '/admin/storage/add'//数据接口
+                ,url: '/admin/storage/add/show_goods_kind'//数据接口
                 ,page: true //开启分页
-                ,toolbar:'#use_button'
                 ,method:'post'
                 ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
                 ,text: {
@@ -79,20 +40,61 @@
                     ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
                 }
                 ,where: {
-                    search:$('#test-table-demoReload').val(),
-                    time:$('#test-laydate-out').val()
+                    storage_append_id:{{$id}}
                 }
                 ,cols: [[ //表头
-                    {field: 'storage_append_id', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'storage_append_single', title: '采购单号'}
+                    {field: 'storage_append_single', title: '采购单号'}
+                    ,{field: 'goods_kind_name', title: '产品名称'}
+                    ,{field: 'num', title: '产品件数'}
                     ,{field: 'storage_append_admin', title: '补货人'}
                     ,{field: 'storage_append_status', title: '状态'}
                     ,{field: 'storage_append_time', title: '采购时间'}
+                    ,{field: 'storage_append_end_time', title: '进仓时间'}
                     ,{field: 'storage_append_msg', title: '采购单备注'}
                     ,{ title: '操作',templet:'#button'}
                 ]]
             };
+            //表格初始化
+            table.render(options);
 
+            //table事件监听
+            table.on("tool(button-listen)",function(obj){
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if(layEvent=='edit'){
+                    //修改产品
+                    that.goods_show('修改产品属性', '{{url("admin/storage/add/append_goods_edit")}}?storage_append_id=' + data.storage_append_id + '&goods_kind_id=' + data.storage_append_kind_id, 2, 600, 510);
+                }else{
+                    layer.confirm('真的删除行么', function(index){
+                        layer.close(index);
+                        //向服务端发送删除指令
+                        $.ajax({
+                            url:"{{url('admin/storage/add/append_goods_del')}}",
+                            type:'get',
+                            data:{storage_append_id:data.storage_append_id,goods_kind_id:data.storage_append_kind_id},
+                            datatype:'json',
+                            success:function(msg){
+                                if(msg['err']==1){
+                                    layer.close(index);
+                                    layer.msg(msg.str,{
+                                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                    }, function(){
+                                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                        // parent.layui.admin.events.refresh();
+                                    });
+                                }else if(msg['err']==0){
+                                    layer.close(index);
+                                    layer.msg(msg.str);
+                                }else{
+                                    layer.close(index);
+                                    layer.msg('删除失败！');
+                                }
+                            }
+                        });
+                    });
+                }
+            })
         });
     </script>
 @endsection
