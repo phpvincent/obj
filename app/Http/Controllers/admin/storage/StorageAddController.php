@@ -245,14 +245,23 @@ class StorageAddController extends Controller
         }elseif($request->isMethod('post')){
             $storage_append_id = $request->input('storage_append_id');
             $goods_kind_id = $request->input('goods_kind_id');
+            $goods_kind = goods_kind::where('goods_kind_id',$goods_kind_id)->first();
             $storage_append_datas = storage_append_data::where('storage_append_id',$storage_append_id)->where('storage_append_kind_id',$goods_kind_id)->get();
-            if(!$storage_append_datas->isEmpty()){
+            if(!$storage_append_datas->isEmpty() && $goods_kind){
+                $skuSDK = new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
                 foreach ($storage_append_datas as &$storage_append_data){
                     $storage_append_data->goods_kind_name = goods_kind::where('goods_kind_id',$storage_append_data->storage_append_kind_id)->first()['goods_kind_name'];
-                    $storage_append_data->storage_append_data_sku_attr = 1;
-
+                    $current_attrs = $skuSDK->get_attr_by_sku($storage_append_data->storage_append_data_sku_attr);
+                    $str = '';
+                    foreach ($current_attrs as $attr) {
+                        $str .= $attr->kind_val_msg .',';
+                    }
+                    $storage_append_data->goods_attr = rtrim($str,',');
+                    $storage_append_data->goods_sku = $storage_append_data->storage_append_data_sku.$storage_append_data->storage_append_data_sku_attr;
                 }
+                return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $storage_append_datas]);
             }
+            return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => []]);
         }
     }
 }

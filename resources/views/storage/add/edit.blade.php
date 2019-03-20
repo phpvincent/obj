@@ -61,8 +61,8 @@
                                     //执行重载
                                     table.reload('test-table-cellEdit',{
                                         where: {
-                                            id:{{$id}},
-                                            storage_id:{{$storage_id}},
+                                            goods_kind_id:{{$goods_kind_id}},
+                                            storage_append_id:{{$storage_append_id}},
                                         }
                                     });
                                 }

@@ -94,7 +94,32 @@
                         });
                     });
                 }
-            })
+            });
+
+            //model 模态框
+            goods_show=function goods_show(title,url,type,w,h){
+                if( layui.device().android||layui.device().ios){
+                    layer.open({
+                        skin: 'layui-layer-nobg', //没有背景色
+                        type: type,
+                        title: title,
+                        area: [375, 667],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        content: url
+                    });
+                }else{
+                    layer.open({
+                        skin: 'layui-layer-nobg', //没有背景色
+                        type: type,
+                        title: title,
+                        area: [w, h],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        content: url
+                    });
+                }
+            }
         });
     </script>
 @endsection
