@@ -511,10 +511,14 @@ class StorageListController extends Controller
         }
         return response()->json(['err' => 1, 'str' => '订单驳回成功！']);
     }
-    //仓储数据校准请求
+
     public function check_order(){
-        $msg=$this->storage_center(false);
-        dd($msg);
+        //$msg=$this->storage_center(false);
+        return view('storage.check.check_order_data');
+    }
+    public function get_check_data(Request $request)
+    {
+        
     }
     /**
      * 订单数据校准、扣货
@@ -606,6 +610,7 @@ class StorageListController extends Controller
                 $is_new=true;//判断该单品是否配置新属性，如未配置新属性则无产品对应，SKU属性码为000000
                 $is_out=true;//判断
                 $is_forigen=true;//判断是否可以从海外仓发货
+                //为订单属性分配属性SKU与属性件数
                 foreach($order_config as $kkk=> &$v_config){
                     $order_config_arr=explode(',', $v_config['order_config']);
                     if(count($order_config_arr)<=0){
