@@ -1019,6 +1019,8 @@ class OrderController extends Controller
                            /*$config_english_msg .= $kind_english_msg.'*'.$count[$keyss].',';*/
                        }
                        $new_exdata['config_msg'] = $config_msg;
+                     }else{
+                      $new_exdata['config_msg']='<tr><td>'.$order->order_num.'件</td></tr>';
                      }
                      $table_html=$new_exdata['config_msg'];//dd($table_html);
          return view('admin.order.addr')->with(compact('order','table_html','goods_kind'));

@@ -268,6 +268,7 @@ class SiteController extends Controller
             $hot_search=$this->hot_search_goods($site->site_fire_word);
             return view('home.ydzshome.404')->with(['site'=>$site,'cates'=>$cates,'hot_search'=>$hot_search]);
         }
+        $goods_id=$goods->goods_id;
         $imgs = img::where('img_goods_id', $goods->goods_id)->orderBy('img_id', 'asc')->get(['img_url']);
         $comment = comment::where(['com_goods_id' => $goods_id, 'com_isshow' => '1'])->orderBy('com_order', 'desc')->get();
         foreach ($comment as $v => $key) {

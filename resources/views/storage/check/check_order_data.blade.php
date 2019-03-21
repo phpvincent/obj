@@ -5,68 +5,13 @@
     <!-- 搜索控件 -->
   <div class="layui-form layui-card-header layuiadmin-card-header-auto">
           <div class="layui-form-item">
-              <div class="layui-inline">
-                  <div class="layui-form-item">
-                      <div class="layui-inline">
-                          <label class="layui-form-label">核审日期：</label>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-start"
-                                     placeholder="日期范围">
-                          </div>
-                          <!--  <label class="layui-form-label">出库时间：</label>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-out"
-                                     placeholder="日期范围">
-                          </div> -->
-                         <!--  <div class="layui-form-mid">
-                              -
-                          </div>
-                          <div class="layui-input-inline">
-                              <input type="text" class="layui-input" id="test-laydate-end"
-                                     placeholder="结束日期">
-                          </div> -->
-                      </div>
-                      <!-- <span style="color: red">时间不选择默认为近10天</span> -->
-                  </div>
-              </div>
-              <div class="layui-inline">
-                  <label class="layui-form-label">订单地区</label>
-                  <div class="layui-input-block">
-                      <select name="goods_blade_type" id="goods_blade_type" lay-verify="required">
-                          <option value="#">所有</option>
-                          <option value="1">台湾</option>
-                          <option value="2">阿联酋</option>
-                          <option value="3">马来西亚</option>
-                          <option value="4">泰国</option>
-                          <option value="5">日本</option>
-                          <option value="6">印尼</option>
-                          <option value="7">菲律宾</option>
-                          <option value="8">英国</option>
-                          <option value="9">美国</option>
-                          <option value="11">越南</option>
-                          <option value="12">沙特</option>
-                          <option value="14">卡塔尔</option>
-                          <option value="16">中东</option>
-                      </select>
-                  </div>
-              </div>
-              <div class="layui-inline">
-                  <label class="layui-form-label">订单类型</label>
-                  <div class="layui-input-block">
-                      <select name="order_select_type" id="order_select_type" lay-verify="required">
-                          <option value="#">所有</option>
-                          <option value="1">待扣货</option>
-                          <option value="3">待发货</option>
-                      </select>
-                  </div>
-              </div>
               <div class="layui-inline test-table-reload-btn">
-                  <label>从当前数据中检索:</label>
+                  <label>更具订单编号检索:</label>
                   <div class="layui-inline">
                       <input class="layui-input" name="id" id="test-table-demoReload" autocomplete="off">
                   </div>
                   <button class="layui-btn" data-type="reload">搜索</button>
-                 <!--  <button class="layui-btn" id="outstorage">仓库信息导出</button> -->
+                  <button class="layui-btn" id="outstorage">更新校准数据</button>
               </div>
           </div>
   </div>
@@ -77,62 +22,13 @@
 
   </div>
 </div>
-  <script type="text/html" id="use_button">
+  <script type="text/html" id="check_data_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建供货单','{{url("admin/storage/list/add_order")}}',2,600,510)">新建供货单</b>
-        </button>
-        <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
-            <b style="color:green;"
-               onclick="goods_show('库存校准','{{url("admin/storage/list/check_order")}}',2,600,510)">库存校准</b>
+               onclick="check_data()">详细信息</b>
         </button>
   </script>
-  <script type="text/html" id="area">
-   <div>
-    @{{# if(d.goods_blade_type==0||d.goods_blade_type==1){ }}
-      <span style='color:#7D26CD'>台湾地区</span>
-    @{{# }else if(d.goods_blade_type==2){ }}
-      <span style='color:#ffccff'>阿联酋地区</span>
-    @{{# }else if(d.goods_blade_type==3){ }}
-      <span style='color:#ff66cc'>马来西亚地区</span>
-    @{{# }else if(d.goods_blade_type==4){ }}
-      <span style='color:#ff3366'>泰国地区</span>
-    @{{# }else if(d.goods_blade_type==5){ }}
-      <span style='color:#cccc99'>日本地区</span>
-    @{{# }else if(d.goods_blade_type==6){ }}
-      <span style='color:#555555'>印尼地区</span>
-    @{{# }else if(d.goods_blade_type==7){ }}
-      <span style='color:#2E8B57'>菲律宾地区</span>
-    @{{# }else if(d.goods_blade_type==8){ }}
-      <span style='color:#6633ff'>英国地区</span>
-    @{{# }else if(d.goods_blade_type==9||d.goods_blade_type==10){ }}
-      <span style='color:#33ffff'>美国地区</span>
-    @{{# }else if(d.goods_blade_type==11){ }}
-      <span style='color:#FF4040'>越南地区</span>
-    @{{# }else if(d.goods_blade_type==12|d.goods_blade_type==13){ }}
-      <span style='color:#EE00EE'>沙特地区</span>
-    @{{# }else if(d.goods_blade_type==14||d.goods_blade_type==15){ }}
-      <span style='color:#9C9C9C'>卡塔尔地区</span>
-    @{{# }else if(d.goods_blade_type==16||d.goods_blade_type==17){ }}
-      @{{# if(d.order_country=='Qatar'){ }}
-      <span style='color:#8B7765'>中东混合(卡塔尔地区)</span>
-      @{{# }else if(d.order_country=='United Arab Emirates'){ }}
-      <span style='color:#8B7765'>中东混合(阿联酋地区)</span>
-      @{{# }else if(d.order_country=='Saudi Arabia'){ }}
-      <span style='color:#8B7765'>中东混合(沙特地区)</span>
-      @{{# } }}
-    @{{# } }}
-  </div>
-</script>
-<script type="text/html" id='order_type'>
-  <div>
-  @{{# if(d.order_type=='待扣货'){ }}
-    <span style='color:#009688'>待扣货</span>
-  @{{# }else{ }}
-    <span style='color:brown'>待出仓</span>
-  @{{# } }}
-  </div>
-</script>
+
 <script type="text/html" id="button" >
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">驳回</a>
@@ -145,19 +41,18 @@
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index','admin', 'table','laydate'],function(){
+  }).use(['index','admin', 'table'],function(){
     var table = layui.table;
-    var laydate = layui.laydate;
     var $ =layui.jquery;
     var options={
       elem: '#order_list'
       ,url: '/admin/storage/list/order_data' //数据接口
       ,page: true //开启分页
       ,limits:[10,20,30,40,50,60,70,80,90,999999999]
-      ,toolbar:'#use_button'
+      ,toolbar:'#check_data_button'
       ,defaultToolbar: ['filter','exports', 'print']
       ,text: {
-        none: '暂无订单数据' 
+        none: '暂无校准单数据' 
       }
       ,autoSort:false
       ,initSort: {
@@ -173,7 +68,7 @@
       ,cols: [[ //表头
         {field: 'order_id', title: 'ID', sort: true, fixed: 'left'}
         ,{field: 'order_single_id', title: '订单号'}
-        ,{field: 'goods_blade_type', title: '订单地区'}
+        ,{field: 'goods_blade_type', title: '订单地区',templet:'#area'}
         ,{field: 'order_type', title: '订单类型',templet:'#order_type'}
         ,{field: 'order_return_time', title: '订单核审时间', sort: true} 
         ,{field: 'admin_show_name', title: '订单核审人'}
@@ -282,28 +177,8 @@
                     });
 
     //model 模态框
-    goods_show=function goods_show(title,url,type,w,h){
-      if( layui.device().android||layui.device().ios){
-        layer.open({
-        skin: 'layui-layer-nobg', //没有背景色
-                        type: type,
-                        title: title,
-                        area: [375, 667],
-                        fixed: false, //不固定
-                        maxmin: true,
-                        content: url
-                  });
-      }else{
-         layer.open({
-        skin: 'layui-layer-nobg', //没有背景色
-                        type: type,
-                        title: title,
-                        area: [w, h],
-                        fixed: false, //不固定
-                        maxmin: true,
-                        content: url
-                  });
-      }
+    check_data=function check_data(){
+     parent.parent.layui.index.openTabsPage('/admin/storage/check/list', '校准数据记录');
     }
 
      var $ = layui.$, active = {
