@@ -38,15 +38,6 @@
                onclick="goods_show('新建补货单','{{url("admin/storage/add/add_goods")}}',2,600,510)">新建补货单</b>
         </button>
   </script>
-<script type="text/html" id='is_local'>
-  <div>
-  @{{# if(d.is_local==1){ }}
-    <span style='color:green'>本地仓</span>
-  @{{# }else{ }}
-    <span style='color:brown'>海外仓</span>
-  @{{# } }}
-  </div>
-</script>
 <script type="text/html" id="button" >
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -72,7 +63,7 @@
       ,method:'post'
       ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
       ,text: {
-        none: '暂无仓库数据' 
+        none: '暂无补货单数据'
       }
       ,autoSort:false
       ,initSort: {
@@ -144,37 +135,9 @@
 
            }else if(layEvent=='edit'){
                //修改产品
-               that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
-           }else{
-               layer.confirm('真的删除行么', function(index){
-                   obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                   layer.close(index);
-                   //向服务端发送删除指令
-                   $.ajax({
-                       url:"{{url('admin/storage/list/del_storage')}}",
-                       type:'get',
-                       data:{id:data.storage_id},
-                       datatype:'json',
-                       success:function(msg){
-                           if(msg['err']==1){
-                               layer.close(index);
-                               layer.msg(msg.str,{
-                                   time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                               }, function(){
-                                   parent.layui.admin.events.refresh();
-                               });
-                           }else if(msg['err']==0){
-                               layer.close(index);
-                               layer.msg(msg.str);
-                           }else{
-                               layer.close(index);
-                               layer.msg('删除失败！');
-                           }
-                       }
-                   });
-               });
+               that.goods_show('修改采购单数据', '{{url("admin/storage/add/up_storage_append")}}?storage_append_id=' +data.storage_append_id, 2, 600, 510);
            }
-       })
+       });
        //排序监听
        table.on('sort(button-listen)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
                         //尽管我们的 table 自带排序功能，但并没有请求服务端。
@@ -193,27 +156,51 @@
     //model 模态框
     goods_show=function goods_show(title,url,type,w,h){
       if( layui.device().android||layui.device().ios){
-        layer.open({
-        skin: 'layui-layer-nobg', //没有背景色
-                        type: type,
-                        title: title,
-                        area: [375, 667],
-                        fixed: false, //不固定
-                        maxmin: true,
-                        content: url
-                  });
+            layer.open({
+                skin: 'layui-layer-nobg', //没有背景色
+                type: type,
+                title: title,
+                area: [375, 667],
+                fixed: false, //不固定
+                maxmin: true,
+                content: url,
+                end: function (){
+                    //执行重载
+                    table.reload('storagelist',{
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            search:$('#test-table-demoReload').val(),
+                            time:$('#test-laydate-out').val()
+                        }
+                    });
+                }
+            });
       }else{
          layer.open({
-        skin: 'layui-layer-nobg', //没有背景色
-                        type: type,
-                        title: title,
-                        area: [w, h],
-                        fixed: false, //不固定
-                        maxmin: true,
-                        content: url
-                  });
+            skin: 'layui-layer-nobg', //没有背景色
+            type: type,
+            title: title,
+            area: [w, h],
+            fixed: false, //不固定
+            maxmin: true,
+            content: url,
+            end: function (){
+                 //执行重载
+                 table.reload('storagelist',{
+                     page: {
+                         curr: 1 //重新从第 1 页开始
+                     }
+                     ,where: {
+                         search:$('#test-table-demoReload').val(),
+                         time:$('#test-laydate-out').val()
+                     }
+                 });
+            }
+         });
       }
-    }
+    };
 
      var $ = layui.$, active = {
         reload: function(){
@@ -223,17 +210,16 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 ,where: {
-                            search:$('#test-table-demoReload').val(),
-                            time:$('#test-laydate-out').val(),
-                        }
-                    });
+                    search:$('#test-table-demoReload').val(),
+                    time:$('#test-laydate-out').val(),
+                }
+            });
         }
     };
     $('.test-table-reload-btn .layui-btn').on('click', function () {
-                        var type = $(this).data('type');
-                        active[type] ? active[type].call(this) : '';
-                    });
-
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
    });
 </script>
 @endsection

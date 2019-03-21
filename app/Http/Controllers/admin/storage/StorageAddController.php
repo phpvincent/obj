@@ -126,6 +126,24 @@ class StorageAddController extends Controller
 
     }
 
+    public function up_storage_append(Request $request)
+    {
+        if($request->isMethod('get')){
+            $storage_append_id = $request->input('storage_append_id');
+            $product = goods_kind::all();
+            $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->orderBy('storage_append_kind_id')->get();
+            if(!$storage_append_data->isEmpty()){
+                foreach ($storage_append_data as &$storage_append){
+                    $storage_append->goods_sku = $storage_append->storage_append_data_sku.$storage_append->storage_append_data_sku_attr;
+                    $storage_append->goods_kind_name = goods_kind::where('goods_kind_id',$storage_append->storage_append_kind_id)->first()['goods_kind_name'];
+                }
+            }
+            return view('storage.add.edit_storage_append')->with(compact('product','storage_append_id','storage_append_data'));
+        }elseif($request->isMethod('post')){
+
+        }
+    }
+
     /**
      * 获取商品的商品属性
      * @param Request $request
@@ -152,7 +170,7 @@ class StorageAddController extends Controller
                 $skuSDK = new skuSDK($id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
                 //获取完整的sku
                 foreach ($skus as $sku){
-                    $all_sku = $skuSDK->get_all_sku($sku);
+                    $all_sku = $skuSDK->get_all_sku((string)$sku);
                     $current_attrs = $skuSDK->get_attr_by_sku(substr($all_sku,-6));
                     $str = '';
                     foreach ($current_attrs as $attr) {
@@ -229,6 +247,7 @@ class StorageAddController extends Controller
         if($storage_append_end_time){
             return response()->json(['code' => 0, "msg" => "商品已到仓库，不能删除"]);
         }
+        //TODO 删除最后一个商品，删除采购单 2019-03-21
         $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->where('storage_append_kind_id',$goods_kind_id)->delete();
         if($storage_append_data){
             return response()->json(['code' => 1, "msg" => "删除数据成功"]);
@@ -236,12 +255,17 @@ class StorageAddController extends Controller
         return response()->json(['code' => 0, "msg" => "删除数据失败"]);
     }
 
+    /**
+     * 获取采购单数据
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function append_goods_edit(Request $request)
     {
         if($request->isMethod('get')){
             $storage_append_id = $request->input('storage_append_id');
             $goods_kind_id = $request->input('goods_kind_id');
-            return view('storage.add.add_goods')->with(compact('storage_append_id','goods_kind_id'));
+            return view('storage.add.edit')->with(compact('storage_append_id','goods_kind_id'));
         }elseif($request->isMethod('post')){
             $storage_append_id = $request->input('storage_append_id');
             $goods_kind_id = $request->input('goods_kind_id');
@@ -263,5 +287,23 @@ class StorageAddController extends Controller
             }
             return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => []]);
         }
+    }
+
+    /**
+     * 修改采购单数量
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function append_goods_num(Request $request)
+    {
+        $num = $request->input('num');
+        if(!trim($num)){
+            $num = 0;
+        }
+        $data = storage_append_data::where('storage_append_data_id',$request->input('storage_append_data_id'))->update(['storage_append_data_num'=>$num]);
+        if($data){
+            return response()->json(['err' => 1, "msg" => "修改数据成功"]);
+        }
+        return response()->json(['err' => 0, "msg" => "修改数据失败"]);
     }
 }

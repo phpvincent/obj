@@ -1949,6 +1949,7 @@ class GoodsController extends Controller
             $goods_id = $request->input('goods_id');
             $goods_url_alias = $request->input('goods_url_alias');
             if(is_numeric($goods_url_alias))   return response()->json(['err' => 0, 'str' => '保存失败！别名不得为空或纯数字']);
+            if(goods::where('goods_url_alias',$goods_url_alias)->first()) return response()->json(['err' => 0, 'str' => '别名已存在，不可重复']);
             $data = goods::where('goods_id',$goods_id)->update(['goods_url_alias'=>$goods_url_alias]);
             if($data){
                 return response()->json(['err' => 1, 'str' => '保存成功！']);

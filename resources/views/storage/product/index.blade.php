@@ -71,6 +71,9 @@
                 ,page: true //开启分页
                 ,method:'post'
                 ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+                ,text: {
+                    none: '暂无仓库数据'
+                }
                 ,where: {
                     id:$('#storage_addr').val(),
                     search:$('#test-table-demoReload').val(),
@@ -119,7 +122,6 @@
                     that.goods_show('修改产品库存', '{{url("admin/storage/list/up_storage_stock")}}?id=' + data.goods_kind_id + '&storage_id='+ $('#storage_addr').val(), 2, 600, 510);
                 }else{
                     layer.confirm('真的删除行么', function(index){
-                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
                         $.ajax({
@@ -133,7 +135,8 @@
                                     layer.msg(msg.str,{
                                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
                                     }, function(){
-                                        parent.layui.admin.events.refresh();
+                                        // parent.layui.admin.events.refresh();
+                                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                                     });
                                 }else if(msg['err']==0){
                                     layer.close(index);
