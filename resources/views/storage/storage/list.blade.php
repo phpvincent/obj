@@ -205,7 +205,7 @@
 
            }else if(layEvent=='edit'){
                //修改产品
-               that.goods_show('修改产品属性', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
+               that.goods_show('修改仓库信息', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
            }else{
                layer.confirm('真的删除行么', function(index){
                    
