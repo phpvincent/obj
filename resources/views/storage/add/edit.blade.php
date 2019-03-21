@@ -48,6 +48,16 @@
                 var value = obj.value //得到修改后的值
                     , data = obj.data //得到所在行所有键值
                     , field = obj.field; //得到字段
+                if(that.Trim(value) === ''){
+                    //执行重载
+                    table.reload('test-table-cellEdit',{
+                        where: {
+                            goods_kind_id:{{$goods_kind_id}},
+                            storage_append_id:{{$storage_append_id}},
+                        }
+                    });
+                    return;
+                }
                 //向服务端发送删除指令
                 $.ajax({
                     url:"{{url('admin/storage/add/append_goods_num')}}",
@@ -59,16 +69,6 @@
                         if(msg['err']==1){
                             layer.msg(msg.msg,{
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            }, function(){
-                                if(that.Trim(value) === ''){
-                                    //执行重载
-                                    table.reload('test-table-cellEdit',{
-                                        where: {
-                                            goods_kind_id:{{$goods_kind_id}},
-                                            storage_append_id:{{$storage_append_id}},
-                                        }
-                                    });
-                                }
                             });
                         }else if(msg['err']==0){
                             //执行重载
@@ -85,6 +85,13 @@
             });
 
         });
+
+        /**
+         * 去除两边的空格
+         * @param str
+         * @returns {string|*|void}
+         * @constructor
+         */
         function Trim(str)
         {
             return str.replace(/(^\s*)|(\s*$)/g, "");
