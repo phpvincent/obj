@@ -45,8 +45,8 @@
                         <div class="layui-form-item  item-model-hide">
                             <label class="layui-form-label">订单可拆分</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="is_split" value="0" title="可拆分">
-                                <input type="radio" name="is_split" value="1" title="不可拆分" checked>
+                                <input type="radio" name="is_split" value="1" title="可拆分" checked>
+                                <input type="radio" name="is_split" value="0" title="不可拆分">
                             </div>
                         </div>
                         <div class="layui-form-item">
