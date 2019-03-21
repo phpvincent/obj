@@ -38,15 +38,6 @@
                onclick="goods_show('新建补货单','{{url("admin/storage/add/add_goods")}}',2,600,510)">新建补货单</b>
         </button>
   </script>
-<script type="text/html" id='is_local'>
-  <div>
-  @{{# if(d.is_local==1){ }}
-    <span style='color:green'>本地仓</span>
-  @{{# }else{ }}
-    <span style='color:brown'>海外仓</span>
-  @{{# } }}
-  </div>
-</script>
 <script type="text/html" id="button" >
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -72,7 +63,7 @@
       ,method:'post'
       ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
       ,text: {
-        none: '暂无仓库数据' 
+        none: '暂无补货单数据'
       }
       ,autoSort:false
       ,initSort: {
@@ -192,6 +183,7 @@
 
     //model 模态框
     goods_show=function goods_show(title,url,type,w,h){
+        console.log(2222);
       if( layui.device().android||layui.device().ios){
         layer.open({
         skin: 'layui-layer-nobg', //没有背景色
@@ -200,7 +192,19 @@
                         area: [375, 667],
                         fixed: false, //不固定
                         maxmin: true,
-                        content: url
+                        content: url,
+                        end: function (){
+                            //执行重载
+                            table.reload('storagelist',{
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                                ,where: {
+                                    search:$('#test-table-demoReload').val(),
+                                    time:$('#test-laydate-out').val()
+                                }
+                            });
+                        }
                   });
       }else{
          layer.open({
@@ -210,7 +214,19 @@
                         area: [w, h],
                         fixed: false, //不固定
                         maxmin: true,
-                        content: url
+                        content: url,
+                        end: function (){
+                             //执行重载
+                             table.reload('storagelist',{
+                                 page: {
+                                     curr: 1 //重新从第 1 页开始
+                                 }
+                                 ,where: {
+                                     search:$('#test-table-demoReload').val(),
+                                     time:$('#test-laydate-out').val()
+                                 }
+                             });
+                        }
                   });
       }
     }

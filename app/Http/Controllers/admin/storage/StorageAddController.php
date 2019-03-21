@@ -152,7 +152,7 @@ class StorageAddController extends Controller
                 $skuSDK = new skuSDK($id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
                 //获取完整的sku
                 foreach ($skus as $sku){
-                    $all_sku = $skuSDK->get_all_sku($sku);
+                    $all_sku = $skuSDK->get_all_sku((string)$sku);
                     $current_attrs = $skuSDK->get_attr_by_sku(substr($all_sku,-6));
                     $str = '';
                     foreach ($current_attrs as $attr) {
@@ -241,7 +241,7 @@ class StorageAddController extends Controller
         if($request->isMethod('get')){
             $storage_append_id = $request->input('storage_append_id');
             $goods_kind_id = $request->input('goods_kind_id');
-            return view('storage.add.add_goods')->with(compact('storage_append_id','goods_kind_id'));
+            return view('storage.add.edit')->with(compact('storage_append_id','goods_kind_id'));
         }elseif($request->isMethod('post')){
             $storage_append_id = $request->input('storage_append_id');
             $goods_kind_id = $request->input('goods_kind_id');
@@ -263,5 +263,23 @@ class StorageAddController extends Controller
             }
             return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => []]);
         }
+    }
+
+    /**
+     * 修改采购单数量
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function append_goods_num(Request $request)
+    {
+        $num = $request->input('num');
+        if(!trim($num)){
+            $num = 0;
+        }
+        $data = storage_append_data::where('storage_append_data_id',$request->input('storage_append_data_id'))->update(['storage_append_data_num'=>$num]);
+        if($data){
+            return response()->json(['err' => 1, "msg" => "修改数据成功"]);
+        }
+        return response()->json(['err' => 0, "msg" => "修改数据失败"]);
     }
 }

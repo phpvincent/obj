@@ -106,7 +106,18 @@
                         area: [375, 667],
                         fixed: false, //不固定
                         maxmin: true,
-                        content: url
+                        content: url,
+                        end: function (){
+                            //执行重载
+                            table.reload('storagelist',{
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                                ,where: {
+                                    storage_append_id:{{$id}}
+                                }
+                            });
+                        }
                     });
                 }else{
                     layer.open({
@@ -116,7 +127,18 @@
                         area: [w, h],
                         fixed: false, //不固定
                         maxmin: true,
-                        content: url
+                        content: url,
+                        end: function (){
+                            //执行重载
+                            table.reload('storagelist',{
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                                ,where: {
+                                    storage_append_id:{{$id}}
+                                }
+                            });
+                        }
                     });
                 }
             }

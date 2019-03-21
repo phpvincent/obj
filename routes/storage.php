@@ -32,7 +32,8 @@
             Route::post('/add/get_goods_config','admin\storage\StorageAddController@get_goods_config');//购置单获取添加产品属性
             Route::any('add/show_goods_kind','admin\storage\StorageAddController@show_goods_kind');//采购单商品列表
             Route::get('add/append_goods_del','admin\storage\StorageAddController@append_goods_del');//删除采购单商品
-            Route::get('add/append_goods_edit','admin\storage\StorageAddController@append_goods_edit');//修改采购单商品个数
+            Route::any('add/append_goods_edit','admin\storage\StorageAddController@append_goods_edit');//修改采购单商品个数页面
+            Route::post('add/append_goods_num','admin\storage\StorageAddController@append_goods_num');//修改采购单商品个数操作
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');
