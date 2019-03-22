@@ -71,10 +71,10 @@ return [
             Jika Anda memiliki pertanyaan, silakan tinggalkan pesan, Layanan Pelanggan akan menjawab umumnya dalam waktu 24 (hari kerja)jam / 48 (akhir pekan) jam.<br/>Untuk informasi umum, seperti proses pembelian, metode pembayaran, opsi pengiriman atau proses sengketa, silakan merujuk ke halaman Bantuan kami.<br/><br/>Jika Anda memerlukan pertanyaan dengan pesanan terbaru Anda, silakan hubungi Pusat Layanan Pelanggan kami di <b><a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a></b><br/><br/>Alamat Perusahaan: 152 Beach Road, # 14-02, Gateway East, Singapura 189721 (Alamat tidak-kembali, jika Anda perlu mendapatkan alamat kembali, silakan hubungi layanan pelanggan kami)',
 
          'Arab' =>'<div style="text-align: right;font-size: 20px"><b> 88768960 (65+): </b><span>الهاتف / الدردشة •</span><br/> <b><a href="mailto:isnfclpo@gmail.com" style="color:#F8770E">isnfclpo@gmail.com:</a></b>البريد الإلكتروني •<br/><br/>
-            <span>.(إذا كان لديك أي سؤال ، فالرجاء ترك رسالة ، وسوف ترد خدمة العملاء بشكل عام خلال 24 (يوم عمل) / 48 (عطلات نهاية الأسبوع</span><br/><br/><br/>
-            <span>.للحصول على معلومات عامة ، مثل عملية الشراء أو طرق الدفع أو خيارات التسليم أو عملية النزاع ، يرجى مراجعة صفحة المساعدة</span><br/><br/><br/>
-            <span>.<a href="mailto:yejforlh@gmail.com" style="color:#F8770E"> isnfclpo@gmail.com </a> إذا كنت بحاجة إلى أي استفسارات بشأن طلباتك الأخيرة ، فيرجى الاتصال بمركز خدمة العملاء لدينا على العنوان</span><br/><br/><br/>
-            <span>.(عنوان الشركة: 152 طريق البحري،# 14-02، الباب الشرقي، سنغافورة  189721  ( العنوان غير المرتجع ، إذا كنت بحاجة إلى الحصول على عنوان المرتجع ، يرجى الاتصال بخدمة العملاء </span><br/><br/><br/></div>',
+            <span>(إذا كان لديك أي سؤال ، فالرجاء ترك رسالة ، وسوف ترد خدمة العملاء بشكل عام خلال 24 (يوم عمل) / 48 (عطلات نهاية الأسبوع</span><br/><br/><br/>
+            <span>للحصول على معلومات عامة ، مثل عملية الشراء أو طرق الدفع أو خيارات التسليم أو عملية النزاع ، يرجى مراجعة صفحة المساعدة</span><br/><br/><br/>
+            <span><a href="mailto:yejforlh@gmail.com" style="color:#F8770E"> isnfclpo@gmail.com </a> إذا كنت بحاجة إلى أي استفسارات بشأن طلباتك الأخيرة ، فيرجى الاتصال بمركز خدمة العملاء لدينا على العنوان</span><br/><br/><br/>
+            <span>(عنوان الشركة: 152 طريق البحري،# 14-02، الباب الشرقي، سنغافورة  189721  ( العنوان غير المرتجع ، إذا كنت بحاجة إلى الحصول على عنوان المرتجع ، يرجى الاتصال بخدمة العملاء </span><br/><br/><br/></div>',
     ],
     'footer-name' => [
         'about' => [
