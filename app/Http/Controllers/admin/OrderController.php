@@ -778,8 +778,18 @@ class OrderController extends Controller
      $msg=false;
      $msg_content = false;
      $order_single = false;
+     $no_allow=false;
      foreach ($data['order_ids'] as $key => $val) {
-          $order=order::where('order_single_id',$val)->first();
+          //$order=order::where('order_single_id',$val)->first();
+          $order=order::where('order_single_id',$val)
+            ->where(function($query){
+              $query->where('order_type','>','8');
+              $query->orWhere('order_type','<','3');
+            })->first();
+          if($order==null){
+            $no_allow.=$val.',';
+            continue;
+          } 
           if($order->order_type == '9'){
               $msg_content.=$val.',';
           }else{
@@ -829,7 +839,11 @@ class OrderController extends Controller
             }
             return response()->json(['err'=>0,'str'=>$str]);
       }else{
+          if($no_allow!=false){
+            return response()->json(['err'=>1,'str'=>'核审成功,其中：'.rtrim($no_allow,',').'订单已被供应链处理，无法进行核审操作！']);
+          }else{
             return response()->json(['err'=>1,'str'=>'核审成功']);
+          }
       }
    }
 
@@ -844,7 +858,16 @@ class OrderController extends Controller
         $arr=['msg'=>'err'];
         return response()->json($arr);
       }
-   	  $order=order::where('order_id',$data['id'])->first();
+   	  $order=order::where('order_id',$data['id'])
+      ->where(function($query){
+         $query->where('order_type','>','8');
+         $query->orWhere('order_type','<','3');
+      })
+      ->first();
+      if($order==null){
+        $arr=['msg'=>'无法修改已被供应链处理过的订单'];
+          return response()->json($arr);
+      }
    	  $oldmsg=$order->order_return;
    	  $date=date('Y-m-d H:i:s',time());
    	  $admin=Auth::user()->admin_name;
@@ -880,7 +903,13 @@ class OrderController extends Controller
           $order_single=null;
            foreach($ids as $k => $v){
             if($v==null){break;}
-            $msg=order::where('order_id',$v)->update(['is_del'=>'1']);
+            //$msg=order::where([['order_id',$v,],['order_type','<','3']])
+            //已被仓储处理过的订单无法再次核审
+            $msg=order::where('order.order_id',$b)
+              ->where(function($query){
+               $query->where('order_type','>','8');
+               $query->orWhere('order_type','<','3');
+            })->update(['is_del'=>'1']);
             if(!$msg){
               $err.=$v.',';
             }

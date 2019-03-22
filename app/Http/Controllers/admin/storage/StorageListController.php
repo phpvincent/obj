@@ -586,7 +586,7 @@ class StorageListController extends Controller
                 $data->storage_name='<span style="color:brown;">'.$data->storage_name.'</span>';
                }elseif($data->storage_check_data_type==3){
                 $data->storage_check_data_type='从本地仓发货';
-                $data->storage_name='<span style="color:green;">'.$data->storage_name.'</span>';
+                $data->storage_name='<span style="color:green;">本地仓</span>';
                }elseif($data->storage_check_data_type==4){
                 $data->storage_check_data_type='缺货';
                 $data->storage_name='<span style="color:red;">缺货</span>';
@@ -602,7 +602,7 @@ class StorageListController extends Controller
      */
     public function reload_storage_check(){
         //数据校准
-        $msg=\App\storage_check::storage_center(true,\Auth::user()->admin_id);
+        $msg=\App\storage_check::storage_center(false,\Auth::user()->admin_id);
         if(!$msg){
            return response()->json(['err' => 0, 'str' => '数据校准失败！系统出现错误或校准操作正在进行中']);
         }
@@ -619,6 +619,58 @@ class StorageListController extends Controller
     }
     public function check_list_data(Request $request)
     {
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
+        $search = trim($request->input('search'));
+        $storage_check_is_out=$request->input('storage_check_is_out');
+        //排序参数
+        $field = $request->input('field', 'storage_check_time'); //排序字段
+        $dsc = $request->input('order', 'desc'); //排序顺序
+        $start = ($page - 1) * $limit;
+        $storage_check = \App\storage_check::select('storage_check.*','admin.admin_show_name')
+            ->leftjoin('admin','storage_check.storage_check_admin','admin.admin_id')
+            ->where(function ($query) use ($request,$search,$goods_blade_type){
+                if($search){
+                    $query->where('storage_check.storage_check_id','like','%'.$search.'%');
+                    $query->orWhere('storage_check.storage_check_string','like','%'.$search.'%');
+                    $query->orWhere('storage_check.storage_check_admin','like','%'.$search.'%');
+                }
+                if($request->has('start')&&$request->input('start')!=null){
+                    $query->whereBetween('storage_check_time',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
+                }
+                if($storage_check_is_out!='#'){
+                    $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
+                }
+            })
+            ->orderBy($field, $dsc)
+            ->offset($start)
+            ->limit($limit)
+            ->get();
+        $count=\App\storage_check::select('storage_check.*','admin.admin_show_name')
+            ->leftjoin('admin','storage_check.storage_check_admin','admin.admin_id')
+            ->where(function ($query) use ($request,$search,$goods_blade_type){
+                if($search){
+                    $query->where('storage_check.storage_check_id','like','%'.$search.'%');
+                    $query->orWhere('storage_check.storage_check_string','like','%'.$search.'%');
+                    $query->orWhere('storage_check.storage_check_admin','like','%'.$search.'%');
+                }
+                if($request->has('start')&&$request->input('start')!=null){
+                    $query->whereBetween('storage_check_time',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
+                }
+                if($storage_check_is_out!='#'){
+                    $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
+                }
+            })
+            ->count();
+        if($count > 0){
+            foreach ($storage_check as &$v){
+                if($v->storage_check_admin==0||$v->storage_check_admin==null){
+                    $v->storage_stock_admin='系统发起';
+                }
+            }
+        }
 
+        $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $storage_check];
+        return response()->json($arr);
     }
 }

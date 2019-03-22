@@ -95,63 +95,65 @@ class storage_check extends Model
 	            //找到对应国外仓库
 	            $storage=\App\storage::where([['template_type_primary_id',$blade_type],['storage_status',1],['is_local',0]])->first();
 	            //证明没有对应海外仓
+	            $order_config=\App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v->order_id)->get()->toArray();
+                //处理数据变更属性组加数目
+                $new=[];
+                $count=[];
+                foreach($order_config as $key_s => $vall){
+                 if(in_array($vall, $new)){
+                   //dd(array_keys($new,$v)[0]);
+                   $count[array_keys($new,$vall)[0]]+=1;
+                 }else{
+                   $new[$key_s]=$vall;
+                   $count[$key_s]=1;
+                 }
+                } 
+                foreach($new as $kk => $vv){
+                    $new[$kk]['num']=$count[$kk];
+                }
+                $order_config=$new;
+                unset($new,$count);
+                //处理属性数据拼装产品属性id与SKU
+                $is_new=true;//判断该单品是否配置新属性，如未配置新属性则无产品对应，SKU属性码为000000
+                
+                //为订单属性分配属性SKU与属性件数
+                foreach($order_config as $kkk=> $v_config){
+                    $order_config_arr=explode(',', $order_config[$kkk]['order_config']);
+                    if(count($order_config_arr)<=0){
+                        $order_config[$kkk]['sku']='000000';
+                        continue;
+                    }
+                    foreach($order_config_arr as $kkkk => $v_config_arr)
+                    {
+                        $config_val=\App\config_val::where([['config_val_id',$v_config_arr],['kind_val_id','>',0]])->first();
+                        if($config_val==null){
+                            //没有对应属性id信息
+                            $is_new=false;
+                            $order_config[$kkk]['kind_val_arr']=null;
+                            break;
+                        }
+                        //向订单属性配置数据中增加对应产品属性的id
+                        $order_config[$kkk]['kind_val_arr'][$kkkk]=$config_val['kind_val_id'];
+                        $order_config_arr[$kkkk]=$config_val['kind_val_id'];
+                    }
+                    if(!$is_new){//属性未更新
+                        $order_config[$kkk]['sku']='000000';
+                        continue;
+                    }
+                     //为订单属性分配属性SKU
+                    if(!isset($order_config[$kkk]['sku'])||$order_config[$kkk]['sku']!='000000'){
+                         $sku=$skuSDK->get_all_sku($order_config_arr);
+                         $order_config[$kkk]['sku']=substr($sku,4);
+                    }
+                }
 	            if($storage!=null){
 	                //声明便令记录改订单是否可从国外仓发送状态
 	                $is_send=true;
 	                //获取订单配置信息数据
-	                $order_config=\App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v->order_id)->get()->toArray();
-	                //处理数据变更属性组加数目
-	                $new=[];
-	                $count=[];
-	                foreach($order_config as $key_s => $vall){
-	                 if(in_array($vall, $new)){
-	                   //dd(array_keys($new,$v)[0]);
-	                   $count[array_keys($new,$vall)[0]]+=1;
-	                 }else{
-	                   $new[$key_s]=$vall;
-	                   $count[$key_s]=1;
-	                 }
-	                } 
-	                foreach($new as $kk => $vv){
-	                    $new[$kk]['num']=$count[$kk];
-	                }
-	                $order_config=$new;
-	                unset($new,$count);
-	                //处理属性数据拼装产品属性id与SKU
-	                $is_new=true;//判断该单品是否配置新属性，如未配置新属性则无产品对应，SKU属性码为000000
+	                
 	                $is_out=true;//判断
 	                $is_forigen=true;//判断是否可以从海外仓发货
-	                //为订单属性分配属性SKU与属性件数
-	                foreach($order_config as $kkk=> &$v_config){
-	                    $order_config_arr=explode(',', $v_config['order_config']);
-	                    if(count($order_config_arr)<=0){
-	                        $v_config['sku']='000000';
-	                        continue;
-	                    }
-	                    foreach($order_config_arr as $kkkk => $v_config_arr)
-	                    {
-	                        $config_val=\App\config_val::where([['config_val_id',$v_config_arr],['kind_val_id','>',0]])->first();
-	                        if($config_val==null){
-	                            //没有对应属性id信息
-	                            $is_new=false;
-	                            $v_config['kind_val_arr']=null;
-	                            break;
-	                        }
-	                        //向订单属性配置数据中增加对应产品属性的id
-	                        $v_config['kind_val_arr'][$kkkk]=$config_val['kind_val_id'];
-	                        $order_config_arr[$kkkk]=$config_val['kind_val_id'];
-	                    }
-	                    if(!$is_new){//属性未更新
-	                        $v_config['sku']='000000';
-	                        continue;
-	                    }
-	                     //为订单属性分配属性SKU
-	                    if(!isset($v_config['sku'])||$v_config['sku']!='000000'){
-	                         $sku=$skuSDK->get_all_sku($order_config_arr);
-	                         $v_config['sku']=substr($sku,4);
-	                    }
-	                }
-	                foreach($order_config as $kkk => &$v_config){
+	                foreach($order_config as $kkk => $v_config){
 	                    /////////////////////////////////////////////////////
 	                    //sku获取逻辑完成,开始处理订单
 	                    //1.判断订单状态（是否从海外仓发货）
@@ -214,7 +216,6 @@ class storage_check extends Model
 	                                 //$v_abroad->update(['num'=>0]);
 	                            }
 	                        }
-	                        \App\order::where('order_id',$v->order_id)->update(['order_type'=>3]);
 	                        //dd($goods_check_data);
 	                    }else{
 	                        //当海外仓不允许拆分时
@@ -271,12 +272,10 @@ class storage_check extends Model
 	                                break;
 	                            }
 	                        }
-	                        //海外车那个数据循环完毕仍无发现匹配订单，结束order_config循环并标记为无法从海外仓发货
+	                        //海外仓数据循环完毕仍无发现匹配订单，结束order_config循环并标记为无法从海外仓发货
 	                        if(!$is_same){
 	                            $is_forigen=false;
 	                            break;
-	                        }else{
-	                            \App\order::where('order_id',$v->order_id)->update(['order_type'=>3]);
 	                        }
 	                    }
 
@@ -290,8 +289,8 @@ class storage_check extends Model
 	                //找到国内仓
 	                $storage=\App\storage::where([['is_local','1'],['storage_status','1']])->orderBy('created_at','asc')->first();
 	                //声明标记标记国内仓数目是否足够
-	                $is_ennugh=true;
-	                foreach($order_config as $k_config => $v_config){
+	                $is_ennugh=true; 
+	                foreach($order_config as  $v_config){
 	                    $storage_data_local=\App\storage_goods_local::where([['storage_primary_id',$storage->storage_id],['goods_kind_id',$goods_kind->goods_kind_id],['sku_attr',$v_config['sku']],['sku',$goods_kind->goods_kind_sku]])->first(['num']);
 	                    if($storage_data_local==null||$storage_data_local['num']<$v_config['num']){
 	                        $is_ennugh=false;
@@ -304,7 +303,16 @@ class storage_check extends Model
 	                        $storage_data_local=\App\storage_goods_local::where([['storage_primary_id',$storage->storage_id],['goods_kind_id',$goods_kind->goods_kind_id],['sku_attr',$v_config['sku']],['sku',$goods_kind->goods_kind_sku]])->first(['num']);
 	                        //减去本地仓库存
 	                        \App\storage_goods_local::where([['storage_primary_id',$storage->storage_id],['goods_kind_id',$goods_kind->goods_kind_id],['sku_attr',$v_config['sku']],['sku',$goods_kind->goods_kind_sku]])->update(['num'=>$storage_data_local['num']-$v_config['num']]);
-	                    }      
+	                        //记录总缺货数据(剩余库存不参与统计，在储存时需要减去)
+	                         if(!isset($goods_less_data[$goods_kind->goods_kind_sku])){
+	                            $goods_less_data[$goods_kind->goods_kind_sku]=[];
+	                         }
+	                         if(!isset($goods_less_data[$goods_kind->goods_kind_sku][$v_config['sku']])){
+	                            $goods_less_data[$goods_kind->goods_kind_sku][$v_config['sku']]=$v_config['num'];
+	                         }else{
+	                            $goods_less_data[$goods_kind->goods_kind_sku][$v_config['sku']]+=$v_config['num'];
+	                         }         
+	                    }   
 	                    //生成填充数据           
 	                    $goods_check_data[$v->order_id]['local']['storage_check_data_type']='3';
 	                    $goods_check_data[$v->order_id]['local']['storage_check_data_order']=$v->order_id;
@@ -312,7 +320,6 @@ class storage_check extends Model
 	                    $goods_check_data[$v->order_id]['local']['storage_check_data_num']=$v->order_num;
 	                    $goods_check_data[$v->order_id]['local']['storage_check_data_sku']=$goods_kind->goods_kind_sku;
 	                    $goods_check_data[$v->order_id]['local']['storage_primary_id']=$storage->storage_id; 
-	                    \App\order::where('order_id',$v->order_id)->update(['order_type'=>3]);
 	               }else{
 	                //货物不足,计算缺货数据
 	                    $goods_check_data[$v->order_id]['local_less']['storage_check_data_type']='4';
@@ -398,6 +405,9 @@ class storage_check extends Model
                     $storage_check_data->storage_primary_id=$storage_check_id;
                     $storage_check_data->storage_abroad_id=$v['no_split']['storage_abroad_id'];
                     $storage_check_data->save();
+                    if(!$type){
+	                    \App\order::where('order_id',$k)->update(['order_type'=>3]);
+                    }
                     unset($goods_check_data[$k]);
                     $froms=\App\storage_goods_abroad::where('order_id',$v['no_split']['storage_from'])->get();
                     foreach($froms as $key => $val){
@@ -424,6 +434,9 @@ class storage_check extends Model
                     $storage_check_data->storage_check_data_num=$v['local']['storage_check_data_num'];
                     $storage_check_data->storage_check_data_sku=$v['local']['storage_check_data_sku'];
                     $storage_check_data->save();
+                    if(!$type){
+	                    \App\order::where('order_id',$k)->update(['order_type'=>3]);
+                    }
                     foreach($v['local']['storage_check_data_from'] as $key => $val){
                         //记录该订单货物属性数目等数据
                         $storage_check_info=new \App\storage_check_info;
@@ -468,6 +481,9 @@ class storage_check extends Model
                 $storage_check_data->storage_check_data_sku=$v[0]['storage_check_data_sku'];
                 $storage_check_data->storage_check_data_sixsku='#'; 
                 $storage_check_data->save();
+                if(!$type){
+	                    \App\order::where('order_id',$v[0]['storage_check_data_order'])->update(['order_type'=>3]);
+                    }
                 foreach($v as $key => $val){
                     foreach($val['storage_from'] as $k_from => $v_from){
                         $storage_check_info=new \App\storage_check_info;

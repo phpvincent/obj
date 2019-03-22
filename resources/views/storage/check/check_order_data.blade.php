@@ -5,11 +5,13 @@
    <div class="layui-card">
    <div class="layui-card-header ">
    	<p class="message-text"></p>
+   	@if($storage_check!==null)
 		<ul >
 			<li class="layui-text"><span style="color:red;width: 50%;">校对时间：</span>{{$storage_check->storage_check_time}}  <span style="color:red;width: 50%;">校准单编号：</span>{{$storage_check->storage_check_string}}</li>
 			<li class="layui-text"><span style="color:red;width: 50%;">校对类型：</span>@if($storage_check->storage_check_type==0) 系统定时校对 @else 手动发起校对 @endif<span style="color:red;width: 50%;"> 校对发起者：</span>@if($storage_check->storage_check_type==0) 系统 @else {{\App\admin::where('admin_id',$storage_check->storage_check_admin)->first()['admin_show_name']}} @endif</li>
 
 		</ul>
+	@endif
 	</div>
     <!-- 搜索控件 -->
   <div class="layui-form layui-card-header layuiadmin-card-header-auto">
@@ -28,7 +30,11 @@
               </div>
               <div class="layui-inline test-table-reload-btn">
                   <label>检索:</label>
+                  @if($storage_check!=null)
                   <input type="hidden" name="storage_check_id" id="storage_check_id" value="{{$storage_check->storage_check_id}}">
+                  @else
+                  <input type="hidden" name="storage_check_id" id="storage_check_id" value="0">
+                  @endif
                   <div class="layui-inline">
                       <input class="layui-input" name="id" id="check-table-demoReload" autocomplete="off">
                   </div>
