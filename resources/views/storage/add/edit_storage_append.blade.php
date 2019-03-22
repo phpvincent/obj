@@ -45,7 +45,9 @@
                             <div class="layui-form-item flag" style="display:none">
                                 <div class="layui-inline">
                                     <div class="goodsCheckbox">
-
+                                        <!-- <input type="checkbox" name="" title="豆豆" goods_sku="1" goods_kind_name="豆豆" good_attr="红大" lay-filter="goodsCheck">
+                                        <input type="checkbox" name="" title="香水" goods_sku="2" goods_kind_name="香水" good_attr="白大" lay-filter="goodsCheck">
+                                        <input type="checkbox" name="" title="牛仔" goods_sku="3" goods_kind_name="牛仔" good_attr="小女" lay-filter="goodsCheck">  -->
                                     </div>
                                 </div>
                             </div>
