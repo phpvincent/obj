@@ -19,13 +19,7 @@
 				<option value="0" >未核审</option>
 				<option value="1" >通过核审</option>
 				<option value="2" >拒绝核审</option>
-				<option value="3" >已发货</option>
-				<option value="4" >已签收</option>
-				<option value="5" >退货未退款</option>
-				<option value="6" >退货并已退款</option>
-				<option value="7" >未退货已退款</option>
 				<option value="14" >问题订单</option>
-				<option value="8" ><span style='color:red;'>拒签</span></option>
 			</select>
 			</span> </div>
 	</div>
