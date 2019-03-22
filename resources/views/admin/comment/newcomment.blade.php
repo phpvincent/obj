@@ -84,12 +84,12 @@
 @section('js')
 <script type="text/javascript">
 	$(function(){
-	 var date = new Date();
-	 var timestamp=Date.parse(date);
-	 var max=86400;
-	 var min=0;
-	/* timestamp=timestamp-(Math.floor(Math.random()*(max-min+1)+min))*1000;
-	 date =new Date(timestamp);*/
+	var dates = new Date();
+	var timestamp=Date.parse(dates);
+	var max=432000;
+	var min=0;
+	timestamp=timestamp-(Math.floor(Math.random()*(max-min+1)+min))*1000;
+	var date = new Date(timestamp);
     var seperator1 = "-";
     var seperator2 = ":";
     var month = date.getMonth() + 1;
