@@ -622,7 +622,7 @@ class StorageListController extends Controller
         $page = $request->input('page', 1);
         $limit = $request->input('limit', 10);
         $search = trim($request->input('search'));
-        $storage_check_is_out=$request->input('storage_check_is_out');
+        $storage_check_is_out=$request->input('storage_check_is_out','#');
         //排序参数
         $field = $request->input('field', 'storage_check_time'); //排序字段
         $dsc = $request->input('order', 'desc'); //排序顺序
