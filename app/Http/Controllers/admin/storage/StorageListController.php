@@ -517,6 +517,19 @@ class StorageListController extends Controller
         $storage_check=\App\storage_check::orderBy('storage_check_time','desc')->first();
         return view('storage.check.check_order_data')->with(compact('storage_check'));
     }
+    //订单扣货信息
+    public function check_out(Request $request){
+        $id=$request->input('id');
+/*        $storage_check_id=\App\storage_check::where('storage_check.storage_check_id',)
+*/        $storage_check_data=\App\storage_check::select('storage_check_data.*','storage_check_info.*')
+                            ->leftjoin('storage_check_data','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                            ->leftjoin('storage_check_info','storage_check_data.storage_check_data_id','storage_check_info.storage_check_data_id')
+                            ->where('storage_check.storage_check_is_out','1')
+                            ->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
+                            ->where('storage_check_data.storage_check_data_order',$id)
+                            ->get();
+        return view('storage.check.check_out')->with(compact('storage_check_data'));
+    }
     public function get_check_data(Request $request)
     {   
         $storage_check_id=$request->input('storage_check_id',\App\storage_check::orderBy('storage_check_time','desc')->first(['storage_check_id'])['storage_check_id']);
@@ -603,5 +616,9 @@ class StorageListController extends Controller
     public function check_list(Request $request)
     {
         return view('storage.check.check_list');
+    }
+    public function check_list_data(Request $request)
+    {
+
     }
 }

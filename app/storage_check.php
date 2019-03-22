@@ -46,6 +46,11 @@ class storage_check extends Model
 	        	$storage_check->storage_check_type=1;
 	        }
 	        $storage_check->storage_check_reload_time=date('Y-m-d H:i:s',time()+180);
+	        if(!$type){
+	        	$storage_check->storage_check_is_out='1';
+	        }else{
+	        	$storage_check->storage_check_is_out='0';
+	        }
 	        $storage_check->save(); 
 	        //记录各属性对应数目数据
 	        $goods_check_data=[];
