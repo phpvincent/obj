@@ -28,7 +28,7 @@
 </div>
 <script language="javascript">
     function goHome(){
-        var u = 'http://{{$url}}';
+        var u = 'http:///';
         location.href=u;
         //window.location.href=u;
     }

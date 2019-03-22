@@ -80,11 +80,11 @@
   <script type="text/html" id="use_button">
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('新建供货单','{{url("admin/storage/list/add_order")}}',2,600,510)">新建供货单</b>
+               onclick="goods_show('新建供货单','{{url("admin/storage/add/add_goods")}}',2,600,510)">新建供货单</b>
         </button>
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
-               onclick="goods_show('库存校准','{{url("admin/storage/list/check_order")}}',2,600,510)">库存校准</b>
+               onclick="goods_show('库存校准','{{url("admin/storage/list/check_order")}}',2,1000,510)">库存校准</b>
         </button>
   </script>
   <script type="text/html" id="area">
