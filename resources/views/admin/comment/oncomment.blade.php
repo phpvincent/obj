@@ -1,6 +1,6 @@
 @extends('admin.father.css')
 @section('content')
-	<input class="btn radius btn-secondary" type="button" value="+新增评论" style="margin-left: 10%;" onclick="newcomment('修改评论','/admin/comment/newcomment?id={{$id}}','2','800','500')">
+	<input class="btn radius btn-secondary" type="button" value="+新增评论" style="margin-left: 10%;" onclick="newcomment('新增评论','/admin/comment/newcomment?id={{$id}}','2','800','500')">
 <table class="table table-border table-bordered table-bg" id="comment_user_table">
 		<thead>
 			<tr>
