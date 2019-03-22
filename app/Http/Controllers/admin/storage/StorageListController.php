@@ -629,7 +629,7 @@ class StorageListController extends Controller
         $start = ($page - 1) * $limit;
         $storage_check = \App\storage_check::select('storage_check.*','admin.admin_show_name')
             ->leftjoin('admin','storage_check.storage_check_admin','admin.admin_id')
-            ->where(function ($query) use ($request,$search,$goods_blade_type){
+            ->where(function ($query) use ($request,$search,$storage_check_is_out){
                 if($search){
                     $query->where('storage_check.storage_check_id','like','%'.$search.'%');
                     $query->orWhere('storage_check.storage_check_string','like','%'.$search.'%');
