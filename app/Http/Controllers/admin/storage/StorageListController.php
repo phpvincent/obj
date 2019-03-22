@@ -622,14 +622,14 @@ class StorageListController extends Controller
         $page = $request->input('page', 1);
         $limit = $request->input('limit', 10);
         $search = trim($request->input('search'));
-        $storage_check_is_out=$request->input('storage_check_is_out');
+        $storage_check_is_out=$request->input('storage_check_is_out','#');
         //排序参数
         $field = $request->input('field', 'storage_check_time'); //排序字段
         $dsc = $request->input('order', 'desc'); //排序顺序
         $start = ($page - 1) * $limit;
         $storage_check = \App\storage_check::select('storage_check.*','admin.admin_show_name')
             ->leftjoin('admin','storage_check.storage_check_admin','admin.admin_id')
-            ->where(function ($query) use ($request,$search,$goods_blade_type){
+            ->where(function ($query) use ($request,$search,$storage_check_is_out){
                 if($search){
                     $query->where('storage_check.storage_check_id','like','%'.$search.'%');
                     $query->orWhere('storage_check.storage_check_string','like','%'.$search.'%');
