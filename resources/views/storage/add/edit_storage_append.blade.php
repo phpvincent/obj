@@ -116,6 +116,33 @@
                 </td>
             </tr>
         </script>
+        <script id="goodsAppendtow" type="text/html">
+            <tr>
+                <td>
+                    <input type="hidden" readonly name="storage_append_data_id" value="@{{d.storage_append_data_id}}" class="layui-input">
+                    <input type="hidden" readonly name="goods_kind_id" value="@{{d.storage_append_kind_id}}" class="layui-input">
+                    <span>@{{d.storage_append_kind_id}}</span>
+                </td>
+                <td>
+                    <input type="hidden" readonly name="goods_kind_name" value="@{{d.goods_kind_name}}" class="layui-input">
+                    <span>@{{d.goods_kind_name}}</span>
+                </td>
+                <td>
+                    <input type="hidden" readonly name="goods_attr" value="@{{d.storage_append_data_sku_attr}}" class="layui-input">
+                    <span>@{{d.storage_append_data_sku_attr}}</span>
+                </td>
+                <td>
+                    <input type="hidden" readonly name="goods_sku" value="@{{d.storage_append_data_sku}}" class="layui-input">
+                    <span>@{{d.storage_append_data_sku}}</span>
+                </td>
+                <td>
+                    <input type="text" name="num" value="@{{d.storage_append_data_num}}" placeholder="请输入数量" class="layui-input" lay-verify="required">
+                </td>
+                <td>
+                    <span class="layui-btn layui-btn-xs layui-btn-danger removeGoodsAppend"><i class="layui-icon">&#xe640;</i></span>
+                </td>
+            </tr>
+        </script>
         @endsection
         @section('js')
             <script>
@@ -130,6 +157,18 @@
                     var $=layui.jquery;
                     var layer = layui.layer;
                     var laydate = layui.laydate;
+                    
+                    // 初始化赋值
+                    var datas = '{!!$storage_append_data!!}';
+                    var datasList = JSON.parse(datas)
+                       console.log(datasList)
+                       $.each(datasList, function(index, value){
+                        var getTpl = goodsAppendtow.innerHTML
+                            laytpl(getTpl).render(value, function(string){
+                                $('.goodsAppend tbody').append(string)
+                            })
+                       })
+                    
                     laydate.render({
                         elem: '#goodsdate' //指定元素
                     });
@@ -225,18 +264,15 @@
                         }
 
                         var data = $(data.form).serializeArray();
-                        var num = 0;
                         var obj = {};
                         var arr = [];
                         for(var i=0; i<data.length; i++){
-                            if(num===4){
+                            if(data[i].name === 'num'){
                                 obj[data[i].name] = data[i].value
                                 arr.push(obj)
-                                num = 0;
                                 obj = {};
                             } else{
                                 obj[data[i].name] = data[i].value
-                                num++
                             }
                         }
                         var index = layer.load();
