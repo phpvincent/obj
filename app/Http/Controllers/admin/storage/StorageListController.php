@@ -667,6 +667,16 @@ class StorageListController extends Controller
                 if($v->storage_check_admin==0||$v->storage_check_admin==null){
                     $v->storage_stock_admin='系统发起';
                 }
+                if($v->storage_check_type==0){
+                    $v->storage_check_type='系统定时校对';
+                }else{
+                     $v->storage_check_type='人工发起校对';
+                }
+                if($v->storage_check_is_out==0){
+                    $v->storage_check_is_out='仅校对';
+                }else{
+                    $v->storage_check_is_out='校对并扣货';
+                }
             }
         }
 
