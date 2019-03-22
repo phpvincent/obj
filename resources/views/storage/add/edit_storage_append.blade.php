@@ -10,19 +10,21 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">采购单号</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_single" id="storage_append_single" value="" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" readonly name="storage_append_single" id="storage_append_single" value="{{$storage_appends->storage_append_single}}" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" style="display: none" name="storage_append_id" id="storage_append_id" value="{{$storage_appends->storage_append_id}}" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">采购时间</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_time" class="layui-input" id="goodsdate">
+                                    <input type="text" readonly name="storage_append_time" value="{{$storage_appends->storage_append_time}}" class="layui-input" id="goodsdates">
+                                    {{--<input type="text" readonly name="storage_append_time" value="{{$storage_appends->storage_append_time}}" class="layui-input" id="goodsdate">--}}
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">备注</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="" autocomplete="off" class="layui-input">
+                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="{{$storage_appends->storage_append_msg}}" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -279,9 +281,9 @@
                         }
                         var index = layer.load();
                         $.ajax({
-                            url:"/admin/storage/add/add_goods",
+                            url:"/admin/storage/add/up_storage_append",
                             type:'post',
-                            data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_append_msg:$('#storage_append_msg').val(),storage_append_single:$('#storage_append_single').val(),storage_append_time:$('#goodsdate').val()},
+                            data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_append_msg:$('#storage_append_msg').val(),storage_append_single:$('#storage_append_single').val(),storage_append_time:$('#goodsdates').val(),storage_append_id:$('#storage_append_id').val()},
                             // datatype:'json',
                             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                             success:function(msg){

@@ -16,6 +16,16 @@
                       </div>
                   </div>
               </div>
+              <div class="layui-inline">
+                  <label class="layui-form-label">补货单状态</label>
+                  <div class="layui-input-block">
+                      <select name="storage_addr" id="storage_addr" lay-verify="required">
+                          @foreach($stos as $item)
+                              <option @if($item->storage_id == $id) selected @endif value="{{$item->storage_id}}">{{$item->storage_name}}</option>
+                          @endforeach
+                      </select>
+                  </div>
+              </div>
               <div class="layui-inline test-table-reload-btn">
                   <label>从当前数据中检索:</label>
                   <div class="layui-inline">
