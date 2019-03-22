@@ -126,21 +126,75 @@ class StorageAddController extends Controller
 
     }
 
+    /**
+     * 编辑采购单数据
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function up_storage_append(Request $request)
     {
         if($request->isMethod('get')){
             $storage_append_id = $request->input('storage_append_id');
-            $product = goods_kind::all();
-            $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->orderBy('storage_append_kind_id')->get();
-            if(!$storage_append_data->isEmpty()){
-                foreach ($storage_append_data as &$storage_append){
-                    $storage_append->goods_sku = $storage_append->storage_append_data_sku.$storage_append->storage_append_data_sku_attr;
-                    $storage_append->goods_kind_name = goods_kind::where('goods_kind_id',$storage_append->storage_append_kind_id)->first()['goods_kind_name'];
+            $storage_appends = storage_append::where('storage_append_id',$storage_append_id)->first();
+            if($storage_appends){
+                $product = goods_kind::all();
+                $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->orderBy('storage_append_kind_id')->get();
+                if(!$storage_append_data->isEmpty()){
+                    foreach ($storage_append_data as &$storage_append){
+                        $storage_append->goods_sku = $storage_append->storage_append_data_sku.$storage_append->storage_append_data_sku_attr;
+                        $storage_append->goods_kind_name = goods_kind::where('goods_kind_id',$storage_append->storage_append_kind_id)->first()['goods_kind_name'];
+                    }
+                }
+                return view('storage.add.edit_storage_append')->with(compact('product','storage_append_id','storage_append_data','storage_appends'));
+            }
+        }elseif($request->isMethod('post')){
+            $goods_attr = json_decode($request->input('goods_attr'),true);
+            if(empty($goods_attr)){
+                return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
+            }
+            $validator = Validator::make($request->all(), [
+                "storage_append_single" => "required",
+                "goods_kind" => "required",
+            ],[
+                "storage_append_single.required" => "采购单号不能为空",
+                "goods_kind.required" => "采购单商品不能为空",
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
+            }
+            $storage_append_id = $request->input('storage_append_id');
+            $storage_append  = storage_append::where('storage_append_id',$storage_append_id)->first();
+            if(!$storage_append){
+                return response()->json(['err' => '0', 'msg' => '编辑采购单失败']);
+            }
+            if($storage_append->storage_append_status == 1 || $storage_append->storage_append_status == 2){
+                return response()->json(['err' => '0', 'msg' => '采购单已商品已入仓或采购单取消，无法修改']);
+            }
+            $storage_append->storage_append_single = $request->input('storage_append_single');
+            $storage_append->storage_append_status = 0;
+            $storage_append->storage_append_msg = $request->input('storage_append_msg');
+            $data  = $storage_append->save();
+            if(!$data){
+                return response()->json(['err' => '0', 'msg' => '编辑采购单失败']);
+            }
+            foreach ($goods_attr as $item){
+                if(isset($item['storage_append_data_id'])){
+                    $storage_append_data = storage_append_data::where('storage_append_data_id',$item['storage_append_data_id'])->first();
+                }else{
+                    $storage_append_data  = new storage_append_data();
+                }
+                $storage_append_data->storage_append_data_sku = substr($item['goods_sku'],0,4);
+                $storage_append_data->storage_append_data_status = 2;
+                $storage_append_data->storage_append_id = $storage_append_id;
+                $storage_append_data->storage_append_data_num = $item['num'];
+                $storage_append_data->storage_append_data_sku_attr = substr($item['goods_sku'],-6);
+                $storage_append_data->storage_append_kind_id = $item['goods_kind_id'];
+                $storage_append_datas = $storage_append_data->save();
+                if(!$storage_append_datas){
+                    return response()->json(['err' => '0', 'msg' => '编辑采购单失败']);
                 }
             }
-            return view('storage.add.edit_storage_append')->with(compact('product','storage_append_id','storage_append_data'));
-        }elseif($request->isMethod('post')){
-
+            return response()->json(['err' => '1', 'msg' => '编辑采购单成功']);
         }
     }
 
@@ -174,7 +228,9 @@ class StorageAddController extends Controller
                     $current_attrs = $skuSDK->get_attr_by_sku(substr($all_sku,-6));
                     $str = '';
                     foreach ($current_attrs as $attr) {
-                        $str .= $attr->kind_val_msg .',';
+                        if($attr){
+                            $str .= $attr->kind_val_msg .',';
+                        }
                     }
                     $arry['goods_kind_id'] = $goods_kind->goods_kind_id;
                     $arry['goods_attr'] = rtrim($str,',');
