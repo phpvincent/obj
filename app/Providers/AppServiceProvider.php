@@ -15,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
     {
        date_default_timezone_set('PRC');
 
-    //记录sql语句
-    /*    \DB::listen(
+ /*   //记录sql语句
+        \DB::listen(
             function ($sql) {
                 // $sql is an object with the properties:
                 //  sql: The query

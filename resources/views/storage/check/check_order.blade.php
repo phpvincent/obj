@@ -78,6 +78,7 @@
   </div>
 </div>
   <script type="text/html" id="use_button">
+      
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
                onclick="goods_show('新建供货单','{{url("admin/storage/add/add_goods")}}',2,600,510)">新建供货单</b>
@@ -134,6 +135,12 @@
   </div>
 </script>
 <script type="text/html" id="button" >
+   @{{# if(d.order_type=='待出仓'||d.order_type=='已扣货'){ }}
+       <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
+            <b style="color:green;"
+               onclick="goods_show('扣货信息','{{url("admin/storage/check/check_out").'?id='}}'+@{{d.order_id}} ,2,800,610)">扣货信息</b>
+        </button>
+       @{{# } }}
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">驳回</a>
 </script>
