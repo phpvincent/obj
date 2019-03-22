@@ -20,9 +20,10 @@
                   <label class="layui-form-label">补货单状态</label>
                   <div class="layui-input-block">
                       <select name="storage_addr" id="storage_addr" lay-verify="required">
-                          @foreach($stos as $item)
-                              <option @if($item->storage_id == $id) selected @endif value="{{$item->storage_id}}">{{$item->storage_name}}</option>
-                          @endforeach
+                          <option value="#">请选择</option>
+                          <option value="0">未补充到仓库</option>
+                          <option value="1">补充到仓库</option>
+                          <option value="2">补货取消</option>
                       </select>
                   </div>
               </div>
