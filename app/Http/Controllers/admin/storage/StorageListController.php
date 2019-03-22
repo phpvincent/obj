@@ -518,75 +518,69 @@ class StorageListController extends Controller
         return view('storage.check.check_order_data')->with(compact('storage_check'));
     }
     public function get_check_data(Request $request)
-    {
+    {   
+        $storage_check_id=$request->input('storage_check_id',\App\storage_check::orderBy('storage_check_time','desc')->first(['storage_check_id'])['storage_check_id']);
+        $storage_check_data_type=$request->input('storage_check_data_type','#');
         $search = trim($request->input('search'));
         //排序参数
-        $field = $request->input('field', 'order_return_time'); //排序字段
+        $field = $request->input('field', 'storage_check_data_order'); //排序字段
         $dsc = $request->input('order', 'desc'); //排序顺序
-        $start = ($page - 1) * $limit;
-        $orders = order::select('order.order_id','order.order_country', 'order.order_single_id','order.order_type','order.order_return_time','order.order_num','order.order_pay_type','admin.admin_show_name','goods.goods_blade_type')
-            ->leftjoin('goods','order.order_goods_id','goods.goods_id')
-            ->leftjoin('admin','order.order_admin_id','admin.admin_id')
-            ->where(function ($query) use ($request,$search,$goods_blade_type){
+        //$start = ($page - 1) * $limit;
+        $storage_check_data = \App\storage_check_data::select('storage_check_data.*','goods_kind.goods_kind_name','storage.storage_name')
+            ->leftjoin('goods_kind','storage_check_data.storage_check_data_sku','goods_kind.goods_kind_sku')
+            ->leftjoin('storage','storage_check_data.storage_abroad_id','storage.storage_id')
+            ->where(function ($query) use ($search,$storage_check_data_type){
                 if($search){
-                    $query->where('order.order_id','like','%'.$search.'%');
-                    $query->orWhere('order.order_single_id','like','%'.$search.'%');
-                    $query->orWhere('admin.admin_show_name','like','%'.$search.'%');
+                    $query->where('storage_check_data.storage_check_data_order','like','%'.$search.'%');
+                    $query->orWhere('storage_check_data_sku.storage_check_data_sku','like','%'.$search.'%');
+                    $query->orWhere('goods_kind.goods_kind_name','like','%'.$search.'%');
+                    $query->orWhere('storage.storage_name','like','%'.$search.'%');
                 }
-                if($request->has('start')&&$request->input('start')!=null){
-                    $query->whereBetween('order_return_time',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
-                }
-                if($goods_blade_type!='#'){
-                    $query->whereIn('goods.goods_blade_type',$goods_blade_type);
-                }
-                if($request->has('order_select_type')&&$request->input('order_select_type')!='#'){
-                    $query->where('order.order_type',$request->input('order_select_type'));
+                if($storage_check_data_type!='#'){
+                    $query->where('storage_check_data.storage_check_data_type',$storage_check_data_type);
                 }
             })
-            ->where(function($query){
-                $query->where('order.order_type',1);
-                $query->orWhere('order.order_type',3);
+            ->where(function($query)use($storage_check_id){
+                $query->where('storage_check_data.storage_primary_id',$storage_check_id);
             })
-            ->where('order.is_del','0')
             ->orderBy($field, $dsc)
-            ->offset($start)
-            ->limit($limit)
             ->get();
-        $count=order::select('order.order_id', 'order.order_single_id','order.order_type','order.order_return_time','order.order_num','order.order_pay_type','admin.admin_show_name','goods.goods_blade_type')
-            ->leftjoin('goods','order.order_goods_id','goods.goods_id')
-            ->leftjoin('admin','order.order_admin_id','admin.admin_id')
-            ->where(function ($query) use ($request,$search,$goods_blade_type){
+        $count=\App\storage_check_data::select('storage_check_data.*','goods_kind.goods_kind_name','storage.storage_name')
+            ->leftjoin('goods_kind','storage_check_data.storage_check_data_sku','goods_kind.goods_kind_sku')
+            ->leftjoin('storage','storage_check_data.storage_abroad_id','storage.storage_id')
+            ->where(function ($query) use ($search,$storage_check_data_type){
                 if($search){
-                    $query->where('order.order_id','like','%'.$search.'%');
-                    $query->orWhere('order.order_single_id','like','%'.$search.'%');
-                    $query->orWhere('admin.admin_show_name','like','%'.$search.'%');
+                    $query->where('storage_check_data.storage_check_data_order','like','%'.$search.'%');
+                    $query->orWhere('storage_check_data_sku.storage_check_data_sku','like','%'.$search.'%');
+                    $query->orWhere('goods_kind.goods_kind_name','like','%'.$search.'%');
+                    $query->orWhere('storage.storage_name','like','%'.$search.'%');
                 }
-                if($request->has('start')&&$request->input('start')!=null){
-                    $query->whereBetween('order_return_time',[explode(' - ',$request->input('start'))[0],explode(' - ',$request->input('start'))[1]]);
-                }
-                if($goods_blade_type!='#'){
-                    $query->whereIn('goods.goods_blade_type',$goods_blade_type);
-                }
-                if($request->has('order_select_type')&&$request->input('order_select_type')!='#'){
-                    $query->where('order.order_type',$request->input('order_select_type'));
+                if($storage_check_data_type!='#'){
+                    $query->where('storage_check_data.storage_check_data_type',$storage_check_data_type);
                 }
             })
-            ->where(function($query){
-                $query->where('order.order_type',1);
-                $query->orWhere('order.order_type',3);
+            ->where(function($query)use($storage_check_id){
+                $query->where('storage_check_data.storage_primary_id',$storage_check_id);
             })
-            ->where('order.is_del','0')
             ->count();
         if($count > 0){
-            foreach ($orders as &$order){
-                $order->goods_blade_type = goods::get_blade_currency($order->goods_blade_type,$order->order_country);
-                $order->is_local = $order->is_local === 1 ? '本地仓库' : '海外仓库';
-                $order->order_type = $order->order_type == 1 ? '待扣货': '待出仓';
-                $order->order_pay_type = $order->order_pay_type == 0 ? '货到付款' : 'paypal支付';
+            foreach ($storage_check_data as &$data){
+               if($data->storage_check_data_type==1){
+                $data->storage_check_data_type='从海外仓拆分发货';
+                $data->storage_name='<span style="color:brown;">'.$data->storage_name.'</span>';
+               }elseif($data->storage_check_data_type==2){
+                $data->storage_check_data_type='从海外仓不拆分发货';
+                $data->storage_name='<span style="color:brown;">'.$data->storage_name.'</span>';
+               }elseif($data->storage_check_data_type==3){
+                $data->storage_check_data_type='从本地仓发货';
+                $data->storage_name='<span style="color:green;">'.$data->storage_name.'</span>';
+               }elseif($data->storage_check_data_type==4){
+                $data->storage_check_data_type='缺货';
+                $data->storage_name='<span style="color:red;">缺货</span>';
+               }
             }
         }
-
-        $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $orders];
+        $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $storage_check_data];
         return response()->json($arr);
     }
     /**
@@ -595,10 +589,19 @@ class StorageListController extends Controller
      */
     public function reload_storage_check(){
         //数据校准
-        $msg=\App\storage_check::storage_center();
+        $msg=\App\storage_check::storage_center(true,\Auth::user()->admin_id);
         if(!$msg){
            return response()->json(['err' => 0, 'str' => '数据校准失败！系统出现错误或校准操作正在进行中']);
         }
         return response()->json(['err' => 1, 'str' => '数据校准成功！']);
+    }
+    /**
+     * 数据校准记录
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function check_list(Request $request)
+    {
+        return view('storage.check.check_list');
     }
 }

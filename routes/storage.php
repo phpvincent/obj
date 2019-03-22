@@ -28,6 +28,7 @@
             Route::get('/list/check_order','admin\storage\StorageListController@check_order');//仓储数据校准
             Route::get('/list/get_check_data','admin\storage\StorageListController@get_check_data');//仓储数据校准
             Route::post('/list/reload_storage_check','admin\storage\StorageListController@reload_storage_check');//仓储数据校准
+            Route::post('/check/list','admin\storage\StorageListController@check_list');//仓储数据校准
             //补货
             Route::any('/add','admin\storage\StorageAddController@add');//购置单列表
             Route::any('/add/add_goods','admin\storage\StorageAddController@add_goods');//新增购置单

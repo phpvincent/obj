@@ -14,7 +14,7 @@ class storage_check extends Model
      * @param  boolean $type [默认为校准，false为扣货操作]
      * @return [type]        [description]
      */
-    public static function storage_center($type=true)
+    public static function storage_center($type=true,$user=0)
     {
     	//检查锁状态
     	$storage_check_option=\App\storage_check_option::where('storage_check_option','1')->first();
@@ -39,7 +39,12 @@ class storage_check extends Model
 	        $storage_check=new \App\storage_check;
 	        $storage_check->storage_check_time=date('Y-m-d H:i:s',time());
 	        $storage_check->storage_check_string=time().mt_rand(100000,999999);
-	        $storage_check->storage_check_admin=\Auth::user()->admin_id;
+	        $storage_check->storage_check_admin=$user;
+	        if($user==0){
+	        	$storage_check->storage_check_type=0;
+	        }else{
+	        	$storage_check->storage_check_type=1;
+	        }
 	        $storage_check->storage_check_reload_time=date('Y-m-d H:i:s',time()+180);
 	        $storage_check->save(); 
 	        //记录各属性对应数目数据

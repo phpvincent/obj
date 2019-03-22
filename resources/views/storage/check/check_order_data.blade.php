@@ -7,17 +7,30 @@
    	<p class="message-text"></p>
 		<ul >
 			<li class="layui-text"><span style="color:red;width: 50%;">校对时间：</span>{{$storage_check->storage_check_time}}  <span style="color:red;width: 50%;">校准单编号：</span>{{$storage_check->storage_check_string}}</li>
-			<li class="layui-text"><span style="color:red;width: 50%;">校对类型：</span>@if($storage_check->storage_check_type==0) 系统定时校对 @else 手动发起校对 @endif<span style="color:red;width: 50%;"> 校对发起者：</span>@if($storage_check->storage_check_type==0) 系统 @else \App\admin::where('admin_id',$storage_check->storage_check_admin)->first()['admin_real_name'] @endif</li>
+			<li class="layui-text"><span style="color:red;width: 50%;">校对类型：</span>@if($storage_check->storage_check_type==0) 系统定时校对 @else 手动发起校对 @endif<span style="color:red;width: 50%;"> 校对发起者：</span>@if($storage_check->storage_check_type==0) 系统 @else {{\App\admin::where('admin_id',$storage_check->storage_check_admin)->first()['admin_show_name']}} @endif</li>
 
 		</ul>
 	</div>
     <!-- 搜索控件 -->
   <div class="layui-form layui-card-header layuiadmin-card-header-auto">
           <div class="layui-form-item">
+          	<div class="layui-inline">
+                  <label class="layui-form-label">订单状态</label>
+                  <div class="layui-input-block">
+                      <select name="storage_check_data_type" id="storage_check_data_type" lay-verify="required">
+                          <option value="#">所有</option>
+                          <option value="1">海外仓拆分发货</option>
+                          <option value="2">海外仓不拆分发货</option>
+                          <option value="3">本地仓出货</option>
+                          <option value="4">货物不足无法发货</option>
+                      </select>
+                  </div>
+              </div>
               <div class="layui-inline test-table-reload-btn">
-                  <label>根据订单编号检索:</label>
+                  <label>检索:</label>
+                  <input type="hidden" name="storage_check_id" id="storage_check_id" value="{{$storage_check->storage_check_id}}">
                   <div class="layui-inline">
-                      <input class="layui-input" name="id" id="test-table-demoReload" autocomplete="off">
+                      <input class="layui-input" name="id" id="check-table-demoReload" autocomplete="off">
                   </div>
                   <button class="layui-btn" data-type="reload">搜索</button>
                   <button class="layui-btn" id="reload_data">更新校准数据</button>
@@ -27,7 +40,7 @@
    
   <!-- 表格元素 -->
     <div class="layui-card-body">
-      <table id="order_list" lay-filter='order-listen'></table>
+      <table id="check_data" lay-filter='order-listen'></table>
     </div>
 
   </div>
@@ -39,7 +52,7 @@
         </button>
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;" >
         	<b style="color:green;"
-               onclick="locationn.reload()">刷新数据</b>
+               onclick="location.reload()">刷新数据</b>
         </button>
   </script>
 
@@ -59,10 +72,10 @@
     var table = layui.table;
     var $ =layui.jquery;
     var options={
-      elem: '#order_list'
-      ,url: '/admin/storage/list/order_data' //数据接口
-      ,page: true //开启分页
-      ,limits:[10,20,30,40,50,60,70,80,90,999999999]
+      elem: '#check_data'
+      ,url: '/admin/storage/list/get_check_data' //数据接口
+      ,page: false //开启分页
+
       ,toolbar:'#check_data_button'
       ,defaultToolbar: ['filter','exports', 'print']
       ,text: {
@@ -74,10 +87,9 @@
         ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
       }
       ,where: {
-        search:$('#test-table-demoReload').val(),
-        goods_blade_type:$('#goods_blade_type').val(),
-        order_select_type:$('#order_select_type').val(),
-        start:$('#test-laydate-start').val(),
+        search:$('#check-table-demoReload').val(),
+        storage_check_id:$('#storage_check_id').val(),
+        storage_check_data_type:$('#storage_check_data_type').val(),
       }
       ,cols: [[ //表头
         {field: 'storage_check_data_order', title: '订单号', sort: true, fixed: 'left'}
@@ -110,51 +122,8 @@
        //搜索刷新数据
        var $ = layui.$;
 
-       //table事件监听
-       table.on("tool(order-listen)",function(obj){
-           var data = obj.data; //获得当前行数据
-           var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-           var tr = obj.tr; //获得当前行 tr 的DOM对象
-           if(layEvent=='detail'){
-                layer.open({
-                  type:2,
-                  offset:'rt',
-                  title:'订单信息',
-                  area:[400,600],
-                  content:"{{url('/admin/order/getaddr?id=')}}"+data.order_id,
-                });
-
-           }else if(layEvent=='del'){
-               layer.confirm('真的驳回此订单么', function(index){
-                   layer.close(index);
-                   //向服务端发送删除指令
-                   $.ajax({
-                       url:"{{url('admin/storage/list/back_order')}}",
-                       type:'get',
-                       data:{id:data.order_id},
-                       datatype:'json',
-                       success:function(msg){
-                           if(msg['err']==1){ 
-                               obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                               layer.close(index);
-                               layer.msg(msg.str,{
-                                   time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                               }, function(){
-                                   parent.layui.admin.events.refresh();
-                               });
-                           }else if(msg['err']==0){
-                               layer.close(index);
-                               layer.msg(msg.str);
-                           }else{
-                               layer.close(index);
-                               layer.msg('驳回失败！');
-                           }
-                       }
-                   });
-               });
-           }
-       })
-    //model 模态框
+       
+    //切换为数据校准记录栏
     check_data=function check_data(){
      parent.parent.layui.index.openTabsPage('/admin/storage/check/list', '校准数据记录');
     }
@@ -162,15 +131,11 @@
      var $ = layui.$, active = {
                 reload: function(){
                     //执行重载
-                    table.reload('order_list',{
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                        ,where: {
-                            search:$('#test-table-demoReload').val(),
-                            goods_blade_type:$('#goods_blade_type').val(),
-                            order_select_type:$('#order_select_type').val(),
-                            start:$('#test-laydate-start').val(),
+                    table.reload('check_data',{
+                        where: {
+                            search:$('#check-table-demoReload').val(),
+                            storage_check_id:$('#storage_check_id').val(),
+                            storage_check_data_type:$('#storage_check_data_type').val(),
                                 }
                             });
                         }
@@ -191,9 +156,10 @@
                            if(msg['err']==1){ 
                                layer.close(index);
                                layer.msg(msg.str,{
-                                   time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                   time: 1500 //1.5秒关闭（如果不配置，默认是3秒）
                                }, function(){
-                                   parent.layui.admin.events.refresh();
+                               		location.reload();
+                                   //parent.layui.admin.events.refresh();
                                });
                            }else if(msg['err']==0){
                                layer.close(index);
