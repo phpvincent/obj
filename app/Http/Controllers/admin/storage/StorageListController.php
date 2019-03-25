@@ -89,6 +89,9 @@ class StorageListController extends Controller
             $storage->template_type_primary_id = $request->input('template_id');
             $storage->storage_name = $request->input('storage_name');
             $data = $storage->save();
+            $ip = $request->getClientIp();
+            //添加补货单日志
+            operation_log($ip,'新增仓库,仓库名称：'.$request->input('storage_name'),json_encode($request->all()));
             if ($data) {
                 return response()->json(['err' => '1', 'msg' => '新增仓库成功']);
             }
@@ -125,6 +128,9 @@ class StorageListController extends Controller
             $storage->template_type_primary_id = $request->input('template_id');
             $storage->storage_name = $request->input('storage_name');
             $data = $storage->save();
+            $ip = $request->getClientIp();
+            //添加补货单日志
+            operation_log($ip,'编辑仓库,仓库名称：'.$request->input('storage_name'),json_encode($request->all()));
             if ($data) {
                 return response()->json(['err' => '1', 'msg' => '修改仓库信息成功']);
             }
@@ -135,6 +141,9 @@ class StorageListController extends Controller
     public function del_storage(Request $request)
     {
     	$msg=storage::where('storage_id',$request->input('id',0))->update(['storage_status'=>0]);
+        $ip = $request->getClientIp();
+        //添加补货单日志
+        operation_log($ip,'禁用仓库,仓库ID：'.$request->input('id',0));
     	if($msg){
     		\Log::notice($request->getClientIp().'禁用了仓库:'.$request->input('id'));
     		return response()->json(['err'=>1,'str'=>'仓库禁用成功！']);
@@ -313,7 +322,9 @@ class StorageListController extends Controller
                         ->where('storage_primary_id', $storage_id)
                         ->update(['num'=>$num]);
                 }
-
+                $ip = $request->getClientIp();
+                //添加补货单日志
+                operation_log($ip,'编辑产品库存数量,仓库名称：'.$storage->storage_name);
                 if($products){
                     return response()->json(['err'=>1,'str'=>'修改产品成功！']);
                 }else{
@@ -386,7 +397,9 @@ class StorageListController extends Controller
             }else{
                 $storage_goods = storage_goods_abroad::where('storage_primary_id',$storage_id)->where('goods_kind_id',$id)->delete();
             }
-
+            $ip = $request->getClientIp();
+            //添加补货单日志
+            operation_log($ip,'删除仓库中产品,仓库名称：'.$storage->storage_name);
             if($storage_goods){
                 return response()->json(['err'=>1,'str'=>'删除产品成功！']);
             }else{
