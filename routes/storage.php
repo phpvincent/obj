@@ -22,8 +22,9 @@
                   Route::post('/list/storage_stock_show','admin\storage\StorageListController@storage_stock_show');//商品库存详情
                   Route::any('/list/product_data_smail','admin\storage\StorageListController@product_data_smail');//仓库数据小表
                   Route::get('/list/del_storage_stock','admin\storage\StorageListController@del_storage_stock');//删除商品库存
-                  Route::post('/list/check_list_data','admin\storage\StorageListController@check_list_data');//删除商品库存
-
+                  Route::post('/list/check_list_data','admin\storage\StorageListController@check_list_data');//获取校准记录
+                  Route::post('/list/check_list_data_info','admin\storage\StorageListController@check_list_data_info');//获取校准数据
+                  
                   //数据校准
                   Route::get('/check','admin\storage\StorageListController@check');
                   Route::get('/list/order_data','admin\storage\StorageListController@order_data');//订单列表
@@ -32,9 +33,11 @@
                   Route::get('/list/get_check_data','admin\storage\StorageListController@get_check_data');//仓储数据校准
                   Route::post('/list/reload_storage_check','admin\storage\StorageListController@reload_storage_check');//仓储数据校准
                   Route::get('/check/list','admin\storage\StorageListController@check_list');//仓储数据校准
-
+                  //扣货
+                  Route::post('/storage_out','admin\storage\StorageListController@storage_out');//仓储扣货
                   //补货
                   Route::any('/add','admin\storage\StorageAddController@add');//购置单列表
+                  Route::any('/get_add_num','admin\storage\StorageAddController@get_add_num');//购置单列表
                   Route::any('/add/add_goods','admin\storage\StorageAddController@add_goods');//新增购置单
                   Route::any('add/up_storage_append','admin\storage\StorageAddController@up_storage_append');//修改采购单
                   Route::post('/add/get_goods_config','admin\storage\StorageAddController@get_goods_config');//购置单获取添加产品属性

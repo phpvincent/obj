@@ -362,4 +362,12 @@ class StorageAddController extends Controller
         }
         return response()->json(['err' => 0, "msg" => "修改数据失败"]);
     }
+    /**
+     * 获取正在运货中的所有补货单
+     */
+    public function get_add_num(Request $request)
+    {
+        $append=\App\storage_append::where('storage_append_status','0')->count();
+        return $append;
+    }
 }

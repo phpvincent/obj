@@ -602,11 +602,23 @@ class StorageListController extends Controller
      */
     public function reload_storage_check(){
         //数据校准
-        $msg=\App\storage_check::storage_center(false,\Auth::user()->admin_id);
+        $msg=\App\storage_check::storage_center(true,\Auth::user()->admin_id);
         if(!$msg){
            return response()->json(['err' => 0, 'str' => '数据校准失败！系统出现错误或校准操作正在进行中']);
         }
         return response()->json(['err' => 1, 'str' => '数据校准成功！']);
+    }
+    /**
+     * 仓储扣货
+     * @return [type] [description]
+     */
+    public function storage_out(){
+        //数据校准
+        $msg=\App\storage_check::storage_center(false,\Auth::user()->admin_id);
+        if(!$msg){
+           return response()->json(['err' => 0, 'str' => '订单扣货失败！系统出现错误或扣货操作正在进行中']);
+        }
+        return response()->json(['err' => 1, 'str' => '订单扣货成功！']);
     }
     /**
      * 数据校准记录
@@ -673,14 +685,80 @@ class StorageListController extends Controller
                      $v->storage_check_type='人工发起校对';
                 }
                 if($v->storage_check_is_out==0){
-                    $v->storage_check_is_out='仅校对';
+                    $v->storage_check_is_out='数据校对';
                 }else{
-                    $v->storage_check_is_out='校对并扣货';
+                    $v->storage_check_is_out='<span style="color:red;">仓储扣货</span>';
                 }
             }
         }
 
         $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $storage_check];
+        return response()->json($arr);
+    }
+    public function check_list_data_info(Request $request)
+    {
+        $storage_check_id=$request->input('storage_check_id',\App\storage_check::orderBy('storage_check_time','desc')->first(['storage_check_id'])['storage_check_id']);
+        $storage_check_data_type=$request->input('storage_check_data_type','#');
+        $search = trim($request->input('search'));
+        //排序参数
+        $field = $request->input('field', 'storage_check_data_order'); //排序字段
+        $dsc = $request->input('order', 'desc'); //排序顺序
+        //$start = ($page - 1) * $limit;
+        $storage_check_data = \App\storage_check_data::select('storage_check_data.*','goods_kind.goods_kind_name','storage.storage_name')
+            ->leftjoin('goods_kind','storage_check_data.storage_check_data_sku','goods_kind.goods_kind_sku')
+            ->leftjoin('storage','storage_check_data.storage_abroad_id','storage.storage_id')
+            ->where(function ($query) use ($search,$storage_check_data_type){
+                if($search){
+                    $query->where('storage_check_data.storage_check_data_order','like','%'.$search.'%');
+                    $query->orWhere('storage_check_data_sku.storage_check_data_sku','like','%'.$search.'%');
+                    $query->orWhere('goods_kind.goods_kind_name','like','%'.$search.'%');
+                    $query->orWhere('storage.storage_name','like','%'.$search.'%');
+                }
+                if($storage_check_data_type!='#'){
+                    $query->where('storage_check_data.storage_check_data_type',$storage_check_data_type);
+                }
+            })
+            ->where(function($query)use($storage_check_id){
+                $query->where('storage_check_data.storage_primary_id',$storage_check_id);
+            })
+            ->orderBy($field, $dsc)
+            ->get();
+        $count=\App\storage_check_data::select('storage_check_data.*','goods_kind.goods_kind_name','storage.storage_name')
+            ->leftjoin('goods_kind','storage_check_data.storage_check_data_sku','goods_kind.goods_kind_sku')
+            ->leftjoin('storage','storage_check_data.storage_abroad_id','storage.storage_id')
+            ->where(function ($query) use ($search,$storage_check_data_type){
+                if($search){
+                    $query->where('storage_check_data.storage_check_data_order','like','%'.$search.'%');
+                    $query->orWhere('storage_check_data_sku.storage_check_data_sku','like','%'.$search.'%');
+                    $query->orWhere('goods_kind.goods_kind_name','like','%'.$search.'%');
+                    $query->orWhere('storage.storage_name','like','%'.$search.'%');
+                }
+                if($storage_check_data_type!='#'){
+                    $query->where('storage_check_data.storage_check_data_type',$storage_check_data_type);
+                }
+            })
+            ->where(function($query)use($storage_check_id){
+                $query->where('storage_check_data.storage_primary_id',$storage_check_id);
+            })
+            ->count();
+        if($count > 0){
+            foreach ($storage_check_data as &$data){
+               if($data->storage_check_data_type==1){
+                $data->storage_check_data_type='从海外仓拆分发货';
+                $data->storage_name='<span style="color:brown;">'.$data->storage_name.'</span>';
+               }elseif($data->storage_check_data_type==2){
+                $data->storage_check_data_type='从海外仓不拆分发货';
+                $data->storage_name='<span style="color:brown;">'.$data->storage_name.'</span>';
+               }elseif($data->storage_check_data_type==3){
+                $data->storage_check_data_type='从本地仓发货';
+                $data->storage_name='<span style="color:green;">本地仓</span>';
+               }elseif($data->storage_check_data_type==4){
+                $data->storage_check_data_type='缺货';
+                $data->storage_name='<span style="color:red;">缺货</span>';
+               }
+            }
+        }
+        $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $storage_check_data];
         return response()->json($arr);
     }
 }
