@@ -56,7 +56,7 @@
                       <select name="order_select_type" id="order_select_type" lay-verify="required">
                           <option value="#">所有</option>
                           <option value="1">待扣货</option>
-                          <option value="3">待发货</option>
+                          <option value="3">待出仓</option>
                       </select>
                   </div>
               </div>
@@ -86,6 +86,14 @@
         <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
             <b style="color:green;"
                onclick="goods_show('库存校准','{{url("admin/storage/list/check_order")}}',2,1000,510)">库存校准</b>
+        </button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" style="border-radius: 0;">
+            <b style="color:yellow;"
+               onclick="storage_out()">订单扣货</b>
+        </button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" style="border-radius: 0;">
+            <b style="color:yellow;"
+               onclick="storage_split()">订单出库</b>
         </button>
   </script>
   <script type="text/html" id="area">
@@ -311,6 +319,44 @@
                         content: url
                   });
       }
+    }
+    storage_out=function storage_out (){
+      add_num=$.ajax({url:"{{url('admin/storage/get_add_num')}}",async:false,success:function(msg){
+         layer.confirm('当前有'+msg+'个补货单尚未完成入库操作，确定要完成扣货？', { btn: ['前往确认补货单','确定']},function(){
+              parent.parent.layui.index.openTabsPage('/admin/storage/add', '补货处理');
+         },function(){
+          var index = layer.load();
+              $.ajax({
+                url:"{{url('admin/storage/storage_out')}}",
+                             type:'post',
+                             headers:{'X-CSRF-TOKEN':'{{csrf_token()}}'},
+                             datatype:'json',
+                             success:function(msg){
+                                 if(msg['err']==1){ 
+                                     layer.close(index);
+                                     layer.msg(msg.str,{
+                                         time: 1500 //1.5秒关闭（如果不配置，默认是3秒）
+                                     }, function(){
+                                        location.reload();
+                                         //parent.layui.admin.events.refresh();
+                                     });
+                                 }else if(msg['err']==0){
+                                     layer.close(index);
+                                     layer.msg(msg.str);
+                                 }else{
+                                     layer.close(index);
+                                     layer.msg('扣除失败！');
+                                 }
+                             }
+              })  
+         })
+      },error:function(){
+        layer.msg('数据拉取失败，请稍后重试！');
+      }});
+    }
+    //出库
+    storage_split=function storage_split(){
+      goods_show('{{url("admin/storage/storage_split")}}')
     }
 
      var $ = layui.$, active = {
