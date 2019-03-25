@@ -89,7 +89,11 @@
         </button>
         <button class="layui-btn layui-btn-danger layui-btn-sm" style="border-radius: 0;">
             <b style="color:yellow;"
-               onclick="storage_cut()">货物扣除</b>
+               onclick="storage_out()">订单扣货</b>
+        </button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" style="border-radius: 0;">
+            <b style="color:yellow;"
+               onclick="storage_split()">订单出库</b>
         </button>
   </script>
   <script type="text/html" id="area">
@@ -316,11 +320,12 @@
                   });
       }
     }
-    storage_cut=function storage_cut (){
+    storage_out=function storage_out (){
       add_num=$.ajax({url:"{{url('admin/storage/get_add_num')}}",async:false,success:function(msg){
          layer.confirm('当前有'+msg+'个补货单尚未完成入库操作，确定要完成扣货？', { btn: ['前往确认补货单','确定']},function(){
               parent.parent.layui.index.openTabsPage('/admin/storage/add', '补货处理');
          },function(){
+          var index = layer.load();
               $.ajax({
                 url:"{{url('admin/storage/storage_out')}}",
                              type:'post',
@@ -348,6 +353,10 @@
       },error:function(){
         layer.msg('数据拉取失败，请稍后重试！');
       }});
+    }
+    //出库
+    storage_split=function storage_split(){
+      goods_show('{{url("admin/storage/storage_split")}}')
     }
 
      var $ = layui.$, active = {

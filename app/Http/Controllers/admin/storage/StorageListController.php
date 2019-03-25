@@ -629,6 +629,11 @@ class StorageListController extends Controller
     {
         return view('storage.check.check_list');
     }
+    /**
+     * 校准数据记录数据接口
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function check_list_data(Request $request)
     {
         $page = $request->input('page', 1);
@@ -653,6 +658,9 @@ class StorageListController extends Controller
                 if($storage_check_is_out!='#'){
                     $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
                 }
+                if($request->has('storage_check_type')&&$request->input('storage_check_type')!='#'){
+                    $query->where('srorage_cehck.storage_check_type',$request->input('storage_check_type'));
+                }
             })
             ->orderBy($field, $dsc)
             ->offset($start)
@@ -671,6 +679,9 @@ class StorageListController extends Controller
                 }
                 if($storage_check_is_out!='#'){
                     $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
+                }
+                if($request->has('storage_check_type')&&$request->input('storage_check_type')!='#'){
+                    $query->where('srorage_cehck.storage_check_type',$request->input('storage_check_type'));
                 }
             })
             ->count();
@@ -695,6 +706,11 @@ class StorageListController extends Controller
         $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $storage_check];
         return response()->json($arr);
     }
+    /**
+     * 校准记录详细数据接口
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function check_list_data_info(Request $request)
     {
         $storage_check_id=$request->input('storage_check_id',\App\storage_check::orderBy('storage_check_time','desc')->first(['storage_check_id'])['storage_check_id']);
@@ -760,5 +776,31 @@ class StorageListController extends Controller
         }
         $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $storage_check_data];
         return response()->json($arr);
+    }
+    /**
+     * 校准记录详细数据下单个订单扣货信息接口
+     */
+    public function check_order_info(Request $request)
+    {
+        $storage_check_id=$request->input('storage_check_id');
+        $order_id=$request->input('order_id');
+        $storage_check_data=\App\storage_check::select('storage_check_data.*','storage_check_info.*')
+                            ->leftjoin('storage_check_data','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                            ->leftjoin('storage_check_info','storage_check_data.storage_check_data_id','storage_check_info.storage_check_data_id')
+                            ->where('storage_check.storage_check_id',$storage_check_id)
+                            ->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
+                            ->where('storage_check_data.storage_check_data_order',$order_id)
+                            ->get();
+        return response()->json($storage_check_data);
+        //return view('storage.check.check_out')->with(compact('storage_check_data'));
+    }
+    /**
+     * 货物出库视图
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function storage_split(Request $request)
+    {
+        return view('storage.check.storage_split');
     }
 }
