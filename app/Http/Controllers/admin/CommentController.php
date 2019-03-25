@@ -243,6 +243,8 @@ class CommentController extends Controller
 				   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
 		         }
    	}else{
+   	    $comment_goods_num =  comment::where('com_goods_id',$request->input('goods_id'))->count();
+        $times = rand(7200,180000);
    		$comment=new comment;
    		$comment->com_name=$request->input('com_name');
    		$comment->com_phone=$request->input('com_phone');
@@ -251,7 +253,7 @@ class CommentController extends Controller
    		$comment->com_star=$request->input('com_star');
    		$comment->com_isshow=$request->input('com_isshow');
    		$comment->com_goods_id=$request->input('goods_id');
-   		$comment->com_time=$request->input('com_time');
+   		$comment->com_time=date('Y-m-d H:i:s',time()-$times*($comment_goods_num+1));
    		$comment->com_isuser='0';
    			$msg=$comment->save();
    		if($request->file('com_img')!=null){
