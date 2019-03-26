@@ -136,7 +136,7 @@
                     <span>@{{d.storage_append_data_attr}}</span>
                 </td>
                 <td>
-                    <input type="hidden" readonly name="goods_sku" value="@{{d.storage_append_data_sku}}" class="layui-input">
+                    <input type="hidden" readonly name="goods_sku" value="@{{d.goods_sku}}" class="layui-input">
                     <span>@{{d.goods_sku}}</span>
                 </td>
                 <td>
