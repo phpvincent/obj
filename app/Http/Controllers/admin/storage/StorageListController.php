@@ -803,4 +803,71 @@ class StorageListController extends Controller
     {
         return view('storage.check.storage_split');
     }
+    /**
+     * 货物出仓接口
+     */
+    public function out_data(Request $request){
+        if($request->isMethod('get')){
+            $page = $request->input('page', 1);
+            $limit = $request->input('limit', 10);
+            $order_blade_type=$request->input('order_blade_type','#');
+            $search = trim($request->input('out_search'));
+            //排序参数
+            $field = $request->input('field', 'order_id'); //排序字段
+            $dsc = $request->input('order', 'desc'); //排序顺序
+            $start = ($page - 1) * $limit;
+            $orders = \App\order::select('order.order_id','order.order_single_id','goods.goods_blade_type','goods_kind.goods_kind_name','goods_kind.goods_kind_sku','order.order_country')
+                ->leftjoin('goods','order.order_goods_id','goods.goods_id')
+                ->leftjoin('goods_kind','goods.goods_kind_id','goods_kind.goods_kind_id')
+                ->where(function ($query) use ($search,$order_blade_type){
+                    if($search){
+                        $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        $query->where('goods_kind.goods_kind_sku','like','%'.$search.'%');
+                        $query->orWhere('order.order_id','like','%'.$search.'%');
+                        $query->orWhere('order.order_single_id','like','%'.$search.'%');
+                    }
+                    if($order_blade_type!='#'){
+                        $query->where('goods.goods_blade_type',$order_blade_type);
+                    }
+                })
+                ->where('order.order_type','3')
+                ->where('order.is_del','0')
+                ->orderBy($field, $dsc)
+                ->offset($start)
+                ->limit($limit)
+                ->get();
+            $count=\App\order::select('order.order_id','order.order_single_id','goods.goods_blade_type','goods_kind.goods_kind_name','goods_kind.goods_kind_sku')
+                ->leftjoin('goods','order.order_goods_id','goods.goods_id')
+                ->leftjoin('goods_kind','goods.goods_kind_id','goods_kind.goods_kind_id')
+                ->where(function ($query) use ($search,$order_blade_type){
+                    if($search){
+                        $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        $query->where('goods_kind.goods_kind_sku','like','%'.$search.'%');
+                        $query->orWhere('order.order_id','like','%'.$search.'%');
+                        $query->orWhere('order.order_single_id','like','%'.$search.'%');
+                    }
+                    if($order_blade_type!='#'){
+                        $query->where('goods.goods_blade_type',$order_blade_type);
+                    }
+                })
+                ->where('order.order_type','3')
+                ->where('order.is_del','0')
+                ->count();
+            if($count > 0){
+                foreach ($orders as &$data){
+                  $data->goods_blade_type=\App\goods::get_blade_currency($data->goods_blade_type,$data->order_country);
+                }
+            }
+            $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $orders];
+            return response()->json($arr);
+        }elseif($request->isMethod('post')){
+            if($request->input('ids',null)!=null){
+                $msg=\App\order::whereIn('order_id',$request->input('ids'))->update(['order_type'=>'4']);
+            }
+            if(!isset($msg)||$msg==false){
+                  return response()->json(['err' => 0, 'str' => '订单出库失败！']);
+            }
+            return response()->json(['err' => 1, 'str' => '订单出库成功！']);
+        }
+    }
 }

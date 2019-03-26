@@ -91,8 +91,8 @@
             <b style="color:yellow;"
                onclick="storage_out()">订单扣货</b>
         </button>
-        <button class="layui-btn layui-btn-danger layui-btn-sm" style="border-radius: 0;">
-            <b style="color:yellow;"
+        <button class="layui-btn layui-btn-warm layui-btn-sm" style="border-radius: 0;">
+            <b style="color:red;"
                onclick="storage_split()">订单出库</b>
         </button>
   </script>
@@ -356,7 +356,7 @@
     }
     //出库
     storage_split=function storage_split(){
-      goods_show('{{url("admin/storage/storage_split")}}')
+      goods_show('货物出库','{{url("admin/storage/storage_split")}}',2,700,600);
     }
 
      var $ = layui.$, active = {
