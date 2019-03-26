@@ -807,7 +807,7 @@ class StorageListController extends Controller
                             ->leftjoin('storage_check_data','storage_check.storage_check_id','storage_check_data.storage_primary_id')
                             ->leftjoin('storage_check_info','storage_check_data.storage_check_data_id','storage_check_info.storage_check_data_id')
                             ->where('storage_check.storage_check_id',$storage_check_id)
-                            ->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
+                            //->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
                             ->where('storage_check_data.storage_check_data_order',$order_id)
                             ->get();
         return response()->json($storage_check_data);
@@ -888,5 +888,9 @@ class StorageListController extends Controller
             }
             return response()->json(['err' => 1, 'str' => '订单出库成功！']);
         }
+    }
+    public function data_less(Request $request)
+    {
+        $storage_check_id=$request->input('storage_check_id');
     }
 }
