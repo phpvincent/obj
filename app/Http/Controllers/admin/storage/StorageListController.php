@@ -678,7 +678,7 @@ class StorageListController extends Controller
                     $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
                 }
                 if($request->has('storage_check_type')&&$request->input('storage_check_type')!='#'){
-                    $query->where('srorage_cehck.storage_check_type',$request->input('storage_check_type'));
+                    $query->where('storage_check.storage_check_type',$request->input('storage_check_type'));
                 }
             })
             ->orderBy($field, $dsc)
@@ -700,7 +700,7 @@ class StorageListController extends Controller
                     $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
                 }
                 if($request->has('storage_check_type')&&$request->input('storage_check_type')!='#'){
-                    $query->where('srorage_cehck.storage_check_type',$request->input('storage_check_type'));
+                    $query->where('storage_check.storage_check_type',$request->input('storage_check_type'));
                 }
             })
             ->count();
@@ -932,4 +932,7 @@ class StorageListController extends Controller
             $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $less];
             return response()->json($arr);
     }
+    /**
+     * 缺货单导出
+     */
 }
