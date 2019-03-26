@@ -182,6 +182,7 @@ class StorageListController extends Controller
 
         $id = $request->input('id', storage::where('is_local',1)->first()['storage_id']);
         $storage = storage::where('storage_id', $id)->first();
+        $count = 0;
         if ($storage) {
             if ($storage->is_local == 1) { //本地仓库
                 $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
@@ -197,9 +198,17 @@ class StorageListController extends Controller
                     ->offset($start)
                     ->limit($limit)
                     ->get();
+                $count =  storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                    ->where(function ($query) use ($request,$search){
+                        if($search){
+                            $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        }
+                    })
+                    ->where('storage_goods_local.storage_primary_id', $id)
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->count();
             } else { //海外仓库
                 $products = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
-                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
                     ->where(function ($query) use ($request,$search){
                         if($search){
                             $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
@@ -211,11 +220,21 @@ class StorageListController extends Controller
                     ->offset($start)
                     ->limit($limit)
                     ->get();
+                $count = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                    ->where(function ($query) use ($request,$search){
+                        if($search){
+                            $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        }
+                    })
+                    ->where('storage_goods_abroad.storage_primary_id', $id)
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->count();
             }
         }else{
             $products = [];
         }
-        $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $products];
+        $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $products];
         return response()->json($arr);
     }
 
