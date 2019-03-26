@@ -414,7 +414,7 @@ class StorageAddController extends Controller
         $storage = storage::where('is_local',1)->first();
         $ip = $request->getClientIp();
         //添加补货单日志
-        operation_log($ip,'补货单数据入库,补货单号：'.$storage_append->storage_append_single);
+        operation_log($ip,'补货单数据入库,补货单号：'.storage_append::where('storage_append_id',$storage_append_id)->first()['storage_append_single']);
         foreach ($storage_append_datas as $item){
             $storage_goods_local = storage_goods_local::where('sku',$item->storage_append_data_sku)
                 ->where('storage_primary_id',$storage->storage_id)
