@@ -7,7 +7,9 @@ use App\channel\skuSDK;
 use App\goods_kind;
 use App\kind_config;
 use App\kind_val;
+use App\storage;
 use App\storage_append_data;
+use App\storage_goods_local;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\storage_append;
@@ -30,12 +32,13 @@ class StorageAddController extends Controller
             $page = $request->input('page', 1);
             $limit = $request->input('limit', 10);
             $search = trim($request->input('search'));
+            $storage_status = $request->input('storage_status');
             //排序参数
             $field = $request->input('field', 'storage_append_id'); //排序字段
             $dsc = $request->input('order', 'desc'); //排序顺序
             $start = ($page - 1) * $limit;
             $time = $request->input('time');
-            $count = storage_append::where(function ($query)use ($time,$search){
+            $count = storage_append::where(function ($query)use ($time,$search,$storage_status){
                 if($time){
                     $start_time = substr($time,0,19);
                     $end_time = substr($time,-19);
@@ -44,8 +47,11 @@ class StorageAddController extends Controller
                 if($search){
                     $query->where('storage_append_single','like',"%".$search."%");
                 }
+                if($storage_status != '#'){
+                    $query->where('storage_append_status',$storage_status);
+                }
             })->count();
-            $storage_append  = storage_append::where(function ($query)use ($time,$search){
+            $storage_append  = storage_append::where(function ($query)use ($time,$search,$storage_status){
                     if($time){
                         $start_time = substr($time,0,19);
                         $end_time = substr($time,-19);
@@ -53,6 +59,9 @@ class StorageAddController extends Controller
                     }
                     if($search){
                         $query->where('storage_append_single','like',"%".$search."%");
+                    }
+                    if($storage_status != '#'){
+                        $query->where('storage_append_status',$storage_status);
                     }
                 })
                 ->orderBy($field, $dsc)
@@ -62,7 +71,7 @@ class StorageAddController extends Controller
             if(!$storage_append->isEmpty()){
                 foreach ($storage_append as &$item){
                     $item->storage_append_admin = admin::where('admin_id',$item->storage_append_admin_id)->first()['admin_show_name'];
-                    $item->storage_append_status = $item->storage_append_status == '0' ? '未补充到仓库' : ($item->storage_append_status == '1' ? '补充到仓库' : '补货取消');
+                    $item->storage_append_status = $item->storage_append_status == '0' ? '未入仓库' : ($item->storage_append_status == '1' ? '已入库' : '补货取消');
                 }
             }
             return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $storage_append]);
@@ -88,9 +97,9 @@ class StorageAddController extends Controller
                 "storage_append_single" => "required|unique:storage_append,storage_append_single",
                 "goods_kind" => "required",
             ],[
-                "storage_append_single.required" => "采购单号不能为空",
-                "goods_kind.required" => "采购单商品不能为空",
-                "storage_append_single.unique" => "采购单号不能重复",
+                "storage_append_single.required" => "补货单号不能为空",
+                "goods_kind.required" => "补货单商品不能为空",
+                "storage_append_single.unique" => "补货单号不能重复",
             ]);
             if ($validator->fails()) {
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
@@ -104,7 +113,7 @@ class StorageAddController extends Controller
             $storage_append->storage_append_msg = $request->input('storage_append_msg');
             $data  = $storage_append->save();
             if(!$data){
-                return response()->json(['err' => '0', 'msg' => '添加采购单失败']);
+                return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
             }
             $data_array = [];
             foreach ($goods_attr as $item){
@@ -118,10 +127,13 @@ class StorageAddController extends Controller
             }
 
             $storage_append_data = DB::table('storage_append_data')->insert($data_array);
+            $ip = $request->getClientIp();
+            //添加补货单日志
+            operation_log($ip,'添加补货单成功,补货单号：'.$request->input('storage_append_single'),json_encode($request->all()));
             if($storage_append_data){
-                return response()->json(['err' => '1', 'msg' => '添加采购单成功']);
+                return response()->json(['err' => '1', 'msg' => '添加补货单成功']);
             }
-            return response()->json(['err' => '0', 'msg' => '添加采购单失败']);
+            return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
         }
 
     }
@@ -141,8 +153,18 @@ class StorageAddController extends Controller
                 $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->orderBy('storage_append_kind_id')->get();
                 if(!$storage_append_data->isEmpty()){
                     foreach ($storage_append_data as &$storage_append){
+                        $goods_kind = goods_kind::where('goods_kind_id',$storage_append->storage_append_kind_id)->first();
+                        $skuSDK = new skuSDK($storage_append->storage_append_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
                         $storage_append->goods_sku = $storage_append->storage_append_data_sku.$storage_append->storage_append_data_sku_attr;
                         $storage_append->goods_kind_name = goods_kind::where('goods_kind_id',$storage_append->storage_append_kind_id)->first()['goods_kind_name'];
+                        $current_attrs = $skuSDK->get_attr_by_sku($storage_append->storage_append_data_sku_attr);
+                        $str = '';
+                        foreach ($current_attrs as $attr) {
+                            if($attr){
+                                $str .= $attr->kind_val_msg .',';
+                            }
+                        }
+                        $storage_append->storage_append_data_attr= rtrim($str,',');
                     }
                 }
                 return view('storage.add.edit_storage_append')->with(compact('product','storage_append_id','storage_append_data','storage_appends'));
@@ -150,14 +172,12 @@ class StorageAddController extends Controller
         }elseif($request->isMethod('post')){
             $goods_attr = json_decode($request->input('goods_attr'),true);
             if(empty($goods_attr)){
-                return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
+                return response()->json(['err' => '0', 'msg' => '请选择补货商品']);
             }
             $validator = Validator::make($request->all(), [
                 "storage_append_single" => "required",
-                "goods_kind" => "required",
             ],[
-                "storage_append_single.required" => "采购单号不能为空",
-                "goods_kind.required" => "采购单商品不能为空",
+                "storage_append_single.required" => "补货单号不能为空",
             ]);
             if ($validator->fails()) {
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
@@ -165,18 +185,25 @@ class StorageAddController extends Controller
             $storage_append_id = $request->input('storage_append_id');
             $storage_append  = storage_append::where('storage_append_id',$storage_append_id)->first();
             if(!$storage_append){
-                return response()->json(['err' => '0', 'msg' => '编辑采购单失败']);
+                return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
             }
             if($storage_append->storage_append_status == 1 || $storage_append->storage_append_status == 2){
-                return response()->json(['err' => '0', 'msg' => '采购单已商品已入仓或采购单取消，无法修改']);
+                return response()->json(['err' => '0', 'msg' => '补货单已商品已入仓或采购单取消，无法修改']);
             }
             $storage_append->storage_append_single = $request->input('storage_append_single');
             $storage_append->storage_append_status = 0;
             $storage_append->storage_append_msg = $request->input('storage_append_msg');
             $data  = $storage_append->save();
             if(!$data){
-                return response()->json(['err' => '0', 'msg' => '编辑采购单失败']);
+                return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
             }
+            $ip = $request->getClientIp();
+            //添加补货单日志
+            operation_log($ip,'编辑补货单,补货单号：'.$request->input('storage_append_single'),json_encode($request->all()));
+            $last_id = array_column($goods_attr, 'storage_append_data_id');
+            $last_ids = storage_append_data::where('storage_append_id',$storage_append_id)->pluck('storage_append_data_id')->toArray();
+            $ids = array_diff($last_ids,$last_id);
+            storage_append_data::whereIn('storage_append_data_id',$ids)->delete();
             foreach ($goods_attr as $item){
                 if(isset($item['storage_append_data_id'])){
                     $storage_append_data = storage_append_data::where('storage_append_data_id',$item['storage_append_data_id'])->first();
@@ -191,10 +218,10 @@ class StorageAddController extends Controller
                 $storage_append_data->storage_append_kind_id = $item['goods_kind_id'];
                 $storage_append_datas = $storage_append_data->save();
                 if(!$storage_append_datas){
-                    return response()->json(['err' => '0', 'msg' => '编辑采购单失败']);
+                    return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
                 }
             }
-            return response()->json(['err' => '1', 'msg' => '编辑采购单成功']);
+            return response()->json(['err' => '1', 'msg' => '编辑补货单成功']);
         }
     }
 
@@ -280,7 +307,7 @@ class StorageAddController extends Controller
                         $storage_append_data->storage_append_single = $storage_append->storage_append_single;//补货单号
                         $storage_append_data->storage_append_msg = $storage_append->storage_append_msg;//补货备注
                         $storage_append_data->storage_append_id = $storage_append->storage_append_id;//补货单ID
-                        $storage_append_data->storage_append_status = $storage_append->storage_append_status == '0' ? '未补充到仓库' : ($storage_append->storage_append_status == '1' ? '补充到仓库' : '补货取消');//补货单状态
+                        $storage_append_data->storage_append_status = $storage_append->storage_append_status == '0' ? '未入仓库' : ($storage_append->storage_append_status == '1' ? '已入库' : '补货取消');//补货单状态
                     }
                 }
                 return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $storage_append_datas]);
@@ -299,12 +326,15 @@ class StorageAddController extends Controller
     {
         $storage_append_id = $request->input('storage_append_id');
         $goods_kind_id = $request->input('goods_kind_id');
-        $storage_append_end_time =  storage_append::where('storage_append_id',$storage_append_id)->first()['storage_append_end_time'];
-        if($storage_append_end_time){
+        $storage_append =  storage_append::where('storage_append_id',$storage_append_id)->first();
+        if($storage_append && $storage_append->storage_append_end_time){
             return response()->json(['code' => 0, "msg" => "商品已到仓库，不能删除"]);
         }
         //TODO 删除最后一个商品，删除采购单 2019-03-21
         $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->where('storage_append_kind_id',$goods_kind_id)->delete();
+        $ip = $request->getClientIp();
+        //添加补货单日志
+        operation_log($ip,'删除补货单商品,补货单号：'.$storage_append->storage_append_single);
         if($storage_append_data){
             return response()->json(['code' => 1, "msg" => "删除数据成功"]);
         }
@@ -357,11 +387,93 @@ class StorageAddController extends Controller
             $num = 0;
         }
         $data = storage_append_data::where('storage_append_data_id',$request->input('storage_append_data_id'))->update(['storage_append_data_num'=>$num]);
+        $ip = $request->getClientIp();
+        //添加补货单日志
+        operation_log($ip,'修改补货单商品数量,补货单产品数据ID：'.$request->input('storage_append_data_id'));
         if($data){
             return response()->json(['err' => 1, "msg" => "修改数据成功"]);
         }
         return response()->json(['err' => 0, "msg" => "修改数据失败"]);
     }
+
+    /**
+     * 补货单入库
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function append_goods_over(Request $request)
+    {
+        $storage_append_id = $request->input('storage_append_id');
+        $storage_append = storage_append::where('storage_append_id',$storage_append_id)->update(['storage_append_status'=>'1','storage_append_end_time'=>date('Y-m-d H:i:s')]);
+        if(!$storage_append)         return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
+        $storage_append_data = storage_append_data::where('storage_append_id',$storage_append_id)->update(['storage_append_data_status'=>'1','storage_append_data_time'=>date('Y-m-d H:i:s')]);
+        if(!$storage_append_data)         return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
+        //补货单商品补到货到本地仓库
+        $storage_append_datas = storage_append_data::where('storage_append_id',$storage_append_id)->get();
+        //获取本地仓库
+        $storage = storage::where('is_local',1)->first();
+        $ip = $request->getClientIp();
+        //添加补货单日志
+        operation_log($ip,'补货单数据入库,补货单号：'.$storage_append->storage_append_single);
+        foreach ($storage_append_datas as $item){
+            $storage_goods_local = storage_goods_local::where('sku',$item->storage_append_data_sku)
+                ->where('storage_primary_id',$storage->storage_id)
+                ->where('sku_attr',$item->storage_append_data_sku_attr)
+                ->first();
+            if(!$storage_goods_local){
+                $storage_goods_local = new storage_goods_local();
+                $storage_goods_local->num = $item->storage_append_data_num;
+            }else{
+                $storage_goods_local->num += $item->storage_append_data_num;
+            }
+            $storage_goods_local->sku = $item->storage_append_data_sku;
+            $storage_goods_local->storage_primary_id = $storage->storage_id;
+            $storage_goods_local->sku_attr = $item->storage_append_data_sku_attr;
+            $storage_goods_local->goods_kind_id = $item->storage_append_kind_id;
+            $storage_goods_local->save();
+            if(!$storage_goods_local){
+                return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
+            }
+        }
+        return response()->json(['err' => 1, "msg" => "补货单入库成功"]);
+    }
+
+    /**
+     * 补货单取消
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function cancel_storage_append(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            $storage_append_id = $request->input('storage_append_id');
+            $storage_append_single = storage_append::where('storage_append_id', $storage_append_id)->first()['storage_append_single'];
+            if ($storage_append_single) {
+                return view('storage.add.cancel')->with(compact('storage_append_id', 'goods_kind_id', 'storage_append_single'));
+            }
+        } else {
+            $storage_append_id = $request->input('storage_append_id');
+            $storage_append_return = $request->input('remarks');
+            $validator = Validator::make($request->all(), [
+                "remarks" => "required",
+            ], [
+                "remarks.required" => "补货单取消信息不能为空",
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
+            }
+            $ip = $request->getClientIp();
+            //添加补货单日志
+            operation_log($ip, '补货单数据入库,补货单ID：' . $storage_append_id);
+            $storage_append = storage_append::where('storage_append_id', $storage_append_id)->update(['storage_append_status' => '2', 'storage_append_return' => $storage_append_return]);
+            $storage_append_data = storage_append_data::where('storage_append_id', $storage_append_id)->update(['storage_append_data_status' => '2']);
+            if ($storage_append && $storage_append_data) {
+                return response()->json(['err' => 1, "msg" => "补货单取消成功"]);
+            }
+            return response()->json(['err' => 0, "msg" => "补货单取消失败"]);
+        }
+    }
+
     /**
      * 获取正在运货中的所有补货单
      */

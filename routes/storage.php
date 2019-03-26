@@ -48,6 +48,8 @@
                   Route::get('add/append_goods_del','admin\storage\StorageAddController@append_goods_del');//删除采购单商品
                   Route::any('add/append_goods_edit','admin\storage\StorageAddController@append_goods_edit');//修改采购单商品个数页面
                   Route::post('add/append_goods_num','admin\storage\StorageAddController@append_goods_num');//修改采购单商品个数操作
+                  Route::post('add/append_goods_over','admin\storage\StorageAddController@append_goods_over');//采购单商品入库
+                  Route::any('add/cancel_storage_append','admin\storage\StorageAddController@cancel_storage_append');//取消采购单
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');

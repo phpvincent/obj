@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item flag" style="display:none">
-                                <label class="layui-form-label">选择变种:</label>
+                                <label class="layui-form-label">选择属性:</label>
                                 <input type="checkbox" name="" title="全选" lay-filter="allGoodsCheck">
                             </div>
                             <div class="layui-form-item flag" style="display:none">
@@ -66,7 +66,7 @@
                                     <tr>
                                         <th>产品ID</th>
                                         <th>产品名称</th>
-                                        <th>变种</th>
+                                        <th>属性</th>
                                         <th>SKU</th>
                                         <th>数量</th>
                                         <th>操作</th>
@@ -133,11 +133,11 @@
                 </td>
                 <td>
                     <input type="hidden" readonly name="goods_attr" value="@{{d.storage_append_data_sku_attr}}" class="layui-input">
-                    <span>@{{d.storage_append_data_sku_attr}}</span>
+                    <span>@{{d.storage_append_data_attr}}</span>
                 </td>
                 <td>
-                    <input type="hidden" readonly name="goods_sku" value="@{{d.storage_append_data_sku}}" class="layui-input">
-                    <span>@{{d.storage_append_data_sku}}</span>
+                    <input type="hidden" readonly name="goods_sku" value="@{{d.goods_sku}}" class="layui-input">
+                    <span>@{{d.goods_sku}}</span>
                 </td>
                 <td>
                     <input type="text" name="num" value="@{{d.storage_append_data_num}}" placeholder="请输入数量" class="layui-input" lay-verify="required">

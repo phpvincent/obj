@@ -19,7 +19,7 @@
               <div class="layui-inline">
                   <label class="layui-form-label">补货单状态</label>
                   <div class="layui-input-block">
-                      <select name="storage_addr" id="storage_addr" lay-verify="required">
+                      <select name="storage_status" id="storage_status" lay-verify="required">
                           <option value="#">请选择</option>
                           <option value="0">未补充到仓库</option>
                           <option value="1">补充到仓库</option>
@@ -50,8 +50,12 @@
         </button>
   </script>
 <script type="text/html" id="button" >
-  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    @{{# if(d.storage_append_status==='未入仓库'){ }}
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="warehouse">补货入库</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="cancel">取消补货</a>
+    @{{#  } }}
 </script>
 @endsection
 @section('js')
@@ -83,16 +87,17 @@
       }
       ,where: {
         search:$('#test-table-demoReload').val(),
-        time:$('#test-laydate-out').val()
+        time:$('#test-laydate-out').val(),
+        storage_status:$('#storage_status').val()
       }
       ,cols: [[ //表头
-        {field: 'storage_append_id', title: 'ID', sort: true, fixed: 'left'}
-        ,{field: 'storage_append_single', title: '采购单号'}
-        ,{field: 'storage_append_admin', title: '补货人'}
-        ,{field: 'storage_append_status', title: '状态'}
-        ,{field: 'storage_append_time', title: '采购时间'}
-        ,{field: 'storage_append_end_time', title: '进仓时间'}
-        ,{field: 'storage_append_msg', title: '采购单备注'}
+        {field: 'storage_append_id', title: 'ID',width:80, sort: true, fixed: 'left'}
+        ,{field: 'storage_append_single', title: '补货单号'}
+        ,{field: 'storage_append_admin',width:80, title: '补货人'}
+        ,{field: 'storage_append_status',width:100, title: '状态'}
+        ,{field: 'storage_append_time',width:160, title: '补货时间'}
+        ,{field: 'storage_append_end_time',width:160, title: '进仓时间'}
+        ,{field: 'storage_append_msg', title: '补货单备注'}
         ,{ title: '操作',templet:'#button'}
       ]]
      };
@@ -139,14 +144,44 @@
                 layer.open({
                   type:2,
                   offset:'rt',
-                  title:'采购单数据',
+                  title:'补货单数据',
                   area:[1200,800],
                   content:"{{url('/admin/storage/add/show_goods_kind?storage_append_id=')}}"+data.storage_append_id,
                 });
 
            }else if(layEvent=='edit'){
                //修改产品
-               that.goods_show('修改采购单数据', '{{url("admin/storage/add/up_storage_append")}}?storage_append_id=' +data.storage_append_id, 2, 600, 510);
+               that.goods_show('修改补货单数据', '{{url("admin/storage/add/up_storage_append")}}?storage_append_id=' +data.storage_append_id, 2, 600, 510);
+           }else if(layEvent=='cancel'){
+               that.goods_show('取消补货单', '{{url("admin/storage/add/cancel_storage_append")}}?storage_append_id=' +data.storage_append_id, 2, 600, 510);
+           }else{
+               layer.confirm('确认补货单商品已到达仓库？', function(index){
+                   layer.close(index);
+                   //向服务端发送删除指令
+                   $.ajax({
+                       url:"{{url('admin/storage/add/append_goods_over')}}",
+                       type:'post',
+                       data:{storage_append_id:data.storage_append_id},
+                       headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                       datatype:'json',
+                       success:function(msg){
+                           if(msg['err']==1){
+                               layer.close(index);
+                               layer.msg(msg.msg,{
+                                   time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                               }, function(){
+                                   parent.layui.admin.events.refresh();
+                               });
+                           }else if(msg['err']==0){
+                               layer.close(index);
+                               layer.msg(msg.msg);
+                           }else{
+                               layer.close(index);
+                               layer.msg('入库失败！');
+                           }
+                       }
+                   });
+               });
            }
        });
        //排序监听
@@ -160,6 +195,7 @@
                                 , order: obj.type //排序方式
                                  ,search:$('#test-table-demoReload').val(),
                                  time:$('#test-laydate-out').val(),
+                                storage_status:$('#storage_status').val()
                             }
                         });
                     });
@@ -183,7 +219,8 @@
                         }
                         ,where: {
                             search:$('#test-table-demoReload').val(),
-                            time:$('#test-laydate-out').val()
+                            time:$('#test-laydate-out').val(),
+                            storage_status:$('#storage_status').val()
                         }
                     });
                 }
@@ -205,7 +242,8 @@
                      }
                      ,where: {
                          search:$('#test-table-demoReload').val(),
-                         time:$('#test-laydate-out').val()
+                         time:$('#test-laydate-out').val(),
+                         storage_status:$('#storage_status').val(),
                      }
                  });
             }
@@ -223,6 +261,7 @@
                 ,where: {
                     search:$('#test-table-demoReload').val(),
                     time:$('#test-laydate-out').val(),
+                    storage_status:$('#storage_status').val(),
                 }
             });
         }
