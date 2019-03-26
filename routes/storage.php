@@ -24,6 +24,8 @@
                   Route::get('/list/del_storage_stock','admin\storage\StorageListController@del_storage_stock');//删除商品库存
                   Route::post('/list/check_list_data','admin\storage\StorageListController@check_list_data');//获取校准记录
                   Route::post('/list/check_list_data_info','admin\storage\StorageListController@check_list_data_info');//获取校准数据
+                  Route::get('/list/check_order_info','admin\storage\StorageListController@check_order_info');//获取校准数据单个订单详情
+                  Route::get('/list/data_less','admin\storage\StorageListController@data_less');//获取校准数据总体缺货情况
                   
                   //数据校准
                   Route::get('/check','admin\storage\StorageListController@check');
@@ -35,7 +37,8 @@
                   Route::get('/check/list','admin\storage\StorageListController@check_list');//仓储数据校准
                   //扣货
                   Route::post('/storage_out','admin\storage\StorageListController@storage_out');//仓储扣货
-                  Route::post('/storage_split','admin\storage\StorageListController@storage_split');//货物出库
+                  Route::get('/storage_split','admin\storage\StorageListController@storage_split');//货物出库
+                  Route::any('/out_data','admin\storage\StorageListController@out_data');//货物出库接口
                   //补货
                   Route::any('/add','admin\storage\StorageAddController@add');//购置单列表
                   Route::any('/get_add_num','admin\storage\StorageAddController@get_add_num');//购置单列表

@@ -767,7 +767,7 @@ class StorageListController extends Controller
                     $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
                 }
                 if($request->has('storage_check_type')&&$request->input('storage_check_type')!='#'){
-                    $query->where('srorage_cehck.storage_check_type',$request->input('storage_check_type'));
+                    $query->where('storage_check.storage_check_type',$request->input('storage_check_type'));
                 }
             })
             ->orderBy($field, $dsc)
@@ -789,7 +789,7 @@ class StorageListController extends Controller
                     $query->where('storage_check.storage_check_is_out',$storage_check_is_out);
                 }
                 if($request->has('storage_check_type')&&$request->input('storage_check_type')!='#'){
-                    $query->where('srorage_cehck.storage_check_type',$request->input('storage_check_type'));
+                    $query->where('storage_check.storage_check_type',$request->input('storage_check_type'));
                 }
             })
             ->count();
@@ -889,14 +889,14 @@ class StorageListController extends Controller
      * 校准记录详细数据下单个订单扣货信息接口
      */
     public function check_order_info(Request $request)
-    {
+    {   
         $storage_check_id=$request->input('storage_check_id');
         $order_id=$request->input('order_id');
         $storage_check_data=\App\storage_check::select('storage_check_data.*','storage_check_info.*')
                             ->leftjoin('storage_check_data','storage_check.storage_check_id','storage_check_data.storage_primary_id')
                             ->leftjoin('storage_check_info','storage_check_data.storage_check_data_id','storage_check_info.storage_check_data_id')
                             ->where('storage_check.storage_check_id',$storage_check_id)
-                            ->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
+                            //->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
                             ->where('storage_check_data.storage_check_data_order',$order_id)
                             ->get();
         return response()->json($storage_check_data);
@@ -911,4 +911,117 @@ class StorageListController extends Controller
     {
         return view('storage.check.storage_split');
     }
+    /**
+     * 货物出仓接口
+     */
+    public function out_data(Request $request){
+        if($request->isMethod('get')){
+            $page = $request->input('page', 1);
+            $limit = $request->input('limit', 10);
+            $order_blade_type=$request->input('order_blade_type','#');
+            $search = trim($request->input('out_search'));
+            //排序参数
+            $field = $request->input('field', 'order_id'); //排序字段
+            $dsc = $request->input('order', 'desc'); //排序顺序
+            $start = ($page - 1) * $limit;
+            $orders = \App\order::select('order.order_id','order.order_single_id','goods.goods_blade_type','goods_kind.goods_kind_name','goods_kind.goods_kind_sku','order.order_country')
+                ->leftjoin('goods','order.order_goods_id','goods.goods_id')
+                ->leftjoin('goods_kind','goods.goods_kind_id','goods_kind.goods_kind_id')
+                ->where(function ($query) use ($search,$order_blade_type){
+                    if($search){
+                        $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        $query->where('goods_kind.goods_kind_sku','like','%'.$search.'%');
+                        $query->orWhere('order.order_id','like','%'.$search.'%');
+                        $query->orWhere('order.order_single_id','like','%'.$search.'%');
+                    }
+                    if($order_blade_type!='#'){
+                        $query->where('goods.goods_blade_type',$order_blade_type);
+                    }
+                })
+                ->where('order.order_type','3')
+                ->where('order.is_del','0')
+                ->orderBy($field, $dsc)
+                ->offset($start)
+                ->limit($limit)
+                ->get();
+            $count=\App\order::select('order.order_id','order.order_single_id','goods.goods_blade_type','goods_kind.goods_kind_name','goods_kind.goods_kind_sku')
+                ->leftjoin('goods','order.order_goods_id','goods.goods_id')
+                ->leftjoin('goods_kind','goods.goods_kind_id','goods_kind.goods_kind_id')
+                ->where(function ($query) use ($search,$order_blade_type){
+                    if($search){
+                        $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        $query->where('goods_kind.goods_kind_sku','like','%'.$search.'%');
+                        $query->orWhere('order.order_id','like','%'.$search.'%');
+                        $query->orWhere('order.order_single_id','like','%'.$search.'%');
+                    }
+                    if($order_blade_type!='#'){
+                        $query->where('goods.goods_blade_type',$order_blade_type);
+                    }
+                })
+                ->where('order.order_type','3')
+                ->where('order.is_del','0')
+                ->count();
+            if($count > 0){
+                foreach ($orders as &$data){
+                  $data->goods_blade_type=\App\goods::get_blade_currency($data->goods_blade_type,$data->order_country);
+                }
+            }
+            $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $orders];
+            return response()->json($arr);
+        }elseif($request->isMethod('post')){
+            if($request->input('ids',null)!=null){
+                $msg=\App\order::whereIn('order_id',$request->input('ids'))->update(['order_type'=>'4']);
+            }
+            if(!isset($msg)||$msg==false){
+                  return response()->json(['err' => 0, 'str' => '订单出库失败！']);
+            }
+            return response()->json(['err' => 1, 'str' => '订单出库成功！']);
+        }
+    }
+    /**
+     * 缺货数据接口
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function data_less(Request $request)
+    {
+            $page = $request->input('page', 1);
+            $limit = $request->input('limit', 10);
+            $storage_check_id=$request->input('storage_check_id');
+            $search = trim($request->input('search'));
+            //排序参数
+            $field = $request->input('field', 'storage_check_lack_num'); //排序字段
+            $dsc = $request->input('order', 'desc'); //排序顺序
+            $start = ($page - 1) * $limit;
+            $less=\App\storage_check_lack::select('storage_check_lack.*','goods_kind.goods_kind_name')
+                 ->leftjoin('goods_kind','storage_check_lack.storage_check_lack_sku','goods_kind.goods_kind_sku')
+                 ->where(function($query)use($search){
+                    $query->where('goods_kind.goods_kind_id','like','%'.$search.'%');
+                    $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                    $query->where('storage_check_lack.storage_check_lack_six_sku','like','%'.$search.'%');
+                    $query->where('storage_check_lack.storage_check_lack_sku','like','%'.$search.'%');
+                 })
+                 ->where('storage_check_lack.storage_check_lack_primary_id',$storage_check_id)
+                 ->get();
+            $count=\App\storage_check_lack::select('storage_check_lack.*','goods_kind.goods_kind_name')
+                 ->leftjoin('goods_kind','storage_check_lack.storage_check_lack_sku','goods_kind.goods_kind_sku')
+                 ->where(function($query)use($search){
+                    $query->where('goods_kind.goods_kind_id','like','%'.$search.'%');
+                    $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                    $query->where('storage_check_lack.storage_check_lack_six_sku','like','%'.$search.'%');
+                    $query->where('storage_check_lack.storage_check_lack_sku','like','%'.$search.'%');
+                 })
+                 ->where('storage_check_lack.storage_check_lack_primary_id',$storage_check_id)
+                 ->count();
+           /* if($count > 0){
+                foreach ($orders as &$data){
+                  $data->goods_blade_type=\App\goods::get_blade_currency($data->goods_blade_type,$data->order_country);
+                }
+            }*/
+            $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $less];
+            return response()->json($arr);
+    }
+    /**
+     * 缺货单导出
+     */
 }

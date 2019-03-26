@@ -228,6 +228,9 @@
                             $(".goodsCheckbox input").prop("checked", true);
                             form.render('checkbox');
                             $.each($(".goodsCheckbox input"), function (index, value) {
+                                $('.goodsAppend tbody input[value="'+$(value).attr("goods_sku")+'"]').parent().parent().remove()
+                            })
+                            $.each($(".goodsCheckbox input"), function (index, value) {
                                 var datas = {};
                                 datas['goods_kind_name']=$(value).attr("goods_kind_name")
                                 datas['goods_sku']=$(value).attr("goods_sku")
