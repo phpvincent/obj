@@ -243,7 +243,7 @@ class CommentController extends Controller
 				   	    	return response()->json(['err'=>0,'str'=>'保存失败！']);
 		         }
    	}else{
-   	    $comment_goods_num =  comment::where('com_goods_id',$request->input('goods_id'))->count();
+   	    $comment_goods_num =  comment::where('com_goods_id',$request->input('goods_id'))->where('com_isshow','1')->count();
         $times = rand(7200,180000);
    		$comment=new comment;
    		$comment->com_name=$request->input('com_name');

@@ -10,6 +10,7 @@ use App\kind_val;
 use App\storage;
 use App\storage_append_data;
 use App\storage_goods_local;
+use App\storage_log;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\storage_append;
@@ -414,7 +415,7 @@ class StorageAddController extends Controller
         $storage = storage::where('is_local',1)->first();
         $ip = $request->getClientIp();
         //添加补货单日志
-        operation_log($ip,'补货单数据入库,补货单号：'.$storage_append->storage_append_single);
+        operation_log($ip,'补货单数据入库,补货单号：'.storage_append::where('storage_append_id',$storage_append_id)->first()['storage_append_single']);
         foreach ($storage_append_datas as $item){
             $storage_goods_local = storage_goods_local::where('sku',$item->storage_append_data_sku)
                 ->where('storage_primary_id',$storage->storage_id)
@@ -423,17 +424,25 @@ class StorageAddController extends Controller
             if(!$storage_goods_local){
                 $storage_goods_local = new storage_goods_local();
                 $storage_goods_local->num = $item->storage_append_data_num;
+                $storage_goods_local->sku = $item->storage_append_data_sku;
+                $storage_goods_local->storage_primary_id = $storage->storage_id;
+                $storage_goods_local->sku_attr = $item->storage_append_data_sku_attr;
+                $storage_goods_local->goods_kind_id = $item->storage_append_kind_id;
+                $storage_goods_local->save();
             }else{
-                $storage_goods_local->num += $item->storage_append_data_num;
+                $storage_num_data['num'] = $storage_goods_local->num + $item->storage_append_data_num;
+                $storage_goods_local = DB::table('storage_goods_local')->where('sku',$item->storage_append_data_sku)
+                    ->where('storage_primary_id',$storage->storage_id)
+                    ->where('sku_attr',$item->storage_append_data_sku_attr)->update($storage_num_data);
             }
-            $storage_goods_local->sku = $item->storage_append_data_sku;
-            $storage_goods_local->storage_primary_id = $storage->storage_id;
-            $storage_goods_local->sku_attr = $item->storage_append_data_sku_attr;
-            $storage_goods_local->goods_kind_id = $item->storage_append_kind_id;
-            $storage_goods_local->save();
             if(!$storage_goods_local){
                 return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
             }
+        }
+        //记录补货日志
+        $storage_log = storage_log::CreateStorageLog($storage->storage_id,$storage_append_id,0,1);
+        if(!$storage_log){
+            return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
         }
         return response()->json(['err' => 1, "msg" => "补货单入库成功"]);
     }

@@ -180,26 +180,36 @@ class StorageListController extends Controller
         $dsc = $request->input('order', 'desc'); //排序顺序
         $start = ($page - 1) * $limit;
 
-        $id = $request->input('id', storage::where('is_local',1)->first()['storage_id']);
+        $id = $request->input('id', storage::where('is_local', 1)->first()['storage_id']);
         $storage = storage::where('storage_id', $id)->first();
-        if ($storage) {
+        $count = 0;
+        if (!$storage) return response()->json(['code' => 0, "msg" => "获取数据成功", 'count' => $count, 'data' => []]);
+        if ($request->input('storage_status') == 0) { //真实库存
             if ($storage->is_local == 1) { //本地仓库
-                $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
-                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
-                    ->where(function ($query) use ($request,$search){
-                        if($search){
-                            $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
-                        }
-                    })
-                    ->where('storage_goods_local.storage_primary_id', $id)
-                    ->groupBy('goods_kind.goods_kind_id')
-                    ->orderBy($field, $dsc)
-                    ->offset($start)
-                    ->limit($limit)
-                    ->get();
+                    $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                        ->where(function ($query) use ($request,$search){
+                            if($search){
+                                $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                            }
+                        })
+                        ->where('storage_goods_local.storage_primary_id', $id)
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->orderBy($field, $dsc)
+                        ->offset($start)
+                        ->limit($limit)
+                        ->get();
+                    $count =  storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->where(function ($query) use ($request,$search){
+                            if($search){
+                                $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                            }
+                        })
+                        ->where('storage_goods_local.storage_primary_id', $id)
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->count();
             } else { //海外仓库
                 $products = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
-                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
                     ->where(function ($query) use ($request,$search){
                         if($search){
                             $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
@@ -211,12 +221,91 @@ class StorageListController extends Controller
                     ->offset($start)
                     ->limit($limit)
                     ->get();
+                $count = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
+                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                    ->where(function ($query) use ($request,$search){
+                        if($search){
+                            $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                        }
+                    })
+                    ->where('storage_goods_abroad.storage_primary_id', $id)
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->count();
             }
-        }else{
-            $products = [];
+        }else{ //预扣货
+            if ($storage->is_local == 1) { //本地仓库
+                    $products = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
+                        ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                        ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(order_num) AS num'))
+                        ->where('storage_check_data_order.storage_abroad_id','#')
+                        ->where('order.order_type', '3')
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->orderBy($field, $dsc)
+                        ->offset($start)
+                        ->limit($limit)
+                        ->get();
+                    $counts = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
+                        ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                        ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
+                        ->select('goods_kind.goods_kind_id', DB::Raw('SUM(order_num) AS num'))
+                        ->where('storage_check_data_order.storage_abroad_id','#')
+                        ->where('order.order_type', '3')
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->get();
+                    $count = count($counts);
+            }else{ //海外仓
+                $products = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
+                    ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                    ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
+                    ->select('goods_kind.*', DB::Raw('SUM(order_num) AS num'))
+                    ->where('storage_check_data_order.storage_abroad_id',$id)
+                    ->where('order.order_type', '3')
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->orderBy($field, $dsc)
+                    ->offset($start)
+                    ->limit($limit)
+                    ->get();
+                $counts = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
+                    ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                    ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
+                    ->select('goods_kind.goods_kind_id', DB::Raw('SUM(order_num) AS num'))
+                    ->where('storage_check_data_order.storage_abroad_id',$id)
+                    ->where('order.order_type', '3')
+                    ->groupBy('goods_kind.goods_kind_id')
+                    ->get();
+                $count = count($counts);
+            }
         }
-        $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $products];
-        return response()->json($arr);
+//            if(!$products->isEmpty()){ //仓库数据不为空  仓库数据+预发货订单数据
+//                foreach ($products as &$product){
+//                    $goods_ids = goods::where('goods_kind_id',$product->goods_kind_id)->pluck('goods_id')->toArray();
+//                    $orders = order::select(DB::Raw('SUM(order_num) AS num'))->whereIn('order_goods_id',$goods_ids)->where('order_type','3')->get();
+//                    if($orders){
+//                        $product->num += $orders[0]->num;
+//                    }
+//                }
+//            }
+            //TODO 选择出库仓库
+//            if($count <= 0){ //仓库数据为空
+//                $products = order::join('goods','goods.goods_id','=','order.order_goods_id')
+//                    ->join('goods_kind','goods_kind.goods_kind_id','=','goods.goods_kind_id')
+//                    ->select('goods_kind.*',DB::Raw('SUM(order_num) AS num'))
+//                    ->where('order.order_type','3')
+//                    ->groupBy('goods_kind.goods_kind_id')
+//                    ->orderBy($field, $dsc)
+//                    ->offset($start)
+//                    ->limit($limit)
+//                    ->get();
+//                $counts =  order::join('goods','goods.goods_id','=','order.order_goods_id')
+//                    ->leftjoin('goods_kind','goods_kind.goods_kind_id','=','goods.goods_kind_id')
+//                    ->select('goods_kind.goods_kind_id',DB::Raw('SUM(order_num) AS num'))
+//                    ->where('order.order_type','3')
+//                    ->groupBy('goods_kind.goods_kind_id')
+//                    ->get();
+//                $count = count($counts);
+//            }
+        return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $products]);
     }
 
     /**

@@ -111,7 +111,7 @@
           <span>@{{d.goods_sku}}</span>
           </td>
           <td>
-          <input type="text" name="num" value="" placeholder="请输入数量" class="layui-input" lay-verify="required">
+          <input type="text" name="num" value=""  onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();" placeholder="请输入数量" class="layui-input" lay-verify="required">
           </td>
           <td>
            <span class="layui-btn layui-btn-xs layui-btn-danger removeGoodsAppend"><i class="layui-icon">&#xe640;</i></span>

@@ -34,6 +34,15 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">库存状态</label>
+                        <div class="layui-input-block">
+                            <select name="storage_status" id="storage_status" lay-verify="required">
+                                <option value="0">真实库存</option>
+                                <option value="1">预扣货</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="layui-inline test-table-reload-btn">
                         <label>从当前数据中检索:</label>
                         <div class="layui-inline">
@@ -77,6 +86,7 @@
                 ,where: {
                     id:$('#storage_addr').val(),
                     search:$('#test-table-demoReload').val(),
+                    storage_status:$('#storage_status').val()
                 }
                 ,cols: [[ //表头
                     {field: 'goods_kind_id', title: 'ID', sort: true, fixed: 'left'}
@@ -101,6 +111,7 @@
                         ,where: {
                             search:$('#test-table-demoReload').val(),
                             id:$('#storage_addr').val(),
+                            storage_status:$('#storage_status').val()
                         }
                     });
                 }
@@ -170,6 +181,7 @@
                             ,where: {
                                 search:$('#test-table-demoReload').val(),
                                 id:$('#storage_addr').val(),
+                                storage_status:$('#storage_status').val()
                             }
                         });
                     }
