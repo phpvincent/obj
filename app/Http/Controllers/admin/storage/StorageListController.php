@@ -1001,20 +1001,24 @@ class StorageListController extends Controller
             $less=\App\storage_check_lack::select('storage_check_lack.*','goods_kind.goods_kind_name')
                  ->leftjoin('goods_kind','storage_check_lack.storage_check_lack_sku','goods_kind.goods_kind_sku')
                  ->where(function($query)use($search){
+                    if($search!=null){
                     $query->where('goods_kind.goods_kind_id','like','%'.$search.'%');
                     $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
                     $query->where('storage_check_lack.storage_check_lack_six_sku','like','%'.$search.'%');
                     $query->where('storage_check_lack.storage_check_lack_sku','like','%'.$search.'%');
+                    }
                  })
                  ->where('storage_check_lack.storage_check_lack_primary_id',$storage_check_id)
                  ->get();
             $count=\App\storage_check_lack::select('storage_check_lack.*','goods_kind.goods_kind_name')
                  ->leftjoin('goods_kind','storage_check_lack.storage_check_lack_sku','goods_kind.goods_kind_sku')
                  ->where(function($query)use($search){
+                    if($search!=null){
                     $query->where('goods_kind.goods_kind_id','like','%'.$search.'%');
                     $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
                     $query->where('storage_check_lack.storage_check_lack_six_sku','like','%'.$search.'%');
                     $query->where('storage_check_lack.storage_check_lack_sku','like','%'.$search.'%');
+                    }
                  })
                  ->where('storage_check_lack.storage_check_lack_primary_id',$storage_check_id)
                  ->count();
@@ -1029,4 +1033,10 @@ class StorageListController extends Controller
     /**
      * 缺货单导出
      */
+    public function data_out(Request $request)
+    {
+        $storage_check_id=$request->input('storage_check_id',\App\storage_check::select('storage_check_id')->where('storage_check_is_out','1')->orderBy('storage_check_time','desc')->first()['storage_check_id']);
+        //订单导出
+        return \App\storage::order_out($storage_check_id);
+    }
 }

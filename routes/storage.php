@@ -26,6 +26,7 @@
                   Route::post('/list/check_list_data_info','admin\storage\StorageListController@check_list_data_info');//获取校准数据
                   Route::get('/list/check_order_info','admin\storage\StorageListController@check_order_info');//获取校准数据单个订单详情
                   Route::get('/list/data_less','admin\storage\StorageListController@data_less');//获取校准数据总体缺货情况
+                  Route::get('/list/data_out','admin\storage\StorageListController@data_out');//出货单导出表格
                   
                   //数据校准
                   Route::get('/check','admin\storage\StorageListController@check');
