@@ -971,7 +971,12 @@ class StorageListController extends Controller
         }elseif($request->isMethod('post')){
             if($request->input('ids',null)!=null){
                 $msg=\App\order::whereIn('order_id',$request->input('ids'))->update(['order_type'=>'4']);
+                //仓库记录数据
+                foreach ($request->input('ids') as $item){
+                    
+                }
             }
+
             if(!isset($msg)||$msg==false){
                   return response()->json(['err' => 0, 'str' => '订单出库失败！']);
             }
