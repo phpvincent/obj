@@ -54,6 +54,55 @@
     </div>
     </div>
 </div>
+<script id="suntable" type="text/html">
+<fieldset class="layui-elem-field">
+	    <legend>
+      @{{#  if(d[0].storage_check_data_type === '4'){ }}
+         缺货
+     @{{#  }else if(d[0].storage_check_data_type === '1'){ }} 
+         从海外仓拆分发货
+      @{{#  }else if(d[0].storage_check_data_type === '2'){ }} 
+         从海外仓不拆分发货
+      @{{#  }else if(d[0].storage_check_data_type === '3'){ }} 
+      从本地仓发货
+      @{{#  } }}
+      </legend>
+	<div class="layui-field-box">
+  <blockquote class="layui-elem-quote">总数目：@{{d[0].storage_check_data_num}}</blockquote>
+  <blockquote class="layui-elem-quote">产品sku：@{{d[0].storage_check_data_sku}}</blockquote>
+  <blockquote class="layui-elem-quote">订单编号：@{{d[0].storage_check_data_order}}</blockquote>
+  <blockquote class="layui-elem-quote">校准单编号：@{{d[0].storage_primary_id}}</blockquote>
+  <blockquote class="layui-elem-quote" style="color:brown">仓库：@{{d[0].storage_abroad_id}}</blockquote>
+  </div>
+  <div>扣货信息</div>
+  <table class="layui-table">
+  <thead>
+    <tr>
+      <th>订单id</th>
+      <th>订单编号</th>
+      <th>数量</th>
+      <th>属性sku</th>
+    </tr> 
+  </thead>
+  <tbody>
+     @{{#  layui.each(d, function(index, item){ }}
+     <tr>
+      <td>@{{item.storage_check_info_order}}</td>
+      <td>@{{item.storage_check_info_single}}</td>
+      <td>@{{item.storage_check_info_num}}</td>
+      <td>@{{item.storage_check_info_sku}}</td>
+    </tr>
+     @{{#  }); }}
+  </tbody>
+</table>
+  </fieldset>
+</script>
+<script id="songSibTableDom" type="text/html">
+    <table id="sib@{{d.storage_check_id}}" lay-filter="sib@{{d.storage_check_id}}"></table>
+</script>
+<script type="text/html" id="use_button">
+  
+</script>
 @endsection
 @section('js')
 <script>
@@ -73,6 +122,7 @@
       ,url: '/admin/storage/list/check_list_data' //数据接口
       ,page: true //开启分页
       ,limits:[10,20,30,40,50,60,70,80,90,999999999]
+      ,toolbar:'#use_button'
       ,defaultToolbar: ['filter','exports', 'print']
       ,text: {
         none: '暂无订单数据' 
@@ -97,10 +147,22 @@
         ,{field: 'storage_check_time', title: '校对时间'}
         ,{field: 'storage_check_type', title: '校对发起方式'}
         ,{field: 'storage_check_is_out', title: '校对类型'}
+        ,{field: '', title: '操作', templet: function(d){
+           if(d.storage_check_is_out === '<span style="color:red;">仓储扣货</span>') {
+             return '<button class="layui-btn layui-btn-xs" lay-event="out">导出</button>'
+           }else {return '--'}
+        }}
       ]]
      };
     //表格初始化
     table.render(options);
+    table.on('tool(table1)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+         var data = obj.data; //获得当前行数据
+         if(obj.event === 'out'){
+         location.href="/admin/storage/list/data_out?storage_check_id="+data.storage_check_id
+         }
+         })
+
     laydate.render({
       elem: '#test-laydate-out' //指定元素
       ,type:'datetime'
@@ -175,46 +237,68 @@
             ,title: '显示子表'
             ,area: ['800px', '300px']
             ,maxmin: true
-            ,content: '<table id="'+data.storage_check_data_order+'" lay-filter="'+data.storage_check_data_order+'"></table>'
+            ,content: '<div id="'+data.storage_check_data_order+'"></div>'
             ,zIndex: layer.zIndex //重点1
           })
-          var options={
-              elem: '#'+data.storage_check_data_order
-              ,url: '/admin/storage/list/check_list_data_info' //数据接口
-              ,page: true //开启分页
-              ,limits:[10,20,30,40,50,60]
-              ,defaultToolbar: ['filter','exports', 'print']
-              ,text: {
-                none: '暂无订单数据' 
-              }
-              ,autoSort:false
-              ,initSort: {
-                field: 'order_return_time' //排序字段，对应 cols 设定的各字段名
-                ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
-              }
-              ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
-              ,method:'post'
-              ,where: {
-                storage_check_id: storage_check_id,
-                order_id: data.storage_check_data_order,
-              }
-              ,cols: [[ //表头
-                 {field: 'storage_check_data_order', title: '仓储校准数据表ID', minWidth: 150}
-                ,{field: 'storage_abroad_id', title: '对应海外仓ID', minWidth: 130}
-                ,{field: 'storage_primary_id', title: '对应校对单ID', minWidth: 130}
-                ,{field: 'goods_kind_name', title: '校对发起者', minWidth: 100}
-                ,{field: 'storage_check_data_num', title: '货物数量', minWidth: 90}
-                ,{field: 'storage_check_data_sku', title: '产品SKU（前四位）', minWidth: 170}
-                ,{field: 'storage_check_data_type', title: '仓储校准数据类型', minWidth: 150}
-                ,{field: 'storage_name', title: '仓库名', minWidth: 90}
-              ]]
-          };
-       //zi表格初始化
-       table.render(options);
-
+          $.ajax({
+                url:'/admin/storage/list/check_order_info',
+                type:'get',
+                data:{
+                  storage_check_id: storage_check_id,
+                  order_id: data.storage_check_data_order
+                },
+                // datatype:'json',
+                headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                success:function(msg){
+                   console.log(msg)
+                   var getTpl = suntable.innerHTML;
+                  
+                   laytpl(getTpl).render(msg, function(html){
+                     $('#'+data.storage_check_data_order).html(html)
+                   });
+                }
+          })
          }
 
        })
+    }
+
+    var songSibTable = function (storage_check_id) {
+        var getTpl = songSibTableDom.innerHTML;               
+            laytpl(getTpl).render({storage_check_id: storage_check_id}, function(html){
+              $('div[dataid="'+storage_check_id+'"]').append(html)
+            });
+             var options={
+             elem: '#sib'+storage_check_id
+             ,url: '/admin/storage/list/data_less' //数据接口
+             ,page: true //开启分页
+             ,limits:[10,20,30,40,50,60,70,80,90,999999999]
+             ,toolbar:'#use_button'
+             ,defaultToolbar: ['filter','exports', 'print']
+             ,text: {
+               none: '暂无订单数据' 
+             }
+             ,width: 1250
+             ,autoSort:false
+             ,initSort: {
+               field: 'order_return_time' //排序字段，对应 cols 设定的各字段名
+               ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+             }
+             ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+             ,method:'get'
+             ,where: {
+              storage_check_id: storage_check_id
+              ,search: ''
+             }
+             ,cols: [[ //表头
+                {field: 'goods_kind_name', title: '产品名', minWidth: 150}
+               ,{field: 'storage_check_lack_num', title: '缺货数量', minWidth: 130}
+               ,{field: 'storage_check_lack_six_sku', title: '属性sku', minWidth: 130}
+               ,{field: 'storage_check_lack_sku', title: '产品sku', minWidth: 130}
+             ]]
+            };
+            //zi表格初始化
+            table.render(options);
     }
       
     if (flag) {
@@ -245,10 +329,12 @@
         $('#tabDom .layui-tab-title').append('<li class="layui-this" dataid="'+obj.data.storage_check_id+'">'+obj.data.storage_check_id+'</li>')
         $('#tabDom .layui-tab-content').append('<div class="layui-tab-item layui-show" dataid="'+obj.data.storage_check_id+'"><table id="'+obj.data.storage_check_id+'" lay-filter="'+obj.data.storage_check_id+'"></table></div>')
         songTable(obj.data.storage_check_id)
+        songSibTable(obj.data.storage_check_id)
       } else {
         $('#tabDom .layui-tab-title').append('<li dataid="'+obj.data.storage_check_id+'">'+obj.data.storage_check_id+'</li>')
         $('#tabDom .layui-tab-content').append('<div class="layui-tab-item" dataid="'+obj.data.storage_check_id+'"><table id="'+obj.data.storage_check_id+'" lay-filter="'+obj.data.storage_check_id+'"></table></div>')
         songTable(obj.data.storage_check_id)
+        songSibTable(obj.data.storage_check_id)
       }
     } else {
         $('#tabDom .layui-tab-title li[dataid="'+obj.data.storage_check_id+'"]').remove()
