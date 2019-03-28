@@ -129,9 +129,9 @@ class StorageAddController extends Controller
             }
 
             $storage_append_data = DB::table('storage_append_data')->insert($data_array);
-
             $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
-            $storage_log_data = storage_log::insert_log($storage_log,$datas);
+            $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
             $ip = $request->getClientIp();
             //添加补货单日志
             operation_log($ip,'添加补货单成功,补货单号：'.$request->input('storage_append_single'),json_encode($datas));
@@ -175,6 +175,7 @@ class StorageAddController extends Controller
                 return view('storage.add.edit_storage_append')->with(compact('product','storage_append_id','storage_append_data','storage_appends'));
             }
         }elseif($request->isMethod('post')){
+            $datas = $request->all();
             $goods_attr = json_decode($request->input('goods_attr'),true);
             if(empty($goods_attr)){
                 return response()->json(['err' => '0', 'msg' => '请选择补货商品']);
@@ -202,9 +203,13 @@ class StorageAddController extends Controller
             if(!$data){
                 return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
             }
+            $admin_id = Auth::user()->admin_id;
+            $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>2,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
+            $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
             $ip = $request->getClientIp();
             //添加补货单日志
-            operation_log($ip,'编辑补货单,补货单号：'.$request->input('storage_append_single'),json_encode($request->all()));
+            operation_log($ip,'编辑补货单,补货单号：'.$request->input('storage_append_single'),json_encode($datas));
             $last_id = array_column($goods_attr, 'storage_append_data_id');
             $last_ids = storage_append_data::where('storage_append_id',$storage_append_id)->pluck('storage_append_data_id')->toArray();
             $ids = array_diff($last_ids,$last_id);
