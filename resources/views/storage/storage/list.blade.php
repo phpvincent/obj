@@ -108,6 +108,9 @@
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  @{{# if(d.is_local!=1){ }}
+  <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="out">退货</a>
+  @{{# } }}
 </script>
 @endsection
 @section('js')
@@ -142,11 +145,11 @@
         out:$('#test-laydate-out').val(),
       }
       ,cols: [[ //表头
-        {field: 'storage_id', title: 'ID', sort: true, fixed: 'left'}
+        {field: 'storage_id', title: 'ID', sort: true, width: 80, fixed: 'left'}
         ,{field: 'storage_name', title: '仓库名'}
         ,{field: 'template_type_primary_id', title: '仓库地区',templet:'#area'}
         ,{field: 'is_local', title: '仓库类型',templet:'#is_local'} 
-        ,{field: 'admin_show_name', title: '仓库所属人'}
+        ,{field: 'admin_show_name', title: '仓库所属人',width: 100}
         ,{field: 'check_at', title: '上次出库时间', sort: true}
         ,{field: 'created_at', title: '仓库建立时间', sort: true}
         ,{field: 'button', title: '操作', toolbar:'#button'}
@@ -194,7 +197,7 @@
            var data = obj.data; //获得当前行数据
            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
            var tr = obj.tr; //获得当前行 tr 的DOM对象
-           if(layEvent=='detail'){
+           if(layEvent==='detail'){
                 layer.open({
                   type:2,
                   offset:'rt',
@@ -203,9 +206,11 @@
                   content:"{{url('/admin/storage/list/product_data_smail?storage_id=')}}"+data.storage_id,
                 });
 
-           }else if(layEvent=='edit'){
+           }else if(layEvent==='edit'){
                //修改产品
                that.goods_show('修改仓库信息', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
+           }else if(layEvent==='out'){
+               that.goods_show('订单退货', '{{url("admin/storage/list/return_goods")}}?id=' + data.storage_id, 2, 600, 510);
            }else{
                layer.confirm('真的删除行么', function(index){
                    

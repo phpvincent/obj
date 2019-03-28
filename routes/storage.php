@@ -27,7 +27,8 @@
                   Route::get('/list/check_order_info','admin\storage\StorageListController@check_order_info');//获取校准数据单个订单详情
                   Route::get('/list/data_less','admin\storage\StorageListController@data_less');//获取校准数据总体缺货情况
                   Route::get('/list/data_out','admin\storage\StorageListController@data_out');//出货单导出表格
-                  
+                  Route::any('/list/return_goods','admin\storage\StorageListController@return_goods');//订单退货
+
                   //数据校准
                   Route::get('/check','admin\storage\StorageListController@check');
                   Route::get('/list/order_data','admin\storage\StorageListController@order_data');//订单列表

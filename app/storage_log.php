@@ -13,8 +13,8 @@ class storage_log extends Model
      * 记录仓库日志
      * @param $storage_id
      * @param $order_id
-     * @param $storage_status
-     * @param $storage_order_status
+     * @param $storage_status //0:入库 1：出库
+     * @param $storage_order_status //0：订单 1：采购单
      * @return bool
      */
     public static function CreateStorageLog($storage_id,$order_id,$storage_status,$storage_order_status)
