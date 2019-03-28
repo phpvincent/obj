@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class storage_log extends Model
 {
-    protected $table = 'storage_logs';
-    protected $primaryKey ='storage_logs_id';
+    protected $table = 'storage_log';
+    protected $primaryKey ='storage_log_id';
 
     /**
      * 记录仓库日志
@@ -44,10 +44,10 @@ class storage_log extends Model
             }
             $arr[$v]=$storage_log[$v];
         }
-        $unimplortant=['storage_log_admin_id'=>0];
-        foreach($unimplortant as $k => $v){
+        $unimportant=['storage_log_admin_id'=>0];
+        foreach($unimportant as $k => $v){
             if(!isset($storage_log[$k])){
-                $storage_log[$k]=>$v;
+                $arr[$k]=$v;
             }
         }
         $storage_log=self::insert($arr);

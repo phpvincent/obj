@@ -52,6 +52,10 @@
                   Route::post('add/append_goods_num','admin\storage\StorageAddController@append_goods_num');//修改采购单商品个数操作
                   Route::post('add/append_goods_over','admin\storage\StorageAddController@append_goods_over');//采购单商品入库
                   Route::any('add/cancel_storage_append','admin\storage\StorageAddController@cancel_storage_append');//取消采购单
+                  //操作日志
+                  Route::any('/log/index','admin\storage\StorageLogController@index');//
+                  Route::post('/log/del_log','admin\storage\StorageLogController@del_log');//日志删除
+                  Route::get('/log/log_show','admin\storage\StorageLogController@log_show');//日志详情
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');
