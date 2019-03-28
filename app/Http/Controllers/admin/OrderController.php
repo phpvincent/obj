@@ -1108,7 +1108,7 @@ class OrderController extends Controller
                   $query->where('order.order_type',$order_type);
                 }
               }else{
-                $query->where('order.order_type','>','1');
+                $query->whereIn('order.order_type',[1,3,4]);
               }
               if($pay_type!='null'){
                   $query->where('order.order_pay_type',$pay_type);

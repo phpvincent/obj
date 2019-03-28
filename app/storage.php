@@ -10,8 +10,8 @@ class storage extends Model
     protected $table = 'storage';
     protected $primaryKey ='storage_id';
     public static function order_out($storage_check_id)
-    {
-       $order_ids=array_map('array_shift',\App\storage_check_data::select('storage_check_data_order')->where([['storage_primary_id',$storage_check_id],['storage_check_data_type','>',3]])->get()->toArray());
+    {	
+       $order_ids=array_map('array_shift',\App\storage_check_data::select('storage_check_data_order')->where([['storage_primary_id',$storage_check_id],['storage_check_data_type','<',4]])->get()->toArray());
        //订单导出
        $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','order.order_goods_admin_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
@@ -193,12 +193,18 @@ class storage extends Model
                            }
                            $out_msg.='</table>';
                            $goods_all_sku.=$out_msg.'</td></tr>';
-                           //根据出仓数据合并单元格
+                           //根据出仓数据条数合并单元格
                            if($storage_check_info->count()>1){
-                           	$kind_msg=str_replace('<td>', '<td rowspan="'.$storage_check_info->count().'">', $kind_msg);
+                           	$w_where=strripos($kind_msg,'<tr>');
+                           	if($w_where){
+                           		$w_str=substr($kind_msg, $w_where);
+	                           	$w_str=str_replace('<td>', '<td rowspan="'.$storage_check_info->count().'">', $w_str);
+	                           	$kind_msg=substr($kind_msg, 0,$w_where+1).$w_str.str_repeat('<tr></tr>', $storage_check_info->count()-1);
+	                           }else{
+	                           	$kind_msg=str_replace('<td>', '<td rowspan="'.$storage_check_info->count().'">', $kind_msg).str_repeat('<tr></tr>', $storage_check_info->count()-1);
+	                           }
                            }
                            $config_msg .= '<tr>'.$kind_msg.'</tr>';
-                           
                            for ($i=0; $i <(int)$count[$keyss] ; $i++) {
                               $config_english_msg .= $kind_english_msg.',';
                                $goods_config_msg .= rtrim($goods_msg,'-').' ,';
@@ -210,7 +216,7 @@ class storage extends Model
 //                               $goods_config_msg .= rtrim($goods_msg,'-').' ,';
 //                           }
                        }
-                       $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';
+                       $new_exdata[$k]['config_msg'] = '<table border=1>'.$config_msg.'</table>';//dd($new_exdata[$k]['config_msg']);
                        if (rtrim($config_english_msg, ',') == '') {
                            $new_exdata[$k]['config_english_msg'] =  '';
                        } else {
@@ -229,7 +235,11 @@ class storage extends Model
                        $new_exdata[$k]['goods_config_msg'] = "暂无属性信息";
                        $new_exdata[$k]['get_all_sku'] = $skuSDK->get_all_sku('');
                    }
-                   $new_exdata[$k]['storage_name'] = \App\storage::select('storage_name')->where('storage_id',$storage_check_data->storage_abroad_id)->first()['storage_name'];
+                   if($storage_check_data->storage_abroad_id!='#'){
+                   	   $new_exdata[$k]['storage_name'] = \App\storage::select('storage_name')->where('storage_id',$storage_check_data->storage_abroad_id)->first()['storage_name'];
+                   }else{
+                   	   $new_exdata[$k]['storage_name'] = \App\storage::select('storage_name')->where('is_local','1')->first()['storage_name'];
+                   }
                    $new_exdata[$k]['remark'] = $v['order_remark'];
                    $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
                    $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$v['order_goods_admin_id'])->value('admin_show_name');

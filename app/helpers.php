@@ -201,7 +201,7 @@ if (!function_exists('out_excil')){
 
       $str .="<table border=1><head>".$endname."</head>"; 
 
-      //$str .= $title; 
+      $str .= $title; 
       echo $str;
       $str="";
       ob_start();

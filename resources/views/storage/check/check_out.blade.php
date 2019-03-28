@@ -21,7 +21,7 @@
 					<table class="layui-table"id="tableExcel" lay-filter="test">
 			  <thead>
 			  	<tr>
-			  		<th rowspan="3">扣货信息</th>
+			  		<th rowspan="{{$storage_check_data->count()+1}}">扣货信息</th>
 			  	</tr>
 			  	@foreach($storage_check_data as $k => $v)
 				    <tr>
@@ -48,7 +48,7 @@
 					<table class="layui-table"id="tableExcel" lay-filter="test">
 			  <thead>
 			  	<tr>
-			  		<th rowspan="3">扣货信息</th>
+			  		<th rowspan="{{$storage_check_data->count()+1}}">扣货信息</th>
 			  	</tr>
 			  	@foreach($storage_check_data as $k => $v)
 				    <tr>
@@ -75,7 +75,7 @@
 				<table  id="tableExcel" class="layui-table" lay-filter="test">
 			  <thead>
 			  	<tr>
-			  		<th rowspan="3">扣货信息</th>
+			  		<th rowspan="{{$storage_check_data->count()+1}}">扣货信息</th>
 			  	</tr>
 			  	@foreach($storage_check_data as $k => $v)
 				    <tr>
