@@ -41,6 +41,12 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                     sendMessage::message_notice();
                  })->hourly();
+                 /**
+                  * 定时进行仓储数据校对
+                  */
+                 $schedule->call(function(){
+                    auto_storage_check();
+                 })->hourly();
     }
     /**
      * Register the commands for the application.

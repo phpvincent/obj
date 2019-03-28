@@ -24,8 +24,8 @@ class storage_log extends Model
             }
             $arr[$v]=$storage_log[$v];
         }
-        $unimplortant=['storage_log_admin_id'=>0];
-        foreach($unimplortant as $k => $v){
+        $unimportant=['storage_log_admin_id'=>0];
+        foreach($unimportant as $k => $v){
             if(!isset($storage_log[$k])){
                 $arr[$k]=$v;
             }
