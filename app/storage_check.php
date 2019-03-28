@@ -31,7 +31,7 @@ class storage_check extends Model
     	try{
     		$orders=\App\order::where([['order_type',1],['is_del','0']])->get();
 	        //删除一天前的校准数据
-	        $ids=\App\storage_check::select('storage_check_id')->where('storage_check_time','<',date('Y-m-d H:i:s',time()-86400))->get()->toArray();
+	        $ids=\App\storage_check::select('storage_check_id')->where([['storage_check_time','<',date('Y-m-d H:i:s',time()-86400)],['storage_check_is_out',0]])->get()->toArray();
 	        \App\storage_check::whereIn('storage_check_id',$ids)->delete();
 	        \App\storage_check_data::whereIn('storage_primary_id',$ids)->delete();
 	        \App\storage_check_lack::whereIn('storage_check_lack_primary_id',$ids)->delete();
@@ -502,8 +502,11 @@ class storage_check extends Model
             \Log::info('仓储数据校准失败,admin_id'.\Auth::user()->admin_id.'内容'.$e->getMessage());
             //数据操作日志记录
 	        $arr=['storage_log_type'=>4,'storage_log_operate_type'=>0,'is_danger'=>0,'storage_log_admin_id'=>$user];
-	        if($type) $arr['storage_log_type'=>5,'is_danger'=>1];
-	        $data=['is_sucess'=>0]
+	        if(!$type){
+	        	$arr['storage_log_type']=5;
+	        	$arr['is_danger']=1;
+	        } 
+	        $data=['is_success'=>0];
 	        \App\storage_log::insert_log($arr,serialize($data));
             //关锁
             \App\storage_check_option::where('storage_check_option','1')->update(['storage_check_option_val'=>'0']);
@@ -514,8 +517,11 @@ class storage_check extends Model
         \DB::commit();
         //数据操作日志记录
         $arr=['storage_log_type'=>4,'storage_log_operate_type'=>0,'is_danger'=>0,'storage_log_admin_id'=>$user];
-        if($type) $arr['storage_log_type'=>5,'is_danger'=>1];
-        $data=['is_sucess'=>1,'storage_check_id'=>$storage_check->storage_check_id,'storage_check_string'=>$storage_check->storage_check_string];
+        if(!$type){
+        	$arr['storage_log_type']=5;
+	        	$arr['is_danger']=1;
+        } 
+        $data=['is_success'=>1,'storage_check_id'=>$storage_check->storage_check_id,'storage_check_string'=>$storage_check->storage_check_string];
         \App\storage_log::insert_log($arr,serialize($data));
         return true;
     }
