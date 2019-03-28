@@ -29,4 +29,7 @@ class storage_log extends Model
         }
         return false;
     }
+    public static function insert_log($storage_log,$data=[]){
+        
+    }
 }
