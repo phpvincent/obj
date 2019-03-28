@@ -1055,6 +1055,11 @@ class StorageListController extends Controller
         return \App\storage::order_out($storage_check_id);
     }
 
+    /**
+     * 订单退货
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function return_goods(Request $request)
     {
         if($request->isMethod('get')){
@@ -1070,14 +1075,14 @@ class StorageListController extends Controller
             $data = $request->all();
             $order = order::where('order_id',$data['order_id'])->first();
             $goods_kind_id = goods::where('goods_kind_id',$order->order_goods_id)->first()['goods_kind_id'];
-            $goods_kind = goods_kind::where('goods_kind',$goods_kind_id)->first();
+            $goods_kind = goods_kind::where('goods_kind_id',$goods_kind_id)->first();
             if($express_delivery = trim($data['express_delivery'])){
                 $order->order_send = $express_delivery;
             }
-            //TODO：仓库入库记录
             $order_configs = order_config::where('order_primary_id',$data['order_id'])->get();
+            $expiry_at = date('Y-m-d H:i:s',time()+$data['expiry_at']*3600*24);
             if($order_configs->isEmpty()){
-                $storage_goods_array = ['storage_primary_id'=>$data['storage_id'],'num'=>$order->order_num,'sku'=>$goods_kind->goods_kind_sku,'sku_data'=>'000000','goods_kind_id'=>$goods_kind_id,'order_id'=>$data['order_id'],'expiry_at'=>$data['expiry_at'],'express_delivery'=>$order->order_send];
+                $storage_goods_array = ['storage_primary_id'=>$data['storage_id'],'num'=>$order->order_num,'sku'=>$goods_kind->goods_kind_sku,'sku_data'=>'000000','goods_kind_id'=>$goods_kind_id,'order_id'=>$data['order_id'],'expiry_at'=>$expiry_at,'express_delivery'=>$order->order_send];
                 $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($storage_goods_array);
                 if(!$storage_goods_abroad) return response()->json(['err' => 0, 'str' => '订单退货失败！']);
             }else{
@@ -1098,7 +1103,7 @@ class StorageListController extends Controller
                     }
                     $skuSDK = new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
                     $current_attrs = $skuSDK->get_all_sku($config_val_str); //获取后六位sku
-                    $storage_goods_array = ['storage_primary_id'=>$data['storage_id'],'num'=>$order_data_array['$order_config->order_config'],'sku'=>$goods_kind->goods_kind_sku,'sku_data'=>substr($current_attrs,-6),'goods_kind_id'=>$goods_kind_id,'order_id'=>$data['order_id'],'expiry_at'=>$data['expiry_at'],'express_delivery'=>$order->order_send];
+                    $storage_goods_array = ['storage_primary_id'=>$data['storage_id'],'num'=>$order_data_array['$order_config->order_config'],'sku'=>$goods_kind->goods_kind_sku,'sku_data'=>substr($current_attrs,-6),'goods_kind_id'=>$goods_kind_id,'order_id'=>$data['order_id'],'expiry_at'=>$expiry_at,'express_delivery'=>$order->order_send];
                     $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($storage_goods_array);
                     if(!$storage_goods_abroad) return response()->json(['err' => 0, 'str' => '订单退货失败！']);
                 }
@@ -1111,21 +1116,13 @@ class StorageListController extends Controller
             $order->order_type = 6;
             $order->order_return = $htmlnow;
             $order_data = $order->save();
+            $datas = ['storage_id'=>$data['storage_id'],'remarks'=>'订单退货','order_id'=>$data['order_id']];
+            //记录补货日志
+            $storage_log = ['storage_log_type'=>2,'storage_log_operate_type'=>0,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>0];
+            $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '订单退货失败']);
             if(!$order_data) return response()->json(['err' => 0, 'str' => '订单退货失败！']);
             return response()->json(['err' => 1, 'str' => '订单退货成功！']);
-//            $storage_check_datas = storage_check_data::where('storage_check_data_order',$data['order_id'])->get();
-//            if(!$storage_check_datas->isEmpty()){
-//                foreach ($storage_check_datas as $storage_check_data){
-//                    $storage_log = storage_log::CreateStorageLog($data['storage_id'],$storage_check_data->storage_check_data_order,0,0);
-//                    if(!$storage_log)    return response()->json(['err' => 0, 'str' => '订单退货失败！']);
-//                }
-//            }
-//            //TODO 海外仓产品数据增加
-//            $arr = ['order_id'=>$data['order_id'],'sku'=>'','num'=>0,'express_delivery'=>'','expiry_at'=>'','sku_data'=>'','goods_kind_id'=>''];
-//            $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($arr);
-//            if(!$storage_goods_abroad)  return response()->json(['err' => 0, 'str' => '订单退货失败！']);
-//
-//            dd($request->all());
         }
     }
 
