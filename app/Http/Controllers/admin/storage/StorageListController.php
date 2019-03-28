@@ -979,22 +979,20 @@ class StorageListController extends Controller
                 $ip = $request->getClientIp();
                 //添加补货单日志
                 operation_log($ip,'进行订单出库操作');
-                //仓库记录数据
-                foreach ($request->input('ids') as $item){
-                    $storage_check_datas = storage_check_data::where('storage_check_data_order',$item)->get();
-                    if(!$storage_check_datas->isEmpty()){
-                        foreach ($storage_check_datas as $storage_check_data){
-                            if($storage_check_data->storage_abroad_id == '#')  $storage_check_data->storage_abroad_id = storage::where('is_local',1)->first()['storage_id'];
-                            $storage_log = storage_log::CreateStorageLog($storage_check_data->storage_abroad_id,$storage_check_data->storage_check_data_order,1,0);
-                            if(!$storage_log)    return response()->json(['err' => 0, 'str' => '订单出库失败！']);
-                        }
-                    }
-                }
+                
             }
 
             if(!isset($msg)||$msg==false){
+                //增加操作记录日志
+                $arr=['storage_log_type'=>6,'storage_log_operate_type'=>2,'is_danger'=>1,'storage_log_admin_id'=>\Auth::user()->admin_id];
+                $data=['is_success'=>0];
+                \App\storage_log::insert_log($arr,serialize($data));
                   return response()->json(['err' => 0, 'str' => '订单出库失败！']);
             }
+             //增加操作记录日志
+                $arr=['storage_log_type'=>6,'storage_log_operate_type'=>2,'is_danger'=>1,'storage_log_admin_id'=>\Auth::user()->admin_id];
+                $data=['is_success'=>1,'order_ids'=>$request->input('ids')];
+                \App\storage_log::insert_log($arr,serialize($data));
             return response()->json(['err' => 1, 'str' => '订单出库成功！']);
         }
     }
@@ -1051,6 +1049,10 @@ class StorageListController extends Controller
     public function data_out(Request $request)
     {
         $storage_check_id=$request->input('storage_check_id',\App\storage_check::select('storage_check_id')->where('storage_check_is_out','1')->orderBy('storage_check_time','desc')->first()['storage_check_id']);
+        //增加操作记录日志
+        $arr=['storage_log_type'=>5,'storage_log_operate_type'=>3,'is_danger'=>0,'storage_log_admin_id'=>\Auth::user()->admin_id];
+        $data=['is_success'=>1,'storage_check_id'=>$storage_check_id];
+        \App\storage_log::insert_log($arr,serialize($data));
         //订单导出
         return \App\storage::order_out($storage_check_id);
     }

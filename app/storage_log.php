@@ -45,7 +45,7 @@ class storage_log extends Model
                 $msg=\App\storage_log_data::insert(['storage_log_primary_id'=>$storage_log_id,'storage_log_data'=>$data]);
             }
         }
-        if($msg) return true;
+        if(!isset($msg)||$msg) return true;
         return false;
     }
 }
