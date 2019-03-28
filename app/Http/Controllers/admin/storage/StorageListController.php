@@ -892,8 +892,9 @@ class StorageListController extends Controller
     {   
         $storage_check_id=$request->input('storage_check_id');
         $order_id=$request->input('order_id');
-        $storage_check_data=\App\storage_check::select('storage_check_data.*','storage_check_info.*')
+        $storage_check_data=\App\storage_check::select('storage_check_data.*','storage_check_info.*','storage.storage_name','storage_check.storage_check_string')
                             ->leftjoin('storage_check_data','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                            ->leftjoin('storage','storage_check_data.storage_abroad_id','storage.storage_id')
                             ->leftjoin('storage_check_info','storage_check_data.storage_check_data_id','storage_check_info.storage_check_data_id')
                             ->where('storage_check.storage_check_id',$storage_check_id)
                             //->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])

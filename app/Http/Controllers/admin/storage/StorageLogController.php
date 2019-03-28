@@ -109,9 +109,18 @@ class StorageLogController extends Controller
     	switch ($storage_log->storage_log_type) {
     		case '1':
     		//补货单操作
-    			# code...
-    			break;
     		
+    			break;
+    		case '4':
+    		//仓库校准
+    		$storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
+    		return view('storage.log.log_show4')->with(compact('storage_log',$storage_log_data));
+    			break;
+    		case '5':
+    		//仓库扣货
+    		$storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
+    		return view('storage.log.log_show5')->with(compact('storage_log',$storage_log_data));
+    			break;
     		default:
     			return '无具体数据';
     			break;

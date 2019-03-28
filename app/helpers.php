@@ -492,6 +492,7 @@ if (!function_exists("auto_storage_check")) {
     {     
         //数据校准
         $msg=\App\storage_check::storage_center(true);
+        
         //添加补货单日志
         operation_log('system','进行订单数据校准操作');
   }

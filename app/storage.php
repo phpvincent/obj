@@ -245,13 +245,14 @@ class storage extends Model
                    $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$v['order_goods_admin_id'])->value('admin_show_name');
                }
            }
-         $filename='订单记录'.date('Y-m-d H:i:s',time()).'.xls';
+          $storage_check=\App\storage_check::select('storage_check_string')->where('storage_check_id',$storage_check_id)->first();
+         $filename='出货单'.$storage_check->storage_check_string.'.xls';
 
        if($goods_blade_type == 6 || $goods_blade_type == 7){
            $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','出货信息','出货仓','备注','支付方式','商品所属人'];
        }else{
            $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','出货信息','出货仓','备注','支付方式','商品所属人'];
        }
-        out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
+        out_excil($new_exdata,$zdname,'出货单'.$storage_check->storage_check_string,$filename);
     }
 }

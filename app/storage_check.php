@@ -500,6 +500,11 @@ class storage_check extends Model
             \DB::rollback();
             $storage_check->delete();
             \Log::info('仓储数据校准失败,admin_id'.\Auth::user()->admin_id.'内容'.$e->getMessage());
+            //数据操作日志记录
+	        $arr=['storage_log_type'=>4,'storage_log_operate_type'=>0,'is_danger'=>0,'storage_log_admin_id'=>$user];
+	        if($type) $arr['storage_log_type'=>5,'is_danger'=>1];
+	        $data=['is_sucess'=>0]
+	        \App\storage_log::insert_log($arr,serialize($data));
             //关锁
             \App\storage_check_option::where('storage_check_option','1')->update(['storage_check_option_val'=>'0']);
            return false;
@@ -507,6 +512,11 @@ class storage_check extends Model
         //关锁
         \App\storage_check_option::where('storage_check_option','1')->update(['storage_check_option_val'=>'0']);
         \DB::commit();
+        //数据操作日志记录
+        $arr=['storage_log_type'=>4,'storage_log_operate_type'=>0,'is_danger'=>0,'storage_log_admin_id'=>$user];
+        if($type) $arr['storage_log_type'=>5,'is_danger'=>1];
+        $data=['is_sucess'=>1,'storage_check_id'=>$storage_check->storage_check_id,'storage_check_string'=>$storage_check->storage_check_string];
+        \App\storage_log::insert_log($arr,serialize($data));
         return true;
     }
         /**
