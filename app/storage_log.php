@@ -47,7 +47,7 @@ class storage_log extends Model
         $unimplortant=['storage_log_admin_id'=>0];
         foreach($unimplortant as $k => $v){
             if(!isset($storage_log[$k])){
-                $storage_log[$k]=>$v;
+                $storage_log[$k]=$v;
             }
         }
         $storage_log=self::insert($arr);

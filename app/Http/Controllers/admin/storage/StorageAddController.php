@@ -90,6 +90,7 @@ class StorageAddController extends Controller
             $product = goods_kind::all();
             return view('storage.add.add_goods')->with(compact('product'));
         }elseif($request->isMethod('post')){
+            $datas = $request->all();
             $goods_attr = json_decode($request->input('goods_attr'),true);
             if(empty($goods_attr)){
                 return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
@@ -105,10 +106,10 @@ class StorageAddController extends Controller
             if ($validator->fails()) {
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
             }
-
+            $admin_id = Auth::user()->admin_id;
             $storage_append = new storage_append();
             $storage_append->storage_append_time = $request->input('storage_append_time');
-            $storage_append->storage_append_admin_id = Auth::user()->admin_id;
+            $storage_append->storage_append_admin_id = $admin_id;
             $storage_append->storage_append_single = $request->input('storage_append_single');
             $storage_append->storage_append_status = 0;
             $storage_append->storage_append_msg = $request->input('storage_append_msg');
@@ -128,9 +129,12 @@ class StorageAddController extends Controller
             }
 
             $storage_append_data = DB::table('storage_append_data')->insert($data_array);
+
+            $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
+            $storage_log_data = storage_log::insert_log($storage_log,$datas);
             $ip = $request->getClientIp();
             //添加补货单日志
-            operation_log($ip,'添加补货单成功,补货单号：'.$request->input('storage_append_single'),json_encode($request->all()));
+            operation_log($ip,'添加补货单成功,补货单号：'.$request->input('storage_append_single'),json_encode($datas));
             if($storage_append_data){
                 return response()->json(['err' => '1', 'msg' => '添加补货单成功']);
             }
