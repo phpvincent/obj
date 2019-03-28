@@ -140,7 +140,6 @@ class StorageAddController extends Controller
             }
             return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
         }
-
     }
 
     /**
@@ -328,7 +327,7 @@ class StorageAddController extends Controller
     }
 
     /**
-     * 删除采购单商品
+     * 删除采购单商品(已删除)
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -396,8 +395,13 @@ class StorageAddController extends Controller
         if(!trim($num)){
             $num = 0;
         }
+        $datas = $request->all();
+        $admin_id = Auth::user()->admin_id;
         $data = storage_append_data::where('storage_append_data_id',$request->input('storage_append_data_id'))->update(['storage_append_data_num'=>$num]);
         $ip = $request->getClientIp();
+        $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>2,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
+        $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+        if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
         //添加补货单日志
         operation_log($ip,'修改补货单商品数量,补货单产品数据ID：'.$request->input('storage_append_data_id'));
         if($data){

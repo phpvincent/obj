@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class storage_log extends Model
 {
@@ -18,18 +19,19 @@ class storage_log extends Model
     public static function insert_log(Array $storage_log,$data=[]){
         $arr=[];
         $allowarr=['storage_log_type','storage_log_operate_type','is_danger'];
-        foreach($allowarr as $k => $v){
-            if(!isset($storage_log[$v])){
-                return false;
-            }
-            $arr[$v]=$storage_log[$v];
-        }
         $unimportant=['storage_log_admin_id'=>0];
         foreach($unimportant as $k => $v){
             if(!isset($storage_log[$k])){
                 $arr[$k]=$v;
             }
         }
+        foreach($allowarr as $k => $v){
+            if(!isset($storage_log[$v])){
+                return false;
+            }
+            $arr[$v]=$storage_log[$v];
+        }
+        $arr['created_at'] = date('Y-m-d H:i:s');
         $storage_log_id=self::insertGetId($arr);
         if($data!=null){
             if(is_array($data)){
