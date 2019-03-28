@@ -13,7 +13,7 @@ class storage_log extends Model
     /**
      * 操作记录表插入入口
      * @param  [array] $storage_log [主表数据]
-     * @param  array  $data        [从表数据]
+     * @param  array  $data        [从表数据，一维数据]
      * @return [type]              [description]
      */
     public static function insert_log(Array $storage_log,$data=[]){
@@ -23,6 +23,8 @@ class storage_log extends Model
         foreach($unimportant as $k => $v){
             if(!isset($storage_log[$k])){
                 $arr[$k]=$v;
+            }else{
+                $arr[$k]=$storage_log[$k];
             }
         }
         foreach($allowarr as $k => $v){

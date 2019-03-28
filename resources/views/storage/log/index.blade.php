@@ -148,7 +148,7 @@
                   type:2,
                   offset:'rt',
                   title:'具体数据',
-                  area:[400,800],
+                  area:[600,800],
                   content:"{{url('/admin/storage/log/log_show?storage_log_id=')}}"+data.storage_log_id,
                 });
 

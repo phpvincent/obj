@@ -71,8 +71,8 @@
   <blockquote class="layui-elem-quote">总数目：@{{d[0].storage_check_data_num}}</blockquote>
   <blockquote class="layui-elem-quote">产品sku：@{{d[0].storage_check_data_sku}}</blockquote>
   <blockquote class="layui-elem-quote">订单编号：@{{d[0].storage_check_data_order}}</blockquote>
-  <blockquote class="layui-elem-quote">校准单编号：@{{d[0].storage_primary_id}}</blockquote>
-  <blockquote class="layui-elem-quote" style="color:brown">仓库：@{{d[0].storage_abroad_id}}</blockquote>
+  <blockquote class="layui-elem-quote">校准单编号：@{{d[0].storage_check_string}}</blockquote>
+  <blockquote class="layui-elem-quote" style="color:brown">仓库名：@{{d[0].storage_name}}</blockquote>
   </div>
   <div>扣货信息</div>
   <table class="layui-table">
@@ -149,7 +149,7 @@
         ,{field: 'storage_check_is_out', title: '校对类型'}
         ,{field: '', title: '操作', templet: function(d){
            if(d.storage_check_is_out === '<span style="color:red;">仓储扣货</span>') {
-             return '<button class="layui-btn layui-btn-xs" lay-event="out">导出</button>'
+             return '<button class="layui-btn layui-btn-xs" lay-event="out">出货单导出</button>'
            }else {return '--'}
         }}
       ]]
@@ -223,7 +223,7 @@
         ,{field: 'storage_check_data_sku', title: '产品SKU（前四位）', minWidth: 150}
         ,{field: 'storage_check_data_type', title: '仓储校准数据类型', minWidth: 150}
         ,{field: 'storage_name', title: '仓库名', minWidth: 90}
-        ,{ title: '操作', width: 130, templet: function(){ return '<button class="layui-btn" lay-event="showsong">显示子table</button>'}}
+        ,{ title: '操作', width: 130, templet: function(){ return '<button class="layui-btn" lay-event="showsong">订单扣货详情</button>'}}
       ]]
      };
        //zi表格初始化
@@ -234,8 +234,8 @@
             console.log(data)
             layer.open({
             type: 1 //此处以iframe举例
-            ,title: '显示子表'
-            ,area: ['800px', '300px']
+            ,title: '订单扣货详情'
+            ,area: ['800px', '600px']
             ,maxmin: true
             ,content: '<div id="'+data.storage_check_data_order+'"></div>'
             ,zIndex: layer.zIndex //重点1
@@ -276,7 +276,7 @@
              ,toolbar:'#use_button'
              ,defaultToolbar: ['filter','exports', 'print']
              ,text: {
-               none: '暂无订单数据' 
+               none: '暂无缺货数据' 
              }
              ,width: 1250
              ,autoSort:false
@@ -304,7 +304,7 @@
     if (flag) {
       layer.open({
         type: 1 //此处以iframe举例
-        ,title: '多表对比'
+        ,title: '多记录对比'
         ,area: ['600px', '100%']
         ,shade: 0
         ,maxmin: true
