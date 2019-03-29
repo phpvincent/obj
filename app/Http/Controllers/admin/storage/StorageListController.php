@@ -94,11 +94,16 @@ class StorageListController extends Controller
             $storage->storage_name = $request->input('storage_name');
             $data = $storage->save();
             $ip = $request->getClientIp();
+            $storage_log = ['storage_log_type'=>3,'storage_log_operate_type'=>0,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>0];
             //添加补货单日志
             operation_log($ip,'新增仓库,仓库名称：'.$request->input('storage_name'),json_encode($request->all()));
             if ($data) {
+                $datass = ['storage_id'=>$storage->storage_id,'storage_name'=>$request->input('storage_name'),'remarks'=>'新增仓库','is_success'=>1];
+                storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '1', 'msg' => '新增仓库成功']);
             }
+            $datass = ['storage_id'=>$storage->storage_id,'storage_name'=>$request->input('storage_name'),'remarks'=>'新增仓库','is_success'=>0];
+            storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '0', 'msg' => '新增仓库失败']);
         }
     }
@@ -133,11 +138,16 @@ class StorageListController extends Controller
             $storage->storage_name = $request->input('storage_name');
             $data = $storage->save();
             $ip = $request->getClientIp();
+            $storage_log = ['storage_log_type'=>3,'storage_log_operate_type'=>2,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>0];
             //添加补货单日志
             operation_log($ip,'编辑仓库,仓库名称：'.$request->input('storage_name'),json_encode($request->all()));
             if ($data) {
+                $datass = ['storage_id'=>$storage->storage_id,'storage_name'=>$request->input('storage_name'),'remarks'=>'编辑仓库','is_success'=>1];
+                storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '1', 'msg' => '修改仓库信息成功']);
             }
+            $datass = ['storage_id'=>$storage->storage_id,'storage_name'=>$request->input('storage_name'),'remarks'=>'编辑仓库','is_success'=>0];
+            storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '0', 'msg' => '修改仓库信息失败']);
         }
     }
@@ -146,12 +156,17 @@ class StorageListController extends Controller
     {
     	$msg=storage::where('storage_id',$request->input('id',0))->update(['storage_status'=>0]);
         $ip = $request->getClientIp();
+        $storage_log = ['storage_log_type'=>3,'storage_log_operate_type'=>1,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>1];
         //添加补货单日志
         operation_log($ip,'禁用仓库,仓库ID：'.$request->input('id',0));
     	if($msg){
+            $datass = ['storage_id'=>$request->input('id',0),'storage_name'=>storage::where('storage_id',$request->input('id',0))->first()['storage_name'],'remarks'=>'禁用仓库','is_success'=>1];
+            storage_log::insert_log($storage_log,serialize($datass));
     		\Log::notice($request->getClientIp().'禁用了仓库:'.$request->input('id'));
     		return response()->json(['err'=>1,'str'=>'仓库禁用成功！']);
     	}
+        $datass = ['storage_id'=>$request->input('id',0),'storage_name'=>storage::where('storage_id',$request->input('id',0))->first()['storage_name'],'remarks'=>'禁用仓库','is_success'=>0];
+        storage_log::insert_log($storage_log,serialize($datass));
     	return response()->json(['err'=>0,'str'=>'仓库禁用失败！']);
     }
 
@@ -416,11 +431,22 @@ class StorageListController extends Controller
                         ->update(['num'=>$num]);
                 }
                 $ip = $request->getClientIp();
+                $storage_log = ['storage_log_type'=>2,'storage_log_operate_type'=>2,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>1];
+
                 //添加补货单日志
                 operation_log($ip,'编辑产品库存数量,仓库名称：'.$storage->storage_name);
+                $goods_kind = goods_kind::where('goods_kind_sku',$four_sku)->first();
                 if($products){
+                    $data = ['remarks'=>'编辑产品库存数量','goods_id'=>$goods_kind->goods_kind_id,'goods_kind_name'=>$goods_kind->goods_kind_name,'storage_id'=>$storage_id,'storage_name'=>$storage->storage_name,'is_success'=>1];
+                    //记录补货日志
+                    $storage_log_data = storage_log::insert_log($storage_log,serialize($data));
+                    if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '订单退货失败']);
                     return response()->json(['err'=>1,'str'=>'修改产品成功！']);
                 }else{
+                    $data = ['remarks'=>'编辑产品库存数量','goods_id'=>$goods_kind->goods_kind_id,'goods_kind_name'=>$goods_kind->goods_kind_name,'storage_id'=>$storage_id,'storage_name'=>$storage->storage_name,'is_success'=>0];
+                    //记录补货日志
+                    $storage_log_data = storage_log::insert_log($storage_log,serialize($data));
+                    if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '订单退货失败']);
                     return response()->json(['err'=>0,'str'=>'修改产品失败！']);
                 }
             }else{
@@ -490,12 +516,21 @@ class StorageListController extends Controller
             }else{
                 $storage_goods = storage_goods_abroad::where('storage_primary_id',$storage_id)->where('goods_kind_id',$id)->delete();
             }
+            $storage_log = ['storage_log_type'=>2,'storage_log_operate_type'=>1,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>1];
             $ip = $request->getClientIp();
             //添加补货单日志
             operation_log($ip,'删除仓库中产品,仓库名称：'.$storage->storage_name);
+            $goods_kind = goods_kind::where('goods_kind_id',$id)->first();
             if($storage_goods){
+                $data = ['remarks'=>'删除仓库中产品','goods_id'=>$id,'goods_kind_name'=>$goods_kind->goods_kind_name,'storage_id'=>$storage_id,'storage_name'=>$storage->storage_name,'is_success'=>1];
+                //记录补货日志
+                $storage_log_data = storage_log::insert_log($storage_log,serialize($data));
+                if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '订单退货失败']);
                 return response()->json(['err'=>1,'str'=>'删除产品成功！']);
             }else{
+                $data = ['remarks'=>'删除仓库中产品','goods_id'=>$id,'goods_kind_name'=>$goods_kind->goods_kind_name,'storage_id'=>$storage_id,'storage_name'=>$storage->storage_name,'is_success'=>1];
+                //记录补货日志
+                storage_log::insert_log($storage_log,serialize($data));
                 return response()->json(['err'=>0,'str'=>'删除产品失败！']);
             }
         }else{
@@ -1118,12 +1153,18 @@ class StorageListController extends Controller
             $order->order_type = 6;
             $order->order_return = $htmlnow;
             $order_data = $order->save();
-            $datas = ['storage_id'=>$data['storage_id'],'remarks'=>'订单退货','order_id'=>$data['order_id']];
+            $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>0];
             //记录补货日志
-            $storage_log = ['storage_log_type'=>2,'storage_log_operate_type'=>0,'storage_log_admin_id'=>Auth::user()->admin_id,'is_danger'=>0];
-            $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+            if(!$order_data) {
+                $data = ['order_id'=>$data['order_id'],'order_single'=>$order->order_single_id,'status'=>2,'remarks'=>'订单退货','storage_id'=>$data['storage_id'],'storage_name'=>storage::where('storage_id',$data['storage_id'])->first()['storage_name'],'is_success'=>0];
+                //记录补货日志
+                storage_log::insert_log($storage_log,serialize($data));
+                return response()->json(['err' => 0, 'str' => '订单退货失败！']);
+            }
+            $data = ['order_id'=>$data['order_id'],'order_single'=>$order->order_single_id,'status'=>2,'remarks'=>'订单退货','storage_id'=>$data['storage_id'],'storage_name'=>storage::where('storage_id',$data['storage_id'])->first()['storage_name'],'is_success'=>1];
+            //记录补货日志
+            $storage_log_data = storage_log::insert_log($storage_log,serialize($data));
             if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '订单退货失败']);
-            if(!$order_data) return response()->json(['err' => 0, 'str' => '订单退货失败！']);
             return response()->json(['err' => 1, 'str' => '订单退货成功！']);
         }
     }

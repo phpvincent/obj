@@ -107,6 +107,7 @@ class StorageAddController extends Controller
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
             }
             $admin_id = Auth::user()->admin_id;
+            $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
             $storage_append = new storage_append();
             $storage_append->storage_append_time = $request->input('storage_append_time');
             $storage_append->storage_append_admin_id = $admin_id;
@@ -115,6 +116,8 @@ class StorageAddController extends Controller
             $storage_append->storage_append_msg = $request->input('storage_append_msg');
             $data  = $storage_append->save();
             if(!$data){
+                $datass = ['storage_append_id'=>$storage_append->storage_append_id,'storage_append_single'=>$request->input('storage_append_single'),'remarks'=>'添加补货单','is_success'=>0];
+                storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
             }
             $data_array = [];
@@ -129,16 +132,16 @@ class StorageAddController extends Controller
             }
 
             $storage_append_data = DB::table('storage_append_data')->insert($data_array);
-            $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
-            $datass = ['storage_append_id'=>$storage_append->storage_append_id,'remarks'=>'添加补货单'];
-            $storage_log_data = storage_log::insert_log($storage_log,serialize($datass));
-            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
             $ip = $request->getClientIp();
             //添加补货单日志
             operation_log($ip,'添加补货单成功,补货单号：'.$request->input('storage_append_single'),json_encode($datas));
             if($storage_append_data){
+                $datass = ['storage_append_id'=>$storage_append->storage_append_id,'storage_append_single'=>$request->input('storage_append_single'),'remarks'=>'添加补货单','is_success'=>1];
+                storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '1', 'msg' => '添加补货单成功']);
             }
+            $datass = ['storage_append_id'=>$storage_append->storage_append_id,'storage_append_single'=>$request->input('storage_append_single'),'remarks'=>'添加补货单','is_success'=>0];
+            storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '0', 'msg' => '添加补货单失败']);
         }
     }
@@ -200,14 +203,13 @@ class StorageAddController extends Controller
             $storage_append->storage_append_status = 0;
             $storage_append->storage_append_msg = $request->input('storage_append_msg');
             $data  = $storage_append->save();
-            if(!$data){
-                return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
-            }
             $admin_id = Auth::user()->admin_id;
             $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>2,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
-            $datass = ['storage_append_id'=>$storage_append_id,'remarks'=>'编辑补货单'];
-            $storage_log_data = storage_log::insert_log($storage_log,serialize($datass));
-            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
+            if(!$data){
+                $datass = ['storage_append_id'=>$storage_append_id,'storage_append_single'=>$storage_append->storage_append_single,'remarks'=>'编辑补货单','is_success'=>0];
+                storage_log::insert_log($storage_log,serialize($datass));
+                return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
+            }
             $ip = $request->getClientIp();
             //添加补货单日志
             operation_log($ip,'编辑补货单,补货单号：'.$request->input('storage_append_single'),json_encode($datas));
@@ -229,9 +231,14 @@ class StorageAddController extends Controller
                 $storage_append_data->storage_append_kind_id = $item['goods_kind_id'];
                 $storage_append_datas = $storage_append_data->save();
                 if(!$storage_append_datas){
+                    $datass = ['storage_append_id'=>$storage_append_id,'storage_append_single'=>$storage_append->storage_append_single,'remarks'=>'编辑补货单','is_success'=>0];
+                    $storage_log_data = storage_log::insert_log($storage_log,serialize($datass));
+                    if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
                     return response()->json(['err' => '0', 'msg' => '编辑补货单失败']);
                 }
             }
+            $datass = ['storage_append_id'=>$storage_append_id,'storage_append_single'=>$storage_append->storage_append_single,'remarks'=>'编辑补货单','is_success'=>1];
+            storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '1', 'msg' => '编辑补货单成功']);
         }
     }
@@ -401,15 +408,19 @@ class StorageAddController extends Controller
         $storage_append_data_id = $request->input('storage_append_data_id');
         $data = storage_append_data::where('storage_append_data_id',$storage_append_data_id)->update(['storage_append_data_num'=>$num]);
         $ip = $request->getClientIp();
-        $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>2,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
-        $datas = ['storage_append_data_id'=>$storage_append_data_id,'remarks'=>'修改补货单商品数量','num'=>$num];
-        $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
-        if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '修改数据失败']);
+        $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>2,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
         //添加补货单日志
         operation_log($ip,'修改补货单商品数量,补货单产品数据ID：'.$storage_append_data_id);
+        $storage_append_datas = storage_append_data::where('storage_append_data_id',$storage_append_data_id)->first();
         if($data){
+            $datas = ['storage_append_data_id'=>$storage_append_data_id,'storage_append_single'=>$storage_append_datas->storage_append_single,'storage_append_id'=>$storage_append_datas->storage_append_id,'remarks'=>'修改补货单商品数量','is_success'=>1];
+            $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '修改数据失败']);
             return response()->json(['err' => 1, "msg" => "修改数据成功"]);
         }
+        $datas = ['storage_append_data_id'=>$storage_append_data_id,'storage_append_single'=>$storage_append_datas->storage_append_single,'storage_append_id'=>$storage_append_datas->storage_append_id,'remarks'=>'修改补货单商品数量','is_success'=>0];
+        $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+        if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '修改数据失败']);
         return response()->json(['err' => 0, "msg" => "修改数据失败"]);
     }
 
@@ -430,8 +441,11 @@ class StorageAddController extends Controller
         //获取本地仓库
         $storage = storage::where('is_local',1)->first();
         $ip = $request->getClientIp();
+        $admin_id = Auth::user()->admin_id;
+        $storage_append_single = storage_append::where('storage_append_id',$storage_append_id)->first()['storage_append_single'];
         //添加补货单日志
-        operation_log($ip,'补货单数据入库,补货单号：'.storage_append::where('storage_append_id',$storage_append_id)->first()['storage_append_single']);
+        $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
+        operation_log($ip,'补货单数据入库,补货单号：'.$storage_append_single);
         foreach ($storage_append_datas as $item){
             $storage_goods_local = storage_goods_local::where('sku',$item->storage_append_data_sku)
                 ->where('storage_primary_id',$storage->storage_id)
@@ -452,18 +466,15 @@ class StorageAddController extends Controller
                     ->where('sku_attr',$item->storage_append_data_sku_attr)->update($storage_num_data);
             }
             if(!$storage_goods_local){
+                $data = ['order_id'=>$storage_append_id,'order_single'=>$storage_append_single,'status'=>1,'remarks'=>'补货单入库','storage_id'=>$storage->storage_id,'storage_name'=>$storage->storage_name,'is_success'=>0];
+                storage_log::insert_log($storage_log,serialize($data));
                 return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
             }
         }
-        $admin_id = Auth::user()->admin_id;
-        $data = ['storage_append_id'=>$storage_append_id,'remarks'=>'补货单入库','storage_id'=>$storage->storage_id];
+        $data = ['order_id'=>$storage_append_id,'order_single'=>$storage_append_single,'status'=>1,'remarks'=>'补货单入库','storage_id'=>$storage->storage_id,'storage_name'=>$storage->storage_name,'is_success'=>1];
         //记录补货日志
-        $storage_log = ['storage_log_type'=>2,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
         $storage_log_data = storage_log::insert_log($storage_log,serialize($data));
         if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '补货单入库失败']);
-        if(!$storage_log){
-            return response()->json(['err' => 0, "msg" => "补货单入库失败"]);
-        }
         return response()->json(['err' => 1, "msg" => "补货单入库成功"]);
     }
 
@@ -494,16 +505,18 @@ class StorageAddController extends Controller
             $ip = $request->getClientIp();
             //补货单取消日志
             operation_log($ip, '补货单取消,补货单ID：' . $storage_append_id);
-            $datas = ['storage_append_id'=>$storage_append_id,'remarks'=>'补货单取消'];
             $admin_id = Auth::user()->admin_id;
             $storage_log = ['storage_log_type'=>1,'storage_log_operate_type'=>1,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
-            $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
-            if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '补货单取消失败']);
             $storage_append = storage_append::where('storage_append_id', $storage_append_id)->update(['storage_append_status' => '2', 'storage_append_return' => $storage_append_return]);
             $storage_append_data = storage_append_data::where('storage_append_id', $storage_append_id)->update(['storage_append_data_status' => '2']);
             if ($storage_append && $storage_append_data) {
+                $datas = ['storage_append_id'=>$storage_append_id,'storage_append_single'=>$storage_append->storage_append_single,'remarks'=>'补货单取消','is_success'=>1];
+                $storage_log_data = storage_log::insert_log($storage_log,serialize($datas));
+                if(!$storage_log_data) return response()->json(['err' => '0', 'msg' => '补货单取消失败']);
                 return response()->json(['err' => 1, "msg" => "补货单取消成功"]);
             }
+            $datas = ['storage_append_id'=>$storage_append_id,'storage_append_single'=>$storage_append->storage_append_single,'remarks'=>'补货单取消','is_success'=>0];
+            storage_log::insert_log($storage_log,serialize($datas));
             return response()->json(['err' => 0, "msg" => "补货单取消失败"]);
         }
     }

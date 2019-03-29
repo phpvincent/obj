@@ -74,6 +74,8 @@ class StorageLogController extends Controller
 	                	$storage_log->storage_log_type='订单扣货相关操作';
 	                }elseif($storage_log->storage_log_type==6){
 	                	$storage_log->storage_log_type='订单出仓相关操作';
+	                }elseif($storage_log->storage_log_type==7){
+	                	$storage_log->storage_log_type='商品入库相关操作';
 	                }
 	                if($storage_log->is_danger==1){
 	                	$storage_log->is_danger='是';
@@ -108,8 +110,22 @@ class StorageLogController extends Controller
     	$storage_log=\App\storage_log::where('storage_log_id',$id)->first();
     	switch ($storage_log->storage_log_type) {
     		case '1':
-    		//补货单操作
-    		
+    		    //补货单操作
+                $storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
+                $storage_log_data=unserialize($storage_log_data->storage_log_data);
+                return view('storage.log.log_show1')->with(compact('storage_log','storage_log_data'));
+    			break;
+    		case '2':
+    		    //库存数据操作
+                $storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
+                $storage_log_data=unserialize($storage_log_data->storage_log_data);
+                return view('storage.log.log_show2')->with(compact('storage_log','storage_log_data'));
+    			break;
+    		case '3':
+    		    //仓库信息操作
+                $storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
+                $storage_log_data=unserialize($storage_log_data->storage_log_data);
+                return view('storage.log.log_show3')->with(compact('storage_log','storage_log_data'));
     			break;
     		case '4':
     		//仓库校准
@@ -128,6 +144,12 @@ class StorageLogController extends Controller
     		$storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
     		$storage_log_data=unserialize($storage_log_data->storage_log_data);
     		return view('storage.log.log_show6')->with(compact('storage_log','storage_log_data'));
+    			break;
+    		case '7':
+    		//订单出库
+    		$storage_log_data=\App\storage_log_data::where('storage_log_primary_id',$id)->first();
+    		$storage_log_data=unserialize($storage_log_data->storage_log_data);
+    		return view('storage.log.log_show7')->with(compact('storage_log','storage_log_data'));
     			break;
     		default:
     			return '无具体数据';
