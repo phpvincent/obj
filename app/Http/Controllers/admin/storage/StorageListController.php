@@ -83,8 +83,12 @@ class StorageListController extends Controller
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
             }
             $storages = storage::where('storage_name',$request->input('storage_name'))->first();
+            $template_type = storage::where('template_type_primary_id',$request->input('template_id'))->first();
             if($storages){
                 return response()->json(['err' => '0', 'msg' => '仓库已存在，请更换仓库名称']);
+            }
+            if($template_type){
+                return response()->json(['err' => '0', 'msg' => '每个地区只能存在一个仓库，请更换地区或联系管理员']);
             }
             $storage = new storage();
             $storage->admin_id = Auth::user()->admin_id; //仓库创建人
@@ -1170,44 +1174,50 @@ class StorageListController extends Controller
     }
     public function home_table(Request $request)
     {
-         $page = $request->input('page', 1);
+            $page = $request->input('page', 1);
             $limit = $request->input('limit', 10);
-            $storage_check_id=$request->input('storage_check_id');
-            $search = trim($request->input('search'));
             //排序参数
-            $field = $request->input('field', 'storage_check_lack_num'); //排序字段
+            $field = $request->input('field', 'sum'); //排序字段
             $dsc = $request->input('order', 'desc'); //排序顺序
             $start = ($page - 1) * $limit;
-            $less=\App\storage_check_lack::select('storage_check_lack.*','goods_kind.goods_kind_name')
-                 ->leftjoin('goods_kind','storage_check_lack.storage_check_lack_sku','goods_kind.goods_kind_sku')
-                 ->where(function($query)use($search){
-                    if($search!=null){
-                    $query->where('goods_kind.goods_kind_id','like','%'.$search.'%');
-                    $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
-                    $query->where('storage_check_lack.storage_check_lack_six_sku','like','%'.$search.'%');
-                    $query->where('storage_check_lack.storage_check_lack_sku','like','%'.$search.'%');
-                    }
+           /*  $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                        ->where(function ($query) use ($request,$search){
+                            if($search){
+                                $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                            }
+                        })
+                        ->where('storage_goods_local.storage_primary_id', $id)
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->orderBy($field, $dsc)
+                        ->offset($start)
+                        ->limit($limit)
+                        ->get();*/
+            $data=\App\storage_check_data::join('storage_check','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                 ->select('storage_check.*',DB::Raw('SUM(storage_check_data.storage_check_data_num) AS sum'))
+                 ->where(function($query){
+                    $query->where('storage_check.storage_check_is_out','1');
+                    $query->where('storage_check_data.storage_check_data_type','<>','4');
                  })
-                 ->where('storage_check_lack.storage_check_lack_primary_id',$storage_check_id)
+                 ->groupBy('storage_check.storage_check_id')
+                 ->orderBy($field, $dsc)
+                 ->offset($start)
+                 ->limit($limit)
                  ->get();
-            $count=\App\storage_check_lack::select('storage_check_lack.*','goods_kind.goods_kind_name')
-                 ->leftjoin('goods_kind','storage_check_lack.storage_check_lack_sku','goods_kind.goods_kind_sku')
-                 ->where(function($query)use($search){
-                    if($search!=null){
-                    $query->where('goods_kind.goods_kind_id','like','%'.$search.'%');
-                    $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
-                    $query->where('storage_check_lack.storage_check_lack_six_sku','like','%'.$search.'%');
-                    $query->where('storage_check_lack.storage_check_lack_sku','like','%'.$search.'%');
-                    }
+            $count=\App\storage_check_data::join('storage_check','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                 ->select('storage_check.*',DB::Raw('SUM(storage_check_data.storage_check_data_num) AS sum'))
+                 ->where(function($query){
+                    $query->where('storage_check.storage_check_is_out','1');
+                    $query->where('storage_check_data.storage_check_data_type','<>','4');
                  })
-                 ->where('storage_check_lack.storage_check_lack_primary_id',$storage_check_id)
+                 ->groupBy('storage_check.storage_check_id')
                  ->count();
            /* if($count > 0){
                 foreach ($orders as &$data){
                   $data->goods_blade_type=\App\goods::get_blade_currency($data->goods_blade_type,$data->order_country);
                 }
             }*/
-            $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $less];
+            $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $data];
             return response()->json($arr);
     }
 

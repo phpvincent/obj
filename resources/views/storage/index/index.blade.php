@@ -234,16 +234,16 @@ img{ border:none; vertical-align:top;}
             <div class="layui-card">
               <div class="layui-tab layui-tab-brief layadmin-latestData">
                 <ul class="layui-tab-title">
-                  <li class="layui-this">今日热搜</li>
-                  <li>今日热帖</li>
+                  <li class="layui-this">海外仓扣货榜</li>
+                  <!-- <li>今日热帖</li> -->
                 </ul>
                 <div class="layui-tab-content">
                   <div class="layui-tab-item layui-show">
-                    <table id="LAY-index-topSearch"></table>
+                    <table id="LAY-index-dataout"></table>
                   </div>
-                  <div class="layui-tab-item">
+                  <!-- <div class="layui-tab-item">
                     <table id="LAY-index-topCard"></table>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -303,24 +303,35 @@ img{ border:none; vertical-align:top;}
         <div class="layui-card">
           <div class="layui-card-header">效果报告</div>
           <div class="layui-card-body layadmin-takerates">
+            @if($order_count != 0 || $yse_order_count != 0)
             <div class="layui-progress" lay-showPercent="yes">
               @if($t_out_today/$order_count > $y_out_today/$yse_order_count)
-              <h3>今日订单扣货率（日同比 {{($t_out_today/$order_count-$y_out_today/$yse_order_count)*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_out_today/$order_count*100}}%"></div>
+              <h3>今日订单扣货率（日同比 {{sprintf("%.4f", ($t_out_today/$order_count-$y_out_today/$yse_order_count))*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_out_today/$order_count)*100}}%"></div>
               @else
-               <h3>今日订单扣货率（日同比 {{($y_out_today/$yse_order_count-$t_out_today/$order_count)*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_out_today/$order_count*100}}%"></div>
+               <h3>今日订单扣货率（日同比 {{sprintf("%.4f", ($y_out_today/$yse_order_count-$t_out_today/$order_count))*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_out_today/$order_count)*100}}%"></div>
               @endif
             </div>
             <div class="layui-progress" lay-showPercent="yes">
               @if($t_splite_count/$order_count > $y_splite_count/$yse_order_count)
-              <h3>今日订单出仓率（日同比 {{($t_splite_count/$order_count-$y_splite_count/$yse_order_count)*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_splite_count/$order_count*100}}%"></div>
+              <h3>今日订单出仓率（日同比 {{sprintf("%.4f", ($t_splite_count/$order_count-$y_splite_count/$yse_order_count))*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_splite_count/$order_count)*100}}%"></div>
               @else
-               <h3>今日订单出仓率（日同比 {{($y_splite_count/$yse_order_count-$t_splite_count/$order_count)*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_splite_count/$order_count*100}}%"></div>
+               <h3>今日订单出仓率（日同比 {{(sprintf("%.4f", $y_splite_count/$yse_order_count-$t_splite_count/$order_count))*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_splite_count/$order_count)*100}}%"></div>
               @endif
             </div>
+              @else
+              <div class="layui-progress" lay-showPercent="yes">
+                  <h3>今日订单扣货率（日同比 0% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                  <div class="layui-progress-bar" lay-percent="0%"></div>
+              </div>
+              <div class="layui-progress" lay-showPercent="yes">
+                  <h3>今日订单出仓率（日同比 0% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                  <div class="layui-progress-bar" lay-percent="0%"></div>
+              </div>
+            @endif
           </div>
         </div>
         
@@ -328,12 +339,12 @@ img{ border:none; vertical-align:top;}
           <div class="layui-card-header">实时监控</div>
           <div class="layui-card-body layadmin-takerates">
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>CPU使用率</h3>
-              <div class="layui-progress-bar" lay-percent="58%"></div>
+              <h3>仓库出货率（{{$storage_out_lv}} <span class="layui-edge layui-edge-top" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{$storage_out_lv}}"></div>
             </div>
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>内存占用率</h3>
-              <div class="layui-progress-bar layui-bg-red" lay-percent="90%"></div>
+              <h3>仓库进货率（{{$storage_lv}}% <span class="layui-edge layui-edge-top" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar layui-bg-red" lay-percent="{{$storage_lv}}"></div>
             </div>
           </div>
         </div>
@@ -376,9 +387,9 @@ img{ border:none; vertical-align:top;}
     var layer = layui.layer;
     var laytpl = layui.laytpl;
     var table=layui.table;
-    '#LAY-index-topSearch';
+    '#LAY-index-dataout';
      var options={
-      elem: '#LAY-index-topSearch'
+      elem: '#LAY-index-dataout'
       ,url: '/admin/storage/list/home_table' //数据接口
       ,page: true //开启分页
       ,limits:[10,20,30,40,50,60,70,80,90,999999999]
@@ -397,9 +408,6 @@ img{ border:none; vertical-align:top;}
         ,{field: 'storage_id', title: 'ID', fixed: 'left',sort: true}
         ,{field: 'storage_name', title: '仓库名'}
         ,{field: 'sum', title: '今日扣货数',sort: true} 
-        /*,{field: 'score', title: '评分', width: 80, sort: true}
-        ,{field: 'classify', title: '职业', width: 80}
-        ,{field: 'wealth', title: '财富', width: 135, sort: true}*/
       ]]
      };
     //表格初始化
