@@ -4,7 +4,7 @@
     <head>
         <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>[zsshop]{{$goods->goods_name}}</title>
+        <title>[fleekfly]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -441,7 +441,7 @@
             
             <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
            <td colspan="2">
-                <p>zsshop. تؤمن وتتمسك بمبدأ صارم تجاه الجوده ,فهي تختار من جميع انحاء العالم منتجات عاليه الجوده ,مثل الملابس, الاحذيه ,الحقائب, الادوات  المنزليه , ادوات الطبخ , الملابس الرياضيه ,الخ. لكي تضمن لكم افضل جوده ,وحرفيه الصناعه و جوده الماده الخام لتقديم افضل منتجات لكم
+                <p>fleekfly. تؤمن وتتمسك بمبدأ صارم تجاه الجوده ,فهي تختار من جميع انحاء العالم منتجات عاليه الجوده ,مثل الملابس, الاحذيه ,الحقائب, الادوات  المنزليه , ادوات الطبخ , الملابس الرياضيه ,الخ. لكي تضمن لكم افضل جوده ,وحرفيه الصناعه و جوده الماده الخام لتقديم افضل منتجات لكم
                </p>
             </td>
 

@@ -3,7 +3,7 @@
     <head>
         <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>[zsshop]{{$goods->goods_name}}</title>
+        <title>[fleekfly]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -540,7 +540,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-                <p>ZSSHOP, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
+                <p>fleekfly, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
             </td>
 
         </tr>
