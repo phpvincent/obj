@@ -238,9 +238,9 @@
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
-<div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
+<!-- <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
    <span style="font-size:14px;color:#333;line-height:23px;padding:6px 10px 6px 60px; background:url(/img/kerry.png) 5px center no-repeat;background-size:49px 22px;    background-color: rgba(0,0,0,0.1);">kerry</span>
-</div>
+</div> -->
 @endif
 
 {{--抢购模块--}}

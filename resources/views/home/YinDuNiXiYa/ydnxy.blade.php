@@ -270,9 +270,9 @@ s.parentNode.insertBefore(atag, s);
 
 {{--快递栏位--}}
 @if(in_array('express',$templets))
-<div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
+<!-- <div class="detail-7day" style="height:auto; overflow:hidden;padding:8px 5px;border-bottom: 1px dashed #dcdcdc;">
    <span style="font-size:14px;color:#333;line-height:23px;    padding: 2px 0 2px 54px; background:url(/img/jne.svg) 2px center no-repeat;background-size:48px 44px;">JNE</span>
-</div>
+</div> -->
 @endif
 
 {{--抢购模块--}}
