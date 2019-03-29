@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\admin\storage;
 
+use App\storage;
+use App\storage_check_data;
+use App\storage_log;
+use App\storage_log_data;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +24,64 @@ class StorageController extends Controller
         $y_out_today=\App\order::where([['order_type',3],['is_del',0],['order_time','>',$yes]])->count();
         $t_splite_count=\App\order::where([['order_type',4],['is_del',0],['order_time','>',$today]])->count();
         $y_splite_count=\App\order::where([['order_type',4],['is_del',0],['order_time','>',$yes]])->count();
-    	return view('storage.index.index')->with(compact('order_count','yse_order_count','t_out_today','y_out_today','t_splite_count','y_splite_count'));
+        //
+        $start = date("Y-m-d").' 00:00:00';
+        $end  = date("Y-m-d",time()+86400).' 00:00:00';
+        $storages_log_in = storage_log::whereBetween('created_at',[$start,$end])->where('storage_log_type',7)->where('storage_log_operate_type',0)->get();
+        $storages_log_out = storage_log::whereBetween('created_at',[$start,$end])->where('storage_log_type',6)->where('storage_log_operate_type',2)->get();
+
+        //获取仓库总个数
+        $storage_num = storage::count();
+        //仓库补货率
+        $storage_lv = '0%';
+        $storage_out_lv = '0%';
+        if($storage_num > 0){
+            $storage_ids = [];
+            if(!$storages_log_in->isEmpty()){
+                foreach ($storages_log_in as $item){
+                    $storage_log_datas = storage_log_data::where('storage_log_primary_id',$item->storage_log_id)->get();
+                    if(!$storage_log_datas->isEmpty()){
+                        foreach ($storage_log_datas as $storage_log_data){
+                            $storage_data = unserialize($storage_log_data->storage_log_data);
+                            if(!in_array($storage_data['storage_id'],$storage_ids)){
+                                array_push($storage_ids,$storage_data['storage_id']);
+                            }
+                        }
+                    }
+                }
+            }
+            $storage_out_ids = [];
+            if(!$storages_log_out->isEmpty()){
+                foreach ($storages_log_in as $item){
+                    $storage_log_datas = storage_log_data::where('storage_log_primary_id',$item->storage_log_id)->get();
+                    if(!$storage_log_datas->isEmpty()){
+                        foreach ($storage_log_datas as $storage_log_data){
+                            $storage_data = unserialize($storage_log_data->storage_log_data);
+                            if(isset($storage_data['order_ids'])){
+                                $storage_check_datas = storage_check_data::where('storage_check_data_order',$storage_data['order_ids'])->get();
+                                if(!$storage_check_datas->isEmpty()){
+                                    foreach ($storage_check_datas as $storage_check_data){
+                                        if($storage_check_data->storage_abroad_id == '#'){
+                                            $storage_check_data->storage_abroad_id = storage::where('is_local',1)->first()['storage_id'];
+                                        }
+                                        if(!in_array($storage_check_data->storage_abroad_id,$storage_out_ids)){
+                                            array_push($storage_out_ids,$storage_check_data->storage_abroad_id);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            //补货率
+            $storage_lv = sprintf("%.4f", count($storage_ids)/$storage_num)*100 .'%';
+            //出货率
+            $storage_out_lv = sprintf("%.4f", count($storage_out_ids)/$storage_num)*100 .'%';
+        }
+
+        return view('storage.index.index')->with(compact('storage_lv','storage_out_lv','order_count','yse_order_count','t_out_today','y_out_today','t_splite_count','y_splite_count'));
     }
     public function notallow(){
     	return view('storage.notallow');

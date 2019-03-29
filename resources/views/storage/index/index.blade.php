@@ -256,24 +256,35 @@
         <div class="layui-card">
           <div class="layui-card-header">效果报告</div>
           <div class="layui-card-body layadmin-takerates">
+            @if($order_count != 0 || $yse_order_count != 0)
             <div class="layui-progress" lay-showPercent="yes">
               @if($t_out_today/$order_count > $y_out_today/$yse_order_count)
-              <h3>今日订单扣货率（日同比 {{($t_out_today/$order_count-$y_out_today/$yse_order_count)*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_out_today/$order_count*100}}%"></div>
+              <h3>今日订单扣货率（日同比 {{sprintf("%.4f", ($t_out_today/$order_count-$y_out_today/$yse_order_count))*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_out_today/$order_count)*100}}%"></div>
               @else
-               <h3>今日订单扣货率（日同比 {{($y_out_today/$yse_order_count-$t_out_today/$order_count)*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_out_today/$order_count*100}}%"></div>
+               <h3>今日订单扣货率（日同比 {{sprintf("%.4f", ($y_out_today/$yse_order_count-$t_out_today/$order_count))*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_out_today/$order_count)*100}}%"></div>
               @endif
             </div>
             <div class="layui-progress" lay-showPercent="yes">
               @if($t_splite_count/$order_count > $y_splite_count/$yse_order_count)
-              <h3>今日订单出仓率（日同比 {{($t_splite_count/$order_count-$y_splite_count/$yse_order_count)*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_splite_count/$order_count*100}}%"></div>
+              <h3>今日订单出仓率（日同比 {{sprintf("%.4f", ($t_splite_count/$order_count-$y_splite_count/$yse_order_count))*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_splite_count/$order_count)*100}}%"></div>
               @else
-               <h3>今日订单出仓率（日同比 {{($y_splite_count/$yse_order_count-$t_splite_count/$order_count)*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="{{$t_splite_count/$order_count*100}}%"></div>
+               <h3>今日订单出仓率（日同比 {{(sprintf("%.4f", $y_splite_count/$yse_order_count-$t_splite_count/$order_count))*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{sprintf("%.4f", $t_splite_count/$order_count)*100}}%"></div>
               @endif
             </div>
+              @else
+              <div class="layui-progress" lay-showPercent="yes">
+                  <h3>今日订单扣货率（日同比 0% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                  <div class="layui-progress-bar" lay-percent="0%"></div>
+              </div>
+              <div class="layui-progress" lay-showPercent="yes">
+                  <h3>今日订单出仓率（日同比 0% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                  <div class="layui-progress-bar" lay-percent="0%"></div>
+              </div>
+            @endif
           </div>
         </div>
         
@@ -281,12 +292,12 @@
           <div class="layui-card-header">实时监控</div>
           <div class="layui-card-body layadmin-takerates">
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>CPU使用率</h3>
-              <div class="layui-progress-bar" lay-percent="58%"></div>
+              <h3>仓库出货率（{{$storage_out_lv}} <span class="layui-edge layui-edge-top" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{$storage_out_lv}}"></div>
             </div>
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>内存占用率</h3>
-              <div class="layui-progress-bar layui-bg-red" lay-percent="90%"></div>
+              <h3>仓库进货率（{{$storage_lv}}% <span class="layui-edge layui-edge-top" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar layui-bg-red" lay-percent="{{$storage_lv}}"></div>
             </div>
           </div>
         </div>
