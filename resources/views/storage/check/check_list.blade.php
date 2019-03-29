@@ -129,7 +129,7 @@
       }
       ,autoSort:false
       ,initSort: {
-        field: 'order_return_time' //排序字段，对应 cols 设定的各字段名
+        field: 'storage_check_time' //排序字段，对应 cols 设定的各字段名
         ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
       }
       ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -144,7 +144,7 @@
         ,{field: 'storage_check_id', title: 'ID', sort: true}
         ,{field: 'admin_show_name', title: '校对发起者'}
         ,{field: 'storage_check_string', title: '校对单号'}
-        ,{field: 'storage_check_time', title: '校对时间'}
+        ,{field: 'storage_check_time', title: '校对时间',  sort: true}
         ,{field: 'storage_check_type', title: '校对发起方式'}
         ,{field: 'storage_check_is_out', title: '校对类型'}
         ,{field: '', title: '操作', templet: function(d){
@@ -156,6 +156,21 @@
      };
     //表格初始化
     table.render(options);
+    //排序监听
+    table.on('sort(table1)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                        //尽管我们的 table 自带排序功能，但并没有请求服务端。
+                        //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+                        table.reload('table1',{
+                            initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                            , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                                field: obj.field //排序字段
+                                , order: obj.type //排序方式
+                                 ,storage_check_is_out: $('#storage_check_is_out').val(),
+                                  storage_check_type: $('#storage_check_type').val(),
+                                  start: $('#test-laydate-out').val(),
+                            }
+                        });
+                    });
     table.on('tool(table1)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
          var data = obj.data; //获得当前行数据
          if(obj.event === 'out'){
