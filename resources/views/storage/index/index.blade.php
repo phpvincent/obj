@@ -375,6 +375,35 @@ img{ border:none; vertical-align:top;}
     var $ =layui.jquery;
     var layer = layui.layer;
     var laytpl = layui.laytpl;
+    var table=layui.table;
+    '#LAY-index-topSearch';
+     var options={
+      elem: '#LAY-index-topSearch'
+      ,url: '/admin/storage/list/home_table' //数据接口
+      ,page: true //开启分页
+      ,limits:[10,20,30,40,50,60,70,80,90,999999999]
+      ,defaultToolbar: ['filter','exports', 'print']
+      ,text: {
+        none: '暂无数据' 
+      }
+      ,method:'post'
+      ,headers:{'X-CSRF-TOKEN':'{{csrf_token()}}'}
+      ,autoSort:true
+      ,initSort: {
+        field: 'sum' //排序字段，对应 cols 设定的各字段名
+        ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+      }
+      ,cols: [[ //表头
+        ,{field: 'storage_id', title: 'ID', fixed: 'left',sort: true}
+        ,{field: 'storage_name', title: '仓库名'}
+        ,{field: 'sum', title: '今日扣货数',sort: true} 
+        /*,{field: 'score', title: '评分', width: 80, sort: true}
+        ,{field: 'classify', title: '职业', width: 80}
+        ,{field: 'wealth', title: '财富', width: 135, sort: true}*/
+      ]]
+     };
+    //表格初始化
+    table.render(options);
 
     $.ajax({
            url:'/admin/storage/log/time_line',

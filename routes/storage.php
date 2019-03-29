@@ -37,6 +37,7 @@
                   Route::get('/list/get_check_data','admin\storage\StorageListController@get_check_data');//仓储数据校准
                   Route::post('/list/reload_storage_check','admin\storage\StorageListController@reload_storage_check');//仓储数据校准
                   Route::get('/check/list','admin\storage\StorageListController@check_list');//仓储数据校准
+                  Route::post('/list/home_table','admin\storage\StorageListController@home_table');//首页表格接口
                   //扣货
                   Route::post('/storage_out','admin\storage\StorageListController@storage_out');//仓储扣货
                   Route::get('/storage_split','admin\storage\StorageListController@storage_split');//货物出库
