@@ -32,11 +32,11 @@ li{vertical-align:top;}
 *+html .clearfix {zoom:1;}
 img{ border:none; vertical-align:top;}
 /* CSS 活动的公共样式 */
-
-.course{ height:162px; background:#FFF;}
+.course_nr li:hover {cursor:pointer;}
+.course{ height:145px; background:#FFF;}
 .course_nr{height:55px; background:url(/images/ico9.gif) repeat-x center;}
 .course_nr li{ float:left; background:url(/images/ico10.gif) no-repeat center top; padding-top:30px; width:100px; text-align:center; position:relative; margin-top:10px;}
-.shiji{ position:absolute; width:100%; left:0; top:-20px; display:none;}
+.shiji{ position:absolute; width:100%; left:0; top:-19px; display:none;}
 .shiji h1{ height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/images/ico11.gif) no-repeat center top; margin-bottom:8px;}
 .shiji p{ line-height:14px; color:#999;}
 </style>
@@ -211,9 +211,8 @@ img{ border:none; vertical-align:top;}
           </div>
           <div class="layui-col-md12">
             <div class="layui-card">
-              <div class="layui-card-header">数据概览</div>
+              <div class="layui-card-header">操作记录</div>
               <div class="layui-card-body">
-                
                 <!-- <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
                   <div carousel-item id="LAY-index-dataview">
                     <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
@@ -227,8 +226,7 @@ img{ border:none; vertical-align:top;}
                        </ul>
                    </div>
                  </div>
-                 <div>laofan</div>
-
+                 <iframe id="iframeShow" src="" frameborder="0" style="width: 100%; height: 85%;"></iframe>
               </div>
             </div>
             <div class="layui-card">
@@ -367,12 +365,12 @@ img{ border:none; vertical-align:top;}
   </div>
   <script id="timeLine" type="text/html">
   @{{#  layui.each(d, function(index, item){ }}
-  <li>@{{item.admin_show_name}}
-           <div class="shiji" style="display: none;">
-               <h1>@{{item.storage_log_type}}</h1>
-               <p>@{{item.created_at}}</p>
-           </div>
-        </li>
+  <li dataid="@{{item.storage_log_id}}">@{{item.admin_show_name}}
+        <div class="shiji" style="display: none;">
+            <h1>@{{item.storage_log_type}}</h1>
+            <p>@{{item.created_at}}</p>
+        </div>
+  </li>
   @{{#  }); }}
   </script>
 @endsection
@@ -419,10 +417,14 @@ img{ border:none; vertical-align:top;}
            success:function(msg){
               console.log(msg)
               var getTpl = timeLine.innerHTML;
-             
               laytpl(getTpl).render(msg, function(html){
                 $('ul.course_nr2').append(html)
               });
+              $('#iframeShow').attr('src','/admin/storage/log/log_show?storage_log_id='+msg[0].storage_log_id)
+              
+              $('.course_nr2 li').on('click', function() {
+                $('#iframeShow').attr('src','/admin/storage/log/log_show?storage_log_id='+$(this).attr('dataid'))
+              })
               // 时间线样式
               $(function(){
                   //首页大事记
