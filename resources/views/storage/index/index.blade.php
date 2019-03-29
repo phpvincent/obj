@@ -33,7 +33,7 @@ li{vertical-align:top;}
 img{ border:none; vertical-align:top;}
 /* CSS 活动的公共样式 */
 .course_nr li:hover {cursor:pointer;}
-.course{ height:162px; background:#FFF;}
+.course{ height:145px; background:#FFF;}
 .course_nr{height:55px; background:url(/images/ico9.gif) repeat-x center;}
 .course_nr li{ float:left; background:url(/images/ico10.gif) no-repeat center top; padding-top:30px; width:100px; text-align:center; position:relative; margin-top:10px;}
 .shiji{ position:absolute; width:100%; left:0; top:-19px; display:none;}
@@ -211,9 +211,8 @@ img{ border:none; vertical-align:top;}
           </div>
           <div class="layui-col-md12">
             <div class="layui-card">
-              <div class="layui-card-header">数据概览</div>
+              <div class="layui-card-header">操作记录</div>
               <div class="layui-card-body">
-                
                 <!-- <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
                   <div carousel-item id="LAY-index-dataview">
                     <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
@@ -227,7 +226,7 @@ img{ border:none; vertical-align:top;}
                        </ul>
                    </div>
                  </div>
-                 <iframe id="iframeShow" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+                 <iframe id="iframeShow" src="" frameborder="0" style="width: 100%; height: 85%;"></iframe>
               </div>
             </div>
             <div class="layui-card">
