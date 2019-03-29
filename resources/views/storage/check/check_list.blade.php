@@ -72,15 +72,35 @@
   <blockquote class="layui-elem-quote">产品sku：@{{d[0].storage_check_data_sku}}</blockquote>
   <blockquote class="layui-elem-quote">订单编号：@{{d[0].storage_check_data_order}}</blockquote>
   <blockquote class="layui-elem-quote">校准单编号：@{{d[0].storage_check_string}}</blockquote>
-  <blockquote class="layui-elem-quote" style="color:brown">仓库名：@{{d[0].storage_name}}</blockquote>
+  <blockquote class="layui-elem-quote" style="color:brown">
+     @{{#  if(d[0].storage_check_data_type === '4'){ }}
+       仓库名：<span style="color:red;">缺货</span>  
+     @{{#  }else if(d[0].storage_check_data_type === '3'){ }} 
+        仓库名：<span style="color:green;">本地仓</span> 
+    @{{# }else{ }} 
+      仓库名：@{{d[0].storage_name}}
+    @{{# } }}
+  </blockquote>
   </div>
-  <div>扣货信息</div>
+  <div>
+     @{{#  if(d[0].storage_check_data_type === '4'){ }}
+         缺货信息
+     @{{#  }else{ }}
+        扣货信息
+     @{{# } }}
+  </div>
   <table class="layui-table">
   <thead>
     <tr>
       <th>订单id</th>
       <th>订单编号</th>
-      <th>数量</th>
+      <th>
+          @{{#  if(d[0].storage_check_data_type === '4'){ }}
+          缺货数量
+          @{{# }else{ }}
+          数量
+          @{{# } }}
+      </th>
       <th>属性sku</th>
     </tr> 
   </thead>
@@ -89,7 +109,13 @@
      <tr>
       <td>@{{item.storage_check_info_order}}</td>
       <td>@{{item.storage_check_info_single}}</td>
-      <td>@{{item.storage_check_info_num}}</td>
+        @{{# if(item.storage_check_info_num<=0){ }}
+        <td style="color: green;">充足</td>
+        @{{# }else if(item.storage_check_info_num>0 && d[0].storage_check_data_type === '4'){ }}
+        <td style="color:red;">@{{item.storage_check_info_num}}</td>
+        @{{# }else{ }}
+         <td>@{{item.storage_check_info_num}}</td>
+        @{{# } }}
       <td>@{{item.storage_check_info_sku}}</td>
     </tr>
      @{{#  }); }}
