@@ -30,85 +30,69 @@
                           <cite>仓库列表</cite>
                         </a>
                       </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="{{url('admin/storage/admin_info')}}">
-                          <i class="layui-icon layui-icon-user"></i>
-                          <cite>个人信息</cite>
-                        </a>
-                      </li>
+                      
                       <li class="layui-col-xs3">
                         <a lay-href="{{url('admin/storage/password')}}">
                           <i class="layui-icon layui-icon-password"></i>
                           <cite>密码修改</cite>
                         </a>
                       </li>
-                      
                       <li class="layui-col-xs3">
-                        <a lay-href="app/workorder/list.html">
+                        <a lay-href="{{url('admin/storage/list/product_data')}}">
+                          <i class="layui-icon ">&#xe62a;</i>
+                          <cite>库存数据</cite>
+                        </a>
+                      </li>
+                      <li class="layui-col-xs3">
+                        <a lay-href="{{url('admin/storage/add')}}">
                           <i class="layui-icon layui-icon-prev"></i>
                           <cite>补货记录</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="user/user/list.html">
+                        <a lay-href="{{url('admin/storage/check/list')}}">
                           <i class="layui-icon layui-icon-next"></i>
                           <cite>出库记录</cite>
                         </a>
-                      </li>
+                      </li> 
                       <li class="layui-col-xs3">
-                        <a lay-href="set/system/website.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>设置</cite>
+                        <a lay-href="{{url('admin/storage/log/index')}}">
+                          <i class="layui-icon "></i>
+                          <cite>操作日志</cite>
                         </a>
                       </li>
+                      
                     </ul>
                     <ul class="layui-row layui-col-space10">
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
+                     <li class="layui-col-xs3">
+                        <a lay-href="{{url('admin/storage/log/index')}}">
+                          <i class="layui-icon ">&#xe631;</i>
+                          <cite>仓库扣减</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
+                        <a lay-href="{{url('admin/storage/admin_info')}}">
+                          <i class="layui-icon layui-icon-user"></i>
+                          <cite>个人信息</cite>
+                        </a>
+                      </li>
+                      
+                      <li class="layui-col-xs3">
+                        <a lay-href="{{url('admin/storage/jsq')}}">
+                          <i class="layui-icon t">&#xe600;</i>
+                          <cite>计算器</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
+                        <a lay-href="{{url('admin/storage/send_phone')}}">
+                          <i class="layui-icon ">&#xe63b;</i>
+                          <cite>短信推送</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs3">
-                        <a lay-href="set/user/info.html">
-                          <i class="layui-icon layui-icon-set"></i>
-                          <cite>我的资料</cite>
+                        <a lay-href="{{url('admin/storage/send_mail')}}">
+                          <i class="layui-icon ">&#xe609;</i>
+                          <cite>邮件推送</cite>
                         </a>
                       </li>
                     </ul>
@@ -135,30 +119,50 @@
                       </li>
                       <li class="layui-col-xs6">
                         <a lay-href="{{url('admin/storage/list')}}" class="layadmin-backlog-body">
-                          <h3>仓库数</h3>
-                          <p><cite>{{\App\storage::where('storage_status',1)->count()}}</cite></p>
-                        </a>
-                      </li>
-                      <li class="layui-col-xs6">
-                        <a lay-href="{{url('admin/storage/list')}}" class="layadmin-backlog-body">
                           <h3>未处理补货单</h3>
-                          <p><cite style="color: #FF5722;">5</cite></p>
+                          <p><cite style="color: #FF5722;">{{\App\storage_append::where('storage_append_status','0')->count()}}</cite></p>
                         </a>
                       </li>
                       <li class="layui-col-xs6">
-                        <a href="javascript:;"  class="layadmin-backlog-body">
-                          <h3>待发货</h3>
-                          <p><cite>{{\App\order::where('order_type',1)->count()}}</cite></p>
+                        <a  lay-href="{{url('admin/storage/check/list')}}" class="layadmin-backlog-body">
+                          <h3>今日校准单</h3>
+                          <p><cite>{{\App\storage_check::where([['storage_check_time','>',date("Y-m-d").' 00:00:00'],['storage_check_is_out','0']])->count()}}</cite></p>
                         </a>
                       </li>
+                      <li class="layui-col-xs6">
+                        <a  lay-href="{{url('admin/storage/check/list')}}" class="layadmin-backlog-body">
+                          <h3>今日出货单</h3>
+                          <p><cite style="color: #FF5722;">{{\App\storage_check::where([['storage_check_time','>',date("Y-m-d").' 00:00:00'],['storage_check_is_out','1']])->count()}}</cite></p>
+                        </a>
+                      </li>
+                     
                     </ul>
                     <ul class="layui-row layui-col-space10">
                        <li class="layui-col-xs6">
                         <a href="javascript:;" onclick="layer.tips('请通知订单管理员核审订单', this, {tips: 3});" class="layadmin-backlog-body">
-                          <h3>待审商品</h3>
-                          <p><cite>{{\App\order::where('order_type',0)->count()}}</cite></p>
+                          <h3>待审单</h3>
+                          <p><cite>{{\App\order::where([['order_type',0],['is_del',0]])->count()}}</cite></p>
+                        </a>
+                      </li> 
+                      <li class="layui-col-xs6">
+                        <a lay-href="{{url('admin/storage/check')}}"  class="layadmin-backlog-body">
+                          <h3>待扣货</h3>
+                          <p><cite>{{\App\order::where([['order_type',1],['is_del',0]])->count()}}</cite></p>
                         </a>
                       </li>
+                      <li class="layui-col-xs6">
+                        <a lay-href="{{url('admin/storage/check')}}"  class="layadmin-backlog-body">
+                          <h3>待出仓</h3>
+                          <p><cite>{{\App\order::where([['order_type',3],['is_del',0]])->count()}}</cite></p>
+                        </a>
+                      </li>
+                       <li class="layui-col-xs6">
+                        <a lay-href="{{url('admin/storage/list')}}" class="layadmin-backlog-body">
+                          <h3>仓库数</h3>
+                          <p><cite>{{\App\storage::where('storage_status',1)->count()}}</cite></p>
+                        </a>
+                      </li>
+                      
                     </ul>
                   </div>
                 </div>
@@ -253,12 +257,22 @@
           <div class="layui-card-header">效果报告</div>
           <div class="layui-card-body layadmin-takerates">
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>转化率（日同比 28% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="65%"></div>
+              @if($t_out_today/$order_count > $y_out_today/$yse_order_count)
+              <h3>今日订单扣货率（日同比 {{($t_out_today/$order_count-$y_out_today/$yse_order_count)*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{$t_out_today/$order_count*100}}%"></div>
+              @else
+               <h3>今日订单扣货率（日同比 {{($y_out_today/$yse_order_count-$t_out_today/$order_count)*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{$t_out_today/$order_count*100}}%"></div>
+              @endif
             </div>
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>签到率（日同比 11% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-              <div class="layui-progress-bar" lay-percent="32%"></div>
+              @if($t_splite_count/$order_count > $y_splite_count/$yse_order_count)
+              <h3>今日订单出仓率（日同比 {{($t_splite_count/$order_count-$y_splite_count/$yse_order_count)*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{$t_splite_count/$order_count*100}}%"></div>
+              @else
+               <h3>今日订单出仓率（日同比 {{($y_splite_count/$yse_order_count-$t_splite_count/$order_count)*100}}% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+              <div class="layui-progress-bar" lay-percent="{{$t_splite_count/$order_count*100}}%"></div>
+              @endif
             </div>
           </div>
         </div>

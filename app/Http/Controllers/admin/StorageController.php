@@ -4,13 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Carbon\Carbon;
 class StorageController extends Controller
 {
     public function index(){
     	return view('storage.father.father');
     }
     public function homepage(){
+       
     	return view('storage.index.index');
     }
     public function notallow(){
