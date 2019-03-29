@@ -356,9 +356,9 @@ img{ border:none; vertical-align:top;}
   </div>
   <script id="timeLine" type="text/html">
   @{{#  layui.each(d, function(index, item){ }}
-  <li>@{{item.is_danger}}
+  <li>@{{item.admin_show_name}}
            <div class="shiji" style="display: none;">
-               <h1>@{{item.is_danger}}</h1>
+               <h1>@{{item.storage_log_type}}</h1>
                <p>@{{item.created_at}}</p>
            </div>
         </li>
@@ -371,7 +371,7 @@ img{ border:none; vertical-align:top;}
     base: '/admin/layuiadmin/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'console', 'layer', 'laytpl'], function() {
+  }).use(['index', 'console', 'layer', 'laytpl', 'table'], function() {
     var $ =layui.jquery;
     var layer = layui.layer;
     var laytpl = layui.laytpl;
