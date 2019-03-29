@@ -26,7 +26,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">仓库模板</label>
                                     <div class="layui-input-inline">
-                                        <select name="template_id" readonly lay-verify="required">
+                                        <select name="template_id" disabled lay-verify="required">
                                             <option @if($storage->template_type_primary_id == 0) selected @endif value="0" >台湾</option>
                                             <option @if($storage->template_type_primary_id == 2) selected @endif  value="2">阿联酋</option>
                                             <option @if($storage->template_type_primary_id == 3) selected @endif  value="3">马来西亚</option>
