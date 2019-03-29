@@ -5,14 +5,22 @@ namespace App\Http\Controllers\admin\storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
 class StorageController extends Controller
 {
     public function index(){
     	return view('storage.father.father');
     }
     public function homepage(){
-    	return view('storage.index.index');
+         $today=Carbon::today()->toDateString().' 00:00:00';
+        $yes=Carbon::yesterday()->toDateString().' 00:00:00';
+        $order_count=\App\order::where([['is_del',0],['order_time','>',$today]])->count();
+        $yse_order_count=\App\order::where([['is_del',0],['order_time','>',$yes]])->count();
+        $t_out_today=\App\order::where([['order_type',3],['is_del',0],['order_time','>',$today]])->count();
+        $y_out_today=\App\order::where([['order_type',3],['is_del',0],['order_time','>',$yes]])->count();
+        $t_splite_count=\App\order::where([['order_type',4],['is_del',0],['order_time','>',$today]])->count();
+        $y_splite_count=\App\order::where([['order_type',4],['is_del',0],['order_time','>',$yes]])->count();
+    	return view('storage.index.index')->with(compact('order_count','yse_order_count','t_out_today','y_out_today','t_splite_count','y_splite_count'));
     }
     public function notallow(){
     	return view('storage.notallow');

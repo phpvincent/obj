@@ -156,4 +156,13 @@ class StorageLogController extends Controller
     			break;
     	}
     }
+    /**
+     * 时间轴接口
+     */
+    public function time_line (Request $request)
+    {
+    	$limit=$request->input('limit',15);
+    	$storage_log=storage_log::orderBy('created_at','desc')->offset(0)->limit($limit)->get()->toArray();
+    	return  response()->json($storage_log);
+    }
 }

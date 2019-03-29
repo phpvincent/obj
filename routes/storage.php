@@ -57,6 +57,7 @@
                   Route::any('/log/index','admin\storage\StorageLogController@index');//
                   Route::post('/log/del_log','admin\storage\StorageLogController@del_log');//日志删除
                   Route::get('/log/log_show','admin\storage\StorageLogController@log_show');//日志详情
+                  Route::get('/log/time_line','admin\storage\StorageLogController@time_line');//时间轴接口
         });
 
 	Route::get('/notallow','admin\storage\StorageController@notallow');
