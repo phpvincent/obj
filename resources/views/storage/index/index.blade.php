@@ -1,5 +1,45 @@
 @extends('storage.father.static')
 @section('content')
+<!-- 时间线的样式 -->
+<style type="text/css">
+object,embed{
+    -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;               
+     -ms-animation-duration:.001s;-ms-animation-name:playerInserted;               
+      -o-animation-duration:.001s;-o-animation-name:playerInserted;               
+       animation-duration:.001s;animation-name:playerInserted;
+}               
+@-webkit-keyframes playerInserted{
+     from{opacity:0.99;}to{opacity:1;}
+     }               
+@-ms-keyframes playerInserted{
+    from{opacity:0.99;}to{opacity:1;}
+          }               
+@-o-keyframes playerInserted{
+    from{opacity:0.99;}to{opacity:1;}
+    }                
+@keyframes playerInserted{
+    from{opacity:0.99;}to{opacity:1;}
+    }
+
+/* CSS 定制的公共样式 */
+ div, h1, ul, li {margin: 0;padding: 0;}
+h1 { font-weight:normal; font-size:12px;}
+ul,dl{ list-style-type:none;}
+li{vertical-align:top;}
+.clear{ clear:both; margin:0; padding:0; font-size:0px; line-height:0px; height:0px; overflow:hidden;} 
+.clearfix:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
+*html .clearfix {zoom:1;}
+*+html .clearfix {zoom:1;}
+img{ border:none; vertical-align:top;}
+/* CSS 活动的公共样式 */
+
+.course{ height:162px; background:#FFF;}
+.course_nr{height:55px; background:url(/images/ico9.gif) repeat-x center;}
+.course_nr li{ float:left; background:url(/images/ico10.gif) no-repeat center top; padding-top:30px; width:100px; text-align:center; position:relative; margin-top:10px;}
+.shiji{ position:absolute; width:100%; left:0; top:-20px; display:none;}
+.shiji h1{ height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/images/ico11.gif) no-repeat center top; margin-bottom:8px;}
+.shiji p{ line-height:14px; color:#999;}
+</style>
   <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
       <div class="layui-col-md8">
@@ -174,14 +214,21 @@
               <div class="layui-card-header">数据概览</div>
               <div class="layui-card-body">
                 
-                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
+                <!-- <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
                   <div carousel-item id="LAY-index-dataview">
                     <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                     <div></div>
                     <div></div>
                   </div>
-                </div>
-                
+                </div> -->
+                <div class="course">
+                   <div class="clearfix web_widht course_nr">
+                       <ul class="course_nr2">
+                       </ul>
+                   </div>
+                 </div>
+                 <div>laofan</div>
+
               </div>
             </div>
             <div class="layui-card">
@@ -307,6 +354,16 @@
       
     </div>
   </div>
+  <script id="timeLine" type="text/html">
+  @{{#  layui.each(d, function(index, item){ }}
+  <li>@{{item.is_danger}}
+           <div class="shiji" style="display: none;">
+               <h1>@{{item.is_danger}}</h1>
+               <p>@{{item.created_at}}</p>
+           </div>
+        </li>
+  @{{#  }); }}
+  </script>
 @endsection
 @section('js')
   <script>
@@ -314,6 +371,32 @@
     base: '/admin/layuiadmin/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'console']);
+  }).use(['index', 'console', 'layer', 'laytpl'], function() {
+    var $ =layui.jquery;
+    var layer = layui.layer;
+    var laytpl = layui.laytpl;
+
+    $.ajax({
+           url:'/admin/storage/log/time_line',
+           type:'get',
+           success:function(msg){
+              console.log(msg)
+              var getTpl = timeLine.innerHTML;
+             
+              laytpl(getTpl).render(msg, function(html){
+                $('ul.course_nr2').append(html)
+              });
+              // 时间线样式
+              $(function(){
+                  //首页大事记
+                  $('.course_nr2 li').hover(function(){
+                      $(this).find('.shiji').slideDown(600);
+                  },function(){
+                      $(this).find('.shiji').slideUp(400);
+                  });
+              });
+           }
+          })
+  });
   </script>
 @endsection
