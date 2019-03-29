@@ -253,7 +253,7 @@ img{ border:none; vertical-align:top;}
       
       <div class="layui-col-md4">
         <div class="layui-card">
-          <div class="layui-card-header">版本信息</div>
+          <div class="layui-card-header">个人信息</div>
           <div class="layui-card-body layui-text">
             <table class="layui-table">
               <colgroup>
@@ -343,7 +343,7 @@ img{ border:none; vertical-align:top;}
               <div class="layui-progress-bar" lay-percent="{{$storage_out_lv}}"></div>
             </div>
             <div class="layui-progress" lay-showPercent="yes">
-              <h3>仓库进货率（{{$storage_lv}}% <span class="layui-edge layui-edge-top" lay-offset="-15"></span>）</h3>
+              <h3>仓库进货率（{{$storage_lv}}<span class="layui-edge layui-edge-top" lay-offset="-15"></span>）</h3>
               <div class="layui-progress-bar layui-bg-red" lay-percent="{{$storage_lv}}"></div>
             </div>
           </div>

@@ -215,7 +215,7 @@
         storage_check_id: storage_check_id
       }
       ,cols: [[ //表头
-         {field: 'storage_check_data_order', title: '仓储校准数据表ID', minWidth: 150}
+         {field: 'storage_check_data_order', title: '订单ID', minWidth: 150}
         ,{field: 'storage_abroad_id', title: '对应海外仓ID', minWidth: 130}
         ,{field: 'storage_primary_id', title: '对应校对单ID', minWidth: 130}
         ,{field: 'goods_kind_name', title: '校对发起者', minWidth: 130}

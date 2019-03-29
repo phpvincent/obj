@@ -11,7 +11,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a lay-href="/admin/storage/blade?type=home/console.html">控制台</a>
+                  <a lay-href="home/console.html">控制台</a>
                 </dd>
             </li>
             @foreach($rules as $v)
