@@ -187,16 +187,16 @@
             <div class="layui-card">
               <div class="layui-tab layui-tab-brief layadmin-latestData">
                 <ul class="layui-tab-title">
-                  <li class="layui-this">今日热搜</li>
-                  <li>今日热帖</li>
+                  <li class="layui-this">海外仓扣货榜</li>
+                  <!-- <li>今日热帖</li> -->
                 </ul>
                 <div class="layui-tab-content">
                   <div class="layui-tab-item layui-show">
-                    <table id="LAY-index-topSearch"></table>
+                    <table id="LAY-index-dataout"></table>
                   </div>
-                  <div class="layui-tab-item">
+                  <!-- <div class="layui-tab-item">
                     <table id="LAY-index-topCard"></table>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -316,9 +316,9 @@
     index: 'lib/index' //主入口模块
   }).use(['index', 'console','table'],function(){
     var table=layui.table;
-    '#LAY-index-topSearch';
+    '#LAY-index-dataout';
      var options={
-      elem: '#LAY-index-topSearch'
+      elem: '#LAY-index-dataout'
       ,url: '/admin/storage/list/home_table' //数据接口
       ,page: true //开启分页
       ,limits:[10,20,30,40,50,60,70,80,90,999999999]
@@ -337,9 +337,6 @@
         ,{field: 'storage_id', title: 'ID', fixed: 'left',sort: true}
         ,{field: 'storage_name', title: '仓库名'}
         ,{field: 'sum', title: '今日扣货数',sort: true} 
-        /*,{field: 'score', title: '评分', width: 80, sort: true}
-        ,{field: 'classify', title: '职业', width: 80}
-        ,{field: 'wealth', title: '财富', width: 135, sort: true}*/
       ]]
      };
     //表格初始化
