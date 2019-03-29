@@ -103,6 +103,9 @@
 <script type="text/html" id="use_button">
   
 </script>
+<script type="text/html" id="use2_button">
+<blockquote class="layui-elem-quote" style=" height: 10px;line-height: 5px; margin-bottom: 0px;">缺货表</blockquote>
+</script>
 @endsection
 @section('js')
 <script>
@@ -233,7 +236,7 @@
          {field: 'storage_check_data_order', title: '仓储校准数据表ID', minWidth: 150}
         ,{field: 'storage_abroad_id', title: '对应海外仓ID', minWidth: 130}
         ,{field: 'storage_primary_id', title: '对应校对单ID', minWidth: 130}
-        ,{field: 'goods_kind_name', title: '校对发起者', minWidth: 130}
+        ,{field: 'goods_kind_name', title: '产品名', minWidth: 130}
         ,{field: 'storage_check_data_num', title: '货物数量', minWidth: 100}
         ,{field: 'storage_check_data_sku', title: '产品SKU（前四位）', minWidth: 150}
         ,{field: 'storage_check_data_type', title: '仓储校准数据类型', minWidth: 150}
@@ -288,7 +291,7 @@
              ,url: '/admin/storage/list/data_less' //数据接口
              ,page: true //开启分页
              ,limits:[10,20,30,40,50,60,70,80,90,999999999]
-             ,toolbar:'#use_button'
+             ,toolbar:'#use2_button'
              ,defaultToolbar: ['filter','exports', 'print']
              ,text: {
                none: '暂无缺货数据' 
