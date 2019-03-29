@@ -238,6 +238,7 @@ class StorageListController extends Controller
                             $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
                         }
                     })
+                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
                     ->where('storage_goods_abroad.storage_primary_id', $id)
                     ->groupBy('goods_kind.goods_kind_id')
                     ->orderBy($field, $dsc)
@@ -258,10 +259,10 @@ class StorageListController extends Controller
         }else{ //预扣货
             if ($storage->is_local == 1) { //本地仓库
                     $products = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
-                        ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                        ->join('storage_check_data','storage_check_data.storage_check_data_order','=','order.order_id')
                         ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
                         ->select('goods_kind.*', DB::Raw('SUM(order_num) AS num'))
-                        ->where('storage_check_data_order.storage_abroad_id','#')
+                        ->where('storage_check_data.storage_abroad_id','#')
                         ->where('order.order_type', '3')
                         ->groupBy('goods_kind.goods_kind_id')
                         ->orderBy($field, $dsc)
@@ -269,20 +270,20 @@ class StorageListController extends Controller
                         ->limit($limit)
                         ->get();
                     $counts = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
-                        ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                        ->join('storage_check_data','storage_check_data.storage_check_data_order','=','order.order_id')
                         ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
                         ->select('goods_kind.goods_kind_id', DB::Raw('SUM(order_num) AS num'))
-                        ->where('storage_check_data_order.storage_abroad_id','#')
+                        ->where('storage_check_data.storage_abroad_id','#')
                         ->where('order.order_type', '3')
                         ->groupBy('goods_kind.goods_kind_id')
                         ->get();
                     $count = count($counts);
             }else{ //海外仓
                 $products = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
-                    ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                    ->join('storage_check_data','storage_check_data.storage_check_data_order','=','order.order_id')
                     ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
                     ->select('goods_kind.*', DB::Raw('SUM(order_num) AS num'))
-                    ->where('storage_check_data_order.storage_abroad_id',$id)
+                    ->where('storage_check_data.storage_abroad_id',$id)
                     ->where('order.order_type', '3')
                     ->groupBy('goods_kind.goods_kind_id')
                     ->orderBy($field, $dsc)
@@ -290,10 +291,10 @@ class StorageListController extends Controller
                     ->limit($limit)
                     ->get();
                 $counts = order::join('goods', 'goods.goods_id', '=', 'order.order_goods_id')
-                    ->join('storage_check_data_order','storage_check_data_order.storage_check_data_order','=','order.order_id')
+                    ->join('storage_check_data','storage_check_data.storage_check_data_order','=','order.order_id')
                     ->join('goods_kind', 'goods_kind.goods_kind_id', '=', 'goods.goods_kind_id')
                     ->select('goods_kind.goods_kind_id', DB::Raw('SUM(order_num) AS num'))
-                    ->where('storage_check_data_order.storage_abroad_id',$id)
+                    ->where('storage_check_data.storage_abroad_id',$id)
                     ->where('order.order_type', '3')
                     ->groupBy('goods_kind.goods_kind_id')
                     ->get();
@@ -1144,7 +1145,7 @@ class StorageListController extends Controller
                     }
                     $skuSDK = new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
                     $current_attrs = $skuSDK->get_all_sku($config_val_str); //获取后六位sku
-                    $storage_goods_array = ['storage_primary_id'=>$data['storage_id'],'num'=>$order_data_array['$order_config->order_config'],'sku'=>$goods_kind->goods_kind_sku,'sku_data'=>substr($current_attrs,-6),'goods_kind_id'=>$goods_kind_id,'order_id'=>$data['order_id'],'expiry_at'=>$expiry_at,'express_delivery'=>$order->order_send];
+                    $storage_goods_array = ['storage_primary_id'=>$data['storage_id'],'order_single'=>$order->order_single_id,'num'=>$order_data_array['$order_config->order_config'],'sku'=>$goods_kind->goods_kind_sku,'sku_data'=>substr($current_attrs,-6),'goods_kind_id'=>$goods_kind_id,'order_id'=>$data['order_id'],'expiry_at'=>$expiry_at,'express_delivery'=>$order->order_send];
                     $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($storage_goods_array);
                     if(!$storage_goods_abroad) return response()->json(['err' => 0, 'str' => '订单退货失败！']);
                 }
