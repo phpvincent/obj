@@ -1172,6 +1172,53 @@ class StorageListController extends Controller
             return response()->json(['err' => 1, 'str' => '订单退货成功！']);
         }
     }
-
+    public function home_table(Request $request)
+    {
+            $page = $request->input('page', 1);
+            $limit = $request->input('limit', 10);
+            //排序参数
+            $field = $request->input('field', 'sum'); //排序字段
+            $dsc = $request->input('order', 'desc'); //排序顺序
+            $start = ($page - 1) * $limit;
+           /*  $products = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                        ->where(function ($query) use ($request,$search){
+                            if($search){
+                                $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
+                            }
+                        })
+                        ->where('storage_goods_local.storage_primary_id', $id)
+                        ->groupBy('goods_kind.goods_kind_id')
+                        ->orderBy($field, $dsc)
+                        ->offset($start)
+                        ->limit($limit)
+                        ->get();*/
+            $data=\App\storage_check_data::join('storage_check','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                 ->select('storage_check.*',DB::Raw('SUM(storage_check_data.storage_check_data_num) AS sum'))
+                 ->where(function($query){
+                    $query->where('storage_check.storage_check_is_out','1');
+                    $query->where('storage_check_data.storage_check_data_type','<>','4');
+                 })
+                 ->groupBy('storage_check.storage_check_id')
+                 ->orderBy($field, $dsc)
+                 ->offset($start)
+                 ->limit($limit)
+                 ->get();
+            $count=\App\storage_check_data::join('storage_check','storage_check.storage_check_id','storage_check_data.storage_primary_id')
+                 ->select('storage_check.*',DB::Raw('SUM(storage_check_data.storage_check_data_num) AS sum'))
+                 ->where(function($query){
+                    $query->where('storage_check.storage_check_is_out','1');
+                    $query->where('storage_check_data.storage_check_data_type','<>','4');
+                 })
+                 ->groupBy('storage_check.storage_check_id')
+                 ->count();
+           /* if($count > 0){
+                foreach ($orders as &$data){
+                  $data->goods_blade_type=\App\goods::get_blade_currency($data->goods_blade_type,$data->order_country);
+                }
+            }*/
+            $arr = ['code' => 0, "msg" => "获取数据成功",'count'=>$count ,'data' => $data];
+            return response()->json($arr);
+    }
 
 }

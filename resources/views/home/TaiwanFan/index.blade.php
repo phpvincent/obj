@@ -4,7 +4,7 @@
     <head>
         <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>[zsshop]{{$goods->goods_name}}</title>
+        <title>[fleekfly]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -444,7 +444,7 @@
             
             <td style="width: 25%;height: 50px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
            <td colspan="2">
-                <p>ZSSSHOP嚴選商城，秉承一貫的嚴謹態度,深入世界各地,嚴格把關所有商品的產地、工藝、原材料,甄選服飾、鞋包、居家、廚房、運動等各類商品,力求給你最優質的商品。</p>
+                <p>fleekfly嚴選商城，秉承一貫的嚴謹態度,深入世界各地,嚴格把關所有商品的產地、工藝、原材料,甄選服飾、鞋包、居家、廚房、運動等各類商品,力求給你最優質的商品。</p>
             </td>
 
         </tr>
