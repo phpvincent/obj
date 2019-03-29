@@ -169,17 +169,17 @@ class StorageLogController extends Controller
 	                if($storage_log->storage_log_type==1){
 	                	$storage_log->storage_log_type='补货单操作';
 	                }elseif($storage_log->storage_log_type==2){
-	                	$storage_log->storage_log_type='库存数据相关操作';
+	                	$storage_log->storage_log_type='库存数据操作';
 	                }elseif($storage_log->storage_log_type==3){
-	                	$storage_log->storage_log_type='仓库数据相关操作';
+	                	$storage_log->storage_log_type='仓库数据操作';
 	                }elseif($storage_log->storage_log_type==4){
-	                	$storage_log->storage_log_type='数据校准相关操作';
+	                	$storage_log->storage_log_type='数据校准操作';
 	                }elseif($storage_log->storage_log_type==5){
-	                	$storage_log->storage_log_type='订单扣货相关操作';
+	                	$storage_log->storage_log_type='订单扣货操作';
 	                }elseif($storage_log->storage_log_type==6){
-	                	$storage_log->storage_log_type='订单出仓相关操作';
+	                	$storage_log->storage_log_type='订单出仓操作';
 	                }elseif($storage_log->storage_log_type==7){
-	                	$storage_log->storage_log_type='商品入库相关操作';
+	                	$storage_log->storage_log_type='商品入库操作';
 	                }
 	            }
     	}
