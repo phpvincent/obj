@@ -8,6 +8,13 @@
     <script type="text/html" id="test-table-weight">
         @{{ parseFloat(d.goods_buy_weight) }}kg
     </script>
+    {{--新增仓库数据--}}
+    <script type="text/html" id="use_button">
+        <button class="layui-btn layui-btn-primary layui-btn-sm" style="border-radius: 0;">
+            <b style="color:green;"
+               onclick="add_site_data()">添加仓库数据</b>
+        </button>
+    </script>
     <div class="layui-fluid">
         <div class="layui-card">
             <!-- 搜索控件 -->
@@ -75,7 +82,6 @@
             var $ =layui.jquery;
             table.render({
                 elem: '#storagelist'
-                ,height: 312
                 ,url: '/admin/storage/list/get_table' //数据接口
                 ,page: true //开启分页
                 ,method:'post'
@@ -83,6 +89,8 @@
                 ,text: {
                     none: '暂无仓库数据'
                 }
+                ,toolbar:'#use_button'
+                ,defaultToolbar: []
                 ,where: {
                     id:$('#storage_addr').val(),
                     search:$('#test-table-demoReload').val(),
@@ -90,7 +98,7 @@
                 }
                 ,cols: [[ //表头
                     {field: 'goods_kind_id', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'goods_kind_name', title: '仓库名'}
+                    ,{field: 'goods_kind_name', title: '产品名称'}
                     ,{field: 'goods_kind_img', title: '产品图片',templet:'#test-table-switchTpl'}
                     ,{field: 'goods_kind_english_name', title: '产品英文名称',templet:'#is_local'}
                     ,{field: 'goods_kind_volume', title: '产品体积',}
@@ -161,6 +169,11 @@
                     });
                 }
             })
+
+            // 添加仓库数据
+            add_site_data=function add_site_data(){
+                that.goods_show('添加仓库数据','{{url("admin/storage/list/add_storage_data")}}?storage_id='+$('#storage_addr').val(),2,600,510)
+            };
 
             //model 模态框
             goods_show=function goods_show(title,url,type,w,h){

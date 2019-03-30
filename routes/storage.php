@@ -28,6 +28,8 @@
                   Route::get('/list/data_less','admin\storage\StorageListController@data_less');//获取校准数据总体缺货情况
                   Route::get('/list/data_out','admin\storage\StorageListController@data_out');//出货单导出表格
                   Route::any('/list/return_goods','admin\storage\StorageListController@return_goods');//订单退货
+                  Route::any('/list/add_storage_data','admin\storage\StorageListController@add_storage_data');//新增仓库数据
+                  Route::post('/list/add_storage_data_local','admin\storage\StorageListController@add_storage_data_local');//新增本地仓库数据
 
                   //数据校准
                   Route::get('/check','admin\storage\StorageListController@check');
