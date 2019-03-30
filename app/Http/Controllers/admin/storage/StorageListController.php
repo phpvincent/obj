@@ -1236,6 +1236,11 @@ class StorageListController extends Controller
             return response()->json($arr);
     }
 
+    /**
+     * 新增仓库数据
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function add_storage_data(Request $request)
     {
         if($request->isMethod('get')){
@@ -1244,14 +1249,50 @@ class StorageListController extends Controller
                 $product = goods_kind::all();
                 return view('storage.product.add_storage_data_local')->with(compact('product','storage'));
             }else{
-                $orders = order::where('is_del','0')->where(function ($query){
+                $orders = order::where(function ($query){
                     $query->where('order_type','3');
                     $query->orWhere('order_type','4');
                 })->pluck('order_single_id','order_id')->toArray();
                 return view('storage.product.add_storage_data')->with(compact('orders','storage'));
             }
         }else{
-
+            //海外仓补货入库
+            //TODO 商品个数不能超过填写个数
+            $goods_attr = json_decode($request->input('goods_attr'),true);
+            if(empty($goods_attr)){
+                return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
+            }
+            $admin_id = Auth::user()->admin_id;
+            $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
+            //仓库ID、订单ID、运单号、有效期
+            $storage_id = $request->input('storage_id');
+            $order_id = $request->input('order_id');
+            $express_delivery = $request->input('express_delivery');
+            $expiry_at = $request->input('expiry_at');
+            $order = order::where('order_id',$order_id)->first();
+            $data_array = [];
+            foreach ($goods_attr as $item){
+                $sku = substr($item['goods_sku'],0,4);
+                $sku_attr = substr($item['goods_sku'],-6);
+                    $arr['num'] = $item['num'];
+                    $arr['storage_primary_id'] = $storage_id;
+                    $arr['order_id'] = $order_id;
+                    $arr['sku'] = $sku;
+                    $arr['express_delivery'] = $express_delivery;
+                    $arr['expiry_at'] = $expiry_at;
+                    $arr['sku_data'] = $sku_attr;
+                    $arr['goods_kind_id'] = $item['goods_kind_id'];
+                    array_push($data_array,$arr);
+            }
+            $storage_goods_abroad_data = storage_goods_abroad::insert($data_array);
+            if(!$storage_goods_abroad_data){
+                $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>0];
+                storage_log::insert_log($storage_log,serialize($datass));
+                return response()->json(['err' => '0', 'msg' => '添加海外仓数据失败']);
+            }
+            $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>1];
+            storage_log::insert_log($storage_log,serialize($datass));
+            return response()->json(['err' => '1', 'msg' => '添加海外仓数据成功']);
         }
     }
 
@@ -1284,13 +1325,13 @@ class StorageListController extends Controller
                 $storage_goods_local->sku_attr = substr($item['goods_sku'],-6);
                 $storage_goods_local->goods_kind_id = $item['goods_kind_id'];
                 $storage_goods_local->storage_primary_id = $datas['storage_id'];
+                $storage_goods_local_data  = $storage_goods_local->save();
             }else{
                $num = $storage_goods_local->num + $item['num'];
                $storage_goods_local_data = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->update(['num'=>$num]);
             }
-//            $storage_goods_local_data  = $storage_goods_local->save();
             if(!$storage_goods_local_data){
-                $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','is_success'=>0];
+                $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','storage_id'=>$datas['storage_id'],'storage_name'=>storage::where('storage_id',$datas['storage_id'])->first()['storage_name'],'is_success'=>0];
                 storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '0', 'msg' => '添加本地仓数据失败']);
             }
@@ -1301,12 +1342,58 @@ class StorageListController extends Controller
         //添加补货单日志
         operation_log($ip,'添加本地仓数据',json_encode($datas));
         if($storage_append_data){
-            $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','is_success'=>1];
+            $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','storage_id'=>$datas['storage_id'],'storage_name'=>storage::where('storage_id',$datas['storage_id'])->first()['storage_name'],'is_success'=>1];
             storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '1', 'msg' => '添加本地仓数据成功']);
         }
-        $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','is_success'=>0];
+        $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','storage_id'=>$datas['storage_id'],'storage_name'=>storage::where('storage_id',$datas['storage_id'])->first()['storage_name'],'is_success'=>0];
         storage_log::insert_log($storage_log,serialize($datass));
         return response()->json(['err' => '0', 'msg' => '添加本地仓数据失败']);
+    }
+
+    /**
+     * 获取订单信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_order_info(Request $request)
+    {
+        $order_id  = $request->input('order_id');
+        $order_configs = order_config::where('order_primary_id',$order_id)->get();
+        $data = [];
+        if(!$order_configs->isEmpty()){
+            foreach ($order_configs as $order_config){
+                $order_ids = explode(',',$order_config->order_config);
+                $str = '';
+                $str_name = '';
+                $goods_kind_id = '';
+                $goods_kind_name = '';
+                $all_sku = '';
+                if(!empty($order_ids)){
+                    foreach ($order_ids as $id){
+                        $kind_val_id = config_val::where('config_val_id',$id)->first()['kind_val_id'];
+                        $kind_val = kind_val::where('kind_val_id',$kind_val_id)->first();
+                        if($kind_val){
+                            $goods_kind_id = $kind_val->kind_primary_id;
+                            $str_name .= $kind_val->kind_val_msg.',';
+                        }
+                        $str .= $kind_val_id . ',';
+                    }
+                }
+                $goods_kind = goods_kind::where('goods_kind_id',$goods_kind_id)->first();
+                if($goods_kind){
+                    $goods_kind_name = $goods_kind->goods_kind_name;
+                    $skuSDK = new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
+                    $all_sku = $skuSDK->get_all_sku(rtrim($str,','));
+                }
+                $arr['goods_attr'] = $str_name;
+                $arr['goods_kind_id'] = $goods_kind_id;
+                $arr['goods_kind_name'] = $goods_kind_name;
+                $arr['goods_sku'] = $all_sku;
+                array_push($data,$arr);
+            }
+        }
+        $arr = ['code' => 0, "msg" => "获取数据成功",'data' => $data];
+        return response()->json($arr);
     }
 }
