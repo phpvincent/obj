@@ -3,7 +3,7 @@
     <head>
         <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>[zsshop]{{$goods->goods_name}}</title>
+        <title>[fleekfly]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -457,7 +457,7 @@ Dalam 7 hari dari tanggal penerimaan barang,silakan kirim email ke bagian layana
             <td colspan="2">
                
                
-                <p>ZSSSHOP adalah online mall yang memilih produk dengan sikap yang ketat mengikuti secara konsisten, Menyebar ke seluruh dunia, secara ketat mengontrol asal produk, baik komoditas kerajinan, bahan baku, pakaian, tas dan sepatu, peralatan rumah tangga,  peralatan dapur, olahraga dll. Kami berusaha memberikan produk kualitas terbaik kepada Anda .</p>
+                <p>fleekfly adalah online mall yang memilih produk dengan sikap yang ketat mengikuti secara konsisten, Menyebar ke seluruh dunia, secara ketat mengontrol asal produk, baik komoditas kerajinan, bahan baku, pakaian, tas dan sepatu, peralatan rumah tangga,  peralatan dapur, olahraga dll. Kami berusaha memberikan produk kualitas terbaik kepada Anda .</p>
                 
             </td>
 
