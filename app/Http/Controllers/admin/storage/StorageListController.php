@@ -1370,11 +1370,12 @@ class StorageListController extends Controller
         $order_configs = order_config::where('order_primary_id',$order_id)->get();
         $data = [];
         if(!$order_configs->isEmpty()){
-            $counts = [];
             $sku_kind_all = [];
+            $order_configs = $order_configs->toArray();
+            $counts = array_count_values(array_column($order_configs,'order_config'));
             foreach ($order_configs as $order_config){
-                if(!in_array($order_config->order_config,$sku_kind_all)){
-                    $order_ids = explode(',',$order_config->order_config);
+                if(!in_array($order_config['order_config'],$sku_kind_all)){
+                    $order_ids = explode(',',$order_config['order_config']);
                     $str = '';
                     $str_name = '';
                     $goods_kind_id = '';
@@ -1401,9 +1402,9 @@ class StorageListController extends Controller
                     $arr['goods_kind_id'] = $goods_kind_id;
                     $arr['goods_kind_name'] = $goods_kind_name;
                     $arr['goods_sku'] = $all_sku;
-                    $arr['num'] = 1;
+                    $arr['num'] = $counts[$order_config['order_config']];
+                    array_push($data,$arr);
                 }
-                array_push($data,$arr);
             }
         }else{
             if($order){

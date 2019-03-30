@@ -15,12 +15,14 @@
                     <blockquote class="layui-elem-quote">是否成功：<b><u><span style="color:red">操作失败</span></b></u></blockquote>
                 @else
                     <blockquote class="layui-elem-quote">是否成功：<b><u><span style="color:green">操作成功</span></b></u></blockquote>
+                @if(isset($storage_log_data['status']))
                     @if($storage_log_data['status']==1)
                         <blockquote class="layui-elem-quote">补货单id:{{$storage_log_data['order_id']}}</blockquote>
                         <blockquote class="layui-elem-quote">补货单编号:{{$storage_log_data['order_single']}}</blockquote>
                     @else
                         <blockquote class="layui-elem-quote">订单id:{{$storage_log_data['order_id']}}</blockquote>
                         <blockquote class="layui-elem-quote">订单编号:{{$storage_log_data['order_single']}}</blockquote>
+                    @endif
                     @endif
                     <blockquote class="layui-elem-quote">仓库id:{{$storage_log_data['storage_id']}}</blockquote>
                     <blockquote class="layui-elem-quote">仓库名称:{{$storage_log_data['storage_name']}}</blockquote>

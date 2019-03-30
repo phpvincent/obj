@@ -42,8 +42,11 @@ class StorageController extends Controller
                     if(!$storage_log_datas->isEmpty()){
                         foreach ($storage_log_datas as $storage_log_data){
                             $storage_data = unserialize($storage_log_data->storage_log_data);
-                            if(!in_array($storage_data['storage_id'],$storage_ids)){
-                                array_push($storage_ids,$storage_data['storage_id']);
+                            if(isset($storage_data['storage_id'])){
+                                $storage_id = $storage_data['storage_id'];
+                                if(!in_array($storage_id,$storage_ids)){
+                                    array_push($storage_ids,$storage_data['storage_id']);
+                                }
                             }
                         }
                     }
