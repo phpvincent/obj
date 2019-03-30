@@ -35,19 +35,31 @@
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
-            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"  layadmin-event="serach" lay-action="template/search.html?keywords=">
           </li>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
           
-          <li class="layui-nav-item" lay-unselect>
-            <a lay-href="/admin/storage/blade?type=app/message/index.html" layadmin-event="message" lay-text="消息中心">
+          <li class="layui-nav-item" lay-unselect> 
+            @if(\App\order::where([['is_del',0],['order_type','1']])->count()>0)
+            <a lay-href="{{url('admin/storage/check')}}" layadmin-event="message" title="存在待扣货订单（{{\App\order::where([['is_del',0],['order_type','1']])->count()}}）" lay-text="存在待扣货订单（{{\App\order::where([['is_del',0],['order_type','1']])->count()}}）">
               <i class="layui-icon layui-icon-notice"></i>  
               
               <!-- 如果有新消息，则显示小圆点 -->
+             
               <span class="layui-badge-dot"></span>
+
+              
             </a>
+            @else
+            <a lay-href="{{url('admin/storage/check')}}" layadmin-event="message" lay-text="暂无待扣货订单">
+              <i class="layui-icon layui-icon-notice"></i>  
+              
+              
+            </a>
+            @endif
           </li>
+          
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
             <a href="javascript:;" layadmin-event="theme">
               <i class="layui-icon layui-icon-theme"></i>
@@ -76,7 +88,7 @@
           </li>
           
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
-            <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+            <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
           </li>
           <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
             <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>

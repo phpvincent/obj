@@ -98,6 +98,7 @@ class storage_check extends Model
 	            $storage=\App\storage::where([['template_type_primary_id',$blade_type],['storage_status',1],['is_local',0]])->first();
 	            //证明没有对应海外仓
 	            $order_config=\App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v->order_id)->get()->toArray();
+	           
                 //处理数据变更属性组加数目
                 $new=[];
                 $count=[];
@@ -147,7 +148,12 @@ class storage_check extends Model
                          $sku=$skuSDK->get_all_sku($order_config_arr);
                          $order_config[$kkk]['sku']=substr($sku,4);
                     }
-                }
+                } 
+                //当改订单无属性信息时默认属性SKU为000000
+                if($order_config==null){
+	            	$order_config=[];
+	            	$order_config[]=['order_primary_id'=>$v->order_id,'order_config'=>'','num'=>$v->order_num,'kind_val_arr'=>[],'sku'=>'000000'];
+	            }
 	            if($storage!=null){
 	                //声明便令记录改订单是否可从国外仓发送状态
 	                $is_send=true;
