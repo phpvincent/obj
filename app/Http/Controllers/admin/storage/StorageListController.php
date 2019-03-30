@@ -222,7 +222,8 @@ class StorageListController extends Controller
                         ->offset($start)
                         ->limit($limit)
                         ->get();
-                    $count =  storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                    $products_count = storage_goods_local::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_local.goods_kind_id')
+                        ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
                         ->where(function ($query) use ($request,$search){
                             if($search){
                                 $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
@@ -230,7 +231,8 @@ class StorageListController extends Controller
                         })
                         ->where('storage_goods_local.storage_primary_id', $id)
                         ->groupBy('goods_kind.goods_kind_id')
-                        ->count();
+                        ->get();
+                    $count = count($products_count);
             } else { //海外仓库
                 $products = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
                     ->where(function ($query) use ($request,$search){
@@ -245,16 +247,17 @@ class StorageListController extends Controller
                     ->offset($start)
                     ->limit($limit)
                     ->get();
-                $count = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
-                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
+                $products_count = storage_goods_abroad::join('goods_kind', 'goods_kind.goods_kind_id', '=', 'storage_goods_abroad.goods_kind_id')
                     ->where(function ($query) use ($request,$search){
                         if($search){
                             $query->where('goods_kind.goods_kind_name','like','%'.$search.'%');
                         }
                     })
+                    ->select('goods_kind.*', DB::Raw('SUM(num) AS num'))
                     ->where('storage_goods_abroad.storage_primary_id', $id)
                     ->groupBy('goods_kind.goods_kind_id')
-                    ->count();
+                    ->get();
+                $count = count($products_count);
             }
         }else{ //预扣货
             if ($storage->is_local == 1) { //本地仓库
@@ -1222,4 +1225,77 @@ class StorageListController extends Controller
             return response()->json($arr);
     }
 
+    public function add_storage_data(Request $request)
+    {
+        if($request->isMethod('get')){
+            $storage = storage::where('storage_id',$request->input('storage_id'))->first();
+            if($storage->is_local == 1){
+                $product = goods_kind::all();
+                return view('storage.product.add_storage_data_local')->with(compact('product','storage'));
+            }else{
+                $orders = order::where('is_del','0')->where(function ($query){
+                    $query->where('order_type','3');
+                    $query->orWhere('order_type','4');
+                })->pluck('order_single_id','order_id')->toArray();
+                return view('storage.product.add_storage_data')->with(compact('orders','storage'));
+            }
+        }else{
+
+        }
+    }
+
+
+    /**
+     * 添加本地仓数据
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function add_storage_data_local(Request $request)
+    {
+        $datas = $request->all();
+        $goods_attr = json_decode($request->input('goods_attr'),true);
+        if(empty($goods_attr)){
+            return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
+        }
+
+        $admin_id = Auth::user()->admin_id;
+        $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>0];
+
+        $data_array = [];
+        foreach ($goods_attr as $item){
+            $sku = substr($item['goods_sku'],0,4);
+            $sku_attr = substr($item['goods_sku'],-6);
+            $storage_goods_local = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->first();
+            if(!$storage_goods_local){
+                $storage_goods_local = new storage_goods_local();
+                $storage_goods_local->num = $item['num'];
+                $storage_goods_local->sku = substr($item['goods_sku'],0,4);
+                $storage_goods_local->sku_attr = substr($item['goods_sku'],-6);
+                $storage_goods_local->goods_kind_id = $item['goods_kind_id'];
+                $storage_goods_local->storage_primary_id = $datas['storage_id'];
+            }else{
+               $num = $storage_goods_local->num + $item['num'];
+               $storage_goods_local_data = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->update(['num'=>$num]);
+            }
+//            $storage_goods_local_data  = $storage_goods_local->save();
+            if(!$storage_goods_local_data){
+                $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','is_success'=>0];
+                storage_log::insert_log($storage_log,serialize($datass));
+                return response()->json(['err' => '0', 'msg' => '添加本地仓数据失败']);
+            }
+        }
+
+        $storage_append_data = DB::table('storage_append_data')->insert($data_array);
+        $ip = $request->getClientIp();
+        //添加补货单日志
+        operation_log($ip,'添加本地仓数据',json_encode($datas));
+        if($storage_append_data){
+            $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','is_success'=>1];
+            storage_log::insert_log($storage_log,serialize($datass));
+            return response()->json(['err' => '1', 'msg' => '添加本地仓数据成功']);
+        }
+        $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','is_success'=>0];
+        storage_log::insert_log($storage_log,serialize($datass));
+        return response()->json(['err' => '0', 'msg' => '添加本地仓数据失败']);
+    }
 }
