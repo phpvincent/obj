@@ -12,8 +12,8 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">仓库名称</label>
                                 <div class="layui-input-inline"  style="width: 250px">
-                                    <input type="text" name="storage_name" value="{{$storage->storage_name}}" disabled class="layui-input">
-                                    <input type="text" style="display: none" name="storage_id" value="{{$storage->storage_id}}" disabled class="layui-input">
+                                    <input type="text" name="storage_name" id="storage_name" value="{{$storage->storage_name}}" disabled class="layui-input">
+                                    <input type="text" style="display: none" name="storage_id" id="storage_id" value="{{$storage->storage_id}}" disabled class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -35,7 +35,7 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">有效期</label>
                                 <div class="layui-input-inline" style="width: 250px">
-                                    <input type="text" name="expiry_at" lay-verify="required" onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();"  value="7" class="layui-input">
+                                    <input type="text" name="expiry_at" id="expiry_at" lay-verify="required" onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();"  value="7" class="layui-input">
                                 </div>
                             </div>
                             <!-- <div class="layui-form-item layui-form-text">
@@ -106,7 +106,7 @@
                     <span>@{{d.goods_sku}}</span>
                 </td>
                 <td>
-                    <input type="text" name="num" value="" placeholder="请输入数量" class="layui-input" lay-verify="required">
+                    <input type="text" name="num" value="@{{d.num}}" placeholder="请输入数量" class="layui-input" lay-verify="required">
                 </td>
                 <td>
                     <span class="layui-btn layui-btn-xs layui-btn-danger removeGoodsAppend"><i class="layui-icon">&#xe640;</i></span>
@@ -151,7 +151,7 @@
             //     })
             //     return false;
             // })
-
+            init();
             function init () {
                 $.ajax({
                     url:"/admin/storage/list/get_order_info",
@@ -174,14 +174,18 @@
             })
             // 表格提交
             form.on('submit(formDemo)', function(data){
-                        // if($('#storage_append_single').val()===''){
-                        //     layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请填写采购单号' ,{offset: '100px'})
-                        //     return false
-                        // }
-                        // if($('#goodsdate').val()===''){
-                        //     layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请选择采购时间' ,{offset: '100px'})
-                        //     return false
-                        // }
+                        if($('#storage_name').val()===''){
+                            layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请填写采购单号' ,{offset: '100px'})
+                            return false
+                        }
+                        if($('#order_id').val()===''){
+                            layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请选择采购时间' ,{offset: '100px'})
+                            return false
+                        }
+                        if($('#expiry_at').val()===''){
+                            layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请选择采购时间' ,{offset: '100px'})
+                            return false
+                        }
 
                         var data = $(data.form).serializeArray();
                         var obj = {};
@@ -197,30 +201,30 @@
                         }
                         var index = layer.load();
                         console.log('dd', arr)
-                        // $.ajax({
-                        //     url:"/admin/storage/add/up_storage_append",
-                        //     type:'post',
-                        //     data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_append_msg:$('#storage_append_msg').val(),storage_append_single:$('#storage_append_single').val(),storage_append_time:$('#goodsdates').val(),storage_append_id:$('#storage_append_id').val()},
-                        //     // datatype:'json',
-                        //     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
-                        //     success:function(msg){
-                        //         if(msg['err']==1){
-                        //             layer.close(index);
-                        //             layer.msg(msg.msg,{
-                        //                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        //             }, function(){
-                        //                 // parent.layui.admin.events.refresh();
-                        //                 window.parent.location.reload();
-                        //             });
-                        //         }else if(msg['err']==0){
-                        //             layer.close(index);
-                        //             layer.msg(msg.msg);
-                        //         }else{
-                        //             layer.close(index);
-                        //             layer.msg('新增失败！');
-                        //         }
-                        //     }
-                        // });
+                         $.ajax({
+                             url:"/admin/storage/list/add_storage_data",
+                             type:'post',
+                             data:{goods_attr:JSON.stringify(arr),order_id:$('#order_id').val(),express_delivery:$('#express_delivery').val(),expiry_at:$('#expiry_at').val(),storage_id:$('#storage_id').val()},
+                             datatype:'json',
+                             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                             success:function(msg){
+                                 if(msg['err']==1){
+                                     layer.close(index);
+                                     layer.msg(msg.msg,{
+                                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                     }, function(){
+                                         // parent.layui.admin.events.refresh();
+                                         window.parent.location.reload();
+                                     });
+                                 }else if(msg['err']==0){
+                                     layer.close(index);
+                                     layer.msg(msg.msg);
+                                 }else{
+                                     layer.close(index);
+                                     layer.msg('新增失败！');
+                                 }
+                             }
+                         });
                         return false;
                     });
             // 表格里面的删除按钮
