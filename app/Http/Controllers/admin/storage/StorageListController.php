@@ -492,13 +492,22 @@ class StorageListController extends Controller
                     $storage_goods = $storage_goods->toArray();
                     foreach ($storage_goods as &$storage_good){
                         $storage_good['goods_sku'] = $storage_good['sku'].$storage_good['sku_attr'];
-                        $skuSDK = new skuSDK($storage_good['goods_kind_id'],$storage_good['goods_product_id'],$storage_good['goods_kind_user_type']);
-                        $current_attrs = $skuSDK->get_attr_by_sku($storage_good['sku_attr']);
-                        $str = '';
-                        foreach ($current_attrs as $attr) {
-                            $str .= $attr->kind_val_msg .',';
+                        if($storage_good['sku_attr'] != '000000'){
+                            $skuSDK = new skuSDK($storage_good['goods_kind_id'],$storage_good['goods_product_id'],$storage_good['goods_kind_user_type']);
+                            $current_attrs = $skuSDK->get_attr_by_sku($storage_good['sku_attr']);
+                            $str = '';
+                            if(count($current_attrs) > 0){
+                                foreach ($current_attrs as $attr) {
+                                    if($attr){
+                                        $str .= $attr->kind_val_msg .',';
+                                    }
+                                }
+                            }
+                            $storage_good['goods_attr'] = rtrim($str,',');
+                        }else{
+                            $storage_good['goods_attr'] = '';
                         }
-                        $storage_good['goods_attr'] = rtrim($str,',');
+
                     }
                 }
                 $arr = ['code' => 0, "msg" => "获取数据成功", 'data' => $storage_goods];

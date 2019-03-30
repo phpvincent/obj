@@ -161,7 +161,7 @@
                       $.each(msg.data, function (index, value) { 
                         var getTpl = goodsAppend.innerHTML
                             laytpl(getTpl).render(value, function(string){
-                                $('.goodsAppend tbody').append(string)
+                                $('.goodsAppend tbody').html(string)
                             });
                       });
                     }
