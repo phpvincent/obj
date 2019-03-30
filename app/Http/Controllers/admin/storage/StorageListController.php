@@ -1421,7 +1421,6 @@ class StorageListController extends Controller
                 }
             }
         }
-        dd($data);
         $arr = ['code' => 0, "msg" => "获取数据成功",'data' => $data];
         return response()->json($arr);
     }
