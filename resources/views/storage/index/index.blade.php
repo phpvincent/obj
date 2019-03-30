@@ -348,18 +348,19 @@ img{ border:none; vertical-align:top;}
           </div>
         </div>
         
-        <!-- <div class="layui-card">
+        <div class="layui-card">
           <div class="layui-card-header">产品动态</div>
-          <div class="layui-card-body">
-            <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
-              <div carousel-item>
-                <div><a href="http://fly.layui.com/docs/2/" target="_blank" class="layui-bg-red">layuiAdmin 快速上手文档</a></div>
-                <div><a href="http://fly.layui.com/vipclub/list/layuiadmin/" target="_blank" class="layui-bg-green">layuiAdmin 会员讨论专区</a></div> 
-                <div><a href="http://www.layui.com/admin/#get" target="_blank" class="layui-bg-blue">获得 layui 官方后台模板系统</a></div>
+          <blockquote class="layui-elem-quote">上次产品库更新：{{\App\goods_kind::select('goods_kind_time')->orderBy('goods_kind_time','desc')->first()['goods_kind_time']}}</blockquote>
+          <div class="layui-card-body" style="height: 180px !important">
+            <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news" >
+              <div carousel-item style="height:150px !important;">
+                @foreach(\App\goods_kind::select('goods_kind.goods_kind_time','goods_kind.goods_kind_name','admin.admin_show_name')->leftjoin('admin','goods_kind.goods_kind_admin','admin.admin_id')->orderBy('goods_kind_time','desc')->offset(0)->limit('3')->get() as $k => $v)
+                  <div> <blockquote class="layui-elem-quote">{{$v->admin_show_name}}:{{$v->goods_kind_name}}({{$v->goods_kind_time}})</blockquote><a lay-href="{{url('admin/kind/index')}}" target="_blank" class="layui-bg-red">前往产品库</a></div>
+                @endforeach
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
       
     </div>

@@ -1018,7 +1018,18 @@ class StorageListController extends Controller
             return response()->json($arr);
         }elseif($request->isMethod('post')){
             if($request->input('ids',null)!=null){
-                $msg=\App\order::whereIn('order_id',$request->input('ids'))->update(['order_type'=>'4']);
+                $msg=true;
+                try{
+                    foreach($request->input('ids') as $k => $v){
+                        $order=\App\order::where('order_id',$v)->first();
+                        $order->order_type='4';
+                        $order->order_return=$order->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单出仓</p>";
+                        $order->save();
+                    }
+                }catch(\Exception $e){
+                    $msg=false;
+                }
+                //$msg=\App\order::whereIn('order_id',$request->input('ids'))->update(['order_type'=>'4']);
                 $ip = $request->getClientIp();
                 //添加补货单日志
                 operation_log($ip,'进行订单出库操作');
