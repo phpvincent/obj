@@ -1274,7 +1274,14 @@ class StorageListController extends Controller
                     array_push($data_array,$arr);
             }
             $storage_goods_abroad_data = storage_goods_abroad::insert($data_array);
-            if(!$storage_goods_abroad_data){
+            $oldmsg = $order->order_return;
+            $date = date('Y-m-d H:i:s',time());
+            $admin = Auth::user()->admin_name;
+            $htmlnow = $oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：添加海外仓数据"."</p>";
+            $order->order_type = 6;
+            $order->order_return = $htmlnow;
+            $order_data = $order->save();
+            if(!$storage_goods_abroad_data || $order_data){
                 $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>0];
                 storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '0', 'msg' => '添加海外仓数据失败']);
@@ -1347,39 +1354,58 @@ class StorageListController extends Controller
      */
     public function get_order_info(Request $request)
     {
-        $order_id  = $request->input('order_id');
+        $order_id  = $request->input('order_id',79);
+        $order = order::where('order_id',$order_id)->first();
         $order_configs = order_config::where('order_primary_id',$order_id)->get();
         $data = [];
         if(!$order_configs->isEmpty()){
+            $counts = [];
+            $sku_kind_all = [];
             foreach ($order_configs as $order_config){
-                $order_ids = explode(',',$order_config->order_config);
-                $str = '';
-                $str_name = '';
-                $goods_kind_id = '';
-                $goods_kind_name = '';
-                $all_sku = '';
-                if(!empty($order_ids)){
-                    foreach ($order_ids as $id){
-                        $kind_val_id = config_val::where('config_val_id',$id)->first()['kind_val_id'];
-                        $kind_val = kind_val::where('kind_val_id',$kind_val_id)->first();
-                        if($kind_val){
-                            $goods_kind_id = $kind_val->kind_primary_id;
-                            $str_name .= $kind_val->kind_val_msg.',';
+                if(!in_array($order_config->order_config,$sku_kind_all)){
+                    $order_ids = explode(',',$order_config->order_config);
+                    $str = '';
+                    $str_name = '';
+                    $goods_kind_id = '';
+                    $goods_kind_name = '';
+                    $all_sku = '';
+                    if(!empty($order_ids)){
+                        foreach ($order_ids as $id){
+                            $kind_val_id = config_val::where('config_val_id',$id)->first()['kind_val_id'];
+                            $kind_val = kind_val::where('kind_val_id',$kind_val_id)->first();
+                            if($kind_val){
+                                $goods_kind_id = $kind_val->kind_primary_id;
+                                $str_name .= $kind_val->kind_val_msg.',';
+                            }
+                            $str .= $kind_val_id . ',';
                         }
-                        $str .= $kind_val_id . ',';
                     }
+                    $goods_kind = goods_kind::where('goods_kind_id',$goods_kind_id)->first();
+                    if($goods_kind){
+                        $goods_kind_name = $goods_kind->goods_kind_name;
+                        $skuSDK = new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
+                        $all_sku = $skuSDK->get_all_sku(rtrim($str,','));
+                    }
+                    $arr['goods_attr'] = $str_name;
+                    $arr['goods_kind_id'] = $goods_kind_id;
+                    $arr['goods_kind_name'] = $goods_kind_name;
+                    $arr['goods_sku'] = $all_sku;
+                    $arr['num'] = 1;
                 }
-                $goods_kind = goods_kind::where('goods_kind_id',$goods_kind_id)->first();
-                if($goods_kind){
-                    $goods_kind_name = $goods_kind->goods_kind_name;
-                    $skuSDK = new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
-                    $all_sku = $skuSDK->get_all_sku(rtrim($str,','));
-                }
-                $arr['goods_attr'] = $str_name;
-                $arr['goods_kind_id'] = $goods_kind_id;
-                $arr['goods_kind_name'] = $goods_kind_name;
-                $arr['goods_sku'] = $all_sku;
                 array_push($data,$arr);
+            }
+        }else{
+            if($order){
+                $goods = goods::where('goods_id',$order->order_goods_id)->first();
+                $goods_kind = goods_kind::where('goods_kind_id',$goods->goods_kind_id)->first();
+                if($goods_kind){
+                    $arr['goods_attr'] = '';
+                    $arr['goods_kind_id'] = $goods_kind->goods_kind_id;
+                    $arr['goods_kind_name'] = $goods_kind->goods_kind_name;
+                    $arr['goods_sku'] = $goods_kind->goods_kind_sku;
+                    $arr['num'] = $order->order_num;
+                    array_push($data,$arr);
+                }
             }
         }
         $arr = ['code' => 0, "msg" => "获取数据成功",'data' => $data];
