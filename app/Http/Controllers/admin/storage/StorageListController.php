@@ -1375,6 +1375,7 @@ class StorageListController extends Controller
             $counts = array_count_values(array_column($order_configs,'order_config'));
             foreach ($order_configs as $order_config){
                 if(!in_array($order_config['order_config'],$sku_kind_all)){
+                    array_push($sku_kind_all,$order_config['order_config']);
                     $order_ids = explode(',',$order_config['order_config']);
                     $str = '';
                     $str_name = '';
@@ -1420,6 +1421,7 @@ class StorageListController extends Controller
                 }
             }
         }
+        dd($data);
         $arr = ['code' => 0, "msg" => "获取数据成功",'data' => $data];
         return response()->json($arr);
     }
