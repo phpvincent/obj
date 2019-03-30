@@ -366,7 +366,8 @@ img{ border:none; vertical-align:top;}
   </div>
   <script id="timeLine" type="text/html">
   @{{#  layui.each(d, function(index, item){ }}
-  <li dataid="@{{item.storage_log_id}}">@{{item.admin_show_name}}
+  <li dataid="@{{item.storage_log_id}}">
+        <span>@{{item.admin_show_name}}</span>
         <div class="shiji" style="display: none;">
             <h1>@{{item.storage_log_type}}</h1>
             <p>@{{item.created_at}}</p>
@@ -430,9 +431,11 @@ img{ border:none; vertical-align:top;}
               $(function(){
                   //首页大事记
                   $('.course_nr2 li').hover(function(){
-                      $(this).find('.shiji').slideDown(600);
+                      $(this).find('.shiji').stop().slideDown(600);
+                      $(this).find('span').hide();
                   },function(){
-                      $(this).find('.shiji').slideUp(400);
+                      $(this).find('.shiji').stop().slideUp(100);
+                      $(this).find('span').show();
                   });
               });
            }
