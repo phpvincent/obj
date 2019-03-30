@@ -1368,7 +1368,7 @@ class StorageListController extends Controller
      */
     public function get_order_info(Request $request)
     {
-        $order_id  = $request->input('order_id',79);
+        $order_id  = $request->input('order_id');
         $order = order::where('order_id',$order_id)->first();
         $order_configs = order_config::where('order_primary_id',$order_id)->get();
         $data = [];
