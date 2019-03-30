@@ -1129,7 +1129,8 @@ class StorageListController extends Controller
     {
         if($request->isMethod('get')){
             $orders = order::where('is_del','0')->where(function ($query){
-                $query->where('order_type','3');
+                $query->where('order_type','1');
+                $query->orWhere('order_type','3');
                 $query->orWhere('order_type','4');
             })->pluck('order_single_id','order_id')->toArray();
             $storage = storage::where('storage_id',$request->input('id'))->first();
@@ -1139,6 +1140,17 @@ class StorageListController extends Controller
         }else{
             $data = $request->all();
             $order = order::where('order_id',$data['order_id'])->first();
+            if($order->order_type){
+                $oldmsg = $order->order_return;
+                $date = date('Y-m-d H:i:s',time());
+                $admin = Auth::user()->admin_name;
+                $htmlnow = $oldmsg."<p style='text-align:center'>[".$date."] ".$admin."：".$data['remarks']."</p>";
+                $order->order_type = 6;
+                $order->order_return = $htmlnow;
+                $order_data = $order->save();
+                if($order_data) return response()->json(['err' => 1, 'str' => '订单退货成功！']);
+                return response()->json(['err' => 0, 'str' => '订单退货失败！']);
+            }
             $goods_kind_id = goods::where('goods_kind_id',$order->order_goods_id)->first()['goods_kind_id'];
             $goods_kind = goods_kind::where('goods_kind_id',$goods_kind_id)->first();
             if($express_delivery = trim($data['express_delivery'])){
