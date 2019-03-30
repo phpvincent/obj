@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label class="layui-form-label">有效期</label>
+                                <label class="layui-form-label">有效期(天)</label>
                                 <div class="layui-input-inline" style="width: 250px">
                                     <input type="text" name="expiry_at" id="expiry_at" lay-verify="required" onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();"  value="7" class="layui-input">
                                 </div>
@@ -161,7 +161,7 @@
                       $.each(msg.data, function (index, value) { 
                         var getTpl = goodsAppend.innerHTML
                             laytpl(getTpl).render(value, function(string){
-                                $('.goodsAppend tbody').append(string)
+                                $('.goodsAppend tbody').html(string)
                             });
                       });
                     }

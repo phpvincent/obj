@@ -80,18 +80,9 @@
                             layer.msg(msg.str,{
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                parent.layui.admin.events.refresh();
+                                // parent.layui.admin.events.refresh();
+                                window.parent.location.reload();
                             });
-                            /*admin.popupRight({
-                             id:'test',
-                             success:function(){
-                               layui.view(this.id).render("system/more")
-                             }
-                            })*/
-                            //window.location.reload();
-                            //admin.events.closeThisTabs()
-                            //admin.events.closeAllTabs()
-                            //admin.events.refresh()
                         }else if(msg['err']==0){
                             layer.close(index);
                             layer.msg(msg.str);
