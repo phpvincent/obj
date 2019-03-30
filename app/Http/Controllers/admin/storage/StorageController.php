@@ -29,7 +29,6 @@ class StorageController extends Controller
         $end  = date("Y-m-d",time()+86400).' 00:00:00';
         $storages_log_in = storage_log::whereBetween('created_at',[$start,$end])->where('storage_log_type',7)->where('storage_log_operate_type',0)->get();
         $storages_log_out = storage_log::whereBetween('created_at',[$start,$end])->where('storage_log_type',6)->where('storage_log_operate_type',2)->get();
-
         //获取仓库总个数
         $storage_num = storage::count();
         //仓库补货率
