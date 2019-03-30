@@ -162,24 +162,24 @@ class StorageLogController extends Controller
     public function time_line (Request $request)
     {
     	$limit=$request->input('limit',10);
-    	$storage_logs=storage_log::orderBy('created_at','desc')->offset(0)->limit($limit)->get();
+    	$storage_logs=storage_log::select('storage_log.*','admin.admin_show_name')->leftjoin('admin','storage_log.storage_log_admin_id','admin.admin_id')->orderBy('created_at','desc')->offset(0)->limit($limit)->get();
     	if(count($storage_logs)>0){
 	            foreach ($storage_logs as &$storage_log){
 	                $storage_log->admin_show_name=($storage_log->admin_show_name==null?'系统':$storage_log->admin_show_name);
 	                if($storage_log->storage_log_type==1){
-	                	$storage_log->storage_log_type='补货单操作';
+	                	$storage_log->storage_log_type='补货单';
 	                }elseif($storage_log->storage_log_type==2){
-	                	$storage_log->storage_log_type='库存数据操作';
+	                	$storage_log->storage_log_type='库存数据';
 	                }elseif($storage_log->storage_log_type==3){
-	                	$storage_log->storage_log_type='仓库数据操作';
+	                	$storage_log->storage_log_type='仓库数据';
 	                }elseif($storage_log->storage_log_type==4){
-	                	$storage_log->storage_log_type='数据校准操作';
+	                	$storage_log->storage_log_type='数据校准';
 	                }elseif($storage_log->storage_log_type==5){
-	                	$storage_log->storage_log_type='订单扣货操作';
+	                	$storage_log->storage_log_type='订单扣货';
 	                }elseif($storage_log->storage_log_type==6){
-	                	$storage_log->storage_log_type='订单出仓操作';
+	                	$storage_log->storage_log_type='订单出仓';
 	                }elseif($storage_log->storage_log_type==7){
-	                	$storage_log->storage_log_type='商品入库操作';
+	                	$storage_log->storage_log_type='商品入库';
 	                }
 	            }
     	}

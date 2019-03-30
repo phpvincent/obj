@@ -301,7 +301,8 @@ img{ border:none; vertical-align:top;}
         <div class="layui-card">
           <div class="layui-card-header">效果报告</div>
           <div class="layui-card-body layadmin-takerates">
-            @if($order_count != 0 || $yse_order_count != 0)
+            @if($order_count != 0 && $yse_order_count != 0)
+
             <div class="layui-progress" lay-showPercent="yes">
               @if($t_out_today/$order_count > $y_out_today/$yse_order_count)
               <h3>今日订单扣货率（日同比 {{sprintf("%.4f", ($t_out_today/$order_count-$y_out_today/$yse_order_count))*100}}% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
@@ -347,7 +348,7 @@ img{ border:none; vertical-align:top;}
           </div>
         </div>
         
-        <div class="layui-card">
+        <!-- <div class="layui-card">
           <div class="layui-card-header">产品动态</div>
           <div class="layui-card-body">
             <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
@@ -358,7 +359,7 @@ img{ border:none; vertical-align:top;}
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       
     </div>
