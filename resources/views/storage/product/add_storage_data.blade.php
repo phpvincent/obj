@@ -4,7 +4,6 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">设置我的资料</div>
                     <div class="layui-card-body" pad15>
 
                         <form class="layui-form layui-form-pane " method="post" lay-filter="form1" action="">
@@ -128,7 +127,7 @@
             // form.on('submit',function(data){
             //     var index = layer.load();
             //     $.ajax({
-            //         url:"{{url('admin/storage/list/add_storage_data')}}",
+{{--                     url:"{{url('admin/storage/list/add_storage_data')}}",--}}
             //         type:'post',
             //         data:data.field,
             //         datatype:'json',

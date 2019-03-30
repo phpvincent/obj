@@ -1262,11 +1262,14 @@ class StorageListController extends Controller
             if(empty($goods_attr)){
                 return response()->json(['err' => '0', 'msg' => '请选择采购商品']);
             }
+            $order_id = $request->input('order_id');
+            if(!$order_id){
+                return response()->json(['err' => '0', 'msg' => '请选择订单数据']);
+            }
             $admin_id = Auth::user()->admin_id;
             $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
             //仓库ID、订单ID、运单号、有效期
             $storage_id = $request->input('storage_id');
-            $order_id = $request->input('order_id');
             $express_delivery = $request->input('express_delivery');
             $expiry_at = $request->input('expiry_at');
             $order = order::where('order_id',$order_id)->first();
@@ -1415,7 +1418,7 @@ class StorageListController extends Controller
                     $arr['goods_attr'] = '';
                     $arr['goods_kind_id'] = $goods_kind->goods_kind_id;
                     $arr['goods_kind_name'] = $goods_kind->goods_kind_name;
-                    $arr['goods_sku'] = $goods_kind->goods_kind_sku;
+                    $arr['goods_sku'] = $goods_kind->goods_kind_sku.'000000';
                     $arr['num'] = $order->order_num;
                     array_push($data,$arr);
                 }
