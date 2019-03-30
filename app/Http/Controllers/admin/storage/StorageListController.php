@@ -1279,7 +1279,7 @@ class StorageListController extends Controller
                     $arr['order_id'] = $order_id;
                     $arr['sku'] = $sku;
                     $arr['express_delivery'] = $express_delivery;
-                    $arr['expiry_at'] = $expiry_at;
+                    $arr['expiry_at'] =  date('Y-m-d H:i:s',time()+$expiry_at*3600*24);;
                     $arr['sku_data'] = $sku_attr;
                     $arr['goods_kind_id'] = $item['goods_kind_id'];
                     array_push($data_array,$arr);
