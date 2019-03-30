@@ -59,6 +59,8 @@ class storage_check extends Model
 	        //如果为校准操作开启事务
 	        if($type)  \DB::beginTransaction();
 	        //$storage_goods_abroad=\App\storage_goods_abroad::all();
+	        //声明海外仓拆分情况下验证记录数据
+	        $aborad_check_arr=[];
 	        foreach($orders as $k => $v)
 	        {   
 	            //声明变量存放校准单数据
@@ -169,20 +171,34 @@ class storage_check extends Model
 	                        $goods_check_data[$v->order_id][$kkk]['storage_primary_id']=$storage_check->storage_check_id;
 	                        $goods_check_data[$v->order_id][$kkk]['storage_check_data_sixsku']=$order_config_sku;
 	                        $goods_check_data[$v->order_id][$kkk]['storage_check_data_type']='1';
-	                        //2.判断海外仓中对应产品的对应属性的货物数目是否足够
-	                        $max_num=\App\storage_goods_abroad::select(\DB::raw('SUM(num) as num'))
-	                                ->where(function($query)use($order_config_sku,$storage_id,$goods_kind_id){
-	                                    $query->where('sku_data', $order_config_sku);
-	                                    $query->where('storage_primary_id', $storage_id);
-	                                    $query->where('goods_kind_id', $goods_kind_id);
-	                                    $query->where('expiry_at','>',date('Y-m-d H:i:s',time()));
-	                                    $query->where('num','>',0);
-	                                })
-	                                ->first();
-	                        if($max_num['num']<$v_config['num']){
-	                            //海外仓对应属性的货物数目总和不足这条属性信息的数目，无法从海外仓发货
-	                            $is_forigen=false;
-	                            break;
+	                        if(!array_key_exists($v->order_id, $aborad_check_arr)||!$aborad_check_arr[$v->order_id]){
+	                        	 //2.判断海外仓中对应产品的对应属性的货物数目是否足够
+		                         $aborad=true;
+		                         foreach($order_config as $k_check => $v_check){
+		                        	$use_config=$v_check['sku'];
+		                        	$max_num=\App\storage_goods_abroad::select(\DB::raw('SUM(num) as num'))
+		                                ->where(function($query)use($use_config,$storage_id,$goods_kind_id){
+		                                    $query->where('sku_data', $use_config);
+		                                    $query->where('storage_primary_id', $storage_id);
+		                                    $query->where('goods_kind_id', $goods_kind_id);
+		                                    $query->where('expiry_at','>',date('Y-m-d H:i:s',time()));
+		                                    $query->where('num','>',0);
+		                                })
+		                                ->first();
+		                               if($max_num['num']<$v_check['num']){
+				                            //海外仓对应属性的货物数目总和不足这条属性信息的数目，无法从海外仓发货
+				                            $aborad=false;
+				                            $is_forigen=false;
+				                            break;
+				                        } 
+		                         }
+		                         if(!$aborad){
+		                        	$is_forigen=false;
+		                        	break;
+	                       		 }else{
+	                       		 	//记录验证成功状态
+	                       		 	$aborad_check_arr[$v->order_id]=true;
+	                       		 } 
 	                        }
 	                        //3.循环扣除货物
 	                        $goods_check_data[$v->order_id][$kkk]['storage_abroad_id']=$storage_id;
@@ -196,7 +212,7 @@ class storage_check extends Model
 	                                })
 	                                ->get();
 	                        $need_num=$v_config['num'];//当前所需货物数目
-	                        foreach($storage_goods_abroad as $k_abroad=>$v_abroad){
+	                        foreach($storage_goods_abroad as $k_abroad=>$v_abroad){//if($v->order_id==283&&$v_config['sku']=='900100') dd($v_abroad,$storage_goods_abroad,$order_config,$v_config);
 	                            //if($need_num<=0) continue;
 	                            $old_num=$need_num;
 	                            $need_num=$need_num-$v_abroad->num;
@@ -406,7 +422,11 @@ class storage_check extends Model
                     $storage_check_data->storage_abroad_id=$v['no_split']['storage_abroad_id'];
                     $storage_check_data->save();
                     if(!$type){
-	                    \App\order::where('order_id',$k)->update(['order_type'=>3]);
+	                    //\App\order::where('order_id',$k)->update(['order_type'=>3,]);
+	                    $order_update= \App\order::where('order_id',$k)->first();
+	                    $order_update->order_type=3;
+	                    $order_update->order_return= $order_update->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单从海外仓不拆分扣货</p>";
+	                    $order_update->save();
                     }
                     unset($goods_check_data[$k]);
                     $froms=\App\storage_goods_abroad::where('order_id',$v['no_split']['storage_from'])->get();
@@ -435,7 +455,11 @@ class storage_check extends Model
                     $storage_check_data->storage_check_data_sku=$v['local']['storage_check_data_sku'];
                     $storage_check_data->save();
                     if(!$type){
-	                    \App\order::where('order_id',$k)->update(['order_type'=>3]);
+	                    //\App\order::where('order_id',$k)->update(['order_type'=>3]);
+	                    $order_update= \App\order::where('order_id',$k)->first();
+	                    $order_update->order_type=3;
+	                    $order_update->order_return= $order_update->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单从本地仓扣货</p>";
+	                    $order_update->save();
                     }
                     foreach($v['local']['storage_check_data_from'] as $key => $val){
                         //记录该订单货物属性数目等数据
@@ -459,6 +483,9 @@ class storage_check extends Model
                     $storage_check_data->storage_check_data_num=$v['local_less']['storage_check_data_num'];
                     $storage_check_data->storage_check_data_sku=$v['local_less']['storage_check_data_sku'];
                     $storage_check_data->save();
+                    $order_update= \App\order::where('order_id',$k)->first();
+	                $order_update->order_return= $order_update->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单扣货失败，货物不足</p>";
+	                $order_update->save();
                     foreach($v['local_less']['data'] as $key => $val){
                         //记录该订单货物属性数目等数据
                         $storage_check_info=new \App\storage_check_info;
@@ -482,7 +509,11 @@ class storage_check extends Model
                 $storage_check_data->storage_check_data_sixsku='#'; 
                 $storage_check_data->save();
                 if(!$type){
-	                    \App\order::where('order_id',$v[0]['storage_check_data_order'])->update(['order_type'=>3]);
+	                    //\App\order::where('order_id',$v[0]['storage_check_data_order'])->update(['order_type'=>3]);
+	                    $order_update= \App\order::where('order_id',$v[0]['storage_check_data_order'])->first();
+	                    $order_update->order_type=3;
+	                    $order_update->order_return= $order_update->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单从海外仓拆分扣货</p>";
+	                    $order_update->save();
                     }
                 foreach($v as $key => $val){
                     foreach($val['storage_from'] as $k_from => $v_from){
