@@ -1336,11 +1336,11 @@ class StorageListController extends Controller
             $order->order_return = $htmlnow;
             $order_data = $order->save();
             if(!$storage_goods_abroad_data || !$order_data){
-                $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>0];
+                $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_i,'status'=>0,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>0];
                 storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '0', 'msg' => '添加海外仓数据失败']);
             }
-            $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>1];
+            $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'status'=>0,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>1];
             storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '1', 'msg' => '添加海外仓数据成功']);
         }
