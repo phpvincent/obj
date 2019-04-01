@@ -957,7 +957,7 @@ class StorageListController extends Controller
 
         $storage_check_data=\App\storage_check_data::where([['storage_primary_id',$storage_check_id],['storage_check_data_order',$order_id]])->first();
         $storage_check_string=\App\storage_check::where('storage_check_id',$storage_check_data->storage_primary_id)->first(['storage_check_string'])['storage_check_string'];
-        $storage_check_data_id=$storage_check_data->storage_check_data_id;//dd($storage_check_id,$order_id,$storage_check_data);
+        $storage_check_data_id=$storage_check_data->storage_check_data_id;
         $storage_check_info=\App\storage_check_info::where('storage_check_data_id',$storage_check_data_id)->get();
         if($storage_check_data->storage_abroad_id=='#'||$storage_check_data->storage_abroad_id==null){
             if($storage_check_data->storage_check_data_type=='4'){
