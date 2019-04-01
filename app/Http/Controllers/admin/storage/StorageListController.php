@@ -1366,19 +1366,20 @@ class StorageListController extends Controller
         $data_array = [];
         foreach ($goods_attr as $item){
             $sku = substr($item['goods_sku'],0,4);
+            $goods_kind_id = isset($item['goods_kind_id']) ? $item['goods_kind_id'] : goods_kind::where('goods_kind_sku',$sku)->first()['goods_kind_id'];
             $sku_attr = substr($item['goods_sku'],-6);
-            $storage_goods_local = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->first();
+            $storage_goods_local = storage_goods_local::where('storage_primary_id',$datas['storage_id'])->where('sku',$sku)->where('sku_attr',$sku_attr)->first();
             if(!$storage_goods_local){
                 $storage_goods_local = new storage_goods_local();
                 $storage_goods_local->num = $item['num'];
                 $storage_goods_local->sku = substr($item['goods_sku'],0,4);
                 $storage_goods_local->sku_attr = substr($item['goods_sku'],-6);
-                $storage_goods_local->goods_kind_id = $item['goods_kind_id'];
+                $storage_goods_local->goods_kind_id = $goods_kind_id;
                 $storage_goods_local->storage_primary_id = $datas['storage_id'];
                 $storage_goods_local_data  = $storage_goods_local->save();
             }else{
                $num = $storage_goods_local->num + $item['num'];
-               $storage_goods_local_data = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->update(['num'=>$num]);
+               $storage_goods_local_data = storage_goods_local::where('storage_primary_id',$datas['storage_id'])->where('sku',$sku)->where('sku_attr',$sku_attr)->update(['num'=>$num]);
             }
             if(!$storage_goods_local_data){
                 $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','storage_id'=>$datas['storage_id'],'storage_name'=>storage::where('storage_id',$datas['storage_id'])->first()['storage_name'],'is_success'=>0];
