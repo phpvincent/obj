@@ -1045,6 +1045,10 @@ class StorageListController extends Controller
                 try{
                     foreach($request->input('ids') as $k => $v){
                         $order=\App\order::where([['order_id',$v],['order.order_time','>','2019-4-1 00:00:00']])->first();
+                        //更新库存出仓时间
+                        $storage_id=\App\storage_check::get_area_by_goods_id($order->order_goods_id,false);
+                        \App\storage::where([['storage_id',$storage_id],['storage_status',1]])->update(['check_at'=>date('Y-m-d H:i:s')]);
+                         
                         $order->order_type='4';
                         $order->order_return=$order->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单出仓</p>";
                         $order->save();

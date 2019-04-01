@@ -74,7 +74,7 @@ class storage_check extends Model
 	            
 	            //实例化SKU复制SDK
 	            $skuSDK=new skuSDK($goods_kind_id,$goods_kind->goods_product_id,$goods_kind->goods_kind_user_type);
-	            $blade_type=\App\goods::select('goods_blade_type')->where('goods_id',$v->order_goods_id)->first()['goods_blade_type'];
+	            /*$blade_type=\App\goods::select('goods_blade_type')->where('goods_id',$v->order_goods_id)->first()['goods_blade_type'];
 	            if($blade_type=='16'||$blade_type=='17'){
 	                switch ($v->order_country) {
 	                    case 'Saudi Arabia':
@@ -93,9 +93,14 @@ class storage_check extends Model
 	                }
 	             }else{
 	                $blade_type=self::get_storage_area($blade_type);
-	             }
+	             }*/
+	            $storage_find_id=self::get_area_by_goods_id($v->goods_id,true);
 	            //找到对应国外仓库
-	            $storage=\App\storage::where([['template_type_primary_id',$blade_type],['storage_status',1],['is_local',0]])->first();
+	            if($storage_find_id!=null){
+	            	$storage=\App\storage::where([['storage_id',$storage_find_id],['storage_status',1],['is_local',0]])->first();
+	            }else{
+	            	$storage=null;
+	            }
 	            //证明没有对应海外仓
 	            $order_config=\App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v->order_id)->get()->toArray();
 	           
@@ -154,7 +159,7 @@ class storage_check extends Model
 	            	$order_config=[];
 	            	$order_config[]=['order_primary_id'=>$v->order_id,'order_config'=>'','num'=>$v->order_num,'kind_val_arr'=>[],'sku'=>'000000'];
 	            }
-	            if($storage!=null){
+	            if($storage!=null){//当对应海外仓数据不为空时；
 	                //声明便令记录改订单是否可从国外仓发送状态
 	                $is_send=true;
 	                //获取订单配置信息数据
@@ -561,6 +566,43 @@ class storage_check extends Model
         $data=['is_success'=>1,'storage_check_id'=>$storage_check->storage_check_id,'storage_check_string'=>$storage_check->storage_check_string];
         \App\storage_log::insert_log($arr,serialize($data));
         return true;
+    }
+    /**
+     * 根据goods_id获取对应仓库地区id
+     * $type:是否只获取对应海外仓id，默认是
+     */
+    public static function get_area_by_goods_id($goods_id,$type=true)
+    {
+    	$blade_type=\App\goods::select('goods_blade_type')->where('goods_id',$goods_id)->first()['goods_blade_type'];
+	            if($blade_type=='16'||$blade_type=='17'){
+	                switch ($v->order_country) {
+	                    case 'Saudi Arabia':
+	                        $blade_type=12;
+	                        break;
+	                    case 'United Arab Emirates':
+	                        $blade_type=2;
+	                        break;
+	                    case 'Qatar':
+	                        $blade_type=14;
+	                        break;
+	                    default:
+	                        $error = '中东地区未匹配';  
+	                        throw new \Exception($error);  
+	                        break;
+	                }
+	             }else{
+	                $blade_type=self::get_storage_area($blade_type);
+	             }
+	    $storage_id=\App\storage::where([['template_type_primary_id',$blade_type],['storage_status',1],['is_local',0]])->first(['storage_id']);
+	    if($type){
+	    	if($storage_id!=null)	    	return $storage_id['storage_id'];
+	    	return null;
+	    } 
+	    if($storage_id==null){
+	    	$storage_id=\App\storage::where([['storage_status',1],['is_local',1]])->first(['storage_id']);
+	    	return $storage_id['storage_id'];
+	    }
+	    return $storage_id['storage_id'];
     }
         /**
      * 根据订单所属单品模板地区获取订单所属仓库地区
