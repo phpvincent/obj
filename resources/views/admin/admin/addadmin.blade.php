@@ -74,6 +74,15 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>操作仓库系统：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					能 <input type="radio" id="admin_storage" checked name="admin_storage" value="1">
+					不能 <input type="radio" id="admin_storage" name="admin_storage" value="0">
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>语种权限：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="languages" class="select admin_data_rule">
