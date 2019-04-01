@@ -1502,16 +1502,18 @@ class StorageListController extends Controller
             $order_id = "B".time();
             $data_array = [];
             foreach ($goods_attr as $item){
-                $arr['sku'] = substr($item['goods_sku'],0,4);
-                $arr['storage_primary_id'] = $storage_id;
-                $arr['order_id'] = $order_id;
-                $arr['num'] = $item['num'];
-                $arr['sku_data'] = substr($item['goods_sku'],-6);
-                $arr['express_delivery'] = $request->input('express_delivery');
-                $arr['expiry_at'] = date('Y-m-d H:i:s',time()+$expiry_at*3600*24);
-                $arr['goods_kind_id'] = $item['goods_kind_id'];
-                $arr['order_single'] = $order_single;
-                array_push($data_array,$arr);
+                if($item['num'] > 0){
+                    $arr['sku'] = substr($item['goods_sku'],0,4);
+                    $arr['storage_primary_id'] = $storage_id;
+                    $arr['order_id'] = $order_id;
+                    $arr['num'] = $item['num'];
+                    $arr['sku_data'] = substr($item['goods_sku'],-6);
+                    $arr['express_delivery'] = $request->input('express_delivery');
+                    $arr['expiry_at'] = date('Y-m-d H:i:s',time()+$expiry_at*3600*24);
+                    $arr['goods_kind_id'] = $item['goods_kind_id'];
+                    $arr['order_single'] = $order_single;
+                    array_push($data_array,$arr);
+                }
             }
             $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
             $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($data_array);
