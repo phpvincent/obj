@@ -596,6 +596,7 @@ class StorageListController extends Controller
                 $query->orWhere('order.order_type',3);
             })
             ->where('order.is_del','0')
+            ->where('order.order_time','>','2019-4-1 00:00:00')
             ->orderBy($field, $dsc)
             ->offset($start)
             ->limit($limit)
@@ -624,6 +625,7 @@ class StorageListController extends Controller
                 $query->orWhere('order.order_type',3);
             })
             ->where('order.is_del','0')
+            ->where('order.order_time','>','2019-4-1 00:00:00')
             ->count();
         if($count > 0){
             foreach ($orders as &$order){
@@ -661,7 +663,7 @@ class StorageListController extends Controller
     public function back_order(Request $request)
     {
         $id=$request->input('id');
-        $order_msg=\App\order::select('order_return')->where('order_id',$id)->first();
+        $order_msg=\App\order::select('order_return')->where([['order_id',$id],['order_time','>','2019-4-1 00:00:00']])->first();
         if($order_msg==null){
            return response()->json(['err' => 0, 'str' => '订单检索失败！']);
         }
@@ -952,15 +954,21 @@ class StorageListController extends Controller
     {   
         $storage_check_id=$request->input('storage_check_id');
         $order_id=$request->input('order_id');
-        $storage_check_data=\App\storage_check::select('storage_check_data.*','storage_check_info.*','storage.storage_name','storage_check.storage_check_string')
-                            ->leftjoin('storage_check_data','storage_check.storage_check_id','storage_check_data.storage_primary_id')
-                            ->leftjoin('storage','storage_check_data.storage_abroad_id','storage.storage_id')
-                            ->leftjoin('storage_check_info','storage_check_data.storage_check_data_id','storage_check_info.storage_check_data_id')
-                            ->where('storage_check.storage_check_id',$storage_check_id)
-                            //->whereIn('storage_check_data.storage_check_data_type',['1','2','3'])
-                            ->where('storage_check_data.storage_check_data_order',$order_id)
-                            ->get();
-        return response()->json($storage_check_data);
+        $storage_check_data=\App\storage_check_data::where([['storage_primary_id',$storage_check_id],['storage_check_data_order',$order_id]])->first();
+        $storage_check_data_id=$storage_check_data->storage_check_data_id;
+        $storage_check_info=\App\storage_check_info::where('storage_check_data_id',$storage_check_data_id)->get();
+        $storage_name=\App\storage::where('storage_id',$storage_check_data->storage_abroad_id)->first(['storage_name'])['storage_name'];
+        $storage_check_data_num=$storage_check_data->storage_check_data_num;
+        $storage_check_data_sku=$storage_check_data->storage_check_data_sku;
+        $storage_check_data_order=$storage_check_data->storage_check_data_order;
+        foreach($storage_check_info as $k =>&$v){
+            $v->storage_name=$storage_name;
+            $v->storage_check_data_num=$storage_check_data_num;
+            $v->storage_check_data_sku=$storage_check_data_sku;
+            $v->storage_check_data_order=$storage_check_data_order;
+        }
+       
+        return response()->json($storage_check_info);
         //return view('storage.check.check_out')->with(compact('storage_check_data'));
     }
     /**
@@ -1001,6 +1009,7 @@ class StorageListController extends Controller
                 })
                 ->where('order.order_type','3')
                 ->where('order.is_del','0')
+                ->where('order.order_time','>','2019-4-1 00:00:00')
                 ->orderBy($field, $dsc)
                 ->offset($start)
                 ->limit($limit)
@@ -1021,6 +1030,7 @@ class StorageListController extends Controller
                 })
                 ->where('order.order_type','3')
                 ->where('order.is_del','0')
+                ->where('order.order_time','>','2019-4-1 00:00:00')
                 ->count();
             if($count > 0){
                 foreach ($orders as &$data){
@@ -1034,7 +1044,7 @@ class StorageListController extends Controller
                 $msg=true;
                 try{
                     foreach($request->input('ids') as $k => $v){
-                        $order=\App\order::where('order_id',$v)->first();
+                        $order=\App\order::where([['order_id',$v],['order.order_time','>','2019-4-1 00:00:00']])->first();
                         $order->order_type='4';
                         $order->order_return=$order->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单出仓</p>";
                         $order->save();

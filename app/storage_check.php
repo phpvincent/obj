@@ -29,7 +29,7 @@ class storage_check extends Model
     	}
     	//开始处理逻辑
     	try{
-    		$orders=\App\order::where([['order_type',1],['is_del','0']])->get();
+    		$orders=\App\order::where([['order_type',1],['is_del','0'],['order_time','>','2019-4-1 00:00:00']])->get();
 	        //删除一天前的校准数据
 	        $ids=\App\storage_check::select('storage_check_id')->where([['storage_check_time','<',date('Y-m-d H:i:s',time()-86400)],['storage_check_is_out',0]])->get()->toArray();
 	        \App\storage_check::whereIn('storage_check_id',$ids)->delete();
@@ -98,6 +98,7 @@ class storage_check extends Model
 	            $storage=\App\storage::where([['template_type_primary_id',$blade_type],['storage_status',1],['is_local',0]])->first();
 	            //证明没有对应海外仓
 	            $order_config=\App\order_config::select('order_primary_id','order_config')->where('order_primary_id',$v->order_id)->get()->toArray();
+	           
                 //处理数据变更属性组加数目
                 $new=[];
                 $count=[];
@@ -147,7 +148,12 @@ class storage_check extends Model
                          $sku=$skuSDK->get_all_sku($order_config_arr);
                          $order_config[$kkk]['sku']=substr($sku,4);
                     }
-                }
+                } 
+                //当改订单无属性信息时默认属性SKU为000000
+                if($order_config==null){
+	            	$order_config=[];
+	            	$order_config[]=['order_primary_id'=>$v->order_id,'order_config'=>'','num'=>$v->order_num,'kind_val_arr'=>[],'sku'=>'000000'];
+	            }
 	            if($storage!=null){
 	                //声明便令记录改订单是否可从国外仓发送状态
 	                $is_send=true;
