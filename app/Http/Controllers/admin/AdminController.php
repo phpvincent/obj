@@ -38,6 +38,7 @@ class AdminController extends Controller
     		$admin->password=password_hash($data['password'], PASSWORD_BCRYPT);
             $admin->admin_group=$data['admin_group_id'];
             $admin->languages=$data['languages'];
+            $admin->admin_storage=$data['admin_storage'];
             $admin->admin_show_name=($data['admin_show_name']==null?$data['admin_name']:$data['admin_show_name']);
             if($data['attr'] == 0){
                 $admin->admin_data_rule= $data['admin_data_rule0'];
@@ -276,6 +277,7 @@ class AdminController extends Controller
     		$admin->admin_is_order=$data['admin_is_order'];
             $admin->admin_group=$data['admin_group_id'];
             $admin->languages=$data['languages'];
+            $admin->admin_storage=$data['admin_storage'];
             $admin->admin_show_name=($data['admin_show_name']==null?$data['admin_name']:$data['admin_show_name']);
             if($data['attr'] == 0){
                 $admin->admin_data_rule= $data['admin_data_rule0'];
