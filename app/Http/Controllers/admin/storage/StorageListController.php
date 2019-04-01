@@ -592,6 +592,7 @@ class StorageListController extends Controller
                 $query->orWhere('order.order_type',3);
             })
             ->where('order.is_del','0')
+            ->where('order.order_time','>','2019-4-1 00:00:00')
             ->orderBy($field, $dsc)
             ->offset($start)
             ->limit($limit)
@@ -620,6 +621,7 @@ class StorageListController extends Controller
                 $query->orWhere('order.order_type',3);
             })
             ->where('order.is_del','0')
+            ->where('order.order_time','>','2019-4-1 00:00:00')
             ->count();
         if($count > 0){
             foreach ($orders as &$order){
@@ -657,7 +659,7 @@ class StorageListController extends Controller
     public function back_order(Request $request)
     {
         $id=$request->input('id');
-        $order_msg=\App\order::select('order_return')->where('order_id',$id)->first();
+        $order_msg=\App\order::select('order_return')->where([['order_id',$id],['order_time','>','2019-4-1 00:00:00']])->first();
         if($order_msg==null){
            return response()->json(['err' => 0, 'str' => '订单检索失败！']);
         }
@@ -1003,6 +1005,7 @@ class StorageListController extends Controller
                 })
                 ->where('order.order_type','3')
                 ->where('order.is_del','0')
+                ->where('order.order_time','>','2019-4-1 00:00:00')
                 ->orderBy($field, $dsc)
                 ->offset($start)
                 ->limit($limit)
@@ -1023,6 +1026,7 @@ class StorageListController extends Controller
                 })
                 ->where('order.order_type','3')
                 ->where('order.is_del','0')
+                ->where('order.order_time','>','2019-4-1 00:00:00')
                 ->count();
             if($count > 0){
                 foreach ($orders as &$data){
@@ -1036,7 +1040,7 @@ class StorageListController extends Controller
                 $msg=true;
                 try{
                     foreach($request->input('ids') as $k => $v){
-                        $order=\App\order::where('order_id',$v)->first();
+                        $order=\App\order::where([['order_id',$v],['order.order_time','>','2019-4-1 00:00:00']])->first();
                         $order->order_type='4';
                         $order->order_return=$order->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单出仓</p>";
                         $order->save();

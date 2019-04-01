@@ -29,7 +29,7 @@ class storage_check extends Model
     	}
     	//开始处理逻辑
     	try{
-    		$orders=\App\order::where([['order_type',1],['is_del','0']])->get();
+    		$orders=\App\order::where([['order_type',1],['is_del','0'],['order_time','>','2019-4-1 00:00:00']])->get();
 	        //删除一天前的校准数据
 	        $ids=\App\storage_check::select('storage_check_id')->where([['storage_check_time','<',date('Y-m-d H:i:s',time()-86400)],['storage_check_is_out',0]])->get()->toArray();
 	        \App\storage_check::whereIn('storage_check_id',$ids)->delete();
