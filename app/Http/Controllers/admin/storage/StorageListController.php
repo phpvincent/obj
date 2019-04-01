@@ -1478,8 +1478,9 @@ class StorageListController extends Controller
             $id = $request->input('storage_id');
             $storage = storage::where('storage_id',$id)->first();
             $product = goods_kind::all();
+            $order_single = 'NR'.makeSingleOrder();
             if($storage){
-                return view('storage.product.no_order_info')->with(compact('storage','product'));
+                return view('storage.product.no_order_info')->with(compact('storage','product','order_single'));
             }
         }else{
             $order_single = $request->input('order_single');
