@@ -954,20 +954,30 @@ class StorageListController extends Controller
     {   
         $storage_check_id=$request->input('storage_check_id');
         $order_id=$request->input('order_id');
+
         $storage_check_data=\App\storage_check_data::where([['storage_primary_id',$storage_check_id],['storage_check_data_order',$order_id]])->first();
-        $storage_check_data_id=$storage_check_data->storage_check_data_id;
+        $storage_check_string=\App\storage_check::where('storage_check_id',$storage_check_data->storage_primary_id)->first(['storage_check_string'])['storage_check_string'];
+        $storage_check_data_id=$storage_check_data->storage_check_data_id;//dd($storage_check_id,$order_id,$storage_check_data);
         $storage_check_info=\App\storage_check_info::where('storage_check_data_id',$storage_check_data_id)->get();
-        $storage_name=\App\storage::where('storage_id',$storage_check_data->storage_abroad_id)->first(['storage_name'])['storage_name'];
+        if($storage_check_data->storage_abroad_id=='#'||$storage_check_data->storage_abroad_id==null){
+            if($storage_check_data->storage_check_data_type=='4'){
+                $storage_name='<span style="color:red;">缺货</span>';
+            }elseif($storage_check_data->storage_check_data_type=='3'){
+                $storage_name=\App\storage::where([['storage_status','1'],['is_local','1']])->first(['storage_name'])['storage_name'];
+            }
+        }else{
+                $storage_name=\App\storage::where('storage_id',$storage_check_data->storage_abroad_id)->first(['storage_name'])['storage_name'];
+        }
         $storage_check_data_num=$storage_check_data->storage_check_data_num;
         $storage_check_data_sku=$storage_check_data->storage_check_data_sku;
         $storage_check_data_order=$storage_check_data->storage_check_data_order;
         foreach($storage_check_info as $k =>&$v){
             $v->storage_name=$storage_name;
+            $v->storage_check_string=$storage_check_string;
             $v->storage_check_data_num=$storage_check_data_num;
             $v->storage_check_data_sku=$storage_check_data_sku;
             $v->storage_check_data_order=$storage_check_data_order;
         }
-       
         return response()->json($storage_check_info);
         //return view('storage.check.check_out')->with(compact('storage_check_data'));
     }

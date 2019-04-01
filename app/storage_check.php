@@ -33,6 +33,10 @@ class storage_check extends Model
 	        //删除一天前的校准数据
 	        $ids=\App\storage_check::select('storage_check_id')->where([['storage_check_time','<',date('Y-m-d H:i:s',time()-86400)],['storage_check_is_out',0]])->get()->toArray();
 	        \App\storage_check::whereIn('storage_check_id',$ids)->delete();
+	        $del_ids=\App\storage_check_data::whereIn('storage_primary_id',$ids)->get(['storage_check_data_id']);
+	        foreach($del_ids as $id_k => $id_v){
+	        	\App\storage_check_info::where('storage_check_data_id',$id_v->storage_check_data_id)->delete();
+	        }
 	        \App\storage_check_data::whereIn('storage_primary_id',$ids)->delete();
 	        \App\storage_check_lack::whereIn('storage_check_lack_primary_id',$ids)->delete();
 	        //生成新的校准单
@@ -94,7 +98,7 @@ class storage_check extends Model
 	             }else{
 	                $blade_type=self::get_storage_area($blade_type);
 	             }*/
-	            $storage_find_id=self::get_area_by_goods_id($v->goods_id,true);
+	            $storage_find_id=self::get_area_by_goods_id($v->order_goods_id,true);
 	            //找到对应国外仓库
 	            if($storage_find_id!=null){
 	            	$storage=\App\storage::where([['storage_id',$storage_find_id],['storage_status',1],['is_local',0]])->first();
@@ -388,6 +392,7 @@ class storage_check extends Model
 	            \DB::commit();
 	        }
     	}catch(\Exception $e){
+    		throw $e;
     		$storage_check->delete();
     		  //记录报错
             \Log::info('仓储数据校准失败,admin_id'.\Auth::user()->admin_id.'内容'.$e->getMessage());
