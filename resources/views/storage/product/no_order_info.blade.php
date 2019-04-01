@@ -22,6 +22,7 @@
                                 <div class="layui-input-inline">
                                     <input type="text" name="order_single" id="order_single" value="{{$order_single}}" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
+                                <div class="layui-form-mid layui-word-aux">订单编号由后台随机生成</div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">运单号</label>

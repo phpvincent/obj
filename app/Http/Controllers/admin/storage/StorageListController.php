@@ -1346,11 +1346,11 @@ class StorageListController extends Controller
             $order->order_return = $htmlnow;
             $order_data = $order->save();
             if(!$storage_goods_abroad_data || !$order_data){
-                $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>0];
+                $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_i,'status'=>0,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>0];
                 storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['err' => '0', 'msg' => '添加海外仓数据失败']);
             }
-            $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>1];
+            $datass = ['order_id'=>$order_id,'order_single'=>$order->order_single_id,'status'=>0,'remarks'=>'添加海外仓数据','storage_id'=>$storage_id,'storage_name'=>storage::where('storage_id',$storage_id)->first()['storage_name'],'is_success'=>1];
             storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['err' => '1', 'msg' => '添加海外仓数据成功']);
         }
@@ -1376,19 +1376,20 @@ class StorageListController extends Controller
         $data_array = [];
         foreach ($goods_attr as $item){
             $sku = substr($item['goods_sku'],0,4);
+            $goods_kind_id = isset($item['goods_kind_id']) ? $item['goods_kind_id'] : goods_kind::where('goods_kind_sku',$sku)->first()['goods_kind_id'];
             $sku_attr = substr($item['goods_sku'],-6);
-            $storage_goods_local = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->first();
+            $storage_goods_local = storage_goods_local::where('storage_primary_id',$datas['storage_id'])->where('sku',$sku)->where('sku_attr',$sku_attr)->first();
             if(!$storage_goods_local){
                 $storage_goods_local = new storage_goods_local();
                 $storage_goods_local->num = $item['num'];
                 $storage_goods_local->sku = substr($item['goods_sku'],0,4);
                 $storage_goods_local->sku_attr = substr($item['goods_sku'],-6);
-                $storage_goods_local->goods_kind_id = $item['goods_kind_id'];
+                $storage_goods_local->goods_kind_id = $goods_kind_id;
                 $storage_goods_local->storage_primary_id = $datas['storage_id'];
                 $storage_goods_local_data  = $storage_goods_local->save();
             }else{
                $num = $storage_goods_local->num + $item['num'];
-               $storage_goods_local_data = storage_goods_local::where('sku',$sku)->where('sku_attr',$sku_attr)->update(['num'=>$num]);
+               $storage_goods_local_data = storage_goods_local::where('storage_primary_id',$datas['storage_id'])->where('sku',$sku)->where('sku_attr',$sku_attr)->update(['num'=>$num]);
             }
             if(!$storage_goods_local_data){
                 $datass = ['storage_append_id'=>'','storage_append_single'=>'','remarks'=>'添加本地仓数据','storage_id'=>$datas['storage_id'],'storage_name'=>storage::where('storage_id',$datas['storage_id'])->first()['storage_name'],'is_success'=>0];
@@ -1512,16 +1513,18 @@ class StorageListController extends Controller
             $order_id = "B".time();
             $data_array = [];
             foreach ($goods_attr as $item){
-                $arr['sku'] = substr($item['goods_sku'],0,4);
-                $arr['storage_primary_id'] = $storage_id;
-                $arr['order_id'] = $order_id;
-                $arr['num'] = $item['num'];
-                $arr['sku_data'] = substr($item['goods_sku'],-6);
-                $arr['express_delivery'] = $request->input('express_delivery');
-                $arr['expiry_at'] = date('Y-m-d H:i:s',time()+$expiry_at*3600*24);
-                $arr['goods_kind_id'] = $item['goods_kind_id'];
-                $arr['order_single'] = $order_single;
-                array_push($data_array,$arr);
+                if($item['num'] > 0){
+                    $arr['sku'] = substr($item['goods_sku'],0,4);
+                    $arr['storage_primary_id'] = $storage_id;
+                    $arr['order_id'] = $order_id;
+                    $arr['num'] = $item['num'];
+                    $arr['sku_data'] = substr($item['goods_sku'],-6);
+                    $arr['express_delivery'] = $request->input('express_delivery');
+                    $arr['expiry_at'] = date('Y-m-d H:i:s',time()+$expiry_at*3600*24);
+                    $arr['goods_kind_id'] = $item['goods_kind_id'];
+                    $arr['order_single'] = $order_single;
+                    array_push($data_array,$arr);
+                }
             }
             $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
             $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($data_array);
