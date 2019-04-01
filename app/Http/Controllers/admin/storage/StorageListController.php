@@ -1469,7 +1469,7 @@ class StorageListController extends Controller
     }
 
     /**
-     * 添加
+     * 添加海外仓数据（没有订单）
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -1498,11 +1498,13 @@ class StorageListController extends Controller
             if(!$storage){
                 return response()->json(['err' => '0', 'msg' => '仓库不存在']);
             }
+            $admin_id = Auth::user()->admin_id;
+            $order_id = "B".time();
             $data_array = [];
             foreach ($goods_attr as $item){
                 $arr['sku'] = substr($item['goods_sku'],0,4);
                 $arr['storage_primary_id'] = $storage_id;
-                $arr['order_id'] = '';
+                $arr['order_id'] = $order_id;
                 $arr['num'] = $item['num'];
                 $arr['sku_data'] = substr($item['goods_sku'],-6);
                 $arr['express_delivery'] = $request->input('express_delivery');
@@ -1511,11 +1513,17 @@ class StorageListController extends Controller
                 $arr['order_single'] = $order_single;
                 array_push($data_array,$arr);
             }
-
+            $storage_log = ['storage_log_type'=>7,'storage_log_operate_type'=>0,'storage_log_admin_id'=>$admin_id,'is_danger'=>1];
             $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($data_array);
+            $ip = $request->getClientIp();
+            operation_log($ip,'添加本地仓数据',json_encode($request->all()));
             if($storage_goods_abroad){
+                $datass = ['order_id'=>$order_id,'order_single'=>$order_single,'status'=>0,'remarks'=>'添加本地仓数据','storage_id'=>$storage_id,'storage_name'=>$storage->storage_name,'is_success'=>1];
+                storage_log::insert_log($storage_log,serialize($datass));
                 return response()->json(['code' => 1, "msg" => "添加数据成功"]);
             }
+            $datass = ['order_id'=>$order_id,'order_single'=>$order_single,'status'=>0,'remarks'=>'添加本地仓数据','storage_id'=>$storage_id,'storage_name'=>$storage->storage_name,'is_success'=>0];
+            storage_log::insert_log($storage_log,serialize($datass));
             return response()->json(['code' => 0, "msg" => "添加数据失败"]);
         }
     }
