@@ -24,6 +24,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="layui-form-mid layui-word-aux"><a href="{{url('/admin/storage/list/no_order_info')}}?storage_id={{$storage->storage_id}}">未匹配到订单号？</a></div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">运单号</label>

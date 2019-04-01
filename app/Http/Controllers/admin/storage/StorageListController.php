@@ -1462,4 +1462,21 @@ class StorageListController extends Controller
         $arr = ['code' => 0, "msg" => "获取数据成功",'data' => $data];
         return response()->json($arr);
     }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function no_order_info(Request $request){
+        if($request->isMethod('get')){
+            $id = $request->input('storage_id');
+            $storage = storage::where('storage_id',$id)->first();
+            if($storage){
+                return view('storage.product.no_order_info')->with(compact('storage'));
+            }
+        }else{
+            dd($request->all());
+        }
+    }
 }

@@ -4,7 +4,7 @@
         <blockquote class="layui-elem-quote"><span style="color: red;">暂无数据</span></blockquote>
     @else
         <fieldset class="layui-elem-field">
-            <legend>补货单操作</legend>
+            <legend>仓库操作</legend>
             <div class="layui-field-box">
                 <blockquote class="layui-elem-quote">操作时间：{{$storage_log->created_at}}</blockquote>
                 <blockquote class="layui-elem-quote">操作者：@if($storage_log->storage_log_admin_id!=0) {{\App\admin::where('admin_id',$storage_log->storage_log_admin_id)->first(['admin_show_name'])['admin_show_name']}} @else
