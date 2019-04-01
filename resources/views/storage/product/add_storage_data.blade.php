@@ -24,6 +24,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="layui-form-mid layui-word-aux"><a href="{{url('/admin/storage/list/no_order_info')}}?storage_id={{$storage->storage_id}}"><span style="color:#01AAED;">未匹配到订单号?</span><i class="layui-icon layui-icon-triangle-r" style="color:#01AAED;"></i> </a></div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">运单号</label>
@@ -199,7 +200,6 @@
                             }
                         }
                         var index = layer.load();
-                        console.log('dd', arr)
                          $.ajax({
                              url:"/admin/storage/list/add_storage_data",
                              type:'post',
@@ -213,7 +213,7 @@
                                          time: 2000 //2秒关闭（如果不配置，默认是3秒）
                                      }, function(){
                                          // parent.layui.admin.events.refresh();
-                                         window.parent.location.reload();
+                                         window.location.reload();
                                      });
                                  }else if(msg['err']==0){
                                      layer.close(index);

@@ -31,6 +31,7 @@
                   Route::any('/list/add_storage_data','admin\storage\StorageListController@add_storage_data');//新增仓库数据
                   Route::post('/list/add_storage_data_local','admin\storage\StorageListController@add_storage_data_local');//新增本地仓库数据
                   Route::get('/list/get_order_info','admin\storage\StorageListController@get_order_info');//获取订单sku信息
+                  Route::any('/list/no_order_info','admin\storage\StorageListController@no_order_info');//未获取订单sku信息添加海外仓数据
 
                   //数据校准
                   Route::get('/check','admin\storage\StorageListController@check');
