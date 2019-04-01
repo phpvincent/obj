@@ -131,12 +131,7 @@
       ,toolbar:'#use_button'
       ,defaultToolbar: ['filter', 'print']
       ,text: {
-        none: '暂无仓库数据' 
-      }
-      ,autoSort:false
-      ,initSort: {
-        field: 'check_at' //排序字段，对应 cols 设定的各字段名
-        ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+          none: '暂无仓库'
       }
       ,where: {
         search:$('#test-table-demoReload').val(),
@@ -210,7 +205,7 @@
                //修改产品
                that.goods_show('修改仓库信息', '{{url("admin/storage/list/up_storage")}}?id=' + data.storage_id, 2, 600, 510);
            }else if(layEvent==='out'){
-               that.goods_show('订单退货', '{{url("admin/storage/list/return_goods")}}?id=' + data.storage_id, 2, 600, 510);
+               that.goods_show('订单退货', '{{url("admin/storage/list/return_goods")}}?id=' + data.storage_id + '&template_id=' + data.template_type_primary_id, 2, 600, 510);
            }else{
                layer.confirm('真的删除行么', function(index){
                    

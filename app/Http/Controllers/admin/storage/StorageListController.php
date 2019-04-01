@@ -63,7 +63,7 @@ class StorageListController extends Controller
                    $this->set_query($query,$request);
                 })
                 ->count();
-    	return json_encode(['code'=>0,'msg'=>'','count'=>$count,'data'=>$data]);
+        return response()->json(['code'=>0,'msg'=>'获取数据成功','count'=>$count,'data'=>$data]);
     }
 
     /**
@@ -83,9 +83,13 @@ class StorageListController extends Controller
                 return response()->json(['err' => '0', 'msg' => $validator->errors()->first()]);
             }
             $storages = storage::where('storage_name',$request->input('storage_name'))->first();
-            $template_type = storage::where('template_type_primary_id',$request->input('template_id'))->first();
             if($storages){
                 return response()->json(['err' => '0', 'msg' => '仓库已存在，请更换仓库名称']);
+            }
+            if($request->input('is_local') == 1){
+                $template_type = storage::where('is_local',$request->input('is_local'))->first();
+            }else{
+                $template_type = storage::where('template_type_primary_id',$request->input('template_id'))->first();
             }
             if($template_type){
                 return response()->json(['err' => '0', 'msg' => '每个地区只能存在一个仓库，请更换地区或联系管理员']);
