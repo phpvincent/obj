@@ -5,33 +5,34 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-body" pad15>
+                        <div class="layui-form-item">
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" onClick="javascript :history.back(-1)"><i class="layui-icon">&#xe65a;</i>返回</button>
+                        </div>
                         <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
                             {{csrf_field()}}
                             <div class="layui-form-item">
-                            <button class="layui-btn layui-btn-sm layui-btn-primary" onClick="javascript :history.back(-1)"><i class="layui-icon">&#xe65a;</i>返回</button>
-                            </div>
-                            <div class="layui-form-item">
                                 <label class="layui-form-label">仓库名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="" autocomplete="off" class="layui-input">
+                                    <input type="text" name="storage_name" readonly id="storage_name" value="{{$storage->storage_name}}" autocomplete="off" class="layui-input">
+                                    <input type="text" style="display: none" name="storage_id" id="storage_id" value="{{$storage->storage_id}}" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">订单编号</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_single" id="storage_append_single" value="{{$order_single}}" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" name="order_single" id="order_single" value="{{$order_single}}" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">运单号</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="" autocomplete="off" class="layui-input">
+                                    <input type="text" name="express_delivery" id="express_delivery" value="" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">有效期</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="storage_append_msg" id="storage_append_msg" value="7" autocomplete="off" class="layui-input">
+                                    <input type="text" name="expiry_at" id="expiry_at" value="7" onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -158,7 +159,7 @@
                        })
                    }
                });
-            })
+            });
 
 
             //自定义验证规则
@@ -196,30 +197,29 @@
               }
                 var index = layer.load();
                 console.log(arr)
-                // $.ajax({
-                //     url:"/admin/storage/add/add_goods",
-                //     type:'post',
-                //     data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_append_msg:$('#storage_append_msg').val(),storage_append_single:$('#storage_append_single').val(),storage_append_time:$('#goodsdate').val()},
-                //     // datatype:'json',
-                //     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
-                //     success:function(msg){
-                //         if(msg['err']==1){
-                //             layer.close(index);
-                //             layer.msg(msg.msg,{
-                //                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                //             }, function(){
-                //                 // parent.layui.admin.events.refresh();
-                //                 window.parent.location.reload();
-                //             });
-                //         }else if(msg['err']==0){
-                //             layer.close(index);
-                //             layer.msg(msg.msg);
-                //         }else{
-                //             layer.close(index);
-                //             layer.msg('新增失败！');
-                //         }
-                //     }
-                // });
+                 $.ajax({
+                     url:"/admin/storage/list/no_order_info",
+                     type:'post',
+                     data:{goods_attr:JSON.stringify(arr),goods_kind:$('#goods_kind').val(),storage_id:$('#storage_id').val(),order_single:$('#order_single').val(),express_delivery:$('#express_delivery').val(),expiry_at:$('#expiry_at').val()},
+                     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                     success:function(msg){
+                        if(msg['code']==1){
+                            layer.close(index);
+                            layer.msg(msg.msg,{
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                // parent.layui.admin.events.refresh();
+                                window.location.reload();
+                            });
+                        }else if(msg['code']==0){
+                            layer.close(index);
+                            layer.msg(msg.msg);
+                        }else{
+                            layer.close(index);
+                            layer.msg('新增失败！');
+                        }
+                    }
+                });
               return false;
             });
             // 表格里面的删除按钮
