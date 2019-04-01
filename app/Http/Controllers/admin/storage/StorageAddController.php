@@ -97,10 +97,8 @@ class StorageAddController extends Controller
             }
             $validator = Validator::make($request->all(), [
                 "storage_append_single" => "required|unique:storage_append,storage_append_single",
-                "goods_kind" => "required",
             ],[
                 "storage_append_single.required" => "补货单号不能为空",
-                "goods_kind.required" => "补货单商品不能为空",
                 "storage_append_single.unique" => "补货单号不能重复",
             ]);
             if ($validator->fails()) {

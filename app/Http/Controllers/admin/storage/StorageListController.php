@@ -1289,7 +1289,8 @@ class StorageListController extends Controller
                 return view('storage.product.add_storage_data_local')->with(compact('product','storage'));
             }else{
                 $orders = order::where(function ($query){
-                    $query->where('order_type','3');
+                    $query->where('order_type','1');
+                    $query->orWhere('order_type','3');
                     $query->orWhere('order_type','4');
                 })->pluck('order_single_id','order_id')->toArray();
                 return view('storage.product.add_storage_data')->with(compact('orders','storage'));
@@ -1321,7 +1322,7 @@ class StorageListController extends Controller
                     $arr['order_id'] = $order_id;
                     $arr['sku'] = $sku;
                     $arr['express_delivery'] = $express_delivery;
-                    $arr['expiry_at'] =  date('Y-m-d H:i:s',time()+$expiry_at*3600*24);;
+                    $arr['expiry_at'] =  date('Y-m-d H:i:s',time()+$expiry_at*3600*24);
                     $arr['sku_data'] = $sku_attr;
                     $arr['goods_kind_id'] = $item['goods_kind_id'];
                     array_push($data_array,$arr);
@@ -1463,12 +1464,12 @@ class StorageListController extends Controller
                 }
             }
         }
-        $arr = ['code' => 0, "msg" => "获取数据成功",'data' => $data];
+        $arr = ['code' => 1, "msg" => "获取数据成功",'data' => $data];
         return response()->json($arr);
     }
 
     /**
-     *
+     * 添加
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -1476,11 +1477,45 @@ class StorageListController extends Controller
         if($request->isMethod('get')){
             $id = $request->input('storage_id');
             $storage = storage::where('storage_id',$id)->first();
+            $product = goods_kind::all();
             if($storage){
-                return view('storage.product.no_order_info')->with(compact('storage'));
+                return view('storage.product.no_order_info')->with(compact('storage','product'));
             }
         }else{
-            dd($request->all());
+            $order_single = $request->input('order_single');
+            $goods_attr = json_decode($request->input('goods_attr'),true);
+            $storage_id = $request->input('storage_id');
+            $expiry_at = $request->input('expiry_at');
+            if(empty($goods_attr)){
+                return response()->json(['err' => '0', 'msg' => '请选择添加仓库商品']);
+            }
+            $order = order::where('order_single_id',$order_single)->first();
+            if($order){
+                return response()->json(['err' => '0', 'msg' => '订单编号已存在，不可通过此形式添加']);
+            }
+            $storage = storage::where('storage_id',$storage_id)->first();
+            if(!$storage){
+                return response()->json(['err' => '0', 'msg' => '仓库不存在']);
+            }
+            $data_array = [];
+            foreach ($goods_attr as $item){
+                $arr['sku'] = substr($item['goods_sku'],0,4);
+                $arr['storage_primary_id'] = $storage_id;
+                $arr['order_id'] = '';
+                $arr['num'] = $item['num'];
+                $arr['sku_data'] = substr($item['goods_sku'],-6);
+                $arr['express_delivery'] = $request->input('express_delivery');
+                $arr['expiry_at'] = date('Y-m-d H:i:s',time()+$expiry_at*3600*24);
+                $arr['goods_kind_id'] = $item['goods_kind_id'];
+                $arr['order_single'] = $order_single;
+                array_push($data_array,$arr);
+            }
+
+            $storage_goods_abroad = DB::table('storage_goods_abroad')->insert($data_array);
+            if($storage_goods_abroad){
+                return response()->json(['code' => 1, "msg" => "添加数据成功"]);
+            }
+            return response()->json(['code' => 0, "msg" => "添加数据失败"]);
         }
     }
 }
