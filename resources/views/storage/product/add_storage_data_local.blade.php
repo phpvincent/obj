@@ -1,6 +1,6 @@
 @extends('storage.father.static')
 @section('content')
-<script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
+<script src="/js/xlsx.core.min.js"></script>
     <div class="layui-container">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
@@ -80,6 +80,8 @@
                 </div>
                 <div class="layui-tab-item">
                    <input type="file" id="excel-file">
+                   <a href="javascript:void(0);" title="清空已选文件" onclick="(function(){window.location.reload()})()"><i class="layui-icon">&#xe669;</i></a>
+                   <a href="/admin/static/example.xls" style="color: #009688;margin-left: 30px;"><i class="layui-icon">&#xe601;</i>下载excel模板</a>
                    <div class="layui-card">
                     <div class="layui-card-header">补货表格</div>
                     <div class="layui-card-body" pad15>
@@ -102,7 +104,7 @@
                             <div class="layui-row">
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
-                                        <button style="float: right;" class="layui-btn" lay-submit lay-filter="formDemo2">立即提交</button>
+                                        <button type="button" style="float: right;" class="layui-btn" lay-submit lay-filter="formDemo2">立即提交</button>
                                     </div>
                                 </div>
                             </div>
@@ -359,7 +361,7 @@
                                 $.each(persons, function (index, value) {
                                    var arr = {}
                                    var reg = /^[0-9]*$/;
-                                   var re = /^\d{10}$/;
+                                   var re = /^[A-Za-z0-9]{10}$/;
 
                                 if(Object.keys(value).length !== 3) {
                                     layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请检查表格列数!' ,{offset: '100px'})
