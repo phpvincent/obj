@@ -1376,7 +1376,11 @@ class StorageListController extends Controller
         $data_array = [];
         foreach ($goods_attr as $item){
             $sku = substr($item['goods_sku'],0,4);
-            $goods_kind_id = isset($item['goods_kind_id']) ? $item['goods_kind_id'] : goods_kind::where('goods_kind_sku',$sku)->first()['goods_kind_id'];
+            $goods_kind = goods_kind::where('goods_kind_sku',$sku)->first();
+            if(!$goods_kind){
+                return response()->json(['err' => '0', 'msg' => '产品SKU不存在，请检查数据']);
+            }
+            $goods_kind_id = isset($item['goods_kind_id']) ? $item['goods_kind_id'] : $goods_kind->goods_kind_id;
             $sku_attr = substr($item['goods_sku'],-6);
             $storage_goods_local = storage_goods_local::where('storage_primary_id',$datas['storage_id'])->where('sku',$sku)->where('sku_attr',$sku_attr)->first();
             if(!$storage_goods_local){

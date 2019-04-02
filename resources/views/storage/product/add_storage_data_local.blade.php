@@ -1,8 +1,17 @@
 @extends('storage.father.static')
 @section('content')
+<script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
     <div class="layui-container">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
+            <div class="layui-card">
+            <div class="layui-tab">
+              <ul class="layui-tab-title">
+                <li class="layui-this">手动添加</li>
+                <li>上传表格添加</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
                 <div class="layui-card">
                     <div class="layui-card-body" pad15>
                         <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
@@ -38,7 +47,7 @@
                     </div>
                 </div>
                 <div class="layui-card">
-                    <div class="layui-card-header">补货</div>
+                    <div class="layui-card-header">补货表格</div>
                     <div class="layui-card-body" pad15>
                         <form class="layui-form layui-form-pane goodsAppendForm" method="post" lay-filter="" action="">
                             <div class="layui-row">
@@ -68,6 +77,43 @@
                         </form>
                     </div>
                 </div>
+                </div>
+                <div class="layui-tab-item">
+                   <input type="file" id="excel-file">
+                   <div class="layui-card">
+                    <div class="layui-card-header">补货表格</div>
+                    <div class="layui-card-body" pad15>
+                        <form class="layui-form layui-form-pane goodsAppendForm2" method="post" lay-filter="" action="">
+                            <div class="layui-row">
+                                <table class="layui-table goodsAppend2">
+                                    <thead>
+                                    <tr>
+                                        <th>产品名</th>
+                                        <th>产品sku</th>
+                                        <th>产品数目</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button style="float: right;" class="layui-btn" lay-submit lay-filter="formDemo2">立即提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div>
+
             </div>
         </div>
         <script id="goodsCheckbox" type="text/html">
@@ -101,6 +147,24 @@
                 </td>
             </tr>
         </script>
+        <script id="goodsAppend2" type="text/html">
+            <tr>
+                <td>
+                    <input type="hidden" readonly name="goods_kind_name" value="@{{d.goods_kind_name}}" class="layui-input">
+                    <span>@{{d.goods_kind_name}}</span>
+                </td>
+                <td>
+                    <input type="hidden" readonly name="goods_sku" value="@{{d.goods_sku}}" class="layui-input">
+                    <span>@{{d.goods_sku}}</span>
+                </td>
+                <td>
+                    <input type="text" name="num" value="@{{d.num}}"  onkeyup="(this.v=function(){this.value=this.value.replace(/[^\d]/g,'');})" onblur="this.v();" placeholder="请输入数量" class="layui-input" lay-verify="required">
+                </td>
+                <td>
+                    <span class="layui-btn layui-btn-xs layui-btn-danger removeGoodsAppend"><i class="layui-icon">&#xe640;</i></span>
+                </td>
+            </tr>
+        </script>
         @endsection
         @section('js')
             <script>
@@ -127,7 +191,7 @@
                             data: {id:data.value},
                             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                             success: function (response) {
-                                console.log('response',response)
+                                // console.log('response',response)
                                 layer.close(index);
                                 var getTpl = goodsCheckbox.innerHTML
                                 laytpl(getTpl).render(response, function(string){
@@ -157,7 +221,7 @@
                         if(data.elem.checked) {
                             var getTpl = goodsAppend.innerHTML
                             laytpl(getTpl).render(datas, function(string){
-                                console.log(string);
+                                // console.log(string);
                                 $('.goodsAppend tbody').append(string)
                             });
                         } else {
@@ -260,6 +324,122 @@
                         $('.goodsCheckbox input[goods_sku="'+$(this).parent().parent().find('input[name="goods_sku"]').val()+'"]').prop("checked", false)
                         form.render('checkbox');
                     })
+
+                        //给input标签绑定change事件，一上传选中的.xls文件就会触发该函数
+                        $('#excel-file').change(function(e) {
+                            var files = e.target.files;
+                            var fileReader = new FileReader();
+                                fileReader.onload = function(ev) {
+                                    try {
+                                        var data = ev.target.result
+                                        var workbook = XLSX.read(data, {
+                                                type: 'binary'
+                                            }) // 以二进制流方式读取得到整份excel表格对象
+                                        var persons = []; // 存储获取到的数据
+                                    } catch (e) {
+                                        console.log('文件类型不正确');
+                                        return;
+                                    }
+                            
+                                    // 表格的表格范围，可用于判断表头是否数量是否正确
+                                    var fromTo = '';
+                                    // 遍历每张表读取
+                                    for (var sheet in workbook.Sheets) {
+                                        if (workbook.Sheets.hasOwnProperty(sheet)) {
+                                            fromTo = workbook.Sheets[sheet]['!ref'];
+                                            console.log(fromTo);
+                                            persons = persons.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
+                                            // break; // 如果只取第一张表，就取消注释这行
+                                        }
+                                    }
+                                    //在控制台打印出来表格中的数据
+                                    console.log(persons);
+
+                                // 吧数据渲染到表格里可查看可修改
+                                $.each(persons, function (index, value) {
+                                   var arr = {}
+                                   var reg = /^[0-9]*$/;
+                                   var re = /^\d{10}$/;
+
+                                if(Object.keys(value).length !== 3) {
+                                    layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请检查表格列数!' ,{offset: '100px'})
+                                    $('.goodsAppend2 tbody').empty()
+                                    return false
+                                }else if (Object.keys(value).indexOf('产品名') === -1 || Object.keys(value).indexOf('产品SKU') === -1 || Object.keys(value).indexOf('产品数目') === -1) {
+                                    layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 请检查表头名称!' ,{offset: '100px'})
+                                    $('.goodsAppend2 tbody').empty()
+                                    return false
+                                } else if (!reg.test(value['产品数目'])) {
+                                    layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 产品数目必须为数字，请检查表格！' ,{offset: '100px'})
+                                    $('.goodsAppend2 tbody').empty()
+                                    return false
+                                } else if (!re.test(value['产品SKU'])) {
+                                    layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 产品sku必须为10位数字，请检查表格！' ,{offset: '100px'})
+                                    $('.goodsAppend2 tbody').empty()
+                                    return false
+                                }
+
+                                arr['goods_kind_name'] = value['产品名'];
+                                arr['goods_sku'] = value['产品SKU'];
+                                arr['num'] = value['产品数目'];
+                                var getTpl = goodsAppend2.innerHTML
+                                laytpl(getTpl).render(arr, function(string){
+                                    $('.goodsAppend2 tbody').append(string)
+                                })
+                            })
+
+                     // 表格提交
+                    form.on('submit(formDemo2)', function(data){
+                        var data = $(data.form).serializeArray();
+                        var num = 0;
+                        var obj = {};
+                        var arr = [];
+                        for(var i=0; i<data.length; i++){
+                            if(data[i].name === 'num'){
+                                obj[data[i].name] = data[i].value
+                                arr.push(obj)
+                                obj = {};
+                            } else{
+                                obj[data[i].name] = data[i].value
+                            }
+                        }
+                        if(arr.length === 0) {
+                            layer.msg('<i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #FF5722;"></i> 数据不能为空' ,{offset: '100px'})
+                            return false
+                        }
+                        var index = layer.load();
+                        // $.ajax({
+                        //     url:"/admin/storage/list/add_storage_data_local",
+                        //     type:'post',
+                        //     data:{goods_attr:JSON.stringify(arr),storage_id:$('#storage_id').val()},
+                        //     // datatype:'json',
+                        //     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                        //     success:function(msg){
+                        //         if(msg['err']==1){
+                        //             layer.close(index);
+                        //             layer.msg(msg.msg,{
+                        //                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        //             }, function(){
+                        //                 // parent.layui.admin.events.refresh();
+                        //                 window.parent.location.reload();
+                        //             });
+                        //         }else if(msg['err']==0){
+                        //             layer.close(index);
+                        //             layer.msg(msg.msg);
+                        //         }else{
+                        //             layer.close(index);
+                        //             layer.msg('新增失败！');
+                        //         }
+                        //     }
+                        // });
+                        return false;
+                    });
+
+                               };
+                               // 以二进制方式打开文件
+                               fileReader.readAsBinaryString(files[0]);
+
+                        });
                 });
 
             </script>
