@@ -1321,7 +1321,7 @@ class OrderController extends Controller
                                $goods_msg .= $conmsg['config_val_msg'] . '-';
                                $kind_msg .= '<td>'.$config_val_msg.'</td>';
                            }
-                           $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).' '.'</td></tr>';
+                           $goods_all_sku .= '<tr><td>' .$skuSDK->get_all_sku(rtrim($goods_kind_val_id,',')).'&nbsp;</td></tr>';
                            $config_msg .= '<tr>'.$kind_msg.'</tr>';
                            for ($i=0; $i <(int)$count[$keyss] ; $i++) {
                               $config_english_msg .= $kind_english_msg.',';
@@ -1351,7 +1351,7 @@ class OrderController extends Controller
                        $new_exdata[$k]['config_msg'] = "暂无属性信息";
                        $new_exdata[$k]['config_english_msg'] = "暂无属性信息";
                        $new_exdata[$k]['goods_config_msg'] = "暂无属性信息";
-                       $new_exdata[$k]['get_all_sku'] = $skuSDK->get_all_sku('').' ';
+                       $new_exdata[$k]['get_all_sku'] = $skuSDK->get_all_sku('').'&nbsp;';
                    }
                    $new_exdata[$k]['remark'] = $v['order_remark'];
                    $new_exdata[$k]['order_pay_type'] = $v['order_pay_type'] == 0 ? '货到付款': '在线支付';
