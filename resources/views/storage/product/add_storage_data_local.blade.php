@@ -408,30 +408,30 @@
                             return false
                         }
                         var index = layer.load();
-                        // $.ajax({
-                        //     url:"/admin/storage/list/add_storage_data_local",
-                        //     type:'post',
-                        //     data:{goods_attr:JSON.stringify(arr),storage_id:$('#storage_id').val()},
-                        //     // datatype:'json',
-                        //     headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
-                        //     success:function(msg){
-                        //         if(msg['err']==1){
-                        //             layer.close(index);
-                        //             layer.msg(msg.msg,{
-                        //                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        //             }, function(){
-                        //                 // parent.layui.admin.events.refresh();
-                        //                 window.parent.location.reload();
-                        //             });
-                        //         }else if(msg['err']==0){
-                        //             layer.close(index);
-                        //             layer.msg(msg.msg);
-                        //         }else{
-                        //             layer.close(index);
-                        //             layer.msg('新增失败！');
-                        //         }
-                        //     }
-                        // });
+                        $.ajax({
+                            url:"/admin/storage/list/add_storage_data_local",
+                            type:'post',
+                            data:{goods_attr:JSON.stringify(arr),storage_id:$('#storage_id').val()},
+                            // datatype:'json',
+                            headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                            success:function(msg){
+                                if(msg['err']==1){
+                                    layer.close(index);
+                                    layer.msg(msg.msg,{
+                                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                    }, function(){
+                                        // parent.layui.admin.events.refresh();
+                                        window.parent.location.reload();
+                                    });
+                                }else if(msg['err']==0){
+                                    layer.close(index);
+                                    layer.msg(msg.msg);
+                                }else{
+                                    layer.close(index);
+                                    layer.msg('新增失败！');
+                                }
+                            }
+                        });
                         return false;
                     });
 
