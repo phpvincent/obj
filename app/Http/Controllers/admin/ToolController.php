@@ -71,4 +71,9 @@ class ToolController extends Controller
             return response()->json(['err'=>0,'str'=>'发送成功']);
         }
     }
+
+    public function aaa()
+    {
+        check_web_status();
+    }
 }
