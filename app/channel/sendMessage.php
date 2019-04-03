@@ -11,7 +11,7 @@ include_once __DIR__.'/../Utils/fastoo_sdk/model/SendSingleSmsParm.php';
 include_once __DIR__.'/../Utils/fastoo_sdk/model/SendBatchSmsParm.php';
 include_once __DIR__.'/../Utils/fastoo_sdk/api/SendSmsApi.php';
 class sendMessage{
-    private static $phones=['8618348406783','8615978789522','8613253618257','8618736974521','8618238205232','8618638233841'];
+    private static $phones=['8618348406783','8615978789522','8618736974521','8618238205232','8618638233841'];
     /**
      * 发送消息
      * @param $request
@@ -109,6 +109,7 @@ class sendMessage{
     public static function send_err_notice($text)
     {
         $nums=implode(',', self::$phones);
+        $nums=['8618595888946','8618348406783'];
         $SendSmsApi=new \SendSmsApi();
         try{
             $msg=$SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop notice:ERROR!!".$text);
