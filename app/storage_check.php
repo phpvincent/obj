@@ -546,7 +546,7 @@ class storage_check extends Model
         }catch(\Exception $e){
             \DB::rollback();
             $storage_check->delete();
-            \Log::info('仓储数据校准失败,admin_id'.\Auth::user()->admin_id.'内容'.$e->getMessage());
+            \Log::info('仓储数据校准失败,admin_id'.$user.'内容'.$e->getMessage());
             //数据操作日志记录
 	        $arr=['storage_log_type'=>4,'storage_log_operate_type'=>0,'is_danger'=>0,'storage_log_admin_id'=>$user];
 	        if(!$type){
