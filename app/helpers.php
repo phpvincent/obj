@@ -547,7 +547,7 @@ if (!function_exists("check_web_status")) {
           \Log::notice('单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
          }else{
           //echo '访问正常，url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg'].'<br/>';
-          \Log::notice('访问正常，url:'.$url.'响应码：'.$gocode['code']);
+          \Log::notice('访问正常，url:'.$goods_url.'响应码：'.$gocode['code']);
          }
     }
 }
