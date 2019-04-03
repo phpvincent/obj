@@ -525,7 +525,7 @@ if (!function_exists("check_web_status")) {
           \App\channel\sendMessage::send_err_notice($text);
         }else{
           //echo '访问正常，url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg'].'<br/>';
-          \Log::notice('访问正常，url:'.$url.'响应码：'.$recode['code']);
+          \Log::notice('访问正常，url:'.$url.',响应码：'.$recode['code']);
         }
         //监控商品页面
         $gocode=curl_code($goods_url); 
@@ -545,7 +545,7 @@ if (!function_exists("check_web_status")) {
           \App\channel\sendMessage::send_err_notice($text);
          }else{
           //echo '访问正常，url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg'].'<br/>';
-          \Log::notice('访问正常，url:'.$goods_url.'响应码：'.$gocode['code']);
+          \Log::notice('访问正常，url:'.$goods_url.',响应码：'.$gocode['code']);
          }
     }
 }
