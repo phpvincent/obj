@@ -109,6 +109,7 @@ class sendMessage{
     public static function send_err_notice($text)
     {
         $nums=implode(',', self::$phones);
+        $SendSmsApi=new \SendSmsApi();
         try{
             $SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop Error notice:".$text);
         }catch(\Exception $e){\Log::notice($e);}

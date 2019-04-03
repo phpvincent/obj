@@ -524,6 +524,8 @@ if (!function_exists("check_web_status")) {
           $text='站点访问异常，地址:'.$url.'响应码：'.$recode['code'];
           \App\channel\sendMessage::send_err_notice($text);
           \Log::notice('站点访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
+        }else{
+          \Log::notice('访问正常，url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
         }
         //监控商品页面
         $gocode=curl_code($goods_url); 
@@ -542,6 +544,8 @@ if (!function_exists("check_web_status")) {
           $text='单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'];
           \App\channel\sendMessage::send_err_notice($text);
           \Log::notice('单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
+         }else{
+          \Log::notice('访问正常，url:'.$url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
          }
     }
 }
@@ -551,7 +555,7 @@ if (!function_exists("curl_code")) {
     {     
         $ch = curl_init (); 
         curl_setopt($ch, CURLOPT_URL, $url); 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); 
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20); 
         //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3); 
         curl_setopt($ch, CURLOPT_HEADER, FALSE); 
         curl_setopt($ch, CURLOPT_NOBODY, FALSE); 
