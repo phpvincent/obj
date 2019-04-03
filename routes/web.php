@@ -23,7 +23,7 @@ use App\channel\mailControl;
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
 		$vis=\App\vis::where(function($query)use($request){
-			$query->where('vis_time','>','2019-04-02 01:02:02');
+			$query->where('vis_time','>','2019-04-02 00:24:02');
 			$query->where('vis_time','<','2019-04-02 07:15:02');
 		})
 		->get();
