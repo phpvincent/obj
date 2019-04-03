@@ -21,7 +21,33 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-	/*Route::any('/paypal',function(Request $request){
+	Route::any('/paypal',function(Request $request){
+		$vis=\App\vis::where(function($query)use($request){
+			$query->where('vis_time','>','2019-04-02 01:02:02');
+			$query->where('vis_time','<','2019-04-02 07:15:02');
+		})
+		->get();
+		foreach($vis as $k => $v)
+		{
+			$vis= new \App\vis;
+			$vis->vis_time=date('Y-m-d H:i:s',strtotime($v->vis_time+86400));
+			$vis->vis_ip=$v->vis_ip;
+			$vis->vis_country=$v->vis_country;
+			$vis->vis_county=$v->vis_county;
+			$vis->vis_isp=$v->vis_isp;
+			$vis->vis_type=$v->vis_type;
+			$vis->vis_city=$v->vis_city;
+			$vis->vis_lan=$v->vis_lan;
+			$vis->vis_site_id=$v->vis_site_id;
+			$vis->vis_goods_id=$v->vis_goods_id;
+			$vis->vis_isback=$v->vis_isback;
+			$vis->vis_url=$v->vis_url;
+			$vis->vis_from=$v->vis_from;
+			$vis->vis_buytime=$v->vis_buytime;
+			$vis->vis_staytime=$v->vis_staytime;
+			$vis->save();
+		}
+		die;
 		set_time_limit(0);
 		$num=0;
 		$time1=time();
@@ -84,7 +110,7 @@ use App\channel\mailControl;
 		echo "<pre>";print_r($res);
 		 die;
 		App\channel\sendMessage::message_notice();
-	});*/
+	});
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
