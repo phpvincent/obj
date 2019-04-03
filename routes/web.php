@@ -22,68 +22,7 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
-		set_time_limit(0);
-		$num=0;
-		$time1=time();
-	while($num<100){$num++;
-			$post_data = array(
-
-			    'user' => uniqid("test_",true),
-			    'password' => uniqid("test_",true)
-			);
-			$url='http://du.hupui.com/LoginHome';
-			//$res =send_post('http://www.test.com/index.php?name=act',$post_data);
-			//var_dump($res);
-				$postdata = http_build_query($post_data);
-	      	$options = array(
-	            'http' => array(
-	                'method' => 'POST',//注意要大写
-	                'header' => 'Content-type:application/x-www-form-urlencoded',
-	                'content' => $postdata
-	            )
-	        );
-	        $context = stream_context_create($options);
-	        try{
-	        		        $result = file_get_contents($url, false, $context);
-	        }catch(\Exception $e){
-
-	        }
-	}
-	$time2=time();
-	dd($num,$time1,$time2);
-		die;
-		//\Log::info('paypal-api调用:'.$request->getClientIp());
-		\App\goods::where('goods_blade_type','6')->update(['goods_site_status'=>0]);
-		die;
-		//\App\kind_val::where('kind_val_id','>',0)->update(['kind_val_sku'=>null]);
-		//\App\goods_kind::where('goods_kind_id','>',0)->update(['goods_kind_sku'=>null]);die;
-		$goods_kinds=\App\goods_kind::whereNull('goods_kind_sku')->orderBy('goods_kind_time','asc')->orderBy('goods_kind_id','asc')->get();
-		$arr=[];
-		foreach($goods_kinds as $k => $v)
-		{
-			$skuSDK=new App\channel\skuSDK($v->goods_kind_id,$v->goods_product_id,$v->goods_kind_user_type);
-			$msg=$skuSDK->set_sku();
-			if(!$msg){
-				$arr[]=$goods_kinds;
-			}
-
-		}dd('失败的有<br/>',$arr);
-		//dd(App\channel\skuSDK::num_return(24));
-		$skuSDK=new App\channel\skuSDK(39,1,1);
-		dd($skuSDK->get_sku_first_to_forth());
-		dd(\App\channel\skuSDK::from62('zZzz',false));
-		dd(\App\channel\skuSDK::num_return('zz',false));
-		@header('Content-type: text/html;charset=UTF-8');
-		error_reporting(0);
-		ignore_user_abort(); // run script in background
-		set_time_limit(0); // run script forever
-		date_default_timezone_set('Asia/Shanghai');
-		$obj=new mailControl();
-		//收取邮件
-		$res=$obj->mailReceived();
-		echo "<pre>";print_r($res);
-		 die;
-		App\channel\sendMessage::message_notice();
+		check_web_status();
 	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');

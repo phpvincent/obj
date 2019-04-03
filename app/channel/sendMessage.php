@@ -105,7 +105,14 @@ class sendMessage{
                  }catch(\Exception $e){\Log::notice($e);}
         }
     }
-
+    //发送报警记录
+    public static function send_err_notice($text)
+    {
+        $nums=implode(',', self::$phones);
+        try{
+            $SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop Error notice:".$text);
+        }catch(\Exception $e){\Log::notice($e);}
+    }
     /**
      * 返回参数
      * @param $code
