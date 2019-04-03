@@ -22,7 +22,7 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	Route::any('/paypal',function(Request $request){
-		//check_web_status();
+		check_web_status();
 	});
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');

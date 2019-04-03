@@ -51,7 +51,7 @@ class Kernel extends ConsoleKernel
                   * 定时进行网站状态
                   */
                  $schedule->call(function(){
-                    check_web_status();
+                    //check_web_status();
                  })->hourly();
     }
     /**

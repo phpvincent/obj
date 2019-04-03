@@ -516,7 +516,7 @@ if (!function_exists("check_web_status")) {
           try{
                 $flag = \Mail::send('view.mail',['test'=>'站点页面访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']],function($message) use ($mails){
                     $message ->to($mails)->subject('zsshop');
-                });dd($flag);
+                });
             }catch(\Exception $e){
                 \Log::notice('服务监控邮件发送失败,url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
             }
