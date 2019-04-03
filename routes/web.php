@@ -30,7 +30,7 @@ use App\channel\mailControl;
 		foreach($vis as $k => $v)
 		{
 			$vis= new \App\vis;
-			$vis->vis_time=date('Y-m-d H:i:s',strtotime($v->vis_time+86400));
+			$vis->vis_time=date('Y-m-d H:i:s',strtotime($v->vis_time)+86400);
 			$vis->vis_ip=$v->vis_ip;
 			$vis->vis_country=$v->vis_country;
 			$vis->vis_county=$v->vis_county;
