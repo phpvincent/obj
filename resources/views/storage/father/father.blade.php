@@ -41,8 +41,8 @@
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
           
           <li class="layui-nav-item" lay-unselect> 
-            @if(\App\order::where([['is_del',0],['order_type','1']])->count()>0)
-            <a lay-href="{{url('admin/storage/check')}}" layadmin-event="message" title="存在待扣货订单（{{\App\order::where([['is_del',0],['order_type','1']])->count()}}）" lay-text="存在待扣货订单（{{\App\order::where([['is_del',0],['order_type','1']])->count()}}）">
+            @if(\App\order::where([['is_del',0],['order_type','1']])->where('order_time','>=','2019-04-01 00:00:00')->count()>0)
+            <a lay-href="{{url('admin/storage/check')}}" layadmin-event="message" title="存在待扣货订单（{{\App\order::where([['is_del',0],['order_type','1']])->where('order_time','>=','2019-04-01 00:00:00')->count()}}）" lay-text="存在待扣货订单（{{\App\order::where([['is_del',0],['order_type','1']])->count()}}）">
               <i class="layui-icon layui-icon-notice"></i>  
               
               <!-- 如果有新消息，则显示小圆点 -->
