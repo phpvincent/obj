@@ -113,7 +113,9 @@ class sendMessage{
         $SendSmsApi=new \SendSmsApi();
         try{
             $msg=$SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop notice:ERROR!!".$text);
-        }catch(\Exception $e){\Log::notice($e.isset($msg)?$msg:'');}
+        }catch(\Exception $e){
+            \Log::notice($e);
+        }
     }
     /**
      * 返回参数
