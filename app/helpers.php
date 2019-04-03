@@ -504,8 +504,8 @@ if (!function_exists("check_web_status")) {
     function check_web_status()
     {      
         $mails='wxhwxhwxh@qq.com';
-        $url='http://'.\App\url::where('url_site_id','>',0)->orderBy('url_id','desc')->first(['url_id'])['url_id'];
-        $goods_url=$url.'index/site_goods/'.\App\goods::where('is_del',0)->orderBy('goods_id','desc')->first(['goods_id'])['goods_id'];
+        $url='http://'.\App\url::where('url_site_id','>',0)->orderBy('url_id','desc')->first(['url_url'])['url_url'];
+        $goods_url=$url.'/index/site_goods/'.\App\goods::where('is_del',0)->orderBy('goods_id','desc')->first(['goods_id'])['goods_id'];
         //监控站点页面
         $recode=curl_code($url);
 
@@ -516,7 +516,7 @@ if (!function_exists("check_web_status")) {
           try{
                 $flag = \Mail::send('view.mail',['test'=>'站点页面访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']],function($message) use ($mails){
                     $message ->to($mails)->subject('zsshop');
-                });
+                });dd($flag);
             }catch(\Exception $e){
                 \Log::notice('服务监控邮件发送失败,url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
             }
@@ -526,7 +526,7 @@ if (!function_exists("check_web_status")) {
           \Log::notice('站点访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
         }
         //监控商品页面
-        $gocode=curl_code($goods_url);
+        $gocode=curl_code($goods_url); 
          if($gocode['code']!=200){
           //记录日志
                 \Log::notice('单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
@@ -559,6 +559,8 @@ if (!function_exists("curl_code")) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE); 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET'); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         $msg=curl_exec($ch); 
         $httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE); 
         return ['code'=>$httpCode,'msg'=>$msg];
