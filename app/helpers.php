@@ -514,7 +514,7 @@ if (!function_exists("check_web_status")) {
                 \Log::notice('站点页面访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
           //发送邮件
           try{
-                $flag = \Mail::send('view.mail',['test'=>'站点页面访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']],function($message) use ($mails){
+                $flag = \Mail::send('view.mail',['test'=>'站点页面访问异常，地址:'.$url.'<br/>响应码：'.$recode['code'].'、响应内容：'.$recode['msg']],function($message) use ($mails){
                     $message ->to($mails)->subject('zsshop');
                 });
             }catch(\Exception $e){
@@ -534,7 +534,7 @@ if (!function_exists("check_web_status")) {
                 \Log::notice('单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
           //发送邮件
           try{
-                $flag = \Mail::send('view.mail',['test'=>'单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']],function($message) use ($mails){
+                $flag = \Mail::send('view.mail',['test'=>'单品页面访问异常，地址:'.$goods_url.'<br/>响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']],function($message) use ($mails){
                     $message ->to($mails)->subject('zsshop');
                 });
             }catch(\Exception $e){
