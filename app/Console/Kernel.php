@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
                     auto_storage_check();
                  })->everyThirtyMinutes();
                   /**
-                  * 定时进行网站状态
+                  * 定时监控网站状态
                   */
                  $schedule->call(function(){
                     check_web_status();

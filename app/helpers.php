@@ -504,7 +504,7 @@ if (!function_exists("check_web_status")) {
     function check_web_status()
     {      
         $mails='wxhwxhwxh@qq.com';
-        $url='http://a'.\App\url::where('url_site_id','>',0)->orderBy('url_id','desc')->first(['url_url'])['url_url'];
+        $url='http://'.\App\url::where('url_site_id','>',0)->orderBy('url_id','desc')->first(['url_url'])['url_url'];
         $goods_url=$url.'/index/site_goods/'.\App\goods::where('is_del',0)->orderBy('goods_id','desc')->first(['goods_id'])['goods_id'];
         //监控站点页面
         $recode=curl_code($url);
