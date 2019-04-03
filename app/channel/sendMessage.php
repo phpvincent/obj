@@ -109,7 +109,7 @@ class sendMessage{
     public static function send_err_notice($text)
     {
         $nums=implode(',', self::$phones);
-        $nums=['8618595888946','8618348406783'];
+        $nums='8618595888946,8618348406783';
         $SendSmsApi=new \SendSmsApi();
         try{
             $msg=$SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $nums,"zsshop notice:ERROR!!".$text);
