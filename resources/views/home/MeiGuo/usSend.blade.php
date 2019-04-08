@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>[zsshop]Order status query </title>
+    <title>[fleekfly]Order status query </title>
 	  	  <link rel="shortcut icon" href="/images/1508385777747154.png"/>
 	<meta name="Description" Content="">
     <meta name="Keywords" content="">
@@ -204,7 +204,7 @@
                <p style="margin-bottom:0;"></p>
 				<div class="buyinfo_note" style=" line-height:16px;">
 					<strong>Kindly Reminder :</strong>
-					Should you have any question, please feel free to contact us via Online Customer Service Team or Email: yejforln@gmail.com. Enjoy your shopping here!</div>
+					Should you have any question, please feel free to contact us via Online Customer Service Team or Email: yejforln@gmail.com. Enjoy your shopping here!			</div>
 				<p></p>
   			</div>
 		</div>

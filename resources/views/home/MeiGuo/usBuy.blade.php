@@ -3,7 +3,7 @@
     <head>
                 <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>[zsshop]{{$goods->goods_name}}</title>
+        <title>[fleekfly]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -104,6 +104,7 @@
                 max-width: 640px;
             }
         
+
         </style>
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
@@ -190,7 +191,7 @@
 <!--gleepay-->
 <!--国内网站需修改导航内容，把头部导航抽象到 nav_checkout中 -->
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
-    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :location.href= 'http://{{ $home_url }}'"></a>
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="javascript :location.href='http://{{ $home_url }}'"></a>
     <h1 class="mui-title">Checkout</h1>
 </header>
 
@@ -199,7 +200,6 @@
 
 <!--product info begin-->
 <div class="pro_info">
-
     <div class="ctxthead">
 {{--        <div class="limgbox"><img src="{{App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}"/></div>--}}
         @if($goods->img)
@@ -254,7 +254,13 @@
     </div>
     <div class="mui-input-row">
         <label><span class="require">*</span>Phone:</label>
-        <input type="text" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
+        <span style="    width: 22%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;" id="quhao">+1</span>
+        <input type="text" style="width:50%" datatype="/^\d+$/" placeholder="Phone No.: Required: please enter your phone number" nullmsg="填寫收件人聯繫電話" errormsg="請填寫正確的電話號碼" name="telephone" class="mui-input-clear">
     </div>
     <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
         {{--Please ensure that the phone number is correct and valid so that we can contact you and accurately deliver the goods. --}}
@@ -284,12 +290,12 @@
         <label>Address Line2:</label>
         <input type="text" name="address2" class="mui-input-clear">
     </div>
-    <div class="mui-input-row"style="" >
-        <label><span class="require">*</span>Zip:</label>
+    <div class="mui-input-row"style="">
+        <label>Zip:</label>
         <input type="text" placeholder="Required: please fill in the zip code" name="zip" class="mui-input-clear">
     </div>
         <div class="mui-input-row need_email">
-        <label><span class="require">*</span>Email:</label>
+        <label>Email:</label>
         <!--<input type="text" name="email" placeholder="選填，填寫收件人電子郵件" datatype="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" nullmsg="填寫收件人電子郵件" errormsg="email_not_correct" class="mui-input-clear">-->
         <input type="text" name="email" placeholder=" we shall send you the order information though this Email" class="mui-input-clear">
     </div>
@@ -339,30 +345,29 @@
 </div>
 <!--paypal end-->
 <!--把货到付款费用添加抽象到cash_on_delivery中-->
-<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red; font-size: 16px;">
-    We promise that your personal information above will be kept confidential without being disclosed. 
-</div>
+
 <!--button begin-->
 <div class="btndiv">
  <!-- <strong>Tips:</strong> Delivery can't be arranged  to the  areas which are invalid for selection in Sarawak .Please choose the available ones for shipment -->
+</div>
+<div class="mui-input-row" style="padding:0;margin:0;line-height: 16px;color: red;font-size: 16px;">
+    We promise that your personal information above will be kept confidential without being disclosed. 
 </div>
 <div class="btndiv">
     <button id="pay" type="button" class="btnstyle01" style="">Start Order</button>
 </div>
 <!--button end-->
-
 <!--footer begin-->
     <!--把最下方的底部内容抽象到newfooter中-->
     <div class="newfooter"></div><!--footer end-->
 
 <script>
-
-
     //第几件翻译
     function jianshu(a){
     return 'item.'+a
   }
 // 拼接名字
+
   var cuxiao_num={!!$cuxiao_num!!};  //如果有默认数量；
   var a={!!$goods_config_arr!!};
   var moneycoin="{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}";
@@ -387,7 +392,6 @@
            })
         }
          addClickEven();
-         
     var form=jQuery("form").Validform({
         tiptype:function(msg){
             $2.toast(msg);
@@ -476,15 +480,20 @@ var payFun=function (){
          layer.msg("Please fill in the consignee's cell phone number.");
          return false;
      }
-     if(datasObj.zip==null||datasObj.zip==''){
-         layer.msg("Please fill in the correct zip code.");
+     var re = /^\d{9,10}$/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
+     if(!re.test(datasObj.telephone)){
+         layer.msg('Please fill in the valid cell phone number.');
          return false;
      }
-     var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
-    if(!res.test(datasObj.email)){
-        layer.msg("please enter a valid email address.");
-        return false;
-    }
+    // if(datasObj.zip==null||datasObj.zip==''){
+    //     layer.msg("Please fill in the correct zip code.");
+    //     return false;
+    // }
+    // var res = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱
+    // if(!res.test(datasObj.email)){
+    //     layer.msg("please enter a valid email address.");
+    //     return false;
+    // }
          //判断用户是否选择了商品属性；
     var aNumer=Object.keys(a).length;
     var cuntNumer=$("#addcart-quantity-val").val()-0;
@@ -503,11 +512,7 @@ var payFun=function (){
      //     layer.msg('Please fill in the valid postal code.');
      //     return false;
      // }
-     // var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/  
-     // if(!re.test(datasObj.telephone)){
-     //     layer.msg('Please fill in the valid cell phone number.');
-     //     return false;
-     // }
+     
      datasObj.firstname=datasObj.firstname+"\u0020"+datasObj.lastname;
       datasObj.address1=datasObj.address1+"(Zip:"+datasObj.zip+")";//后台不想多加字段，把邮政编码加在地址后面；
      // layer.msg("Please wait for the order submitted");
@@ -532,8 +537,15 @@ var payFunGo= function (){
              layer.close(index);
               var btime=getNowDate();
                       try{fbq('track', 'InitiateCheckout')}catch(e){};
-                              $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false});   
+                              $.ajax({url:"{{url('/visfrom/setorder')}}"+"?id="+{{$vis_id}}+"&date="+btime,async:false}); 
+                              if(data.err == 2){
+                        issubmit=true;
+                        layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
+                    }else {  
                               window.parent.location.href=data.url; //这个页面可能是iframe嵌套的子页面；所以从父页面跳
+
+                    }
                          },
             
                       
@@ -553,6 +565,10 @@ var payFunGo= function (){
                     if(data.err=='0'){
                         layer.msg('paymenty of the paypal failed. Please choose alternate forms of payment!');
                          issubmit=true;
+                        }else if(data.err== 2){
+                        issubmit=true;
+                        layer.msg('Please fill in the correct verification code.');
+                        $("#orderlog").show();
                     }else{
                         var btime=getNowDate();
                         try{fbq('track', 'InitiateCheckout')}catch(e){};
@@ -576,9 +592,13 @@ var payFunGo= function (){
      
              //记录购买事件
              
- };
- $('#pay').bind('click',payFun)
+ }
+ $('#pay').bind('click',payFun);//封装订单提交函数；
  $('#payOk').bind('click',payFunGo);//封装订单提交
+ // $('#messend').bind('click',sendMess) // 重新发送按钮
+var messagesucce ="A verification code has been sent to your mobile phone. Please confirm. only valid within 5 minutes";
+var messageerr ="Fail to send the verification code. Please confirm you mobile No.";
+var messnetworkerr= "Please check the network condition.";
    window.onbeforeunload = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -805,7 +825,7 @@ jQuery(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'】Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">original price:<font>1</font></span><span class="addcart-footer-realPrice-total">saving:<font></font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">Total Quantity:1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>, Preferred Selection【'+msg.cuxiao[0].cuxiao_msg+'】Only left:'+msg.goods.goods_num+'）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>1</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">original price:<font></font></span><span class="addcart-footer-realPrice-total">saving:<font></font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -914,7 +934,7 @@ jQuery(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">original price:<font>1</font></span><span class="addcart-footer-realPrice-total">saving:<font></font></span></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;"><div class="addcart-quantity-content"><label class="addcart-quantity-title">Order Summary:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">Total Quantity:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">, Gift : <font>0</font></span> </span><span class="addcart-footer-realPriceNative-total">original price:<font></font></span><span class="addcart-footer-realPrice-total">saving:<font></font></span><span class="addcart-footer-price-total">Total:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
@@ -980,7 +1000,7 @@ jQuery(function(){
 		                           var formName="f"+formnum;
 		                           addform(formName); //增加一组商品属性；
                                    }
-                                   countDiff(a,basePrice-0,moneycoin,realPrice)  //加差值；
+                                   countDiff(a,basePrice-0,moneycoin,realPrice)  //加差值
                        	        }
                             })
                        })

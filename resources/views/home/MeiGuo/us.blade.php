@@ -3,7 +3,7 @@
     <head>
         <link rel="shortcut icon" href="https://cdn.uudobuy.com/ueditor/image/20171019/1508385777747154.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>[zsshop]{{$goods->goods_name}}</title>
+        <title>[fleekfly]{{$goods->goods_name}}</title>
         <meta name="keywords" content=""/>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -492,9 +492,9 @@
 <div style="padding:0px;padding-bottom: 10px;" class="table_details" id="detial-table">
 <table class="data-table">
     {{--用户帮助模块--}}
-{{--    @if(in_array('user_help',$templets))--}}
+{{--@if(in_array('user_help',$templets))--}}
     <tbody>
-{{--        @if(in_array('user_know',$templets))--}}
+{{--@if(in_array('user_know',$templets))--}}
         <!-- <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·User advice</th>
         </tr>
@@ -508,9 +508,9 @@
             </td></tr> -->
         {{--@endif--}}
         <tr class="first odd">
-            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px/;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
+            <th colspan="2" class="privacyPolicy" style="border-bottom: 1px solid #9e9c9c;background-color: #d2d2d2;text-align: left;margin-bottom:10px;cursor:pointer;">·PRIVACY POLICY <span style="font-size:12px;cursor: pointer;border: 1px solid #888181;line-height: 28px;border-radius: 20px;padding: 3px;" class="privacyPolicy">CLICK HERE FOR DETAILS</span></th>
         </tr>
-{{--        @if(in_array('apply_goods',$templets))--}}
+       {{--@if(in_array('apply_goods',$templets))--}}
         <tr class="first odd">
             <th colspan="2" style="background-color: #d2d2d2;text-align: left;">·Contact Us</th>
         </tr>
@@ -540,7 +540,7 @@
         <tr class="first odd">
             <td style="width: 30%;height: 80px;margin: 0px;padding: 0px;"> <p style=""><img src="/images/ydzs.png"></p></td>
             <td colspan="2">
-                <p>ZSSHOP, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
+                <p>fleekfly, known as "Strictly Selected Mall", insists on its usual precise attitude for selection of products origin, workmanship and raw materials of all goods adhering to strict criteria including clothing, shoes, bags, houseware, kitchenware and sportswear in order to satisfy our customers with the best products pursuing to the excellent quality.</p>
             </td>
 
         </tr>
@@ -731,7 +731,6 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
         </form>
     </div>
 </div>
-
 <div id="ifrPayDiv" style="max-width: 640px; position: fixed; bottom: 0; width:100%; z-index: 10000;">
     <p style="margin: 0;height: 22px; background-color: #f5f5f5;display:none;"><span id="closeBtn" style="top:0;right:1px;position: absolute;z-index: 9;padding:0 14px;" class="mui-icon mui-icon-close"></span></p>
     <div id="iframePayDiv" style="display:none;  overflow-y: scroll; height:91%">
@@ -888,6 +887,7 @@ $(function(){
        console.log("goods_blade_style",bladeStyle);
        console.log("goods_google_pix",goods_google_pix);
        console.log("goods_yahoo_pix",goods_yahoo_pix);
+
     $2(function() {
         //$2("img").lazyload({effect: "fadeIn"});
         //点击购买
@@ -914,7 +914,6 @@ $(function(){
                     $("#iframePay").contents().find("body").css({"padding-top":$("#iframePay").contents().find(".pro_info").height()-20}); //iframe中boby的padding-top=.pro-info的height；
                 }, 500);//当弹框打开后若还是auto就不能滚动了；应换touch；
                 if(goods_yahoo_pix){
-
                         (function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':goods_yahoo_pix}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");
                             window.dotq = window.dotq || [];
                                 window.dotq.push(
