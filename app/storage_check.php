@@ -500,9 +500,11 @@ class storage_check extends Model
                     $storage_check_data->storage_check_data_num=$v['local_less']['storage_check_data_num'];
                     $storage_check_data->storage_check_data_sku=$v['local_less']['storage_check_data_sku'];
                     $storage_check_data->save();
-                    $order_update= \App\order::where('order_id',$k)->first();
-	                $order_update->order_return= $order_update->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单扣货失败，货物不足</p>";
-	                $order_update->save();
+                    if(!$type){
+	                    $order_update= \App\order::where('order_id',$k)->first();
+		                $order_update->order_return= $order_update->order_return."<p style='text-align:center'>[".date('Y-m-d H:i:s')."] ".\Auth::user()->admin_name."：订单扣货失败，货物不足</p>";
+		                $order_update->save();
+	            	}
                     foreach($v['local_less']['data'] as $key => $val){
                         //记录该订单货物属性数目等数据
                         $storage_check_info=new \App\storage_check_info;
