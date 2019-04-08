@@ -394,8 +394,9 @@ class storage_check extends Model
     	}catch(\Exception $e){
     		throw $e;
     		$storage_check->delete();
+
     		  //记录报错
-            \Log::info('仓储数据校准失败,admin_id'.\Auth::user()->admin_id.'内容'.$e->getMessage());
+            \Log::info('仓储数据校准失败,admin_id'.$user.'内容'.$e->getMessage());
             //关闭锁
     		\App\storage_check_option::where('storage_check_option','1')->update(['storage_check_option_val'=>'0']);
     		 return false;
