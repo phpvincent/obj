@@ -187,7 +187,7 @@
               @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
             <div class="swiper-slide" id="swiper-slide">
                 <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
-                    <source src="{{$goods->goods_fm_video}}" type="video/mp4">
+                    <source src="/{{$goods->goods_fm_video}}" type="video/mp4">
                 </video>
             </div>
             @endif
