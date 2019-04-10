@@ -45,8 +45,14 @@ class Kernel extends ConsoleKernel
                   * 定时进行仓储数据校对
                   */
                  $schedule->call(function(){
-                    //auto_storage_check();
-                 })->hourly();
+                    auto_storage_check();
+                 })->everyThirtyMinutes();
+                  /**
+                  * 定时监控网站状态
+                  */
+                 $schedule->call(function(){
+                    check_web_status();
+                 })->everyTenMinutes();
     }
     /**
      * Register the commands for the application.

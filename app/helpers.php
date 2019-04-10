@@ -401,7 +401,12 @@ if (!function_exists('out_excil')){
 
 if (!function_exists('operation_log')){
     function operation_log($ip,$log,$data_json=false){
-    $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.Auth::user()->admin_name .' '.$log. "\r\n";
+      try{
+        $admin_name=Auth::user()->admin_name;
+      }catch(\Exception $e){
+        $admin_name='system';
+      }
+    $log_content = '[' . date('Y-m-d H:i:s') . '][IP:'. $ip .']管理员'.$admin_name .' '.$log. "\r\n";
         if($data_json){
             $log_content .= 'JSON数据：'. $data_json ."\r\n";
         }
@@ -495,5 +500,78 @@ if (!function_exists("auto_storage_check")) {
         
         //添加补货单日志
         operation_log('system','进行订单数据校准操作');
+  }
+}
+/**
+ * 网站状态监控
+ */
+if (!function_exists("check_web_status")) {
+    function check_web_status()
+    {      
+        $mails='wxhwxhwxh@qq.com';
+        $url='http://'.\App\url::where('url_site_id','>',0)->orderBy('url_id','desc')->first(['url_url'])['url_url'];
+        $goods_url=$url.'/index/site_goods/'.\App\goods::where('is_del',0)->orderBy('goods_id','desc')->first(['goods_id'])['goods_id'];
+        //监控站点页面
+        $recode=curl_code($url);
+
+        if($recode['code']!=200){
+          //记录日志
+                \Log::notice('站点页面访问异常，地址:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
+          //发送邮件
+          try{
+                $flag = \Mail::send('view.mail',['test'=>'站点页面访问异常，地址:'.$url.'<br/>响应码：'.$recode['code'].'、响应内容：'.$recode['msg']],function($message) use ($mails){
+                    $message ->to($mails)->subject('zsshop');
+                });
+            }catch(\Exception $e){
+                \Log::notice('服务监控邮件发送失败,url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg']);
+            }
+          //发送短信
+          $text='站点访问异常，地址:'.$url.',响应码：'.$recode['code'];
+          \App\channel\sendMessage::send_err_notice($text);
+        }else{
+          //echo '访问正常，url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg'].'<br/>';
+          \Log::notice('访问正常，url:'.$url.',响应码：'.$recode['code']);
+        }
+        //监控商品页面
+        $gocode=curl_code($goods_url); 
+         if($gocode['code']!=200){
+          //记录日志
+                \Log::notice('单品页面访问异常，地址:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
+          //发送邮件
+          try{
+                $flag = \Mail::send('view.mail',['test'=>'单品页面访问异常，地址:'.$goods_url.'<br/>响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']],function($message) use ($mails){
+                    $message ->to($mails)->subject('zsshop');
+                });
+            }catch(\Exception $e){
+                \Log::notice('服务监控邮件发送失败,url:'.$goods_url.'响应码：'.$gocode['code'].'、响应内容：'.$gocode['msg']);
+            }
+          //发送短信
+          $text='单品页面访问异常，地址:'.$goods_url.',响应码：'.$gocode['code'];
+          \App\channel\sendMessage::send_err_notice($text);
+         }else{
+          //echo '访问正常，url:'.$url.'响应码：'.$recode['code'].'、响应内容：'.$recode['msg'].'<br/>';
+          \Log::notice('访问正常，url:'.$goods_url.',响应码：'.$gocode['code']);
+         }
+    }
+}
+
+if (!function_exists("curl_code")) {
+    function curl_code($url)
+    {     
+        $ch = curl_init (); 
+        curl_setopt($ch, CURLOPT_URL, $url); 
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20); 
+        //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3); 
+        curl_setopt($ch, CURLOPT_HEADER, FALSE); 
+        curl_setopt($ch, CURLOPT_NOBODY, FALSE); 
+        #curl_setopt( $ch, CURLOPT_POSTFIELDS, "username=".$username."&password=".$password ); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE); 
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET'); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        $msg=curl_exec($ch); 
+        $httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE); 
+        return ['code'=>$httpCode,'msg'=>$msg];
   }
 }

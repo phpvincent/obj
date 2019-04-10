@@ -124,13 +124,13 @@ img{ border:none; vertical-align:top;}
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="{{url('admin/storage/send_phone')}}">
+                        <a lay-href="{{url('/admin/message/send_phone')}}">
                           <i class="layui-icon ">&#xe63b;</i>
                           <cite>短信推送</cite>
                         </a>
                       </li>
                       <li class="layui-col-xs3">
-                        <a lay-href="{{url('admin/storage/send_mail')}}">
+                        <a lay-href="{{url('/admin/message/send_mail')}}">
                           <i class="layui-icon ">&#xe609;</i>
                           <cite>邮件推送</cite>
                         </a>
@@ -187,7 +187,7 @@ img{ border:none; vertical-align:top;}
                       <li class="layui-col-xs6">
                         <a lay-href="{{url('admin/storage/check')}}"  class="layadmin-backlog-body">
                           <h3>待扣货</h3>
-                          <p><cite>{{\App\order::where([['order_type',1],['is_del',0]])->count()}}</cite></p>
+                          <p><cite>{{\App\order::where([['order_type',1],['is_del',0]])->where('order_time','>=','2019-04-01 00:00:00')->count()}}</cite></p>
                         </a>
                       </li>
                       <li class="layui-col-xs6">
