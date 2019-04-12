@@ -46,7 +46,7 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-         $redis = new Redis();
+         $redis = new \Redis();
          $redis->connect('127.0.0.1', 6379);
          dd($redis);
         if(null==Redis::get('aa')){
