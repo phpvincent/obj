@@ -27,7 +27,7 @@ use App\message;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
-
+use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
     protected $provider;
@@ -46,16 +46,10 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-         $redis = new \Redis();
-         $redis->connect('127.0.0.1', 6379);
-         if($redis->get('aa')==null){
-            $redis->set('aa','fuck');
-         }
-         dd($redis->get('aa'));
-        /*if(null==Redis::get('aa')){
+        if(null==Redis::get('aa')){
             Redis::set('aa','fuck');
         }
-        dd(Redis::get('aa'));*/
+        dd(Redis::get('aa'));
         /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
         if($request->get('is_site')==true){
