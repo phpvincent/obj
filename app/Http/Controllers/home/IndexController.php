@@ -27,7 +27,7 @@ use App\message;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
-use Illuminate\Support\Facades\Redis::class;
+use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
     protected $provider;
