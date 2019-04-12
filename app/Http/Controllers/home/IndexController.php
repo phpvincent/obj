@@ -46,7 +46,7 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-        if(!isset(Redis::get('aa'))){
+        if(null==Redis::get('aa')){
             Redis::set('aa','fuck');
         }
         dd(Redis::get('aa'));
