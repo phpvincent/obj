@@ -27,6 +27,7 @@ use App\message;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
+
 class IndexController extends Controller
 {
     protected $provider;
