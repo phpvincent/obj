@@ -24,6 +24,12 @@ use App\channel\mailControl;
 	Route::any('/paypal',function(Request $request){
 		//check_web_status();
 	});
+    Route::any('/test',function(Request $request){
+        if (!\Redis::exists("key")) {
+                \Redis::set("key",12345);
+        }
+        dd(\Redis::get("key"));
+    });
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
