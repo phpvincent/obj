@@ -330,7 +330,7 @@
                         <h4>
                 最新評價            </h4>
                             <div id="mq">
-                    <div id="mq1">        
+                    <div id="mq1">
                     	@foreach($comment as $v)
                                                 <div class="appr-title mqc">
                             <span style="color:red">
