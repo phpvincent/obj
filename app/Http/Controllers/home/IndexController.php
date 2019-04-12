@@ -48,11 +48,14 @@ class IndexController extends Controller
     public function index(Request $request){
          $redis = new \Redis();
          $redis->connect('127.0.0.1', 6379);
-         dd($redis);
-        if(null==Redis::get('aa')){
+         if($redis->get('aa')==null){
+            $redis->set('aa','fuck');
+         }
+         dd($redis->get('aa'));
+        /*if(null==Redis::get('aa')){
             Redis::set('aa','fuck');
         }
-        dd(Redis::get('aa'));
+        dd(Redis::get('aa'));*/
         /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
         if($request->get('is_site')==true){
