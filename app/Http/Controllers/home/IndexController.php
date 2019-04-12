@@ -27,7 +27,7 @@ use App\message;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Jobs\SendHerbEmail;
-use Illuminate\Support\Facades\Redis;
+
 class IndexController extends Controller
 {
     protected $provider;
@@ -46,6 +46,9 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
+         $redis = new Redis();
+         $redis->connect('127.0.0.1', 6379);
+         dd($redis);
         if(null==Redis::get('aa')){
             Redis::set('aa','fuck');
         }
