@@ -190,7 +190,7 @@
             @if($goods->goods_fm_video!=null&&$goods->goods_fm_video!='')
             <div class="swiper-slide" id="swiper-slide">
                 <video id="divVideo" x5-video-player-type="h5" x5-video-player-fullscreen="true" controls="controls" webkit-playsinline="webkit-playsinline" playsinline="playsinline"  muted="muted" preload="true" autoplay="true" loop="loop" style="object-fit: fill;">
-                    <source src="{{$goods->goods_fm_video}}" type="video/mp4">
+                    <source src="/{{$goods->goods_fm_video}}" type="video/mp4">
                 </video>
             </div>
             @endif
@@ -659,6 +659,15 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
 </div>
 <script language="javascript">
+function captureImage(a) {
+    a.pause(); 
+    };
+    var videos=$("#detial-context video");
+    for(var i=0;i<videos.length;i++){
+    videos[i].setAttribute("autoplay","autoplay");
+    videos[i].setAttribute("preload","auto");
+    videos[i].addEventListener('canplay',captureImage(videos[i]));
+    }
     (function($){
         var startDate = new Date('2018/07/16 09:41:27');
         var endDate = new Date('2018/07/16');
