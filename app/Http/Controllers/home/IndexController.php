@@ -46,7 +46,7 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-        if(Redis::exists('first-set')){
+        if(!Redis::exists('first-set')){
             Redis::set('first-set','Hello World!!');
         }
         dd(Redis::get('first-set'));
