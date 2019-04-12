@@ -45,10 +45,6 @@ class IndexController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-        if(!\Redis::exists('first-set')){
-            \Redis::set('first-set','Hello World!!');
-        }
-        dd(\Redis::get('first-set'));
         /*       dd(getclientcity($request));*/
     	//获取该域名对应商品id
         if($request->get('is_site')==true){
