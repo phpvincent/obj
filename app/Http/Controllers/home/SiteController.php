@@ -284,7 +284,7 @@ class SiteController extends Controller
             } else {
                 $comment[$v]->com_img = null;
             }
-            $comment[$v]->com_time = date('Y-m-d H:i:s', time() - rand(68400, 129600));
+//            $comment[$v]->com_time = date('Y-m-d H:i:s', time() - rand(68400, 129600));
         }
         $des_img = des::where('des_goods_id', $goods_id)->get();
         $par_img = par::where('par_goods_id', $goods_id)->get();

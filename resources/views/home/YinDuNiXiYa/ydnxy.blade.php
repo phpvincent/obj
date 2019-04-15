@@ -352,7 +352,7 @@ s.parentNode.insertBefore(atag, s);
             @if(in_array('commit',$templets))
                         <h4>penilaian terbaru</h4>
                             <div id="mq">
-                    <div id="mq1">        
+                    <div id="mq1">
                     	@foreach($comment as $v)
                                                 <div class="appr-title mqc">
                             <span style="color:red">
