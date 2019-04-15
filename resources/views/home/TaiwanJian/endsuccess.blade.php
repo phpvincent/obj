@@ -1,4 +1,11 @@
 <head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="320" name="MobileOptimized" />
+        <meta content="telephone=no" name="format-detection" />
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -10,6 +17,7 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
+<link href="/css/page-success.css" rel="stylesheet" type="text/css">
 @if($order['pix_event'])
       @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
     <!-- Facebook Pixel Code -->
@@ -66,7 +74,7 @@
         <!-- End Google Pixel Code -->
 @endif
 </head>
-<body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
+<!-- <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
         <h1 class="mui-title">确认订单</h1>
 </header>
@@ -79,12 +87,61 @@
                 應支付：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
-                                            <!--同一个币种不同团队的邮箱不一样-->
                                             请您保持手机畅通，方便快递员能及时与您取得联系，如有任何疑问，请及时联系我们在线客服。祝您购物愉快！<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a> </div> </div>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="goHome()">返回首页&gt;&gt;</button>
             </div>
     </div>
+</div> -->
+<div class="m-hd">
+    <div class="m-topBar">
+                    <a class="goback" href="/backpack"></a>
+                <div class="title">确认订单</div>
+    </div>
+</div>
+<div class="explain">
+    <div class="imgbox">
+        <img src="/img/order_success.png" class="img_list">
+        <span>订单已成功！</span>
+        <span style="margin: 0px; display: none" id="unAuthLabel">(Unverified)</span>
+    </div>
+    <div>
+                    <ul class="pay_list">
+                <li>
+                <span class="tips1">付款方式 :</span>
+                <span class="tips2">{{$order_pay_type}}</span>
+                </li>
+                <li>
+                <span class="tips1">您的订单编号 :</span>
+                <span class="tips2">{{$order->order_single_id}}</span>
+                </li>
+                <li>
+                <span class="tips1">应支付 :</span>
+                <span class="tips2">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}
+                                </span>
+                </li>
+            </ul>
+            </div>
+    <p style="margin-bottom: 38px;" id="order_tips">祝贺！您的订单提交成功。我们会尽快交货。感谢您的支持!</p>
+
+            <div style="text-align: center;">
+            <a href="javascript:;" onclick="goHome()" class="order_quality">返回首页</a>
+            <a href="/send?goods_id={{$goods->goods_id}}&order_id={{$order->order_single_id}}" class= "kefu">订单查询</a>
+        </div>
+    
+
+</div>
+<div class="m-orderItem">
+    <div class="reminder_title"><i class="reminder_icon"></i>通知</div>
+    <div class="reminder">
+    温馨提示：支持货到付款+免费送货+七天鉴赏期。如果您在收到商品后有任何疑问请联系我们的在线服务或发送电子邮件至我们的售后服务电子邮箱。请记得在邮件中附上您的姓名和订单号。我们会尽快回复你！祝你购物愉快！
+    </div>
+</div>
+<div class="timetips">
+    <ul>
+        <li><img src="/img/7day.png" alt="">Seven days appreciation period</li>
+        <li><img src="/img/huodao.png" alt="">cash on delivery</li>
+    </ul>
 </div>
 <script language="javascript">
     function goHome(){

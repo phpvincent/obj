@@ -1,0 +1,110 @@
+﻿/* reset */
+@charset "utf-8";
+blockquote,body,code,dd,div,dl,dt,fieldset,form,li,ol,optgroup,option,p,pre,select,td,textarea,th,ul{margin:0;padding:0;}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,optgroup,th,var{font-style:normal;font-weight:400}
+ins{text-decoration:none}
+li,ol,ul{list-style:none}
+table{font-size:inherit;font:100%}
+caption,th{text-align:center}
+q:after,q:before{content:''}
+abbr,acronym{border:0;font-variant:normal}
+legend{color:#000}
+a{outline:0;color:#333}
+button,input,optgroup,option,select,textarea{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+button,input,select,textarea{margin:0;line-height:1.2}
+a img,img{-ms-interpolation-mode:bicubic}
+:link,:visited,ins{text-decoration:none}
+.cls:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.cls{zoom:1}
+#POP800_PANEL_DIV,#POP800_INIT_DIV,#POP800_LEAVEWORD_DIV{display: none !important;}
+/*初始�?*/
+*{box-sizing: border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;text-size-adjust:100%;}
+body{background: #fff; -webkit-tap-highlight-color: rgba(0,0,0,0);width: 100%;max-width: 540px;margin: auto !important;}
+blockquote, body, button, caption, dd, div, dl, dt, fieldset, figure, form, h1, h2, h3, h4, h5, h6, hr, html, input, legend, li, menu, ol, p, pre, table, td, textarea, th, ul{margin: 0;padding: 0;outline:0;}
+body, button, input, keygen, legend, select, textarea{outline: 0;color: #333;line-height: 1.5;font-family: "微软雅黑";}
+a, a:hover{text-decoration: none;outline: 0;color: #b4282d;}
+li{list-style:none;}
+/*下单成功*/
+#POP800_INIT_DIV{display: none}
+#POP800_PANEL_DIV{display: none}
+#POP800_LEAVEWORD_DIV{display: none}
+.u-icon-detail-kefu{margin-top:-3px;width: 14px;height: 14px;background-image: url(../images/services.png);}
+.m-hd{top: 0;left: 0;z-index: 5;width: 100%;height: auto;line-height: 22px; background: #fff;}
+.m-topBar{position: relative;padding: 0 16px;display: flex;display: -webkit-flex;}
+.goback{display: block;float: left; height: 30px;width: 30px; background: url(../images/back.png)no-repeat center;background-size:8px 14px;margin-top: 10px;font-size: 14px;color: #aaa;line-height: 2.2}
+.title{width: 200px;font-size: 16px;text-align: center; padding: 12px 0px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;margin: auto;}
+.goindex{display: block;float: right; height: 25px;width: 25px;background-image: url(../images/house.png);background-repeat: no-repeat;background-size: 100% 100%;margin-top: 10px;}
+.imgbox{text-align: center;margin-bottom: 38px;}
+.imgbox img{width: 56px;vertical-align: middle;}
+.imgbox span{font-size: 18px;line-height: 18px;color: #212121;margin-left: 26px;}
+.pay_list li{text-align: center;font-size: 12px;line-height: 21px;}
+.pay_list li .tips1{display: inline-block;width: 45%;text-align: right; color: #212121;margin-right: 5px;}
+.pay_list li .tips2{display: inline-block;width: 45%;text-align: left; color: #FF5A5F;}
+.kefu{display: inline-block;width: 49%; font-size: 12px;color:#212121;line-height: 19px;padding: 12px 0;border:1px solid #A9A9A9;border-radius: 5px;}
+.order_quality{display: inline-block;width: 49%;font-size: 12px;background-color: #FF5A5F;color: #fff;line-height: 19px;padding: 12px 0;border-radius: 5px;}
+a.order_quality:hover{color: #fff;}
+a.kefu:hover{color: #212121;}
+.go_home{display: block;float: right;padding: 0px 20px;width:146px;height:42px;text-align:center;background: #b4282d !important;color: white !important;border-radius: 4px;line-height: 39px;}
+.g-bd{margin: auto;}
+.m-orderView{padding-bottom: 60px;background-color: #f4f4f4;}
+.m-goodItems{margin-bottom: 10px;height: auto; font-size: 16px;}
+.u-icon{display: inline-block;width: 30px;height: 30px;vertical-align: middle;background-repeat: no-repeat;background-size: 100%;}
+.m-orderItem{margin: 15px;padding:17px 15px;font-size: 16px;color: #212121;border:1px solid #eee;}
+.reminder_title{text-align: center;font-size: 12px;line-height: 16px;margin-bottom: 10px;}
+.reminder_icon{display: inline-block;width: 16px;height: 16px;background-image: url('../images/reminder.png');background-size: 100%;background-repeat: no-repeat;vertical-align: top;margin-right: 5px;}
+.reminder{font-size: 12px;}
+.timetips{font-size: 12px;color: #aaa;position: absolute;bottom: 0;width: 100%;max-width: 540px;}
+.timetips ul{width: 100%; display:table;border-top: 1px solid #EEE;padding: 10px 16px;}
+.timetips li{display: table-cell; text-align: center;width: 50%;line-height: 1; overflow: hidden;}
+.timetips li img{width: 15px;vertical-align: middle;margin-right: 4px;}
+.explain{padding: 16px;margin-top: 16px;}
+.explain h1{font-size: 24px;text-align: center;color: #222;font-weight: 100;}
+.explain p{font-size: 12px;color: #666;margin-top: 8px;line-height: 20px;word-break:break-all;}
+@media (max-height:667px){
+    .timetips{position: relative;}
+}
+.reminder a{
+    word-break:break-all;
+}
+.explain p{
+    text-align: center;
+    font-size: 14px;
+}
+
+
+
+
+
+.mylinead{
+    font-size: 13px;
+    text-align: center;
+}
+.mylinebtn{
+    width:90%;
+    height:40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 20px;
+    background: #00B900;
+    margin: 40px auto 20px auto;
+    animation: lineani 1s infinite;
+}
+.mylinebtn a{
+    color: #fff;
+}
+@keyframes lineani {
+    0%{
+        font-size: 16px;
+        background: green;
+    }
+    50%{
+        font-size: 22px;
+        background: #00B900;
+    }
+    100%{
+        font-size: 16px;
+        background: green;
+    }
+}
