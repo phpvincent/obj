@@ -139,8 +139,133 @@
   layui.config({
     base: '/admin/layuiadmin/' //静态资源所在路径
   }).extend({
-    index: 'lib/index' //主入口模块
-  }).use('index');
+      index: 'lib/index' //主入口模块
+  // }).use('index');
+  }).use(['index','admin','setter','laytpl'],function () {
+      var that = this,
+          laytpl = layui.laytpl,
+          setter = layui.setter,
+          $ = layui.jquery,
+          $body = $('body'),
+          device = layui.device(),
+          LayuiTheme = "LayuiTheme";
+
+      //主题设置
+  function themes(options){
+          var theme = setter.theme
+              ,local = layui.data(LayuiTheme)
+              ,id = 'LAY_layadmin_theme'
+              ,style = document.createElement('style')
+              ,styleText = laytpl([
+              //主题色
+              '.layui-side-menu,'
+              ,'.layadmin-pagetabs .layui-tab-title li:after,'
+              ,'.layadmin-pagetabs .layui-tab-title li.layui-this:after,'
+              ,'.layui-layer-admin .layui-layer-title,'
+              ,'.layadmin-side-shrink .layui-side-menu .layui-nav>.layui-nav-item>.layui-nav-child'
+              ,'{background-color:@{{d.color.main}} !important;}'
+
+              //选中色
+              ,'.layui-nav-tree .layui-this,'
+              ,'.layui-nav-tree .layui-this>a,'
+              ,'.layui-nav-tree .layui-nav-child dd.layui-this,'
+              ,'.layui-nav-tree .layui-nav-child dd.layui-this a'
+              ,'{background-color:@{{d.color.selected}} !important;}'
+
+              //logo
+              ,'.layui-layout-admin .layui-logo{background-color:@{{d.color.logo || d.color.main}} !important;}'
+
+              //头部色
+              ,'@{{# if(d.color.header){ }}'
+              ,'.layui-layout-admin .layui-header{background-color:@{{ d.color.header }};}'
+              ,'.layui-layout-admin .layui-header a,'
+              ,'.layui-layout-admin .layui-header a cite{color: #f8f8f8;}'
+              ,'.layui-layout-admin .layui-header a:hover{color: #fff;}'
+              ,'.layui-layout-admin .layui-header .layui-nav .layui-nav-more{border-top-color: #fbfbfb;}'
+              ,'.layui-layout-admin .layui-header .layui-nav .layui-nav-mored{border-color: transparent; border-bottom-color: #fbfbfb;}'
+              ,'.layui-layout-admin .layui-header .layui-nav .layui-this:after, .layui-layout-admin .layui-header .layui-nav-bar{background-color: #fff; background-color: rgba(255,255,255,.5);}'
+              ,'.layadmin-pagetabs .layui-tab-title li:after{display: none;}'
+              ,'@{{# } }}'
+          ].join('')).render(options = $.extend({}, local.theme, options))
+              ,styleElem = document.getElementById(id);
+
+          //添加主题样式
+          if('styleSheet' in style){
+              style.setAttribute('type', 'text/css');
+              style.styleSheet.cssText = styleText;
+          } else {
+              style.innerHTML = styleText;
+          }
+          style.id = id;
+
+          styleElem && $body[0].removeChild(styleElem);
+          $body[0].appendChild(style);
+          $body.attr('layadmin-themealias', options.color.alias);
+
+          //本地存储记录
+          local.theme = local.theme || {};
+          layui.each(options, function(key, value){
+              local.theme[key] = value;
+          });
+          layui.data(LayuiTheme, {
+              key: 'theme'
+              ,value: local.theme
+          });
+      }
+
+      //初始
+      !function(){
+          //主题初始化，本地主题记录优先，其次为 initColorIndex
+          var local = layui.data(LayuiTheme);
+          if(local.theme){
+              themes(local.theme);
+          } else if(setter.theme){
+              initTheme(13);
+          }
+
+          //常规版默认开启多标签页
+          if(!('pageTabs' in layui.setter)) layui.setter.pageTabs = true;
+
+          //不开启页面标签时
+          if(!setter.pageTabs){
+              $('#LAY_app_tabs').addClass(HIDE);
+              container.addClass('layadmin-tabspage-none');
+          }
+
+          //低版本IE提示
+          if(device.ie && device.ie < 10){
+              view.error('IE'+ device.ie + '下访问可能不佳，推荐使用：Chrome / Firefox / Edge 等高级浏览器', {
+                  offset: 'auto'
+                  ,id: 'LAY_errorIE'
+              });
+          }
+
+      }();
+
+      //主题设置
+  function setTheme (othis){
+          var index = othis.data('index')
+              ,nextIndex = othis.siblings('.layui-this').data('index');
+
+          if(othis.hasClass(THIS)) return;
+
+          othis.addClass(THIS).siblings('.layui-this').removeClass(THIS);
+          initTheme(index);
+      };
+
+  //初始化主题
+  function initTheme (index){
+          var theme = setter.theme;
+          index = index || 13;
+          if(theme.color[index]){
+              theme.color[index].index = index;
+              themes({
+                  color: theme.color[index]
+              });
+          }
+      }
+      // layui.admin.initTheme(14);
+  });
   </script>
   @endsection
 </body>

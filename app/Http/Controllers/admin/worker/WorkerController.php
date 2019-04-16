@@ -132,6 +132,6 @@ class WorkerController extends Controller
     }
     public function jsq(Request $request)
     {
-        return view('worker.storage.jsq');
+        return view('storage.storage.jsq');
     }
 }
