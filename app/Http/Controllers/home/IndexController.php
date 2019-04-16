@@ -715,6 +715,7 @@ class IndexController extends Controller
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
         if($request->order_id!=0){
              $order=\App\order::where("order_id",$request->order_id)->first();
+             $order_pay_type = $order->order_pay_type == 0 ? '货到付款': '在线支付';
              if($order==null){
                 return view('home.MeiGuo.usEndFail');
              }
@@ -760,65 +761,65 @@ class IndexController extends Controller
 //          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
 //        }
         if($goods->goods_blade_type == 0){
-            return view('home.TaiwanFan.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+            return view('home.TaiwanFan.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);            
         }
         if($goods->goods_blade_type == 1){
-            return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+            return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);            
         }
         if($goods->goods_blade_type == 2){
-            return view('home.zhongdong.zdEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+            return view('home.zhongdong.zdEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);            
         }
         if($goods->goods_blade_type == 3){
-            return view('home.MaLaiXiYa.mlxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+            return view('home.MaLaiXiYa.mlxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);            
         }
         if($goods->goods_blade_type == 4){
-            return view('home.TaiGuo.taiguoEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+            return view('home.TaiGuo.taiguoEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);            
         }
         if($goods->goods_blade_type == 5){
-            return view('home.RiBen.ribenEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);            
+            return view('home.RiBen.ribenEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);            
         }
         if($goods->goods_blade_type == 6){
-            return view('home.YinDuNiXiYa.ydnxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.YinDuNiXiYa.ydnxyEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 7){
-            return view('home.FeiLvBin.flbEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.FeiLvBin.flbEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 8){
-            return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 9){
              $user_type=get_user_new_type();
             if(in_array($user_type,['Android','iPhone','iPad'])){
-            return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.YingGuo.ygEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
             }
-            return view('home.googlePC.endSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.googlePC.endSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         
         if($goods->goods_blade_type == 10){
-            return view('home.MeiGuo.usEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.MeiGuo.usEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 11){
-            return view('home.YueNan.ynEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.YueNan.ynEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 12){
-            return view('home.ShaTe.stEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.ShaTe.stEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 13){
-            return view('home.ShaTeEnglish.stEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.ShaTeEnglish.stEndSuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 14){
-            return view('home.KaTaEr.kteEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.KaTaEr.kteEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 15){
-            return view('home.KaTaErEnglish.kteEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.KaTaErEnglish.kteEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 16){
-            return view('home.ZD.zdEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.ZD.zdEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
         if($goods->goods_blade_type == 17){
-            return view('home.ZDEnglish.zdEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+            return view('home.ZDEnglish.zdEndsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
         }
-        return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
+        return view('home.TaiwanJian.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods,'order_pay_type'=>$order_pay_type]);
     }
    /* public function orderSuccess(Request $request){
         $order=\App\order::where('order_id',$request->input('order_id'))->first();
@@ -832,66 +833,70 @@ class IndexController extends Controller
     public function send(Request $request){
         if($request->has('goods_id')){
             $goods_blade_type = \App\goods::where('goods_id',$request->input('goods_id'))->value('goods_blade_type');
+            $url = url::get_site_url($_SERVER['SERVER_NAME'],$request->input('goods_id'));
+            if(!$url){
+              return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+            }
             if($goods_blade_type == 0){
-                return view('home.TaiwanFan.send');                
+                return view('home.TaiwanFan.send')->with(['url'=>$url]);                
             }
             if($goods_blade_type == 1){
-                return view('home.TaiwanJian.send');                
+                return view('home.TaiwanJian.send')->with(['url'=>$url]);                
             }
             if($goods_blade_type == 2){
-                return view('home.zhongdong.zhSend');                
+                return view('home.zhongdong.zhSend')->with(['url'=>$url]);                
             }
             if($goods_blade_type == 3){
-                return view('home.MaLaiXiYa.mlxySend');                
+                return view('home.MaLaiXiYa.mlxySend')->with(['url'=>$url]);                
             }
             if($goods_blade_type == 4){
-                return view('home.TaiGuo.taiguoSend');                
+                return view('home.TaiGuo.taiguoSend')->with(['url'=>$url]);                
             }
             if($goods_blade_type == 5){
-                return view('home.RiBen.ribenSend');                
+                return view('home.RiBen.ribenSend')->with(['url'=>$url]);                
             }
             if($goods_blade_type == 6){
-                return view('home.YinDuNiXiYa.ydnxySend');
+                return view('home.YinDuNiXiYa.ydnxySend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 7){
-                return view('home.FeiLvBin.flbSend');
+                return view('home.FeiLvBin.flbSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 8){
-                return view('home.YingGuo.ygSend');
+                return view('home.YingGuo.ygSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 9){
                 $user_type=get_user_new_type();
                 if(in_array($user_type,['Android','iPhone','iPad'])){
-                return view('home.YingGuo.ygSend');
+                return view('home.YingGuo.ygSend')->with(['url'=>$url]);
                 }
-                return view('home.YingGuo.ygSend');
+                return view('home.YingGuo.ygSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 10){
-                return view('home.MeiGuo.usSend');
+                return view('home.MeiGuo.usSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 11){
-                return view('home.YueNan.ynSend');
+                return view('home.YueNan.ynSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 12){
-                return view('home.ShaTe.stSend');
+                return view('home.ShaTe.stSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 13){
-                return view('home.ShaTeEnglish.stSend');
+                return view('home.ShaTeEnglish.stSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 14){
-                return view('home.KaTaEr.kteSend');
+                return view('home.KaTaEr.kteSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 15){
-                return view('home.KaTaErEnglish.kteSend');
+                return view('home.KaTaErEnglish.kteSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 16){
-                return view('home.ZD.zdSend');
+                return view('home.ZD.zdSend')->with(['url'=>$url]);
             }
             if($goods_blade_type == 17){
-                return view('home.ZDEnglish.zdSend');
+                return view('home.ZDEnglish.zdSend')->with(['url'=>$url]);
             }
         }
-        return view('home.TaiwanFan.send');
+        return view('home.TaiwanFan.send')->with(['url'=>$url]);
     }
 
     public function getsendmsg(Request $request){
