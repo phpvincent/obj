@@ -37,6 +37,14 @@
 	<button class="back_to_top btn">返回顶部</button>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1">搜索时间方式：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+				<select name="order_time" id="order_time" class="select">
+					<option value="0">订单创建时间</option>
+					<option value="1">订单核审时间</option>
+				</select>
+			</span>
+			</div>
 			@if(Auth::user()->is_root=='1')
 				<label class="form-label col-xs-1 col-sm-1">账户名：</label>
 				<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
@@ -71,6 +79,8 @@
 				</select>
 				</span>
 			</div>
+		</div>
+		<div class="row cl" style="margin-top: 20px;">
 			<label class="form-label col-xs-1 col-sm-1">支付方式：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="pay_type" id="pay_type" class="select">
@@ -80,13 +90,11 @@
 				</select>
 			</span>
 			</div>
-		</div>
-		<div class="row cl" style="margin-top: 20px;">
 			<label class="form-label col-xs-1 col-sm-1">ip重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_ip" id="order_repeat_ip" class="select">
 						<option value="0">无</option>
-						<option value="1">ip</option>s
+						<option value="1">ip</option>
 					</select>
 					</span>
 			</div>
@@ -98,6 +106,8 @@
 					</select>
 					</span>
 			</div>
+		</div>
+		<div class="row cl" style="margin-top: 20px;">
 			<label class="form-label col-xs-1 col-sm-1">手机号重复：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					<select name="order_repeat_tel" id="order_repeat_tel" class="select">
@@ -105,8 +115,6 @@
 						<option value="1">手机号</option>
 					</select>
 					</span> </div>
-		</div>
-		<div class="row cl" style="margin-top: 20px;">
 			<label class="form-label col-xs-1 col-sm-1">语种：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 					@if(Auth::user()->languages == 0)
@@ -149,7 +157,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="23" style="white-space: nowrap">订单列表</th>
+				<th scope="col" colspan="24" style="white-space: nowrap">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value="0"></th>
@@ -174,6 +182,7 @@
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
 				<th width="40">邮件通知</th>
+				<th width="100">客服备注</th>
 				<th width="130">操作</th>
 			</tr>
 		</thead>
@@ -298,14 +307,14 @@ function states(){
 		"order": [[ 9, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22],
+		   "targets": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
 		   "orderable": false
 		}],
 		scrollX:        true,
         scrollCollapse: true,
         fixedColumns:   {
             leftColumns: 3,
-            rightColumns: 1
+            rightColumns: 2
         },
 		"processing": true,
 		"serverSide": true,
@@ -321,6 +330,7 @@ function states(){
             pay_type:function(){return $('#pay_type').val()},
             languages:function(){return $('#languages').val()},
             goods_blade_type:function(){return $('#goods_blade_type').val()},
+            order_time:function (){return $('#order_time').val()},
 		},
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -349,7 +359,8 @@ function states(){
 		{'data':'order_return_time'},
 		{'data':'admin_show_name'},
 		{'defaultContent':"","className":"td-manager"},
-		{'defaultContent':"","className":"td-manager"},
+        {'data':'order_service_remarks'},
+        {'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
 		{'defaultContent':""},
@@ -443,7 +454,7 @@ function states(){
 				if(data.order_type<3||data.order_type>8){
 					info+='<a title="更改状态" href="javascript:;" onclick="goods_edit(\'更改状态\',\'/admin/order/heshen?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改状态"><i class="Hui-iconfont">&#xe6df;</i></span></a>';
 				}
-			info+='<a title="短信推送" href="javascript:;" onclick="send_message(\'短信推送\',\'/admin/order/send_message?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信推送"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="短信记录" href="javascript:;" onclick="message_logs(\'短信记录\',\'/admin/order/message_logs?id='+data.order_id+ '\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信记录"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a>';
+			info+='<a title="短信推送" href="javascript:;" onclick="send_message(\'短信推送\',\'/admin/order/send_message?id='+data.order_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信推送"><i class="Hui-iconfont">&#xe61f;</i></span></a><a title="短信记录" href="javascript:;" onclick="message_logs(\'短信记录\',\'/admin/order/message_logs?id='+data.order_id+ '\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="短信记录"><i class="Hui-iconfont">&#xe64f;</i></span></a><a title="删除" href="javascript:;" onclick="del_order(\''+data.order_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="删除"><i class="Hui-iconfont">&#xe609;</i></span></a><a title="客服备注" href="javascript:;" onclick="order_edit(\'客服备注\',\'/admin/order/remarks?id='+data.order_id+'\',\'2\',\'500\',\'400\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="客服备注"><i class="Hui-iconfont">&#xe692;</i></span></a>';
 			if(data.order_type==0){
 				var isroot='<a href="#" onclick="" <span class="label label-success radius" style="color:#ccc;">未核审</span></a>';
 			}else if(data.order_type==1){
@@ -488,7 +499,7 @@ function states(){
 			var checkbox='<input type="checkbox" name="aaaa" value="'+data.order_id+'">';
 			$(row).find('td:eq(0)').html(checkbox);
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(22)').html(info);
+			$(row).find('td:eq(23)').html(info);
 			$(row).find('td:eq(21)').html(emailsend);
 			$(row).find('td:eq(8)').html(isroot);
 			$(row).find('td:eq(18)').html(data.order_state+'-'+data.order_city);
@@ -633,7 +644,10 @@ $('#outorder').on('click',function(){
 	}else{
 		url+='&goods_blade_type=0';
 	}
-	layer.msg('请稍等');
+
+	var order_time=$('#order_time').val();
+    url+='&order_time='+order_time;
+    layer.msg('请稍等');
 	location.href=url;
 })
 function pl_del(){

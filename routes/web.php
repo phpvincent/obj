@@ -101,6 +101,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/order/update', 'admin\OrderController@update');
 	Route::post('/admin/order/get_table','admin\OrderController@get_table');
 	Route::get('/admin/order/orderinfo','admin\OrderController@orderinfo');
+	Route::any('/admin/order/remarks','admin\OrderController@remarks');
 	Route::get('/admin/order/heshen','admin\OrderController@heshen');
 	Route::get('/admin/order/delorder','admin\OrderController@delorder');
 	Route::get('/admin/order/getaddr','admin\OrderController@getaddr');
