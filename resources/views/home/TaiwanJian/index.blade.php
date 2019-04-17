@@ -369,10 +369,10 @@
                var detialParams = '{!! $goods->goods_type_html !!}'
                var detialContext = '{!!$goods->goods_des_html!!}'
 
-               $('#detial-context-p').html(detialContext.replace(/\<img src=/gi, '<img src="__假装有占位的src__" data-src='))
-               $('#detial-params').html(detialParams.replace(/\<img src=/gi, '<img src="__假装有占位的src__" data-src='))
-            //    $('#detial-context-p').html(detialContext.replace(/(?<=\<img [^>]*src=['"])([^'"]+)(?=[^>]*>)/gi, '__假装有占位的src__" data-src="$1'))
-            //    $('#detial-params').html(detialParams.replace(/(?<=\<img [^>]*src=['"])([^'"]+)(?=[^>]*>)/gi, '__假装有占位的src__" data-src="$1'))
+               $('#detial-context-p').html(detialContext.replace(/\<img src=/gi, '<img src="/images/preview.png" data-src='))
+               $('#detial-params').html(detialParams.replace(/\<img src=/gi, '<img src="/images/preview.png" data-src='))
+            //    $('#detial-context-p').html(detialContext.replace(/(?<=\<img [^>]*src=['"])([^'"]+)(?=[^>]*>)/gi, '/images/preview.png" data-src="$1'))
+            //    $('#detial-params').html(detialParams.replace(/(?<=\<img [^>]*src=['"])([^'"]+)(?=[^>]*>)/gi, '/images/preview.png" data-src="$1'))
 
                function isInSight(el) {
                  var bound = el.getBoundingClientRect();
@@ -383,7 +383,7 @@
                  return bound.top <= clientHeight + 100;
                }
                function checkImgs1() {
-                 var imgs = document.querySelectorAll('#detial-context-p img[src="__假装有占位的src__"]')
+                 var imgs = document.querySelectorAll('#detial-context-p img[src="/images/preview.png"]')
                  if (imgs.length >0) {
                     // console.log('imgarr1', imgs) 
                     $.each(imgs, function (index, el) { 
@@ -396,7 +396,7 @@
                  }
                } 
                function checkImgs() {
-                 var imgs = document.querySelectorAll('#detial-params img[src="__假装有占位的src__"]')
+                 var imgs = document.querySelectorAll('#detial-params img[src="/images/preview.png"]')
                  if (imgs.length >0) {
                     // console.log('imgarr', imgs) 
                     $.each(imgs, function (index, el) { 
@@ -410,12 +410,15 @@
                }               
 
                function loadImg(el) {
-                 if ($(el).attr('src') === '__假装有占位的src__') {
+                 if ($(el).attr('src') === '/images/preview.png') {
                     $(el).attr('src', $(el).attr('data-src'))
                  }
                }
                // 前两张不用懒加载
                $.each($('#detial-context-p img:lt(2)'), function (index, el) { 
+                loadImg(el)
+               });
+               $.each($('#detial-params img:lt(2)'), function (index, el) { 
                 loadImg(el)
                });
                var num = 0;

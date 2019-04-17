@@ -24,8 +24,16 @@
 	<div style="display: none" id="select-admin">
 		
 		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1">导出时间类型：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+				<select name="order_time" id="order_time" class="select">
+					<option value="0">订单创建时间</option>
+					<option value="1">订单核审时间</option>
+				</select>
+			</span>
+			</div>
 			<label class="form-label col-xs-1 col-sm-1">订单核审状态：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="order_type" id="order_type" class="select">
 					<option value="#">所有</option>
 					<option value="0">未核审</option>
@@ -46,6 +54,15 @@
 				</select>
 				</span>
 			</div>
+			<label class="form-label col-xs-1 col-sm-1">支付方式：</label>
+			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
+				<select name="pay_type" id="pay_type" class="select">
+					<option value="#">所有</option>
+					<option value="0">货到付款</option>
+					<option value="1">在线支付</option>
+				</select>
+			</span>
+			</div>
 		</div>
 		<div class="row cl" style="margin-top: 20px;">
 <!-- 			<label class="form-label col-xs-1 col-sm-1">ip重复：</label>
@@ -63,15 +80,6 @@
 						<option value="1">姓名</option>
 					</select>
 					</span>
-			</div>
-			<label class="form-label col-xs-1 col-sm-1">支付方式：</label>
-			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
-				<select name="pay_type" id="pay_type" class="select">
-					<option value="#">所有</option>
-					<option value="0">货到付款</option>
-					<option value="1">在线支付</option>
-				</select>
-			</span>
 			</div>
 			<label class="form-label col-xs-1 col-sm-1">语种：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
@@ -123,7 +131,7 @@
 	<table class="table table-border table-bordered table-bg" id="order_index_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="16">订单列表</th>
+				<th scope="col" colspan="17">订单列表</th>
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" class="allchecked" name="" value=""></th>
@@ -142,6 +150,7 @@
 				<th width="60">sku信息</th>
 				<th width="40">核审时间</th>
 				<th width="40">核审者</th>
+				<th width="100">客服备注</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -205,7 +214,7 @@
 		"order": [[ 7, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [0,2,3,4,6,8,10,11,12,13,15],
+		   "targets": [0,2,3,4,6,8,10,11,12,13,15,16],
 		   "orderable": false
 		}],
 	/*	scrollX:        true,
@@ -227,6 +236,7 @@
             pay_type:function(){return $('#pay_type').val()},
             languages:function(){return $('#languages').val()},
             goods_blade_type:function(){return $('#goods_blade_type').val()},
+            order_time:function (){return $('#order_time').val()},
         },
 		"url": "{{url('admin/order/get_table')}}",
 		"type": "POST",
@@ -249,6 +259,7 @@
         {'data':'goods_sku'},
         {'data':'order_return_time'},
 		{'data':'admin_show_name'},
+        {'data':'order_service_remarks'},
 		],
         //每行回调函数
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {

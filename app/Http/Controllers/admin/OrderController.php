@@ -260,13 +260,24 @@ class OrderController extends Controller
                 $query->orWhere([['admin.admin_show_name','like',"%$search%"],['order.is_del','=','0']]);
             })
             ->where(function($query)use($request){
-            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-              $query->where('order.order_time','>',$request->input('mintime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-              $query->where('order.order_time','<',$request->input('maxtime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
-            }
+                $order_time = $request->input('order_time');
+                if($order_time == 0){
+                    if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                        $query->where('order.order_time','>',$request->input('mintime'));
+                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                        $query->where('order.order_time','<',$request->input('maxtime'));
+                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                        $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+                    }
+                }else{
+                    if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                        $query->where('order.order_return_time','>',$request->input('mintime'));
+                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                        $query->where('order.order_return_time','<',$request->input('maxtime'));
+                    }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                        $query->whereBetween('order.order_return_time',[$request->input('mintime'),$request->input('maxtime')]);
+                    }
+                }
            })
           ->where(function($query)use($request){
               $order_type=$request->input('order_type');
@@ -342,13 +353,24 @@ class OrderController extends Controller
                 $query->orWhere([['order.order_tel','like',"%$search%"],['order.is_del','=','0']]);
             })
              ->where(function($query)use($request){
-            if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-              $query->where('order.order_time','>',$request->input('mintime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-              $query->where('order.order_time','<',$request->input('maxtime'));
-            }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-               $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
-            }
+                 $order_time = $request->input('order_time');
+                 if($order_time == 0){
+                     if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                         $query->where('order.order_time','>',$request->input('mintime'));
+                     }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                         $query->where('order.order_time','<',$request->input('maxtime'));
+                     }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                         $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+                     }
+                 }else{
+                     if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                         $query->where('order.order_return_time','>',$request->input('mintime'));
+                     }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                         $query->where('order.order_return_time','<',$request->input('maxtime'));
+                     }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                         $query->whereBetween('order.order_return_time',[$request->input('mintime'),$request->input('maxtime')]);
+                     }
+                 }
           })
           ->where(function($query)use($request){
               $order_type=$request->input('order_type');
@@ -456,13 +478,24 @@ class OrderController extends Controller
               }
           })
           ->where(function($query)use($request){
-                if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-                    $query->where('order.order_time','>',$request->input('mintime'));
-                }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-                    $query->where('order.order_time','<',$request->input('maxtime'));
-                }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-                    $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
-                }
+              $order_time = $request->input('order_time');
+              if($order_time == 0){
+                  if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                      $query->where('order.order_time','>',$request->input('mintime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                      $query->where('order.order_time','<',$request->input('maxtime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                      $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+                  }
+              }else{
+                  if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                      $query->where('order.order_return_time','>',$request->input('mintime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                      $query->where('order.order_return_time','<',$request->input('maxtime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                      $query->whereBetween('order.order_return_time',[$request->input('mintime'),$request->input('maxtime')]);
+                  }
+              }
           })
           ->where(function($query)use($request){
               $order_type=$request->input('order_type');
@@ -546,12 +579,23 @@ class OrderController extends Controller
               }
           })
           ->where(function($query)use($request){
-              if($request->input('mintime')!=null&&$request->input('maxtime')==null){
-                  $query->where('order.order_time','>',$request->input('mintime'));
-              }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
-                  $query->where('order.order_time','<',$request->input('maxtime'));
-              }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
-                  $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+              $order_time = $request->input('order_time');
+              if($order_time == 0){
+                  if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                      $query->where('order.order_time','>',$request->input('mintime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                      $query->where('order.order_time','<',$request->input('maxtime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                      $query->whereBetween('order.order_time',[$request->input('mintime'),$request->input('maxtime')]);
+                  }
+              }else{
+                  if($request->input('mintime')!=null&&$request->input('maxtime')==null){
+                      $query->where('order.order_return_time','>',$request->input('mintime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')==null){
+                      $query->where('order.order_return_time','<',$request->input('maxtime'));
+                  }elseif($request->input('maxtime')!=null&&$request->input('mintime')!=null){
+                      $query->whereBetween('order.order_return_time',[$request->input('mintime'),$request->input('maxtime')]);
+                  }
               }
           })
           ->where(function($query)use($request){
@@ -1066,7 +1110,7 @@ class OrderController extends Controller
           return '<span style="color:red;display:block;width:100%;text-align:center;">最多导出七天数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
        }
        //订单导出
-       $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','order.order_goods_admin_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel')
+       $data=order::select('order.order_id','order.order_zip','order.order_price_id','order.order_village','order.order_single_id','goods.goods_id','order.order_goods_admin_id','goods.goods_is_update','goods.goods_is_update','order.order_single_id','order.order_currency_id','order.order_ip','order.order_pay_type','goods.goods_kind_id','cuxiao.cuxiao_msg','order.order_price','order.order_type','order.order_return','order.order_time','order.order_return_time','admin.admin_name','order.order_num','order.order_send','goods.goods_real_name','order.order_name','order.order_state','order.order_city','order.order_add','order.order_remark','order.order_tel','order.order_service_remarks')
            ->leftjoin('goods','order.order_goods_id','=','goods.goods_id')
            ->leftjoin('cuxiao','order.order_cuxiao_id','=','cuxiao.cuxiao_id')
            ->leftjoin('admin','order.order_admin_id','=','admin.admin_id')
@@ -1083,14 +1127,6 @@ class OrderController extends Controller
             $query->where('order.order_type','1');
            })*/
            ->where(function($query)use($request){
-              if($request->has('min')&&$request->has('max')){
-                $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
-              }else{
-                $now_date=date('Y-m-d',time()).' 00:00:00';
-                $query->where('order.order_time','>',$now_date);
-              }
-           })
-           ->where(function($query)use($request){
             $goods_search=$request->input('admin_name');
             //筛选不同账户条件
               if($goods_search!=0){
@@ -1101,6 +1137,7 @@ class OrderController extends Controller
            ->where(function($query)use($request){
              $order_type=$request->input('order_type');
               $pay_type=$request->input('pay_type');
+              $order_time=$request->input('order_time');
               if($order_type!='null'){
                 if($order_type==0){
                   $query->whereIn('order.order_type',[0,11]);
@@ -1110,6 +1147,7 @@ class OrderController extends Controller
               }else{
                 $query->whereIn('order.order_type',[1,3,4]);
               }
+
               if($pay_type!='null'){
                   $query->where('order.order_pay_type',$pay_type);
               }
@@ -1122,6 +1160,22 @@ class OrderController extends Controller
                   }
               }
 
+               //根据时间搜索条件筛选
+               if($order_time == 0){
+                   if($request->has('min')&&$request->has('max')){
+                       $query->whereBetween('order.order_time',[$request->input('min'),$request->input('max')]);
+                   }else{
+                       $now_date=date('Y-m-d',time()).' 00:00:00';
+                       $query->where('order.order_time','>',$now_date);
+                   }
+               }else{
+                   if($request->has('min')&&$request->has('max')){
+                       $query->whereBetween('order.order_return_time',[$request->input('min'),$request->input('max')]);
+                   }else{
+                       $now_date=date('Y-m-d',time()).' 00:00:00';
+                       $query->where('order.order_return_time','>',$now_date);
+                   }
+               }
                //根据地区搜索
                if($request->has('goods_blade_type')&&$request->input('goods_blade_type')!='0'){
                    $goods_blade_type = $request->input('goods_blade_type');
@@ -1358,6 +1412,7 @@ class OrderController extends Controller
 //              $new_exdata[$k]['special_name'] = price::where('price_id',$v['order_price_id'])->value('price_name');
                    //$admin_ids = goods::where('goods_id',$v['goods_id'])->value('goods_admin_id');
                    $new_exdata[$k]['admin_show_name'] = admin::where('admin_id',$v['order_goods_admin_id'])->value('admin_show_name');
+                   $new_exdata[$k]['order_service_remarks'] = $v['order_service_remarks'];
                }
            }
          if($request->has('min')&&$request->has('max')){
@@ -1367,9 +1422,9 @@ class OrderController extends Controller
          }
 
        if($goods_blade_type == 6 || $goods_blade_type == 7){
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','县','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人','客服备注'];
        }else{
-           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人'];
+           $zdname=['下单时间','订单编号','客户名字','客户电话','详细地址','地区','城市','邮寄地址','邮政编码','产品名称','产品英文名称','商品名','币种','总金额','数量','产品属性信息','产品英文属性信息','商品展示属性信息','商品sku信息','备注','支付方式','商品所属人','客服备注'];
        }
         out_excil($new_exdata,$zdname,'訂單信息记录表',$filename);
    }
@@ -1652,5 +1707,36 @@ class OrderController extends Controller
           return '<span style="color:red;display:block;width:100%;text-align:center;">无法识别数据！(三秒后自动返回上个页面)<span><script>setTimeout("window.history.go(-1)",3000); </script>';
          }
     }
+  }
+
+    /**
+     * 客服备注
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+  public function remarks(Request $request)
+  {
+      if($request->isMethod('get')) {
+          $id=$request->input('id');
+          $order=order::where('order_id',$id)->first();
+          return view('admin/order/remarks')->with(compact('order'));
+      }elseif($request->isMethod('post')) {
+          $content = trim($request->input('content'));
+          $order_id = $request->input('id');
+          if(!$order_id || !$content){
+              return response()->json(['msg' => 1,"err"=>"备注内容不能为空"]);
+          }
+          //如果输入内容与原内容同，直接返回
+          if(order::where('order_id',$order_id)->first()['order_service_remarks'] == $content){
+              return response()->json(['msg' => 0,"err"=>"保存成功"]);
+          }
+          //修改订单客服备注
+          $order_save = order::where('order_id',$order_id)->update(['order_service_remarks'=>$content]);
+          if($order_save){
+              return response()->json(['msg' => 0,"err"=>"保存成功"]);
+          }else{
+              return response()->json(['msg' => 1,"err"=>"保存失败"]);
+          }
+      }
   }
 }

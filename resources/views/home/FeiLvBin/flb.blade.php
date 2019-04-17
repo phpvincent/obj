@@ -422,17 +422,11 @@
             	
 			</p>
             @endif
-            <p>
-               
-               {!!$goods->goods_des_html!!}
-              
+            <p id="detial-context-p">
 			</p>
         </div>
         <div class="detail-block" id="detial-params">
             <p>
-               
-               {!!$goods->goods_type_html!!}
-              
            </p>
            
         </div>
@@ -791,6 +785,75 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     })(jQuery);
 </script>
 <script>
+            // 商品详情和商品描述的图片懒加载；
+            $(function(){
+               var detialParams = '{!! $goods->goods_type_html !!}'
+               var detialContext = '{!!$goods->goods_des_html!!}'
+
+               $('#detial-context-p').html(detialContext.replace(/\<img src=/gi, '<img src="/images/preview.png" data-src='))
+               $('#detial-params').html(detialParams.replace(/\<img src=/gi, '<img src="/images/preview.png" data-src='))
+            //    $('#detial-context-p').html(detialContext.replace(/(?<=\<img [^>]*src=['"])([^'"]+)(?=[^>]*>)/gi, '/images/preview.png" data-src="$1'))
+            //    $('#detial-params').html(detialParams.replace(/(?<=\<img [^>]*src=['"])([^'"]+)(?=[^>]*>)/gi, '/images/preview.png" data-src="$1'))
+
+               function isInSight(el) {
+                 var bound = el.getBoundingClientRect();
+                 var clientHeight = window.innerHeight;
+                 //如果只考虑向下滚动加载
+                 //const clientWidth = window.innerWeight;
+                //  console.log(bound.top <= clientHeight + 100)
+                 return bound.top <= clientHeight + 100;
+               }
+               function checkImgs1() {
+                 var imgs = document.querySelectorAll('#detial-context-p img[src="/images/preview.png"]')
+                 if (imgs.length >0) {
+                    // console.log('imgarr1', imgs) 
+                    $.each(imgs, function (index, el) { 
+                       //  console.log(isInSight(el))
+                       if (isInSight(el)) {
+                       // console.log('keyi', el)
+                        loadImg(el);
+                      }
+                    });
+                 }
+               } 
+               function checkImgs() {
+                 var imgs = document.querySelectorAll('#detial-params img[src="/images/preview.png"]')
+                 if (imgs.length >0) {
+                    // console.log('imgarr', imgs) 
+                    $.each(imgs, function (index, el) { 
+                       //  console.log(isInSight(el))
+                       if (isInSight(el)) {
+                       // console.log('keyi', el)
+                        loadImg(el);
+                      }
+                    });
+                 }
+               }               
+
+               function loadImg(el) {
+                 if ($(el).attr('src') === '/images/preview.png') {
+                    $(el).attr('src', $(el).attr('data-src'))
+                 }
+               }
+               // 前两张不用懒加载
+               $.each($('#detial-context-p img:lt(2)'), function (index, el) { 
+                loadImg(el)
+               });
+               $.each($('#detial-params img:lt(2)'), function (index, el) { 
+                loadImg(el)
+               });
+               var num = 0;
+               window.onscroll = function() {
+                   num++
+                 if(num===10){
+                    num = 0
+                //    console.log('dongole')
+                   checkImgs1()
+                   checkImgs()
+                 }
+               }
+            });
+            
 $(function(){
 
     // 增加弹窗

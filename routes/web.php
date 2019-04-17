@@ -23,6 +23,9 @@ use App\channel\mailControl;
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
 		return view('admin.websocket');
+	});
+	Route::any('/paypal1',function(Request $request){
+		return view('admin.websocket_send');
 	});*/
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
@@ -101,6 +104,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::post('/admin/order/update', 'admin\OrderController@update');
 	Route::post('/admin/order/get_table','admin\OrderController@get_table');
 	Route::get('/admin/order/orderinfo','admin\OrderController@orderinfo');
+	Route::any('/admin/order/remarks','admin\OrderController@remarks');
 	Route::get('/admin/order/heshen','admin\OrderController@heshen');
 	Route::get('/admin/order/delorder','admin\OrderController@delorder');
 	Route::get('/admin/order/getaddr','admin\OrderController@getaddr');
