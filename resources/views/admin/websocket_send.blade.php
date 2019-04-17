@@ -82,7 +82,7 @@
 </script>  
 <h2>WebSocket Test</h2>  
 <div id="output"></div>  
-<input type="text" id="send" name="" placeholder="send msg">
+<textarea id="send" name="" placeholder="send msg"> </textarea>
 <input type="text" id="sendip" name="" placeholder="ip msg">
 <button onclick="sendmsg()">send message</button>
 </html>
