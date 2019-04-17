@@ -42,14 +42,14 @@
                 success: function(data){
                     layer.close(indexs);
                     if(data.msg==0){
-                        layer.msg('保存成功!',{time:2*1000},function() {
+                        layer.msg(data.err,{time:2*1000},function() {
                             //回调
                             index = parent.layer.getFrameIndex(window.name);
                             setTimeout("parent.layer.close(index);",100);
                             parent.shuaxin();
                         });
                     }else{
-                        layer.msg('保存失败!')
+                        layer.msg(data.err);
                     }
                 },
                 error: function(XmlHttpRequest, textStatus, errorThrown){

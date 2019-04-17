@@ -37,7 +37,7 @@
 	<button class="back_to_top btn">返回顶部</button>
 	<div style="display: none" id="select-admin">
 		<div class="row cl">
-			<label class="form-label col-xs-1 col-sm-1">搜索时间方式：</label>
+			<label class="form-label col-xs-1 col-sm-1">导出时间类型：</label>
 			<div class="formControls col-xs-2 col-sm-2"> <span class="select-box">
 				<select name="order_time" id="order_time" class="select">
 					<option value="0">订单创建时间</option>
