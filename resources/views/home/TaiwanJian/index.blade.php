@@ -418,6 +418,9 @@
                $.each($('#detial-context-p img:lt(2)'), function (index, el) { 
                 loadImg(el)
                });
+               $.each($('#detial-params img:lt(2)'), function (index, el) { 
+                loadImg(el)
+               });
                var num = 0;
                window.onscroll = function() {
                    num++
