@@ -1724,18 +1724,18 @@ class OrderController extends Controller
           $content = trim($request->input('content'));
           $order_id = $request->input('id');
           if(!$order_id || !$content){
-              return response()->json(['msg' => 1]);
+              return response()->json(['msg' => 1,"err"=>"备注内容不能为空"]);
           }
           //如果输入内容与原内容同，直接返回
           if(order::where('order_id',$order_id)->first()['order_service_remarks'] == $content){
-              return response()->json(['msg' => 0]);
+              return response()->json(['msg' => 0,"err"=>"保存成功"]);
           }
           //修改订单客服备注
           $order_save = order::where('order_id',$order_id)->update(['order_service_remarks'=>$content]);
           if($order_save){
-              return response()->json(['msg' => 0]);
+              return response()->json(['msg' => 0,"err"=>"保存成功"]);
           }else{
-              return response()->json(['msg' => 1]);
+              return response()->json(['msg' => 1,"err"=>"保存失败"]);
           }
       }
   }
