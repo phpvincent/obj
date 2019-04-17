@@ -53,10 +53,11 @@
     }  
  
     function writeToScreen(message) { 
-        var pre = document.createElement("p"); 
-        pre.style.wordWrap = "break-word"; 
-        pre.innerHTML = message; 
-        output.appendChild(pre); 
+         // var pre = document.createElement("p"); 
+        // pre.style.wordWrap = "break-word"; 
+        // pre.innerHTML = message; 
+        // output.appendChild(pre); 
+        $('#output').append('<p>'+message+'</p>')
     }  
  
     window.addEventListener("load", init, false);  
