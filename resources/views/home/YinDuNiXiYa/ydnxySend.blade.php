@@ -137,6 +137,17 @@
 	.heimao{ display:none;}
 .footer_jp{ display:none;}
 @media screen and (max-width: 656px){.check_sorce p { font-size:14px !important;}}
+
+.back_index {
+    width: 150px;
+    height: 30px;
+    margin: 0 auto;
+    background: #F00;
+    line-height: 30px;
+    color: #fff !important;
+    text-align: center;
+    margin-bottom: 15px;
+}
 	</style>
 
 </head>
@@ -208,7 +219,7 @@
 				<p></p>
   			</div>
 		</div>
-        <div class="back_index"><a href="javascript:history.go(-1);" style="color:#fff">Kembali ke beranda </a></div>
+        <div class="back_index"><a href="javascript:;" onclick="goHome()" style="color:#fff">Kembali ke beranda </a></div>
   </div>
 
   <script src="/js/jquery.min.js"></script>
@@ -275,6 +286,25 @@
         });
 		tab.slideDown(500);
 	});
+	function getParam(paramName) { 
+    paramValue = "", isFound = !1; 
+    if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) { 
+        arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0; 
+        while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++ 
+    } 
+    // return paramValue == "" && (paramValue = null), paramValue 
+		if(paramValue !== "" && paramValue != null){
+			$("input[name='queryNo']").val(paramValue)
+			
+			setTimeout("$('#queryForm').submit();",500)
+		}
+} 
+getParam('order_id')
+function goHome(){
+        var u = 'http://{{$url}}';
+    location.href=u;
+        //window.location.href=u;
+    }
   </script>
 </body>
 </html>

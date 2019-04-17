@@ -134,7 +134,7 @@
 <div class="m-orderItem">
     <div class="reminder_title"><i class="reminder_icon"></i>通知</div>
     <div class="reminder">
-    温馨提示：支持货到付款+免费送货+七天鉴赏期。如果您在收到商品后有任何疑问请联系我们的在线服务或发送电子邮件至我们的售后服务电子邮箱。请记得在邮件中附上您的姓名和订单号。我们会尽快回复你！祝你购物愉快！
+    温馨提示：支持货到付款+免费送货+七天鉴赏期。如果您在收到商品后有任何疑问请联系我们的在线服务或发送电子邮件至我们的售后服务电子邮箱<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>。请记得在邮件中附上您的姓名和订单号。我们会尽快回复你！祝你购物愉快！
     </div>
 </div>
 <div class="timetips">

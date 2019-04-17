@@ -715,7 +715,8 @@ class IndexController extends Controller
         $goods=\App\goods::where("goods_id",$request->goods_id)->first();
         if($request->order_id!=0){
              $order=\App\order::where("order_id",$request->order_id)->first();
-             $order_pay_type = $order->order_pay_type == 0 ? '货到付款': '在线支付';
+            //  $order_pay_type = $order->order_pay_type == 0 ? '货到付款': '在线支付';
+             $order_pay_type = \App\order::order_pay_types($goods->goods_blade_type,$order->order_pay_type);
              if($order==null){
                 return view('home.MeiGuo.usEndFail');
              }

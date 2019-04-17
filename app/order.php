@@ -130,4 +130,48 @@ class order extends Model
                 return '问题订单';
         }
    }
+
+   public static function order_pay_types($goods_blade_type,$order_pay_type)
+   {
+        $order_pay_types = "貨到付款";
+        switch($goods_blade_type){
+            case "0":
+                $order_pay_types = $order_pay_type == 0 ? '貨到付款': '線上支付';
+                return $order_pay_types;
+            case "1":
+                $order_pay_types = $order_pay_type == 0 ? '货到付款': '在线支付';
+                break;
+            case "2" :
+            case "3" :
+            case "7" :
+            case "8" :
+            case "9" :
+            case "10":
+            case "13":
+            case "15":
+            case "17":
+                $order_pay_types = $order_pay_type == 0 ? 'Cash on Delivery': 'Online payment';
+                break;
+            case "4": //泰国模板（旧版）
+                $order_pay_types = $order_pay_type == 0 ? 'Cash on Delivery': 'Online payment';
+                break;
+            case "5" : //日本模板（旧版）
+                $order_pay_types = $order_pay_type == 0 ? 'Cash on Delivery': 'Online payment';
+                break;
+            case "6" : //印度尼西亚
+                $order_pay_types = $order_pay_type == 0 ? 'COD(Bayar di tempat)': 'pesan online';
+                break;
+            case "11" : //越南
+                $order_pay_types = $order_pay_type == 0 ? 'Cash on Delivery': 'Online payment';
+                break;
+            case "12" : 
+            case "14" :
+            case "16" :
+                $order_pay_types = $order_pay_type == 0 ? 'الدفع عند التسليم': 'الدفع عبر الإنترنت';
+                break;
+
+                
+        }
+        return $order_pay_types;
+   }
 }
