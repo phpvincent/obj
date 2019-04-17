@@ -72,7 +72,7 @@
     		msg={type:1,msg:'innetmsg',ip:'ip'};
     		msg.msg=innetmsg;
     		msg.ip=ip;
-    		doNotice(JSON.stringify(msg));
+    		doNotice(msg);
     	}else{
     		msg={type:0,msg:'innetmsg'};
     		msg.msg=innetmsg;
