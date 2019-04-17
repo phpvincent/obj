@@ -66,7 +66,7 @@
     window.addEventListener("load", init, false);  
     function sendmsg(){
     	var msg={};
-    	var innetmsg=$('#send').val();
+    	var innetmsg=$('#send').hrml();
     	var ip=$('#sendip').val();
     	if(ip!=null&&ip!=''){
     		msg={type:1,msg:'innetmsg',ip:'ip'};
