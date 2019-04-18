@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\admin\worker;
 
+use App\channel\Rediss;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redis;
 
 class MonitorController extends Controller
 {
@@ -14,8 +14,8 @@ class MonitorController extends Controller
      */
     public function list()
     {
-        Redis::set('aa','100');
-        dd(Redis::get('aa'));
+        $redis = Rediss::getInstance();
+        dd($redis->get("aa"));
         return view('worker.monitor.index');
     }
     /**
