@@ -73,6 +73,8 @@
         @endif 
         <!-- End Google Pixel Code -->
 @endif
+        <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
+
 </head>
 <!-- <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>

@@ -41,6 +41,7 @@
         <script type="text/javascript" src="/js/resizeDIV.js"></script>
        
         <script type="text/javascript" src="/js/global.js?v=1.0"></script>
+        <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
         
         <script>
         jQuery(function(){setFrom();});  

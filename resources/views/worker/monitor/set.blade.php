@@ -62,47 +62,47 @@
                             
               </div>
              <div class="layui-form-item flag" style="">
-               	 <label class="layui-form-label">追踪模板地区</label>
+               	 <label class="layui-form-label">追踪IP地区</label>
                	 			<div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="台湾" value="0" lay-filter="monitorRouteCheck" @if(in_array(0,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="台湾" value="0" lay-filter="monitorRouteCheck" @if(in_array(0,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
                                       <div class="layui-unselect layui-form-checkbox"><span>台湾</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="菲律宾" value="7" lay-filter="monitorRouteCheck" @if(in_array(7,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="菲律宾" value="7" lay-filter="monitorRouteCheck" @if(in_array(7,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
                                       <div class="layui-unselect layui-form-checkbox"><span>菲律宾</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="印度尼西亚" value="6" lay-filter="monitorRouteCheck" @if(in_array(6,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="印度尼西亚" value="6" lay-filter="monitorRouteCheck" @if(in_array(6,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
                                       <div class="layui-unselect layui-form-checkbox"><span>印度尼西亚</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="阿联酋" value="2" lay-filter="monitorRouteCheck" @if(in_array(2,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="阿联酋" value="2" lay-filter="monitorRouteCheck" @if(in_array(2,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
                                       <div class="layui-unselect layui-form-checkbox"><span>阿联酋</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="沙特" value="12" lay-filter="monitorRouteCheck" @if(in_array(12,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="沙特" value="12" lay-filter="monitorRouteCheck" @if(in_array(12,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
                                       <div class="layui-unselect layui-form-checkbox"><span>沙特</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="卡塔尔" value="14" lay-filter="monitorRouteCheck" @if(in_array(14,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="卡塔尔" value="14" lay-filter="monitorRouteCheck" @if(in_array(14,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
                                       <div class="layui-unselect layui-form-checkbox"><span>卡塔尔</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
-                                      <input type="checkbox" name="worker_monitor_blade_type[]" title="中东" value="17" lay-filter="monitorRouteCheck" @if(in_array(17,explode(",",$worker_monitor['worker_monitor_blade_type']))) checked="checked" @endif>
-                                      <div class="layui-unselect layui-form-checkbox"><span>中东</span><i class="layui-icon layui-icon-ok"></i></div>  
+                                      <input type="checkbox" name="worker_monitor_ip_type[]" title="美国" value="10" lay-filter="monitorRouteCheck" @if(in_array(10,explode(",",$worker_monitor['worker_monitor_ip_type']))) checked="checked" @endif>
+                                      <div class="layui-unselect layui-form-checkbox"><span>美国</span><i class="layui-icon layui-icon-ok"></i></div>  
                                   	</div>
                             </div>
                             

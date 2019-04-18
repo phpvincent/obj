@@ -23,7 +23,7 @@ class MonitorController extends Controller
     	if($request->isMethod('get')){
     		$worker_monitor=\App\worker_monitor::first();
     		if($worker_monitor==null){
-    			$worker_monitor=['worker_monitor_start_time'=>'00:00:00','worker_monitor_stop_time'=>'23:59:59','worker_monitor_route_type'=>'0,1,2,3,4,5,6','worker_monitor_blade_type'=>'0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17'];
+    			$worker_monitor=['worker_monitor_start_time'=>'00:00:00','worker_monitor_stop_time'=>'23:59:59','worker_monitor_route_type'=>'0,1,2,3,4,5,6','worker_monitor_ip_type'=>'0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17'];
     		}else{
     			$worker_monitor=$worker_monitor->toArray();
     		}
@@ -42,7 +42,7 @@ class MonitorController extends Controller
     			$worker_monitor->worker_monitor_stop_time=explode(' ~ ', $data['laydate'])[0];
     		}
     		$worker_monitor->worker_monitor_route_type=implode(',', $data['worker_monitor_route_type']);
-    		$worker_monitor->worker_monitor_blade_type=implode(',', $data['worker_monitor_blade_type']);
+    		$worker_monitor->worker_monitor_ip_type=implode(',', $data['worker_monitor_ip_type']);
     		$msg=$worker_monitor->save();
     		if($msg){
             	return response()->json(['err' => '1', 'str' => '修改成功']);
