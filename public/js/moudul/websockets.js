@@ -55,12 +55,12 @@ var browser={
 
  var flag = false
  $.each(wsArr, function(index, el ){
-     if (el.router === location.href){
+     if (el.route === location.href){
         flag = true
      }
  })
  if (!flag){
-    wsArr.push({ route: location.href, ip_info:{deviceData: browser.versions, start_date: new Date().toLocaleString()} })
+    wsArr.push({ route: location.href, start_date: new Date().toLocaleString() })
  }
 Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
 
@@ -73,7 +73,6 @@ var wsUri ="ws://13.250.109.37:2349/";
             onOpen(evt) 
         }; 
         websocket.onclose = function(evt) { 
-            alert('goodbye');
             onClose(evt) 
         }; 
         websocket.onmessage = function(evt) { 
@@ -86,7 +85,7 @@ var wsUri ="ws://13.250.109.37:2349/";
 
     function onOpen(evt) { 
       console.log("第一次打开"); 
-      doSend(wsArr); 
+      doSend({route: location.href, ip_info:{deviceData: browser.versions, routes: wsArr }}); 
   }  
 
   function onClose(evt) { 
