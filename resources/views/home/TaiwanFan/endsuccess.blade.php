@@ -1,4 +1,11 @@
 <head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="320" name="MobileOptimized" />
+        <meta content="telephone=no" name="format-detection" />
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -10,6 +17,7 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
+<link href="/css/page-success.css" rel="stylesheet" type="text/css">
 @if($order['pix_event'])
       @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
     <!-- Facebook Pixel Code -->
@@ -66,25 +74,55 @@
         <!-- End Google Pixel Code -->
 @endif
 </head>
-<body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
-        <h1 class="mui-title">確認訂單</h1>
-</header>
-    <div class="mui-content">
-    <div class="pay_image"><span class="sico"><i class="mui-icon mui-icon-checkmarkempty"></i></span></div>
-    <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">訂單已成功！</h2>
-                            <div style="padding:15px;">
-                您的訂單編號:<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
-                應支付：<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
-                            </div>
-                                <div style="text-align:left;padding:10px 15px 20px">
-                                            <!--同一个币种不同团队的邮箱不一样-->
-請您保持手機暢通，方便快遞員能及時與您取得聯繫，如有任何疑問， 請及時聯繫我們在線客服。 祝您購物愉快！    <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>        </div>            </div>
-            <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="goHome()">返回首頁&gt;&gt;</button>
-            </div>
+<div class="m-hd">
+    <div class="m-topBar">
+                    <a class="goback" href="/backpack"></a>
+                <div class="title">確認訂單</div>
     </div>
+</div>
+<div class="explain">
+    <div class="imgbox">
+        <img src="/img/order_success.png" class="img_list">
+        <span>訂單已成功！</span>
+        <span style="margin: 0px; display: none" id="unAuthLabel">(Unverified)</span>
+    </div>
+    <div>
+                    <ul class="pay_list">
+                <li>
+                <span class="tips1">付款方式 :</span>
+                <span class="tips2">{{$order_pay_type}}</span>
+                </li>
+                <li>
+                <span class="tips1">您的訂單編號 :</span>
+                <span class="tips2">{{$order->order_single_id}}</span>
+                </li>
+                <li>
+                <span class="tips1">應支付：</span>
+                <span class="tips2">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}
+                                </span>
+                </li>
+            </ul>
+            </div>
+    <p style="margin-bottom: 38px;" id="order_tips">祝賀！您的訂單提交成功。我們會儘快交貨。感謝您的支持!</p>
+
+            <div style="text-align: center;">
+            <a href="javascript:;" onclick="goHome()" class="order_quality">返回首頁</a>
+            <a href="/send?goods_id={{$goods->goods_id}}&order_id={{$order->order_single_id}}" class= "kefu">訂單查詢</a>
+        </div>
+    
+
+</div>
+<div class="m-orderItem">
+    <div class="reminder_title"><i class="reminder_icon"></i>通知</div>
+    <div class="reminder">
+    溫馨提示：支持貨到付款+免費送貨+七天鑑賞期。如果您在收到商品後有任何疑問請聯繫我們的在線服務或髮送電子郵件至我們的售後服務電子郵箱<a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>。請記得在郵件中附上您的姓名和訂單號。我們會儘快回複你！祝你購物愉快！
+    </div>
+</div>
+<div class="timetips">
+    <ul>
+        <li><img src="/img/7day.png" alt="">Seven days appreciation period</li>
+        <li><img src="/img/huodao.png" alt="">cash on delivery</li>
+    </ul>
 </div>
 <script language="javascript">
     function goHome(){

@@ -1,4 +1,11 @@
 <head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="320" name="MobileOptimized" />
+        <meta content="telephone=no" name="format-detection" />
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -10,6 +17,7 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
+<link href="/css/page-success.css" rel="stylesheet" type="text/css">
 @if($order['pix_event'])
 <!-- Facebook Pixel Code -->
 @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
@@ -66,27 +74,55 @@
         <!-- End Google Pixel Code -->
 @endif
 </head>
-<body style="">
-
-<header class="mui-bar mui-bar-nav" style="background:#fff;">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
-        <h1 class="mui-title">Firm order</h1>
-</header>
-    <div class="mui-content">
-    <div class="pay_image"><span class="sico"><i class="mui-icon mui-icon-checkmarkempty"></i></span></div>
-    <div class="pay_success">
-            <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">Success!</h2>
-                            <div style="padding:15px;">
-                        Your order number :<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
-                        Payable :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>
-                            </div>
-                                <div style="text-align:left;padding:10px 15px 20px">
-                                            <!--同一个币种不同团队的邮箱不一样-->
-                                            Please keep your mobile phone unblocked, so that the courier can contact you in time. If you have any questions, please contact our online customer service in time. Have fun shopping!    <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>         </div>            </div>
-            <div align="center" style="padding:0px 15px">
-                <button type="button" class="succuss_center_a" style="" onclick="goHome()">Return to the home page&gt;&gt;</button>
-            </div>
+<div class="m-hd">
+    <div class="m-topBar">
+                    <a class="goback" href="/backpack"></a>
+                <div class="title">Firm order</div>
     </div>
+</div>
+<div class="explain">
+    <div class="imgbox">
+        <img src="/img/order_success.png" class="img_list">
+        <span>Success!</span>
+        <span style="margin: 0px; display: none" id="unAuthLabel">(Unverified)</span>
+    </div>
+    <div>
+                    <ul class="pay_list">
+                <li>
+                <span class="tips1">Payment  :</span>
+                <span class="tips2">{{$order_pay_type}}</span>
+                </li>
+                <li>
+                <span class="tips1">Your order number :</span>
+                <span class="tips2">{{$order->order_single_id}}</span>
+                </li>
+                <li>
+                <span class="tips1">Pay :</span>
+                <span class="tips2">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}
+                                </span>
+                </li>
+            </ul>
+            </div>
+    <p style="margin-bottom: 38px;" id="order_tips">Congratulations ! Your order submitted successfully.We will delivery your good as soon as possible. Thank you for your support!</p>
+
+            <div style="text-align: center;">
+            <a href="javascript:;" onclick="goHome()" class="order_quality">return home</a>
+            <a href="/send?goods_id={{$goods->goods_id}}&order_id={{$order->order_single_id}}" class= "kefu">Order Enquiry</a>
+        </div>
+    
+
+</div>
+<div class="m-orderItem">
+    <div class="reminder_title"><i class="reminder_icon"></i>Notice</div>
+    <div class="reminder">
+    Tips: Support cash on delivery+ Free shipping+ Seven days appreciation period. If you have any questions after receiving the good, please contact with our online service or send email to <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>. Please remember to attach your name and order number in the message. We will reply you as soon as possible! Wish you a happy shopping!
+    </div>
+</div>
+<div class="timetips">
+    <ul>
+        <li><img src="/img/7day.png" alt="">Seven days appreciation period</li>
+        <li><img src="/img/huodao.png" alt="">cash on delivery</li>
+    </ul>
 </div>
 <script language="javascript">
     function goHome(){
@@ -95,3 +131,5 @@
         //window.location.href=u;
     }
 </script>
+
+<!-- Please keep your mobile phone unblocked, so that the courier can contact you in time. If you have any questions, please contact our online customer service in time. Have fun shopping!    <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a> -->

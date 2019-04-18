@@ -1,4 +1,11 @@
 <head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="320" name="MobileOptimized" />
+        <meta content="telephone=no" name="format-detection" />
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -10,11 +17,22 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
+<link href="/css/page-success.css" rel="stylesheet" type="text/css">
 <style>
-        *{
-            text-align: right;
-        }
-        </style>
+.pay_list li .tips2 {
+    display: inline-block;
+    width: 45%;
+    text-align: right;
+    color: #FF5A5F;
+}
+.pay_list li .tips1 {
+    display: inline-block;
+    width: 45%;
+    text-align: left;
+    color: #212121;
+    margin-right: 5px;
+}
+</style>
 @if($order['pix_event'])
       @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
     <!-- Facebook Pixel Code -->
@@ -71,7 +89,7 @@
         <!-- End Google Pixel Code -->
 @endif
 </head>
-<body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
+<!-- <body style=""><header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
         <h1 class="mui-title"> تأكيد الطلب</h1>
 </header>
@@ -84,12 +102,68 @@
                 <font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}</font>: الدفع 
                             </div>
                                 <div style="padding:10px 15px 20px">
-                                            <!--同一个币种不同团队的邮箱不一样-->
                                             من فضلك لا تغلق الهاتف ,من أجل سهوله التواصل مع موظف الشحن ,اذا لديك أي استفسارات ,من فضلك تواصل معنا عبر خدمه اعملاء او من خلال البريد الالكتروني ,نتمني لكم تسوق سعيد . <a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a> </div> </div>            </div>
             <div align="center" style="padding:0px 15px;text-align: center;">
                 <button type="button" class="succuss_center_a" style="" onclick="goHome()">أرجع الي الصفحه الاولي </button>
             </div>
     </div>
+</div>
+<script language="javascript">
+    function goHome(){
+        var u = 'http://{{$url}}';
+    location.href=u;
+        //window.location.href=u;
+    }
+</script> -->
+<div class="m-hd">
+    <div class="m-topBar">
+                    <a class="goback" href="/backpack"></a>
+                <div class="title">تأكيد الطلب</div>
+    </div>
+</div>
+<div class="explain">
+    <div class="imgbox">
+        <img src="/img/order_success.png" class="img_list">
+        <span>تم الطلب بنجاح</span>
+        <span style="margin: 0px; display: none" id="unAuthLabel">(Unverified)</span>
+    </div>
+    <div>
+                    <ul class="pay_list">
+                <li>
+                <span class="tips2">{{$order_pay_type}}</span>
+                <span class="tips1">:اسلوب الدفع</span>
+                </li>
+                <li>
+                <span class="tips2">{{$order->order_single_id}}</span>
+                <span class="tips1">:رقم الطلب الخاص بك</span>
+                </li>
+                <li>
+                <span class="tips2">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}
+                <span class="tips1">:الدفع</span>
+                                </span>
+                </li>
+            </ul>
+            </div>
+    <p style="margin-bottom: 38px;" id="order_tips">  تهنئة ، قد تم طلبك بالنجاح  سنرتيب لشحن البضائع في اقرب الوقت. شكرا لدعمكم</p>
+
+            <div style="text-align: center;">
+            <a href="javascript:;" onclick="goHome()" class="order_quality">إرجع إلى الصفحة الأولى</a>
+            <a href="/send?goods_id={{$goods->goods_id}}&order_id={{$order->order_single_id}}" class= "kefu">اطلباستعلامات</a>
+        </div>
+    
+
+</div>
+<div class="m-orderItem">
+    <div class="reminder_title"><i class="reminder_icon"></i>انتبه</div>
+    <div class="reminder" style="text-align: right;">
+    ‎نصائح: دعم الدفع عند التسليم+الشحن مجانا+7 أيم فترة التقديرة . اذا تجدالسؤال بعد تسليم المنتجات، اتصل معنا أو إرسلنا البريد إلي بريد الالكترونية الخدمة بعد التسليم<br/><a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a><br/> لاتنس ان تكتب اسمك و رقم طلبك في البريد. سنجيب إليك بسريعة! أتمني لك سعيد في التسويق! 
+    </div>
+</div>
+<div class="timetips">
+    <ul>
+        <li><img src="/img/7day.png" alt="">Seven days appreciation period</li>
+        <li><img src="/img/huodao.png" alt="">cash on delivery</li>
+    </ul>
 </div>
 <script language="javascript">
     function goHome(){

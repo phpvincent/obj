@@ -1,4 +1,11 @@
 <head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="320" name="MobileOptimized" />
+        <meta content="telephone=no" name="format-detection" />
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -10,6 +17,7 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
+<link href="/css/page-success.css" rel="stylesheet" type="text/css">
 @if($order['pix_event'])
 <!-- Facebook Pixel Code -->
 @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
@@ -66,7 +74,7 @@
         <!-- End Google Pixel Code -->
 @endif
 </head>
-<body style="">
+<!-- <body style="">
 
 <header class="mui-bar mui-bar-nav" style="background:#fff;">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#333" onclick="(function(){window.location.href = '/pay?goods_id={{$goods->goods_id}}';})()"></a>
@@ -81,12 +89,68 @@
                             Yang harus dibayar :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{price_format($order->order_price)}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
-                                            <!--同一个币种不同团队的邮箱不一样-->
                                             Mohon menjaga HP Anda tetap aktif, supaya pengirim mudah hubungi Anda. Jika ada pertanyaan, silakan hubungi layanan pelanggan online kami. Semoga belanja Anda menyenangkan !<a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>        </div>            </div>
             <div align="center" style="padding:0px 15px">
                 <button type="button" class="succuss_center_a" style="" onclick="goHome()">kembali ke beranda&gt;&gt;</button>
             </div>
     </div>
+</div>
+<script language="javascript">
+    function goHome(){
+        var u = 'http://{{$url}}';
+    location.href=u;
+        //window.location.href=u;
+    }
+</script> -->
+<div class="m-hd">
+    <div class="m-topBar">
+                    <a class="goback" href="/backpack"></a>
+                <div class="title">Konfirmasi pesanan</div>
+    </div>
+</div>
+<div class="explain">
+    <div class="imgbox">
+        <img src="/img/order_success.png" class="img_list">
+        <span>Pesanan berhasil !</span>
+        <span style="margin: 0px; display: none" id="unAuthLabel">(Unverified)</span>
+    </div>
+    <div>
+                    <ul class="pay_list">
+                <li>
+                <span class="tips1">Metode pembayaran :</span>
+                <span class="tips2">{{$order_pay_type}}</span>
+                </li>
+                <li>
+                <span class="tips1">kode orderan anda :</span>
+                <span class="tips2">{{$order->order_single_id}}</span>
+                </li>
+                <li>
+                <span class="tips1">Bayar:</span>
+                <span class="tips2">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{$order->order_price}}
+                                </span>
+                </li>
+            </ul>
+            </div>
+    <p style="margin-bottom: 38px;" id="order_tips">Selamat!  Pesanan Anda telah berhasil.  Kami akan mengatur pengiriman produk yang Anda pesan sesegera mungkin.  Terima kasih atas dukungannya!</p>
+
+            <div style="text-align: center;">
+            <a href="javascript:;" onclick="goHome()" class="order_quality">Kembali ke beranda </a>
+            <a href="/send?goods_id={{$goods->goods_id}}&order_id={{$order->order_single_id}}" class= "kefu">Cari pesanan</a>
+        </div>
+    
+
+</div>
+<div class="m-orderItem">
+    <div class="reminder_title"><i class="reminder_icon"></i>catatan</div>
+    <div class="reminder">
+    Tips: Dapat cash on delivery + gratis ongkir + periode apresiasi dalam tujuh hari.Jika anda ada pertanyaan setelah menerima item Silakan hubungi layanan online kami atau kirim email ke alamat email layanan customer kami <a href="mailto:rbzjlprc@gmail.com" style="color:#F8770E">rbzjlprc@gmail.com</a>.Ingat untuk memasukkan nama dan nomor pesanan anda dalam email.Kami akan segera membalas anda! Happy shopping
+    </div>
+</div>
+<div class="timetips">
+    <ul>
+        <li><img src="/img/7day.png" alt="">Seven days appreciation period</li>
+        <li><img src="/img/huodao.png" alt="">cash on delivery</li>
+    </ul>
 </div>
 <script language="javascript">
     function goHome(){
