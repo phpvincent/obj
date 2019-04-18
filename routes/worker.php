@@ -12,6 +12,7 @@
 
  			//平台监控
             Route::any('/monitor/page/list','admin\worker\MonitorController@list'); //网页监控
+            Route::any('/monitor/set','admin\worker\MonitorController@set'); //监控设置
         });
 
 	Route::get('/notallow','admin\worker\WorkerController@notallow');

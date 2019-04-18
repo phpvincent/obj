@@ -39,7 +39,7 @@
 							<ul class="dropDown-menu menu radius box-shadow">
 								<li><a href="{{url('/admin/index')}}">信息管理系统</a></li>
 								<li><a href="{{url('/admin/storage/index')}}">仓库管理系统</a></li>
-								<li><a href="{{url('/admin/woker/index')}}">热数据管理系统</a></li>
+								<li><a href="{{url('/admin/worker/index')}}">热数据管理系统</a></li>
 							</ul>
 						</li>
 					@else

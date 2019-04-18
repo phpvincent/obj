@@ -15,6 +15,7 @@
     <link href="/css/base.css" rel="stylesheet">
     <link href="/css/component.css" rel="stylesheet" />
     <link href="/css/detail.css" rel="stylesheet" />
+        <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
 
     <style type="text/css">
 	<!--

@@ -30,7 +30,7 @@
         <script async="" src="/js/analytics.js"></script>
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/layer/layer.js"></script>
-
+        <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
 
         <style type="text/css">
             .radio{
