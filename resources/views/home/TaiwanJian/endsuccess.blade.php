@@ -18,6 +18,7 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <link href="/css/page-success.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
   <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
 @if($order['pix_event'])
       @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
