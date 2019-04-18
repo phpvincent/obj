@@ -337,7 +337,7 @@ class GoodsController extends Controller
        }
 
        //倒计时模块
-         if($data['count_down_1'] == 1){
+         if(isset($data['count_down_1']) && $data['count_down_1'] == 1){
              if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
                  return response()->json(['err'=>0,'str'=>'库存或倒计时时间不能为空！']);
              }
@@ -348,7 +348,7 @@ class GoodsController extends Controller
          }
 
          //促销活动模块
-         if($data['promotion_1'] == 1){
+         if(isset($data['promotion_1']) && $data['promotion_1'] == 1){
              if(!$request->has('goods_cuxiao_name') || !$request->has('goods_msg')){
                  return response()->json(['err'=>0,'str'=>'促销活动名称或促销活动描述不能为空！']);
              }
@@ -364,7 +364,7 @@ class GoodsController extends Controller
           }
          }
          //封面图
-         if($data['broadcast_1'] == 1) {
+         if(isset($data['broadcast_1']) && $data['broadcast_1'] == 1) {
              array_push($array, 'broadcast');
              if (!$request->hasFile('fm_imgs')) {
                  return response()->json(['err' => 0, 'str' => '封面图不能为空！']);
@@ -387,7 +387,7 @@ class GoodsController extends Controller
          }
 
          //是否附带视频
-         if($data['is_video'] == 1) {
+         if(isset($data['is_video']) && $data['is_video'] == 1) {
             array_push($array,'video');
              if($request->hasFile('goods_video')){
                  $size = filesize($request->file('goods_video'));
@@ -409,7 +409,7 @@ class GoodsController extends Controller
          }
 
        //尺寸助手
-       if($data['is_size_file'] == 1) {
+       if(isset($data['is_size_file']) && $data['is_size_file'] == 1) {
            array_push($array,'size_help');
            if($request->hasFile('size_file')){
                $size = filesize($request->file('size_file'));
@@ -431,7 +431,7 @@ class GoodsController extends Controller
        }
 
            //中部导航模块
-        if($data['center_nav_1'] == 1) {
+        if(isset($data['center_nav_1']) && $data['center_nav_1'] == 1) {
             array_push($array,'center_nav');
             $array = array_merge($array,$data['center_nav']);
             // 商品评论数根据是否显示商品来展示数量
@@ -482,13 +482,13 @@ class GoodsController extends Controller
         $goods_id=$goods->goods_id;
 
        // 公司标识模块
-       if($data['comp_sign_1'] == 1){
+       if(isset($data['comp_sign_1']) && $data['comp_sign_1'] == 1){
            array_push($array,'comp_sign');
            $array = array_merge($array,$data['comp_sign']);
        }
 
        //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
-       if($data['price_1'] == 1){
+       if(isset($data['price_1']) && $data['price_1'] == 1){
            array_push($array,'price');
            if(isset($data['price'])){
                $array = array_merge($array, $data['price']);
@@ -496,23 +496,23 @@ class GoodsController extends Controller
        }
 
        //2.评价模块
-       if($data['commit_1'] == 1){
+       if(isset($data['commit_1']) && $data['commit_1'] == 1){
            array_push($array,'commit');
        }
 
        //3.用户帮助模块
-       if($data['uesr_help_1'] == 1) {
+       if(isset($data['uesr_help_1']) && $data['uesr_help_1'] == 1) {
            array_push($array,'user_help');
            $array = array_merge($array,$data['user_help']);
        }
 
        //4.物流公司
-       if($data['express_1'] == 1) {
+       if(isset($data['express_1']) && $data['express_1'] == 1) {
            array_push($array,'express');
        }
 
        //5.轮播图模块
-       if($data['broadcast_1'] == 1) {
+       if(isset($data['broadcast_1']) && $data['broadcast_1'] == 1) {
            foreach($request->file('fm_imgs') as $pic) {
                $size = filesize($pic);
                //这里可根据配置文件的设置，做得更灵活一点
@@ -538,7 +538,7 @@ class GoodsController extends Controller
        }
 
        //6.底部导航模块
-       if($data['order_nav_1'] == 1) {
+       if(isset($data['order_nav_1']) && $data['order_nav_1'] == 1) {
            array_push($array,'order_nav');
            $array = array_merge($array,$data['order_nav']);
        }
@@ -937,7 +937,7 @@ class GoodsController extends Controller
               return response()->json(['err'=>0,'str'=>'促销信息配置错误!请勿留空或填写非法数据!']);
        }
        //倒计时模块
-       if($data['count_down_1'] == 1){
+       if(isset($data['count_down_1']) && $data['count_down_1'] == 1){
            if(!$request->has('goods_end1') || !$request->has('goods_end2') || !$request->has('goods_end3')){
                return response()->json(['err'=>0,'str'=>'库存或倒计时时间不能为空！']);
            }
@@ -951,7 +951,7 @@ class GoodsController extends Controller
        }
 
        //促销活动模块
-       if($data['promotion_1'] == 1){
+       if(isset($data['promotion_1']) && $data['promotion_1'] == 1){
            if(!$request->has('goods_cuxiao_name') || !$request->has('goods_msg')){
                return response()->json(['err'=>0,'str'=>'促销活动名称或促销活动描述不能为空！']);
            }
@@ -963,9 +963,17 @@ class GoodsController extends Controller
            $goods->goods_msg='';
        }
 
+       if(!isset($data['broadcast_1'])){
+           if($request->hasFile('fm_imgs')){
+               $data['broadcast_1']=1;
+           }else{
+               $data['broadcast_1']=0;
+           }
+       }
+
        //封面图
        $old_img=\App\img::where('img_goods_id',$data['goods_id'])->get();
-       if($data['broadcast_1'] == 1) {
+       if(isset($data['broadcast_1']) && $data['broadcast_1'] == 1) {
            array_push($array, 'broadcast');
           
            //插入新的封面视频
@@ -1028,7 +1036,7 @@ class GoodsController extends Controller
        }
 
        //是否附带视频
-       if($data['is_video'] == 1) {
+       if(isset($data['is_video']) && $data['is_video'] == 1) {
            array_push($array,'video');
            if($request->hasFile('goods_video')){
                $size = filesize($request->file('goods_video'));
@@ -1056,7 +1064,7 @@ class GoodsController extends Controller
        }
 
        //尺寸助手
-       if($data['is_size_file'] == 1) {
+       if(isset($data['is_size_file']) && $data['is_size_file'] == 1) {
            array_push($array,'size_help');
            if($request->hasFile('size_file')){
                $size = filesize($request->file('size_file'));
@@ -1081,7 +1089,7 @@ class GoodsController extends Controller
        }
 
        //中部导航模块
-       if($data['center_nav_1'] == 1) {
+       if(isset($data['center_nav_1']) && $data['center_nav_1'] == 1) {
            array_push($array,'center_nav');
            $array = array_merge($array,$data['center_nav']);
            // 商品评论数根据是否显示商品来展示数量
@@ -1176,13 +1184,13 @@ class GoodsController extends Controller
        $msg2 = $goods->save();
 
        // 公司标识模块
-       if($data['comp_sign_1'] == 1){
+       if(isset($data['comp_sign_1']) && $data['comp_sign_1'] == 1){
            array_push($array,'comp_sign');
            $array = array_merge($array,$data['comp_sign']);
        }
 
        //1.价格模块（免运费、七天鉴赏期、货到付款）是否显示
-       if ($data['price_1'] == 1) {
+       if (isset($data['price_1']) && $data['price_1'] == 1) {
            array_push($array, 'price');
            if(isset($data['price'])){
                $array = array_merge($array, $data['price']);
@@ -1190,23 +1198,23 @@ class GoodsController extends Controller
        }
 
        //2.评价模块
-       if($data['commit_1'] == 1){
+       if(isset($data['commit_1']) && $data['commit_1'] == 1){
            array_push($array,'commit');
        }
 
        //3.用户帮助模块
-       if ($data['user_help_1'] == 1) {
+       if (isset($data['user_help_1']) && $data['user_help_1'] == 1) {
            array_push($array, 'user_help');
            $array = array_merge($array, $data['user_help']);
        }
 
        //4.物流公司
-       if ($data['express_1'] == 1) {
+       if (isset($data['express_1']) && $data['express_1'] == 1) {
            array_push($array, 'express');
        }
 
        //5.底部导航模块
-       if ($data['order_nav_1'] == 1) {
+       if (isset($data['order_nav_1']) && $data['order_nav_1'] == 1) {
            array_push($array, 'order_nav');
            $array = array_merge($array, $data['order_nav']);
        }
