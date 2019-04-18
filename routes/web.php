@@ -228,9 +228,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
  			require(__DIR__ . '/storage.php');  
  	    });
 	//监控路由
-	Route::group(['prefix' => 'admin/woker'], function ($router)
+	Route::group(['prefix' => 'admin/worker'], function ($router)
 	    {
- 			require(__DIR__ . '/woker.php');  
+ 			require(__DIR__ . '/worker.php');  
  	    });
 });
 
