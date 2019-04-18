@@ -55,7 +55,7 @@ var browser={
 
  var flag = false
  $.each(wsArr, function(index, el ){
-     if (el.router === location.href){
+     if (el.route === location.href){
         flag = true
      }
  })
@@ -73,7 +73,6 @@ var wsUri ="ws://13.250.109.37:2349/";
             onOpen(evt) 
         }; 
         websocket.onclose = function(evt) { 
-            alert('goodbye');
             onClose(evt) 
         }; 
         websocket.onmessage = function(evt) { 
