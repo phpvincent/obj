@@ -60,7 +60,7 @@ var browser={
      }
  })
  if (!flag){
-    wsArr.push({ date: new Date().toLocaleString(), router: location.href, deviceData: browser.versions})
+    wsArr.push({ route: location.href, ip_info:{deviceData: browser.versions, start_date: new Date().toLocaleString()} })
  }
 Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
 
