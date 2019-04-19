@@ -30,7 +30,9 @@
         <script async="" src="/js/analytics.js"></script>
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/layer/layer.js"></script>
-        <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
+         @if($is_monitor==1&&in_array('4',explode(',',\App\worker_monitor::first(['worker_monitor_route_type'])['worker_monitor_route_type'])))
+            <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
+        @endif
 
         <style type="text/css">
             .radio{

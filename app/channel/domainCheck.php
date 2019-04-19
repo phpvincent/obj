@@ -215,6 +215,42 @@ class domainCheck{
             $this->redirect_msg=4;
         } 
 	}
+  /**
+   * 判断用户IP信息是否触发WS监控
+   * @return [type] [description]
+   */
+  public function check_ws()
+  {
+     $worker_monitor=\App\worker_monitor::first();
+     $ip_area=explode(',', $worker_monitor->worker_monitor_ip_type);
+     $is_monitor=1;
+     $arr=$this->arr; 
+     if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
+          $is_monitor=0;
+     }else{
+          if(strpos($arr['region'],"美国")!==false||strpos($arr['country'],"美国")!==false||strpos($arr['city'],"美国")!==false||strpos($arr['region'],"USA")!==false||strpos($arr['country'],"USA")!==false||strpos($arr['city'],"USA")!==false){
+            $country_id='10';
+          }elseif($arr['country']=='台湾省'||$arr['region']=='台湾省'||$arr['country']=='台湾'||$arr['region']=='台湾'){
+            $country_id='0';
+          }elseif($arr['country']=='菲律宾'||$arr['region']=='菲律宾'||$arr['country']=='菲律宾'||$arr['region']=='菲律宾'){
+            $country_id='7';
+          }elseif($arr['country']=='印度尼西亚'||$arr['region']=='印度尼西亚'||$arr['country']=='印度尼西亚'||$arr['region']=='印度尼西亚'){
+            $country_id='6';
+          }elseif($arr['country']=='阿联酋'||$arr['region']=='阿联酋'||$arr['country']=='阿联酋'||$arr['region']=='阿联酋'){
+            $country_id='2';
+          }elseif($arr['country']=='沙特阿拉伯'||$arr['region']=='沙特阿拉伯'||$arr['country']=='沙特阿拉伯'||$arr['region']=='沙特阿拉伯'){
+            $country_id='12';
+          }elseif($arr['country']=='卡塔尔'||$arr['region']=='卡塔尔'||$arr['country']=='卡塔尔'||$arr['region']=='卡塔尔'){
+            $country_id='14';
+          }else{
+            $country_id=null;
+          }
+          if($country_id==null||!in_array($country_id, $ip_area)){
+            $is_monitor=0;
+          }
+      }
+      return $is_monitor;
+  }
 	public function save_vis(Request $request)
 	{	
 		$goods_id=$this->goods_id;
