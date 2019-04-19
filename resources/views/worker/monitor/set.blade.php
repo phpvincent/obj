@@ -16,7 +16,7 @@
                 </div>
               </div>
               <div class="layui-form-item flag" style="">
-              	 <label class="layui-form-label">追踪页面</label>
+              	 <label class="layui-form-label">监控页面</label>
                             <div class="layui-inline">
                                     <div class="goodsCheckbox">
                                       <input type="checkbox" name="worker_monitor_route_type[]" title="站点首页" value="0" lay-filter="monitorRouteCheck" @if(in_array(0,explode(",",$worker_monitor['worker_monitor_route_type']))) checked="checked" @endif>
