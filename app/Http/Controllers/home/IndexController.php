@@ -832,12 +832,16 @@ class IndexController extends Controller
         }
     }*/
     public function send(Request $request){
+        $url = url::get_site_url($_SERVER['SERVER_NAME'],$request->input('goods_id'));
+        if(!$url){
+            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+        }
         if($request->has('goods_id')){
             $goods_blade_type = \App\goods::where('goods_id',$request->input('goods_id'))->value('goods_blade_type');
-            $url = url::get_site_url($_SERVER['SERVER_NAME'],$request->input('goods_id'));
-            if(!$url){
-              return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
-            }
+//            $url = url::get_site_url($_SERVER['SERVER_NAME'],$request->input('goods_id'));
+//            if(!$url){
+//              return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+//            }
             if($goods_blade_type == 0){
                 return view('home.TaiwanFan.send')->with(['url'=>$url]);                
             }

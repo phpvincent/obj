@@ -223,7 +223,11 @@ class url extends Model
             return false;
         }
         if($urls->url_site_id){
-            return $url.'/index/site_goods/'.$goods_id;
+            if($goods_id){
+                return $url.'/index/site_goods/'.$goods_id;
+            }else{
+                return $url;
+            }
         }
         if($urls->url_goods_id){
             return $url;
