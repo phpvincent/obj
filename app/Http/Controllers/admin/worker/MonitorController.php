@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 class MonitorController extends Controller
 {
     protected $redis;
+
+    /**
+     * 构造方法
+     * MonitorController constructor.
+     */
     public function __construct()
     {
         $this->redis = Rediss::getInstance();
@@ -42,6 +47,41 @@ class MonitorController extends Controller
             }
         }
         return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
+    }
+
+    /**
+     * 正在浏览网页的用户IP
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ip_list(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('worker.monitor.ip_list');
+        }else{
+            $route = $request->input('route');
+            $ip_data = $this->redis->hGet('routes_ips',$route);
+            $ip_list = explode(',',$ip_data);
+            $count = count($ip_list);
+            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $ip_list]);
+        }
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function ip_info(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('worker.monitor.ip_info');
+        }else{
+            $ip = $request->input('ip');
+            $ip_data = $this->redis->hGet('route_ip_msg',$ip);
+            $ip_list = json_decode($ip_data,true);
+            return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
+        }
     }
     /**
      * 配置设置
