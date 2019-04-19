@@ -8,15 +8,40 @@ use App\Http\Controllers\Controller;
 
 class MonitorController extends Controller
 {
+    protected $redis;
+    public function __construct()
+    {
+        $this->redis = Rediss::getInstance();
+    }
+
     /**
      * 网页监控
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function list()
     {
-        $redis = Rediss::getInstance();
-        dd($redis->get("aa"));
         return view('worker.monitor.index');
+    }
+
+
+    /**
+     * 获取访问数据列表
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_table(Request $request)
+    {
+        $data =  $this->redis->hGetAll('routes');
+        $routes = [];
+        $count = count($data);
+        if($count != 0){
+            foreach ($data as $key=>$value){
+                $arr['route'] = $key;
+                $arr['num'] = $value;
+                array_push($routes,$arr);
+            }
+        }
+        return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
     }
     /**
      * 配置设置
