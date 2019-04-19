@@ -16,7 +16,7 @@ class MonitorController extends Controller
      */
     public function __construct()
     {
-        $this->redis = Rediss::getInstance();
+//        $this->redis = Rediss::getInstance();
     }
 
     /**
@@ -36,17 +36,17 @@ class MonitorController extends Controller
      */
     public function get_table(Request $request)
     {
-        $data =  $this->redis->hGetAll('routes');
-        $routes = [];
-        $count = count($data);
-        if($count != 0){
-            foreach ($data as $key=>$value){
-                $arr['route'] = $key;
-                $arr['num'] = $value;
-                array_push($routes,$arr);
-            }
-        }
-        return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
+//        $data =  $this->redis->hGetAll('routes');
+//        $routes = [];
+//        $count = count($data);
+//        if($count != 0){
+//            foreach ($data as $key=>$value){
+//                $arr['route'] = $key;
+//                $arr['num'] = $value;
+//                array_push($routes,$arr);
+//            }
+//        }
+//        return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
     }
 
     /**
@@ -56,15 +56,15 @@ class MonitorController extends Controller
      */
     public function ip_list(Request $request)
     {
-        if($request->isMethod('get')){
-            return view('worker.monitor.ip_list');
-        }else{
-            $route = $request->input('route');
-            $ip_data = $this->redis->hGet('routes_ips',$route);
-            $ip_list = explode(',',$ip_data);
-            $count = count($ip_list);
-            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $ip_list]);
-        }
+//        if($request->isMethod('get')){
+//            return view('worker.monitor.ip_list');
+//        }else{
+//            $route = $request->input('route');
+//            $ip_data = $this->redis->hGet('routes_ips',$route);
+//            $ip_list = explode(',',$ip_data);
+//            $count = count($ip_list);
+//            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $ip_list]);
+//        }
     }
 
     /**
@@ -74,14 +74,14 @@ class MonitorController extends Controller
      */
     public function ip_info(Request $request)
     {
-        if($request->isMethod('get')){
-            return view('worker.monitor.ip_info');
-        }else{
-            $ip = $request->input('ip');
-            $ip_data = $this->redis->hGet('route_ip_msg',$ip);
-            $ip_list = json_decode($ip_data,true);
-            return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
-        }
+//        if($request->isMethod('get')){
+//            return view('worker.monitor.ip_info');
+//        }else{
+//            $ip = $request->input('ip');
+//            $ip_data = $this->redis->hGet('route_ip_msg',$ip);
+//            $ip_list = json_decode($ip_data,true);
+//            return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
+//        }
     }
     /**
      * 配置设置
