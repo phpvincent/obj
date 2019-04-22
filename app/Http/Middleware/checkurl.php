@@ -7,6 +7,7 @@ use App\url;
 use App\vis;
 use App\site;
 use App\channel\domainCheck;
+use App\channel\Rediss;
 use DB;
 use Illuminate\Support\Facades\Cookie;
 class checkurl
@@ -21,7 +22,6 @@ class checkurl
     public function handle($request, Closure $next)
     {
     //判断是否为预览操作
-    
     //域名解析逻辑
         $url=$_SERVER['SERVER_NAME'];
         //将www二级域名去除

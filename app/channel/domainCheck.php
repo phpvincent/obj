@@ -223,6 +223,11 @@ class domainCheck{
   {
      $worker_monitor=\App\worker_monitor::first();
      $ip_area=explode(',', $worker_monitor->worker_monitor_ip_type);
+     $start_time= date('Y-m-d').' '.$worker_monitor->worker_monitor_start_time;
+     $stop_time= date('Y-m-d').' '.$worker_monitor->worker_monitor_stop_time;
+     if(time()<strtotime($start_time)||time()>strtotime($stop_time)){
+      return $is_monitor=0;
+     }
      $is_monitor=1;
      $arr=$this->arr; 
      if(strpos($arr['isp'],"脸书")!==false||strpos($arr['isp'],"facebook")!==false||strpos($arr['isp'],"Facebook")!==false){
