@@ -53,7 +53,7 @@ class MonitorController extends Controller
                 }else{
 
                 }
-                $arr['route'] = $rr[4];
+                $arr['route'] = isset($rr[4]) ? $rr[4] : "127.0.0.1";
                 $arr['num'] = $value;
                 array_push($routes,$arr);
             }
