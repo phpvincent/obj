@@ -222,7 +222,11 @@ class UrlController extends Controller
           $ad_account[$k]->is_belong=false;
         }
       }
-   		return view('admin.url.churl')->with(compact('goods','url','ad_account'));
+      if(isset($goods)){
+        return view('admin.url.churl')->with(compact('goods','url','ad_account'));
+      }else{
+        return view('admin.url.churl')->with(compact('url','ad_account'));
+      }
    }
 
     /** 域名配置操作

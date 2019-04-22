@@ -1,8 +1,8 @@
 <!DOCTYPE html>  
 <meta charset="utf-8" />  
 <title>WebSocket Test</title> 
-<script src="http://52.14.183.239/js/jquery.min.js"></script>
-<script src="http://52.14.183.239/layer/layer.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/layer/layer.js"></script>
 <script language="javascript"type="text/javascript">  
     //var wsUri ="ws://echo.websocket.org/";
      var wsUri ="ws://13.250.109.37:2350/";
