@@ -43,25 +43,15 @@ class MonitorController extends Controller
             foreach ($data as $key=>$value){
                 $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
                 $url = trim($key);
+//                $url = "http://127.0.0.1/pay?goods_id=75";
                 preg_match_all($search, $url ,$rr);
                 //根据路由获取路由为站点，还是单品
                 $urls = url::where('url_url',$rr[4])->first();
-//                if(!$url){
-//                    return false;
-//                }
-//                if($urls->url_site_id){ //站点
-////                    if($goods_id){
-////                        return $url.'/index/site_goods/'.$goods_id;
-////                    }else{
-////                        return $url;
-////                    }
-//                }
-//                if($urls->url_goods_id){
-//                    return $url;
-//                }
-//                if($urls->url_zz_goods_id){
-//                    return $url;
-//                }
+                if($urls->url_site_id){
+
+                }else{
+
+                }
                 $arr['route'] = $rr[4];
                 $arr['num'] = $value;
                 array_push($routes,$arr);
@@ -84,7 +74,14 @@ class MonitorController extends Controller
             $ip_data = $this->redis->hGet('routes_ips',$route);
             $ip_list = explode(',',$ip_data);
             $count = count($ip_list);
-            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $ip_list]);
+            $data = [];
+            if($count > 0){
+               foreach ($ip_list as $value){
+                   $arr['ip'] = $value;
+                   array_push($data,$arr);
+               }
+            }
+            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $data]);
         }
     }
 
