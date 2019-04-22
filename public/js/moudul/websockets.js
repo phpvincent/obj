@@ -87,7 +87,7 @@ Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
 
 console.log('after', JSON.parse(Cookies.get('wsdata')))
 
-var wsUri ="ws://13.250.109.37:2349/";
+var wsUri ="ws://13.229.73.221:2349/";
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
         websocket.onopen = function(evt) { 

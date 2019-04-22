@@ -126,9 +126,9 @@ class MonitorController extends Controller
     		if($worker_monitor==null){
     			$worker_monitor=new \App\worker_monitor;
     		}
-    		if(strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[0])>strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[1])){
-    			$worker_monitor->worker_monitor_start_time=explode(' ~ ', $data['laydate'])[1];
-    			$worker_monitor->worker_monitor_stop_time=explode(' ~ ', $data['laydate'])[0];
+    		if(strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[0])<strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[1])){
+    			$worker_monitor->worker_monitor_start_time=explode(' ~ ', $data['laydate'])[0];
+    			$worker_monitor->worker_monitor_stop_time=explode(' ~ ', $data['laydate'])[1];
     		}
     		$worker_monitor->worker_monitor_route_type=implode(',', $data['worker_monitor_route_type']);
     		$worker_monitor->worker_monitor_ip_type=implode(',', $data['worker_monitor_ip_type']);
