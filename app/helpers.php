@@ -34,6 +34,7 @@ if (!function_exists("getclientcity")) {
     { 
       set_time_limit(0);
       $ip=$request->getClientIp();
+      $ip='175.158.216.49';
       if($type!==false){
         $ip=$type;
       }
