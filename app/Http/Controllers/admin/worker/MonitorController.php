@@ -47,7 +47,7 @@ class MonitorController extends Controller
                 preg_match_all($search, $url ,$rr);
                 //根据路由获取路由为站点，还是单品
                 $urls = url::where('url_url',$rr[4])->first();
-                if($urls->url_site_id){
+                if($urls && $urls->url_site_id){
 
                 }else{
 
