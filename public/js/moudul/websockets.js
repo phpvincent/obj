@@ -87,7 +87,8 @@ Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
 
 console.log('after', JSON.parse(Cookies.get('wsdata')))
 
-var wsUri ="ws://13.250.109.37:2349/";
+var wsUri ="ws://13.229.73.221:2349/";
+var  heartbeat=null
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
         websocket.onopen = function(evt) { 
@@ -102,6 +103,13 @@ var wsUri ="ws://13.250.109.37:2349/";
         websocket.onerror = function(evt) { 
             onError(evt) 
         }; 
+
+// ws心跳
+clearInterval(heartbeat)
+    heartbeat = setInterval(function(){
+    doSend({heartbeat: 0})
+  },60000)
+
     } 
 
     function onOpen(evt) { 
@@ -112,6 +120,7 @@ var wsUri ="ws://13.250.109.37:2349/";
 
   function onClose(evt) { 
       console.log("关闭ws"); 
+      clearInterval(heartbeat)
   }  
 
   function onMessage(evt) { 
@@ -124,7 +133,7 @@ var wsUri ="ws://13.250.109.37:2349/";
   }  
 
   function doSend(message) { 
-      console.log("send: " + message);  
+      console.log("send: " + JSON.stringify(message));  
       websocket.send(JSON.stringify(message)); 
   } 
-  window.addEventListener("load", testWebSocket, false); 
+  window.addEventListener("load", testWebSocket, false);
