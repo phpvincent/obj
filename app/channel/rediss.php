@@ -48,9 +48,10 @@ namespace App\channel;
          */
         private function __construct($attr = [])
         {
-            $this->host = env('REDIS_HOST',"127.0.0.1");
-            $this->port = env("REDIS_PORT","6379");
-            $config['auth'] = env("REDIS_PASSWORD","");
+            
+            $this->host = config('database.redis.default.host');
+            $this->port = config('database.redis.default.port');
+            $config['auth'] = config('database.redis.default.password');
             $this->attr  = array_merge($this->attr, $attr);
             $this->redis = new \Redis();
             $this->redis->connect($this->host, $this->port, $this->attr['timeout']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin\worker;
 
 use App\channel\Rediss;
+use App\url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -41,7 +42,18 @@ class MonitorController extends Controller
         $count = count($data);
         if($count != 0){
             foreach ($data as $key=>$value){
-                $arr['route'] = $key;
+                $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
+                $url = trim($key);
+//                $url = "http://127.0.0.1/pay?goods_id=75";
+                preg_match_all($search, $url ,$rr);
+                //根据路由获取路由为站点，还是单品
+                $urls = url::where('url_url',$rr[4])->first();
+                if($urls && $urls->url_site_id){
+
+                }else{
+
+                }
+                $arr['route'] = $url;
                 $arr['num'] = $value;
                 array_push($routes,$arr);
             }
@@ -56,14 +68,21 @@ class MonitorController extends Controller
      */
     public function ip_list(Request $request)
     {
+        $route = $request->input('route');
         if($request->isMethod('get')){
-            return view('worker.monitor.ip_list');
+            return view('worker.monitor.ip_list')->with('route',$route);
         }else{
-            $route = $request->input('route');
             $ip_data = $this->redis->hGet('routes_ips',$route);
             $ip_list = explode(',',$ip_data);
             $count = count($ip_list);
-            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $ip_list]);
+            $data = [];
+            if($count > 0){
+               foreach ($ip_list as $value){
+                   $arr['ip'] = $value;
+                   array_push($data,$arr);
+               }
+            }
+            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $data]);
         }
     }
 
@@ -74,10 +93,10 @@ class MonitorController extends Controller
      */
     public function ip_info(Request $request)
     {
+        $ip = $request->input('ip');
         if($request->isMethod('get')){
-            return view('worker.monitor.ip_info');
+            return view('worker.monitor.ip_info')->with('ip',$ip);
         }else{
-            $ip = $request->input('ip');
             $ip_data = $this->redis->hGet('route_ip_msg',$ip);
             $ip_list = json_decode($ip_data,true);
             return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
@@ -105,9 +124,9 @@ class MonitorController extends Controller
     		if($worker_monitor==null){
     			$worker_monitor=new \App\worker_monitor;
     		}
-    		if(strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[0])>strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[1])){
-    			$worker_monitor->worker_monitor_start_time=explode(' ~ ', $data['laydate'])[1];
-    			$worker_monitor->worker_monitor_stop_time=explode(' ~ ', $data['laydate'])[0];
+    		if(strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[0])<strtotime('2000-1-1 '.explode(' ~ ', $data['laydate'])[1])){
+    			$worker_monitor->worker_monitor_start_time=explode(' ~ ', $data['laydate'])[0];
+    			$worker_monitor->worker_monitor_stop_time=explode(' ~ ', $data['laydate'])[1];
     		}
     		$worker_monitor->worker_monitor_route_type=implode(',', $data['worker_monitor_route_type']);
     		$worker_monitor->worker_monitor_ip_type=implode(',', $data['worker_monitor_ip_type']);
