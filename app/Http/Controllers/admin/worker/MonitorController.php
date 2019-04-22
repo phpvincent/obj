@@ -56,10 +56,10 @@ class MonitorController extends Controller
      */
     public function ip_list(Request $request)
     {
+        $route = $request->input('route');
         if($request->isMethod('get')){
-            return view('worker.monitor.ip_list');
+            return view('worker.monitor.ip_list')->with('route',$route);
         }else{
-            $route = $request->input('route');
             $ip_data = $this->redis->hGet('routes_ips',$route);
             $ip_list = explode(',',$ip_data);
             $count = count($ip_list);
@@ -74,10 +74,10 @@ class MonitorController extends Controller
      */
     public function ip_info(Request $request)
     {
+        $ip = $request->input('ip');
         if($request->isMethod('get')){
-            return view('worker.monitor.ip_info');
+            return view('worker.monitor.ip_info')->with('ip',$ip);
         }else{
-            $ip = $request->input('ip');
             $ip_data = $this->redis->hGet('route_ip_msg',$ip);
             $ip_list = json_decode($ip_data,true);
             return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
