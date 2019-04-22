@@ -44,36 +44,7 @@ img{ border:none; vertical-align:top;}
 <div class="layui-card">
   <div class="layui-card-header layui-form layuiadmin-card-header-auto">
   <div class="layui-form-item">
-      <div class="layui-inline">
-          <label class="layui-form-label">日期时间：</label>
-          <div class="layui-input-inline">
-              <input type="text" class="layui-input" id="test-laydate-out"
-                     placeholder="日期范围">
-          </div>
-      </div>
-      <div class="layui-inline">
-          <label class="layui-form-label">校验单类型</label>
-          <div class="layui-input-block">
-              <select name="storage_check_is_out" id="storage_check_is_out" lay-verify="required">
-                  <option value="#">请选择</option>
-                  <option value="0">仅校准</option>
-                  <option value="1">校准并扣货</option>
-              </select>
-          </div>
-      </div>
-      <div class="layui-inline">
-          <label class="layui-form-label">校对方式</label>
-          <div class="layui-input-block">
-              <select name="storage_check_type" id="storage_check_type" lay-verify="required">
-                  <option value="#">请选择</option>
-                  <option value="0">系统校对</option>
-                  <option value="1">人工校对</option>
-              </select>
-          </div>
-      </div>
-      <div class="layui-inline">
-      <button class="layui-btn" id="reload">搜索</button>
-      </div>
+      
       <div class="layui-inline">
           <label class="layui-form-label">路由搜索</label>
           <div class="layui-input-block">
@@ -112,34 +83,32 @@ img{ border:none; vertical-align:top;}
     <div class="course">
       <div class="clearfix web_widht course_nr">
           <ul class="course_nr2">
+          @{{#  layui.each(d.data.routes, function(index, item){ }}
+          <li dataid="@{{item.start_date}}">
+                <span>@{{item.route}}</span>
+                <div class="shiji" style="display: none;">
+                    <!-- <h1>@{{item.storage_log_type}}</h1> -->
+                    <h1>1</h1>
+                    <p>@{{item.start_date}}</p>
+                </div>
+          </li>
+          @{{#  }); }}
           </ul>
       </div>
     </div>
 	    <legend>
-      @{{#  if(d[0].storage_check_data_type === '4'){ }}
-         缺货
-     @{{#  }else if(d[0].storage_check_data_type === '1'){ }} 
-         从海外仓拆分发货
-      @{{#  }else if(d[0].storage_check_data_type === '2'){ }} 
-         从海外仓不拆分发货
-      @{{#  }else if(d[0].storage_check_data_type === '3'){ }} 
-      从本地仓发货
-      @{{#  } }}
+       详情
       </legend>
 	<div class="layui-field-box">
-  <blockquote class="layui-elem-quote">总数目：@{{d[0].storage_check_data_num}}</blockquote>
-  <blockquote class="layui-elem-quote">产品sku：@{{d[0].storage_check_data_sku}}</blockquote>
-  <blockquote class="layui-elem-quote">订单编号：@{{d[0].storage_check_data_order}}</blockquote>
-  <blockquote class="layui-elem-quote">校准单编号：@{{d[0].storage_check_string}}</blockquote>
-  <blockquote class="layui-elem-quote" style="color:brown">
-     @{{#  if(d[0].storage_check_data_type === '4'){ }}
-       仓库名：<span style="color:red;">缺货</span>  
-     @{{#  }else if(d[0].storage_check_data_type === '3'){ }} 
-        仓库名：<span style="color:green;">本地仓</span> 
-    @{{# }else{ }} 
-      仓库名：@{{d[0].storage_name}}
-    @{{# } }}
-  </blockquote>
+  <blockquote class="layui-elem-quote">core:@{{d.data.deviceData.core}}</blockquote>
+  <blockquote class="layui-elem-quote">iPad:@{{d.data.deviceData.iPad}}</blockquote>
+  <blockquote class="layui-elem-quote">iPhone:@{{d.data.deviceData.iPhone}}</blockquote>
+  <blockquote class="layui-elem-quote">iosOrAndroid:@{{d.data.deviceData.iosOrAndroid}}</blockquote>
+  <blockquote class="layui-elem-quote">language:@{{d.data.deviceData.language}}</blockquote>
+  <blockquote class="layui-elem-quote">mobile:@{{d.data.deviceData.mobile}}</blockquote>
+  <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
+  <blockquote class="layui-elem-quote">webApp:@{{d.data.deviceData.webApp}}</blockquote>
+  
   </div>
   
   
@@ -240,7 +209,7 @@ img{ border:none; vertical-align:top;}
     table.on('checkbox(table1)', function(obj){
 
       console.log(obj)
-      var route1 = obj.data.route.replace(/[&\|\\\/*^%$#:.@\-]/g,"");
+      var route1 = obj.data.route.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
     var closeFunc = function () {
         $('#tabDom .layui-tab-title li').remove()
         $('#tabDom .layui-tab-content div').remove()
@@ -269,30 +238,30 @@ img{ border:none; vertical-align:top;}
         route: route
       }
       ,cols: [[ //表头
-         {field: 'storage_check_data_order', title: 'ip', minWidth: 150}
+         {field: 'ip', title: 'ip', minWidth: 150}
       ]]
      };
        //zi表格初始化
        table.render(options);
        table.on('row('+route1+')', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-       console.log(obj.data.storage_check_data_order)
+       console.log(obj)
          var data = obj.data; //获得当前行数据
+         var ip1 = obj.data.ip.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
         //  if(obj.event === 'showsong'){ 
-            console.log(data)
+            // console.log(data)
             layer.open({
             type: 1 //此处以iframe举例
             ,title: '订单扣货详情'
             ,area: ['800px', '600px']
             ,maxmin: true
-            ,content: '<div id="'+data.storage_check_data_order+'"></div>'
+            ,content: '<div id="'+ip1+'"></div>'
             ,zIndex: layer.zIndex //重点1
           })
           $.ajax({
                 url:'/admin/worker/monitor/page/ip_info',
-                type:'get',
+                type:'post',
                 data:{
-                  route: route,
-                  order_id: data.storage_check_data_order
+                  ip: data.ip
                 },
                 // datatype:'json',
                 headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
@@ -301,7 +270,9 @@ img{ border:none; vertical-align:top;}
                    var getTpl = suntable.innerHTML;
                   
                    laytpl(getTpl).render(msg, function(html){
-                     $('#'+data.storage_check_data_order).html(html)
+                     console.log(html)
+                     $('#'+ip1).html(html)
+                     console.log($('#'+ip1))
                    });
                 }
           })
@@ -438,28 +409,28 @@ img{ border:none; vertical-align:top;}
     })
 
 
-    $.ajax({
-           url:'/admin/storage/log/time_line',
-           type:'get',
-           success:function(msg){
-              // console.log(msg)
-              var getTpl = timeLine.innerHTML;
-              laytpl(getTpl).render(msg, function(html){
-                $('ul.course_nr2').append(html)
-              });
-              // 时间线样式
-              $(function(){
-                  //首页大事记
-                  $('.course_nr2 li').hover(function(){
-                      $(this).find('.shiji').stop().slideDown(600);
-                      $(this).find('span').hide();
-                  },function(){
-                      $(this).find('.shiji').stop().slideUp(100);
-                      $(this).find('span').show();
-                  });
-              });
-           }
-          })
+    // $.ajax({
+    //        url:'/admin/storage/log/time_line',
+    //        type:'get',
+    //        success:function(msg){
+    //           console.log(msg)
+    //           var getTpl = timeLine.innerHTML;
+    //           laytpl(getTpl).render(msg, function(html){
+    //             $('ul.course_nr2').append(html)
+    //           });
+    //           // 时间线样式
+    //           $(function(){
+    //               //首页大事记
+    //               $('.course_nr2 li').hover(function(){
+    //                   $(this).find('.shiji').stop().slideDown(600);
+    //                   $(this).find('span').hide();
+    //               },function(){
+    //                   $(this).find('.shiji').stop().slideUp(100);
+    //                   $(this).find('span').show();
+    //               });
+    //           });
+    //        }
+    //       })
 
     
     
