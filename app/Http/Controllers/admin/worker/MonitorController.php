@@ -41,7 +41,28 @@ class MonitorController extends Controller
         $count = count($data);
         if($count != 0){
             foreach ($data as $key=>$value){
-                $arr['route'] = $key;
+                $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
+                $url = trim($key);
+                preg_match_all($search, $url ,$rr);
+                //根据路由获取路由为站点，还是单品
+                $urls = url::where('url_url',$rr[4])->first();
+//                if(!$url){
+//                    return false;
+//                }
+//                if($urls->url_site_id){ //站点
+////                    if($goods_id){
+////                        return $url.'/index/site_goods/'.$goods_id;
+////                    }else{
+////                        return $url;
+////                    }
+//                }
+//                if($urls->url_goods_id){
+//                    return $url;
+//                }
+//                if($urls->url_zz_goods_id){
+//                    return $url;
+//                }
+                $arr['route'] = $rr[4];
                 $arr['num'] = $value;
                 array_push($routes,$arr);
             }
