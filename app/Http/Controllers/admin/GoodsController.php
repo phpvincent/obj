@@ -1973,7 +1973,7 @@ class GoodsController extends Controller
       if($request->isMethod('get')){
         return view('admin.goods.cheap_set');
       }elseif($request->isMethod('post')){
-
+          
       }
     }
     /**
@@ -1982,9 +1982,68 @@ class GoodsController extends Controller
     public function cheap_index(Request $request)
     {
       if($request->isMethod('get')){
-        return view('admin.goods.cheap_index');
+        return view('admin.goods.cheap_index')->with(['id'=>$request->input('id')]);
       }elseif($request->isMethod('post')){
-        
+        $info=$request->all();
+          $cm=$info['order'][0]['column'];
+          $dsc=$info['order'][0]['dir'];
+          $order=$info['columns']["$cm"]['data'];
+          $draw=$info['draw'];
+          $start=$info['start'];
+          $len=$info['length'];
+          $search=trim($info['search']['value']);
+          $counts=DB::table('goods_cheap')
+          ->select('goods_cheap.*','admin.admin_show_name')
+          ->leftjoin('admin','goods_cheap.goods_cheap_admin_id','admin.admin_id')
+          ->where(function($query)use($request){
+//            if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
+//              $query->where('goods_admin_id',Auth::user()->admin_id);
+//            }
+                $query->where('goods_cheap.goods_cheap_goods_id',$request->input('id'));
+                $query->where('goods_cheap.goods_cheap_is_del','0');
+            })
+          ->count();
+          $newcount=DB::table('goods_cheap')
+          ->select('goods_cheap.*','admin.admin_show_name')
+          ->leftjoin('admin','goods_cheap.goods_cheap_admin_id','admin.admin_id')
+          ->where(function($query)use($request){
+//            if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
+//              $query->where('goods_admin_id',Auth::user()->admin_id);
+//            }
+                $query->where('goods_cheap.goods_cheap_goods_id',$request->input('id'));
+                $query->where('goods_cheap.goods_cheap_is_del','0');
+            })
+           ->where(function($query)use($search){
+            $query->where('admin.admin_show_name','like',"%$search%");
+            $query->orWhere('goods_cheap.goods_cheap_id','like',"%$search%");
+          })
+          ->count();
+          $data=DB::table('goods_cheap')
+          ->leftjoin('admin','goods_cheap.goods_cheap_admin_id','admin.admin_id')
+          ->where(function($query)use($request){
+//            if(Auth::user()->is_root!='1'&&Auth::user()->admin_group!='5'){
+//              $query->where('goods_admin_id',Auth::user()->admin_id);
+//            }
+                $query->where('goods_cheap.goods_cheap_goods_id',$request->input('id'));
+                $query->where('goods_cheap.goods_cheap_is_del','0');
+            })
+           ->where(function($query)use($search){
+            $query->where('admin.admin_show_name','like',"%$search%");
+            $query->orWhere('goods_cheap.goods_cheap_id','like',"%$search%");
+          })
+          ->orderBy($order,$dsc)
+          ->offset($start)
+          ->limit($len)
+          ->get();
+          foreach($data as $k => $v){
+            if(strtotime($v->goods_cheap_start_time)<=time()){
+              $data[$k]->goods_cheap_start_time='<span style="color:green;">'.$v->goods_cheap_start_time.'(已生效)</span>';
+            }else{
+              $data[$k]->goods_cheap_start_time='<span style="color:red;">'.$v->goods_cheap_start_time.'(尚未生效)</span>';
+            }
+          }
+          $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
+          return response()->json($arr);
       }
     }
 }
