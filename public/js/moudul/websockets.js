@@ -74,10 +74,16 @@ var browser={
  var wsArr = (function(){ return Cookies.get('wsdata')? JSON.parse(Cookies.get('wsdata')) : new Array })()
  var locHref = (function( href ){
         var hrefarr= href.split('?')
-        if(hrefarr[1].indexOf('goods_id')===0 || hrefarr[1].indexOf('order_id')===0 || hrefarr[1].indexOf('type')===0){
-            var arr = hrefarr[1].split('&')
-            return hrefarr[0] + '?' + arr[0]
-        }else {
+        if(hrefarr[1]){
+            var str = ''
+             hrefarr[1].split('&').forEach(function(val, i){
+                if( val.indexOf('goods_id')===0 || val.indexOf('order_id')===0 || val.indexOf('type')===0 || val.indexOf('q')===0 ) {
+                 str += val + '&'
+                }
+             })
+            str = str.replace(/&$/gi, '')
+            return hrefarr[0] + '?' + str
+       }else {
             return hrefarr[0]
         }
     
