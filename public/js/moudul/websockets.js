@@ -72,16 +72,27 @@ var browser={
 
 
  var wsArr = (function(){ return Cookies.get('wsdata')? JSON.parse(Cookies.get('wsdata')) : new Array })()
+ var locHref = (function( href ){
+        var hrefarr= href.split('?')
+        if(hrefarr[1].indexOf('goods_id')===0 || hrefarr[1].indexOf('order_id')===0 || hrefarr[1].indexOf('type')===0){
+            var arr = hrefarr[1].split('&')
+            return hrefarr[0] + '?' + arr[0]
+        }else {
+            return hrefarr[0]
+        }
+    
+    
+    })(location.href)
  console.log('befor',wsArr)
 
  var flag = false
  $.each(wsArr, function(index, el ){
-     if (el.route === location.href){
+     if (el.route === locHref){
         flag = true
      }
  })
  if (!flag){
-    wsArr.push({ route: location.href, start_date: new Date().toLocaleString() })
+    wsArr.push({ route: locHref, start_date: new Date().toLocaleString() })
  }
 Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
 
@@ -113,7 +124,7 @@ clearInterval(heartbeat)
     } 
 
     function onOpen(evt) { 
-      var data = {route: location.href, ip_info:{deviceData: browser.versions, routes: wsArr }}
+      var data = {route: locHref, ip_info:{deviceData: browser.versions, routes: wsArr }}
       doSend(data)
       console.log("第一次打开"); 
   }  
