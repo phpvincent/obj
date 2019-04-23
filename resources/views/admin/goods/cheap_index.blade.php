@@ -1,20 +1,19 @@
 @extends('admin.father.css')
 @section('content')
-	<input class="btn radius btn-secondary" type="button" value="+新增评论" style="margin-left: 10%;" onclick="newcomment('新增评论','/admin/comment/newcomment?id={{$id}}','2','800','500')">
+	<input class="btn radius btn-secondary" type="button" value="+新增优惠券" style="margin-left: 10%;" onclick="new_cheap('新增优惠券','/admin/goods/cheap/set','2','800','500')">
 <table class="table table-border table-bordered table-bg" id="comment_user_table">
 		<thead>
 			<tr>
-				<th scope="col" colspan="11">评论管理</th>
+				<th scope="col" colspan="11">优惠卷列表</th>
 			</tr>
 			<tr class="text-c">
-				<th width="40">ID</th>
-				<th width="100">单品名</th>
-				<th width="110">评论者姓名</th>
-				<th width="20">评论者手机号</th>
-				<th width="20">评论星级</th>
-				<th width="20">评论信息</th>
-				<th width="20">附带图片</th>
-				<th width="20">评论时间</th>
+				<th width="20">ID</th>
+				<th width="20">类型</th>
+				<th width="20">添加者</th>
+				<th width="30">参数</th>
+				<th width="30">备注参数</th>
+				<th width="40">添加时间</th>
+				<th width="40">生效时间</th>
 				<th width="20">操作</th>
 			</tr>
 		</thead>
@@ -25,7 +24,7 @@
 @endsection
 @section('js')
 <script type="text/javascript">
-	function newcomment(title,url,type,w,h){
+	function new_cheap(title,url,type,w,h){
 		layer_show(title,url,w,h);
 	}
 	$.tablesetting={
@@ -34,29 +33,28 @@
 		"info":   true,	
 		"searching": true,
 		"ordering": true,
-		"order": [[ 0, "desc" ]],
+		"order": [[ 5, "desc" ]],
 		"stateSave": false,
 		"columnDefs": [{
-		   "targets": [1,2,3,5,6,8],
+		   "targets": [1,2,3,4,7],
 		   "orderable": false
 		}],
 		"processing": true,
 		"serverSide": true,
 		"ajax": {
-		"url": "{{url('admin/comment/geton')}}",
+		"url": "{{url('admin/goods/cheap/index')}}",
 		"type": "POST",
 		'data':{'id':{{$id}}},
 		'headers': { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
 		},
 		"columns": [
-		{"data":'com_id'},
-		{'data':'goods_real_name'},
-		{'data':'com_name'},
-		{'data':'com_phone'},
-		{'data':'com_star'},
-		{'data':'com_msg'},
+		{"data":'goods_cheap_id'},
 		{'defaultContent':"","className":"td-manager"},
-		{'data':'com_time'},
+		{'data':'admin_name'},
+		{'data':'goods_cheap_msg'},
+		{'data':'goods_cheap_remark'},
+		{'data':'goods_cheap_time'},
+		{'data':'goods_cheap_start_time'},
 		{'defaultContent':"","className":"td-manager"},
 /*		{'data':'course.profession.pro_name'},
 		{'defaultContent':""},
@@ -65,12 +63,13 @@
 		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="下线" href="javascript:;" onclick="del_oncom(\''+data.com_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
-			info+='<a title="修改" href="javascript:;" onclick="chncomment(\'修改评论\',\'/admin/comment/usecomment?id='+data.com_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe62e;</i></a>';
-			if(data.com_img!=''&&data.com_img!=null){
-							var imgs='<img style="width:100px;height:135px;" src="'+data.com_img+'" alt="'+data.com_img+'"/>';
-			}else{
-							var imgs='暂无附图';
+			var info='<a title="删除" href="javascript:;" onclick="del_cheap(\''+data.goods_cheap_id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>';
+			if(data.goods_cheap_type==0){
+							var types='<span style="color:green;">现金卷</span>'
+			}else if(data.goods_cheap_type==1){
+							var types='<span style="color:brown;">折扣卷</span>'
+			}else if(data.goods_cheap_type==2){
+							var types='<span style="color:red;">减免卷</span>'
 			}
 			/*if(data.url_type==0){
 				var isroot='<span class="label label-default radius">×</span>';
@@ -81,8 +80,8 @@
 			}*/
 			/*var checkbox='<input type="checkbox" name="" value="">';*/
 			/*var info='<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'member-add.html\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,1)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';*/
-			$(row).find('td:eq(8)').html(info);
-			$(row).find('td:eq(6)').html(imgs);
+			$(row).find('td:eq(1)').html(types);
+			$(row).find('td:eq(7)').html(info);
 			$(row).addClass('text-c');
 			/*var img="<img src='"+data.cover_img+"' alt='暂时没有图片' width='130' height='100'>";
 			$(row).find('td:eq(5)').html(img);*/
@@ -92,12 +91,12 @@
 	
 }
  dataTable =$('#comment_user_table').DataTable($.tablesetting);
- function del_oncom(id){
-		var msg =confirm("确定要下线此评论吗？");
+ function del_cheap(id){
+		var msg =confirm("确定要删除此优惠卷？");
 		if(msg){
-        		layer.msg('下线中');
+        		layer.msg('处理中');
         		$.ajax({
-					url:"{{url('admin/comment/downcom')}}",
+					url:"{{url('admin/goods/cheap/del')}}",
 					type:'get',
 					data:{'id':id},
 					datatype:'json',
@@ -110,7 +109,7 @@
 			           }else if(msg['err']==0){
 			           	 layer.msg(msg.str);
 			           }else{
-			           	 layer.msg('下线失败！');
+			           	 layer.msg('删除失败！');
 			           }
 					}
 				})
@@ -120,7 +119,7 @@
 		}
 
 }
-function chncomment(title,url,type,w,h){
+function new_cheap(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 
