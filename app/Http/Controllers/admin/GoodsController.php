@@ -1965,5 +1965,27 @@ class GoodsController extends Controller
             return response()->json(['err' => 0, 'str' => '保存失败！']);
         }
     }
+    /**
+     * 折扣卷设置
+     */
+    public function cheap_set(Request $request)
+    {
+      if($request->isMethod('get')){
+        return view('admin.goods.cheap_set');
+      }elseif($request->isMethod('post')){
+
+      }
+    }
+    /**
+     * 折扣卷展示页
+     */
+    public function cheap_index(Request $request)
+    {
+      if($request->isMethod('get')){
+        return view('admin.goods.cheap_index');
+      }elseif($request->isMethod('post')){
+        
+      }
+    }
 }
   

@@ -14,7 +14,11 @@
 	<link href="/css/base.css" rel="stylesheet">
 	<link href="/css/component.css" rel="stylesheet">
 	<link href="/css/detail.css" rel="stylesheet">
-
+ @if($is_monitor==1&&in_array('5',explode(',',\App\worker_monitor::first(['worker_monitor_route_type'])['worker_monitor_route_type'])))
+       		<script type="text/javascript" src="/js/jquery.min.js"></script>
+            <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
+            
+        @endif
     <style type="text/css">
 	<!--
 		.fixed {
