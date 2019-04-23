@@ -82,7 +82,11 @@ var browser={
                 }
              })
             str = str.replace(/&$/gi, '')
-            return hrefarr[0] + '?' + str
+            if(str===''){
+                return hrefarr[0]
+            }else{
+                return hrefarr[0] + '?' + str
+            }
        }else {
             return hrefarr[0]
         }
