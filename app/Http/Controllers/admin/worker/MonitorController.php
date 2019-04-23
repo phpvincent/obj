@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin\worker;
 
 use App\channel\Rediss;
+use App\goods;
+use App\site;
 use App\url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -44,20 +46,100 @@ class MonitorController extends Controller
             foreach ($data as $key=>$value){
                 $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
                 $url = trim($key);
-//                $url = "http://127.0.0.1/pay?goods_id=75";
+//                $url = "http://192.168.10.10/pay?goods_id=75";
+//                $url = "http://192.168.10.10/activity/2";
+//                $url = "http://192.168.10.10/index/site_goods/45";
+//                $url = "http://192.168.10.10/endsuccess?type=1&goods_id=986&order_id=36322";
+//                $url = "http://192.168.10.10/send?goods_id=98";
                 preg_match_all($search, $url ,$rr);
+                $arr['sites_name'] = "";
+                $arr['goods_id'] = "";
+                $arr['goods_name'] = "";
+                $arr['route_name'] = "";
                 //根据路由获取路由为站点，还是单品
-                $urls = url::where('url_url',$rr[4])->first();
-                if($urls && $urls->url_site_id){
+                if(isset($rr[4][0])){
+                    $get_url = $rr[4][0];
+                    if(substr($get_url,0,4) == 'www.'){
+                        $get_url = substr($get_url,4);
+                    };
+                    $urls = url::where('url_url',$get_url)->first();
+                    if($urls && $urls->url_site_id){ //站点
+                        //站点名称
+                        $sites_name = site::where('sites_id',$urls->url_site_id)->first()['sites_name'];
+                        $arr['sites_name'] = $sites_name;
+                        if(preg_match("/\/activity\/\d+$/", $url)){
+                            $len = strrpos($url,'activity');
+                            $goods_id = substr($url,$len+9);
+                            $arr['route_name'] = "站点列表页";
+                            $arr['goods_id'] = $goods_id;
+                            $arr['goods_name'] = goods::where('goods_id',$goods_id)->first()['goods_real_name'];
+                        }elseif (preg_match("/\/index\/site_goods\/\d+$/", $url)){
+                            $len = strrpos($url,'site_goods');
+                            $goods_id = substr($url,$len+11);
+                            $arr['route_name'] = "商品落地页";
+                            $arr['goods_id'] = $goods_id;
+                            $arr['goods_name'] = goods::where('goods_id',$goods_id)->first()['goods_real_name'];
+                        }elseif(preg_match("/\/pay/", $url)){
+                            $len = strrpos($url,'pay');
+                            $goods_id = substr($url,$len+13);
+                            $arr['goods_id'] = $goods_id;
+                            $arr['goods_name'] = goods::where('goods_id',$goods_id)->first()['goods_real_name'];
+                            $arr['route_name'] = "商品下单页";
+                        }elseif(preg_match("/\/endsuccess/", $url)){
+                            $arr['route_name'] = "下单成功页";
+                            $len = strrpos($url,'endsuccess');
+                            $last_add = strrpos($url,'&');
+                            $num = $last_add - $len - 27;
+                            $goods_id = substr($url,$len+27,$num);
+                            $arr['goods_id'] = $goods_id;
+                            $arr['goods_name'] = goods::where('goods_id',$goods_id)->first()['goods_real_name'];
+                        }elseif(preg_match("/\/send/", $url)){
+                            $len = strrpos($url,'send');
+                            $goods_id = substr($url,$len+14);
+                            $arr['goods_id'] = $goods_id;
+                            $arr['goods_name'] = goods::where('goods_id',$goods_id)->first()['goods_real_name'];
+                            $arr['route_name'] = "订单查询页";
+                        }else{
+                            $arr['route_name'] = "站点首页";
+                            $arr['goods_id'] = "";
+                            $arr['goods_name'] = "";
+                        }
+                    }else if($urls && $urls->url_goods_id){ //单页 //TODO 有遮罩商品需要测试
+                        $arr['sites_name'] = '';
+                        $arr['goods_id'] = $urls->url_goods_id;
+                        $arr['goods_name'] = goods::where('goods_id',$urls->url_goods_id)->first()['goods_real_name'];
+                        if(preg_match("/\/pay/", $url)){
+                            $arr['route_name'] = "商品下单页";
+                        }elseif(preg_match("/\/endsuccess/", $url)){
+                            $arr['route_name'] = "下单成功页";
+                        }elseif(preg_match("/\/send/", $url)){
+                            $arr['route_name'] = "订单查询页";
+                        }else{
+                            $arr['route_name'] = "商品落地页";
+                        }
 
-                }else{
-
+                    }else if($urls && $urls->url_zz_goods_id){
+                        $arr['sites_name'] = '';
+                        $arr['goods_id'] = $urls->url_zz_goods_id;
+                        $arr['goods_name'] = goods::where('goods_id',$urls->url_zz_goods_id)->first()['goods_real_name'];
+                        if(preg_match("/\/pay/", $url)){
+                            $arr['route_name'] = "商品下单页";
+                        }elseif(preg_match("/\/endsuccess/", $url)){
+                            $arr['route_name'] = "下单成功页";
+                        }elseif(preg_match("/\/send/", $url)){
+                            $arr['route_name'] = "订单查询页";
+                        }else{
+                            $arr['route_name'] = "商品落地页";
+                        }
+                    }
                 }
+
                 $arr['route'] = $url;
                 $arr['num'] = $value;
                 array_push($routes,$arr);
             }
         }
+        dd($routes);
         return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
     }
 
