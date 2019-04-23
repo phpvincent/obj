@@ -139,7 +139,6 @@ class MonitorController extends Controller
                 array_push($routes,$arr);
             }
         }
-        dd($routes);
         return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
     }
 
