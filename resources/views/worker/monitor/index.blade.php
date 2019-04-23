@@ -282,7 +282,7 @@ img{ border:none; vertical-align:top;}
                    laytpl(getTpl).render(msg, function(html){
                     //  console.log(html)
                      $('#'+ip1).html(html)
-                     console.log($('#'+ip1))
+                    //  console.log($('#'+ip1))
                    });
                    $(function(){
                   //首页大事记
