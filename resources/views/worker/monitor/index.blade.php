@@ -129,6 +129,8 @@ img{ border:none; vertical-align:top;}
   <blockquote class="layui-elem-quote">mobile:@{{#  if(d.data.deviceData.mobile){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
   <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
+  <blockquote class="layui-elem-quote">email:@{{d.data.ip_msg.email}}</blockquote>
+  <blockquote class="layui-elem-quote">telephone:@{{d.data.ip_msg.telephone}}</blockquote>
   
   </div>
 
