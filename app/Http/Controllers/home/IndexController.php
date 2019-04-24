@@ -522,6 +522,10 @@ class IndexController extends Controller
         if($request->has('goodsAtt')&&$request->input('goodsAtt')){
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
+        if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){
+            //计算优惠卷后的价格
+            $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
+        }
         //判断金额合法性
     	if($price==false||$price<=0){
             \Log::notice('ip:'.$request->getClientIp().'下单时金额非法goods_id:'.$goods->goods_id.'price:'.$price.'num:'.$request->input('specNumber'));
