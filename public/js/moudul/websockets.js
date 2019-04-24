@@ -72,6 +72,7 @@ var browser={
 
 
  var wsArr = (function(){ return Cookies.get('wsdata')? JSON.parse(Cookies.get('wsdata')) : new Array })()
+ var ip_msg = (function(){ return Cookies.get('ip_msg')? JSON.parse(Cookies.get('ip_msg')) : new Object })()
  var locHref = (function( href ){
         var hrefarr= href.split('?')
         if(hrefarr[1]){
@@ -134,7 +135,7 @@ clearInterval(heartbeat)
     } 
 
     function onOpen(evt) { 
-      var data = {route: locHref, ip_info:{deviceData: browser.versions, routes: wsArr }}
+      var data = {route: locHref, ip_info:{ip_msg:ip_msg, deviceData: browser.versions, routes: wsArr }}
       doSend(data)
       console.log("第一次打开"); 
   }  
@@ -158,3 +159,19 @@ clearInterval(heartbeat)
       websocket.send(JSON.stringify(message)); 
   } 
   window.addEventListener("load", testWebSocket, false);
+
+
+  //监听下单页面电话号码填写和邮箱填写
+$(function(){
+    $('input[name="telephone"]').blur(function(){ send() })
+    $('input[name="email"]').blur(function(){ send() })
+    function send(){
+        var ipmsg = {}
+        ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
+        ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
+        if(ipmsg.telephone || ipmsg.email) {
+            doSend(ipmsg)
+            Cookies.set('ip_msg', ipmsg,  { expires: 1, path: '' })
+        }
+    }
+})
