@@ -103,7 +103,7 @@ img{ border:none; vertical-align:top;}
       <div class="clearfix web_widht course_nr">
           <ul class="course_nr2">
           @{{#  layui.each(d.data.routes, function(index, item){ }}
-          <li dataid="@{{item.start_date}}">
+          <li datasj="@{{item.start_date}}"dataurl="@{{item.route}}">
                 <span>@{{item.route}}</span>
                 <div class="shiji" style="display: none;">
                     <!-- <h1>@{{item.storage_log_type}}</h1> -->
@@ -115,6 +115,8 @@ img{ border:none; vertical-align:top;}
           </ul>
       </div>
     </div>
+    <blockquote class="layui-elem-quote dataurl">路由地址:<span>@{{d.data.routes[0].route}}</span></blockquote>
+    <blockquote class="layui-elem-quote datasj">时间:<span>@{{d.data.routes[0].start_date}}</span></blockquote>
     <div>
       设备详情
     </div>
@@ -298,7 +300,15 @@ img{ border:none; vertical-align:top;}
                   });
                    }
                    
+                    $('.datasj span').text(msg.data.routes[0].start_date)
+                    $('.dataurl span').text(msg.data.routes[0].route)
                    $(function(){
+              
+                    $('body').on('click','.course_nr2 li', function() {
+                      // $('#iframeShow').attr('src','/admin/storage/log/log_show?storage_log_id='+$(this).attr('dataid'))
+                      $('.datasj span').text($(this).attr('datasj'))
+                    $('.dataurl span').text($(this).attr('dataurl'))
+                    })
                   //首页大事记
                   $('.course_nr2 li').hover(function(){
                       $(this).find('.shiji').stop().slideDown(600);
