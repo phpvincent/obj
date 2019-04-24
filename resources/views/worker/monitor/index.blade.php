@@ -32,6 +32,7 @@ li{vertical-align:top;}
 *+html .clearfix {zoom:1;}
 img{ border:none; vertical-align:top;}
 /* CSS 活动的公共样式 */
+.course{margin-top:10px}
 .course_nr li:hover {cursor:pointer;}
 .course{ height:145px; background:#FFF;}
 .course_nr{height:55px; background:url(/images/ico9.gif) repeat-x center;}
@@ -39,6 +40,15 @@ img{ border:none; vertical-align:top;}
 .shiji{ position:absolute; width:100%; left:0; top:-19px; display:none;}
 .shiji h1{ height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/images/ico11.gif) no-repeat center top; margin-bottom:8px;}
 .shiji p{ line-height:14px; color:#999;}
+.course_nr2>li>span{
+  width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+}
 </style>
 <div class="layui-fluid">
 <div class="layui-card">
@@ -96,18 +106,18 @@ img{ border:none; vertical-align:top;}
           </ul>
       </div>
     </div>
-	    <legend>
-       详情
-      </legend>
+    <div>
+      设备详情
+    </div>
 	<div class="layui-field-box">
   <blockquote class="layui-elem-quote">core:@{{d.data.deviceData.core}}</blockquote>
-  <blockquote class="layui-elem-quote">iPad:@{{d.data.deviceData.iPad}}</blockquote>
-  <blockquote class="layui-elem-quote">iPhone:@{{d.data.deviceData.iPhone}}</blockquote>
+  <blockquote class="layui-elem-quote">iPad:@{{#  if(d.data.deviceData.iPad){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
+  <blockquote class="layui-elem-quote">iPhone:@{{#  if(d.data.deviceData.iPhone){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   <blockquote class="layui-elem-quote">iosOrAndroid:@{{d.data.deviceData.iosOrAndroid}}</blockquote>
   <blockquote class="layui-elem-quote">language:@{{d.data.deviceData.language}}</blockquote>
-  <blockquote class="layui-elem-quote">mobile:@{{d.data.deviceData.mobile}}</blockquote>
+  <blockquote class="layui-elem-quote">mobile:@{{#  if(d.data.deviceData.mobile){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
-  <blockquote class="layui-elem-quote">webApp:@{{d.data.deviceData.webApp}}</blockquote>
+  <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   
   </div>
   
@@ -208,7 +218,7 @@ img{ border:none; vertical-align:top;}
     var flag = true // true 表示没有一个弹层
     table.on('checkbox(table1)', function(obj){
 
-      console.log(obj)
+      // console.log(obj)
       var route1 = obj.data.route.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
     var closeFunc = function () {
         $('#tabDom .layui-tab-title li').remove()
@@ -244,14 +254,14 @@ img{ border:none; vertical-align:top;}
        //zi表格初始化
        table.render(options);
        table.on('row('+route1+')', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-       console.log(obj)
+      //  console.log(obj)
          var data = obj.data; //获得当前行数据
          var ip1 = obj.data.ip.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
         //  if(obj.event === 'showsong'){ 
             // console.log(data)
             layer.open({
             type: 1 //此处以iframe举例
-            ,title: '订单扣货详情'
+            ,title: '访问详情'
             ,area: ['800px', '600px']
             ,maxmin: true
             ,content: '<div id="'+ip1+'"></div>'
@@ -266,14 +276,24 @@ img{ border:none; vertical-align:top;}
                 // datatype:'json',
                 headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                 success:function(msg){
-                   console.log(msg)
+                  //  console.log(msg)
                    var getTpl = suntable.innerHTML;
                   
                    laytpl(getTpl).render(msg, function(html){
-                     console.log(html)
+                    //  console.log(html)
                      $('#'+ip1).html(html)
-                     console.log($('#'+ip1))
+                    //  console.log($('#'+ip1))
                    });
+                   $(function(){
+                  //首页大事记
+                  $('.course_nr2 li').hover(function(){
+                      $(this).find('.shiji').stop().slideDown(600);
+                      $(this).find('span').hide();
+                  },function(){
+                      $(this).find('.shiji').stop().slideUp(100);
+                      $(this).find('span').show();
+                  });
+              });
                 }
           })
         //  }
@@ -306,12 +326,12 @@ img{ border:none; vertical-align:top;}
     }
     if(obj.checked){
       if($('#tabDom .layui-tab-title li').length === 0){
-        $('#tabDom .layui-tab-title').append('<li class="layui-this" dataid="'+route1+'">'+obj.data.route+'</li>')
+        $('#tabDom .layui-tab-title').append('<li class="layui-this" dataid="'+route1+'">'+obj.data.route_name+'</li>')
         $('#tabDom .layui-tab-content').append('<div class="layui-tab-item layui-show" dataid="'+route1+'"><div class="layui-inline"><label class="layui-form-label">ip搜索</label><div class="layui-input-block"><input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input ipt"></div></div><div class="layui-inline"><button class="layui-btn" id="reload2">搜索</button></div><table id="'+route1+'" lay-filter="'+route1+'"></table></div>')
         songTable(obj.data.route,route1)
         // songSibTable(obj.data.storage_check_id)
       } else {
-        $('#tabDom .layui-tab-title').append('<li dataid="'+route1+'">'+obj.data.route+'</li>')
+        $('#tabDom .layui-tab-title').append('<li dataid="'+route1+'">'+obj.data.route_name+'</li>')
         $('#tabDom .layui-tab-content').append('<div class="layui-tab-item" dataid="'+route1+'"><div class="layui-inline"><label class="layui-form-label">ip搜索</label><div class="layui-input-block"><input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input ipt"></div></div><div class="layui-inline"><button class="layui-btn" id="reload2">搜索</button></div><table id="'+route1+'" lay-filter="'+route1+'"></table></div>')
         songTable(obj.data.route,route1)
         // songSibTable(obj.data.storage_check_id)
@@ -419,16 +439,7 @@ img{ border:none; vertical-align:top;}
     //             $('ul.course_nr2').append(html)
     //           });
     //           // 时间线样式
-    //           $(function(){
-    //               //首页大事记
-    //               $('.course_nr2 li').hover(function(){
-    //                   $(this).find('.shiji').stop().slideDown(600);
-    //                   $(this).find('span').hide();
-    //               },function(){
-    //                   $(this).find('.shiji').stop().slideUp(100);
-    //                   $(this).find('span').show();
-    //               });
-    //           });
+              
     //        }
     //       })
 

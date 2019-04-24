@@ -72,16 +72,37 @@ var browser={
 
 
  var wsArr = (function(){ return Cookies.get('wsdata')? JSON.parse(Cookies.get('wsdata')) : new Array })()
+ var locHref = (function( href ){
+        var hrefarr= href.split('?')
+        if(hrefarr[1]){
+            var str = ''
+             hrefarr[1].split('&').forEach(function(val, i){
+                if( val.indexOf('goods_id')===0 || val.indexOf('order_id')===0 || val.indexOf('type')===0 || val.indexOf('q')===0 ) {
+                 str += val + '&'
+                }
+             })
+            str = str.replace(/&$/gi, '')
+            if(str===''){
+                return hrefarr[0]
+            }else{
+                return hrefarr[0] + '?' + str
+            }
+       }else {
+            return hrefarr[0]
+        }
+    
+    
+    })(location.href)
  console.log('befor',wsArr)
 
  var flag = false
  $.each(wsArr, function(index, el ){
-     if (el.route === location.href){
+     if (el.route === locHref){
         flag = true
      }
  })
  if (!flag){
-    wsArr.push({ route: location.href, start_date: new Date().toLocaleString() })
+    wsArr.push({ route: locHref, start_date: new Date().toLocaleString() })
  }
 Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
 
@@ -113,7 +134,7 @@ clearInterval(heartbeat)
     } 
 
     function onOpen(evt) { 
-      var data = {route: location.href, ip_info:{deviceData: browser.versions, routes: wsArr }}
+      var data = {route: locHref, ip_info:{deviceData: browser.versions, routes: wsArr }}
       doSend(data)
       console.log("第一次打开"); 
   }  
