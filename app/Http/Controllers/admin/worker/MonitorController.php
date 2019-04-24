@@ -156,21 +156,23 @@ class MonitorController extends Controller
         }else{
             $ip_data = $this->redis->hGet('routes_ips',$route);
             $ip_list = explode(',',$ip_data);
-            $count = count($ip_list);
             $data = [];
             $ip_city = new IpLocation();
-            if($count > 0){
+            if(count($ip_list) > 0){
                foreach ($ip_list as $value){
-                   $arr['ip'] = $value;
-                   $location = $ip_city->getlocation($value);
-                   if(!empty($location) && isset($location['province'])){
-                       $arr['city'] = $location['province'];
-                   }else{
-                       $arr['city'] = "";
+                   if($value){
+                       $arr['ip'] = $value;
+                       $location = $ip_city->getlocation($value);
+                       if(!empty($location) && isset($location['province'])){
+                           $arr['city'] = $location['province'];
+                       }else{
+                           $arr['city'] = "";
+                       }
+                       array_push($data,$arr);
                    }
-                   array_push($data,$arr);
                }
             }
+            $count = count($data);
             return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $data]);
         }
     }
