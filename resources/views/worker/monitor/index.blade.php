@@ -118,6 +118,11 @@ img{ border:none; vertical-align:top;}
     <blockquote class="layui-elem-quote dataurl">路由地址:<span>@{{d.data.routes[0].route}}</span></blockquote>
     <blockquote class="layui-elem-quote datasj">时间:<span>@{{d.data.routes[0].start_date}}</span></blockquote>
     <div>
+      联系方式
+    </div>
+    <blockquote class="layui-elem-quote">email:@{{d.data.ip_msg.email}}</blockquote>
+  <blockquote class="layui-elem-quote">telephone:@{{d.data.ip_msg.telephone}}</blockquote>
+    <div>
       设备详情
     </div>
 	<div class="layui-field-box">
@@ -129,8 +134,7 @@ img{ border:none; vertical-align:top;}
   <blockquote class="layui-elem-quote">mobile:@{{#  if(d.data.deviceData.mobile){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
   <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
-  <blockquote class="layui-elem-quote">email:@{{d.data.ip_msg.email}}</blockquote>
-  <blockquote class="layui-elem-quote">telephone:@{{d.data.ip_msg.telephone}}</blockquote>
+  
   
   </div>
 
