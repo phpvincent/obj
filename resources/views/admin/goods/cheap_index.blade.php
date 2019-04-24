@@ -1,6 +1,6 @@
 @extends('admin.father.css')
 @section('content')
-	<input class="btn radius btn-secondary" type="button" value="+新增优惠券" style="margin-left: 10%;" onclick="new_cheap('新增优惠券','/admin/goods/cheap/set','2','800','500')">
+	<input class="btn radius btn-secondary" type="button" value="+新增优惠券" style="margin-left: 10%;" onclick="new_cheap('新增优惠券','/admin/goods/cheap/set?goods_id='+'{{$id}}','2','800','500')">
 <table class="table table-border table-bordered table-bg" id="comment_user_table">
 		<thead>
 			<tr>
