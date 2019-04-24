@@ -117,6 +117,7 @@ img{ border:none; vertical-align:top;}
     </div>
     <blockquote class="layui-elem-quote dataurl">路由地址:<span>@{{d.data.routes[0].route}}</span></blockquote>
     <blockquote class="layui-elem-quote datasj">时间:<span>@{{d.data.routes[0].start_date}}</span></blockquote>
+    <br><hr><br>
     <div>
       联系方式
     </div>
