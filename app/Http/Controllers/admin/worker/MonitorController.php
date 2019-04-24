@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\worker;
 
+use App\channel\IpLocation;
 use App\channel\Rediss;
 use App\goods;
 use App\site;
@@ -157,9 +158,16 @@ class MonitorController extends Controller
             $ip_list = explode(',',$ip_data);
             $count = count($ip_list);
             $data = [];
+            $ip_city = new IpLocation();
             if($count > 0){
                foreach ($ip_list as $value){
                    $arr['ip'] = $value;
+                   $location = $ip_city->getlocation($value);
+                   if(!empty($location) && isset($location['province'])){
+                       $arr['city'] = $location['province'];
+                   }else{
+                       $arr['city'] = "";
+                   }
                    array_push($data,$arr);
                }
             }
