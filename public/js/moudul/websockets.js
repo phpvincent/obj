@@ -170,7 +170,7 @@ $(function(){
         ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
         ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
         if(ipmsg.telephone || ipmsg.email) {
-            doSend(ipmsg)
+            doSend({ip_msg:ipmsg})
             Cookies.set('ip_msg', ipmsg,  { expires: 1, path: '' })
         }
     }
