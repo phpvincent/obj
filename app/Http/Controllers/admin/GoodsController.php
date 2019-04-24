@@ -1971,9 +1971,15 @@ class GoodsController extends Controller
     public function cheap_set(Request $request)
     {
       if($request->isMethod('get')){
-        return view('admin.goods.cheap_set');
+        return '装修中。。敬请期待。。。';
+        if($request->input('goods_id',null)==null){
+          return 'goods_id not found';
+        }else{
+          $goods_id=$request->input('goods_id');
+        }
+        return view('admin.goods.cheap_set')->with(compact('goods_id'));
       }elseif($request->isMethod('post')){
-          
+          var_dump($request->all());
       }
     }
     /**
