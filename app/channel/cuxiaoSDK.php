@@ -483,4 +483,27 @@ class cuxiaoSDK{
 		}
 		return $price;
 	}
+	public function get_cheap_price($goods_cheap_id)
+	{
+		$goods=$this->goods;
+		$goods_cheap=\App\goods_cheap::where([['goods_cheap_goods_id',$goods->goods_id],['goods_cheap_id',$goods_cheap_id]])->first();
+		if($goods_cheap==null||strtotime($goods_cheap->goods_cheap_start_time)>time()){
+			return $price;
+		}
+		switch ($goods_cheap->goods_cheap_type) {
+			case '0':
+				if($price-$goods_cheap->goods_cheap_msg>0){
+					return $price;
+				}else{
+					return $price;
+				}
+				break;
+			case '1':
+				
+				break;
+			default:
+				return $price;
+				break;
+		}
+	}
 }
