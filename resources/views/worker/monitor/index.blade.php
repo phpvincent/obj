@@ -129,6 +129,7 @@ img{ border:none; vertical-align:top;}
   <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   
   </div>
+
   
   </fieldset>
 </script>
@@ -340,7 +341,7 @@ img{ border:none; vertical-align:top;}
     if(obj.checked){
       if($('#tabDom .layui-tab-title li').length === 0){
         $('#tabDom .layui-tab-title').append('<li class="layui-this ip_title" dataid="'+route1+'">'+obj.data.route_name+'</li>')
-        $('#tabDom .layui-tab-content').append('<div class="layui-tab-item layui-show" dataid="'+route1+'"><div class="layui-inline"><label class="layui-form-label">ip搜索</label><div class="layui-input-block"><input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input ipt"></div></div><div class="layui-inline"><button class="layui-btn" id="reload2">搜索</button></div><table id="'+route1+'" lay-filter="'+route1+'"></table></div>')
+        $('#tabDom .layui-tab-content').append('<div class="layui-tab-item layui-show" dataid="'+route1+'"><div class="layui-field-box"><blockquote class="layui-elem-quote">当前页:'+obj.data.route_name+'</blockquote><blockquote class="layui-elem-quote">产品名称:'+obj.data.goods_name+'</blockquote><blockquote class="layui-elem-quote">站点名称:'+obj.data.sites_name+'</blockquote></div><div class="layui-inline"><label class="layui-form-label">ip搜索</label><div class="layui-input-block"><input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input ipt"></div></div><div class="layui-inline"><button class="layui-btn" id="reload2">搜索</button></div><table id="'+route1+'" lay-filter="'+route1+'"></table></div>')
         // console.log(obj.data.route)
           songTable(obj.data.route,route1,obj.data.goods_name)
       } else {
