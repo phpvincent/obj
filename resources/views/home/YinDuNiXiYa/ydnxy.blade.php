@@ -48,7 +48,7 @@
         <script>
         jQuery(function(){setFrom();});
         </script>
- @if($is_monitor==1&&in_array('3',explode(',',\App\worker_monitor::first(['worker_monitor_route_type'])['worker_monitor_route_type']))&&$goods->goods_id==986)
+ @if(isset($is_monitor)&&$is_monitor==1&&in_array('3',explode(',',\App\worker_monitor::first(['worker_monitor_route_type'])['worker_monitor_route_type']))&&$goods->goods_id==986)
             <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
         @endif
         <!-- Facebook Pixel Code -->
