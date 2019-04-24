@@ -107,35 +107,6 @@
             }
         
         </style>
-                <!-- 优惠券的样式 -->
-        <style>
-		#hear{width: 100%;height: 44px;line-height: 45px;border-bottom: 1px solid #cccccc;}
-		#hear a{font-weight: normal;color: black;}
-		#hear li{text-align: center;float: left;height: 45px;}
-		#hear li:nth-of-type(1){width: 33%;float: left;}
-		#hear li:nth-of-type(2){width: 33%;float: left;}
-		#hear li:nth-of-type(3){width: 34%;float: right;}
-		#contentop li{ width: 90%; display: none;text-align: center;margin: 0 auto;margin-top: 12px;}
-		#contentop .action{ display: block;}
-		#contentop .usl{width: 100%;height: 110px;background:wheat;border: 1px solid #cccccc;margin-bottom: 10px;text-shadow: none;}			
-		#contentop .alo{width: 100%;background: white;border: 1px solid #cccccc;margin-bottom: 10px;text-shadow: none;overflow: hidden;}
-		#contentop span{font-size: 1.3em;color: #47B0D7;}
-		#contentop .sty1{margin-top: 18px;}
-		#contentop .sty2{margin-top: 13px;}
-		#contentop .sty3{margin-top: 13px;}
-		#contentop .sty4{text-align: right;font-size: 0.8em;margin-top: -20px;}
-		#contentop .Buy{font-size: 0.8em;margin-top: 2px;}
-		#contentop .Buy div:nth-of-type(1){text-align: left;padding-left: 15px;}
-		#contentop .Buy div:nth-of-type(2){float: right;}
-		#contentop .cllio {background:url(./20010.png)repeat-x;width: 93%;height:8px;margin: 0 auto;margin-top: 5px;}
-
-		/* .ui-grid-a {
-			float: left;
-            min-height: 1px;
-			clear: left;
-			width: 50%;
-		} */
-</style>
         <!--产品页轮播-->
         <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/js/yxMobileSlider.js"></script>
@@ -398,50 +369,6 @@
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
 
-    <div id="couponbg" style="display:none; position:fixed;z-index:99998; width:100%; height:100%; background:black; padding:0px; bottom:0px; margin:0px; opacity:0.7; max-width: 640px;">       
-</div>
-<div id="couponcontent" style="display:none;width: 100%;max-width:640px;clear: both;position: relative;">
-  <div style="position: fixed; z-index: 99999; width: 90%; height: 500px; padding:0 5%; top: 16%; max-width: 640px;">
-    <div class="mui-card">
-      <div class="closeBtn">
-        <img src="/img/close.png">
-      </div>
-	  <div class="mui-card-content">
-      <ul id="contentop">
-			<li class="action">
-				<div class="alo">
-					<div class="ui-grid-a sty3" >
-						<div class="ui-block-a">优惠券</div>
-						<div class="ui-block-b">仅可购买部分商品</div>
-					</div>
-					<div class="ui-grid-a sty2" >
-						<div class="ui-block-a "><span>￥50.00</span></div>
-						<div class="ui-block-b"></div>
-					</div>
-					<div class="cllio"></div>
-					<div class="ui-grid-a Buy" >
-						<div class="ui-block-a">兑换码：0001</div>
-						<div class="ui-block-b">2016.02.01-2016.08.25</div>
-					</div>
-				</div>
-				<div class="alo">
-					<div class="ui-grid-a sty3" >
-						<div class="ui-block-a">优惠券</div>
-						<div class="ui-block-b">仅可购买部分商品</div>
-					</div>
-					<div class="ui-grid-a sty2" >
-						<div class="ui-block-a "><span>￥30.00</span></div>
-						<div class="ui-block-b">满99元可用</div>
-					</div>
-					<div class="cllio"></div>
-					<p class="sty5">2016.02.01-2016.08.25&nbsp;&nbsp;&nbsp;&nbsp;</p>
-				</div>
-			</li>
-		</ul>
-      </div>
-    </div>
-  <div>
-</div> 
 
 <script>
     //第几件翻译
