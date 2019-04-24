@@ -41,11 +41,20 @@ img{ border:none; vertical-align:top;}
 .shiji h1{ height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/images/ico11.gif) no-repeat center top; margin-bottom:8px;}
 .shiji p{ line-height:14px; color:#999;}
 .course_nr2>li>span{
-  width: 100%;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+}
+.ip_title{
+  max-width: 166px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow-wrap: break-word;
 }
@@ -121,7 +130,6 @@ img{ border:none; vertical-align:top;}
   
   </div>
   
-  
   </fieldset>
 </script>
 <!-- <script id="songSibTableDom" type="text/html">
@@ -172,6 +180,9 @@ img{ border:none; vertical-align:top;}
          {type:'checkbox', fixed: 'left'}
         ,{field: 'route', title: '路由'}
         ,{field: 'num', title: '人数'}
+        ,{field: 'route_name', title: '当前页'}
+        ,{field: 'goods_name', title: '产品名称'}
+        ,{field: 'sites_name', title: '站点名称'}
         // ,{field: 'storage_check_string', title: '校对单号'}
         // ,{field: 'storage_check_time', title: '校对时间',  sort: true}
         // ,{field: 'storage_check_type', title: '校对发起方式'}
@@ -228,7 +239,7 @@ img{ border:none; vertical-align:top;}
         table.reload('table1')
     }
 
-    var songTable = function (route,route1) {
+    var songTable = function (route,route1,goods_name) {
       var options={
       elem: '#'+route1
       ,url: '/admin/worker/monitor/page/ip_list' //数据接口
@@ -236,19 +247,17 @@ img{ border:none; vertical-align:top;}
       ,text: {
         none: '暂无数据' 
       }
-      ,width: 200
+      ,width: 400
       ,autoSort:false
-      ,initSort: {
-        field: 'order_return_time' //排序字段，对应 cols 设定的各字段名
-        ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
-      }
       ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
       ,method:'post'
       ,where: {
-        route: route
+        route: route,
+        goods_name: goods_name
       }
       ,cols: [[ //表头
-         {field: 'ip', title: 'ip', minWidth: 150}
+         {field: 'ip', title: 'ip', minWidth: 150},
+         {field: 'city', title: '地区', minWidth: 150}
       ]]
      };
        //zi表格初始化
@@ -276,14 +285,18 @@ img{ border:none; vertical-align:top;}
                 // datatype:'json',
                 headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                 success:function(msg){
-                  //  console.log(msg)
-                   var getTpl = suntable.innerHTML;
+                   if(msg.data ==null){
+                    $('#'+ip1).html('<div>暂无数据</div>')
+                   }else{
+                    var getTpl = suntable.innerHTML;
                   
-                   laytpl(getTpl).render(msg, function(html){
-                    //  console.log(html)
-                     $('#'+ip1).html(html)
-                    //  console.log($('#'+ip1))
-                   });
+                  laytpl(getTpl).render(msg, function(html){
+                   //  console.log(html)
+                    $('#'+ip1).html(html)
+                   //  console.log($('#'+ip1))
+                  });
+                   }
+                   
                    $(function(){
                   //首页大事记
                   $('.course_nr2 li').hover(function(){
@@ -305,7 +318,7 @@ img{ border:none; vertical-align:top;}
       layer.open({
         type: 1 //此处以iframe举例
         ,title: '多记录对比'
-        ,area: ['400px', '100%']
+        ,area: ['500px', '100%']
         ,shade: 0
         ,maxmin: true
         ,offset: 'rt'
@@ -326,14 +339,14 @@ img{ border:none; vertical-align:top;}
     }
     if(obj.checked){
       if($('#tabDom .layui-tab-title li').length === 0){
-        $('#tabDom .layui-tab-title').append('<li class="layui-this" dataid="'+route1+'">'+obj.data.route_name+'</li>')
+        $('#tabDom .layui-tab-title').append('<li class="layui-this ip_title" dataid="'+route1+'">'+obj.data.route_name+'</li>')
         $('#tabDom .layui-tab-content').append('<div class="layui-tab-item layui-show" dataid="'+route1+'"><div class="layui-inline"><label class="layui-form-label">ip搜索</label><div class="layui-input-block"><input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input ipt"></div></div><div class="layui-inline"><button class="layui-btn" id="reload2">搜索</button></div><table id="'+route1+'" lay-filter="'+route1+'"></table></div>')
-        songTable(obj.data.route,route1)
-        // songSibTable(obj.data.storage_check_id)
+        // console.log(obj.data.route)
+          songTable(obj.data.route,route1,obj.data.goods_name)
       } else {
-        $('#tabDom .layui-tab-title').append('<li dataid="'+route1+'">'+obj.data.route_name+'</li>')
+        $('#tabDom .layui-tab-title').append('<li dataid="'+route1+'"class="ip_title">'+obj.data.route_name+'</li>')
         $('#tabDom .layui-tab-content').append('<div class="layui-tab-item" dataid="'+route1+'"><div class="layui-inline"><label class="layui-form-label">ip搜索</label><div class="layui-input-block"><input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input ipt"></div></div><div class="layui-inline"><button class="layui-btn" id="reload2">搜索</button></div><table id="'+route1+'" lay-filter="'+route1+'"></table></div>')
-        songTable(obj.data.route,route1)
+        songTable(obj.data.route,route1,obj.data.goods_name)
         // songSibTable(obj.data.storage_check_id)
       }
     } else {
