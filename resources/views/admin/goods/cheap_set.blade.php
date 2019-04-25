@@ -100,24 +100,24 @@
         if(val == 0){
           $(".lijian").show();
           $(".zhekou").hide();
-		  $(".zhekou").attr('disabled',true)
-		  $(".lijian").attr('disabled',false)
-		  $(".jianmian").attr('disabled',true)
+		  $(".zhekou input").attr('disabled',true)
+		  $(".lijian input").attr('disabled',false)
+		  $(".jianmian input").attr('disabled',true)
           $(".jianmian").hide();
         }else if(val == 1){
 			$(".lijian").hide();
           $(".zhekou").show();
           $(".jianmian").hide();
-		  $(".zhekou").attr('disabled',false)
-		  $(".lijian").attr('disabled',true)
-		  $(".jianmian").attr('disabled',true)
+		  $(".zhekou input").attr('disabled',false)
+		  $(".lijian input").attr('disabled',true)
+		  $(".jianmian input").attr('disabled',true)
         }else if(val ==2){
 			$(".lijian").show();
 			$(".zhekou").hide();
 			$(".jianmian").show();
-			$(".zhekou").attr('disabled',true)
-		  $(".lijian").attr('disabled',false)
-		  $(".jianmian").attr('disabled',false)
+			$(".zhekou input").attr('disabled',true)
+		  $(".lijian input").attr('disabled',false)
+		  $(".jianmian input").attr('disabled',false)
 		}
       });
 	})
