@@ -23,20 +23,20 @@
 		<div class="row cl lijian">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>优惠金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
+				<input type="text" class="input-text" value="1"  placeholder="" id="articlesort" name="goods_cheap_msg" >
 			</div>
 		</div>
 		<div class="row cl zhekou">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>优惠折扣：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text"onkeyup="this.value=this.value.replace(/[^1-9]/g,'') " 
+				<input type="text" disabled class="input-text"onkeyup="this.value=this.value.replace(/[^1-9]/g,'') " 
  onafterpaste="this.value=this.value.replace(/[^1-9]/g,'') "maxlength="1"  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
 			</div>
 		</div>
 		<div class="row cl jianmian">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>满足金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="1" placeholder="" id="articlesort" name="goods_cheap_remark">
+				<input type="text" disabled class="input-text" value="1" placeholder="" id="articlesort" name="goods_cheap_remark">
 			</div>
 		</div>
 		<div class="row cl" style="">
@@ -100,15 +100,24 @@
         if(val == 0){
           $(".lijian").show();
           $(".zhekou").hide();
+		  $(".zhekou").attr('disabled',true)
+		  $(".lijian").attr('disabled',false)
+		  $(".jianmian").attr('disabled',true)
           $(".jianmian").hide();
         }else if(val == 1){
 			$(".lijian").hide();
           $(".zhekou").show();
           $(".jianmian").hide();
+		  $(".zhekou").attr('disabled',false)
+		  $(".lijian").attr('disabled',true)
+		  $(".jianmian").attr('disabled',true)
         }else if(val ==2){
 			$(".lijian").show();
 			$(".zhekou").hide();
 			$(".jianmian").show();
+			$(".zhekou").attr('disabled',true)
+		  $(".lijian").attr('disabled',false)
+		  $(".jianmian").attr('disabled',false)
 		}
       });
 	})
