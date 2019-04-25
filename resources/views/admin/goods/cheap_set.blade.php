@@ -43,14 +43,14 @@
 		<div class="row cl zhekou">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>优惠折扣：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text"onkeyup="this.value=this.value.replace(/[^1-9]/g,'') " 
+				<input type="text" class="input-text" disabled onkeyup="this.value=this.value.replace(/[^1-9]/g,'') " 
  onafterpaste="this.value=this.value.replace(/[^1-9]/g,'') "maxlength="1"  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
 			</div>
 		</div>
 		<div class="row cl jianmian">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>满足金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text"  onafterpaste="this.value=this.value.replace(/[^1-9]/g,'') " value="1" placeholder="" id="articlesort" name="goods_cheap_remark">
+				<input type="text" class="input-text"disabled  onafterpaste="this.value=this.value.replace(/[^1-9]/g,'') " value="1" placeholder="" id="articlesort" name="goods_cheap_remark">
 			</div>
 		</div>
 		<div class="row cl" style="">
@@ -95,18 +95,27 @@
 		$(".select").change(function(){
 			// console.log($(this).val())
 			var val = $(this).val()
-        if(val == 0){
+			if(val == 0){
           $(".lijian").show();
           $(".zhekou").hide();
+		  $(".zhekou input").attr('disabled',true)
+		  $(".lijian input").attr('disabled',false)
+		  $(".jianmian input").attr('disabled',true)
           $(".jianmian").hide();
         }else if(val == 1){
 			$(".lijian").hide();
           $(".zhekou").show();
           $(".jianmian").hide();
+		  $(".zhekou input").attr('disabled',false)
+		  $(".lijian input").attr('disabled',true)
+		  $(".jianmian input").attr('disabled',true)
         }else if(val ==2){
 			$(".lijian").show();
 			$(".zhekou").hide();
 			$(".jianmian").show();
+			$(".zhekou input").attr('disabled',true)
+		  $(".lijian input").attr('disabled',false)
+		  $(".jianmian input").attr('disabled',false)
 		}
       });
 	})
