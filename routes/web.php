@@ -33,6 +33,7 @@ use App\channel\mailControl;
     Route::get('/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
 	Route::get('index/get_goods_by_search','home\SiteController@get_goods_by_search');
 	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '^\w+$');
+	Route::get('index/goods/goods_cheap/{goods_id}','home\IndexController@get_cheap')->where('goods_id', '^\w+$');
 	Route::get('/goods/{goods_id}','home\SiteController@goods')->where('goods_id', '^\w+$');
     Route::get('/activity/{activity_id}', 'home\SiteController@activity')->where('activity_id', '[1-3]');
     Route::get('/cate/{activity_id}', 'home\SiteController@cate')->where('cate_id', '[0-9]+');
@@ -45,8 +46,8 @@ use App\channel\mailControl;
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
 	
 	Route::get('/orderSuccess','home\IndexController@orderSuccess');
-	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
-	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
+	
+	
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');
 	Route::match(['get', 'post'], '/saveform','home\IndexController@saveform');
 	Route::match(['get', 'post'], '/paypal_pay','home\IndexController@paypal_pay');
@@ -57,7 +58,10 @@ use App\channel\mailControl;
 	Route::match(['get', 'post'], '/expressCheckoutSuccess','home\IndexController@expressCheckoutSuccess');
 	Route::post('/customshippingmethod/countdown/index','home\SiteController@countdown');
 });
-Route::middleware([])->group(function(){Route::get('/visfrom','home\IndexController@visfrom');
+Route::middleware([])->group(function(){
+	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
+	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
+	Route::get('/visfrom','home\IndexController@visfrom');
 	Route::any('/order/save_testcom','home\IndexController@savetestform');
 	Route::get('/visfrom/settime','home\IndexController@settime');
 	Route::get('/visfrom/setbuy','home\IndexController@setbuy');
@@ -99,6 +103,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/goods/url/alias', 'admin\GoodsController@alias');
 	Route::any('/admin/goods/cheap/index', 'admin\GoodsController@cheap_index');
 	Route::any('/admin/goods/cheap/set', 'admin\GoodsController@cheap_set');
+	Route::get('/admin/goods/cheap/del', 'admin\GoodsController@cheap_del');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');

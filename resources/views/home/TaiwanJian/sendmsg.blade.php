@@ -1,5 +1,9 @@
  <div class="product_image">
+ 	@if(\App\img::where('img_goods_id',$goods->goods_id)->first()!=null)
 	        <img src="{{\App\img::where('img_goods_id',$goods->goods_id)->first()->img_url}}">
+	@else
+				        <img src="">
+	@endif
 	    </div>
 	    <div class="check_show">
 	        <h2><b>Product Name：</b>{{$goods->goods_name}}</h2>
