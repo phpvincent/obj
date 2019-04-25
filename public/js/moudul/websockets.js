@@ -106,7 +106,7 @@ var wsArr = (function(){
     })
     if (!flag){
         data.push({ route: locHref, start_date: new Date().toLocaleString() })
-       Cookies.set('wsdata', data,  { expires: 1, path: '' })
+       Cookies.set('wsdata', data,  { expires: 1, path: '/' })
     }
    
    console.log('after', JSON.parse(Cookies.get('wsdata')))
@@ -176,7 +176,7 @@ $(function(){
         ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
         if(ipmsg.telephone || ipmsg.email) {
             doSend({ip_msg:ipmsg})
-            Cookies.set('ip_msg', ipmsg,  { expires: 1, path: '' })
+            Cookies.set('ip_msg', ipmsg,  { expires: 1, path: '/' })
         }
     }
 })
