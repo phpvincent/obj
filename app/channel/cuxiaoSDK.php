@@ -492,14 +492,38 @@ class cuxiaoSDK{
 		}
 		switch ($goods_cheap->goods_cheap_type) {
 			case '0':
+				$old_price=$price;
 				if($price-$goods_cheap->goods_cheap_msg>0){
 					return $price;
 				}else{
-					return $price;
+					return $old_price;
 				}
 				break;
 			case '1':
-				
+				$old_price=$price;
+				$price=floor($price*($goods_cheap->goods_cheap_msg / 10));
+				$currency_type=\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first();
+				if($currency_type->exchange_rate<0.001){
+					$price=mb_substr($price, 0, mb_strlen($price) - 3)*1000;
+				}
+				if($price>0){
+					return $price;
+				}else{
+					return $old_price;
+				}
+				break;
+			case '2':
+				$old_price=$price;
+				if($price>=$goods_cheap->goods_cheap_remark){
+					$price=$price-$goods_cheap->goods_cheap_msg;
+					if($price>0){
+						return $price;
+					}else{
+						return $old_price;
+					}
+				}else{
+					return $old_price;
+				}
 				break;
 			default:
 				return $price;
