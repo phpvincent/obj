@@ -292,7 +292,7 @@ class domainCheck{
             	if(isset($request->goods_id)&&$request->goods_id>0) $vis->vis_goods_id=$request->goods_id;
             }
             $vis->save();  
-            setcookie('isr_vis',$vis->vis_id,time()+600);
+            setcookie('isr_vis',$vis->vis_id,time()+600,'/');
         }else{
             $vis=\App\vis::where('vis_id',$_COOKIE['isr_vis'])->first();
             if($vis==null){
@@ -321,7 +321,7 @@ class domainCheck{
               	if(isset($request->goods_id)&&$request->goods_id>0) $vis->vis_goods_id=$request->goods_id;
               }
               $vis->save();  
-              setcookie('isr_vis',$vis->vis_id,time()+600);
+              setcookie('isr_vis',$vis->vis_id,time()+600,'/');
             }else{
             	if($vis instanceof vis){
             		$vis->vis_staytime=time()-strtotime($vis->vis_time);
