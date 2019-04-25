@@ -117,6 +117,12 @@ img{ border:none; vertical-align:top;}
     </div>
     <blockquote class="layui-elem-quote dataurl">路由地址:<span>@{{d.data.routes[0].route}}</span></blockquote>
     <blockquote class="layui-elem-quote datasj">时间:<span>@{{d.data.routes[0].start_date}}</span></blockquote>
+    <br><hr><br>
+    <div>
+      联系方式
+    </div>
+    <blockquote class="layui-elem-quote">email:@{{#  if(d.data.ip_msg.email){ }}@{{d.data.ip_msg.email}}@{{# }else{ }}@{{# } }}</blockquote>
+  <blockquote class="layui-elem-quote">telephone:@{{#  if(d.data.ip_msg.telephone){ }}@{{d.data.ip_msg.telephone}}@{{# }else{ }}@{{# } }}</blockquote>
     <div>
       设备详情
     </div>
@@ -130,20 +136,12 @@ img{ border:none; vertical-align:top;}
   <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
   <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
   
+  
   </div>
 
   
   </fieldset>
 </script>
-<!-- <script id="songSibTableDom" type="text/html">
-    <table id="sib@{{d.storage_check_id}}" lay-filter="sib@{{d.storage_check_id}}"></table>
-</script> -->
-<!-- <script type="text/html" id="use_button">
-  
-</script> -->
-<!-- <script type="text/html" id="use2_button">
-<blockquote class="layui-elem-quote" style=" height: 10px;line-height: 5px; margin-bottom: 0px;">缺货表</blockquote>
-</script> -->
 <script id="timeLine" type="text/html">
   @{{#  layui.each(d, function(index, item){ }}
   <li dataid="@{{item.storage_log_id}}">
@@ -186,48 +184,11 @@ img{ border:none; vertical-align:top;}
         ,{field: 'route_name', title: '当前页'}
         ,{field: 'goods_name', title: '产品名称'}
         ,{field: 'sites_name', title: '站点名称'}
-        // ,{field: 'storage_check_string', title: '校对单号'}
-        // ,{field: 'storage_check_time', title: '校对时间',  sort: true}
-        // ,{field: 'storage_check_type', title: '校对发起方式'}
-        // ,{field: 'storage_check_is_out', title: '校对类型'}
-        // ,{field: '', title: '操作', templet: function(d){
-        //    if(d.storage_check_is_out === '<span style="color:red;">仓储扣货</span>') {
-        //      return '<button class="layui-btn layui-btn-xs" lay-event="out">出货单导出</button>'
-        //    }else {return '--'}
-        // }}
       ]]
      };
     //表格初始化
     table.render(options);
     // //排序监听
-    // table.on('sort(table1)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-    //                     //尽管我们的 table 自带排序功能，但并没有请求服务端。
-    //                     //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-    //                     table.reload('table1',{
-    //                     });
-    //                 });
-    // table.on('tool(table1)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-    //      var data = obj.data; //获得当前行数据
-    //      console.log(obj)
-    //      if(obj.event === 'out'){
-    //      location.href="/admin/storage/list/data_out?storage_check_id="+data.storage_check_id
-    //      }
-    //      })
-
-    // laydate.render({
-    //   elem: '#test-laydate-out' //指定元素
-    //   ,type:'datetime'
-    //   ,range: true //或 range: '~' 来自定义分割字符
-    //   ,theme: 'molv'
-    //   ,calendar: true
-    // });
-    // $('#reload').on('click', function() {
-    //   table.reload('table1', { where: {
-    //     storage_check_is_out: $('#storage_check_is_out').val(),
-    //     storage_check_type: $('#storage_check_type').val(),
-    //     start: $('#test-laydate-out').val(),
-    //   }})
-    // })
     // 表格1复选框监听
     var flag = true // true 表示没有一个弹层
     table.on('checkbox(table1)', function(obj){
@@ -305,7 +266,6 @@ img{ border:none; vertical-align:top;}
                    $(function(){
               
                     $('body').on('click','.course_nr2 li', function() {
-                      // $('#iframeShow').attr('src','/admin/storage/log/log_show?storage_log_id='+$(this).attr('dataid'))
                       $('.datasj span').text($(this).attr('datasj'))
                     $('.dataurl span').text($(this).attr('dataurl'))
                     })
@@ -370,10 +330,6 @@ img{ border:none; vertical-align:top;}
 
 
     $('body').on('click','#reload1',function(){
-      // console.log($(this).parent().next())
-      // console.log($($('.layui-table-body>.layui-table')[0]))
-      // console.log($($('.layui-table-body>.layui-table')[1]))
-      // console.log($('layui-table'))
     var oTab=$('.layui-table-body>.layui-table')[0];
     var oTab1=$('.layui-table-body>.layui-table')[1];
     var oBt=$('.ipt').val();

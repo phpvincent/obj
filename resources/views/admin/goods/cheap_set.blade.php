@@ -1,5 +1,10 @@
 @extends('admin.father.css')
 @section('content')
+<style>
+.zhekou,.jianmian{
+	display: none;
+}
+</style>
 <article class="page-container">
 
 	<form class="form form-horizontal" id="form-addcomment-add" action="/admin/comment/save_com" method="post">
@@ -15,13 +20,20 @@
 				</select>
 				</span> </div>
 		</div>
-		<div class="row cl">
+		<div class="row cl lijian">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>优惠金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
 			</div>
 		</div>
-		<div class="row cl">
+		<div class="row cl zhekou">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>优惠折扣：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text"onkeyup="this.value=this.value.replace(/[^1-9]/g,'') " 
+ onafterpaste="this.value=this.value.replace(/[^1-9]/g,'') "maxlength="1"  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
+			</div>
+		</div>
+		<div class="row cl jianmian">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>满足金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="1" placeholder="" id="articlesort" name="goods_cheap_remark">
@@ -82,6 +94,23 @@
          var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
             + " " + hour + seperator2 + minute + seperator2+second;
 		$('#d122').attr('value',currentdate);
+		$(".select").change(function(){
+			// console.log($(this).val())
+			var val = $(this).val()
+        if(val == 0){
+          $(".lijian").show();
+          $(".zhekou").hide();
+          $(".jianmian").hide();
+        }else if(val == 1){
+			$(".lijian").hide();
+          $(".zhekou").show();
+          $(".jianmian").hide();
+        }else if(val ==2){
+			$(".lijian").show();
+			$(".zhekou").hide();
+			$(".jianmian").show();
+		}
+      });
 	})
 	//表单验证
 	$("#form-addcomment-add").validate({
