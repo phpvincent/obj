@@ -1971,6 +1971,7 @@ class GoodsController extends Controller
     public function cheap_set(Request $request)
     {
       if($request->isMethod('get')){
+        return '装修中。。敬请期待。。。';
         if($request->input('goods_id',null)==null){
           return 'goods_id not found';
         }else{
@@ -1978,87 +1979,7 @@ class GoodsController extends Controller
         }
         return view('admin.goods.cheap_set')->with(compact('goods_id'));
       }elseif($request->isMethod('post')){
-         if(!$request->has('goods_id')||!$request->has('goods_cheap_type')||!$request->has('goods_cheap_start_time')||$request->input('goods_id')==null||$request->input('goods_cheap_type')==null||$request->input('goods_cheap_start_time')==null){
-          return  response()->json(['err' => 0, 'str' => '数据非法！']);
-         }
-         $goods_id=$request->input('goods_id');
-         if(\App\goods_cheap::where([['goods_cheap_goods_id',$goods_id],['goods_cheap_is_del',0],['goods_cheap_is_ws',0]])->count()>=2){
-              return  response()->json(['err' => 0, 'str' => '每个商品仅可添加两张优惠卷！']);
-         }
-         $currency_type=\App\currency_type::where('currency_type_id',\App\goods::where('goods_id',$goods_id)->first(['goods_currency_id'])['goods_currency_id'])->first();
-         //验证金额合法性
-         if($currency_type->exchange_rate<0.001){
-          if($request->input('goods_cheap_type')==0||$request->input('goods_cheap_type')==2){
-            if(substr($request->input('goods_cheap_msg'), -3)!=='000'){
-              return  response()->json(['err' => 0, 'str' => '价格非法，该货币类型下最小计算单位为1000']);
-            }
-            if($request->has('goods_cheap_remark')&&$request->input('goods_cheap_remark')!=null){
-              if(substr($request->input('goods_cheap_remark'), -3)!=='000'){
-                return  response()->json(['err' => 0, 'str' => '价格非法，该货币类型下最小计算单位为1000']);
-              }
-            }
-          }
-         }
-         switch ($request->input('goods_cheap_type')) {
-           case '0':
-               $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];
-               if($request->input('goods_cheap_msg')>=$goods_price){
-                return  response()->json(['err' => 0, 'str' => '优惠卷金额不得大于商品定价！']);
-               }elseif($request->input('goods_cheap_msg')<=0){
-                return  response()->json(['err' => 0, 'str' => '优惠卷金额非法！']);
-               }else{
-                $goods_cheap=new \App\goods_cheap();
-                $goods_cheap->goods_cheap_goods_id=$goods_id;
-                $goods_cheap->goods_cheap_type=0;
-                $goods_cheap->goods_cheap_msg=$request->input('goods_cheap_msg');
-                $goods_cheap->goods_cheap_time=date("Y-m-d H:i:s",time());
-                $goods_cheap->goods_cheap_start_time=$request->input('goods_cheap_start_time');
-                $goods_cheap->goods_cheap_admin_id=\Auth::user()->admin_id;
-                $msg=$goods_cheap->save();
-               }
-             break;
-           case '1':
-                if(!$request->has('goods_cheap_msg')||$request->input('goods_cheap_msg')<=0||$request->input('goods_cheap_msg')>9){
-                   return  response()->json(['err' => 0, 'str' => '折扣数值非法！']);
-                }else{
-                   $goods_cheap=new \App\goods_cheap();
-                  $goods_cheap->goods_cheap_goods_id=$goods_id;
-                  $goods_cheap->goods_cheap_type=1;
-                  $goods_cheap->goods_cheap_msg=$request->input('goods_cheap_msg');
-                  $goods_cheap->goods_cheap_time=date("Y-m-d H:i:s",time());
-                  $goods_cheap->goods_cheap_start_time=$request->input('goods_cheap_start_time');
-                  $goods_cheap->goods_cheap_admin_id=\Auth::user()->admin_id;
-                  $msg=$goods_cheap->save();
-                }
-              break;
-           case '2':
-            $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];dd($goods_price,$request->input('goods_cheap_msg'));
-               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')){
-                    return  response()->json(['err' => 0, 'str' => '请勿留空或填写非法数据']);
-                }elseif($request->input('goods_cheap_msg')>=$goods_price){
-                   return  response()->json(['err' => 0, 'str' => '优惠卷金额不得大于商品定价！']);
-                }elseif($request->input('goods_cheap_msg')<=0||$request->input('goods_cheap_remark')<=0){
-                    return  response()->json(['err' => 0, 'str' => '优惠卷金额非法！']);
-                }else{
-                  $goods_cheap=new \App\goods_cheap();
-                  $goods_cheap->goods_cheap_goods_id=$goods_id;
-                  $goods_cheap->goods_cheap_type=2;
-                  $goods_cheap->goods_cheap_msg=$request->input('goods_cheap_msg');
-                  $goods_cheap->goods_cheap_remark=$request->input('goods_cheap_remark');
-                  $goods_cheap->goods_cheap_time=date("Y-m-d H:i:s",time());
-                  $goods_cheap->goods_cheap_start_time=$request->input('goods_cheap_start_time');
-                  $goods_cheap->goods_cheap_admin_id=\Auth::user()->admin_id;
-                  $msg=$goods_cheap->save();
-                }
-             break;
-           default:
-              return  response()->json(['err' => 0, 'str' => '未识别优惠卷类型！']);
-             break;
-         }
-         if(!isset($msg)||$msg==false){
-          return  response()->json(['err' => 0, 'str' => '服务器错误！']);
-         }
-          return  response()->json(['err' => 1, 'str' => '新增成功！']);
+          var_dump($request->all());
       }
     }
     /**
@@ -2131,18 +2052,5 @@ class GoodsController extends Controller
           return response()->json($arr);
       }
     }
-  public function cheap_del(Request $request)
-  {
-    if(!$request->has('id')||$request->input('id')<=0){
-          return  response()->json(['err' => 0, 'str' => '商品ID非法！']);
-    }
-    $msg=\App\goods_cheap::where('goods_cheap_id',$request->input('id'))->update(['goods_cheap_is_del'=>1]);
-    if($msg){
-          return  response()->json(['err' => 1, 'str' => '删除成功']);
-    }else{
-          return  response()->json(['err' => 0, 'str' => '删除失败']);
-    }
-  }
- 
 }
   

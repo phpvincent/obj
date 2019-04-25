@@ -33,7 +33,6 @@ use App\channel\mailControl;
     Route::get('/index/get_goods_by_cate', 'home\SiteController@get_goods_by_cate');
 	Route::get('index/get_goods_by_search','home\SiteController@get_goods_by_search');
 	Route::get('index/site_goods/{goods_id}','home\SiteController@goods')->where('goods_id', '^\w+$');
-	Route::get('index/goods/goods_cheap/{goods_id}','home\IndexController@get_cheap')->where('goods_id', '^\w+$');
 	Route::get('/goods/{goods_id}','home\SiteController@goods')->where('goods_id', '^\w+$');
     Route::get('/activity/{activity_id}', 'home\SiteController@activity')->where('activity_id', '[1-3]');
     Route::get('/cate/{activity_id}', 'home\SiteController@cate')->where('cate_id', '[0-9]+');
@@ -102,7 +101,6 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/goods/url/alias', 'admin\GoodsController@alias');
 	Route::any('/admin/goods/cheap/index', 'admin\GoodsController@cheap_index');
 	Route::any('/admin/goods/cheap/set', 'admin\GoodsController@cheap_set');
-	Route::get('/admin/goods/cheap/del', 'admin\GoodsController@cheap_del');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
