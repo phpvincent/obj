@@ -46,7 +46,7 @@ use App\channel\mailControl;
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
 	
 	Route::get('/orderSuccess','home\IndexController@orderSuccess');
-	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
+	
 	
 	Route::match(['get', 'post'], '/pay','home\IndexController@pay');
 	Route::match(['get', 'post'], '/saveform','home\IndexController@saveform');
@@ -59,6 +59,7 @@ use App\channel\mailControl;
 	Route::post('/customshippingmethod/countdown/index','home\SiteController@countdown');
 });
 Route::middleware([])->group(function(){
+	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
 	Route::get('/visfrom','home\IndexController@visfrom');
 	Route::any('/order/save_testcom','home\IndexController@savetestform');
