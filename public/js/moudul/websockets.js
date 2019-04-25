@@ -104,8 +104,9 @@ var browser={
  })
  if (!flag){
     wsArr.push({ route: locHref, start_date: new Date().toLocaleString() })
+    Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
  }
-Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
+
 
 console.log('after', JSON.parse(Cookies.get('wsdata')))
 
