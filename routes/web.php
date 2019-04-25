@@ -43,7 +43,7 @@ use App\channel\mailControl;
 	Route::get('/send','home\IndexController@send');
 	Route::post('/send_message','home\IndexController@sendMessages'); //发送短信消息
 	Route::get('/sendmsg','home\IndexController@get_sendmsg');
-	Route::get('/visfrom','home\IndexController@visfrom');
+	
 	Route::get('/orderSuccess','home\IndexController@orderSuccess');
 	Route::match(['get', 'post'],'/getsendmsg','home\IndexController@getsendmsg');
 	Route::match(['get', 'post'],'/gethtml','home\IndexController@gethtml');
@@ -57,7 +57,7 @@ use App\channel\mailControl;
 	Route::match(['get', 'post'], '/expressCheckoutSuccess','home\IndexController@expressCheckoutSuccess');
 	Route::post('/customshippingmethod/countdown/index','home\SiteController@countdown');
 });
-Route::middleware([])->group(function(){
+Route::middleware([])->group(function(){Route::get('/visfrom','home\IndexController@visfrom');
 	Route::any('/order/save_testcom','home\IndexController@savetestform');
 	Route::get('/visfrom/settime','home\IndexController@settime');
 	Route::get('/visfrom/setbuy','home\IndexController@setbuy');
