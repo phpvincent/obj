@@ -449,7 +449,7 @@ class IndexController extends Controller
         }
     }
 
-    /** 订单保存接口
+    /** 订单保存接口(货到付款)
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -520,6 +520,7 @@ class IndexController extends Controller
     	$cuxiaoSDK=new cuxiaoSDK($goods);
     	$price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
         if($request->has('goodsAtt')&&$request->input('goodsAtt')){
+            //计算商品差价后的金额
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
         if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){
@@ -1077,7 +1078,7 @@ class IndexController extends Controller
     $business_form->save();
    }
 
-    /**
+    /**在线支付下单结算接口
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -1119,7 +1120,12 @@ class IndexController extends Controller
        $cuxiaoSDK=new cuxiaoSDK($goods);
        $price=$cuxiaoSDK->get_price($request->input('specNumber'),$request->input('cuxiao_id'));
        if($request->has('goodsAtt')&&$request->input('goodsAtt')){
+            //计算商品差价后的金额
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
+        }
+        if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){
+            //计算优惠卷后的价格
+            $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
         }
        //判断金额合法性
        if($price==false||$price<=0){
