@@ -71,7 +71,7 @@ var browser={
    }
 
 
- var wsArr = (function(){ return Cookies.get('wsdata')? JSON.parse(Cookies.get('wsdata')) : new Array })()
+
  var ip_msg = (function(){ return Cookies.get('ip_msg')? JSON.parse(Cookies.get('ip_msg')) : new Object })()
  var locHref = (function( href ){
         var hrefarr= href.split('?')
@@ -94,21 +94,25 @@ var browser={
     
     
     })(location.href)
- console.log('befor',wsArr)
+var wsArr = (function(){ 
+    var data = Cookies.get('wsdata') ? JSON.parse(Cookies.get('wsdata')) : new Array 
+    console.log('befor',data)
 
- var flag = false
- $.each(wsArr, function(index, el ){
-     if (el.route === locHref){
-        flag = true
-     }
- })
- if (!flag){
-    wsArr.push({ route: locHref, start_date: new Date().toLocaleString() })
-    Cookies.set('wsdata', wsArr,  { expires: 1, path: '' })
- }
+    var flag = false
+    $.each(data, function(index, el ){
+        if (el.route === locHref){
+           flag = true
+        }
+    })
+    if (!flag){
+        data.push({ route: locHref, start_date: new Date().toLocaleString() })
+       Cookies.set('wsdata', data,  { expires: 1, path: '' })
+    }
+   
+   console.log('after', JSON.parse(Cookies.get('wsdata')))
+   return JSON.parse(Cookies.get('wsdata'))
+})()
 
-
-console.log('after', JSON.parse(Cookies.get('wsdata')))
 
 var wsUri ="ws://13.229.73.221:2349/";
 var  heartbeat=null
