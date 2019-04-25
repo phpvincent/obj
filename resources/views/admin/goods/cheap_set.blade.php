@@ -6,7 +6,7 @@
 }
 </style>
 <article class="page-container">
-		<div class="row cl lijian">
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">货币类型：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text"  disabled="disabled" value="{{\App\currency_type::where('currency_type_id',\App\goods::where('goods_id',$goods_id)->first(['goods_currency_id'])['goods_currency_id'])->first(['currency_type_name'])['currency_type_name']}}" placeholder="" id="articlesort" name="goods_cheap_msg" >
@@ -14,7 +14,7 @@
 			<br>
 			<br>
 		</div>
-		<div class="row cl lijian">
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">单品定价：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text"  disabled="disabled" value="{{\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price']}}" placeholder="" id="articlesort" name="goods_cheap_msg" >
@@ -56,7 +56,7 @@
 		<div class="row cl" style="">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>生效时间：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-				<input type="text" class="Wdate" id="d122" name="goods_cheap_start_time" value="2018-10-1 23:00:50" onclick="WdatePicker({isShowWeek:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d',onpicked:function() {$dp.$('d122_1').value=$dp.cal.getP('W','W');$dp.$('d122_2').value=$dp.cal.getP('W','WW');}})"/>
+				<input type="text" class="Wdate" id="d122" name="goods_cheap_start_time" value="2018-10-1 23:00:50" onclick="WdatePicker({isShowWeek:true,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d',onpicked:function() {$dp.$('d122_1').value=$dp.cal.getP('W','W');$dp.$('d122_2').value=$dp.cal.getP('W','WW');}})"/>
 			</div>
 		</div>
 		<!-- <div class="row cl">
