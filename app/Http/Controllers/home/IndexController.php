@@ -1587,5 +1587,17 @@ class IndexController extends Controller
        }
        return response()->json(['成功'=>$str_true,'失败'=>$str_false]);
    }
-
+   /**
+   * 前段获取优惠卷接口
+   * @param  Request $request [description]
+   * @return [type]           [description]
+   */
+  public function get_cheap(Request $request,$goods_id)
+  {
+    if($goods_id==null){
+          return  response()->json(['err' => 0, 'str' => 'goods_id not access']);
+    }
+    $goods_cheap=\App\goods_cheap::select('goods_cheap_id','goods_cheap_type','goods_cheap_msg','goods_cheap_remark','goods_cheap_start_time')->where([['goods_cheap_goods_id',$goods_id],['goods_cheap_is_del','0'],['goods_cheap_is_ws','0']])->get();
+     return  response()->json(['err' => 1, 'data' => $goods_cheap]);
+  }
 }
