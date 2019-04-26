@@ -43,6 +43,9 @@ class MonitorController extends Controller
         $data =  $this->redis->hGetAll('routes');
         $routes = [];
         $count = count($data);
+        //地区
+        //总数
+        $total_num = 0;
         if($count != 0){
             foreach ($data as $key=>$value){
                 $search = '~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i';
@@ -57,6 +60,7 @@ class MonitorController extends Controller
                 $arr['goods_id'] = "";
                 $arr['goods_name'] = "";
                 $arr['route_name'] = "";
+                $arr['area'] = "";
                 //根据路由获取路由为站点，还是单品
                 if(isset($rr[4][0])){
                     $get_url = $rr[4][0];
@@ -66,8 +70,11 @@ class MonitorController extends Controller
                     $urls = url::where('url_url',$get_url)->first();
                     if($urls && $urls->url_site_id){ //站点
                         //站点名称
-                        $sites_name = site::where('sites_id',$urls->url_site_id)->first()['sites_name'];
-                        $arr['sites_name'] = $sites_name;
+                        $site = site::where('sites_id',$urls->url_site_id)->first();
+                        if($site){
+                            $arr['sites_name'] = $site->sites_name;
+                            $arr['area'] = goods::get_blade_currency($site->sites_blade_type);
+                        }
                         if(preg_match("/\/activity\/\d+$/", $url)){
                             $len = strrpos($url,'activity');
                             $goods_id = substr($url,$len+9);
@@ -108,7 +115,9 @@ class MonitorController extends Controller
                     }else if($urls && $urls->url_goods_id){ //单页 //TODO 有遮罩商品需要测试
                         $arr['sites_name'] = '';
                         $arr['goods_id'] = $urls->url_goods_id;
-                        $arr['goods_name'] = goods::where('goods_id',$urls->url_goods_id)->first()['goods_real_name'];
+                        $area = $this->get_goods_type($urls->url_goods_id);
+                        $arr['goods_name'] = $area['goods_name'];
+                        $arr['area'] = $area['area'];
                         if(preg_match("/\/pay/", $url)){
                             $arr['route_name'] = "商品下单页";
                         }elseif(preg_match("/\/endsuccess/", $url)){
@@ -122,7 +131,9 @@ class MonitorController extends Controller
                     }else if($urls && $urls->url_zz_goods_id){
                         $arr['sites_name'] = '';
                         $arr['goods_id'] = $urls->url_zz_goods_id;
-                        $arr['goods_name'] = goods::where('goods_id',$urls->url_zz_goods_id)->first()['goods_real_name'];
+                        $area = $this->get_goods_type($urls->url_zz_goods_id);
+                        $arr['goods_name'] = $area['goods_name'];
+                        $arr['area'] = $area['area'];
                         if(preg_match("/\/pay/", $url)){
                             $arr['route_name'] = "商品下单页";
                         }elseif(preg_match("/\/endsuccess/", $url)){
@@ -137,10 +148,29 @@ class MonitorController extends Controller
 
                 $arr['route'] = $url;
                 $arr['num'] = $value;
+                $total_num += $value;
                 array_push($routes,$arr);
             }
         }
-        return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $routes]);
+        return response()->json(['code' => 0, "msg" => "获取数据成功",'num'=>$total_num,'count'=>$count, 'data' => $routes]);
+    }
+
+    /**
+     * 获取商品地区、商品名称
+     * @param $goods_id
+     * @return mixed
+     */
+    private function get_goods_type($goods_id)
+    {
+        $goods = goods::where('goods_id',$goods_id)->first();
+        if($goods){
+            $arra['goods_name'] = $goods->goods_real_name;
+            $arra['area'] = goods::get_blade_currency($goods->goods_blade_type);
+        }else{
+            $arra['goods_name'] = '';
+            $arra['area'] = '';
+        }
+        return $arra;
     }
 
     /**

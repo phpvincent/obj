@@ -401,7 +401,7 @@ class goods extends Model
                      case 'Qatar':
                          return '卡塔尔地区';
                      default:
-                         return '阿联酋地区';
+                         return '中东地区';
                  }
             default:
                 return '台湾地区';
