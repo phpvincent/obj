@@ -1603,7 +1603,7 @@ class IndexController extends Controller
     if($goods_id==null){
           return  response()->json(['err' => 0, 'str' => 'goods_id not access']);
     }
-    $goods_cheap=\App\goods_cheap::select('goods_cheap_id','goods_cheap_type','goods_cheap_msg','goods_cheap_remark','goods_cheap_start_time')->where([['goods_cheap_goods_id',$goods_id],['goods_cheap_is_del','0'],['goods_cheap_is_ws','0']])->get();
+    $goods_cheap=\App\goods_cheap::select('goods_cheap_id','goods_cheap_type','goods_cheap_msg','goods_cheap_remark','goods_cheap_start_time')->where([['goods_cheap_goods_id',$goods_id],['goods_cheap_is_del','0'],['goods_cheap_is_ws','0'],['goods_cheap_start_time','<',date('Y-m-d H:i:s',time()]])->get();
      return  response()->json(['err' => 1, 'data' => $goods_cheap]);
   }
 }
