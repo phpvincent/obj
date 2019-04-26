@@ -2004,7 +2004,7 @@ class GoodsController extends Controller
                $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];
                if($request->input('goods_cheap_msg')>=$goods_price){
                 return  response()->json(['err' => 0, 'str' => '优惠卷金额不得大于商品定价！']);
-               }elseif($request->input('goods_cheap_msg')<=0){
+               }elseif(!is_numeric($request->input('goods_cheap_msg'))||$request->input('goods_cheap_msg')<=0){
                 return  response()->json(['err' => 0, 'str' => '优惠卷金额非法！']);
                }else{
                 $goods_cheap=new \App\goods_cheap();
@@ -2018,7 +2018,7 @@ class GoodsController extends Controller
                }
              break;
            case '1':
-                if(!$request->has('goods_cheap_msg')||$request->input('goods_cheap_msg')<=0||$request->input('goods_cheap_msg')>9){
+                if(!$request->has('goods_cheap_msg')||$request->input('goods_cheap_msg')<=0||$request->input('goods_cheap_msg')>9||!is_numeric($request->input('goods_cheap_msg'))){
                    return  response()->json(['err' => 0, 'str' => '折扣数值非法！']);
                 }else{
                    $goods_cheap=new \App\goods_cheap();
@@ -2033,7 +2033,7 @@ class GoodsController extends Controller
               break;
            case '2':
             $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];dd($goods_price,$request->input('goods_cheap_msg'));
-               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')){
+               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')||!is_numeric($request->input('goods_cheap_msg'))||!is_numeric($request->input('goods_cheap_mremark'))){
                     return  response()->json(['err' => 0, 'str' => '请勿留空或填写非法数据']);
                 }elseif($request->input('goods_cheap_msg')>=$goods_price){
                    return  response()->json(['err' => 0, 'str' => '优惠卷金额不得大于商品定价！']);

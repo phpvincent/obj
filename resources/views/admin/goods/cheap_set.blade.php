@@ -37,7 +37,7 @@
 		<div class="row cl lijian">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>优惠金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" onkeyup="this.value=this.value.replace(/[^1-9]/g,'') "  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
+				<input type="text" class="input-text" onkeyup="this.value=this.value.replace(/[^1-9]*/g,'') "  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" >
 			</div>
 		</div>
 		<div class="row cl zhekou">
