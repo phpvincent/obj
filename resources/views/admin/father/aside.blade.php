@@ -25,6 +25,14 @@
 			</ol>
 			</dd>
 		</dl>
+		<dl id="menu-picture">
+			<dt><i class="Hui-iconfont">&#xe6c1;</i> 热数据管理系统<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ol>
+					<li><a data-href="/admin/worker/index" data-title="进入系统" onclick="parent.location.href='/admin/worker/index';" >进入系统</a></li>
+			</ol>
+			</dd>
+		</dl>
 		
 </div>
 </aside>

@@ -757,7 +757,7 @@ function captureImage(a) {
     })(jQuery);
 </script>
 <script>
-$(function(){console.log({{$is_monitor}})
+$(function(){
     $('#btnPay').on('click',function(){
         try{fbq('track', 'AddToCart');}catch(e){};
     })

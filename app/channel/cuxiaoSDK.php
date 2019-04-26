@@ -504,6 +504,9 @@ class cuxiaoSDK{
 				$price=floor($price*($goods_cheap->goods_cheap_msg / 10));
 				$currency_type=\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first();
 				if($currency_type->exchange_rate<0.001){
+					if($price<1000){
+						return $old_price;
+					}
 					$price=mb_substr($price, 0, mb_strlen($price) - 3)*1000;
 				}
 				if($price>0){

@@ -300,9 +300,9 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
+    <!-- <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%; ">
     Kami akan mengirimkan kode verifikasi kepada Anda. Harap nomor telepon yang diverifikasi benar dan akurat sehingga kami dapat menghubungi Anda dan mengirimkan barang dengan benar. 
-    </div>
+    </div> -->
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->

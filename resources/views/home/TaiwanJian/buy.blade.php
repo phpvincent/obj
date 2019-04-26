@@ -263,10 +263,10 @@
         <label><span class="require">*</span>手机:</label>
         <input type="text" datatype="/^\d+$/" placeholder="必填，填写收件人联系电话" nullmsg="填写收件人联系电话" errormsg="请填写正确的电话号码" name="telephone" class="mui-input-clear">
     </div>
-    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
+    <!-- <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
     {{--请务必保证电话号码信息真实准确，以便我们能够联系您并且准确发送货物。 --}}
         我们将向您发送验证码已验证电话号码真实准确，以便我们能够联系您并且准确发送货物
-    </div>
+    </div> -->
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->

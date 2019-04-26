@@ -255,9 +255,9 @@
         <label><span class="require">*</span>số điện thoại :</label>
         <input type="text" datatype="/^\d+$/" placeholder="phải điền,điền vào số điện thoại của người nhận hàng " nullmsg="" errormsg="" name="telephone" class="mui-input-clear">
     </div>
-    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
+    <!-- <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-left: 23%;">
     Hãy đảm bảo là số điện thoại đúng hiệu quả, để chúng tôi liên hệ với anh, chính xác để giao hàng. 
-    </div>
+    </div> -->
     <!--<div class="mui-input-row" style="display:none;">-->
         <!--<label>Country / Region:</label>-->
         <!---->
