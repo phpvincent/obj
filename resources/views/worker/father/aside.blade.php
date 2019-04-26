@@ -4,16 +4,16 @@
             <span>热数据管理系统</span>
           </div>           
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-             <!-- <li data-name="home" class="layui-nav-item layui-nav-itemed">
+             <li data-name="home" class="layui-nav-item layui-nav-itemed">
               <a href="javascript:;" lay-tips="主页" lay-direction="2">
                 <i class="layui-icon layui-icon-home"></i>
                 <cite>主页</cite>
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a lay-href="home/console.html">控制台</a>
+                  <a lay-href="home/console.html">监控台</a>
                 </dd>
-            </li> -->
+            </li>
             @foreach($rules as $v)
               @if($v->rule_level==='0' && $v->rule_system===2)
               <li data-name="home" class="layui-nav-item">

@@ -258,4 +258,8 @@ class MonitorController extends Controller
     			return response()->json(['err' => '0','str'=>'修改失败！']);
     	}
     }
+    public function console_board(Request $request)
+    {
+        return view('worker.monitor.console_board');
+    }
 }
