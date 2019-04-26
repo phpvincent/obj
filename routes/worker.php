@@ -1,6 +1,6 @@
 <?php
-//	Route::group(['middleware' => ['woker']], function ($router)
-	Route::group([], function ($router)
+	Route::group(['middleware' => ['worker']], function ($router)
+	//Route::group([], function ($router)
 	    {
  			Route::get('/index','admin\worker\WorkerController@index');
  			Route::get('/blade','admin\worker\WorkerController@blade');
