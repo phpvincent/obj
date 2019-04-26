@@ -61,6 +61,7 @@ img{ border:none; vertical-align:top;}
 </style>
 <div class="layui-fluid">
 <div class="layui-card">
+<form class="layui-form" action="" lay-filter="example">
   <div class="layui-card-header layui-form layuiadmin-card-header-auto">
   <div class="layui-form-item">
       
@@ -73,6 +74,16 @@ img{ border:none; vertical-align:top;}
       <div class="layui-inline">
       <button class="layui-btn" id="reload1">搜索</button>
       </div>
+      <div class="layui-inline">
+          <label class="layui-form-label">总人数:</label>
+          <div class="layui-input-block num">
+
+          </div>
+      </div>
+      <div class="layui-inline">
+      <label class="layui-form-label">自动刷新:</label>
+        <input type="checkbox" name="zzz" lay-skin="switch"checked="" lay-text="开启|关闭"lay-filter="switchTest">
+      </div>
   </div>
   
   </div>
@@ -81,6 +92,7 @@ img{ border:none; vertical-align:top;}
   </div>
 </div>
 </div>
+</form>
 
 <div class="layui-container" id="tabDom" style="display: none;">  
   <div class="layui-row">
@@ -160,12 +172,13 @@ img{ border:none; vertical-align:top;}
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index','admin', 'table','laydate', 'laytpl'],function(){
+  }).use(['index','admin', 'table','laydate', 'laytpl','form'],function(){
     var table = layui.table;
     var laydate = layui.laydate;
     var $ =layui.jquery;
     var layer = layui.layer;
     var laytpl = layui.laytpl;
+    var form = layui.form
     
     var options={
       elem: '#table1'
@@ -184,10 +197,30 @@ img{ border:none; vertical-align:top;}
         ,{field: 'route_name', title: '当前页'}
         ,{field: 'goods_name', title: '产品名称'}
         ,{field: 'sites_name', title: '站点名称'}
-      ]]
+        ,{field: 'area', title: '地区'}
+      ]],
+      done:function(res){
+        // console.log(res)
+        $('.num').text(res.num)
+      }
      };
     //表格初始化
     table.render(options);
+    function aa(){
+      table.reload('table1')
+    }
+    var dt=setInterval(aa,30000);
+    //监听指定开关
+  form.on('switch(switchTest)', function(data){
+    // layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+    //   offset: '6px'
+    // });
+    if(this.checked){
+      dt=setInterval(aa,30000);
+    }else{
+      clearInterval(dt);
+    }
+  });
     // //排序监听
     // 表格1复选框监听
     var flag = true // true 表示没有一个弹层
@@ -423,7 +456,10 @@ img{ border:none; vertical-align:top;}
     //        }
     //       })
 
-    
+    // $(function(){
+    //   console.log($('.layui-table-box>.layui-table-body>.layui-table').children())
+    // console.log($('table').eq(2).find("tr").children("td").eq(2))
+    // })
     
     })
 
