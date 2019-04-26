@@ -295,10 +295,10 @@
         <!--<label>Country / Region:</label>-->
         <!---->
     <!--</div>-->
-    <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-right: 23%; ">
+    <!-- <div class="" style="padding:0;margin:0;line-height: 16px;color: red;padding-right: 23%; ">
     {{--يرجي من سيادتكم التأكد من رقم الهاتف والمعلومات الخاصه بكم لسهوله التواصل معكم وتسليمكم الطلب --}}
         سنرسل لك  رمزالتحقق . حتي نعرف رقم الجوال صحيح أم لا  .  لكي يمكننا أن نتصّل معك جيد ونرسل إليك البضاعة بضبط    شكرا !!!
-    </div>
+    </div> -->
     <div class="mui-input-row" style="display:none;">
         <label>State:</label>
         <!--<input type="text" datatype="z1-300" nullmsg="state_not_correct" errormsg="state_not_correct" name="state" class="mui-input-clear">-->
