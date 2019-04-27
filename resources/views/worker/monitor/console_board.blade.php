@@ -39,6 +39,32 @@ img{ border:none; vertical-align:top;}
 .shiji{ position:absolute; width:100%; left:0; top:-19px; display:none;}
 .shiji h1{ height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/images/ico11.gif) no-repeat center top; margin-bottom:8px;}
 .shiji p{ line-height:14px; color:#999;}
+
+
+
+.details span{
+  padding-left:16px;
+  font-weight: 700;
+}
+span:first-child
+{
+  padding-left:0
+}
+#put_ul li{
+  overflow: hidden;
+}
+#put_ul li blockquote:hover{
+  cursor: pointer;
+    border: 1px solid #1e9fff;
+}
+.ft-l{
+  float: left;
+}
+.ft-r{
+  float: right;
+  border-right: 5px solid #e6e6e6;
+  border-left: 1px solid #e6e6e6;
+}
 </style>
   <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
@@ -64,7 +90,6 @@ img{ border:none; vertical-align:top;}
                     
                  </li>
              </ul>
-           
             <div id="output"></div>  
               </div>
             </div>
@@ -219,14 +244,30 @@ img{ border:none; vertical-align:top;}
         var put_ul=$('#put_ul');
         //pre.style.wordWrap = "break-word"; 
         if(msg.msg.stay_time!=null){
-            dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time+'  |   停留时间：'+msg.msg.stay_time); 
+          var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-l">'
+                +'<div class="layui-block details">'
+                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>停留时间: </span>'+msg.msg.stay_time
+                +'</div>'
+                +'<div class="layui-block details">'
+                  +'<span>路由: </span>'+msg.msg.route
+                +'</div>'
+              +'</blockquote></li>'
+            // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time+'  |   停留时间：'+msg.msg.stay_time); 
         }else{
-                    dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time); 
+          var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-r">'
+                +'<div class="layui-block details">'
+                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>'
+                +'</div>'
+                +'<div class="layui-block details">'
+                  +'<span>路由: </span>'+msg.msg.route
+                +'</div>'
+              +'</blockquote></li>'
+                    // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time); 
 
         }
-        dom_li.show();
+        // dom_li.show();
         //pre.append(dom_btn);
-        $('#put_ul').append(dom_li); 
+        $('#put_ul').prepend(str); 
      
     }  
  
