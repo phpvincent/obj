@@ -2155,5 +2155,12 @@ class GoodsController extends Controller
           return  response()->json(['err' => 0, 'str' => '修改失败']);
     }
   }
+  public function api_goods(Request $request)
+  {
+    $time=time()-2592000;
+    $date=date("Y-m-d H:i:s",$time);
+    $goods=\App\goods::where([['is_del',0],['goods_up_time','<',$date]])->get(['goods_id','goods_real_name']);
+    return response()->json(['err' => 1, 'data' => $goods]);
+  }
 }
   

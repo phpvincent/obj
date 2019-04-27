@@ -81,8 +81,8 @@ span:first-child
           <div class="layui-col-md12">
             <div class="layui-card">
               <div class="layui-card-header">监控台</div>  
-              <h2>      WebSocket Test</h2> 
-              <hr> 
+              <!-- <h2>      WebSocket Test</h2> 
+              <hr>  -->
               <div class="layui-card-body">
                 <li style="display: none;" id="console_board_li"><button class="layui-btn layui-btn-radius layui-btn-primary" id="console_board" ></button></li>
              <ul id="put_ul">
@@ -243,27 +243,34 @@ span:first-child
         var dom_btn=dom_li.children();
         var put_ul=$('#put_ul');
         //pre.style.wordWrap = "break-word"; 
-        if(msg.msg.stay_time!=null){
+        if(msg.msg.msg=='离开页面'){
           var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-l">'
-                +'<div class="layui-block details">'
+                +'<div class="layui-block details" style="color:red">'
                   +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>停留时间: </span>'+msg.msg.stay_time
-                +'</div>'
+                +'秒</div>'
                 +'<div class="layui-block details">'
                   +'<span>路由: </span>'+msg.msg.route
                 +'</div>'
               +'</blockquote></li>'
             // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time+'  |   停留时间：'+msg.msg.stay_time); 
-        }else{
+        }else if(msg.msg.msg=='访问请求...'||msg.msg.msg=='路由访问'){
           var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-r">'
                 +'<div class="layui-block details">'
                   +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>'
+                +'</div>'
+               
+              +'</blockquote></li>'
+                    // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time); 
+
+        }else if(msg.msg.msg=='访问页面'||msg.msg.msg=='进入页面'){
+            var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-r">'
+                +'<div class="layui-block details" style="color:green">'
+                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time
                 +'</div>'
                 +'<div class="layui-block details">'
                   +'<span>路由: </span>'+msg.msg.route
                 +'</div>'
               +'</blockquote></li>'
-                    // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time); 
-
         }
         // dom_li.show();
         //pre.append(dom_btn);
