@@ -307,8 +307,8 @@ img{ border:none; vertical-align:top;}
       ,method:'get'
       ,cols: [[ //表头
          {type:'checkbox', fixed: 'left'}
-        ,{field: 'route', title: '路由'}
-        ,{field: 'num', title: '人数'}
+        ,{field: 'route', title: '路由',width:300}
+        ,{field: 'num', title: '人数',width:60}
         ,{field: 'route_name', title: '当前页'}
         ,{field: 'goods_name', title: '产品名称'}
         ,{field: 'sites_name', title: '站点名称'}

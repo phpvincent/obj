@@ -182,6 +182,11 @@ $("#goods_index_table").DataTable().draw(false);
 				var isroot='<span class="label label-success radius">√</span>';
 				info+='<a title="停止" href="javascript:;" onclick="goods_close(\''+data.url_url+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="停止"><i class="Hui-iconfont">&#xe6e4;</i></span></a>'
 			}
+			if(data.goods_is_lazy=='1'){
+				info+='<a title="关闭懒加载" href="javascript:;" onclick="load_change(\''+data.goods_id+'\',\''+0+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="关闭懒加载"><i class="Hui-iconfont">&#xe6de;</i></span></a>'
+			}else if(data.goods_is_lazy=='0'){
+				info+='<a title="开启懒加载" href="javascript:;" onclick="load_change(\''+data.goods_id+'\',\''+1+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="开启懒加载"><i class="Hui-iconfont">&#xe6dc;</i></span></a>'
+			}
 			if(data.goods_site_status=='1'){
 				   info+='<a title="更改为不显示在站点类目栏" href="javascript:;" onclick="site_status(\''+data.goods_id+'\',\'0\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="更改为不显示在站点类目栏"><i class="Hui-iconfont">&#xe6e0;</i></span></a>'
 			}else{
@@ -272,6 +277,31 @@ function goods_online(id){
 			           	 layer.msg(msg.str);
 			           }else{
 			           	 layer.msg('启动失败！');
+			           }
+					}
+				})
+
+		}else{
+
+		}
+}
+function load_change(id,status){
+		var msg =confirm("确定要更改懒加载设置吗？");
+		if(msg){
+        		layer.msg('更改中');
+        		$.ajax({
+					url:"{{url('admin/goods/lazy_load_change')}}",
+					type:'get',
+					data:{'id':id,'status':status},
+					datatype:'json',
+					success:function(msg){
+			           if(msg['err']==1){
+			           	 layer.msg(msg.str);
+			           	 $('#goods_index_table').dataTable().fnClearTable();
+			           }else if(msg['err']==0){
+			           	 layer.msg(msg.str);
+			           }else{
+			           	 layer.msg('更改失败！');
 			           }
 					}
 				})

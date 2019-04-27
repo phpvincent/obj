@@ -16,6 +16,7 @@
             Route::any('/monitor/page/ip_list','admin\worker\MonitorController@ip_list'); //网页监控IP数据
             Route::any('/monitor/page/ip_info','admin\worker\MonitorController@ip_info'); //网页监控用户IP信息
             Route::any('/monitor/set','admin\worker\MonitorController@set'); //监控设置
+            Route::get('/monitor/console_board','admin\worker\MonitorController@console_board'); //控制台
         });
 
 	Route::get('/notallow','admin\worker\WorkerController@notallow');
