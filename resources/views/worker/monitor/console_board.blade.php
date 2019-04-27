@@ -81,8 +81,9 @@ span:first-child
           <div class="layui-col-md12">
             <div class="layui-card">
               <div class="layui-card-header">监控台</div>  
-              <!-- <h2>      WebSocket Test</h2> 
-              <hr>  -->
+
+              <h2 style="line-height: 40px;margin-left: 20px;" id="collect_status_h2"><span style="color:red;font-size: 10px;">Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/close.png">断开连接...</span></h2> 
+              <hr> 
               <div class="layui-card-body">
                 <li style="display: none;" id="console_board_li"><button class="layui-btn layui-btn-radius layui-btn-primary" id="console_board" ></button></li>
              <ul id="put_ul">
@@ -194,15 +195,21 @@ span:first-child
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
         websocket.onopen = function(evt) { 
+          var str='<span style="color:green;font-size: 10px;">Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/online.gif">    已连接，通讯中...</span>'
+          $('#collect_status_h2').html(str)
             onOpen(evt) 
         }; 
         websocket.onclose = function(evt) { 
+           var str='<span style="color:red;font-size: 10px;" onclick="window.location.reload(true)" >Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/close.png">断开连接...</span>'
+          $('#collect_status_h2').html(str)
             onClose(evt) 
         }; 
         websocket.onmessage = function(evt) { 
             onMessage(evt) 
         }; 
         websocket.onerror = function(evt) { 
+          var str='<span style="color:red;font-size: 10px;" onclick="window.location.reload(true)" >Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/close.png">断开连接...</span>'
+          $('#collect_status_h2').html(str)
             onError(evt) 
         }; 
     }  
@@ -272,9 +279,13 @@ span:first-child
                 +'</div>'
               +'</blockquote></li>'
         }
+        var dom_div=$("<div style='display:none'></div>")
+        //dom_div.css('display','none');
+        dom_div.html(str);
         // dom_li.show();
         //pre.append(dom_btn);
-        $('#put_ul').prepend(str); 
+        $('#put_ul').prepend(dom_div); 
+        dom_div.show(1200);
      
     }  
  
