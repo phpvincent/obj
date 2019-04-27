@@ -1,1 +1,0 @@
-{{"this is ip_list page"}}

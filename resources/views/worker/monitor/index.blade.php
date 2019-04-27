@@ -108,50 +108,127 @@ img{ border:none; vertical-align:top;}
 </div>
 <script id="suntable" type="text/html">
 <fieldset class="layui-elem-field">
-    <div>
-      操作记录
-    </div>
-    <div class="course">
-      <div class="clearfix web_widht course_nr">
-          <ul class="course_nr2">
-          @{{#  layui.each(d.data.routes, function(index, item){ }}
-          <li datasj="@{{item.start_date}}"dataurl="@{{item.route}}">
-                <span>@{{item.route}}</span>
-                <div class="shiji" style="display: none;">
-                    <!-- <h1>@{{item.storage_log_type}}</h1> -->
-                    <h1>1</h1>
-                    <p>@{{item.start_date}}</p>
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">操作记录</li>
+            <li>推送消息</li>
+            <li>推送优惠券</li>
+        </ul>
+        <div class="layui-tab-content">
+            {{--访问记录--}}
+            <div class="layui-tab-item layui-show">
+                <div class="course">
+                    <div class="clearfix web_widht course_nr">
+                        <ul class="course_nr2">
+                            @{{#  layui.each(d.data.routes, function(index, item){ }}
+                            <li datasj="@{{item.start_date}}"dataurl="@{{item.route}}">
+                                <span>@{{item.route}}</span>
+                                <div class="shiji" style="display: none;">
+                                    <!-- <h1>@{{item.storage_log_type}}</h1> -->
+                                    <h1>1</h1>
+                                    <p>@{{item.start_date}}</p>
+                                </div>
+                            </li>
+                            @{{#  }); }}
+                        </ul>
+                    </div>
                 </div>
-          </li>
-          @{{#  }); }}
-          </ul>
-      </div>
-    </div>
-    <blockquote class="layui-elem-quote dataurl">路由地址:<span>@{{d.data.routes[0].route}}</span></blockquote>
-    <blockquote class="layui-elem-quote datasj">时间:<span>@{{d.data.routes[0].start_date}}</span></blockquote>
-    <br><hr><br>
-    <div>
-      联系方式
-    </div>
-    <blockquote class="layui-elem-quote">email:@{{#  if(d.data.ip_msg.email){ }}@{{d.data.ip_msg.email}}@{{# }else{ }}@{{# } }}</blockquote>
-  <blockquote class="layui-elem-quote">telephone:@{{#  if(d.data.ip_msg.telephone){ }}@{{d.data.ip_msg.telephone}}@{{# }else{ }}@{{# } }}</blockquote>
-    <div>
-      设备详情
-    </div>
-	<div class="layui-field-box">
-  <blockquote class="layui-elem-quote">core:@{{d.data.deviceData.core}}</blockquote>
-  <blockquote class="layui-elem-quote">iPad:@{{#  if(d.data.deviceData.iPad){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
-  <blockquote class="layui-elem-quote">iPhone:@{{#  if(d.data.deviceData.iPhone){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
-  <blockquote class="layui-elem-quote">iosOrAndroid:@{{d.data.deviceData.iosOrAndroid}}</blockquote>
-  <blockquote class="layui-elem-quote">language:@{{d.data.deviceData.language}}</blockquote>
-  <blockquote class="layui-elem-quote">mobile:@{{#  if(d.data.deviceData.mobile){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
-  <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
-  <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
-  
-  
-  </div>
+                <blockquote class="layui-elem-quote dataurl">路由地址:<span>@{{d.data.routes[0].route}}</span></blockquote>
+                <blockquote class="layui-elem-quote datasj">时间:<span>@{{d.data.routes[0].start_date}}</span></blockquote>
+                <br><hr><br>
+                <div>
+                    联系方式
+                </div>
+                <blockquote class="layui-elem-quote">email:@{{#  if(d.data.ip_msg.email){ }}@{{d.data.ip_msg.email}}@{{# }else{ }}@{{# } }}</blockquote>
+                <blockquote class="layui-elem-quote">telephone:@{{#  if(d.data.ip_msg.telephone){ }}@{{d.data.ip_msg.telephone}}@{{# }else{ }}@{{# } }}</blockquote>
+                <div>
+                    设备详情
+                </div>
+                <div class="layui-field-box">
+                    <blockquote class="layui-elem-quote">core:@{{d.data.deviceData.core}}</blockquote>
+                    <blockquote class="layui-elem-quote">iPad:@{{#  if(d.data.deviceData.iPad){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
+                    <blockquote class="layui-elem-quote">iPhone:@{{#  if(d.data.deviceData.iPhone){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
+                    <blockquote class="layui-elem-quote">iosOrAndroid:@{{d.data.deviceData.iosOrAndroid}}</blockquote>
+                    <blockquote class="layui-elem-quote">language:@{{d.data.deviceData.language}}</blockquote>
+                    <blockquote class="layui-elem-quote">mobile:@{{#  if(d.data.deviceData.mobile){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
+                    <blockquote class="layui-elem-quote">system:@{{d.data.deviceData.system}}</blockquote>
+                    <blockquote class="layui-elem-quote">webApp:@{{#  if(d.data.deviceData.webApp){ }}是@{{# }else{ }}否@{{# } }}</blockquote>
 
-  
+
+                </div>
+
+            </div>
+            {{--推送在线消息--}}
+            <div class="layui-tab-item">
+                <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
+                    {{csrf_field()}}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">接收IP</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="receive_ip" value="@{{d.ip}}" disabled class="layui-input receive_ip">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">推送内容</label>
+                        <div class="layui-input-block">
+                            <textarea name="remarks" placeholder="请输入内容" class="layui-textarea receive_content"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn send_button" onclick="func()" type="button">确认发送</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{--发送优惠券--}}
+            <div class="layui-tab-item">
+                <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
+                    {{csrf_field()}}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">优惠卷类型：</label>
+                        <div class="layui-input-inline">
+                            <select name="goods_cheap_type" class="select" lay-filter="goods_cheap">
+                                <option value="0"  selected="selected">立减卷/现金卷</option>
+                                <option value="1">折扣卷</option>
+                                <option value="2">减免卷</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item lijian">
+                        <label class="layui-form-label">优惠金额：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="articlesort" name="goods_cheap_msg" onkeyup="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item zhekou">
+                        <label class="layui-form-label">优惠折扣：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" disabled onkeyup="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')"
+                                   onafterpaste="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')" maxlength="1"  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item jianmian">
+                        <label class="layui-form-label">满足金额：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" disabled onkeyup="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')" onafterpaste="this.value=this.value.replace(/^(0+)|[^\d]+/g,'') " value="1" placeholder="" id="articlesort" name="goods_cheap_remark" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">生效时间：</label>
+                        <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                            <input type="text" class="layui-input" name="goods_cheap_start_time"  id="test">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">发送优惠券</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
   </fieldset>
 </script>
 <script id="timeLine" type="text/html">
@@ -167,19 +244,57 @@ img{ border:none; vertical-align:top;}
   </script>
 @endsection
 @section('js')
+
 <script>
    layui.config({
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index','admin', 'table','laydate', 'laytpl','form'],function(){
+  }).use(['index','admin', 'table','laydate', 'laytpl','form','element'],function(){
     var table = layui.table;
     var laydate = layui.laydate;
     var $ =layui.jquery;
     var layer = layui.layer;
     var laytpl = layui.laytpl;
-    var form = layui.form
-    
+    var form = layui.form;
+    var element = layui.element;
+
+
+    //WebSocket 推送消息
+    var wsUri ="ws://192.168.10.10:2350/";
+
+     var  websocket = new WebSocket(wsUri);
+       websocket.onopen = function(evt) {
+           // layer.msg('走你');
+       };
+       websocket.onclose = function(evt) {
+            // 提示此功能不可用
+       };
+
+       websocket.onmessage = function(evt) {
+           let data = JSON.parse(evt.data);
+           if(data.status === 0){ //发送成功
+               layer.msg('发送成功!',{time:2*1000},function () {
+                   $('.receive_content').val(" ");
+               });
+           }else{
+               layer.msg(data.msg);
+           }
+       };
+
+       websocket.onerror = function(evt) {
+           layer.msg("网络错误，请刷新页面");
+       };
+
+     // 表单提交 推送普通消息
+     window.func=function () {
+           var messagess = {};
+           messagess.ip = $('.receive_ip').val();
+           messagess.type = 0;
+           messagess.msg = $('.receive_content').val();
+           websocket.send(JSON.stringify(messagess));
+       };
+
     var options={
       elem: '#table1'
       ,url: '/admin/worker/monitor/page/get_table' //数据接口
@@ -200,7 +315,6 @@ img{ border:none; vertical-align:top;}
         ,{field: 'area', title: '地区'}
       ]],
       done:function(res){
-        // console.log(res)
         $('.num').text(res.num)
       }
      };
@@ -223,18 +337,17 @@ img{ border:none; vertical-align:top;}
   });
     // //排序监听
     // 表格1复选框监听
-    var flag = true // true 表示没有一个弹层
+    var flag = true; // true 表示没有一个弹层
     table.on('checkbox(table1)', function(obj){
 
-      // console.log(obj)
-      var route1 = obj.data.route.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
+    var route1 = obj.data.route.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
     var closeFunc = function () {
         $('#tabDom .layui-tab-title li').remove()
         $('#tabDom .layui-tab-content div').remove()
          layer.closeAll();
          flag = true
         table.reload('table1')
-    }
+    };
 
     var songTable = function (route,route1,goods_name) {
       var options={
@@ -260,11 +373,8 @@ img{ border:none; vertical-align:top;}
        //zi表格初始化
        table.render(options);
        table.on('row('+route1+')', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-      //  console.log(obj)
          var data = obj.data; //获得当前行数据
          var ip1 = obj.data.ip.replace(/[&\|\\\/*^%$#:.@?&=\-]/g,"");
-        //  if(obj.event === 'showsong'){ 
-            // console.log(data)
             layer.open({
             type: 1 //此处以iframe举例
             ,title: '访问详情'
@@ -272,7 +382,8 @@ img{ border:none; vertical-align:top;}
             ,maxmin: true
             ,content: '<div id="'+ip1+'"></div>'
             ,zIndex: layer.zIndex //重点1
-          })
+            ,offset: '60px'
+          });
           $.ajax({
                 url:'/admin/worker/monitor/page/ip_info',
                 type:'post',
@@ -282,42 +393,128 @@ img{ border:none; vertical-align:top;}
                 // datatype:'json',
                 headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                 success:function(msg){
+                   msg.ip=obj.data.ip
                    if(msg.data ==null){
-                    $('#'+ip1).html('<div>暂无数据</div>')
+                      $('#'+ip1).html('<div>暂无数据</div>')
                    }else{
-                    var getTpl = suntable.innerHTML;
+                      var getTpl = suntable.innerHTML;
                   
-                  laytpl(getTpl).render(msg, function(html){
-                   //  console.log(html)
-                    $('#'+ip1).html(html)
-                   //  console.log($('#'+ip1))
-                  });
+                      laytpl(getTpl).render(msg, function(html){
+                        $('#'+ip1).html(html)
+                      });
                    }
                    
                     $('.datasj span').text(msg.data.routes[0].start_date)
                     $('.dataurl span').text(msg.data.routes[0].route)
-                   $(function(){
-              
-                    $('body').on('click','.course_nr2 li', function() {
-                      $('.datasj span').text($(this).attr('datasj'))
-                    $('.dataurl span').text($(this).attr('dataurl'))
-                    })
-                  //首页大事记
-                  $('.course_nr2 li').hover(function(){
-                      $(this).find('.shiji').stop().slideDown(600);
-                      $(this).find('span').hide();
-                  },function(){
-                      $(this).find('.shiji').stop().slideUp(100);
-                      $(this).find('span').show();
-                  });
-              });
+                    $(function(){
+                        $('body').on('click','.course_nr2 li', function() {
+                            $('.datasj span').text($(this).attr('datasj'))
+                            $('.dataurl span').text($(this).attr('dataurl'))
+                        });
+                        //首页大事记
+                        $('.course_nr2 li').hover(function(){
+                            $(this).find('.shiji').stop().slideDown(600);
+                            $(this).find('span').hide();
+                        },function(){
+                            $(this).find('.shiji').stop().slideUp(100);
+                            $(this).find('span').show();
+                        });
+                    });
+                    // 优惠券推送
+                    form.render();
+                    goods_cheap_type();
+                    laydate.render({
+                        elem: '#test'
+                        ,format: 'yyyy-MM-dd HH:mm:ss' //可任意组合
+                        //日期有效范围限定在：过去一周到未来一周
+                        ,max: 3 //7天后
+                        ,value: new Date() //参数即为：2018-08-20 20:08:08 的时间戳
+                    });
+
+                    //选择优惠券类型
+                    form.on('select(goods_cheap)', function(data){
+                        goods_cheap_type();
+                    });
+
+                     function goods_cheap_type(){
+                        var val = $('.select').val();
+                         if (val === "0") {
+                            $(".lijian").show();
+                            $(".zhekou").hide();
+                            $(".zhekou input").attr('disabled', true)
+                            $(".lijian input").attr('disabled', false)
+                            $(".jianmian input").attr('disabled', true)
+                            $(".jianmian").hide();
+                        } else if (val === "1") {
+                            $(".lijian").hide();
+                            $(".zhekou").show();
+                            $(".jianmian").hide();
+                            $(".zhekou input").attr('disabled', false)
+                            $(".lijian input").attr('disabled', true)
+                            $(".jianmian input").attr('disabled', true)
+                        } else if (val === "2") {
+                            $(".lijian").show();
+                            $(".zhekou").hide();
+                            $(".jianmian").show();
+                            $(".zhekou input").attr('disabled', true)
+                            $(".lijian input").attr('disabled', false)
+                            $(".jianmian input").attr('disabled', false)
+                        }
+                    }
+
+                    //发送优惠券 监听提交
+                    form.on('submit(formDemo)', function(data){
+                        var patt = /pay/;
+                        //1.验证用户是否在pay支付页面
+                        if(!patt.test(route)){
+                            layer.msg('当前用户不在下单页，不可发送优惠券',{
+                                time: 2000
+                                ,offset: '180'
+                                ,anim: 6
+                            });
+                            return false;
+                        }
+                        var indexs = layer.load();
+                        var goods_data = data.field;
+                        goods_data.goods_id = route.split("?")[1].split("&").filter(function(item){ return item.indexOf('goods_id')===0})[0].split("=")[1];
+                        $.ajax({
+                            url:"{{url('admin/goods/cheap/set')}}",
+                            type:'post',
+                            data:data.field,
+                            datatype:'json',
+                            success:function(msg){
+                                layer.close(indexs);
+                                if(msg.err===1){
+                                    layer.msg(msg.str,{
+                                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                        ,offset: '180'
+                                        ,anim: 6
+                                    }, function(){
+                                        //1.清空本页面数据
+                                        $(".zhekou input").val(0);
+                                        $(".lijian input").val(1);
+                                        $(".jianmian input").val(1);
+                                        //2.推送给客户数据
+                                        var goods_msg = {};
+                                        goods_msg.ip = $('.receive_ip').val();
+                                        goods_msg.type = 1;
+                                        goods_msg.msg = data.field;
+                                        websocket.send(JSON.stringify(goods_msg));
+                                    });
+                                }else if(msg.err===0){
+                                    layer.msg(msg.str);
+                                }else{
+                                    layer.msg('发送失败');
+                                }
+                            }
+                        });
+                        return false;
+                    });
+
                 }
           })
-        //  }
-
        })
-    }
-
+    };
     if (flag) {
       layer.open({
         type: 1 //此处以iframe举例
@@ -359,9 +556,6 @@ img{ border:none; vertical-align:top;}
       }
     });
 
-
-
-
     $('body').on('click','#reload1',function(){
     var oTab=$('.layui-table-body>.layui-table')[0];
     var oTab1=$('.layui-table-body>.layui-table')[1];
@@ -401,18 +595,11 @@ img{ border:none; vertical-align:top;}
      }
     })
 
-
-
     $('body').on('click','#reload2',function(){
-      // console.log($(this).parent().next().children('div').find('table')[1])
-      // console.log($(this).parent().parent().find('.layui-form').find('table')[1])
-      // console.log($(this).parent().prev().find('input').val())
     var oTab=$(this).parent().parent().find('.layui-form').find('table')[1];
     var oBt=$(this).parent().prev().find('input').val();
-//     oBt[1].onclick=function(){
      for(var i=0;i<oTab.tBodies[0].rows.length;i++)
      {
-//       var str1=oTab.tBodies[0].rows[i].cells[1].innerHTML.toUpperCase();
       var str1=$(oTab.tBodies[0].rows[i].cells[0]).children().text().toUpperCase();
       var str2=oBt.toUpperCase();
       if(str1==str2){
@@ -441,7 +628,6 @@ img{ border:none; vertical-align:top;}
 //     }
     })
 
-
     // $.ajax({
     //        url:'/admin/storage/log/time_line',
     //        type:'get',
@@ -452,7 +638,7 @@ img{ border:none; vertical-align:top;}
     //             $('ul.course_nr2').append(html)
     //           });
     //           // 时间线样式
-              
+
     //        }
     //       })
 
@@ -460,7 +646,7 @@ img{ border:none; vertical-align:top;}
     //   console.log($('.layui-table-box>.layui-table-body>.layui-table').children())
     // console.log($('table').eq(2).find("tr").children("td").eq(2))
     // })
-    
+
     })
 
 </script>
