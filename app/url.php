@@ -217,9 +217,15 @@ class url extends Model
     {
         if(substr($url,0,4) == 'www.'){
             $url = substr($url,4);
-        };
+        }elseif(substr($url,0,11)=='http://www.'){
+            $url = substr($url, 11);
+        }elseif(substr($url, 0,7)=='http://'){
+            $url=substr($url, 7);
+        }
+        
         $urls = url::where('url_url',$url)->first();
-        if(!$url){
+        if(!$urls){
+            \Log::notice('error:url.php :function get_site_url failed.url:'.json_encode($url));
             return false;
         }
         if($urls->url_site_id){

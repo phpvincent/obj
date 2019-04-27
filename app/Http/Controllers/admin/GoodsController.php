@@ -2032,7 +2032,7 @@ class GoodsController extends Controller
                 }
               break;
            case '2':
-            $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];dd($goods_price,$request->input('goods_cheap_msg'));
+            $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];
                if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')||!is_numeric($request->input('goods_cheap_msg'))||!is_numeric($request->input('goods_cheap_mremark'))){
                     return  response()->json(['err' => 0, 'str' => '请勿留空或填写非法数据']);
                 }elseif($request->input('goods_cheap_msg')>=$goods_price){
@@ -2143,6 +2143,24 @@ class GoodsController extends Controller
           return  response()->json(['err' => 0, 'str' => '删除失败']);
     }
   }
- 
+  public function lazy_load_change(Request $request)
+  {
+    if(!$request->has('id')||!$request->has('status')||$request->input('id')<0||$request->input('status')<0){
+      return response()->json(['err' => 0, 'str' => '数据非法！']);
+    }
+    $msg=\App\goods::where('goods_id',$request->input('id'))->update(['goods_is_lazy'=>$request->input('status')]);
+    if($msg){
+          return  response()->json(['err' => 1, 'str' => '修改成功']);
+    }else{
+          return  response()->json(['err' => 0, 'str' => '修改失败']);
+    }
+  }
+  public function api_goods(Request $request)
+  {
+    $time=time()-2592000;
+    $date=date("Y-m-d H:i:s",$time);
+    $goods=\App\goods::where([['is_del',0],['goods_up_time','<',$date]])->get(['goods_id','goods_real_name']);
+    return response()->json(['err' => 1, 'data' => $goods]);
+  }
 }
   

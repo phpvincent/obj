@@ -181,30 +181,26 @@ class MonitorController extends Controller
     public function ip_list(Request $request)
     {
         $route = $request->input('route');
-        if($request->isMethod('get')){
-            return view('worker.monitor.ip_list')->with('route',$route);
-        }else{
-            $ip_data = $this->redis->hGet('routes_ips',$route);
-            $ip_list = explode(',',$ip_data);
-            $data = [];
-            $ip_city = new IpLocation();
-            if(count($ip_list) > 0){
-               foreach ($ip_list as $value){
-                   if($value){
-                       $arr['ip'] = $value;
-                       $location = $ip_city->getlocation($value);
-                       if(!empty($location) && isset($location['province'])){
-                           $arr['city'] = $location['province'];
-                       }else{
-                           $arr['city'] = "";
-                       }
-                       array_push($data,$arr);
+        $ip_data = $this->redis->hGet('routes_ips',$route);
+        $ip_list = explode(',',$ip_data);
+        $data = [];
+        $ip_city = new IpLocation();
+        if(count($ip_list) > 0){
+           foreach ($ip_list as $value){
+               if($value){
+                   $arr['ip'] = $value;
+                   $location = $ip_city->getlocation($value);
+                   if(!empty($location) && isset($location['province'])){
+                       $arr['city'] = $location['province'];
+                   }else{
+                       $arr['city'] = "";
                    }
+                   array_push($data,$arr);
                }
-            }
-            $count = count($data);
-            return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $data]);
+           }
         }
+        $count = count($data);
+        return response()->json(['code' => 0, "msg" => "获取数据成功",'count'=>$count, 'data' => $data]);
     }
 
     /**
@@ -215,13 +211,9 @@ class MonitorController extends Controller
     public function ip_info(Request $request)
     {
         $ip = $request->input('ip');
-        if($request->isMethod('get')){
-            return view('worker.monitor.ip_info')->with('ip',$ip);
-        }else{
-            $ip_data = $this->redis->hGet('route_ip_msg',$ip);
-            $ip_list = json_decode($ip_data,true);
-            return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
-        }
+        $ip_data = $this->redis->hGet('route_ip_msg',$ip);
+        $ip_list = json_decode($ip_data,true);
+        return response()->json(['code' => 0, "msg" => "获取数据成功", 'data' => $ip_list]);
     }
     /**
      * 配置设置
@@ -257,5 +249,9 @@ class MonitorController extends Controller
     		}
     			return response()->json(['err' => '0','str'=>'修改失败！']);
     	}
+    }
+    public function console_board(Request $request)
+    {
+        return view('worker.monitor.console_board');
     }
 }
