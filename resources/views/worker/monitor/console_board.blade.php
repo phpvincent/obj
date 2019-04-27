@@ -54,7 +54,9 @@ img{ border:none; vertical-align:top;}
           
           <div class="layui-col-md12">
             <div class="layui-card">
-              <div class="layui-card-header">监控台</div>  <h2>WebSocket Test</h2>  
+              <div class="layui-card-header">监控台</div>  
+              <h2>      WebSocket Test</h2> 
+              <hr> 
               <div class="layui-card-body">
                 <li style="display: none;" id="console_board_li"><button class="layui-btn layui-btn-radius layui-btn-primary" id="console_board" ></button></li>
              <ul id="put_ul">
@@ -71,7 +73,7 @@ img{ border:none; vertical-align:top;}
         </div>
       </div>
       
-<!--       <div class="layui-col-md4">
+      <div class="layui-col-md4">
         <div class="layui-card">
           <div class="layui-card-header">个人信息</div>
           <div class="layui-card-body layui-text">
@@ -118,8 +120,8 @@ img{ border:none; vertical-align:top;}
               </tbody>
             </table>
           </div>
-        </div> -->
-<!--         <div class="layui-card">
+        </div>
+        <div class="layui-card">
           <div class="layui-card-header">产品动态</div>
           <blockquote class="layui-elem-quote">上次产品库更新：{{\App\goods_kind::select('goods_kind_time')->orderBy('goods_kind_time','desc')->first()['goods_kind_time']}}</blockquote>
           <div class="layui-card-body" style="height: 180px !important">
@@ -136,7 +138,7 @@ img{ border:none; vertical-align:top;}
       
     </div>
   </div>
- -->
+
 @endsection
 @section('js')
   <script>
@@ -182,7 +184,7 @@ img{ border:none; vertical-align:top;}
  
     function onOpen(evt) { 
         writeToScreen("第一次打开"); 
-        doSend("WebSocket rocks"); 
+        //doSend("WebSocket rocks"); 
     }  
  
     function onClose(evt) { 
@@ -190,7 +192,7 @@ img{ border:none; vertical-align:top;}
     }  
  
     function onMessage(evt) { 
-        writeToScreen('<span style="color: blue;">返回数据: '+ evt.data+'</span>'); 
+        writeToScreen(evt.data); 
         console.log('onmessage',JSON.parse(evt.data))
         // websocket.close(); 
     }  
@@ -205,14 +207,27 @@ img{ border:none; vertical-align:top;}
     }  
  
     function writeToScreen(message) { 
-        var dom_li=$('#console_board_li');
+        if(message=='hello'){
+            return;
+        }
+        /*console.log(message);*/
+        message=JSON.parse(message);
+        msg=JSON.parse(message.msg);
+        //console.log(JSON.parse(message.msg))
+        var dom_li=$('#console_board_li').clone();
         var dom_btn=dom_li.children();
         var put_ul=$('#put_ul');
         //pre.style.wordWrap = "break-word"; 
-        dom_btn.html(message); 
+        if(msg.msg.stay_time!=null){
+            dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time+'  |   停留时间：'+msg.msg.stay_time); 
+        }else{
+                    dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time); 
+
+        }
         dom_li.show();
         //pre.append(dom_btn);
         $('#put_ul').append(dom_li); 
+     
     }  
  
     window.addEventListener("load", init, false);  
