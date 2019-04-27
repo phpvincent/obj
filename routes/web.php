@@ -104,6 +104,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/goods/cheap/index', 'admin\GoodsController@cheap_index');
 	Route::any('/admin/goods/cheap/set', 'admin\GoodsController@cheap_set');
 	Route::get('/admin/goods/cheap/del', 'admin\GoodsController@cheap_del');
+	Route::get('/admin/goods/lazy_load_change', 'admin\GoodsController@lazy_load_change');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');

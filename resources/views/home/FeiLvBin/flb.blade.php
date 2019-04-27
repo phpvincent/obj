@@ -419,20 +419,39 @@
 </ul>
 @endif
         <div class="clear"></div>
+        @if(isset($goods->goods_is_lazy)&&$goods->goods_is_lazy=='1')
         <div class="detail-block" id="detial-context" style="padding-top:10px">
             @if(in_array('video',$templets) && !empty($goods->goods_video))
             <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
-            	
-			</p>
+            </p>
             @endif
             <p id="detial-context-p">
-			</p>
+
+            </p>
         </div>
         <div class="detail-block" id="detial-params">
             <p>
+ 
            </p>
            
         </div>
+        @else
+        <div class="detail-block" id="detial-context" style="padding-top:10px">
+            @if(in_array('video',$templets) && !empty($goods->goods_video))
+            <p><video class="edui-upload-video  vjs-default-skin    video-js" controls="" autoplay="autoplay" preload="auto" width="420" height="280" src="{{$goods->goods_video}}" data-setup="{}"><source src="" type="video/mp4"/></video>
+            </p>
+            @endif
+            <p >
+                {!!$goods->goods_des_html!!}
+            </p>
+        </div>
+        <div class="detail-block" id="detial-params">
+            <p>
+                 {!!$goods->goods_type_html!!}
+           </p>
+           
+        </div>
+        @endif
         <div class="clear">
         </div>
         @if(in_array('comp_map',$templets))
@@ -788,6 +807,8 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
     })(jQuery);
 </script>
 <script>
+                 @if(isset($goods->goods_is_lazy)&&$goods->goods_is_lazy=='1')
+
             // 商品详情和商品描述的图片懒加载；
             $(function(){
                var detialParams = '{!! $goods->goods_type_html !!}'
@@ -856,7 +877,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
                  }
                }
             });
-            
+            @endif
 $(function(){
 
     // 增加弹窗

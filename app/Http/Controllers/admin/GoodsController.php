@@ -2143,6 +2143,17 @@ class GoodsController extends Controller
           return  response()->json(['err' => 0, 'str' => '删除失败']);
     }
   }
- 
+  public function lazy_load_change(Request $request)
+  {
+    if(!$request->has('id')||!$request->has('status')||$request->input('id')<0||$request->input('status')<0){
+      return response()->json(['err' => 0, 'str' => '数据非法！']);
+    }
+    $msg=\App\goods::where('goods_id',$request->input('id'))->update(['goods_is_lazy'=>$request->input('status')]);
+    if($msg){
+          return  response()->json(['err' => 1, 'str' => '修改成功']);
+    }else{
+          return  response()->json(['err' => 0, 'str' => '修改失败']);
+    }
+  }
 }
   
