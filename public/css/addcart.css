@@ -384,12 +384,12 @@ body,dl,dd{padding: 0;}
 .addcart-footer-price .addcart-footer-price-total font{
 	font-size: 24px;
 }
-.addcart-footer-price .addcart-footer-realPrice-total font{
+.addcart-footer-price .addcart-footer-realPrice-total font, .addcart-footer-price .addcart-footer-coupon-total font{
 	font-size: 24px;
 	color: #f00;
     font-weight: bold;
 }
-.addcart-footer-price .addcart-footer-price-total {
+.addcart-footer-price .addcart-footer-price-total, .addcart-footer-price .addcart-footer-coupon-total {
 	font-size: 24px;
 	margin-bottom: 4px;
 }
