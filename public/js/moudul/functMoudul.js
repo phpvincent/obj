@@ -562,8 +562,8 @@ var subtHtml = ''
       }
 },1000);
 //优惠券提示
-$('header').append('<div id="heademsg" style="position: absolute;right: 0;top: 10px;color: #fff;background-color: #3f3f3f;z-index: 21;"><span style="padding: 0px 15px;">'+cheapMsg+'</span></div>')
-$("#heademsg").animate({right:"100px"},'slow');
+$('header').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 100%;"><span>'+cheapMsg+'</span></div>')
+// $("#heademsg").animate({right:"100px"},'slow');
 setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
 
   $('#contentop .alo').on('click',function(){
