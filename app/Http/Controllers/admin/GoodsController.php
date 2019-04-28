@@ -2033,7 +2033,7 @@ class GoodsController extends Controller
               break;
            case '2':
             $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];
-               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')||!is_numeric($request->input('goods_cheap_msg'))||!is_numeric($request->input('goods_cheap_mremark'))){
+               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')||!is_numeric($request->input('goods_cheap_msg'))||!is_numeric($request->input('goods_cheap_remark'))){
                     return  response()->json(['err' => 0, 'str' => '请勿留空或填写非法数据']);
                 }elseif($request->input('goods_cheap_msg')>=$goods_price){
                    return  response()->json(['err' => 0, 'str' => '优惠卷金额不得大于商品定价！']);
