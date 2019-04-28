@@ -1739,4 +1739,74 @@ class OrderController extends Controller
           }
       }
   }
+  public function order_notice(Request $request)
+  {
+    if($request->isMethod('get')){
+      $languages = admin::$LANGUAGES;
+      return view('admin.order.order_notice')->with(compact('languages'));
+    }elseif($request->isMethod('post')){
+          $info=$request->all();
+          $cm=$info['order'][0]['column'];
+          $dsc=$info['order'][0]['dir'];
+          $order=$info['columns']["$cm"]['data'];
+          $draw=$info['draw'];
+          $start=$info['start'];
+          $len=$info['length'];
+          $search=trim($info['search']['value']);
+          $counts=DB::table('order_notice')
+          ->select('order_notice.*')
+          ->where(function($query)use($request){
+              if($request->has('order_notice_lan')&&$request->input('order_notice_lan')!=0){
+                $query->where('order_notice.order_notice_lan',$request->input('order_notice_lan'));
+              }
+            })
+          ->count();
+          $newcount=DB::table('order_notice')
+          ->select('order_notice.*')
+          ->where(function($query)use($request){
+              if($request->has('order_notice_lan')&&$request->input('order_notice_lan')!=0){
+                $query->where('order_notice.order_notice_lan',$request->input('order_notice_lan'));
+              }
+            })
+          ->where(function($query)use($search){
+            $query->where('order_notice.order_notice_phone','like',"%$search%");
+            $query->orWhere('order_notice.order_notice_reamark','like',"%$search%");
+          })
+          ->count();
+          $data=DB::table('order_notice')
+          ->select('order_notice.*')
+          ->where(function($query)use($request){
+              if($request->has('order_notice_lan')&&$request->input('order_notice_lan')!=0){
+                $query->where('order_notice.order_notice_lan',$request->input('order_notice_lan'));
+              }
+            })
+          ->where(function($query)use($search){
+            $query->where('order_notice.order_notice_phone','like',"%$search%");
+            $query->orWhere('order_notice.order_notice_reamark','like',"%$search%");
+          })
+          ->orderBy($order,$dsc)
+          ->offset($start)
+          ->limit($len)
+          ->get();
+          /*foreach($data as $k => $v){
+            if(strtotime($v->goods_cheap_start_time)<=time()){
+              $data[$k]->goods_cheap_start_time='<span style="color:green;">'.$v->goods_cheap_start_time.'(已生效)</span>';
+            }else{
+              
+              $data[$k]->goods_cheap_start_time='<span style="color:red;">'.$v->goods_cheap_start_time.'(尚未生效)</span>';
+            }
+          }*/
+          $arr=['draw'=>$draw,'recordsTotal'=>$counts,'recordsFiltered'=>$newcount,'data'=>$data];
+          return response()->json($arr);
+    }
+  }
+  public function order_notice_add(Request $request)
+  {
+    if($request->isMethod('get')){
+
+      return view('admin.order.order_notice_add');
+    }elseif($request->isMethod('post')){
+      dd($request->all());
+    }
+  }
 }
