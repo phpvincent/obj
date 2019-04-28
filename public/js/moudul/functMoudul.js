@@ -561,7 +561,11 @@ var subtHtml = ''
         $('#couponBut').hide()
       }
 },1000);
-layer.msg('您有优惠券可以使用！', {icon: 6}); 
+//优惠券提示
+$('header').append('<div id="heademsg" style="position: absolute;right: 0;top: 10px;color: #fff;background-color: #3f3f3f;z-index: 21;"><span style="padding: 0px 15px;">'+cheapMsg+'</span></div>')
+$("#heademsg").animate({right:"100px"},'slow');
+setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
+
   $('#contentop .alo').on('click',function(){
     $('#couponbg').hide() 
     $('#couponcontent').hide()
