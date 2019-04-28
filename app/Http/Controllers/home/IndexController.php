@@ -528,7 +528,7 @@ class IndexController extends Controller
             //计算优惠卷后的价格
             $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
             if($old_price!=$price){
-                $order->order_cheap=$request->input('goods_cheap_id');
+                $order->order_cheap_id=$request->input('goods_cheap_id');
             }
         }
         //判断金额合法性
@@ -1132,7 +1132,7 @@ class IndexController extends Controller
             //计算优惠卷后的价格
             $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
             if($old_price!=$price){
-                $order->order_cheap=$request->input('goods_cheap_id');
+                $order->order_cheap_id=$request->input('goods_cheap_id');
             }
         }
        //判断金额合法性
