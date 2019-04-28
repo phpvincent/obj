@@ -158,19 +158,21 @@ span:first-child
             </table>
           </div>
         </div>
+
+        {{--用户访问时长--}}
         <div class="layui-card">
-          <div class="layui-card-header">产品动态</div>
-          <blockquote class="layui-elem-quote">上次产品库更新：{{\App\goods_kind::select('goods_kind_time')->orderBy('goods_kind_time','desc')->first()['goods_kind_time']}}</blockquote>
-          <div class="layui-card-body" style="height: 180px !important">
-            <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news" >
-              <div carousel-item style="height:150px !important;">
-                @foreach(\App\goods_kind::select('goods_kind.goods_kind_time','goods_kind.goods_kind_name','admin.admin_show_name')->leftjoin('admin','goods_kind.goods_kind_admin','admin.admin_id')->orderBy('goods_kind_time','desc')->offset(0)->limit('3')->get() as $k => $v)
-                  <div> <blockquote class="layui-elem-quote">{{$v->admin_show_name}}:{{$v->goods_kind_name}}({{$v->goods_kind_time}})</blockquote><a lay-href="{{url('admin/kind/index')}}" target="_blank" class="layui-bg-red">前往产品库</a></div>
-                @endforeach
-              </div>
+            <div class="layui-card-header">访问记录</div>
+            <div class="layui-form-item" style="margin-top: 20px">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="goods_name" placeholder="请输入" id="goods_name" autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn search_goods_name">搜索</button>
             </div>
-          </div>
-        </div>
+            <div class="layui-card-body layui-text goods_search">
+
+            </div>
+      </div>
       </div>
       
     </div>
@@ -207,6 +209,7 @@ span:first-child
   });
   </script>
   <script type="text/javascript" src="/js/jquery.min.js"></script>
+
   <script language="javascript"type="text/javascript">  
   function route_id(data_route,id,evt){
     if(data_route !=null){
@@ -223,15 +226,132 @@ span:first-child
             }
         }
   }
+
     //var wsUri ="ws://echo.websocket.org/";
     var dom_btn=$('#console_board');
-     var wsUri ="ws://13.229.73.221:2350/";
-    var output;  
-    
+    var wsUri ="ws://13.229.73.221:2350/";
+    var output;
+
+    // 遍历表格
+    function goods_visit_info() {
+        var goods_name_str = $('#goods_name').val();
+        var goods_infos = [];
+                @forEach($data as $key => $value)
+        var goods_name = '{{$value['goods_name']}}';
+        if(goods_name.search(goods_name_str) >= 0){
+            let arr = {};
+            arr.count = '{{$value['count']}}';
+            arr.goods_name = goods_name;
+            arr.stay_time = '{{$value['stay_time']}}';
+            arr.sites_name = '{{$value['sites_name']}}';
+            arr.url = '{{$value['url']}}';
+            goods_infos.push(arr);
+        }
+        @endforeach
+        var table_html = "";
+        if(goods_infos.length > 0){
+            goods_infos.forEach(function(item,index){
+                if (index >= 10) {
+                    table_html += '<table class="layui-table table_data_url" style="display: none">';
+                    table_html += '<colgroup>';
+                    table_html += '<col width="100">';
+                    table_html += '<col>';
+                    table_html += '</colgroup>';
+                    table_html += '<tbody>';
+                    table_html += '<tr>';
+                    table_html += '<td>访问路由</td>';
+                    table_html += '<td>';
+                    table_html += item.url;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>站点名称</td>';
+                    table_html += '<td>';
+                    table_html += item.sites_name;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>商品名称</td>';
+                    table_html += '<td>';
+                    table_html += item.goods_name;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>平均访问时间</td>';
+                    table_html += '<td>';
+                    table_html += item.stay_time;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>日访问次数</td>';
+                    table_html += '<td>';
+                    table_html += item.count;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '</tbody>';
+                    table_html += '</table>';
+                } else {
+                    table_html += '<table class="layui-table table_data_url">';
+                    table_html += '<colgroup>';
+                    table_html += '<col width="100">';
+                    table_html += '<col>';
+                    table_html += '</colgroup>';
+                    table_html += '<tbody>';
+                    table_html += '<tr>';
+                    table_html += '<td>访问路由</td>';
+                    table_html += '<td>';
+                    table_html += item.url;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>站点名称</td>';
+                    table_html += '<td>';
+                    table_html += item.sites_name;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>商品名称</td>';
+                    table_html += '<td>';
+                    table_html += item.goods_name;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>平均访问时间</td>';
+                    table_html += '<td>';
+                    table_html += item.stay_time;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>日访问次数</td>';
+                    table_html += '<td>';
+                    table_html += item.count;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '</tbody>';
+                    table_html += '</table>';
+                }
+            });
+            if(goods_infos.length > 10) {
+                table_html += '<button class="layui-btn layui-btn-fluid table_data_last" onclick="out_data(this)">查看更多</button>';
+            }
+        }
+
+        $('.table_data_url').remove();
+        $('.table_data_last').remove();
+        $('.goods_search').append(table_html);
+    }
+
+
+    $('.search_goods_name').click(function () {
+        goods_visit_info();
+    });
+
+    //初始化数据
     function init() { 
         output = document.getElementById("output"); 
-        testWebSocket(); 
-    }  
+        testWebSocket();
+        goods_visit_info();
+    }
  
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
@@ -273,7 +393,7 @@ span:first-child
       var data_route=JSON.parse(JSON.parse(evt.data).msg).msg.route
       var id=$('select[name="modules"]').val()
       if(id ==  ''){
-        writeToScreen(evt.data); 
+        writeToScreen(evt.data);
       }else{
         // route_id(data_route,id,evt);
       }
@@ -342,8 +462,13 @@ span:first-child
           $('#put_ul li').eq(250).nextAll().remove();
         }
      
-    }  
- 
+    }
+    // 查看更多
+    function out_data(obj){
+        $(obj).hide();
+        $('.table_data_url').show();
+    }
+
     window.addEventListener("load", init, false);  
 </script> 
 @endsection

@@ -2124,6 +2124,7 @@ class GoodsController extends Controller
             if(strtotime($v->goods_cheap_start_time)<=time()){
               $data[$k]->goods_cheap_start_time='<span style="color:green;">'.$v->goods_cheap_start_time.'(已生效)</span>';
             }else{
+              
               $data[$k]->goods_cheap_start_time='<span style="color:red;">'.$v->goods_cheap_start_time.'(尚未生效)</span>';
             }
           }
