@@ -81,7 +81,18 @@ span:first-child
           <div class="layui-col-md12">
             <div class="layui-card">
               <div class="layui-card-header">监控台</div>  
-
+              <form class="layui-form" action="">
+                <div class="layui-form-item">
+                  <div class="layui-inline">
+                    <label class="layui-form-label">商品名筛选</label>
+                    <div class="layui-input-inline">
+                      <select name="modules"  lay-search="">
+                        <option value="0">直接选择或搜索选择</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </form>
               <h2 style="line-height: 40px;margin-left: 20px;" id="collect_status_h2"><span style="color:red;font-size: 10px;">Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/close.png">断开连接...</span></h2> 
               <hr> 
               <div class="layui-card-body">
@@ -172,16 +183,46 @@ span:first-child
     base: '/admin/layuiadmin/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'console', 'layer', 'laytpl', 'table'], function() {
+  }).use(['index', 'console', 'layer', 'laytpl', 'table','form'], function() {
     var $ =layui.jquery;
     var layer = layui.layer;
     var laytpl = layui.laytpl;
     var table=layui.table;
+    var form=layui.form;
+    $.ajax({
+              url:"/admin/goods/api_goods",
+              type:'get',
+              success:function(msg){
+                console.log(msg);
+                // console.log($('select[name="modules"]'));
+                var str='';
+                $.each(msg.data,function(index,val){
+                  str+= '<option value="'+val.goods_id+'">'+val.goods_real_name+'</option>'
+                });
+                $('select[name="modules"]').append(str);
+                form.render();
+              }
+            }) 
     
   });
   </script>
   <script type="text/javascript" src="/js/jquery.min.js"></script>
   <script language="javascript"type="text/javascript">  
+  function route_id(data_route,id,evt){
+    if(data_route !=null){
+            if(data_route.indexOf('goods_id')==-1){
+              var data_id=data_route.substring(data_route.indexOf('site_goods')+11,data_route.length);
+              if(id==data_id){
+                writeToScreen(evt.data);
+              }
+            }else{
+              var data_id=data_route.split("?")[1].split("&").filter(function(item){ return item.indexOf('goods_id')===0})[0].split("=")[1];
+              if(id==data_id){
+                writeToScreen(evt.data);
+              }
+            }
+        }
+  }
     //var wsUri ="ws://echo.websocket.org/";
     var dom_btn=$('#console_board');
      var wsUri ="ws://13.229.73.221:2350/";
@@ -223,9 +264,20 @@ span:first-child
         writeToScreen("关闭ws"); 
     }  
  
+    // function onMessage(evt) { 
+    //     writeToScreen(evt.data); 
+    //     console.log('onmessage',JSON.parse(evt.data))
+    //     // websocket.close(); 
+    // } 
     function onMessage(evt) { 
+      var data_route=JSON.parse(JSON.parse(evt.data).msg).msg.route
+      var id=$('select[name="modules"]').val()
+      if(id ==  0){
         writeToScreen(evt.data); 
-        console.log('onmessage',JSON.parse(evt.data))
+      }else{
+        route_id(data_route,id,evt);
+      }
+        // console.log('onmessage',JSON.parse(evt.data))
         // websocket.close(); 
     }  
  
@@ -251,41 +303,44 @@ span:first-child
         var put_ul=$('#put_ul');
         //pre.style.wordWrap = "break-word"; 
         if(msg.msg.msg=='离开页面'){
-          var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-l">'
+          var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-l">'
                 +'<div class="layui-block details" style="color:red">'
                   +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>停留时间: </span>'+msg.msg.stay_time
                 +'秒</div>'
                 +'<div class="layui-block details">'
                   +'<span>路由: </span>'+msg.msg.route
                 +'</div>'
-              +'</blockquote></li>'
+              +'</blockquote>'
             // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time+'  |   停留时间：'+msg.msg.stay_time); 
         }else if(msg.msg.msg=='访问请求...'||msg.msg.msg=='路由访问'){
-          var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-r">'
+          var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r">'
                 +'<div class="layui-block details">'
                   +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>'
                 +'</div>'
                
-              +'</blockquote></li>'
+              +'</blockquote>'
                     // dom_btn.html('操作：'+msg.msg.msg+'    |   路由：'+msg.msg.route+'    |   IP：'+msg.msg.ip+'   |   时间：'+msg.msg.time); 
 
         }else if(msg.msg.msg=='访问页面'||msg.msg.msg=='进入页面'){
-            var str = '<li><blockquote class="layui-elem-quote layui-quote-nm ft-r">'
+            var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r">'
                 +'<div class="layui-block details" style="color:green">'
                   +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time
                 +'</div>'
                 +'<div class="layui-block details">'
                   +'<span>路由: </span>'+msg.msg.route
                 +'</div>'
-              +'</blockquote></li>'
+              +'</blockquote>'
         }
-        var dom_div=$("<div style='display:none'></div>")
+        var dom_div=$('<li style="display:none"></li>')
         //dom_div.css('display','none');
         dom_div.html(str);
         // dom_li.show();
         //pre.append(dom_btn);
         $('#put_ul').prepend(dom_div); 
         dom_div.show(1200);
+        if($('#put_ul li').length>=250){
+          $('#put_ul li').eq(250).nextAll().remove();
+        }
      
     }  
  
