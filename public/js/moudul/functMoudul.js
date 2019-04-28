@@ -565,7 +565,12 @@ var subtHtml = ''
 $('header').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 100%;"><span>'+cheapMsg+'</span></div>')
 // $("#heademsg").animate({right:"100px"},'slow');
 setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
-
+//优惠券提示点击也可以打开优惠券
+$('#heademsg').on('click',function(){
+    $(this).hide()
+    $('#couponbg').show()
+    $('#couponcontent').show()
+})
   $('#contentop .alo').on('click',function(){
     $('#couponbg').hide() 
     $('#couponcontent').hide()
