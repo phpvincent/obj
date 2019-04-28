@@ -469,7 +469,7 @@ function payFunMessageRight(datasObj){
 
 //优惠券逻辑
 var subtIs = false
-var goods_cheap_id = null
+
 var goods_cheap_type = null
 var goods_cheap_msg = null
 var goods_cheap_remark = null
@@ -572,7 +572,8 @@ setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
     $('#couponcontent .alo').removeClass('cheapactive')
     $(this).addClass('cheapactive')
     console.log('dianle')
-    goods_cheap_id = $(this).attr('goods_cheap_id')
+    // 提交订单时使用goods_cheap_id
+    datasObj.goods_cheap_id = $(this).attr('goods_cheap_id')
     goods_cheap_type = $(this).attr('goods_cheap_type')
     goods_cheap_msg = $(this).attr('goods_cheap_msg')
     goods_cheap_remark = $(this).attr('goods_cheap_remark')
