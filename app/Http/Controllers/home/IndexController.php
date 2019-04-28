@@ -523,7 +523,7 @@ class IndexController extends Controller
             //计算商品差价后的金额
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
-        if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){
+        if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){dd($request->input('goods_cheap_id'));
             $old_price=$price;
             //计算优惠卷后的价格
             $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
