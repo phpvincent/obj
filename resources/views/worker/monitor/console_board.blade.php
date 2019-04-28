@@ -80,20 +80,20 @@ span:first-child
           
           <div class="layui-col-md12">
             <div class="layui-card">
-              <div class="layui-card-header">监控台</div>  
+              <div class="layui-card-header">监控台<h2 style="line-height: 40px;margin-left: 20px;    float: right;" id="collect_status_h2"><span style="color:red;font-size: 10px;">Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/close.png">断开连接...</span></h2> </div>  
               <form class="layui-form" action="">
                 <div class="layui-form-item">
                   <div class="layui-inline">
                     <label class="layui-form-label">商品名筛选</label>
                     <div class="layui-input-inline">
                       <select name="modules"  lay-search="">
-                        <option value="0">直接选择或搜索选择</option>
+                        <option value="">直接选择或搜索选择</option>
                       </select>
                     </div>
                   </div>
                 </div>
               </form>
-              <h2 style="line-height: 40px;margin-left: 20px;" id="collect_status_h2"><span style="color:red;font-size: 10px;">Status:<img id="collect_status" style="width: 80px;height: 45px;border-radius:35px;" src="/images/close.png">断开连接...</span></h2> 
+              
               <hr> 
               <div class="layui-card-body">
                 <li style="display: none;" id="console_board_li"><button class="layui-btn layui-btn-radius layui-btn-primary" id="console_board" ></button></li>
@@ -272,10 +272,10 @@ span:first-child
     function onMessage(evt) { 
       var data_route=JSON.parse(JSON.parse(evt.data).msg).msg.route
       var id=$('select[name="modules"]').val()
-      if(id ==  0){
+      if(id ==  ''){
         writeToScreen(evt.data); 
       }else{
-        route_id(data_route,id,evt);
+        // route_id(data_route,id,evt);
       }
         // console.log('onmessage',JSON.parse(evt.data))
         // websocket.close(); 
