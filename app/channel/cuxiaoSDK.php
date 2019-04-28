@@ -494,7 +494,7 @@ class cuxiaoSDK{
 			case '0':
 				$old_price=$price;
 				if($price-$goods_cheap->goods_cheap_msg>0){
-					return $price;
+					return $price-$goods_cheap->goods_cheap_msg;
 				}else{
 					return $old_price;
 				}
