@@ -114,6 +114,7 @@ function addAttribu(cuxiao_num,a) {
      }
 };
 var a=null,basePrice=null,moneycoin=null,realPrice=null;
+var beforcheap = null;
 function countDiff (a,basePrice,moneycoin,realPrice){
     a=a;
     basePrice=basePrice;
@@ -159,6 +160,7 @@ function countDiff (a,basePrice,moneycoin,realPrice){
     console.log("总价",basePrice+countDiffPrice)
     console.log(moneycoin)
     console.log(realPrice)
+    beforcheap = basePrice+countDiffPrice
     $('.addcart-footer-price-total').children('font:first').html(moneycoin+ returnFloat(subtraction(basePrice+countDiffPrice)));
     $('#realprice').html( returnFloat(basePrice+countDiffPrice) );
     var nunnn= $("#addcart-quantity-val").val()-0;
@@ -480,6 +482,14 @@ function subtraction (value) {
      //判断优惠券类型
      if(goods_cheap_type==='0'){
         if(value-goods_cheap_msg <=0){
+            // 如果再计算中不符合优惠券使用条件 去掉优惠金额和优惠券选中样式
+            $('.addcart-footer-coupon-total').hide()
+            $('#couponcontent .alo').removeClass('cheapactive')
+             subtIs = false
+             goods_cheap_type = null
+             goods_cheap_msg = null
+             goods_cheap_remark = null
+             datasObj.goods_cheap_id= null
             return value
         }else{
          $('.addcart-footer-coupon-total').children('font:first').html('-'+moneycoin+ goods_cheap_msg);
@@ -493,6 +503,14 @@ function subtraction (value) {
 
      }else if(goods_cheap_type==='2'){
         if(value < goods_cheap_remark-0){
+            // 如果再计算中不符合优惠券使用条件 去掉优惠金额和优惠券选中样式
+            $('.addcart-footer-coupon-total').hide()
+            $('#couponcontent .alo').removeClass('cheapactive')
+            subtIs = false
+            goods_cheap_type = null
+            goods_cheap_msg = null
+            goods_cheap_remark = null
+            datasObj.goods_cheap_id= null
             return value
         }else{
          $('.addcart-footer-coupon-total').children('font:first').html('-'+moneycoin+ goods_cheap_msg);
@@ -526,7 +544,7 @@ var msg =function(el){
 // 优惠券是否可用
 var subtSatisfy =function(el){
     if(el.goods_cheap_type==='2'){
-        return cheapSatisfy+'<span>'+el.goods_cheap_remark+'</span>'
+        return cheapSatisfy+'<span>'+moneycoin+el.goods_cheap_remark+'</span>'
     }else{
         return ''
     }
@@ -572,18 +590,47 @@ $('#heademsg').on('click',function(){
     $('#couponcontent').show()
 })
   $('#contentop .alo').on('click',function(){
-    $('#couponbg').hide() 
-    $('#couponcontent').hide()
-    $('#couponcontent .alo').removeClass('cheapactive')
-    $(this).addClass('cheapactive')
     console.log('dianle')
-    // 提交订单时使用goods_cheap_id
-    datasObj.goods_cheap_id = $(this).attr('goods_cheap_id')
-    goods_cheap_type = $(this).attr('goods_cheap_type')
-    goods_cheap_msg = $(this).attr('goods_cheap_msg')
-    goods_cheap_remark = $(this).attr('goods_cheap_remark')
-    subtIs= true
-    countDiff (a,basePrice,moneycoin,realPrice)
+    if($(this).attr('goods_cheap_type')==='0'){
+        if(beforcheap-$(this).attr('goods_cheap_msg') <=0){
+            layer.msg(cheapSa);
+            return
+        }else{
+                // 提交订单时使用goods_cheap_id
+                datasObj.goods_cheap_id = $(this).attr('goods_cheap_id')
+                goods_cheap_type = $(this).attr('goods_cheap_type')
+                goods_cheap_msg = $(this).attr('goods_cheap_msg')
+                goods_cheap_remark = $(this).attr('goods_cheap_remark')
+                subtIs= true
+            countDiff (a,basePrice,moneycoin,realPrice)
+        }
+     }else if ($(this).attr('goods_cheap_type')==='1'){
+                // 提交订单时使用goods_cheap_id
+                datasObj.goods_cheap_id = $(this).attr('goods_cheap_id')
+                goods_cheap_type = $(this).attr('goods_cheap_type')
+                goods_cheap_msg = $(this).attr('goods_cheap_msg')
+                goods_cheap_remark = $(this).attr('goods_cheap_remark')
+                subtIs= true
+        countDiff (a,basePrice,moneycoin,realPrice)
+     }else if($(this).attr('goods_cheap_type')==='2'){
+        if(beforcheap < $(this).attr('goods_cheap_remark')-0){
+            layer.msg(cheapSa); 
+            return
+        }else{
+                // 提交订单时使用goods_cheap_id
+                datasObj.goods_cheap_id = $(this).attr('goods_cheap_id')
+                goods_cheap_type = $(this).attr('goods_cheap_type')
+                goods_cheap_msg = $(this).attr('goods_cheap_msg')
+                goods_cheap_remark = $(this).attr('goods_cheap_remark')
+                subtIs= true
+            countDiff (a,basePrice,moneycoin,realPrice)
+        }
+     }
+     $('#couponbg').hide() 
+     $('#couponcontent').hide()
+     $('#couponcontent .alo').removeClass('cheapactive')
+     $(this).addClass('cheapactive')
+
 })
 }
 
