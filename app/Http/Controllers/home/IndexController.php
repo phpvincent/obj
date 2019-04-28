@@ -524,8 +524,12 @@ class IndexController extends Controller
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
         if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){
+            $old_price=$price;
             //计算优惠卷后的价格
             $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
+            if($old_price!=$price){
+                $order->order_cheap=$request->input('goods_cheap_id';)
+            }
         }
         //判断金额合法性
     	if($price==false||$price<=0){
@@ -1124,8 +1128,12 @@ class IndexController extends Controller
             $price=$cuxiaoSDK->get_diff_price($request->input('goodsAtt'),$price);
         }
         if($request->has('goods_cheap_id')&&$request->input('goods_cheap_id')!=null){
+            $old_price=$price;
             //计算优惠卷后的价格
             $price=$cuxiaoSDK->get_cheap_price($request->input('goods_cheap_id'),$price);
+            if($old_price!=$price){
+                $order->order_cheap=$request->input('goods_cheap_id';)
+            }
         }
        //判断金额合法性
        if($price==false||$price<=0){

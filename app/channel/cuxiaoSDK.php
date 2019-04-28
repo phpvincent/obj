@@ -483,7 +483,7 @@ class cuxiaoSDK{
 		}
 		return $price;
 	}
-	public function get_cheap_price($goods_cheap_id)
+	public function get_cheap_price($goods_cheap_id,$price)
 	{
 		$goods=$this->goods;
 		$goods_cheap=\App\goods_cheap::where([['goods_cheap_goods_id',$goods->goods_id],['goods_cheap_id',$goods_cheap_id]])->first();
