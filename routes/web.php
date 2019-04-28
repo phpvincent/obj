@@ -105,6 +105,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::any('/admin/goods/cheap/set', 'admin\GoodsController@cheap_set');
 	Route::get('/admin/goods/cheap/del', 'admin\GoodsController@cheap_del');
 	Route::get('/admin/goods/lazy_load_change', 'admin\GoodsController@lazy_load_change');
+	Route::get('/admin/goods/api_goods', 'admin\GoodsController@api_goods');
 
 	//订单相关
 	Route::get('/admin/order/index','admin\OrderController@index');
@@ -124,6 +125,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::match(['get','post'],'/admin/order/send_mail','admin\OrderController@send_mail');
 	Route::match(['get','post'],'/admin/order/change_exl','admin\OrderController@change_exl');
 	Route::match(['get','post'],'/admin/order/send_message', 'admin\OrderController@send_message');
+	Route::match(['get','post'],'/admin/order/order_notice', 'admin\OrderController@order_notice');
     Route::get('/admin/order/message_logs', 'admin\OrderController@message_logs');
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');

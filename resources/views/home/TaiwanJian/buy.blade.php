@@ -367,7 +367,24 @@
     温馨提示：支持货到付款+免邮费+七天无理由退换货！收到商品后有任何疑问请联系我们在线客服，或发邮件至
         <a href="mailto:hyfhdcjn@gmail.com" style="color:#F8770E">hyfhdcjn@gmail.com</a>.
     </div><!--footer end-->
+<div id="couponbg" style="display:none; position:fixed;z-index:99998; width:100%; height:100%; background:black; padding:0px; bottom:0px; margin:0px; opacity:0.7; max-width: 640px;">       
+</div>
+<div id="couponcontent" style="display:none;width: 100%;max-width:640px;clear: both;position: relative;">
+  <div style="position: fixed; z-index: 99999; width: 90%; height: 500px; padding:0 5%; top: 16%; max-width: 640px;">
+    <div class="mui-card">
+      <div class="closeBtn">
+        <img src="/img/close.png">
+      </div>
+	  <div class="mui-card-content">
+      <ul id="contentop">
+			<li class="action">
 
+			</li>
+		</ul>
+      </div>
+    </div>
+</div>
+</div> 
 <script>
     function captureImage(a) {
     a.pause(); 
@@ -619,6 +636,10 @@ $('#payOk').bind('click',payFunGo);//封装订单提交
 var messagesucce ="验证码已发送至您手机，请注意接收！验证码有效时间为5分钟";
 var messageerr ="验证码发送失败，请确认您手机号是否填写正确！";
 var messnetworkerr= "请检查网络情况！";
+var cheapWord = '优惠券';
+var cheapSatisfy = '优惠券可用最低价格：';
+var cheapLose = '优惠券有效期还剩：';
+var cheapMsg = '您有优惠券可以使用！';
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -804,7 +825,7 @@ jQuery(function(){
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
-                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  仅剩:'+msg.goods.goods_num+'件\）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font> <span class="gift" style="display:none;">，含赠<font>0</font>件</span> </span><span class="addcart-footer-realPriceNative-total">原价:<font>1</font></span><span class="addcart-footer-realPrice-total">减免额:<font></font></span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  仅剩:'+msg.goods.goods_num+'件\）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font> <span class="gift" style="display:none;">，含赠<font>0</font>件</span> </span><span class="addcart-footer-realPriceNative-total">原价:<font>1</font></span><span class="addcart-footer-realPrice-total">减免额:<font></font></span><span style="display: none;" class="addcart-footer-coupon-total">优惠券减免:<font></font></span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                             $("#addcart").html(addCartHtml1);
                             var pricehtml=$('.addcart-footer-price-total').children('font:first');
                                 var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
@@ -845,7 +866,7 @@ jQuery(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已选【'+msg.cuxiao[0].cuxiao_msg+'】仅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font> <span class="gift" style="display:none;">，含赠<font>0</font>件</span>  </span><span class="addcart-footer-realPriceNative-total">原价:<font>1</font></span><span class="addcart-footer-realPrice-total">减免额:<font></font></span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">总数量：1</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，已选【'+msg.cuxiao[0].cuxiao_msg+'】仅剩'+msg.goods.goods_num+'件）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>1</font> <span class="gift" style="display:none;">，含赠<font>0</font>件</span>  </span><span class="addcart-footer-realPriceNative-total">原价:<font>1</font></span><span class="addcart-footer-realPrice-total">减免额:<font></font></span><span style="display: none;" class="addcart-footer-coupon-total">优惠券减免:<font></font></span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font></span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -954,7 +975,7 @@ jQuery(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">，含赠<font>0</font>件</span>  </span><span class="addcart-footer-realPriceNative-total">原价:<font>1</font></span><span class="addcart-footer-realPrice-total">减免额:<font></font></span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;"><div class="addcart-quantity-content"><label class="addcart-quantity-title">数量:</label><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total">总数量:<font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font> <span class="gift" style="display:none;">，含赠<font>0</font>件</span>  </span><span class="addcart-footer-realPriceNative-total">原价:<font>1</font></span><span class="addcart-footer-realPrice-total">减免额:<font></font></span><span style="display: none;" class="addcart-footer-coupon-total">优惠券减免:<font></font></span><span class="addcart-footer-price-total">合计:<font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font></span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；

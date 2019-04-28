@@ -2033,7 +2033,7 @@ class GoodsController extends Controller
               break;
            case '2':
             $goods_price=\App\goods::where('goods_id',$goods_id)->first(['goods_price'])['goods_price'];
-               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')||!is_numeric($request->input('goods_cheap_msg'))||!is_numeric($request->input('goods_cheap_mremark'))){
+               if(!$request->has('goods_cheap_msg')||!$request->has('goods_cheap_remark')||!is_numeric($request->input('goods_cheap_msg'))||!is_numeric($request->input('goods_cheap_remark'))){
                     return  response()->json(['err' => 0, 'str' => '请勿留空或填写非法数据']);
                 }elseif($request->input('goods_cheap_msg')>=$goods_price){
                    return  response()->json(['err' => 0, 'str' => '优惠卷金额不得大于商品定价！']);
@@ -2124,6 +2124,7 @@ class GoodsController extends Controller
             if(strtotime($v->goods_cheap_start_time)<=time()){
               $data[$k]->goods_cheap_start_time='<span style="color:green;">'.$v->goods_cheap_start_time.'(已生效)</span>';
             }else{
+              
               $data[$k]->goods_cheap_start_time='<span style="color:red;">'.$v->goods_cheap_start_time.'(尚未生效)</span>';
             }
           }
@@ -2154,6 +2155,13 @@ class GoodsController extends Controller
     }else{
           return  response()->json(['err' => 0, 'str' => '修改失败']);
     }
+  }
+  public function api_goods(Request $request)
+  {
+    $time=time()-2592000;
+    $date=date("Y-m-d H:i:s",$time);
+    $goods=\App\goods::where([['is_del',0],['goods_up_time','<',$date]])->get(['goods_id','goods_real_name']);
+    return response()->json(['err' => 1, 'data' => $goods]);
   }
 }
   

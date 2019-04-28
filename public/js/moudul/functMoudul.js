@@ -113,10 +113,14 @@ function addAttribu(cuxiao_num,a) {
          }else {return  }
      }
 };
-
+var a=null,basePrice=null,moneycoin=null,realPrice=null;
 function countDiff (a,basePrice,moneycoin,realPrice){
+    a=a;
+    basePrice=basePrice;
+    moneycoin=moneycoin;
+    realPrice=realPrice;
      function returnFloat(value){
-        var value=Math.round(parseFloat(value)*100)/100;
+        var value=Math.floor(parseFloat(value)*100)/100;
         var xsd=value.toString().split(".");
         if(xsd.length==1){
         value=value.toString()+".00";
@@ -155,7 +159,7 @@ function countDiff (a,basePrice,moneycoin,realPrice){
     console.log("总价",basePrice+countDiffPrice)
     console.log(moneycoin)
     console.log(realPrice)
-    $('.addcart-footer-price-total').children('font:first').html(moneycoin+ returnFloat(basePrice+countDiffPrice));
+    $('.addcart-footer-price-total').children('font:first').html(moneycoin+ returnFloat(subtraction(basePrice+countDiffPrice)));
     $('#realprice').html( returnFloat(basePrice+countDiffPrice) );
     var nunnn= $("#addcart-quantity-val").val()-0;
     console.log("realPrice",nunnn*realPrice)
@@ -166,7 +170,7 @@ function countDiff (a,basePrice,moneycoin,realPrice){
     $('.addcart-footer-realPriceNative-total').children('font:first').html(moneycoin+ returnFloat(nunnn*realPrice));
     //如果是印尼和越南模板；不要小数点；三位一个逗号；
     try {
-        $('.addcart-footer-price-total').children('font:first').html(moneycoin+ toThousands(basePrice+countDiffPrice));
+        $('.addcart-footer-price-total').children('font:first').html(moneycoin+ toThousands(subtraction(basePrice+countDiffPrice)));
         $('#realprice').html( toThousands(basePrice+countDiffPrice));
             // 显示减免额
             realPricecount > 0? $('.addcart-footer-realPrice-total').children('font:first').html('-'+moneycoin+ toThousands(realPricecount)) : $('.addcart-footer-realPrice-total').hide();
@@ -462,3 +466,138 @@ function payFunMessageRight(datasObj){
     // $("#orderlogConten2 .selectAddress1").after(selectVal);
     
 }
+
+//优惠券逻辑
+var subtIs = false
+
+var goods_cheap_type = null
+var goods_cheap_msg = null
+var goods_cheap_remark = null
+
+function subtraction (value) {
+   // 判断是否点了优惠券
+   if(subtIs){
+     //判断优惠券类型
+     if(goods_cheap_type==='0'){
+        if(value-goods_cheap_msg <=0){
+            return value
+        }else{
+         $('.addcart-footer-coupon-total').children('font:first').html('-'+moneycoin+ goods_cheap_msg);
+         $('.addcart-footer-coupon-total').show()
+            return value-goods_cheap_msg
+        }
+     }else if (goods_cheap_type==='1'){
+        $('.addcart-footer-coupon-total').children('font:first').html('-'+moneycoin+(value - value*goods_cheap_msg/10));
+        $('.addcart-footer-coupon-total').show()
+           return value*goods_cheap_msg/10
+
+     }else if(goods_cheap_type==='2'){
+        if(value < goods_cheap_remark-0){
+            return value
+        }else{
+         $('.addcart-footer-coupon-total').children('font:first').html('-'+moneycoin+ goods_cheap_msg);
+         $('.addcart-footer-coupon-total').show()
+            return value-goods_cheap_msg
+        }
+     }
+   }else{
+       return value
+   }
+};
+
+function addSubt(data){
+    $('header').append('<span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span>')
+    $('#couponBut').on('click',function(){
+        $('#couponbg').show()
+        $('#couponcontent').show()
+    })
+    $('#couponcontent .closeBtn').on('click',function(){
+        $('#couponbg').hide() 
+        $('#couponcontent').hide()
+    })
+    //优惠券面值
+var msg =function(el){
+    if(el.goods_cheap_type==='0' || el.goods_cheap_type==='2'){
+        return moneycoin+el.goods_cheap_msg
+    }else{
+        return el.goods_cheap_msg+'0%'
+    }
+}
+// 优惠券是否可用
+var subtSatisfy =function(el){
+    if(el.goods_cheap_type==='2'){
+        return cheapSatisfy+'<span>'+el.goods_cheap_remark+'</span>'
+    }else{
+        return ''
+    }
+}
+
+var subtHtml = ''
+  $.each(data.data,function(i,el){
+    subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
+                    '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                    '<div class="ui-grid-a sty2" >'+
+                        '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
+                        '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
+                    '</div>'+
+                    '<div class="cllio"></div>'+
+                    '<p class="sty5"></p>'+
+                '</div>'
+  })
+  $('#contentop .action').html(subtHtml)
+  // 优惠券倒计时
+  clearInterval(cheapInter)
+  var time=1800;
+  var cheapInter = setInterval(function(){
+      if(time>0){
+        time=time-1;
+        var minute=parseInt(time/60);
+        var second=parseInt(time%60);
+        $('#contentop .alo .sty5').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
+      }else{
+        clearInterval(cheapInter)
+        $('#couponbg').hide() 
+        $('#couponcontent').hide()
+        $('#couponBut').hide()
+      }
+},1000);
+//优惠券提示
+$('header').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 100%;"><span>'+cheapMsg+'</span></div>')
+// $("#heademsg").animate({right:"100px"},'slow');
+setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
+//优惠券提示点击也可以打开优惠券
+$('#heademsg').on('click',function(){
+    $(this).hide()
+    $('#couponbg').show()
+    $('#couponcontent').show()
+})
+  $('#contentop .alo').on('click',function(){
+    $('#couponbg').hide() 
+    $('#couponcontent').hide()
+    $('#couponcontent .alo').removeClass('cheapactive')
+    $(this).addClass('cheapactive')
+    console.log('dianle')
+    // 提交订单时使用goods_cheap_id
+    datasObj.goods_cheap_id = $(this).attr('goods_cheap_id')
+    goods_cheap_type = $(this).attr('goods_cheap_type')
+    goods_cheap_msg = $(this).attr('goods_cheap_msg')
+    goods_cheap_remark = $(this).attr('goods_cheap_remark')
+    subtIs= true
+    countDiff (a,basePrice,moneycoin,realPrice)
+})
+}
+
+$(function(){
+
+    $.ajax({
+        type: "get",    
+        url: "/index/goods/goods_cheap/"+location.href.split("?")[1].split("&").filter(function(item){ return item.indexOf('goods_id')===0})[0].split("=")[1],
+        data:'',
+        success: function (data) {
+           if(data.data.length>0){ addSubt(data) }
+         },
+        error: function(data) {
+
+        }
+     })
+})
