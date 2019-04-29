@@ -245,6 +245,7 @@ span:first-child
             arr.stay_time = '{{$value['stay_time']}}';
             arr.sites_name = '{{$value['sites_name']}}';
             arr.url = '{{$value['url']}}';
+            arr.time = '{{$value['time']}}';
             goods_infos.push(arr);
         }
         @endforeach
@@ -288,6 +289,12 @@ span:first-child
                     table_html += item.count;
                     table_html += '</td>';
                     table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>最后离开时间</td>';
+                    table_html += '<td>';
+                    table_html += item.time;
+                    table_html += '</td>';
+                    table_html += '</tr>';
                     table_html += '</tbody>';
                     table_html += '</table>';
                 } else {
@@ -325,6 +332,12 @@ span:first-child
                     table_html += '<td>日访问次数</td>';
                     table_html += '<td>';
                     table_html += item.count;
+                    table_html += '</td>';
+                    table_html += '</tr>';
+                    table_html += '<tr>';
+                    table_html += '<td>最后离开时间</td>';
+                    table_html += '<td>';
+                    table_html += item.time;
                     table_html += '</td>';
                     table_html += '</tr>';
                     table_html += '</tbody>';

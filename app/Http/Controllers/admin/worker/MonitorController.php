@@ -157,6 +157,7 @@ class MonitorController extends Controller
                         $arr['count'] = $page_data['count'];
                         $arr['stay_time'] = $page_data['time'];
                         $arr['url'] = $url;
+                        $arr['time'] = $page_data['date'];
                         array_push($data,$arr);
                     }
                 }
