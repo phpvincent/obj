@@ -395,7 +395,7 @@ span:first-child
       if(id ==  ''){
         writeToScreen(evt.data);
       }else{
-        // route_id(data_route,id,evt);
+        route_id(data_route,id,evt);
       }
         // console.log('onmessage',JSON.parse(evt.data))
         // websocket.close(); 
