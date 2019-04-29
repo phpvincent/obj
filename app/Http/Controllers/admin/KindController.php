@@ -133,7 +133,7 @@ class KindController extends Controller
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
             $goods_config_color = [];
             $goods_color_sku = [];
-            if(count($goods_config_name) > 3) {
+            if($goods_config_name && count($goods_config_name) > 3) {
                 return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
             }
             if ($goods_config_name) {

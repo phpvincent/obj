@@ -119,9 +119,9 @@
 		}
 
 }
-function new_cheap(title,url,type,w,h){
-	layer_show(title,url,w,h);
-}
+// function new_cheap(title,url,type,w,h){
+// 	layer_show(title,url,w,h);
+// }
 
 </script>
 @endsection

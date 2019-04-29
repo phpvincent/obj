@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="row cl">
-                <label for="goods_kind_yn_name" class="form-label col-xs-4 col-sm-2">产品英文名称：</label>
+                <label for="goods_kind_yn_name" class="form-label col-xs-4 col-sm-2">产品印尼名称：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text"  value="{{$goods_kinds->goods_kind_yn_name}}" placeholder="" id="goods_kind_yn_name" name="goods_kind_yn_name">
                 </div>
