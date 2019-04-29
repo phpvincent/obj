@@ -562,7 +562,7 @@ var subtHtml = ''
                     '<p class="sty5"></p>'+
                 '</div>'
   })
-  $('#contentop .action').html(subtHtml)
+  $('#contentop .action').append(subtHtml)
   // 优惠券倒计时
   clearInterval(cheapInter)
   var time=1800;
