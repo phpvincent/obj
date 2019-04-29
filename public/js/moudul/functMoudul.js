@@ -475,6 +475,7 @@ var subtIs = false
 var goods_cheap_type = null
 var goods_cheap_msg = null
 var goods_cheap_remark = null
+var cheapInter = null
 
 function subtraction (value) {
    // 判断是否点了优惠券
@@ -566,7 +567,7 @@ var subtHtml = ''
   // 优惠券倒计时
   clearInterval(cheapInter)
   var time=1800;
-  var cheapInter = setInterval(function(){
+     cheapInter = setInterval(function(){
       if(time>0){
         time=time-1;
         var minute=parseInt(time/60);
