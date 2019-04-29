@@ -524,7 +524,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').after('<div id="coupondiv" style="position: fixed;z-index: 100000;right: 0px; top:0px;width:90%;padding: 5px;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span></div>')
+    $('header').after('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" style="margin: 5px;" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
@@ -562,7 +562,7 @@ var subtHtml = ''
                     '<p class="sty5"></p>'+
                 '</div>'
   })
-  $('#contentop .action').html(subtHtml)
+  $('#contentop .action').append(subtHtml)
   // 优惠券倒计时
   clearInterval(cheapInter)
   var time=1800;
@@ -582,7 +582,7 @@ var subtHtml = ''
 //优惠券提示
 $('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 111%;"><span>'+cheapMsg+'</span></div>')
 // $("#heademsg").animate({right:"100px"},'slow');
-setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
+setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow');},3000);
 //优惠券提示点击也可以打开优惠券
 $('#heademsg').on('click',function(){
     $(this).hide()
