@@ -491,9 +491,9 @@ img{ border:none; vertical-align:top;}
                                         ,anim: 6
                                     }, function(){
                                         //1.清空本页面数据
-                                        $(".zhekou input").val(0);
-                                        $(".lijian input").val(1);
-                                        $(".jianmian input").val(1);
+                                        $(".zhekou input").val("");
+                                        $(".lijian input").val("");
+                                        $(".jianmian input").val("");
                                         //2.推送给客户数据
                                         var goods_msg = {};
                                         goods_msg.ip = $('.receive_ip').val();
