@@ -524,7 +524,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').append('<span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span>')
+    $('header').after('<div id="coupondiv" style="position: fixed;z-index: 100000;right: 0px; top:0px;width:90%;padding: 5px;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
@@ -580,7 +580,7 @@ var subtHtml = ''
       }
 },1000);
 //优惠券提示
-$('header').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 100%;"><span>'+cheapMsg+'</span></div>')
+$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 111%;"><span>'+cheapMsg+'</span></div>')
 // $("#heademsg").animate({right:"100px"},'slow');
 setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
 //优惠券提示点击也可以打开优惠券
