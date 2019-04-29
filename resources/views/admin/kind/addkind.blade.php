@@ -162,6 +162,12 @@
                 </div>
             </div>
             <div class="row cl">
+                <label for="goods_kind_yn_name" class="form-label col-xs-4 col-sm-2">产品印尼名：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="" placeholder="" id="goods_kind_yn_name" name="goods_kind_yn_name">
+                </div>
+            </div>
+            <div class="row cl">
                 <label for="goods_kind_img" class="form-label col-xs-4 col-sm-2">产品图片：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="file" class="input-text" value="" placeholder="" id="goods_kind_img" name="goods_kind_img">
