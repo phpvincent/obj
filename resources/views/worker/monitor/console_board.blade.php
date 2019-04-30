@@ -195,8 +195,6 @@ span:first-child
               url:"/admin/goods/api_goods",
               type:'get',
               success:function(msg){
-                console.log(msg);
-                // console.log($('select[name="modules"]'));
                 var str='';
                 $.each(msg.data,function(index,val){
                   str+= '<option value="'+val.goods_id+'">'+val.goods_real_name+'</option>'

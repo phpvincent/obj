@@ -133,7 +133,7 @@ class KindController extends Controller
             $data_null = false; //判断产品是否只有一个属性，并且为空，属性为空为true；
             $goods_config_color = [];
             $goods_color_sku = [];
-            if(count($goods_config_name) > 3) {
+            if($goods_config_name && count($goods_config_name) > 3) {
                 return response()->json(['err' => '0', 'msg' => '产品属性不能超过三组!']);
             }
             if ($goods_config_name) {
@@ -186,6 +186,7 @@ class KindController extends Controller
             $goods_kind = new \App\goods_kind;
             $goods_kind->goods_kind_name = $goods_kind_name;
             $goods_kind->goods_kind_english_name = $request->input('goods_kind_english_name') ? $request->input('goods_kind_english_name') : '';
+            $goods_kind->goods_kind_yn_name = $request->input('goods_kind_yn_name') ? $request->input('goods_kind_yn_name') : '';
             $goods_kind->goods_kind_volume = $request->input('width', 0) . 'cm*' . $request->input('depth', 0) . 'cm*' . $request->input('height', 0) . 'cm';
             $goods_kind->goods_kind_postage = $request->input('goods_kind_postage', 0) == null ? 0 : $request->input('goods_kind_postage', 0);
             $goods_kind->goods_kind_user_type = $request->input('goods_kind_user_type', 0) == null ? 0 : $request->input('goods_kind_user_type', 0);
@@ -358,6 +359,7 @@ class KindController extends Controller
                 return response()->json(['err' => '0', 'msg' => '产品属性不存在']);
             }
             $goods_kind->goods_kind_english_name = $request->input('goods_kind_english_name') ? $request->input('goods_kind_english_name') : '';
+            $goods_kind->goods_kind_yn_name = $request->input('goods_kind_yn_name') ? $request->input('goods_kind_yn_name') : '';
             $goods_kind->goods_kind_volume = $request->input('width', 0) . 'cm*' . $request->input('depth', 0) . 'cm*' . $request->input('height', 0) . 'cm';
             $goods_kind->goods_kind_postage = $request->input('goods_kind_postage', 0) == null ? 0 : $request->input('goods_kind_postage', 0);
             $goods_kind->goods_kind_user_type = $request->input('goods_kind_user_type', 0) == null ? 0 : $request->input('goods_kind_user_type', 0);

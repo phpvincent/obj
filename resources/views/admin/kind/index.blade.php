@@ -313,22 +313,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">产品列表</div>
                     <div class="layui-row">
-                        {{--<div class="layui-col-md6">--}}
-                        {{--<div class="layui-inline">--}}
-                        {{--<label class="layui-form-label">日期范围：</label>--}}
-                        {{--<div class="layui-input-inline">--}}
-                        {{--<input type="text" class="layui-input" id="test-laydate-start" placeholder="开始日期">--}}
-                        {{--</div>--}}
-                        {{--<div class="layui-form-mid">--}}
-                        {{-----}}
-                        {{--</div>--}}
-                        {{--<div class="layui-input-inline">--}}
-                        {{--<input type="text" class="layui-input" id="test-laydate-end" placeholder="结束日期">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<span style="color: red">选择时间应该在10天内,时间不选择默认为近10天</span>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
                         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                             <div class="layui-form-item">
                                 <div class="layui-inline test-table-reload-btn">
@@ -417,16 +401,16 @@
                 ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
                 ,cols: [[
                     {field:'goods_kind_id',width:70, title: 'ID', sort: true}
-                    ,{field:'goods_kind_name', title: '产品名'}
+                    ,{field:'goods_kind_name', width: 120,title: '产品名'}
                     ,{field:'goods_kind_english_name', title: '产品英文名'}
                     ,{field:'goods_kind_img', title: '产品图片',align:'center', templet: '#test-table-switchTpl'}
                     ,{field:'product_type_name',width:90, title: '单品分类'}
                     ,{title:'属性', align:'center',width:140, templet: '#test-table-attr'}
-                    ,{title:'绑定商品个数',align:'center',width:120, templet: '#test-table-num'}
-                    ,{field:'goods_buy_weight'+'kg',width: 100,align:'center',title: '产品重量',templet: '#test-table-weight'}
+                    ,{title:'绑定商品个数',align:'center',width:60, templet: '#test-table-num'}
+                    ,{field:'goods_buy_weight'+'kg',width: 80,align:'center',title: '产品重量',templet: '#test-table-weight'}
                     ,{field:'goods_kind_volume',width: 140,align:'center',title: '产品体积'}
-                    ,{field:'goods_kind_postage',align:'center',width: 100,title: '邮费'}
-                    ,{title: 'SKU绑定状态',align:'center',width: 120,templet: '#test-table-sku'}
+                    ,{field:'goods_kind_postage',align:'center',width: 80,title: '邮费'}
+                    ,{title: 'SKU绑定状态',align:'center',width: 80,templet: '#test-table-sku'}
                     ,{field:'goods_kind_time',width: 160,align:'center', title: '添加时间', sort: true}
                     ,{width:150, align:'center', title: '操作', toolbar: '#test-table-operate-barDemo'}
                 ]]

@@ -205,7 +205,7 @@ img{ border:none; vertical-align:top;}
                         <label class="layui-form-label">优惠折扣：</label>
                         <div class="layui-input-inline">
                             <input type="text" disabled onkeyup="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')"
-                                   onafterpaste="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')" maxlength="1"  value="1" placeholder="" id="articlesort" name="goods_cheap_msg" class="layui-input">
+                                   onafterpaste="this.value=this.value.replace(/^(0+)|[^\d]+/g,'')" maxlength="1"  value="1" placeholder="" id="articlesort1" name="goods_cheap_msg" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item jianmian">
@@ -261,7 +261,7 @@ img{ border:none; vertical-align:top;}
 
 
     //WebSocket 推送消息
-    var wsUri ="ws://192.168.10.10:2350/";
+    var wsUri ="ws://13.229.73.221:2350/";
 
      var  websocket = new WebSocket(wsUri);
        websocket.onopen = function(evt) {
@@ -273,13 +273,14 @@ img{ border:none; vertical-align:top;}
 
        websocket.onmessage = function(evt) {
            let data = JSON.parse(evt.data);
-           if(data.status === 0){ //发送成功
-               layer.msg('发送成功!',{time:2*1000},function () {
-                   $('.receive_content').val(" ");
+           if(data.status === 0) { //发送成功
+               layer.msg('发送成功!', {time: 2 * 1000}, function () {
+                   $('.receive_content').val(null);
                });
-           }else{
-               layer.msg(data.msg);
            }
+           // }else{
+           //     layer.msg(data.msg);
+           // }
        };
 
        websocket.onerror = function(evt) {
@@ -476,6 +477,13 @@ img{ border:none; vertical-align:top;}
                         }
                         var indexs = layer.load();
                         var goods_data = data.field;
+                        var val = $('.select').val();
+                        goods_data.goods_cheap_is_ws = 1;
+                        if (val === "0") {
+                            goods_data.goods_cheap_msg = $('#articlesort').val();
+                        }else if (val === "1") {
+                            goods_data.goods_cheap_msg = $('#articlesort1').val();
+                        }
                         goods_data.goods_id = route.split("?")[1].split("&").filter(function(item){ return item.indexOf('goods_id')===0})[0].split("=")[1];
                         $.ajax({
                             url:"{{url('admin/goods/cheap/set')}}",
@@ -491,14 +499,14 @@ img{ border:none; vertical-align:top;}
                                         ,anim: 6
                                     }, function(){
                                         //1.清空本页面数据
-                                        $(".zhekou input").val(0);
-                                        $(".lijian input").val(1);
-                                        $(".jianmian input").val(1);
+                                        $(".zhekou input").val(null);
+                                        $(".lijian input").val(null);
+                                        $(".jianmian input").val(null);
                                         //2.推送给客户数据
                                         var goods_msg = {};
                                         goods_msg.ip = $('.receive_ip').val();
                                         goods_msg.type = 1;
-                                        goods_msg.msg = data.field;
+                                        goods_msg.msg = goods_data;
                                         websocket.send(JSON.stringify(goods_msg));
                                     });
                                 }else if(msg.err===0){

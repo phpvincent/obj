@@ -1982,9 +1982,12 @@ class GoodsController extends Controller
           return  response()->json(['err' => 0, 'str' => '数据非法！']);
          }
          $goods_id=$request->input('goods_id');
-         if(\App\goods_cheap::where([['goods_cheap_goods_id',$goods_id],['goods_cheap_is_del',0],['goods_cheap_is_ws',0]])->count()>=2){
-              return  response()->json(['err' => 0, 'str' => '每个商品仅可添加两张优惠卷！']);
+         if(!$request->has('goods_cheap_is_ws')){
+             if(\App\goods_cheap::where([['goods_cheap_goods_id',$goods_id],['goods_cheap_is_del',0],['goods_cheap_is_ws',0]])->count()>=2){
+                 return  response()->json(['err' => 0, 'str' => '每个商品仅可添加两张优惠卷！']);
+             }
          }
+
          $currency_type=\App\currency_type::where('currency_type_id',\App\goods::where('goods_id',$goods_id)->first(['goods_currency_id'])['goods_currency_id'])->first();
          //验证金额合法性
          if($currency_type->exchange_rate<0.001){
@@ -2014,6 +2017,7 @@ class GoodsController extends Controller
                 $goods_cheap->goods_cheap_time=date("Y-m-d H:i:s",time());
                 $goods_cheap->goods_cheap_start_time=$request->input('goods_cheap_start_time');
                 $goods_cheap->goods_cheap_admin_id=\Auth::user()->admin_id;
+                $goods_cheap->goods_cheap_is_ws=$request->has('goods_cheap_is_ws') ? $request->input('goods_cheap_is_ws') : 0;
                 $msg=$goods_cheap->save();
                }
              break;
@@ -2028,6 +2032,7 @@ class GoodsController extends Controller
                   $goods_cheap->goods_cheap_time=date("Y-m-d H:i:s",time());
                   $goods_cheap->goods_cheap_start_time=$request->input('goods_cheap_start_time');
                   $goods_cheap->goods_cheap_admin_id=\Auth::user()->admin_id;
+                  $goods_cheap->goods_cheap_is_ws=$request->has('goods_cheap_is_ws') ? $request->input('goods_cheap_is_ws') : 0;
                   $msg=$goods_cheap->save();
                 }
               break;
@@ -2048,6 +2053,7 @@ class GoodsController extends Controller
                   $goods_cheap->goods_cheap_time=date("Y-m-d H:i:s",time());
                   $goods_cheap->goods_cheap_start_time=$request->input('goods_cheap_start_time');
                   $goods_cheap->goods_cheap_admin_id=\Auth::user()->admin_id;
+                  $goods_cheap->goods_cheap_is_ws=$request->has('goods_cheap_is_ws') ? $request->input('goods_cheap_is_ws') : 0;
                   $msg=$goods_cheap->save();
                 }
              break;
