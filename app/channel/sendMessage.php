@@ -74,8 +74,8 @@ class sendMessage{
     {
         try{
              $SendSmsApi=new \SendSmsApi();
-             \Log::notice($phone.'------'.$str.'-----------'.env('FASTOO_APIKEY'));
-             $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phone, $str);
+             \Log::notice($phone.'------'.$str.'-----------'.env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'));
+             $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $phone, $str);
         }catch(\Exception $e)
         {
             \Log::notice($e);
