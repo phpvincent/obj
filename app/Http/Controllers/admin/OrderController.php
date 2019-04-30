@@ -1827,6 +1827,18 @@ class OrderController extends Controller
       }
     }
   }
+  public function ch_notice(Request $request)
+  {
+    if(!$request->has('id')||!$request->has('status')){
+              return response()->json(['err' => 0,"str"=>"数据不全，修改失败！"]);
+    }
+    $msg=\App\order_notice::where('order_notice_id',$request->input('id'))->update(['order_notice_status'=>$request->input('status')]);
+    if($msg){
+              return response()->json(['err' => 1,"str"=>"修改成功"]);
+      }else{
+              return response()->json(['err' => 0,"str"=>"修改失败"]);
+      }
+  }
   public function order_notice_ch(Request $request)
   {
     if($request->isMethod('get')){

@@ -130,6 +130,7 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::match(['get','post'],'/admin/order/order_notice/add', 'admin\OrderController@order_notice_add');//订单通知新增
 	Route::match(['get','post'],'/admin/order/order_notice/ch', 'admin\OrderController@order_notice_ch');//订单通知设置
     Route::get('/admin/order/message_logs', 'admin\OrderController@message_logs');
+    Route::get('/admin/order/ch_notice', 'admin\OrderController@ch_notice');
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');
 	Route::post('/admin/url/get_url','admin\UrlController@get_url');
