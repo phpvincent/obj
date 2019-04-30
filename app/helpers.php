@@ -594,6 +594,7 @@ if (!function_exists("order_notice")) {
           $query->orWhere('order_notice_send_time','<',$date);
         })
         ->get();
+         \Log::notice(json_encode($orders));
         foreach($orders as $k => $v){
           $goods=\App\goods::select('goods_blade_type','goods_name')->where('goods_id',$v->order_goods_id)->first();
           $blade_type=$goods['goods_blade_type'];
