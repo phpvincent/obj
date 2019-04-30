@@ -22,7 +22,8 @@ use App\channel\mailControl;
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
 	/*Route::any('/paypal',function(Request $request){
-		return view('admin.websocket');
+		order_notice();
+		//return view('admin.websocket');
 	});
 	Route::any('/paypal1',function(Request $request){
 		return view('admin.websocket_send');
@@ -125,8 +126,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
 	Route::match(['get','post'],'/admin/order/send_mail','admin\OrderController@send_mail');
 	Route::match(['get','post'],'/admin/order/change_exl','admin\OrderController@change_exl');
 	Route::match(['get','post'],'/admin/order/send_message', 'admin\OrderController@send_message');
-	Route::match(['get','post'],'/admin/order/order_notice', 'admin\OrderController@order_notice');//订单通知设置
-	Route::match(['get','post'],'/admin/order/order_notice/add', 'admin\OrderController@order_notice_add');//订单通知设置
+	Route::match(['get','post'],'/admin/order/order_notice', 'admin\OrderController@order_notice');//订单通知
+	Route::match(['get','post'],'/admin/order/order_notice/add', 'admin\OrderController@order_notice_add');//订单通知新增
+	Route::match(['get','post'],'/admin/order/order_notice/ch', 'admin\OrderController@order_notice_ch');//订单通知设置
     Route::get('/admin/order/message_logs', 'admin\OrderController@message_logs');
 	//域名相关
 	Route::get('/admin/url/goods_url','admin\UrlController@goods_url');

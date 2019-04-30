@@ -70,6 +70,21 @@ class sendMessage{
             return self::respendData($bean->code,$bean->msg);
         }
     }
+    public static function order_notice($phone,$str)
+    {
+        try{
+             $SendSmsApi=new \SendSmsApi();
+             $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY'), $phones, $str);
+        }catch(\Exception $e)
+        {
+            return false;
+        }
+        if(!isset($bean)||$bean==false){
+            return false;
+        }
+        return true;
+       
+    }
     public static function message_notice(){
         $nums=implode(',', self::$phones);
         $url='http://api.fastoo.cn/v1/admin/getUserBalance.json';

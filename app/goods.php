@@ -525,4 +525,64 @@ class goods extends Model
         }
         return $arra;
     }
+    /**
+     * 根据模板类型id获取语种id
+     * @param  [type] $blade_id [description]
+     * @return [type]           [description]
+     */
+    public static function get_lan($blade_id)
+    {
+        switch ($blade_id) {
+            case '0':
+            case '1':
+                return 1;
+                break;
+            case '2':
+                return 2;
+                break;
+            case '3':
+                return 3;
+                break;
+            case '4':
+                return 4;
+                break;
+            case '5':
+                return 5;
+                break;
+            case '6':
+                return 6;
+                break;
+            case '7':
+            case '8':
+            case '9':
+            case '10':
+                return 7;
+                break;
+            case '11':
+                return 8;
+                break;
+            case '12':
+                return 2;
+                break;
+            case '13':
+                return 7;
+                break;
+            case '14':
+                return 2;
+                break;
+            case '15':
+                return 7;
+                break;
+            case '16':
+                return 2;
+                break;
+            case '17':
+                return 7;
+                break;
+
+            default:
+                return 7;
+                break;
+        }
+    }
 }

@@ -82,10 +82,10 @@
 		{'defaultContent':"","className":"td-manager"},*/
 		],
 		"createdRow":function(row,data,dataIndex){
-			var info='<a title="编辑" href="javascript:;" onclick="change_no(\''+data.order_notice_id+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe61d;</i></span></a>';
+			var info='<a title="编辑" href="javascript:;" onclick="change_no(\'修改订单通知\',\'/admin/order/order_notice/ch?id='+data.order_notice_id+'\',\'2\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="编辑"><i class="Hui-iconfont">&#xe61d;</i></span></a>';
 			if(data.order_notice_status==1){
 				info+='<a title="禁用" href="javascript:;" onclick="ch_notice(\''+data.order_notice_id+'\',\''+0+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="禁用"><i class="Hui-iconfont">&#xe6de;</i></span></a>'
-			}else if(info.order_notice_status==0){
+			}else if(data.order_notice_status==0){
 				info+='<a title="启用" href="javascript:;" onclick="ch_notice(\''+data.order_notice_id+'\',\''+1+'\')" class="ml-5" style="text-decoration:none"><span class="btn btn-primary" title="启用"><i class="Hui-iconfont">&#xe6dc;</i></span></a>'
 			}
 			var time=data.order_notice_start+' ~ '+data.order_notice_end;
@@ -167,6 +167,9 @@ $('#languages').on('change',function(){
 	dataTable.ajax.reload();
 });
 function new_notice(title,url,type,w,h){
+	layer_show(title,url,w,h);
+}
+function change_no(title,url,type,w,h){
 	layer_show(title,url,w,h);
 }
 

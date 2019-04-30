@@ -576,3 +576,45 @@ if (!function_exists("curl_code")) {
         return ['code'=>$httpCode,'msg'=>$msg];
   }
 }
+if (!function_exists("order_notice")) {
+    function order_notice()
+    {     
+        $date=date("Y-m-d H:i:s",time()-5400);
+        $orders=\App\order::where(function($query){
+          $query->where('order_type',0);
+          $query->where('is_del',0);
+          $query->where('order_time','>','2019-4-29 12:00:00');
+        })
+        ->where(function($query)use($date){
+          $query->whereNull('order_notice_send_time');
+          $query->orWhere('order_notice_send_time','<',$date);
+        })
+        ->get();
+        foreach($orders as $k => $v){
+          $goods=\App\goods::select('goods_blade_type','goods_name')->where('goods_id',$v->order_goods_id)->first();
+          $blade_type=$goods['goods_blade_type'];
+          $lan=\App\goods::get_lan($blade_type);
+          //$lan_arr=array_flip(\App\admin::$LANGUAGES);
+          //$lan=$lan_arr[$lan];
+         
+          $order_notice=\App\order_notice::where([['order_notice_lan',$lan],['order_notice_status',1]])->get()->toArray();
+          $notice_mans=$order_notice;
+          foreach($order_notice as $keys =>$vals ){
+            $date=date('Y-m-d H:i:s',time());
+            if(strtotime(date('Y-m-d').' '.$vals['order_notice_start'])>time()||strtotime(date('Y-m-d').' '.$vals['order_notice_end'])<time()){
+              unset($notice_mans[$keys]);
+            }
+          }
+          $count=count($notice_mans);
+          if($count==0){
+            return;
+          }else if($count==1){
+            $notice_man=$notice_mans[0];
+          }else{
+            $notice_man=$notice_mans[mt_rand(0,$count-1)];
+          }
+          try{$mailnotice=App\Jobs\OrderNotice::dispatch($v,$notice_man);}catch(\Exception $e){\Log::notice(json_encode($e));};
+          //try{$mailnotice=App\Jobs\OrderNotice::dispatch($phone,$str);}catch(\Exception $e){\Log::notice(json_encode($e));};
+        }
+    }
+}
