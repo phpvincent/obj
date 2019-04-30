@@ -53,6 +53,10 @@ class Kernel extends ConsoleKernel
                  $schedule->call(function(){
                     check_web_status();
                  })->everyTenMinutes();
+                 //定时发送订单核审通知
+                 $schedule->call(function(){
+                    order_notice();
+                 })->everyMinute();
     }
     /**
      * Register the commands for the application.
