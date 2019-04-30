@@ -81,13 +81,13 @@ class OrderNotice implements ShouldQueue
             \Log::notice($str);
               $str=sprintf($str,'订单号','地址信息','电话','邮箱','件数','商品名','属性');
               $str.="通过:(".$back_url.'/'.$end_str.'/1)'
-                  .="不通过:(".$back_url.'/'.$end_str.'/2)';
+                  ."不通过:(".$back_url.'/'.$end_str.'/2)';
               break;
             
             default:
               $str=sprintf($str,'order No','area message','tel:','email:','num:','name:','attr:');
               $str.="pass:(".$back_url.'/'.$end_str.'/1)'
-                  .="nopass:(".$back_url.'/'.$end_str.'/2)';
+                  ."nopass:(".$back_url.'/'.$end_str.'/2)';
               break;
           }
 
