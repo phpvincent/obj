@@ -55,7 +55,7 @@ class Kernel extends ConsoleKernel
                  })->everyTenMinutes();
                  //定时发送订单核审通知
                  $schedule->call(function(){
-                    order_notice();
+                    //order_notice();
                  })->everyMinute();
     }
     /**
