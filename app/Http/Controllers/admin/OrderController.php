@@ -1770,7 +1770,7 @@ class OrderController extends Controller
             })
           ->where(function($query)use($search){
             $query->where('order_notice.order_notice_phone','like',"%$search%");
-            $query->orWhere('order_notice.order_notice_reamark','like',"%$search%");
+            $query->orWhere('order_notice.order_notice_remark','like',"%$search%");
           })
           ->count();
           $data=DB::table('order_notice')
@@ -1782,7 +1782,7 @@ class OrderController extends Controller
             })
           ->where(function($query)use($search){
             $query->where('order_notice.order_notice_phone','like',"%$search%");
-            $query->orWhere('order_notice.order_notice_reamark','like',"%$search%");
+            $query->orWhere('order_notice.order_notice_remark','like',"%$search%");
           })
           ->orderBy($order,$dsc)
           ->offset($start)
@@ -1803,10 +1803,69 @@ class OrderController extends Controller
   public function order_notice_add(Request $request)
   {
     if($request->isMethod('get')){
-
-      return view('admin.order.order_notice_add');
+       $languages = admin::$LANGUAGES;
+      return view('admin.order.order_notice_add')->with(compact('languages'));
     }elseif($request->isMethod('post')){
-      dd($request->all());
+      $time=explode(' ~ ', $request->input('laydate'));
+      $order_notice=new \App\order_notice;
+      if(strtotime(date('Y-m-d',time()).' '.$time[0])<=strtotime(date('Y-m-d',time()).' '.$time[1])){
+        $order_notice->order_notice_start=$time[0];
+        $order_notice->order_notice_end=$time[1];
+      }else{
+        $order_notice->order_notice_start=$time[1];
+        $order_notice->order_notice_end=$time[0];
+      }
+      $order_notice->order_notice_lan=$request->input('order_notice_lan');
+      $order_notice->order_notice_phone=$request->input('order_notice_phone');
+      $order_notice->order_notice_remark=$request->input('order_notice_remark');
+      $order_notice->order_notice_status='0';
+      $msg=$order_notice->save();
+      if($msg){
+              return response()->json(['err' => 1,"str"=>"新增成功"]);
+      }else{
+              return response()->json(['err' => 0,"str"=>"新增失败"]);
+      }
+    }
+  }
+  public function ch_notice(Request $request)
+  {
+    if(!$request->has('id')||!$request->has('status')){
+              return response()->json(['err' => 0,"str"=>"数据不全，修改失败！"]);
+    }
+    $msg=\App\order_notice::where('order_notice_id',$request->input('id'))->update(['order_notice_status'=>$request->input('status')]);
+    if($msg){
+              return response()->json(['err' => 1,"str"=>"修改成功"]);
+      }else{
+              return response()->json(['err' => 0,"str"=>"修改失败"]);
+      }
+  }
+  public function order_notice_ch(Request $request)
+  {
+    if($request->isMethod('get')){
+       $languages = admin::$LANGUAGES;
+       $order_notice=\App\order_notice::where('order_notice_id',$request->input('id'))->first();
+      return view('admin.order.order_notice_ch')->with(compact('languages','order_notice'));
+    }elseif($request->isMethod('post')){
+       $time=explode(' ~ ', $request->input('laydate'));
+       if(!$request->has('id'))               return response()->json(['err' => 0,"str"=>"id not found"]);
+      $order_notice= \App\order_notice::where('order_notice_id',$request->input('id'))->first();
+       if(!$order_notice)               return response()->json(['err' => 0,"str"=>"order_notice not found"]);
+      if(strtotime(date('Y-m-d',time()).' '.$time[0])<=strtotime(date('Y-m-d',time()).' '.$time[1])){
+        $order_notice->order_notice_start=$time[0];
+        $order_notice->order_notice_end=$time[1];
+      }else{
+        $order_notice->order_notice_start=$time[1];
+        $order_notice->order_notice_end=$time[0];
+      }
+      $order_notice->order_notice_lan=$request->input('order_notice_lan');
+      $order_notice->order_notice_phone=$request->input('order_notice_phone');
+       $order_notice->order_notice_remark=$request->input('order_notice_remark');
+      $msg=$order_notice->save();
+      if($msg){
+              return response()->json(['err' => 1,"str"=>"修改成功"]);
+      }else{
+              return response()->json(['err' => 0,"str"=>"修改失败"]);
+      }
     }
   }
 }
