@@ -72,18 +72,22 @@ class OrderNotice implements ShouldQueue
               ."%s :".$v->order_email.' ,' //邮箱
               ."%s :".$v->order_num.' ,' //件数
               ."%s :".$goods['goods_name']. ' ,'
-              ."%s :".$config_str. ' ,'
-              ."%s :".$end_str.'/1 ,'
-              ."%s :".$end_str.'/2';
+              ."%s :".$config_str. ' ,';
+              /*."%s :".$back_url.'/'.$end_str.'/1 ,'
+              ."%s :".$back_url.'/'.$end_str.'/2';*/
           
           switch ($notice_man['order_notice_lan']) {
             case '1':
             \Log::notice($str);
-              $str=sprintf($str,'订单号','地址信息','电话','邮箱','件数','商品名','属性','通过','不通过');
+              $str=sprintf($str,'订单号','地址信息','电话','邮箱','件数','商品名','属性');
+              $str.="通过:(".$back_url.'/'.$end_str.'/1)'
+                  .="不通过:(".$back_url.'/'.$end_str.'/2)';
               break;
             
             default:
-              $str=sprintf($str,'order No','area message','tel:','email:','num:','name:','attr:','pass','nopass');
+              $str=sprintf($str,'order No','area message','tel:','email:','num:','name:','attr:');
+              $str.="pass:(".$back_url.'/'.$end_str.'/1)'
+                  .="nopass:(".$back_url.'/'.$end_str.'/2)';
               break;
           }
 
