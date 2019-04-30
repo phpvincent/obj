@@ -195,8 +195,6 @@ span:first-child
               url:"/admin/goods/api_goods",
               type:'get',
               success:function(msg){
-                console.log(msg);
-                // console.log($('select[name="modules"]'));
                 var str='';
                 $.each(msg.data,function(index,val){
                   str+= '<option value="'+val.goods_id+'">'+val.goods_real_name+'</option>'
@@ -229,7 +227,7 @@ span:first-child
 
     //var wsUri ="ws://echo.websocket.org/";
     var dom_btn=$('#console_board');
-    var wsUri ="ws://192.168.10.10:2350/";
+    var wsUri ="ws://13.229.73.221:2350/";
     var output;
 
     // 遍历表格

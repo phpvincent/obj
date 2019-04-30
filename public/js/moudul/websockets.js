@@ -114,7 +114,7 @@ var wsArr = (function(){
 })()
 
 
-var wsUri ="ws://192.168.10.10:2349/";
+var wsUri ="ws://13.229.73.221:2349/";
 var  heartbeat=null
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
