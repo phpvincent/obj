@@ -63,7 +63,7 @@ class OrderNotice implements ShouldQueue
               $back_url='http://'.$v->order_goods_url;
           }
           $back_url.='/ch_order_by_send/';
-
+          $goods=\App\goods::where('goods_id',$v->order_goods_id)->first(['goods_name']);
           $end_str=urlencode(gzcompress($v->order_id.'_'.$notice_man['order_notice_id']));
           //gzuncompress(urldecode($pass_str))
           $str="%s :".$v->order_single_id.' ,'  //id
