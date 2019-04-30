@@ -594,7 +594,7 @@ if (!function_exists("order_notice")) {
           $query->orWhere('order_notice_send_time','<',$date);
         })
         ->get();
-        
+
         foreach($orders as $k => $v){
           $goods=\App\goods::select('goods_blade_type','goods_name')->where('goods_id',$v->order_goods_id)->first();
           $blade_type=$goods['goods_blade_type'];
@@ -617,7 +617,7 @@ if (!function_exists("order_notice")) {
             $notice_man=$notice_mans[0];
           }else{
             $notice_man=$notice_mans[mt_rand(0,$count-1)];
-          }\Log::notice($v->order_id.'---------'.$notice_man->order_notice_id);
+          }
           try{
             $mailnotice=App\Jobs\OrderNotice::dispatch($v,$notice_man);
             
