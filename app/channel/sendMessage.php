@@ -75,6 +75,9 @@ class sendMessage{
         try{
              $SendSmsApi=new \SendSmsApi();
              \Log::notice($phone.'------'.$str.'-----------'.env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'));
+             if(substr($phone, 0,2)=='86'){
+                $str='【ydzsshop】'.$str;
+             }
              $bean=$SendSmsApi->Submit(env('FASTOO_APIKEY','e40a68e8ad4d4ea4b4578d1d658f3ecd'), $phone, $str);
              \Log::notice(json_encode($bean));
         }catch(\Exception $e)
