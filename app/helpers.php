@@ -617,7 +617,12 @@ if (!function_exists("order_notice")) {
           }else{
             $notice_man=$notice_mans[mt_rand(0,$count-1)];
           }
-          try{$mailnotice=App\Jobs\OrderNotice::dispatch($v,$notice_man);}catch(\Exception $e){\Log::notice(json_encode($e));};
+          try{
+            $mailnotice=App\Jobs\OrderNotice::dispatch($v,$notice_man);
+            \Log::notice($v->order_id.'---------'.$notice_man->order_notice_id);
+          }catch(\Exception $e){
+            \Log::notice(json_encode($e));
+          };
           //try{$mailnotice=App\Jobs\OrderNotice::dispatch($phone,$str);}catch(\Exception $e){\Log::notice(json_encode($e));};
         }
     }
