@@ -78,7 +78,7 @@ class OrderNotice implements ShouldQueue
           
           switch ($notice_man['order_notice_lan']) {
             case '1':
-            \Log::notice($str);
+            //\Log::notice($str);
               $str=sprintf($str,'订单号','地址信息','电话','邮箱','件数','商品名','属性');
               $str.="通过:(".$back_url.'/'.$end_str.'/1)'
                   ."不通过:(".$back_url.'/'.$end_str.'/2)';
