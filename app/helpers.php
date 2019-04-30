@@ -427,6 +427,10 @@ if (!function_exists('operation_log')){
 
 if (!function_exists('get_browse_info')){
     function get_browse_info(){
+        $redis = \App\channel\Rediss::getInstance();
+        if($redis->exists('today_time')){
+            $redis->del('today_time');
+        }
 //       $start = date('Y-m-d',time()-24*3600).' 00:00:00';
 //       $end = date('Y-m-d').' 00:00:00';
        $start = date('Y-m-d',time()).' 00:00:00';

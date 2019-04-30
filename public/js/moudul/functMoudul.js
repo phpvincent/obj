@@ -475,6 +475,7 @@ var subtIs = false
 var goods_cheap_type = null
 var goods_cheap_msg = null
 var goods_cheap_remark = null
+var cheapInter = null
 
 function subtraction (value) {
    // 判断是否点了优惠券
@@ -524,7 +525,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').append('<span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span>')
+    $('header').after('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" style="margin: 5px;" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
@@ -562,11 +563,11 @@ var subtHtml = ''
                     '<p class="sty5"></p>'+
                 '</div>'
   })
-  $('#contentop .action').html(subtHtml)
+  $('#contentop .action').append(subtHtml)
   // 优惠券倒计时
   clearInterval(cheapInter)
   var time=1800;
-  var cheapInter = setInterval(function(){
+     cheapInter = setInterval(function(){
       if(time>0){
         time=time-1;
         var minute=parseInt(time/60);
@@ -580,9 +581,9 @@ var subtHtml = ''
       }
 },1000);
 //优惠券提示
-$('header').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 100%;"><span>'+cheapMsg+'</span></div>')
+$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 111%;"><span>'+cheapMsg+'</span></div>')
 // $("#heademsg").animate({right:"100px"},'slow');
-setTimeout(function(){$("#heademsg").animate({right:"-500px"},'slow');},3000);
+setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow');},3000);
 //优惠券提示点击也可以打开优惠券
 $('#heademsg').on('click',function(){
     $(this).hide()
