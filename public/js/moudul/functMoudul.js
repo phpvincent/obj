@@ -475,7 +475,8 @@ var subtIs = false
 var goods_cheap_type = null
 var goods_cheap_msg = null
 var goods_cheap_remark = null
-var cheapInter = null
+var stynum = null
+var countnum = 0
 
 function subtraction (value) {
    // 判断是否点了优惠券
@@ -550,7 +551,7 @@ var subtSatisfy =function(el){
         return ''
     }
 }
-
+eval("stynum='stynum'+ countnum++")
 var subtHtml = ''
   $.each(data.data,function(i,el){
     subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
@@ -560,21 +561,21 @@ var subtHtml = ''
                         '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
                     '</div>'+
                     '<div class="cllio"></div>'+
-                    '<p class="sty5"></p>'+
+                    '<p class="'+stynum+'"></p>'+
                 '</div>'
   })
   $('#contentop .action').append(subtHtml)
   // 优惠券倒计时
-  clearInterval(cheapInter)
+  clearInterval(stynum)
   var time=1800;
-     cheapInter = setInterval(function(){
+     window[stynum] = setInterval(function(){
       if(time>0){
         time=time-1;
         var minute=parseInt(time/60);
         var second=parseInt(time%60);
-        $('#contentop .alo .sty5').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
+        $('#contentop .alo .'+stynum).html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
       }else{
-        clearInterval(cheapInter)
+        clearInterval(stynum)
         $('#couponbg').hide() 
         $('#couponcontent').hide()
         $('#couponBut').hide()
