@@ -261,6 +261,7 @@ img{ border:none; vertical-align:top;}
 
     //WebSocket 推送消息
     var wsUri ="ws://13.229.73.221:2350/";
+    // var wsUri ="ws://192.168.10.10:2350/";
 
      var  websocket = new WebSocket(wsUri);
        websocket.onopen = function(evt) {
