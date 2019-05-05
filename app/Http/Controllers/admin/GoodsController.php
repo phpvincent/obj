@@ -2064,7 +2064,7 @@ class GoodsController extends Controller
          if(!isset($msg)||$msg==false){
           return  response()->json(['err' => 0, 'str' => '服务器错误！']);
          }
-          return  response()->json(['err' => 1, 'str' => '新增成功！']);
+          return  response()->json(['err' => 1, 'str' => '新增成功！','data'=>['goods_cheap_id'=>$goods_cheap->goods_cheap_id]]);
       }
     }
     /**
