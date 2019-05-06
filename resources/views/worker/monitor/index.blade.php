@@ -259,9 +259,9 @@ img{ border:none; vertical-align:top;}
     var form = layui.form;
     var element = layui.element;
 
-
     //WebSocket 推送消息
     var wsUri ="ws://13.229.73.221:2350/";
+    // var wsUri ="ws://192.168.10.10:2350/";
 
      var  websocket = new WebSocket(wsUri);
        websocket.onopen = function(evt) {
@@ -506,6 +506,7 @@ img{ border:none; vertical-align:top;}
                                         var goods_msg = {};
                                         goods_msg.ip = $('.receive_ip').val();
                                         goods_msg.type = 1;
+                                        goods_data.goods_cheap_id = msg.data.goods_cheap_id;
                                         goods_msg.msg = goods_data;
                                         websocket.send(JSON.stringify(goods_msg));
                                     });
