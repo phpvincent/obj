@@ -2093,6 +2093,7 @@ class GoodsController extends Controller
                 $query->where('goods_cheap.goods_cheap_goods_id',$request->input('id'));
                 $query->where('goods_cheap.goods_cheap_is_del','0');
             })
+          ->where('goods_cheap.goods_cheap_is_ws','0')
           ->count();
           $newcount=DB::table('goods_cheap')
           ->select('goods_cheap.*','admin.admin_show_name')
@@ -2108,6 +2109,7 @@ class GoodsController extends Controller
             $query->where('admin.admin_show_name','like',"%$search%");
             $query->orWhere('goods_cheap.goods_cheap_id','like',"%$search%");
           })
+          ->where('goods_cheap.goods_cheap_is_ws','0')
           ->count();
           $data=DB::table('goods_cheap')
           ->leftjoin('admin','goods_cheap.goods_cheap_admin_id','admin.admin_id')
@@ -2122,6 +2124,7 @@ class GoodsController extends Controller
             $query->where('admin.admin_show_name','like',"%$search%");
             $query->orWhere('goods_cheap.goods_cheap_id','like',"%$search%");
           })
+          ->where('goods_cheap.goods_cheap_is_ws','0')
           ->orderBy($order,$dsc)
           ->offset($start)
           ->limit($len)
