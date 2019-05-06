@@ -525,7 +525,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').after('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" style="margin: 5px;" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span></div>')
+    $('header').after('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right"><img src="/images/youhuiquan.png" style="height: 100%;width: 55px;"></span></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
