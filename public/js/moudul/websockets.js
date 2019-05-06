@@ -161,6 +161,8 @@ clearInterval(heartbeat)
           $('#couponcontent .closeBtn').off()
           $('#contentop .alo').off()
           addSubt({data:data})
+      }else if(datas.data.type===0){
+        addwsMsg(datas.data.msg)
       }
       // websocket.close(); 
   }  

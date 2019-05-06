@@ -525,7 +525,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').after('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right"><img src="/images/youhuiquan.png" style="height: 100%;width: 55px;"></span></div>')
+    $('header').after('<div id="coupondiv" style="position: fixed;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><div id="addwsMsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;height: 44px; width: 111%; top: -45px;overflow: auto;"><span></span></div></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
@@ -682,9 +682,9 @@ if(cheapInternum===1){
   },1000);
 }
 //优惠券提示
-$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 111%;"><span>'+cheapMsg+'</span></div>')
-// $("#heademsg").animate({right:"100px"},'slow');
-setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow');},3000);
+$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #fac900;z-index: 21;line-height: 44px;text-align: center;height: 44px; width: 111%;"><span style="position: absolute;left: 0;"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><span>'+cheapMsg+'</span></div>')
+
+setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow')},3000);
 //优惠券提示点击也可以打开优惠券
 $('#heademsg').on('click',function(){
     $(this).hide()
@@ -750,3 +750,10 @@ $(function(){
         }
      })
 })
+
+function addwsMsg(data){
+
+    $("#addwsMsg span").text(data)
+    $("#addwsMsg").animate({top:"0"},'slow')
+    setTimeout(function(){$("#addwsMsg").animate({top:"-45px"},'slow')},3000);
+}
