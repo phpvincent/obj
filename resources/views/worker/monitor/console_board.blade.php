@@ -227,7 +227,8 @@ span:first-child
 
     //var wsUri ="ws://echo.websocket.org/";
     var dom_btn=$('#console_board');
-    var wsUri ="ws://192.168.10.166:2350/";
+    var wsUri ="ws://13.229.73.221:2350/";
+    // var wsUri ="ws://192.168.10.10:2350/";
     var output;
 
     // 遍历表格

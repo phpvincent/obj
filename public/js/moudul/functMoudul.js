@@ -475,7 +475,7 @@ var subtIs = false
 var goods_cheap_type = null
 var goods_cheap_msg = null
 var goods_cheap_remark = null
-var cheapInter = null
+var cheapInternum = 0
 
 function subtraction (value) {
    // 判断是否点了优惠券
@@ -525,7 +525,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').after('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" style="margin: 5px;" class=" mui-icon mui-icon-right-nav mui-pull-right">优惠券</span></div>')
+    $('header').after('<div id="coupondiv" style="position: fixed;z-index: 100000;right: 0px; top:0px;width:90%;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><div id="addwsMsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;height: 44px; width: 111%; top: -45px;overflow: auto;"><span></span></div></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
@@ -550,8 +550,9 @@ var subtSatisfy =function(el){
         return ''
     }
 }
-
-var subtHtml = ''
+cheapInternum++
+if(cheapInternum===1){
+    var subtHtml = ''
   $.each(data.data,function(i,el){
     subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
                     '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
@@ -565,7 +566,6 @@ var subtHtml = ''
   })
   $('#contentop .action').append(subtHtml)
   // 优惠券倒计时
-  clearInterval(cheapInter)
   var time=1800;
      cheapInter = setInterval(function(){
       if(time>0){
@@ -575,15 +575,116 @@ var subtHtml = ''
         $('#contentop .alo .sty5').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
       }else{
         clearInterval(cheapInter)
-        $('#couponbg').hide() 
-        $('#couponcontent').hide()
-        $('#couponBut').hide()
+        $('#contentop .alo .sty5').parent().remove()
+        if($('#contentop .alo').length<=0){
+            $('#couponbg').hide() 
+            $('#couponcontent').hide()
+            $('#couponBut').hide()
+        }
       }
 },1000);
+}else if(cheapInternum===2){
+    var subtHtml = ''
+    $.each(data.data,function(i,el){
+      subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
+                      '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                      '<div class="ui-grid-a sty2" >'+
+                          '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
+                          '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
+                      '</div>'+
+                      '<div class="cllio"></div>'+
+                      '<p class="sty6"></p>'+
+                  '</div>'
+    })
+    $('#contentop .action').append(subtHtml)
+    // 优惠券倒计时
+    var time2=1800;
+       cheapInter2 = setInterval(function(){
+        if(time2>0){
+          time2=time2-1;
+          var minute=parseInt(time2/60);
+          var second=parseInt(time2%60);
+          $('#contentop .alo .sty6').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
+        }else{
+          clearInterval(cheapInter2)
+          $('#contentop .alo .sty6').parent().remove()
+          if($('#contentop .alo').length<=0){
+            $('#couponbg').hide() 
+            $('#couponcontent').hide()
+            $('#couponBut').hide()
+        }
+        }
+  },1000);
+
+}else if(cheapInternum ===3){
+    var subtHtml = ''
+    $.each(data.data,function(i,el){
+      subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
+                      '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                      '<div class="ui-grid-a sty2" >'+
+                          '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
+                          '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
+                      '</div>'+
+                      '<div class="cllio"></div>'+
+                      '<p class="sty7"></p>'+
+                  '</div>'
+    })
+    $('#contentop .action').append(subtHtml)
+    // 优惠券倒计时
+    var time3=1800;
+       cheapInter3 = setInterval(function(){
+        if(time3>0){
+          time3=time3-1;
+          var minute=parseInt(time3/60);
+          var second=parseInt(time3%60);
+          $('#contentop .alo .sty7').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
+        }else{
+          clearInterval(cheapInter3)
+          $('#contentop .alo .sty7').parent().remove()
+          if($('#contentop .alo').length<=0){
+            $('#couponbg').hide() 
+            $('#couponcontent').hide()
+            $('#couponBut').hide()
+        }
+        }
+  },1000);
+}else if(cheapInternum >=4){
+    var subtHtml = ''
+    $.each(data.data,function(i,el){
+      subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
+                      '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                      '<div class="ui-grid-a sty2" >'+
+                          '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
+                          '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
+                      '</div>'+
+                      '<div class="cllio"></div>'+
+                      '<p class="sty8"></p>'+
+                  '</div>'
+    })
+    $('#contentop .action').append(subtHtml)
+    // 优惠券倒计时
+    var time4=1800;
+       cheapInter4 = setInterval(function(){
+        if(time4>0){
+            time4=time4-1;
+          var minute=parseInt(time4/60);
+          var second=parseInt(time4%60);
+          $('#contentop .alo .sty8').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
+        }else{
+          clearInterval(cheapInter4)
+          $('#contentop .alo .sty8').parent().remove()
+          if($('#contentop .alo').length<=0){
+            $('#couponbg').hide() 
+            $('#couponcontent').hide()
+            $('#couponBut').hide()
+        }
+        }
+  },1000);
+}
 //优惠券提示
-$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;min-height: 100%; width: 111%;"><span>'+cheapMsg+'</span></div>')
-// $("#heademsg").animate({right:"100px"},'slow');
-setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow');},3000);
+$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #fac900;z-index: 21;line-height: 44px;text-align: center;height: 44px; width: 111%;"><span style="position: absolute;left: 0;"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><span>'+cheapMsg+'</span></div>')
+
+setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow')},3000);
 //优惠券提示点击也可以打开优惠券
 $('#heademsg').on('click',function(){
     $(this).hide()
@@ -649,3 +750,10 @@ $(function(){
         }
      })
 })
+
+function addwsMsg(data){
+
+    $("#addwsMsg span").text(data)
+    $("#addwsMsg").animate({top:"0"},'slow')
+    setTimeout(function(){$("#addwsMsg").animate({top:"-45px"},'slow')},3000);
+}
