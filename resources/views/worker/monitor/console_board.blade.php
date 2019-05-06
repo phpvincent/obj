@@ -227,7 +227,7 @@ span:first-child
 
     //var wsUri ="ws://echo.websocket.org/";
     var dom_btn=$('#console_board');
-    var wsUri ="ws://13.229.73.221:2350/";
+    var wsUri ="ws://192.168.10.166:2350/";
     var output;
 
     // 遍历表格
@@ -461,6 +461,23 @@ span:first-child
                   +'<span>路由: </span>'+msg.msg.route
                 +'</div>'
               +'</blockquote>'
+        }else if(msg.msg.msg=='输入联系方式'){
+            if(msg.msg.hasOwnProperty('route')){
+              var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r">'
+                +'<div class="layui-block details" style="color:green">'
+                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>电话: </span>'+msg.msg.ip_msg.telephone+'<span>邮箱: </span>'+msg.msg.ip_msg.email
+                +'</div>'
+                +'<div class="layui-block details">'
+                  +'<span>路由: </span>'+msg.msg.route
+                +'</div>'
+              +'</blockquote>'
+            }else{
+              var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r">'
+                +'<div class="layui-block details" style="color:green">'
+                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>电话: </span>'+msg.msg.ip_msg.telephone+'<span>邮箱: </span>'+msg.msg.ip_msg.email
+                +'</div>'
+              +'</blockquote>'
+            }
         }
         var dom_div=$('<li style="display:none"></li>')
         //dom_div.css('display','none');
