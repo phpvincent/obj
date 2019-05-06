@@ -576,9 +576,10 @@ if(cheapInternum===1){
         $('#contentop .alo .sty5').html(cheapLose+ minute+'&nbsp;M&nbsp;&nbsp;'+second+'&nbsp;S')
       }else{
         clearInterval(cheapInter)
-        $('#couponbg').hide() 
-        $('#couponcontent').hide()
-        $('#couponBut').hide()
+        $('#contentop .alo .sty5').parent().remove()
+        // $('#couponbg').hide() 
+        // $('#couponcontent').hide()
+        // $('#couponBut').hide()
       }
 },1000);
 }else if(cheapInternum===2){
@@ -639,9 +640,9 @@ if(cheapInternum===1){
         }else{
           clearInterval(cheapInter3)
           $('#contentop .alo .sty7').parent().remove()
-        //   $('#couponbg').hide() 
-        //   $('#couponcontent').hide()
-        //   $('#couponBut').hide()
+          $('#couponbg').hide() 
+          $('#couponcontent').hide()
+          $('#couponBut').hide()
         }
   },1000);
 
