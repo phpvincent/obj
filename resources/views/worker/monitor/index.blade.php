@@ -260,8 +260,8 @@ img{ border:none; vertical-align:top;}
     var element = layui.element;
 
     //WebSocket 推送消息
-    var wsUri ="ws://13.229.73.221:2350/";
-    // var wsUri ="ws://192.168.10.10:2350/";
+    // var wsUri ="ws://13.229.73.221:2350/";
+    var wsUri ="ws://192.168.10.10:2350/";
 
      var  websocket = new WebSocket(wsUri);
        websocket.onopen = function(evt) {
@@ -294,6 +294,13 @@ img{ border:none; vertical-align:top;}
            messagess.type = 0;
            messagess.msg = $('.receive_content').val();
            websocket.send(JSON.stringify(messagess));
+           layer.msg('消息推送成功',{
+                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                 ,offset: '180'
+                 ,anim: 6
+           },function () {
+             $('.receive_content').val(null);
+           });
        };
 
     var options={
