@@ -753,7 +753,7 @@ $(function(){
 
 function addwsMsg(data){
     $('#addwsMsg').remove()
-    $('header').append('<div id="addwsMsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 100000;line-height: 44px;text-align: center;font-size: 12px;width: 100%; top: -88px;overflow: auto;"><span>'+data+'</span></div>')
+    $('header').append('<div id="addwsMsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 100000;line-height: 22px;text-align: center;font-size: 12px;width: 100%; top: -88px;overflow: auto;height: 44px"><span style="position: absolute;top: 50%;transform: translate(-50%, -50%);width: 100%;">'+data+'</span></div>')
     $("#addwsMsg").animate({top:"0"},'slow')
     setTimeout(function(){$("#addwsMsg").animate({top:"-88px"},'slow')},3000);
 }
