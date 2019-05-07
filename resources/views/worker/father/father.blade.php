@@ -11,6 +11,52 @@
   <!-- <script>
   /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
   </script> -->
+  <style>
+  .monitor{
+    position: fixed;
+    bottom: 58px;
+    right: 70px;
+    z-index: 999;
+  }
+  .monitor_title{
+    text-align: center;
+    line-height:100px;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 50%;
+    border:1px solid #666;
+    cursor: pointer;
+  }
+  .monitor_content{
+    display:none;
+    overflow: hidden;
+    height: 400px;
+    background: #fff;
+    position: relative;
+    border: 1px solid #ccc9c9;
+  }
+  .close{
+    width: 14px;
+    height: 14px;
+    background-position: 1px -40px;
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  .git_monitor{
+    cursor: pointer;
+  }
+  .monitor_content_title{
+    position: absolute;
+    top: 6px;
+    z-index: 999;
+    width: 100%;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #ccc9c9;
+    background-color: #fff;
+  }
+  </style>
 </head>
 <body class="layui-layout-body">
 
@@ -124,6 +170,22 @@
 
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
+        <!-- <div class="monitor">
+          <div class="monitor_title">
+            网页监控
+          </div>
+          <div class="monitor_content">
+            <div class="monitor_content_title"><a lay-href="/admin/worker/monitor/page/list" id="monitor">
+              <button class="layui-btn layui-btn-xs"style="margin-left: 10px;">进入监控页面</button></a>
+              <div class="layui-layer-ico close">
+
+              </div>
+            </div>
+            <div class="" style="margin-top: 28px;height:372px;overflow: auto;">
+                <table id="table1" lay-filter='table1'></table>
+            </div>
+          </div>
+        </div> -->
         <div class="layadmin-tabsbody-item layui-show">
           <iframe src="/admin/worker/monitor/console_board" frameborder="0" class="layadmin-iframe"></iframe>
         </div>
@@ -141,9 +203,10 @@
   }).extend({
       index: 'lib/index' //主入口模块
   // }).use('index');
-  }).use(['index','admin','setter','laytpl'],function () {
+  }).use(['index','admin','setter','laytpl','table'],function () {
       var that = this,
           laytpl = layui.laytpl,
+          table = layui.table,
           setter = layui.setter,
           $ = layui.jquery,
           $body = $('body'),
@@ -239,7 +302,9 @@
                   ,id: 'LAY_errorIE'
               });
           }
-
+          if(location.href.indexOf('id')!==-1){
+            $('#monitor').trigger("click")
+          }
       }();
 
       //主题设置
@@ -265,6 +330,37 @@
           }
       }
       // layui.admin.initTheme(14);
+      $('body').on('click','.monitor_title',function(){
+        $(this).hide(400);
+        table.reload('table1');
+        $('.monitor_content').show(400);
+      })
+      var options={
+      elem: '#table1'
+      ,url: '/admin/worker/monitor/page/get_table' //数据接口
+      ,page: false //开启分页
+      ,text: {
+        none: '暂无数据' 
+      }
+      ,autoSort:false
+      ,headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+      ,method:'get'
+      ,cols: [[ //表头
+         {field: 'route', title: '路由',width:300}
+        ,{field: 'num', title: '人数',width:60}
+      ]],
+      done:function(res){
+        $('.num').text(res.num)
+      }
+     };
+    //表格初始化
+    table.render(options);
+    $('body').on('click','.close',function(){
+      $('.monitor_title').show(400);
+      $('.monitor_content').hide(400)
+    })
+    $('body').on('click','#monitor',function(){
+    })
   });
   </script>
   @endsection

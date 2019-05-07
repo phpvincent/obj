@@ -82,8 +82,9 @@ class StorageController extends Controller
             //出货率
             $storage_out_lv = sprintf("%.4f", count($storage_out_ids)/$storage_num)*100 .'%';
         }
+		$url = $_SERVER['SERVER_NAME'];        
 
-        return view('storage.index.index')->with(compact('storage_lv','storage_out_lv','order_count','yse_order_count','t_out_today','y_out_today','t_splite_count','y_splite_count'));
+        return view('storage.index.index')->with(compact('url','storage_lv','storage_out_lv','order_count','yse_order_count','t_out_today','y_out_today','t_splite_count','y_splite_count'));
     }
     public function notallow(){
     	return view('storage.notallow');
