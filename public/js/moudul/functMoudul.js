@@ -525,7 +525,7 @@ function subtraction (value) {
 };
 
 function addSubt(data){
-    $('header').after('<div id="coupondiv" style="position: fixed;z-index: 100000;right: 0px; top:0px;width:90%;min-width: 320px;max-width: 640px;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><div id="addwsMsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 21;line-height: 44px;text-align: center;font-size: 12px;width: 111%; top: -88px;overflow: auto;"><span></span></div></div>')
+    $('header').append('<div id="coupondiv" style="position: absolute;z-index: 100000;right: 0px; top:0px;width:90%;min-width: 320px;max-width: 640px;height: 44px;"><span id="couponBut" class=" mui-icon mui-icon-right-nav mui-pull-right" style="margin: 0 0;padding: 0 0;"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span></div>')
     $('#couponBut').on('click',function(){
         $('#couponbg').show()
         $('#couponcontent').show()
@@ -752,8 +752,8 @@ $(function(){
 })
 
 function addwsMsg(data){
-
-    $("#addwsMsg span").text(data)
+    $('#addwsMsg').remove()
+    $('header').append('<div id="addwsMsg" style="position: absolute;right: 0;color: #fff;background-color: #3f3f3f;z-index: 100000;line-height: 44px;text-align: center;font-size: 12px;width: 100%; top: -88px;overflow: auto;"><span>'+data+'</span></div>')
     $("#addwsMsg").animate({top:"0"},'slow')
     setTimeout(function(){$("#addwsMsg").animate({top:"-88px"},'slow')},3000);
 }
