@@ -188,7 +188,6 @@ $(function(){
     $('input[name="email"]').blur(function(){ send('email') })
     function send(type){
         var ipmsg = {}
-        ipmsg.type = type
         ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
         ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
         if(ipmsg.telephone || ipmsg.email) {
@@ -213,7 +212,7 @@ $(function(){
           var scrollinterval=null
           function scrollFun () {
             var obj = GetRect(document.getElementById('detial-table'))
-            // console.log('obj',obj,'winh',windowH)
+            console.log('obj',obj,'winh',windowH)
             if (obj.top < windowH-50 && obj.bottom > 50) { // 在视口
                 scrollNum++
                 if(scrollNum === 1){
@@ -221,7 +220,7 @@ $(function(){
                   scrollinterval = setInterval(function(){
                     jiNum++
                     if(jiNum >= 11){
-                    //   console.log('在视口11秒了')
+                      console.log('在视口11秒了')
                       counJiNum +=jiNum 
                       clearInterval(scrollinterval)
                       var senddatas = {}

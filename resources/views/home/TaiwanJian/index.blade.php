@@ -47,6 +47,7 @@
         
         <script>
         jQuery(function(){setFrom();});  
+        
         </script>
 
         <!-- Facebook Pixel Code -->
@@ -1156,7 +1157,7 @@ $(function(){
 </div>
 <!--商品介绍  商品参数处按钮的固定-->
 <script type="text/javascript" charset="utf-8">
-    var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});
+    /*var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(function(){if(sc.scrollTop()>=$2(".detail-profile").offset().top+45){nav.addClass("fixed")}else{nav.removeClass("fixed")}});*/
 </script>
 <script>
         $(function(){
