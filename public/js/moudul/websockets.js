@@ -115,8 +115,8 @@ var wsArr = (function(){
 
 
 //var wsUri ="ws://192.168.10.166:2349/";
-var wsUri ="ws://13.229.73.221:2349/";
- //var wsUri ="ws://192.168.10.166:2349/";
+//var wsUri ="ws://13.229.73.221:2349/";
+ var wsUri ="ws://192.168.10.166:2349/";
 var  heartbeat=null
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
@@ -210,7 +210,7 @@ $(function(){
           var jiNum = 0
           var counJiNum = 0
           var scrollinterval=null
-          function scrollFun () {
+          window.onscroll = function () {
             var obj = GetRect(document.getElementById('detial-table'))
             console.log('obj',obj,'winh',windowH)
             if (obj.top < windowH-50 && obj.bottom > 50) { // 在视口
@@ -239,11 +239,6 @@ $(function(){
             }
 
           }
-          $(document).scroll(scrollFun)
-        // document.addEventListener('touchmove',scrollFun)
-        //   window.onscroll = function() {
-        //     scrollFun()
-        //   }
     }
 
 })
