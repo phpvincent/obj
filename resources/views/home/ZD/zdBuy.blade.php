@@ -407,6 +407,24 @@
     خطوات : يمكنك الدفع عند الاستلام +الشحن  مجاني +يمكنك الابدال والارجاع بدون أسباب في خلال 7 ايام! اذا كان لديكم اي استفسارات يمكنكم التواصل معنا عبر خدمه العملاء او عبر البريد الالكتروني (<a href="mailto:yejforlh@gmail.com" style="color:#F8770E">yejforlh@gmail.com</a>).
         
     </div><!--footer end-->
+    <div id="couponbg" style="display:none; position:fixed;z-index:99998; width:100%; height:100%; background:black; padding:0px; bottom:0px; margin:0px; opacity:0.7; max-width: 640px;">       
+</div>
+<div id="couponcontent" style="display:none;width: 100%;max-width:640px;clear: both;position: relative;">
+  <div style="position: fixed; z-index: 99999; width: 90%; height: 500px; padding:0 5%; top: 16%; max-width: 640px;">
+    <div class="mui-card">
+      <div class="closeBtn">
+        <img src="/img/close.png">
+      </div>
+	  <div class="mui-card-content">
+      <ul id="contentop">
+			<li class="action">
+
+			</li>
+		</ul>
+      </div>
+    </div>
+</div>
+</div>
 
 <script>
     function captureImage(a) {
@@ -680,6 +698,11 @@ $('#payOk').bind('click',payFunGo);//封装订单提交
 var messagesucce =" رمز التحقق قد وصل إلي جوالك . من فضلك إستقبالها جيدا صلاحية رمز التحقق 5 دقائق. ";
 var messageerr =" فشل في إرسال رمز التحقق. أنظر هل رقم الجوال صحيح أم لا ";
 var messnetworkerr= " فشل الطلب من فضلك تأكد من جوده الانترنت .";
+var cheapWord = 'كوبون التفضلية ';
+var cheapSatisfy = 'أرخص السعر  التي  استخدام ب كوبون التفضلية';
+var cheapLose = 'باقي موعد الصلاحية كوبون التفضلية';
+var cheapMsg = 'عندك كوبون التفضلية لاستخدام';
+var cheapSa='انتبه محدد لاستخدام كوبون التفضلية';
    window.onblur = function() {
             $.ajax({url:"{{url('/visfrom/settime')}}"+"?id="+{{$vis_id}},async:false});
    }
@@ -878,7 +901,7 @@ $("#Select1").change(function(){
                     // window.setTimeout("window.location='{{url('admin/contro/index')}}'",2000); 
                     if(msg.goods.goods_cuxiao_type=="0"){
                          $(function(){
-                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">1: الاجمالي</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  قطعه '+msg.goods.goods_num+':تم أختيار\）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span><label class="addcart-quantity-title">:العدد</label></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total"><font>1</font>:الاجمالي <span class="gift" style="display:none;">，<font>0</font>زياده</span> </span><span class="addcart-footer-realPriceNative-total"><font>1</font>:السعر الأصلي </span><span class="addcart-footer-realPrice-total"><font></font>:تفضيلي</span><span class="addcart-footer-price-total"><font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font>:الاجمالي </span></div></div>';
+                            var addCartHtml1='<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">1: الاجمالي</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>  قطعه '+msg.goods.goods_num+':تم أختيار\）</span><span class="addcart-specs-status"></span></div><div class="addcart-quantity"><div class="addcart-quantity-content"><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span><label class="addcart-quantity-title">:العدد</label></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total"><font>1</font>:الاجمالي <span class="gift" style="display:none;">，<font>0</font>زياده</span> </span><span class="addcart-footer-realPriceNative-total"><font>1</font>:السعر الأصلي </span><span class="addcart-footer-realPrice-total"><font></font>:تفضيلي</span><span style="display: none;" class="addcart-footer-coupon-total">خصم بكوبون التفضلية<font></font></span><span class="addcart-footer-price-total"><font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font>:الاجمالي </span></div></div>';
                             $("#addcart").html(addCartHtml1);
                             var pricehtml=$('.addcart-footer-price-total').children('font:first');
                                 var price=pricehtml.html().replace(/[^0-9]/ig,"")/100;
@@ -919,7 +942,7 @@ $("#Select1").change(function(){
 
                     }else if(msg.goods.goods_cuxiao_type=="2"){
                             $(function(){
-                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">1:الاجمالي</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，【'+msg.cuxiao[0].cuxiao_msg+'】تم اختيار قطعه'+msg.goods.goods_num+'تم أختيار）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span><label class="addcart-quantity-title">:العدد</label></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total"><font>1</font>:الاجمالي <span class="gift" style="display:none;">，<font>0</font>زياده</span>  </span><span class="addcart-footer-realPriceNative-total"><font>1</font>:السعر الأصلي </span><span class="addcart-footer-realPrice-total"><font></font>:تفضيلي</span><span class="addcart-footer-price-total"><font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font>:الاجمالي </span></div></div>';
+                                var addCartHtml2= '<div class="addcart-specs-title unfold"><span class="addcart-specs-title-name">1:الاجمالي</span><span class="addcart-specs-arrow"></span><span class="addcart-specs-descript">（{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}<span id="realprice">'+msg.goods.goods_price+'</span>，【'+msg.cuxiao[0].cuxiao_msg+'】تم اختيار قطعه'+msg.goods.goods_num+'تم أختيار）</span><span class="addcart-specs-status"></span></div><div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block" ><button class="chose_cart addcart-quantity-inc" type="button" >'+msg.cuxiao[0].cuxiao_msg+'</button></div></div><div class="addcart-quantity"><div class="addcart-quantity-content"><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="1" readonly=""><span id="addcart-quantity-inc"> + </span><label class="addcart-quantity-title">:العدد</label></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total"><font>1</font>:الاجمالي <span class="gift" style="display:none;">，<font>0</font>زياده</span>  </span><span class="addcart-footer-realPriceNative-total"><font>1</font>:السعر الأصلي </span><span class="addcart-footer-realPrice-total"><font></font>:تفضيلي</span><span style="display: none;" class="addcart-footer-coupon-total">خصم بكوبون التفضلية<font></font></span><span class="addcart-footer-price-total"><font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.goods.goods_price+'</font>:الاجمالي </span></div></div>';
                                 $("#addcart").html(addCartHtml2);
 
                                     var pricehtml=$('.addcart-footer-price-total').children('font:first');
@@ -1028,7 +1051,7 @@ $("#Select1").change(function(){
                                   buttonHtml+='<div class="addcart-group-buttons"  style="display: block;" ><div class="addcart-float-buttons-block"  data-id="7022"><button cuxiao_id="'+val.cuxiao_id+'"  class="'+ (j==0?chose_cart:unchose_cart)+'" type="button" num="'+val.cuxiao_config.split(",")[0]+'" price="'+val.cuxiao_config.split(",")[1]+'" type_name="'+val.cuxiao_msg+'" cuxiao_special_id="'+val.cuxiao_special_id+'" >'+val.cuxiao_msg+'</button></div></div>'
                             })
                             $("#addcart").append(buttonHtml);
-                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;left:-150px;"><div class="addcart-quantity-content"><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span><label class="addcart-quantity-title">:العدد</label></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total"><font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>: الاجمالي<span class="gift" style="display:none;">，هديه<font>0</font></span>  </span><span class="addcart-footer-realPrice-total"><font></font>:تفضيلي</span><span class="addcart-footer-price-total"><font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font>:الاجمالي </span></div></div>';
+                            var numberHtml = '<div class="addcart-quantity"><img src="/images/click.png" style="width: 20px;left:-150px;"><div class="addcart-quantity-content"><span id="addcart-quantity-dec"> - </span><input type="text" name="specNumber" id="addcart-quantity-val" value="'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'" readonly=""><span id="addcart-quantity-inc"> + </span><label class="addcart-quantity-title">:العدد</label></div></div><div class="addcart-footer"><div class="addcart-footer-price"><span class="addcart-footer-number-total"><font>'+msg.cuxiao[0].cuxiao_config.split(",")[0]+'</font>: الاجمالي<span class="gift" style="display:none;">，هديه<font>0</font></span>  </span><span class="addcart-footer-realPrice-total"><font></font>:تفضيلي</span><span style="display: none;" class="addcart-footer-coupon-total">خصم بكوبون التفضلية<font></font></span><span class="addcart-footer-price-total"><font>{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}}'+msg.cuxiao[0].cuxiao_config.split(",")[1]+'</font>:الاجمالي </span></div></div>';
                             $("#addcart").append(numberHtml);
 
                             $("#goods_config_div").children("form").remove(); //如果选择套餐先删除说有属性，在根据有几件商品循环几组属性；
