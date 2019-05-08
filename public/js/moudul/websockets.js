@@ -115,8 +115,8 @@ var wsArr = (function(){
 
 
 //var wsUri ="ws://192.168.10.166:2349/";
-var wsUri ="ws://13.229.73.221:2349/";
- //var wsUri ="ws://192.168.10.166:2349/";
+//var wsUri ="ws://13.229.73.221:2349/";
+ var wsUri ="ws://192.168.10.166:2349/";
 var  heartbeat=null
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
@@ -181,11 +181,10 @@ clearInterval(heartbeat)
 
   //监听下单页面电话号码填写和邮箱填写
 $(function(){
-    $('input[name="telephone"]').blur(function(){ send('telephone') })
-    $('input[name="email"]').blur(function(){ send('email') })
-    function send(type){
+    $('input[name="telephone"]').blur(function(){ send() })
+    $('input[name="email"]').blur(function(){ send() })
+    function send(){
         var ipmsg = {}
-        ipmsg.type = type
         ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
         ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
         if(ipmsg.telephone || ipmsg.email) {
