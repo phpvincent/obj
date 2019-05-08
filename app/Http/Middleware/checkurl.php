@@ -69,8 +69,8 @@ class checkurl
         //地区核审与ip核审
       $domainCheck->check_pb();
         //WS监控对象判断
-      //view()->share('is_monitor',$domainCheck->check_ws());
-      view()->share('is_monitor',1);
+      view()->share('is_monitor',$domainCheck->check_ws());
+      //view()->share('is_monitor',1);
       //判断访问导向
        switch ($domainCheck->redirect_msg) {
          case 3:
