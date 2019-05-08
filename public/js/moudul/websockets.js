@@ -181,10 +181,11 @@ clearInterval(heartbeat)
 
   //监听下单页面电话号码填写和邮箱填写
 $(function(){
-    $('input[name="telephone"]').blur(function(){ send() })
-    $('input[name="email"]').blur(function(){ send() })
-    function send(){
+    $('input[name="telephone"]').blur(function(){ send('telephone') })
+    $('input[name="email"]').blur(function(){ send('email') })
+    function send(type){
         var ipmsg = {}
+        ipmsg.type = type
         ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
         ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
         if(ipmsg.telephone || ipmsg.email) {

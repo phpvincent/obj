@@ -21,12 +21,13 @@ class IndexController extends Controller
                           $query->whereIn('order.order_goods_id',admin::get_goods_id());
         })
         ->count();
-    	view()->share('hcoun',$hcoun);
+        view()->share('hcoun',$hcoun);
     	return view('admin.father.app')->with(compact('data'));
     }
     public function welcome(Request $request){
-    	$data=getclientcity($request);
-    	return view('admin.index.index')->with(compact('data'));
+        $data=getclientcity($request);
+		$url = $_SERVER['SERVER_NAME'];        
+    	return view('admin.index.index')->with(compact('data','url'));
     }
 
 }
