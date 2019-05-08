@@ -165,4 +165,32 @@ class MonitorController extends Controller
         }
         return view('worker.monitor.console_board')->with(compact('data'));
     }
+    /**
+     * 客户端消息推送接口
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function msg_push(Request $request)
+    {
+        if(!$request->has('type')){
+            return response()->json(['err'=>0,'str'=>'type not found']);
+        }
+        $data=$request->all();
+         
+        $redis=\App\channel\Rediss::getInstance();/*dd($redis);*/
+        //$redis->set('cui','666');
+        /*dd($redis->get('cui'));*/
+        $name=\Auth::user()->admin_name;
+        $pass=rand(10000,99999);
+        $redis->set($name,$pass);
+        /*echo $name.'--'.$pass;*/
+        $data['auth_name']=$name;
+        $data['auth_pass']=$pass;
+        //向WORKERMAN服务端推送数据
+       $msg=curl_post_send('13.229.73.221:2351',json_encode($data),10);
+       if($msg&&$msg->status=='0'){
+                return response()->json(['err' => '1', 'str' => $msg->msg]);
+            }
+                return response()->json(['err' => '0','str'=>'推送失败！']);
+    }
 }
