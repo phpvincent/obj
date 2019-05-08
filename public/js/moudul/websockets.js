@@ -115,8 +115,8 @@ var wsArr = (function(){
 
 
 //var wsUri ="ws://192.168.10.166:2349/";
-//var wsUri ="ws://13.229.73.221:2349/";
- var wsUri ="ws://192.168.10.166:2349/";
+var wsUri ="ws://13.229.73.221:2349/";
+ //var wsUri ="ws://192.168.10.166:2349/";
 var  heartbeat=null
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
@@ -212,7 +212,7 @@ $(function(){
           var scrollinterval=null
           window.onscroll = function () {
             var obj = GetRect(document.getElementById('detial-table'))
-            // console.log('obj',obj,'winh',windowH)
+            console.log('obj',obj,'winh',windowH)
             if (obj.top < windowH-50 && obj.bottom > 50) { // 在视口
                 scrollNum++
                 if(scrollNum === 1){
@@ -220,7 +220,7 @@ $(function(){
                   scrollinterval = setInterval(function(){
                     jiNum++
                     if(jiNum >= 11){
-                    //   console.log('在视口11秒了')
+                      console.log('在视口11秒了')
                       counJiNum +=jiNum 
                       clearInterval(scrollinterval)
                       var senddatas = {}
