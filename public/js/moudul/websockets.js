@@ -150,6 +150,8 @@ clearInterval(heartbeat)
   function onClose(evt) { 
       console.log("关闭ws"); 
       clearInterval(heartbeat)
+      //断线重连
+      testWebSocket()
   }  
 
   function onMessage(evt) { 
