@@ -211,7 +211,7 @@ $(function(){
           var jiNum = 0
           var counJiNum = 0
           var scrollinterval=null
-          window.onscroll = function () {
+          function scrollFun () {
             var obj = GetRect(document.getElementById('detial-table'))
             // console.log('obj',obj,'winh',windowH)
             if (obj.top < windowH-50 && obj.bottom > 50) { // 在视口
@@ -240,6 +240,11 @@ $(function(){
             }
 
           }
+          $(document).scroll(scrollFun)
+        // document.addEventListener('touchmove',scrollFun)
+        //   window.onscroll = function() {
+        //     scrollFun()
+        //   }
     }
 
 })
