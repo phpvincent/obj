@@ -28,8 +28,10 @@
 </div>
 <script language="javascript">
     function goHome(){
+        @if(isset($url))
         var u = 'http://{{$url}}';
-    location.href=u;
+        location.href=u;
+        @endif
         //window.location.href=u;
     }
 </script>

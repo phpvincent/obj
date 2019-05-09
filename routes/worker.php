@@ -18,8 +18,8 @@
             Route::any('/monitor/set','admin\worker\MonitorController@set'); //监控设置
             Route::get('/monitor/console_board','admin\worker\MonitorController@console_board'); //控制台
 
-            //消息推送接口
-            Route::any('/msg/push','admin\worker\MonitorController@msg_push'); //控制台
+            //推送普通消息
+            Route::post('/monitor/push_message','admin\worker\MonitorController@push_message'); //推送普通消息
         });
 
 	Route::get('/notallow','admin\worker\WorkerController@notallow');

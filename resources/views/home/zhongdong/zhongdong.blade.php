@@ -481,7 +481,7 @@
                             <span style="margin-left:3px; font-size:12px">
                                 {{$v->com_time}}                            </span>
                         </div>
-                        <div class="mqc">
+                        <div class="mqc" com_id="{{$v->com_id}}">
                             <p>
                                 <p>{{$v->com_msg}}</p><p>
                                 @if(!empty($v->com_img))

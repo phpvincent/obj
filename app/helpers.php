@@ -188,7 +188,7 @@ if (!function_exists("curl_post_send")) {
     {
       try{
             $headers = array(
- 
+
             "Content-type: application/json;charset='utf-8'",
         );
             $curl = curl_init();
@@ -683,5 +683,22 @@ if (!function_exists("order_notice")) {
           };
           //try{$mailnotice=App\Jobs\OrderNotice::dispatch($phone,$str);}catch(\Exception $e){\Log::notice(json_encode($e));};
         }
+    }
+}
+
+//curl 访问post请求
+if (!function_exists("curl_post")) {
+    function curl_post($url,$data=[])
+    {
+        $ch = curl_init(); //初始化curl
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POST, 1);//设置为1或true时，是post请求，
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));//post请求参数
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//不直接展示数据
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $out = json_decode($output);
+        return $out;
     }
 }

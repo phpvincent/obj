@@ -259,41 +259,32 @@ img{ border:none; vertical-align:top;}
     var form = layui.form;
     var element = layui.element;
 
-    //WebSocket 推送消息
-    var wsUri ="ws://13.229.73.221:2350/";
-    // var wsUri ="ws://192.168.10.10:2350/";
-
-     var  websocket = new WebSocket(wsUri);
-       websocket.onopen = function(evt) {
-           // layer.msg('走你');
-       };
-       websocket.onclose = function(evt) {
-            // 提示此功能不可用
-       };
-
-       websocket.onmessage = function(evt) {
-           let data = JSON.parse(evt.data);
-           if(data.status === 0) { //发送成功
-               layer.msg('发送成功!', {time: 2 * 1000}, function () {
-                   $('.receive_content').val(null);
-               });
-           }
-           // }else{
-           //     layer.msg(data.msg);
-           // }
-       };
-
-       websocket.onerror = function(evt) {
-           layer.msg("网络错误，请刷新页面");
-       };
-
      // 表单提交 推送普通消息
      window.func=function () {
-           var messagess = {};
-           messagess.ip = $('.receive_ip').val();
-           messagess.type = 0;
-           messagess.msg = $('.receive_content').val();
-           websocket.send(JSON.stringify(messagess));
+         $.ajax({
+             url:'/admin/worker/monitor/push_message',
+             type:'post',
+             data:{
+                 ip: $('.receive_ip').val(),
+                 type: 0,
+                 msg: $('.receive_content').val()
+             },
+             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+             success:function(msg){
+                if(msg.err === 1){
+                    layer.msg(msg.str,{
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        ,offset: '180'
+                        ,anim: 6
+                        ,zIndex: layer.zIndex+10
+                    },function () {
+                        $('.receive_content').val(null);
+                    });
+                }else{
+                    layer.msg(msg.str)
+                }
+             }
+         });
        };
 
     var options={
@@ -472,6 +463,7 @@ img{ border:none; vertical-align:top;}
                                 time: 2000
                                 ,offset: '180'
                                 ,anim: 6
+                                ,zIndex: layer.zIndex+10
                             });
                             return false;
                         }
@@ -484,6 +476,7 @@ img{ border:none; vertical-align:top;}
                         }else if (val === "1") {
                             goods_data.goods_cheap_msg = $('#articlesort1').val();
                         }
+                        goods_data.ip = $('.receive_ip').val();
                         goods_data.goods_id = route.split("?")[1].split("&").filter(function(item){ return item.indexOf('goods_id')===0})[0].split("=")[1];
                         $.ajax({
                             url:"{{url('admin/goods/cheap/set')}}",
@@ -497,18 +490,12 @@ img{ border:none; vertical-align:top;}
                                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
                                         ,offset: '180'
                                         ,anim: 6
+                                        ,zIndex: layer.zIndex+10
                                     }, function(){
                                         //1.清空本页面数据
                                         $(".zhekou input").val(null);
                                         $(".lijian input").val(null);
                                         $(".jianmian input").val(null);
-                                        //2.推送给客户数据
-                                        var goods_msg = {};
-                                        goods_msg.ip = $('.receive_ip').val();
-                                        goods_msg.type = 1;
-                                        goods_data.goods_cheap_id = msg.data.goods_cheap_id;
-                                        goods_msg.msg = goods_data;
-                                        websocket.send(JSON.stringify(goods_msg));
                                     });
                                 }else if(msg.err===0){
                                     layer.msg(msg.str);
