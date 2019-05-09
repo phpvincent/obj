@@ -561,7 +561,7 @@ if(cheapInternum===1){
     var subtHtml = ''
   $.each(data.data,function(i,el){
     subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
-                    '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                    '<div class="ui-grid-a sty3" ><div class="ui-block-a" style="font-size: 16px;">'+cheapWord+'</div></div>'+
                     '<div class="ui-grid-a sty2" >'+
                         '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
                         '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
@@ -593,7 +593,7 @@ if(cheapInternum===1){
     var subtHtml = ''
     $.each(data.data,function(i,el){
       subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
-                      '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                      '<div class="ui-grid-a sty3" ><div class="ui-block-a" style="font-size: 16px;">'+cheapWord+'</div></div>'+
                       '<div class="ui-grid-a sty2" >'+
                           '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
                           '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
@@ -626,7 +626,7 @@ if(cheapInternum===1){
     var subtHtml = ''
     $.each(data.data,function(i,el){
       subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
-                      '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                      '<div class="ui-grid-a sty3" ><div class="ui-block-a" style="font-size: 16px;">'+cheapWord+'</div></div>'+
                       '<div class="ui-grid-a sty2" >'+
                           '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
                           '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
@@ -658,7 +658,7 @@ if(cheapInternum===1){
     var subtHtml = ''
     $.each(data.data,function(i,el){
       subtHtml+= 	'<div class="alo" goods_cheap_id="'+el.goods_cheap_id+'" goods_cheap_type="'+el.goods_cheap_type+'" goods_cheap_msg="'+el.goods_cheap_msg+'" goods_cheap_remark="'+el.goods_cheap_remark+'">'+
-                      '<div class="ui-grid-a sty3" ><div class="ui-block-a">'+cheapWord+'</div></div>'+
+                      '<div class="ui-grid-a sty3" ><div class="ui-block-a" style="font-size: 16px;">'+cheapWord+'</div></div>'+
                       '<div class="ui-grid-a sty2" >'+
                           '<div class="ui-block-a "><span>'+msg(el)+'</span></div>'+
                           '<div class="ui-block-b">'+subtSatisfy(el)+'</div>'+
@@ -734,8 +734,8 @@ $('#heademsg').on('click',function(){
             countDiff (a,basePrice,moneycoin,realPrice)
         }
      }
-     $('#couponbg').hide() 
-     $('#couponcontent').hide()
+    //  $('#couponbg').hide() 
+    //  $('#couponcontent').hide()
      $('#couponcontent .alo').removeClass('cheapactive')
      $(this).addClass('cheapactive')
 
