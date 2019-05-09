@@ -183,6 +183,63 @@ if (!function_exists("curl_get_send")) {
            return $output;  
   }
 }
+if (!function_exists("curl_post_send")) {
+    function curl_post_send($port,$data,$time)
+    {
+      try{
+            $headers = array(
+
+            "Content-type: application/json;charset='utf-8'",
+        );
+            $curl = curl_init();
+            //设置抓取的url
+            curl_setopt($curl, CURLOPT_URL, $port);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            //设置头文件的信息作为数据流输出
+            curl_setopt($curl, CURLOPT_HEADER, 1);
+            //设置获取的信息以文件流的形式返回，而不是直接输出。
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            //设置post方式提交
+            curl_setopt($curl, CURLOPT_POST, 1);
+            //设置post数据
+            $post_data = $data;
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+            curl_setopt($curl, CURLOPT_TIMEOUT, $time);       
+            //执行命令
+            $data = curl_exec($curl);
+            //关闭URL请求
+            
+            //显示获得的数据
+            //print_r($data);
+      }catch(\Exception $e)
+      {
+        throw $e;
+        return false;
+      }
+      if(curl_getinfo($curl, CURLINFO_HTTP_CODE) != '200'){
+        return false;
+      }
+      if(json_decode($data)==null||json_decode($data)==false){
+        $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        curl_close($curl);
+        $header = substr($data, 0, $headerSize);
+        $body = substr($data, $headerSize);
+        if(json_decode($body)!=null){
+          return json_decode($body);
+        }
+        return $body;
+      }else{
+        curl_close($curl);
+        return json_decode($data);
+      }
+        /*if($data==false){
+          dd(curl_error($curl));
+          return false;
+        }dd($data);
+        return true;*/
+            
+  }
+}
 if (!function_exists('out_excil')){
       function out_excil($datas,$titlename,$title,$filename){ 
 

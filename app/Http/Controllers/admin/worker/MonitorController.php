@@ -170,9 +170,13 @@ class MonitorController extends Controller
      * 管理员推送公告消息
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function push_message(Request $request)
     {
+        if(!$request->has('type')){
+            return response()->json(['err'=>0,'str'=>'type not found']);
+        }
         $message_data = $request->except('_token');
         $redis = \App\channel\Rediss::getInstance();
         $admin_name = \Auth::user()->admin_name;
@@ -182,10 +186,10 @@ class MonitorController extends Controller
         $url = config('workman.http_service_ip');
         $message_data['auth_name'] = $admin_name;
         $message_data['auth_pass'] = $auth_pass;
-        $curl_value = curl_post($url,$message_data);
-        if($curl_value->status == 1){
-            return  response()->json(['err' => 0, 'str' => '推送消息失败！']);
+        $curl_value = curl_post_send($url,json_encode($message_data),10);
+        if($curl_value && $curl_value->status == 0){
+            return response()->json(['err' => 1, "str" => "推送消息成功"]);
         }
-        return response()->json(['err' => 1, "str" => "推送消息成功"]);
+        return  response()->json(['err' => 0, 'str' => '推送消息失败！']);
     }
 }

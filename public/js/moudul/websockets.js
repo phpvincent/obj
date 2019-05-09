@@ -116,7 +116,7 @@ var wsArr = (function(){
 
 //var wsUri ="ws://192.168.10.166:2349/";
 var wsUri ="ws://13.229.73.221:2349/";
-// var wsUri ="ws://192.168.10.10:2349/";
+ //var wsUri ="ws://192.168.10.166:2349/";
 var  heartbeat=null
     function testWebSocket() { 
         websocket = new WebSocket(wsUri); 
@@ -157,14 +157,14 @@ clearInterval(heartbeat)
   function onMessage(evt) { 
       console.log('返回数据: '+ evt.data);
       var datas = JSON.parse(evt.data)
-      if(datas.data.type===1){
+      if(datas.data.type==='1'){
           var data=[]
           data.push(datas.data.msg)
           $('#coupondiv').remove()
           $('#couponcontent .closeBtn').off()
           $('#contentop .alo').off()
           addSubt({data:data})
-      }else if(datas.data.type===0){
+      }else if(datas.data.type==='0'){
         addwsMsg(datas.data.msg)
       }
       // websocket.close(); 
@@ -183,9 +183,10 @@ clearInterval(heartbeat)
 
   //监听下单页面电话号码填写和邮箱填写
 $(function(){
-    $('input[name="telephone"]').blur(function(){ send() })
-    $('input[name="email"]').blur(function(){ send() })
-    function send(){
+    // 捕捉下单页面用户填写电话或者email
+    $('input[name="telephone"]').blur(function(){ send('telephone') })
+    $('input[name="email"]').blur(function(){ send('email') })
+    function send(type){
         var ipmsg = {}
         ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
         ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
@@ -194,4 +195,55 @@ $(function(){
             Cookies.set('ip_msg', ipmsg,  { expires: 1, path: '/' })
         }
     }
+    // 捕捉home页用户须知是否在视口停留
+    if($('#detial-table').length>=1){
+        var windowH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight // 浏览器高度兼容写法
+        function GetRect (element) {
+            var rect = element.getBoundingClientRect() // 距离视窗的距离
+            var top = document.documentElement.clientTop ? document.documentElement.clientTop : 0 // html元素对象的上边框的宽度
+            return {
+              top: rect.top - top,
+              bottom: rect.bottom - top
+            }
+          }
+          var scrollNum = 0
+          var jiNum = 0
+          var counJiNum = 0
+          var scrollinterval=null
+          function scrollFun () {
+            var obj = GetRect(document.getElementById('detial-table'))
+            console.log('obj',obj,'winh',windowH)
+            if (obj.top < windowH-50 && obj.bottom > 50) { // 在视口
+                scrollNum++
+                if(scrollNum === 1){
+                //   console.log('detial-table正在视口中')
+                  scrollinterval = setInterval(function(){
+                    jiNum++
+                    if(jiNum >= 11){
+                      console.log('在视口11秒了')
+                      counJiNum +=jiNum 
+                      clearInterval(scrollinterval)
+                      var senddatas = {}
+                      senddatas.tpye = 'detial'
+                      senddatas.countTime = counJiNum
+                      doSend({ip_event: senddatas})
+                    }
+                    // console.log('jiNum',jiNum)
+                  },1000)
+                }
+                // console.log('scrollNum',scrollNum)
+            }else{
+                clearInterval(scrollinterval)
+                scrollNum = 0
+                jiNum = 0
+            }
+
+          }
+          $(document).scroll(scrollFun)
+        // document.addEventListener('touchmove',scrollFun)
+        //   window.onscroll = function() {
+        //     scrollFun()
+        //   }
+    }
+
 })
