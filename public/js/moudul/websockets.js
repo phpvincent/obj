@@ -157,14 +157,14 @@ clearInterval(heartbeat)
   function onMessage(evt) { 
       console.log('返回数据: '+ evt.data);
       var datas = JSON.parse(evt.data)
-      if(datas.data.type===1){
+      if(datas.data.type==='1'){
           var data=[]
           data.push(datas.data.msg)
           $('#coupondiv').remove()
           $('#couponcontent .closeBtn').off()
           $('#contentop .alo').off()
           addSubt({data:data})
-      }else if(datas.data.type===0){
+      }else if(datas.data.type==='0'){
         addwsMsg(datas.data.msg)
       }
       // websocket.close(); 
