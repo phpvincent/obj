@@ -177,6 +177,9 @@ class MonitorController extends Controller
         if(!$request->has('type')){
             return response()->json(['err'=>0,'str'=>'type not found']);
         }
+        if(strlen($request->input('msg')) > 120){
+              return  response()->json(['err' => 0, 'str' => '发送内容最多40个汉字或120个英文字符！']);
+        }
         $message_data = $request->except('_token');
         $redis = \App\channel\Rediss::getInstance();
         $admin_name = \Auth::user()->admin_name;

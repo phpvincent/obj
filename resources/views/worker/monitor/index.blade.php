@@ -173,6 +173,7 @@ img{ border:none; vertical-align:top;}
                         <div class="layui-input-block">
                             <textarea name="remarks" placeholder="请输入内容" class="layui-textarea receive_content"></textarea>
                         </div>
+                        <div style="color: red;margin-top: 10px"><span style="font-weight: bold">注: </span>推送内容最多40个汉字或120个英文字符</div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
@@ -261,6 +262,16 @@ img{ border:none; vertical-align:top;}
 
      // 表单提交 推送普通消息
      window.func=function () {
+         var  message_info = $('.receive_content').val();
+         if(message_info.length > 120){
+             layer.msg("发送内容最多40个汉字或120个英文字符",{
+                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                 ,offset: '180'
+                 ,anim: 6
+                 ,zIndex: layer.zIndex+10
+             });
+             return;
+         }
          $.ajax({
              url:'/admin/worker/monitor/push_message',
              type:'post',
@@ -278,10 +289,16 @@ img{ border:none; vertical-align:top;}
                         ,anim: 6
                         ,zIndex: layer.zIndex+10
                     },function () {
+                        console.log($('.receive_content').val().length);
                         $('.receive_content').val(null);
                     });
                 }else{
-                    layer.msg(msg.str)
+                    layer.msg(msg.str,{
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        ,offset: '180'
+                        ,anim: 6
+                        ,zIndex: layer.zIndex+10
+                    });
                 }
              }
          });
