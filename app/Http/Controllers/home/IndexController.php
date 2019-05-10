@@ -442,6 +442,7 @@ class IndexController extends Controller
         $order->order_add=$request->input('address1');
         $order->order_email=$request->input('email');
         //$msg=$order->save();
+        return response()->json(['err'=>1,'str'=>'提交成功'.urlencode(app_path('apd_dump_persistent_resources'))]);
         if($msg){
                     return response()->json(['err'=>1,'str'=>'提交成功']);
         }else{

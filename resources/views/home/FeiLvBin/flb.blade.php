@@ -468,7 +468,8 @@
                             <div id="mq">
                     <div id="mq1">        
                     	@foreach($comment as $v)
-                                                <div class="appr-title mqc">
+                             <div class="appr-title mqc">
+
                             <span style="color:red">
                                 *****{{substr($v->com_phone,-4)}}	                            </span>
                             <span style="color:red; margin:0px 3px">
@@ -481,7 +482,7 @@
                             <span style="margin-left:3px; font-size:12px">
                                 {{$v->com_time}}                            </span>
                         </div>
-                        <div class="mqc">
+                        <div class="mqc" com_id="{{$v->com_id}}">
                             <p>
                                 <p>{{$v->com_msg}}</p><p>
                                 @if(!empty($v->com_img))
