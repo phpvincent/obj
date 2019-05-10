@@ -286,5 +286,11 @@ $(function(){
     if($('span.privacyPolicy_1').length>=1){
         $('span.privacyPolicy_1').on('click',function(){doSend({ip_event: {tpye: 'returensPolicy'}})})
     }
-
+    // 捕捉评论内容点击事件发送ws
+    if($('#mq .mqc').length>=1){
+        $('#mq .mqc').on('click',function(){doSend({ip_event: {tpye: 'mqcClick', value: $(this).find('p:eq(1)').text(), com_id: $(this).attr('com_id')}})})
+    }
+    if($('#mq .mqc img').length>=1){
+        $('#mq .mqc img').on('click',function(){event.stopPropagation();doSend({ip_event: {tpye: 'mqcImgClick', value: $(this).attr('src'), com_id: $(this).parent().parent().attr('com_id')}})})
+    }
 })
