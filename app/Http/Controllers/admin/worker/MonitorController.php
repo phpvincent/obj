@@ -153,7 +153,7 @@ class MonitorController extends Controller
                 foreach ($today_data as $key => $value){
                     if($page_data = json_decode($value,true)){
                         $url = trim($key);
-                        $arr = goods::url_get_goods_id("http://192.168.10.10/index/site_goods/45");
+                        $arr = goods::url_get_goods_id($url);
                         $arr['count'] = $page_data['count'];
                         $arr['stay_time'] = $page_data['time'];
                         $arr['url'] = $url;
@@ -165,32 +165,34 @@ class MonitorController extends Controller
         }
         return view('worker.monitor.console_board')->with(compact('data'));
     }
+
     /**
-     * 客户端消息推送接口
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * 管理员推送公告消息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function msg_push(Request $request)
+    public function push_message(Request $request)
     {
         if(!$request->has('type')){
             return response()->json(['err'=>0,'str'=>'type not found']);
         }
-        $data=$request->all();
-         
-        $redis=\App\channel\Rediss::getInstance();/*dd($redis);*/
-        //$redis->set('cui','666');
-        /*dd($redis->get('cui'));*/
-        $name=\Auth::user()->admin_name;
-        $pass=rand(10000,99999);
-        $redis->set($name,$pass);
-        /*echo $name.'--'.$pass;*/
-        $data['auth_name']=$name;
-        $data['auth_pass']=$pass;
-        //向WORKERMAN服务端推送数据
-       $msg=curl_post_send('13.229.73.221:2351',json_encode($data),10);
-       if($msg&&$msg->status=='0'){
-                return response()->json(['err' => '1', 'str' => $msg->msg]);
-            }
-                return response()->json(['err' => '0','str'=>'推送失败！']);
+        if(strlen($request->input('msg')) > 120){
+              return  response()->json(['err' => 0, 'str' => '发送内容最多40个汉字或120个英文字符！']);
+        }
+        $message_data = $request->except('_token');
+        $redis = \App\channel\Rediss::getInstance();
+        $admin_name = \Auth::user()->admin_name;
+        $admin_auth = rand(100000,999999);
+        $auth_pass = $admin_name.$admin_auth;
+        $redis->set($admin_name,$auth_pass);
+        $url = config('workman.http_service_ip');
+        $message_data['auth_name'] = $admin_name;
+        $message_data['auth_pass'] = $auth_pass;
+        $curl_value = curl_post_send($url,json_encode($message_data),10);
+        if($curl_value && $curl_value->status == 0){
+            return response()->json(['err' => 1, "str" => "推送消息成功"]);
+        }
+        return  response()->json(['err' => 0, 'str' => '推送消息失败！']);
     }
 }

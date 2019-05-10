@@ -998,7 +998,7 @@ button.bunble{ margin-top:10px;}
 #contentop li{ width: 90%; display: none;text-align: center;margin: 0 auto;margin-top: 12px;}
 #contentop .action{ display: block;}
 #contentop .usl{width: 100%;height: 110px;background:wheat;border: 1px solid #cccccc;margin-bottom: 10px;text-shadow: none;}			
-#contentop .alo{width: 100%;background: white;border: 1px solid #cccccc;margin-bottom: 10px;text-shadow: none;overflow: hidden;border-radius: 10px;padding: 5px}
+#contentop .alo{width: 100%;background: white;border: 1px solid #cccccc;margin-bottom: 10px;text-shadow: none;overflow: hidden;border-radius: 10px}
 #contentop span{font-size: 1.3em;color: #47B0D7;}
 #contentop .sty1{margin-top: 18px;}
 #contentop .sty2{margin-top: 13px;}
@@ -1011,7 +1011,7 @@ button.bunble{ margin-top:10px;}
 #contentop .alo:hover{cursor:pointer;}
 .cheapactive {
     background: url(/images/gou4.png)no-repeat center !important;
-    background-size: 68% 130% !important;
-    border-color: #5d974d !important;
+    background-size: 50% 85% !important;
+    border-color: #ffac00  !important;
 }
 

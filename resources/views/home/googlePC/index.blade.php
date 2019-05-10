@@ -260,7 +260,7 @@
                                                     <span>Rating:<font color="red"> @for($i=0;$i<$v->com_star;$i++)★@endfor</span>
                                                     <span style="margin-left:3px; font-size:12px">{{$v->com_time}}</span>
                                                 </div>
-                                                <div class="mqc">
+                                                <div class="mqc" com_id="{{$v->com_id}}">
                                                     <p>
                                                         <p>{{$v->com_msg}}</p>
                                                         <p>

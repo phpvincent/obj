@@ -476,7 +476,7 @@ class IndexController extends Controller
         $order_goods_id=url::get_goods($request);
     	if($order_goods_id==false){
             \Log::notice('ip:'.$request->getClientIp().'下单时找不到url对应goods_id:'.$_SERVER['SERVER_NAME']);
-          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0&goods_id='.$order_goods_id]);
     	}
     	$order->order_goods_id=$order_goods_id;
         $goods=goods::where('goods_id',$order_goods_id)->first();
@@ -484,11 +484,11 @@ class IndexController extends Controller
         $url = url::get_site_url($_SERVER['SERVER_NAME'],$order_goods_id);
         if(!$url){
             \Log::notice('ip:'.$request->getClientIp().'下单时url对象为空，下单失败！goods_id:'.$goods->goods_id);
-            return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+            return response()->json(['err'=>0,'url'=>'/endfail?type=0&goods_id='.$order_goods_id]);
         }
         $order->order_goods_url= $url;
         $order->order_goods_admin_id= $goods->goods_admin_id;
-
+        $goods_id=$goods->goods_id;
 //        $urls=url::where('url_goods_id',$goods->goods_id)->first();
         $tel = preg_replace('/\D/','',$request->input('telephone'));  //去掉除数字外的全部其他字符
         $tel = message::AreaCode($goods->goods_blade_type,$tel);
@@ -535,7 +535,7 @@ class IndexController extends Controller
         //判断金额合法性
     	if($price==false||$price<=0){
             \Log::notice('ip:'.$request->getClientIp().'下单时金额非法goods_id:'.$goods->goods_id.'price:'.$price.'num:'.$request->input('specNumber'));
-          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0&goods_id='.$goods_id]);
     	}
         $order_Array = [];
     	//设置订单是否出现姓名，ip，手机号码重复(更改日期2018-09-18)=========================================================
@@ -624,7 +624,7 @@ class IndexController extends Controller
     	//判断商品数合法性
     	if($order_num<=0){
                         \Log::notice('ip:'.$request->getClientIp().'下单时件数错误，下单失败！goods_id:'.$goods->goods_id.'num:'.$order_num);
-          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0&goods_id='.$goods_id]);
     	}
     	$order->order_num=$order_num;
         $cuxiao_msg=\App\cuxiao::where('cuxiao_id',$request->input('cuxiao_id'))->first();
@@ -699,9 +699,8 @@ class IndexController extends Controller
         
     	if(!$msg){
           \Log::notice('ip:'.$request->getClientIp().'订单存储失败order:'.json_encode($order));
-          return response()->json(['err'=>0,'url'=>'/endfail?type=0']);
-    	}else{
-            $goods_id=$goods->goods_id;
+          return response()->json(['err'=>0,'url'=>'/endfail?type=0&goods_id='.$goods_id]);
+    	}else{;
             $order_id=$order->order_id;
         return response()->json(['err'=>1,'url'=>"/endsuccess?type=1&goods_id=$goods_id&order_id=$order_id"]);
             //return view('ajax.endsuccess')->with(['order'=>$order,'url'=>$url,'goods'=>$goods]);
@@ -711,7 +710,17 @@ class IndexController extends Controller
     * 下单失败
     */
     public function endfail(Request $request){
-        return view('home.zhongdong.zdEndFail');    
+        if($request->has('goods_id')){
+            $goods_id = $request->input('goods_id');
+            $url = url::get_site_url($_SERVER['SERVER_NAME'],$goods_id);
+            if($url){
+                return view('home.zhongdong.zdEndFail')->with(['url'=>$url]);
+            }else{
+                return view('home.zhongdong.zdEndFail');
+            }
+        }else{
+            return view('home.zhongdong.zdEndFail');
+        }
     }
 
     public function endsuccess(Request $request){

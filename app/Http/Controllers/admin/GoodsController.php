@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\admin;
+use App\channel\Rediss;
 use App\com_img;
 use App\config_val;
 use App\goods_config;
@@ -2064,7 +2065,27 @@ class GoodsController extends Controller
          if(!isset($msg)||$msg==false){
           return  response()->json(['err' => 0, 'str' => '服务器错误！']);
          }
-          return  response()->json(['err' => 1, 'str' => '新增成功！','data'=>['goods_cheap_id'=>$goods_cheap->goods_cheap_id]]);
+         if($request->has('goods_cheap_is_ws')){
+             $goods_data = $request->except('_token');
+             $goods_data['goods_cheap_id'] = $goods_cheap->goods_cheap_id;
+             $redis = \App\channel\Rediss::getInstance();
+             $admin_name = Auth::user()->admin_name;
+             $admin_auth = rand(100000,999999);
+             $auth_pass = $admin_name.$admin_auth;
+             $redis->set($admin_name,$auth_pass);
+             $url = config('workman.http_service_ip');
+             $data['ip'] = $goods_data['ip'];
+             $data['type'] = 1;
+             unset($goods_data['ip']);
+             $data['msg'] = $goods_data;
+             $data['auth_name'] = $admin_name;
+             $data['auth_pass'] = $auth_pass;
+             $curl_value = curl_post($url,$data);
+             if($curl_value->status == 1){
+                 return  response()->json(['err' => 0, 'str' => '优惠券推送失败！']);
+             }
+         }
+         return  response()->json(['err' => 1, 'str' => '新增成功！']);
       }
     }
     /**
