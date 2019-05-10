@@ -652,8 +652,8 @@ var messagesucce ="A verification code has been sent to your mobile phone. Pleas
 var messageerr =" Fail to send the verification code. Please confirm you mobile No. ";
 var messnetworkerr= " Please check the network condition.";
 var cheapWord = 'Coupon';
-var cheapSatisfy = 'Use coupons once purchase up to:';
-var cheapLose = 'coupons validity:';
+var cheapSatisfy = 'minimum purchase of:';var cheapSatisfyNone = 'No minimum purchase';
+var cheapLose = 'coupon valid in:';
 var cheapMsg = 'You have available coupons!';
 var cheapSa='Please note the use qualification of your coupons!';
    window.onbeforeunload = function() {

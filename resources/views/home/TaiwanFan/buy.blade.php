@@ -636,6 +636,7 @@ var messageerr ="驗證碼發送失敗，請確認您的手機號是否填寫正
 var messnetworkerr= "請檢查網絡情況！";
 var cheapWord = '優惠券';
 var cheapSatisfy = '優惠券可用最低價格：';
+var cheapSatisfyNone = '無使用限制';
 var cheapLose = '優惠券有效期還剩：';
 var cheapMsg = '您有優惠券可以使用！';
 var cheapSa='請註意優惠券使用限額！';

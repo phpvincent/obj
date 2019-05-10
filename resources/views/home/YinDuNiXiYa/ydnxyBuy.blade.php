@@ -670,6 +670,7 @@ var messageerr =" Kode verifikasi gagal. Harap konfirmasi nomor ponsel anda yang
 var messnetworkerr= "Pesanan gagal dikirim, Silahkan cek jaringan internet Anda";
 var cheapWord = 'kupon diskon';
 var cheapSatisfy = 'Harga terendah yang tersedia untuk kupon diskon:';
+var cheapSatisfyNone = 'tidak ada batasan pengguna';
 var cheapLose = 'Kupon ini berlaku untuk periode berikut:';
 var cheapMsg = 'Anda memiliki kupon diskon untuk digunakan!';
 var cheapSa='Harap perhatikan batas penggunaan kupon!';

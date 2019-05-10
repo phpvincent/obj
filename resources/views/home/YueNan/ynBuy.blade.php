@@ -623,6 +623,7 @@ $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
 var cheapWord = 'Phiếu';
 var cheapSatisfy = 'Phiếu thưởng có giá tối thiểu.';
+var cheapSatisfyNone = 'Không sử dụng hạn chế';
 var cheapLose = 'Giảm thời hạn có hiệu lực còn lại';
 var cheapMsg = 'Bạn có thể dùng phiếu';
 var cheapSa='Xin chú ý sử dụng hạn mức phiếu';

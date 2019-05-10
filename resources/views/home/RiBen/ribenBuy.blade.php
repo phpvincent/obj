@@ -587,6 +587,7 @@ $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
 var cheapWord = 'クーポン券';
 var cheapSatisfy = 'クーポンは最低限度があります';
+var cheapSatisfyNone = '使用制限なし';
 var cheapLose = 'クーポン有効期限';
 var cheapMsg = 'クーポンを持っていますが、使えます';
 var cheapSa='クーポンの使用限度額に注意してください';

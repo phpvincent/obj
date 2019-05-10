@@ -553,7 +553,7 @@ var subtSatisfy =function(el){
     if(el.goods_cheap_type==='2'){
         return cheapSatisfy+'<span>'+moneycoin+el.goods_cheap_remark+'</span>'
     }else{
-        return ''
+        return cheapSatisfyNone
     }
 }
 cheapInternum++
