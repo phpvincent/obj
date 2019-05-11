@@ -551,9 +551,9 @@ var msg =function(el){
 // 优惠券是否可用
 var subtSatisfy =function(el){
     if(el.goods_cheap_type==='2'){
-        return cheapSatisfy+'<span>'+moneycoin+el.goods_cheap_remark+'</span>'
+        return cheapSatisfy+'<span style="font-size: 14px;">'+moneycoin+el.goods_cheap_remark+'</span>'
     }else{
-        return ''
+        return cheapSatisfyNone
     }
 }
 cheapInternum++

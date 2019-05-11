@@ -593,6 +593,7 @@ $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
 var cheapWord = 'คูปอง';
 var cheapSatisfy = 'คูปองราคาต่ำสุด:';
+var cheapSatisfyNone = 'ไม่จำกัดการใช้';
 var cheapLose = 'คูปองหมดอายุ:';
 var cheapMsg = 'คุณมีคูปองที่คุณสามารถใช้ได้!';
 var cheapSa='โปรดทราบวงเงินการใช้คูปอง!';

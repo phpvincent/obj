@@ -184,19 +184,25 @@ clearInterval(heartbeat)
   //监听下单页面电话号码填写和邮箱填写
 $(function(){
     // 捕捉下单页面用户填写电话或者email
+    $('#apprForm input[name="name"]').blur(function(){ send('name') })
+    $('#apprForm input[name="phone"]').blur(function(){ send('phone') })
     $('input[name="telephone"]').blur(function(){ send('telephone') })
     $('input[name="email"]').blur(function(){ send('email') })
     function send(type){
+        console.log('laila',ip_msg)
         var ipmsg = {}
-        ipmsg.telephone =  ($('input[name="telephone"]').val() === '') ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
-        ipmsg.email =  ($('input[name="email"]').val() === '') ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
-        if(ipmsg.telephone || ipmsg.email) {
+        ipmsg.type = type
+        ipmsg.name =  ($('#apprForm input[name="name"]').val() === '' || $('#apprForm input[name="name"]').val() === undefined) ? (ip_msg.name?ip_msg.name:'') : $('#apprForm input[name="name"]').val()
+        ipmsg.phone =  ($('#apprForm input[name="phone"]').val() === '' || $('#apprForm input[name="phone"]').val() === undefined) ? (ip_msg.phone?ip_msg.phone:'') : $('#apprForm input[name="phone"]').val()
+        ipmsg.telephone =  ($('input[name="telephone"]').val() === '' || $('input[name="telephone"]').val() === undefined) ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
+        ipmsg.email =  ($('input[name="email"]').val() === '' || $('input[name="email"]').val() === undefined) ? (ip_msg.email?ip_msg.email:'') : $('input[name="email"]').val()
+        if(ipmsg.telephone || ipmsg.email || ipmsg.phone || ipmsg.name) {
             doSend({ip_msg:ipmsg})
             Cookies.set('ip_msg', ipmsg,  { expires: 1, path: '/' })
         }
     }
     // 捕捉home页用户须知是否在视口停留
-    if($('#detial-table').length>=1){
+    if($('#detial-table').length>=1 || $('#mq').length>=1){
         var windowH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight // 浏览器高度兼容写法
         function GetRect (element) {
             var rect = element.getBoundingClientRect() // 距离视窗的距离
@@ -206,13 +212,19 @@ $(function(){
               bottom: rect.bottom - top
             }
           }
+          // 用户须知参数
           var scrollNum = 0
           var jiNum = 0
           var counJiNum = 0
           var scrollinterval=null
+          // 评论参数
+          var scrollNumMq = 0
+          var counJiNumMq = 0
+          var scrollSettimeout = null
           function scrollFun () {
+           // 用户须知监听
             var obj = GetRect(document.getElementById('detial-table'))
-            console.log('obj',obj,'winh',windowH)
+            // console.log('obj',obj,'winh',windowH)
             if (obj.top < windowH-50 && obj.bottom > 50) { // 在视口
                 scrollNum++
                 if(scrollNum === 1){
@@ -220,7 +232,7 @@ $(function(){
                   scrollinterval = setInterval(function(){
                     jiNum++
                     if(jiNum >= 11){
-                      console.log('在视口11秒了')
+                    //   console.log('在视口11秒了')
                       counJiNum +=jiNum 
                       clearInterval(scrollinterval)
                       var senddatas = {}
@@ -238,6 +250,28 @@ $(function(){
                 jiNum = 0
             }
 
+           // 评论监听
+           var objmq = GetRect(document.getElementById('mq'))
+            //  console.log('obj',objmq)
+           if (objmq.top < windowH-50 && objmq.bottom > 50) { // 在视口
+               scrollNumMq++
+               if(scrollNumMq === 1){
+               //   console.log('detial-table正在视口中')
+                 scrollSettimeout = setTimeout(function(){
+                     counJiNumMq += 11
+                     var senddatas = {}
+                     senddatas.tpye = 'comment'
+                     senddatas.countTime = counJiNumMq
+                    //  console.log('在视口11秒了',senddatas)
+                     doSend({ip_event: senddatas})
+                 },11000)
+               }
+           }else{
+               clearTimeout(scrollSettimeout)
+               scrollNumMq = 0
+           }
+
+
           }
           $(document).scroll(scrollFun)
         // document.addEventListener('touchmove',scrollFun)
@@ -245,5 +279,18 @@ $(function(){
         //     scrollFun()
         //   }
     }
-
+    //捕捉点击事件发送ws
+    if($('th.privacyPolicy').length>=1){
+        $('th.privacyPolicy').on('click',function(){doSend({ip_event: {tpye: 'privacyPolicy'}})})
+    }
+    if($('span.privacyPolicy_1').length>=1){
+        $('span.privacyPolicy_1').on('click',function(){doSend({ip_event: {tpye: 'returensPolicy'}})})
+    }
+    // 捕捉评论内容点击事件发送ws
+    if($('#mq .mqc').length>=1){
+        $('#mq .mqc').on('click',function(){doSend({ip_event: {tpye: 'mqcClick', value: $(this).find('p:eq(1)').text(), com_id: $(this).attr('com_id')}})})
+    }
+    if($('#mq .mqc img').length>=1){
+        $('#mq .mqc img').on('click',function(){event.stopPropagation();doSend({ip_event: {tpye: 'mqcImgClick', value: $(this).attr('src'), com_id: $(this).parent().parent().attr('com_id')}})})
+    }
 })

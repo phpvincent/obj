@@ -638,6 +638,7 @@ var messageerr ="验证码发送失败，请确认您手机号是否填写正确
 var messnetworkerr= "请检查网络情况！";
 var cheapWord = '优惠券';
 var cheapSatisfy = '优惠券可用最低价格：';
+var cheapSatisfyNone = '无使用限制'
 var cheapLose = '优惠券有效期还剩：';
 var cheapMsg = '您有优惠券可以使用！';
 var cheapSa='请注意优惠券使用限额！';

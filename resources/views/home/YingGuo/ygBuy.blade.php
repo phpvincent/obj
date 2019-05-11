@@ -604,8 +604,8 @@ var payFunGo= function (){
 $('#pay').bind('click',payFun);//封装订单提交函数；
 $('#payOk').bind('click',payFunGo);//封装订单提交
 var cheapWord = 'Coupon';
-var cheapSatisfy = 'Use coupons once purchase up to:';
-var cheapLose = 'coupons validity:';
+var cheapSatisfy = 'minimum purchase of:';var cheapSatisfyNone = 'No minimum purchase';
+var cheapLose = 'coupon valid in:';
 var cheapMsg = 'You have available coupons!';
 var cheapSa='Please note the use qualification of your coupons!';
    window.onbeforeunload = function() {
