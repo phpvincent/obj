@@ -486,10 +486,41 @@ if (!function_exists('get_browse_info')){
     function get_browse_info(){
         $redis = \App\channel\Rediss::getInstance();
         if($redis->exists('today_time')){
+            $today_time_data = $redis->hGetAll('today_time');
+            $data = [];
+            if(!empty($today_time_data)){
+                foreach ($today_time_data as $key => $value){
+                    if($page_data = json_decode($value,true)){
+                        $url = trim($key);
+                        $arr = \App\goods::url_get_goods_id($url);
+                        $arra['goods_vis_count_num'] = $page_data['count'];
+                        $arra['goods_vis_count_avg_time'] = $page_data['time'];
+                        $arra['goods_vis_count_url'] = $url;
+                        $arra['goods_vis_count_last_time'] = $page_data['date'];
+                        $arra['goods_vis_count_goods_id'] = $arr['goods_id'] ? $arr['goods_id'] : null;
+                        array_push($data,$arra);
+                    }
+                }
+                $goods_vis_counts = \DB::table('goods_vis_count')->insert($data);
+                if($goods_vis_counts){
+                    \Log::info(date('Y-m-d')."访问统计数据插入数据库成功");
+                }else{
+                    \Log::info(date('Y-m-d')."访问统计数据插入数据库失败");
+                }
+                unset($data);
+            }
             $redis->del('today_time');
         }
-//       $start = date('Y-m-d',time()-24*3600).' 00:00:00';
-//       $end = date('Y-m-d').' 00:00:00';
+
+        //删除2天前的数据统计
+        $date_time = date("Y-m-d",strtotime("-2 day"))." 00:00:00";
+        $bool = \App\goods_vis_count::where('goods_vis_count_last_time','<=',$date_time)->delete();
+        if($bool){
+            \Log::info("清除两天前访问统计数据成功");
+        }
+
+
+        //背锅日志数据的处理（保存30day） 访问记录日志（保存7day）
        $start = date('Y-m-d',time()).' 00:00:00';
        $start = date('Y-m-d H:i:s',strtotime($start)-60);
        $start_time = date('Y-m-d',time()-9*24*3600).' 00:00:00';
@@ -500,7 +531,7 @@ if (!function_exists('get_browse_info')){
            $name = date('Y-m-d',time()-30*24*3600).'OperationLog.log';
            $filepath = __DIR__.'/../storage/logs/beiGuo/' . $name;
            if(file_exists($filepath)){
-               @unlink($filepath); //删除7日前操作日志
+               @unlink($filepath); //删除30日前背锅日志
            }
        }catch(\Exception $e){
            \Log::notice('操作日志记录报错--'.$e);
