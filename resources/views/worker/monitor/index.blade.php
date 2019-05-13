@@ -72,7 +72,7 @@ img{ border:none; vertical-align:top;}
           </div>
       </div>
       <div class="layui-inline">
-      <button class="layui-btn" id="reload1">搜索</button>
+      <button class="layui-btn" id="reload1" type="button">搜索</button>
       </div>
       <div class="layui-inline">
           <label class="layui-form-label">总人数:</label>
