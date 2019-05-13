@@ -34,9 +34,9 @@ img{ border:none; vertical-align:top;}
 /* CSS 活动的公共样式 */
 .course{margin-top:10px}
 .course_nr li:hover {cursor:pointer;}
-.course{ height:145px; background:#FFF;}
-.course_nr{height:55px; background:url(/images/ico9.gif) repeat-x center;}
-.course_nr li{ float:left; background:url(/images/ico10.gif) no-repeat center top; padding-top:30px; width:100px; text-align:center; position:relative; margin-top:10px;}
+.course{  background:#FFF;}
+/* .course_nr{ background:url(/images/ico9.gif) repeat-x center;} */
+.course_nr li{ padding-right: 6px;float:left; background:url(/images/ico10.gif) no-repeat center top; padding-top:30px; width:100px; text-align:center; position:relative; margin-top:10px;padding-bottom:60px}
 .shiji{ position:absolute; width:100%; left:0; top:-19px; display:none;}
 .shiji h1{ height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/images/ico11.gif) no-repeat center top; margin-bottom:8px;}
 .shiji p{ line-height:14px; color:#999;}
@@ -72,7 +72,7 @@ img{ border:none; vertical-align:top;}
           </div>
       </div>
       <div class="layui-inline">
-      <button class="layui-btn" id="reload1">搜索</button>
+      <button class="layui-btn" id="reload1" type="button">搜索</button>
       </div>
       <div class="layui-inline">
           <label class="layui-form-label">总人数:</label>
@@ -423,10 +423,10 @@ img{ border:none; vertical-align:top;}
                         //首页大事记
                         $('.course_nr2 li').hover(function(){
                             $(this).find('.shiji').stop().slideDown(600);
-                            $(this).find('span').hide();
+                            $(this).find('span').css('visibility','hidden');
                         },function(){
                             $(this).find('.shiji').stop().slideUp(100);
-                            $(this).find('span').show();
+                            $(this).find('span').css('visibility','visible');
                         });
                     });
                     // 优惠券推送
