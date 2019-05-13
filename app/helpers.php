@@ -484,7 +484,7 @@ if (!function_exists('operation_log')){
 if (!function_exists('get_info_dd')){
     function get_info_dd(){
         //背锅日志数据的处理（保存30day） 访问记录日志（保存7day）
-        $start = date('Y-m-d',strtotime("-1 day")).' 00:00:00';
+        $start = date('Y-m-d',strtotime("-2 day")).' 00:00:00';
         $start = date('Y-m-d H:i:s',strtotime($start)-60);
         try{
             $data = \App\vis::visBrowseCount($start); //获取昨天浏览量、购买量、下单量
