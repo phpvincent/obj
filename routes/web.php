@@ -76,6 +76,9 @@ Route::middleware(['auth:check','checkadmin'])->group(function(){
     	Auth::logout();
     	return redirect('/admin/login');
     });
+    Route::get('/test',function(){
+        get_info_dd();
+    });
 	Route::get('/admin/index','admin\IndexController@index');
 	Route::get('admin','admin\IndexController@index');
 	Route::get('/admin/welcome','admin\IndexController@welcome');
