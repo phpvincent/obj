@@ -192,6 +192,7 @@ $(function(){
         console.log('laila',ip_msg)
         var ipmsg = {}
         ipmsg.type = type
+        ipmsg.router = locHref
         ipmsg.name =  ($('#apprForm input[name="name"]').val() === '' || $('#apprForm input[name="name"]').val() === undefined) ? (ip_msg.name?ip_msg.name:'') : $('#apprForm input[name="name"]').val()
         ipmsg.phone =  ($('#apprForm input[name="phone"]').val() === '' || $('#apprForm input[name="phone"]').val() === undefined) ? (ip_msg.phone?ip_msg.phone:'') : $('#apprForm input[name="phone"]').val()
         ipmsg.telephone =  ($('input[name="telephone"]').val() === '' || $('input[name="telephone"]').val() === undefined) ? (ip_msg.telephone?ip_msg.telephone:'') : $('input[name="telephone"]').val()
@@ -236,6 +237,7 @@ $(function(){
                       counJiNum +=jiNum 
                       clearInterval(scrollinterval)
                       var senddatas = {}
+                      senddatas.router = locHref
                       senddatas.tpye = 'detial'
                       senddatas.countTime = counJiNum
                       doSend({ip_event: senddatas})
@@ -260,6 +262,7 @@ $(function(){
                  scrollSettimeout = setTimeout(function(){
                      counJiNumMq += 11
                      var senddatas = {}
+                     senddatas.router = locHref
                      senddatas.tpye = 'comment'
                      senddatas.countTime = counJiNumMq
                     //  console.log('在视口11秒了',senddatas)
@@ -281,16 +284,16 @@ $(function(){
     }
     //捕捉点击事件发送ws
     if($('th.privacyPolicy').length>=1){
-        $('th.privacyPolicy').on('click',function(){doSend({ip_event: {tpye: 'privacyPolicy'}})})
+        $('th.privacyPolicy').on('click',function(){doSend({ip_event: {router: locHref, tpye: 'privacyPolicy'}})})
     }
     if($('span.privacyPolicy_1').length>=1){
-        $('span.privacyPolicy_1').on('click',function(){doSend({ip_event: {tpye: 'returensPolicy'}})})
+        $('span.privacyPolicy_1').on('click',function(){doSend({ip_event: {router: locHref, tpye: 'returensPolicy'}})})
     }
     // 捕捉评论内容点击事件发送ws
     if($('#mq .mqc').length>=1){
-        $('#mq .mqc').on('click',function(){doSend({ip_event: {tpye: 'mqcClick', value: $(this).find('p:eq(1)').text(), com_id: $(this).attr('com_id')}})})
+        $('#mq .mqc').on('click',function(){doSend({ip_event: {router: locHref, tpye: 'mqcClick', value: $(this).find('p:eq(1)').text(), com_id: $(this).attr('com_id')}})})
     }
     if($('#mq .mqc img').length>=1){
-        $('#mq .mqc img').on('click',function(){event.stopPropagation();doSend({ip_event: {tpye: 'mqcImgClick', value: $(this).attr('src'), com_id: $(this).parent().parent().attr('com_id')}})})
+        $('#mq .mqc img').on('click',function(){event.stopPropagation();doSend({ip_event: {router: locHref, tpye: 'mqcImgClick', value: $(this).attr('src'), com_id: $(this).parent().parent().attr('com_id')}})})
     }
 })
