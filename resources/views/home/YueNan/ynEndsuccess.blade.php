@@ -1,4 +1,11 @@
 <head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="320" name="MobileOptimized" />
+        <meta content="telephone=no" name="format-detection" />
 <link href="/css/mui.min.css" rel="stylesheet">
 <link href="/css/iconfont.css" rel="stylesheet">
 <link href="/css/base.css" rel="stylesheet">
@@ -10,6 +17,11 @@
 <link href="/css/temporary.css" rel="stylesheet">
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/layer/layer.js"></script>
+@if(isset($is_monitor)&&$is_monitor==1&&in_array('6',explode(',',\App\worker_monitor::first(['worker_monitor_route_type'])['worker_monitor_route_type'])))
+            <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
+        @endif
 @if($order['pix_event'])
       @if($goods->goods_pix!=null&&$goods->goods_pix!='')    
     <!-- Facebook Pixel Code -->
@@ -75,7 +87,10 @@
     <div class="pay_success">
             <h2 style="padding:16px 0px 10px 0px; text-align:center; color:#3cba92">đặt hàng thành công</h2>
                             <div style="padding:15px;">
-                            số đơn đặt hàng của quý khách:<font color="red"style="user-select: text;">{{$order->order_single_id}}</font><br>
+                            số đơn đặt hàng của quý khách:<font color="red"style="user-select: text;" id="copyOrder" >{{$order->order_single_id}}</font>
+                <img src="/img/copy.png" style="height: 15px;width: 15px;" onclick="copyOrder()">
+                <input type="text" value="" id="copyOrderTextarea" style="position: absolute;top: 0;left: 0;opacity: 0;z-index: -10;">
+                            <br>
                             phải thanh toán :<font color="red">{{\App\currency_type::where('currency_type_id',$goods->goods_currency_id)->first()['currency_type_name']}} {{price_format($order->order_price)}}</font>
                             </div>
                                 <div style="text-align:left;padding:10px 15px 20px">
@@ -91,5 +106,13 @@
         var u = 'http://{{$url}}';
     location.href=u;
         //window.location.href=u;
+    }
+    function copyOrder (){
+        var Url2 = document.getElementById("copyOrderTextarea");
+        var text = document.getElementById("copyOrder").innerText;
+            Url2.value = text
+            Url2.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            layer.msg("Sao chép thành công");
     }
 </script>

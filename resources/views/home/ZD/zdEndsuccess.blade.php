@@ -18,8 +18,9 @@
 <link href="/css/pay.css" rel="stylesheet">
 <link href="/css/JS5.css" rel="stylesheet" type="text/css">
 <link href="/css/page-success.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/layer/layer.js"></script>
 @if(isset($is_monitor)&&$is_monitor==1&&in_array('6',explode(',',\App\worker_monitor::first(['worker_monitor_route_type'])['worker_monitor_route_type'])))
-            <script type="text/javascript" src="/js/jquery.min.js"></script>
             <script type="text/javascript" src="/js/moudul/websockets.js?v=1.0"></script>
         @endif
 <style>
@@ -138,7 +139,9 @@
                 <span class="tips1">:اسلوب الدفع</span>
                 </li>
                 <li>
-                <span class="tips2">{{$order->order_single_id}}</span>
+                <img src="/img/copy.png" style="height: 15px;width: 15px;" onclick="copyOrder()">
+                <span class="tips2" id="copyOrder" >{{$order->order_single_id}}</span>
+                <input type="text" value="" id="copyOrderTextarea" style="position: absolute;top: 0;left: 0;opacity: 0;z-index: -10;">
                 <span class="tips1">:رقم الطلب الخاص بك</span>
                 </li>
                 <li>
@@ -174,5 +177,14 @@
         var u = 'http://{{$url}}';
     location.href=u;
         //window.location.href=u;
+    }
+    function copyOrder (){
+        var Url2 = document.getElementById("copyOrderTextarea");
+        var text = document.getElementById("copyOrder").innerText;
+            Url2.value = text
+            Url2.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            // mui.toast('已复制好，可贴粘。')
+            layer.msg("نسخ ب النجاح");
     }
 </script>

@@ -28,7 +28,7 @@
   .close{
     width: 14px;
     height: 14px;
-    background-position: 1px -40px;
+    background-position: 1px -40px!important;
     float: right;
     cursor: pointer;
     margin-right: 10px;
