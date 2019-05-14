@@ -35,9 +35,13 @@ class Kernel extends ConsoleKernel
                    /* \Log::notice('check');*/
                  })->dailyAt('3:00');
                  $schedule->call(function(){
-                    get_browse_info();
+                    get_browse_info(); //处理今日访问数据
                    /* \Log::notice('check');*/
                  })->dailyAt('23:59');
+                $schedule->call(function(){
+                    today_count_data();  //处理今日统计数据
+                    /* \Log::notice('check');*/
+                })->dailyAt('23:59');
                  $schedule->call(function(){
                     sendMessage::message_notice();
                  })->hourly();

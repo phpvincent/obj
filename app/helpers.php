@@ -482,8 +482,8 @@ if (!function_exists('operation_log')){
     }
 }
 
-if (!function_exists('get_browse_info')){
-    function get_browse_info(){
+if(!function_exists('today_count_data')){
+    function today_count_data(){
         $redis = \App\channel\Rediss::getInstance();
         if($redis->exists('today_time')){
             $today_time_data = $redis->hGetAll('today_time');
@@ -518,11 +518,14 @@ if (!function_exists('get_browse_info')){
         if($bool){
             \Log::info("清除两天前访问统计数据成功");
         }
+    }
+}
 
-
+if (!function_exists('get_browse_info')){
+    function get_browse_info(){
         //背锅日志数据的处理（保存30day） 访问记录日志（保存7day）
        $start = date('Y-m-d',time()).' 00:00:00';
-       $start = date('Y-m-d H:i:s',strtotime($start)-60);
+       $start = date('Y-m-d H:i:s',strtotime($start)-60-24*60*60);
        $start_time = date('Y-m-d',time()-9*24*3600).' 00:00:00';
        $end_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
        try{
@@ -533,6 +536,7 @@ if (!function_exists('get_browse_info')){
            if(file_exists($filepath)){
                @unlink($filepath); //删除30日前背锅日志
            }
+           \Log::notice('操作日志记录成功');
        }catch(\Exception $e){
            \Log::notice('操作日志记录报错--'.$e);
        }
