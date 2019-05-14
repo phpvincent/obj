@@ -497,7 +497,7 @@ if (!function_exists('get_browse_info')){
                         $arra['goods_vis_count_avg_time'] = $page_data['time'];
                         $arra['goods_vis_count_url'] = $url;
                         $arra['goods_vis_count_last_time'] = $page_data['date'];
-                        $arra['goods_vis_count_goods_id'] = $arr['goods_id'] ? $arr['goods_id'] : null;
+                        $arra['goods_vis_count_goods_id'] = $arr['goods_id'] ? intval($arr['goods_id']) : null;
                         array_push($data,$arra);
                     }
                 }
