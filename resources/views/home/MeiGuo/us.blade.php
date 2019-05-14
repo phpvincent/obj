@@ -23,7 +23,7 @@
 <!-- Facebook Pixel Code -->
 <!-- End Facebook Pixel Code -->
         <link href="/css/JS5.css" rel="stylesheet" type="text/css">
-        <script src="/js/jquery.min.js"></script>
+        <!-- <script src="/js/jquery.min.js"></script> -->
         <script src="/js/mui.min.js" type="text/javascript"></script>
         <script src="/js/base.js" id="baseScript" path="http://oatsbasf.3cshoper.com"></script>
         <!-- <script src="/js/mui.lazyload.js"></script> -->
