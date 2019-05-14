@@ -20,7 +20,7 @@
         <link href="/css/temporary.css" rel="stylesheet">
         <link href="/css/pay.css" rel="stylesheet">
         <link href="/css/JS5.css" rel="stylesheet" type="text/css">
-        <!-- <script src="/js/jquery.min.js"></script> -->
+        <script src="/js/jquery.min.js"></script>
         <script src="/js/mui.min.js" type="text/javascript"></script>
         <script src="/js/base.js" id="baseScript" path="http://oatsbasf.3cshoper.com"></script>
         <script src="/js/mui.lazyload.js"></script>
