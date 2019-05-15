@@ -525,7 +525,7 @@ if (!function_exists('get_browse_info')){
     function get_browse_info(){
         //背锅日志数据的处理（保存30day） 访问记录日志（保存7day）
        $start = date('Y-m-d',time()).' 00:00:00';
-       $start = date('Y-m-d H:i:s',strtotime($start)-60-24*60*60);
+       $start = date('Y-m-d H:i:s',strtotime($start)-60);
        $start_time = date('Y-m-d',time()-9*24*3600).' 00:00:00';
        $end_time = date('Y-m-d',time()-8*24*3600).' 00:00:00';
        try{
