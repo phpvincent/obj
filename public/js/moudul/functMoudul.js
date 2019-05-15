@@ -58,14 +58,14 @@ function addAttribu(cuxiao_num,a) {
                $(item).children(":first").children(":first").remove();
                 addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse mui-active"><a class="mui-navigate-right" href="javascript:void(0)"><strong>'+itemNum+'</strong></a> <div class="mui-collapse-content" style="color: black;">'+$(item).prop("outerHTML")+'</div></li></ul>'
                 // console.log($(item).prop("outerHTML"))
-                if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
+                if(flag){ $("#goods_config_div").append(addhtml);computedHeight() }            //插入一组商品的所有属性；
                 $(item).remove(); 
             });
             //循环完的dom里 input默认回选中第一个input，所以让有ischeck的input，click一下；
             $("#goods_config_div .ischeck").parent().find("input").click();
             //循环完前四个from；再到第五个；
             addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse mui-active"><a class="mui-navigate-right" href="javascript:void(0)"><strong>'+jianshu(eNum)+'</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
-            if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
+            if(flag){ $("#goods_config_div").append(addhtml);computedHeight() }            //插入一组商品的所有属性；
 
             $("#goods_config_div img").css("display","none");    //属性第一组显示图片其他不显示
             // $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
@@ -74,7 +74,7 @@ function addAttribu(cuxiao_num,a) {
             return;
          }else if($("#goods_config_div form").length>4){
             addhtml= '<ul class="mui-table-view"> <li class="mui-table-view-cell mui-collapse mui-active"><a class="mui-navigate-right" href="javascript:void(0)"><strong>'+jianshu(eNum)+'</strong></a> <div class="mui-collapse-content" style="color: black;"><form id="'+e+'">'+ color25+'</form></div></li></ul>';
-            if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
+            if(flag){ $("#goods_config_div").append(addhtml);computedHeight() }            //插入一组商品的所有属性；
             $("#goods_config_div img").css("display","none");    //属性第一组显示图片其他不显示
             // $("#goods_config_div img").parent().css({"width":"","margin-left":"25px","padding":"0 6px"});
             $("#goods_config_div ul:first img").css("display","inline-block");
@@ -85,7 +85,11 @@ function addAttribu(cuxiao_num,a) {
          }
          
 
-         if(flag){ $("#goods_config_div").append(addhtml); }            //插入一组商品的所有属性；
+         if(flag){
+              $("#goods_config_div").append(addhtml);
+              //每新增一些属性html 就检查高度重新找最高高度
+              computedHeight()
+            }            //插入一组商品的所有属性；
          // addClickEven()    
                                                //每增加一組屬性節點，監聽一次ischeck；
           }
@@ -105,12 +109,37 @@ function addAttribu(cuxiao_num,a) {
                $("#goods_config_div ul").remove();
                $("#goods_config_div").children(":last-child").remove();
                formnum--
+              //每新增一些属性html 就检查高度重新找最高高度
+              computedHeight()
              }else{
                 $("#goods_config_div").children(":last-child").remove();
                 formnum--
              }
 
          }else {return  }
+     }
+     function computedHeight (){
+        var countheightsetinterval = setInterval(function(){
+            var cuntnum = 0
+            $('#goods_config_div img').each(function(){ if(this.complete){cuntnum++} })
+            console.log('jishu',cuntnum)
+            if (cuntnum === $('#goods_config_div img').length){
+
+                clearInterval(countheightsetinterval)
+                //判断img都加载完成再执行计算设定 高度
+                console.log('diaoyongle')
+                $.each($('#goods_config_div form'),function(i,item){
+                 $.each($(item).find('div'), function(i,item){
+                    $(item).find('.uncheck, .ischeck').css('height','auto')
+                    var maxheight=0
+                   $.each($(item).find('.uncheck, .ischeck'),function(i,item){
+                      if($(item).height() > maxheight ){ maxheight = $(item).height() }
+                   })
+                   $(item).find('.uncheck, .ischeck').css('height',maxheight)
+                 })
+                })
+            }
+           },300)
      }
 };
 var a=null,basePrice=null,moneycoin=null,realPrice=null;

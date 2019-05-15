@@ -877,9 +877,11 @@ button.bunble{ margin-top:10px;}
 
 .uncheck{
 	border:2px solid #ccc;
+	vertical-align: bottom;
 }
 .ischeck{
 	border:2px solid red;
+	vertical-align: bottom;
 }
  /* 小手动画 */
 #addcart .addcart-quantity img {
