@@ -743,6 +743,7 @@ class IndexController extends Controller
                 $order['order_isfirst']='0';
                 $order->save();  
                 $order['pix_event']=true;//首次展示，触发像素成功结算事件
+                event(new App\Events\OrderNotice($order));
                 //首次展示，触发邮件推送
                 /*if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
                     //推送到发送邮件队列
