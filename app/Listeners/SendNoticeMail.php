@@ -31,11 +31,12 @@ class SendNoticeMail
                     //推送到发送邮件队列
                             if(config('queue')['default']!='sync'){
                                   try{$emailsend=SendHerbEmail::dispatch($order);}catch(\Exception $e){\Log::notice(json_encode($e));};
+                                  \App\order::where('order_id',$order->order_id)->update(['order_isemail'=>'1']);
+                                  \Log::notice($order['order_email']."是合法邮箱，推送至队列中");
                             }else{
                                 \Log::notice('队列驱动为同步驱动，取消发送邮件');
                             }
-                            \App\order::where('order_id',$order->order_id)->update(['order_isemail'=>'1']);
-                            \Log::notice($order['order_email']."是合法邮箱，推送至队列中");
+                            
         }else{
                     //邮件不合法,不发送
                             \App\order::where('order_id',$order->order_id)->update(['order_isemail'=>'0']);
