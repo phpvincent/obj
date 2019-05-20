@@ -29,7 +29,7 @@ class SendNoticeMail
         $order=$event->order;
         if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
                     //推送到发送邮件队列
-                            if(config('queue')['default']!='sync'){
+                            if(config('queue')['default']!='sync'){$emailsend=SendHerbEmail::dispatch($order);
                                   try{$emailsend=SendHerbEmail::dispatch($order);}catch(\Exception $e){\Log::notice(json_encode($e));};
                                   \App\order::where('order_id',$order->order_id)->update(['order_isemail'=>'1']);
                                   \Log::notice($order['order_email']."是合法邮箱，推送至队列中");
