@@ -5,7 +5,7 @@
 <script src="/layer/layer.js"></script>
 <script language="javascript"type="text/javascript">  
     //var wsUri ="ws://echo.websocket.org/";
-     var wsUri ="ws://13.250.109.37:2350/";
+     var wsUri ="ws://192.168.10.166:8282/";
     var output;  
     
     function init() { 
@@ -32,7 +32,7 @@
  
     function onOpen(evt) { 
         writeToScreen("第一次打开"); 
-        //doSend("WebSocket rocks"); 
+        doSend("WebSocket rocks"); 
     }  
  
     function onClose(evt) { 
@@ -50,8 +50,12 @@
  
     function doSend(message) { 
         writeToScreen("SENT: " + message);  
-        websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":"info"}'})); 
-    }  
+        websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":"info"}','user':'admin','type':'auth','admin_name':'root','admin_password':'123456','language':'CHI'})); 
+    } 
+    function sendMsgg(message) { 
+        writeToScreen("SENT: " + message);  
+        websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":"'+message+'"}','msg':""+message+"",'user':'admin','type':'','touser':'all','country':'台湾省','language':'CHI'})); 
+    }   
  	function doNotice(message) { 
         writeToScreen("SENT: " + message);  
         websocket.send(JSON.stringify(message)); 
@@ -85,5 +89,5 @@
 <div id="output"></div>  
 <textarea id="send" name="" placeholder="send msg" style="width: 700px;height: 500;"> </textarea><br>
 <input type="text" id="sendip" name="" placeholder="ip msg">
-<button onclick="sendmsg()">send message</button>
+<button onclick="sendMsgg($('#send').val())">send message</button>
 </html>

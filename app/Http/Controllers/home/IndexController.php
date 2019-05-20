@@ -744,7 +744,7 @@ class IndexController extends Controller
                 $order->save();  
                 $order['pix_event']=true;//首次展示，触发像素成功结算事件
                 //首次展示，触发邮件推送
-                if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
+                /*if(filter_var($order->order_email,FILTER_VALIDATE_EMAIL)!=false){
                     //推送到发送邮件队列
                             if(config('queue')['default']!='sync'){
                                   try{$emailsend=SendHerbEmail::dispatch($order);}catch(\Exception $e){\Log::notice(json_encode($e));};
@@ -757,7 +757,7 @@ class IndexController extends Controller
                     //邮件不合法,不发送
                             \App\order::where('order_id',$request->order_id)->update(['order_isemail'=>'0']);
                              \Log::notice($order['order_email']."不是合法邮箱，取消推送至队列中");
-                }
+                }*/
              }else{
                 $order['pix_event']=false;//非首次展示，不触发像素事件
              }
