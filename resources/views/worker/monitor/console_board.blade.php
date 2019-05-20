@@ -81,6 +81,10 @@ span:first-child
   border-radius: 0 20px 0 20px;
   background-color:#efba72
 }
+.ft-l-green img{
+  width: 200px;
+    height: 200px;
+}
 </style>
   <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
@@ -517,62 +521,65 @@ span:first-child
               +'</blockquote>'
         }
         }else if(message.msg_type =='data'){
-          if(msg.msg.msg=='输入联系方式'){
-            if(msg.msg.hasOwnProperty('route')){
+          msg=JSON.parse(msg.msg);
+          if(msg.msg=='输入联系方式'){
+            if(msg.hasOwnProperty('route')){
               var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r put_ul_click ft-l-blue" data-msg=\''+message.msg+'\'>'
                 +'<div class="layui-block details" style="color:#ea6f5a">'
-                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>电话: </span>'+msg.msg.ip_msg.telephone+'<span>邮箱: </span>'+msg.msg.ip_msg.email
+                  +'<span>操作: </span>'+msg.msg+'<span>I P: </span>'+msg.ip+'<span>时间: </span>'+msg.time+'<span>电话: </span>'+msg.ip_msg.telephone+'<span>邮箱: </span>'+msg.ip_msg.email
                 +'</div>'
                 +'<div class="layui-block details">'
-                  +'<span>路由: </span>'+msg.msg.route
+                  +'<span>路由: </span>'+msg.route
                 +'</div>'
               +'</blockquote>'
             }else{
               var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r ft-l-blue">'
                 +'<div class="layui-block details" style="color:#ea6f5a">'
-                  +'<span>操作: </span>'+msg.msg.msg+'<span>I P: </span>'+msg.msg.ip+'<span>时间: </span>'+msg.msg.time+'<span>电话: </span>'+msg.msg.ip_msg.telephone+'<span>邮箱: </span>'+msg.msg.ip_msg.email
+                  +'<span>操作: </span>'+msg.msg+'<span>I P: </span>'+msg.ip+'<span>时间: </span>'+msg.time+'<span>电话: </span>'+msg.ip_msg.telephone+'<span>邮箱: </span>'+msg.ip_msg.email
                 +'</div>'
               +'</blockquote>'
             }
         }
         }else if(message.msg_type =='event'){
-              if(msg.msg.ip_event.tpye == 'mqcClick'){
+          msg=JSON.parse(msg.msg);
+          console.log(msg)
+              if(msg.ip_event.tpye == 'mqcClick'){
                 var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r put_ul_click ft-l-green" data-msg=\''+message.msg+'\'>'
                 +'<div class="layui-block details" style="color:#000">'
-                  +'<span>操作: </span>评论区被点击<span>I P: </span>'+msg.msg.ip+'<span>评论ID: </span>'+msg.msg.ip_event.com_id+'<span>时间: </span>'+msg.msg.ip_event.countTime
+                  +'<span>操作: </span>评论区被点击<span>I P: </span>'+msg.ip+'<span>评论ID: </span>'+msg.ip_event.com_id+'<span>时间: </span>'+msg.ip_event.countTime
                 +'</div>'
                 +'<div class="layui-block details">'
-                  +'<span>路由: </span>'+msg.msg.ip_event.router
+                  +'<span>路由: </span>'+msg.ip_event.router
                 +'</div>'
               +'</blockquote>'
-              }else if(msg.msg.ip_event.tpye == 'mqcImgClick'){
+              }else if(msg.ip_event.tpye == 'mqcImgClick'){
                 var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r put_ul_click ft-l-green" data-msg=\''+message.msg+'\'>'
                 +'<div class="layui-block details" style="color:#000">'
-                  +'<span>操作: </span>图片被点击<span>I P: </span>'+msg.msg.ip+'<span>评论ID: </span>'+msg.msg.ip_event.com_id+'<span>时间: </span>'+msg.msg.ip_event.countTime
+                  +'<span>操作: </span>图片被点击<span>I P: </span>'+msg.ip+'<span>评论ID: </span>'+msg.ip_event.com_id
                 +'</div>'
                 +'<div class="layui-block details">'
-                  +'<span>路由: </span>'+msg.msg.ip_event.router
+                  +'<span>路由: </span>'+msg.ip_event.router
                 +'</div>'
                 +'<div class="layui-block details">'
-                  +'<span>图片: </span><img src="'+msg.msg.ip_event.router+'" alt="">'
+                  +'<span>图片: </span><img src="'+msg.ip_event.value+'" alt="">'
                 +'</div>'
               +'</blockquote>'
-              }else if(msg.msg.ip_event.tpye == 'comment'){
+              }else if(msg.ip_event.tpye == 'comment'){
                 var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r put_ul_click ft-l-green" data-msg=\''+message.msg+'\'>'
                 +'<div class="layui-block details" style="color:#000">'
-                  +'<span>操作: </span>查看评论区<span>I P: </span>'+msg.msg.ip+'<span>停留时间: </span>'+msg.msg.ip_event.countTime
+                  +'<span>操作: </span>查看评论区<span>I P: </span>'+msg.ip+'<span>停留时间: </span>'+msg.ip_event.countTime
                 +'</div>'
                 +'<div class="layui-block details">'
-                  +'<span>路由: </span>'+msg.msg.ip_event.router
+                  +'<span>路由: </span>'+msg.ip_event.router
                 +'</div>'
               +'</blockquote>'
-              }else if(msg.msg.ip_event.tpye == 'detial '){
+              }else if(msg.ip_event.tpye == 'detial'){
                 var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r put_ul_click ft-l-green" data-msg=\''+message.msg+'\'>'
                 +'<div class="layui-block details" style="color:#000">'
-                  +'<span>操作: </span>查看用户须知<span>I P: </span>'+msg.msg.ip+'<span>停留时间: </span>'+msg.msg.ip_event.countTime
+                  +'<span>操作: </span>查看用户须知<span>I P: </span>'+msg.ip+'<span>停留时间: </span>'+msg.ip_event.countTime
                 +'</div>'
                 +'<div class="layui-block details">'
-                  +'<span>路由: </span>'+msg.msg.ip_event.router
+                  +'<span>路由: </span>'+msg.ip_event.router
                 +'</div>'
               +'</blockquote>'
               }
