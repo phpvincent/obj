@@ -51,7 +51,8 @@ span:first-child
   padding-left:0
 }
 #put_ul li{
-  overflow: hidden;
+  
+  position: relative;
 }
 #put_ul li blockquote:hover{
   cursor: pointer;
@@ -85,6 +86,12 @@ span:first-child
   width: 200px;
     height: 200px;
 }
+.layui-layer.layui-layer-tips{
+  top:0!important;
+}
+.layui-layer-tips .layui-layer-content {
+    min-width: 84px!important;
+}
 </style>
   <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
@@ -109,6 +116,23 @@ span:first-child
                       <select name="modules"  lay-search="">
                         <option value="">直接选择或搜索选择</option>
                       </select>
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                      <select name="type" lay-verify="required">
+                        <option value="0">选择类型</option>
+                        <option value="notice">路由访问</option>
+                        <option value="data">数据捉取</option>
+                        <option value="event">事件监听</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <label class="layui-form-label">ip</label>
+                    <div class="layui-input-inline">
+                    <input type="text" name="ip"  lay-verify="required" placeholder="请输入ip" autocomplete="off" class="layui-input">
                     </div>
                   </div>
                 </div>
@@ -200,7 +224,7 @@ span:first-child
 
 @endsection
 @section('js')
-<script id="suntable" type="text/html">
+<!-- <script id="suntable" type="text/html">
   <fieldset class="layui-elem-field">
     <div class="layui-tab-item layui-show">
       <div class="layui-field-box">
@@ -213,6 +237,77 @@ span:first-child
       </div>
     </div>
   </fieldset>
+</script> -->
+<script id="suntable" type="text/html">
+  <fieldset class="layui-elem-field">
+    <div class="layui-tab-item layui-show">
+        @{{# if (d.ip_event.tpye== 'detial') { }}
+            <div class="layui-field-box">
+                <blockquote class="layui-elem-quote">操作:查看用户须知</blockquote>
+                <blockquote class="layui-elem-quote">i p:@{{d.ip}}</blockquote>
+                <blockquote class="layui-elem-quote">停留时间:@{{d.ip_event.countTime}}</blockquote>
+                <blockquote class="layui-elem-quote">路由:@{{d.ip_event.router}}</blockquote>
+            </div>
+          @{{# } else if(d.ip_event.tpye== 'comment') { }}
+            <div class="layui-field-box">
+              <blockquote class="layui-elem-quote">操作:查看评论区</blockquote>
+              <blockquote class="layui-elem-quote">i p:@{{d.ip}}</blockquote>
+              <blockquote class="layui-elem-quote">停留时间:@{{d.ip_event.countTime}}</blockquote>
+              <blockquote class="layui-elem-quote">路由:@{{d.ip_event.router}}</blockquote>
+            </div>
+          @{{# } else if(d.ip_event.tpye== 'mqcImgClick') { }}
+            <div class="layui-field-box">
+              <blockquote class="layui-elem-quote">操作:图片被点击</blockquote>
+              <blockquote class="layui-elem-quote">i p:@{{d.ip}}</blockquote>
+              <blockquote class="layui-elem-quote">评论ID:@{{d.ip_event.com_id}}</blockquote>
+              <blockquote class="layui-elem-quote">路由:@{{d.ip_event.router}}</blockquote>
+              <div class="layui-block details">
+              <span>图片: </span><img src="@{{d.ip_event.value}}" alt="">
+            </div>
+          @{{# } else if(d.ip_event.tpye== 'mqcClick') { }}
+            <div class="layui-field-box">
+              <blockquote class="layui-elem-quote">操作:评论区被点击</blockquote>
+              <blockquote class="layui-elem-quote">i p:@{{d.ip}}</blockquote>
+              <blockquote class="layui-elem-quote">评论ID:@{{d.ip_event.com_id}}</blockquote>
+              <blockquote class="layui-elem-quote">路由:@{{d.ip_event.router}}</blockquote>
+              <blockquote class="layui-elem-quote">评论内容:@{{d.ip_event.value}}</blockquote>
+            </div>
+          @{{# } else if(d.ip_event.tpye== 1) { }}
+            <div class="layui-field-box">
+              <blockquote class="layui-elem-quote">操作:@{{d.msg}}</blockquote>
+              <blockquote class="layui-elem-quote">i p:@{{d.ip}}</blockquote>
+              <blockquote class="layui-elem-quote">电话:@{{d.ip_msg.telephone}}</blockquote>
+              <blockquote class="layui-elem-quote">邮箱:@{{d.ip_msg.email}}</blockquote>
+              <blockquote class="layui-elem-quote">路由:@{{d.route}}</blockquote>
+            </div>
+          @{{# } }}
+    </div>
+  </fieldset>
+</script>
+<script id="suntable_1" type="text/html">
+<div class="layui-field-box">
+                <form class="layui-form layui-form-pane " method="post" lay-filter="" action="">
+                    {{csrf_field()}}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">接收IP</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="receive_ip" value="@{{d.ip}}" disabled class="layui-input receive_ip">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">推送内容</label>
+                        <div class="layui-input-block">
+                            <textarea name="remarks" placeholder="请输入内容" class="layui-textarea receive_content"></textarea>
+                        </div>
+                        <div style="color: red;margin-top: 10px"><span style="font-weight: bold">注: </span>推送内容最多40个汉字或120个英文字符</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn send_button" onclick="func()" type="button">确认发送</button>
+                        </div>
+                    </div>
+                </form>
+</div>
 </script>
   <script>
   layui.config({
@@ -237,10 +332,87 @@ span:first-child
         form.render();
       }
     }) 
+// 表单提交 推送普通消息
+window.func=function () {
+         var  message_info = $('.receive_content').val();
+         if(message_info.length > 120){
+             layer.msg("发送内容最多40个汉字或120个英文字符",{
+                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                 ,offset: '180'
+                 ,anim: 6
+                 ,zIndex: layer.zIndex+10
+             });
+             return;
+         }
+         $.ajax({
+             url:'/admin/worker/monitor/push_message',
+             type:'post',
+             data:{
+                 ip: $('.receive_ip').val(),
+                 type: 0,
+                 msg: $('.receive_content').val()
+             },
+             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+             success:function(msg){
+                if(msg.err === 1){
+                    layer.msg(msg.str,{
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        ,offset: '180'
+                        ,anim: 6
+                        ,zIndex: layer.zIndex+10
+                    },function () {
+                        console.log($('.receive_content').val().length);
+                        $('.receive_content').val(null);
+                    });
+                }else{
+                    layer.msg(msg.str,{
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        ,offset: '180'
+                        ,anim: 6
+                        ,zIndex: layer.zIndex+10
+                    });
+                }
+             }
+         });
+       };
     $('body').on('click','.put_ul_click',function(){
+      var msg = JSON.parse($(this).attr('data-msg')).msg
+      console.log(JSON.parse($(this).attr('data-msg')).type);
+      console.log(JSON.parse(msg));
+      if(JSON.parse($(this).attr('data-msg')).type==2){
+        var msg_1=JSON.parse(msg)
+        msg_1.ip_event = {'tpye':1}
+        // msg=JSON.stringify(JSON.parse(msg).ip_event={'type':1})
+        msg = JSON.stringify(msg_1)
+      }
+      console.log(msg)
+      var that = $(this)
+      var str = '<div class="layui-field-box" data-msg=\''+msg+'\'>'+
+                  '<p class="details_1"style="cursor: pointer;">查看详情</p>'+
+                  '<p class="details_2"style="cursor: pointer;">消息推送</p>'+
+                  '<p style="cursor: pointer;">查看详情</p>'+
+                '</div>'
+      layer.tips(str,that,{tips:[2,'#333'],time:0,area: 'auto',maxWidth:500,offset: 'rt',anim: 1,success: function(layero, index){that.parent().parent().append(layero)}});
       console.log($(this));
-      console.log(JSON.parse($(this).attr('data-msg')));
-      var msg = JSON.parse($(this).attr('data-msg'))
+      // layer.open({
+      //   type: 1 //此处以iframe举例
+      //   ,title: '访问详情'
+      //   ,area: ['800px', '600px']
+      //   ,maxmin: true
+      //   ,content: '<div id="details"></div>'
+      //   ,zIndex: layer.zIndex //重点1
+      //   ,offset: '60px'
+      // });
+      // var getTpl = suntable.innerHTML;
+      // laytpl(getTpl).render(msg, function(html){
+      //   $('#details').html(html)
+      // });
+      $('.put_ul_click').removeClass('red');
+      $(this).addClass('red');
+    })
+    $('body').on('click','.details_1',function(){
+      var msg = JSON.parse($(this).parent().attr('data-msg'))
+      var that = $(this)
       layer.open({
         type: 1 //此处以iframe举例
         ,title: '访问详情'
@@ -254,7 +426,28 @@ span:first-child
       laytpl(getTpl).render(msg, function(html){
         $('#details').html(html)
       });
-      $('.put_ul_click').removeClass('red');
+      // $('.put_ul_click').removeClass('red');
+      $(this).parent().find('p').removeClass('red');
+
+      $(this).addClass('red');
+    })
+    $('body').on('click','.details_2',function(){
+      var msg = JSON.parse($(this).parent().attr('data-msg'))
+      var that = $(this)
+      layer.open({
+        type: 1 //此处以iframe举例
+        ,title: '访问详情'
+        ,area: ['800px', '600px']
+        ,maxmin: true
+        ,content: '<div id="details_1"></div>'
+        ,zIndex: layer.zIndex //重点1
+        ,offset: '60px'
+      });
+      var getTpl = suntable_1.innerHTML;
+      laytpl(getTpl).render(msg, function(html){
+        $('#details_1').html(html)
+      });
+      $(this).parent().find('p').removeClass('red');
       $(this).addClass('red');
     })
     
@@ -456,13 +649,62 @@ span:first-child
     //     console.log('onmessage',JSON.parse(evt.data))
     //     // websocket.close(); 
     // } 
+    var id_1='',
+      type_1=0,
+      ip_1=''
     function onMessage(evt) { 
       var data_route=JSON.parse(JSON.parse(evt.data).msg).msg.route
-      var id=$('select[name="modules"]').val()
-      if(id ==  ''){
-        writeToScreen(evt.data);
+      var data_type =JSON.parse(evt.data).msg_type
+      if(data_type == 'notice'){
+        var data_ip =JSON.parse(JSON.parse(evt.data).msg).msg.ip
       }else{
-        route_id(data_route,id,evt);
+        var data_ip =JSON.parse(JSON.parse(JSON.parse(evt.data).msg).msg).ip
+      }
+      if(data_route !=null){
+            if(data_route.indexOf('goods_id')==-1){
+              var data_id=data_route.substring(data_route.indexOf('site_goods')+11,data_route.length);
+            }else{
+              var data_id=data_route.split("?")[1].split("&").filter(function(item){ return item.indexOf('goods_id')===0})[0].split("=")[1];
+            }
+        }
+      var id=$('select[name="modules"]').val(),
+      type=$('select[name="type"]').val(),
+      ip=$('input[name="ip"]').val()
+      
+      // console.log(data_id, data_ip, data_type)
+      // console.log(id, type, ip)
+      // console.log((id==''||id==data_id)&&(type==0||type==data_type)&&(ip==''||ip==data_ip))
+        
+      
+      
+      if(id ==  ''&&type == 0 && ip == ''){
+        if((id==id_1)&&(type==type_1)&&(ip==ip_1)){
+
+        }else{
+          id_1=id
+          ip_1=ip
+          type_1=type
+          var dom_div=$('<li style="display:none"><hr style="border:1px dashed #ff0000"/></li>')
+          // dom_li.show();
+          //pre.append(dom_btn);
+          $('#put_ul').prepend(dom_div); 
+          dom_div.show(1200);
+        }
+        writeToScreen(evt.data);
+      }else if((id==''||id==data_id)&&(type==0||type==data_type)&&(ip==''||ip==data_ip)){
+        if((id==id_1)&&(type==type_1)&&(ip==ip_1)){
+
+        }else{
+          id_1=id
+          ip_1=ip
+          type_1=type
+          var dom_div=$('<li style="display:none"><hr style="border:1px dashed #ff0000"/></li>')
+          // dom_li.show();
+          //pre.append(dom_btn);
+          $('#put_ul').prepend(dom_div); 
+          dom_div.show(1200);
+        }
+        writeToScreen(evt.data);
       }
         // console.log('onmessage',JSON.parse(evt.data))
         // websocket.close(); 
@@ -542,11 +784,10 @@ span:first-child
         }
         }else if(message.msg_type =='event'){
           msg=JSON.parse(msg.msg);
-          console.log(msg)
               if(msg.ip_event.tpye == 'mqcClick'){
                 var str = '<blockquote class="layui-elem-quote layui-quote-nm ft-r put_ul_click ft-l-green" data-msg=\''+message.msg+'\'>'
                 +'<div class="layui-block details" style="color:#000">'
-                  +'<span>操作: </span>评论区被点击<span>I P: </span>'+msg.ip+'<span>评论ID: </span>'+msg.ip_event.com_id+'<span>时间: </span>'+msg.ip_event.countTime
+                  +'<span>操作: </span>评论区被点击<span>I P: </span>'+msg.ip+'<span>评论ID: </span>'+msg.ip_event.com_id
                 +'</div>'
                 +'<div class="layui-block details">'
                   +'<span>路由: </span>'+msg.ip_event.router
@@ -586,7 +827,7 @@ span:first-child
         }
         var dom_div=$('<li style="display:none"></li>')
         //dom_div.css('display','none');
-        dom_div.html(str);
+        dom_div.html('<div style="overflow: hidden;">'+str+'</div>');
         // dom_li.show();
         //pre.append(dom_btn);
         $('#put_ul').prepend(dom_div); 
