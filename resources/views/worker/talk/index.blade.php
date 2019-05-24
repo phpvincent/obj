@@ -15,10 +15,11 @@
   }).use(['index','form','laydate','layim'],function(){
   	 var layim=layui.layim
   	 var $=layui.jquery
+  	 var admin_id="{{Auth::user()->admin_id}}"
   	 console.log(layui.setter.websocket.server+layui.setter.websocket.getGroupUsers);
   	 layim.config({
     	 init: {
-    	 	 url: layui.setter.websocket.server+layui.setter.websocket.init_url+"&admin_id={{Auth::user()->admin_id}}" //接口地址（返回的数据格式见下文）
+    	 	 url: layui.setter.websocket.server+layui.setter.websocket.init_url+"&admin_id="+admin_id //接口地址（返回的数据格式见下文）
 		     ,type: 'get' //默认get，一般可不填
 		     ,data: {} //额外参数
     	 } //获取主面板列表信息，下文会做进一步介绍
@@ -40,7 +41,7 @@
 		,copyright:true
 	    //获取群员接口（返回的数据格式见下文）
 	    ,members: {
-		  url: layui.setter.websocket.server+layui.setter.websocket.getGroupUsers
+		  url: layui.setter.websocket.server+layui.setter.websocket.getGroupUsers+"&admin_id="+admin_id
 		  ,data: {}
 		}   
 	    ,tool: [{
@@ -93,6 +94,7 @@
 		    insert('[pre class=layui-code]' + text + '[/pre]'); //将内容插入到编辑器，主要由insert完成
 		    //send(); //自动发送
 		  });*/
+	
 		  console.log(this); //获取当前工具的DOM对象
 		  console.log(obj); //获得当前会话窗口的DOM对象、基础信息
 	});   

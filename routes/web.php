@@ -21,7 +21,7 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-/*	Route::any('/paypal',function(Request $request){
+	/*Route::any('/paypal',function(Request $request){
 		//order_notice();
 		return view('admin.websocket_send');
 	});
