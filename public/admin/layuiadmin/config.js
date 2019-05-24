@@ -39,8 +39,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
     }
     //websocket配置
     ,websocket:{
-      server:'http://192.168.10.166:7273',
-      //server:'http://13.229.73.221:7273',
+      //server:'http://192.168.10.166:7273',
+      server:'http://13.229.73.221:7273',
       init_url: '?type=init',
       prople_num_url: '?type=people_num',
       getGroupUsers: '?type=getGroupUsers',
