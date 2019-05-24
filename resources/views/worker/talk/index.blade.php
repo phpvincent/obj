@@ -1,9 +1,9 @@
 @extends('worker.father.static')
 @section('content')
  <body> 
- 	<div id="user_info" style="display: none;">
+ 	<!-- <div id="user_info" style="display: none;">
  		
-		 </div>
+		 </div> -->
  </body>
 @endsection
 @section('js')
@@ -72,14 +72,14 @@
 	    ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
 	  });
   	 layim.on('tool(code)', function(insert, send, obj){ //事件中的tool为固定字符，而code则为过滤器，对应的是工具别名（alias）
-			$('#user_info').show();
+			// $('#user_info').show();
 				$.ajax({
           url: layui.setter.websocket.server+layui.setter.websocket.getUserInfo,
           type:'post',
           data:{pid: obj.data.id, admin_id: admin_id},
           datatype:'json',
           success:function(msg){
-						console.log(msg)
+						// console.log(msg)
 						var msg = JSON.parse(msg)
             if(typeof msg.msg === 'object'){
 						var indexop =	layer.open({
@@ -124,7 +124,7 @@
 	          ,zIndex: layer.zIndex //重点1
 	          ,offset: '60px'
 	          ,end:function(){
-	          	$('#user_info'),hide();
+	          	// $('#user_info'),hide();
 	          }
 					});
 					
