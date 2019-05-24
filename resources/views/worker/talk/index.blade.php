@@ -1,9 +1,9 @@
 @extends('worker.father.static')
 @section('content')
- <body>
+ <body> 
  	<div id="user_info" style="display: none;">
  		
- 	</div>
+		 </div>
  </body>
 @endsection
 @section('js')
@@ -72,16 +72,17 @@
 	    ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
 	  });
   	 layim.on('tool(code)', function(insert, send, obj){ //事件中的tool为固定字符，而code则为过滤器，对应的是工具别名（alias）
-  	 	$('#user_info').show();
+			$('#user_info').show();
 				$.ajax({
           url: layui.setter.websocket.server+layui.setter.websocket.getUserInfo,
           type:'post',
-          data:{pid: obj.data.id},
+          data:{pid: obj.data.id, admin_id: admin_id},
           datatype:'json',
           success:function(msg){
 						console.log(msg)
+						var msg = JSON.parse(msg)
             if(typeof msg.msg === 'object'){
-							layer.open({
+						var indexop =	layer.open({
 	          type: 1 //此处以iframe举例
 	          ,title: '个人信息'
 	          ,area: ['800px', '600px']
@@ -106,16 +107,16 @@
 									+'<tbody>'
 									+'<tr>'
 									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td>'+msg.msg.talk_user_goods+'</td>'
-									+'<td><input id="inputvalue" class="layui-input"><a class="layui-btn layui-btn-xs" id="talkedit">确定</a></td>'
+									+'<td>'+msg.msg.talk_user_country+'</td>'
+									+'<td>'+(msg.msg.talk_user_is_shop ==='0' ? '是':'否')+'</td>'
+									+'<td>'+(msg.msg.talk_user_status ==='0' ? '是':'否')+'</td>'
+									+'<td>'+msg.msg.talk_user_lan+'</td>'
+									+'<td>'+msg.msg.talk_user_last_time+'</td>'
+									+'<td>'+msg.msg.talk_user_time+'</td>'
+									+'<td><input id="talk_user_name" class="layui-input" value="'+(msg.msg.talk_user_name||'')+'"></td>'
+									+'<td><input id="talk_user_phone" class="layui-input" value="'+(msg.msg.talk_user_phone||'')+'"></td>'
+									+'<td><input id="talk_user_email" class="layui-input" value="'+(msg.msg.talk_user_email||'')+'"></td>'
+									+'<td><a class="layui-btn layui-btn-xs" id="talkedit">确定修改</a></td>'
 									+'</tr>'
 									+'</tbody>'
 									+'</table>'
@@ -128,11 +129,31 @@
 					});
 					
 					$(document).on('click','#talkedit', function(){
-						console.log($('#inputvalue').val())
+
+						$.ajax({
+            url: layui.setter.websocket.server+layui.setter.websocket.upUserInfo,
+            type:'post',
+						data:{pid: obj.data.id,
+							 admin_id: admin_id,
+							 talk_user_name: $('#talk_user_name').val(),
+							 talk_user_phone: $('#talk_user_phone').val(),
+							 talk_user_email: $('#talk_user_email').val(),
+							},
+            datatype:'json',
+            success:function(msg){
+							var msg = JSON.parse(msg)
+							if(msg.status === 0){
+								layer.msg('修改成功',{zIndex: layer.zIndex})
+								layer.close(indexop)
+							}else{
+								layer.msg('修改失败',{zIndex: layer.zIndex})
+							}
+					  	
+					  }})
 
 					})
 					}else(
-							layer.msg('数据错误')
+							layer.msg('数据错误',{zIndex: layer.zIndex})
 					)
           }
         });
