@@ -12,9 +12,10 @@
     base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index','form','laydate','layim'],function(){
+  }).use(['index','form','laydate','layim', 'layer'],function(){
   	 var layim=layui.layim
-  	 var $=layui.jquery
+		 var $=layui.jquery
+		 var layer = layui.layer
   	 console.log(layui.setter.websocket.server+layui.setter.websocket.getGroupUsers);
   	 layim.config({
     	 init: {
@@ -72,18 +73,69 @@
 	  });
   	 layim.on('tool(code)', function(insert, send, obj){ //事件中的tool为固定字符，而code则为过滤器，对应的是工具别名（alias）
   	 	$('#user_info').show();
-  	 	 layer.open({
-	        type: 1 //此处以iframe举例
-	        ,title: '个人信息'
-	        ,area: ['800px', '600px']
-	        ,maxmin: true
-	        ,content: '<div id="user_info"></div>'
-	        ,zIndex: layer.zIndex //重点1
-	        ,offset: '60px'
-	        ,end:function(){
-	        	$('#user_info'),hide();
-	        }
-	      });
+				$.ajax({
+          url: layui.setter.websocket.server+layui.setter.websocket.getUserInfo,
+          type:'post',
+          data:{pid: obj.data.id},
+          datatype:'json',
+          success:function(msg){
+						console.log(msg)
+            if(typeof msg.msg === 'object'){
+							layer.open({
+	          type: 1 //此处以iframe举例
+	          ,title: '个人信息'
+	          ,area: ['800px', '600px']
+	          ,maxmin: true
+						,content: '<div id="user_info">'
+						  +'<table class="layui-table">'
+              +'<thead>'
+                +'<tr>'
+                  +'<th>商品ID</th>'
+									+'<th>地区</th>'
+									+'<th>是否购物</th>'
+									+'<th>是否在线</th>'
+									+'<th>语言</th>'
+									+'<th>最后一次登录时间</th>'
+									+'<th>初次访问时间</th>'
+									+'<th>姓名</th>'
+									+'<th>电话</th>'
+									+'<th>email</th>'
+									+'<th>操作</th>'
+									+'</tr>'
+									+'</thead>'
+									+'<tbody>'
+									+'<tr>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td>'+msg.msg.talk_user_goods+'</td>'
+									+'<td><input id="inputvalue" class="layui-input"><a class="layui-btn layui-btn-xs" id="talkedit">确定</a></td>'
+									+'</tr>'
+									+'</tbody>'
+									+'</table>'
+						+'</div>'
+	          ,zIndex: layer.zIndex //重点1
+	          ,offset: '60px'
+	          ,end:function(){
+	          	$('#user_info'),hide();
+	          }
+					});
+					
+					$(document).on('click','#talkedit', function(){
+						console.log($('#inputvalue').val())
+
+					})
+					}else(
+							layer.msg('数据错误')
+					)
+          }
+        });
 	  	 /*layer.prompt({
 		    title: '个人信息'
 		    ,formType: 2
@@ -94,7 +146,7 @@
 		    //send(); //自动发送
 		  });*/
 		  console.log(this); //获取当前工具的DOM对象
-		  console.log(obj); //获得当前会话窗口的DOM对象、基础信息
+			console.log(obj); //获得当前会话窗口的DOM对象、基础信息
 	});   
   });
   </script>

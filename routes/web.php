@@ -21,13 +21,13 @@ use App\channel\mailControl;
 	Route::get('/index/fb','home\IndexController@fb');
 
 /*	Route::get('/index/sendemail','home\IndexController@sendmail');*/
-/*	Route::any('/paypal',function(Request $request){
+	Route::any('/paypal',function(Request $request){
 		//order_notice();
 		return view('admin.websocket_send');
 	});
 	Route::any('/paypal1',function(Request $request){
 		return view('admin.websocket');
-	});*/
+	});
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');
