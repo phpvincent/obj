@@ -57,15 +57,15 @@
  
     function doSend(message) { 
         writeToScreen("SENT: " + message);  
-        websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":"info"}',user:'client',type:'firstClient'})); 
+        websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":"info"}',user:'client',goods_id:1,type:'firstClient'})); 
     }  
     function sendMessage(message) { 
         writeToScreen("SENTMSG: " + message);  
         console.log(pid);
         if(pid!=false){
-            websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":'+message+'}',user:'client',pid:pid,'type':'clientSend'})); 
+            websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":'+message+'}',user:'client',goods_id:1,pid:pid,'type':'clientSend'})); 
         }else{
-            websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":'+message+'}',user:'client','type':'clientSend'})); 
+            websocket.send(JSON.stringify({ip:'192.168.0.0','route':'http://obj.com','ip_info':'{"msg":'+message+'}',user:'client',goods_id:1,'type':'clientSend'})); 
         }
     }  
     function writeToScreen(message) { 

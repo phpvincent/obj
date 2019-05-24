@@ -37,7 +37,14 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
       ,msgName: 'msg' //状态信息的字段名称
       ,dataName: 'data' //数据详情的字段名称
     }
-    
+    //websocket配置
+    ,websocket:{
+      server:'http://192.168.10.166:7273',
+      init_url: '?type=init',
+      prople_num_url: '?type=people_num',
+      getGroupUsers: '?type=getGroupUsers',
+      getUserInfo:'?type=getUserInfo'
+    }
     //扩展的第三方模块
     ,extend: [
       'echarts', //echarts 核心包

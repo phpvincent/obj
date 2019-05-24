@@ -1149,7 +1149,7 @@ layui.define(['laytpl', 'upload-mobile', 'layer-mobile', 'zepto'], function(expo
     //关于
     ,about: function(){
       layer.open({
-        content: '<p style="padding-bottom: 5px;">LayIM属于付费产品，欢迎通过官网获得授权，促进良性发展！</p><p>当前版本：layim mobile v'+ v + '</p><p>版权所有：<a href="http://layim.layui.com" target="_blank">layim.layui.com</a></p>'
+        content: '<p style="padding-bottom: 5px;">LayIM属于付费产品，欢迎通过官网获得授权，促进良性发展！</p><p>当前版本：layim mobile v'+ v + '</p><p>版权所有：<a href="#">PHPVINCENT</a></p>'
         ,className: 'layim-about'
         ,shadeClose: false
         ,btn: '我知道了'

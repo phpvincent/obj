@@ -20,6 +20,8 @@
 
             //推送普通消息
             Route::post('/monitor/push_message','admin\worker\MonitorController@push_message'); //推送普通消息
+            //客服中心
+            Route::any('/talk/index','admin\worker\TalkController@index'); 
         });
 
 	Route::get('/notallow','admin\worker\WorkerController@notallow');
