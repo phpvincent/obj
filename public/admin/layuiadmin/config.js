@@ -45,7 +45,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
       prople_num_url: '?type=people_num',
       getGroupUsers: '?type=getGroupUsers',
       getUserInfo:'?type=getUserInfo',
-      up_userinfo:'?type=up_userinfo'
+      upUserInfo:'?type=upUserInfo'
     }
     //扩展的第三方模块
     ,extend: [
