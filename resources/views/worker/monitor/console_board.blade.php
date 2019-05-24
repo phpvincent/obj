@@ -361,7 +361,6 @@ window.func=function () {
                         ,anim: 6
                         ,zIndex: layer.zIndex+10
                     },function () {
-                        console.log($('.receive_content').val().length);
                         $('.receive_content').val(null);
                     });
                 }else{
@@ -377,15 +376,12 @@ window.func=function () {
        };
     $('body').on('click','.put_ul_click',function(){
       var msg = JSON.parse($(this).attr('data-msg')).msg
-      console.log(JSON.parse($(this).attr('data-msg')).type);
-      console.log(JSON.parse(msg));
       if(JSON.parse($(this).attr('data-msg')).type==2){
         var msg_1=JSON.parse(msg)
         msg_1.ip_event = {'tpye':1}
         // msg=JSON.stringify(JSON.parse(msg).ip_event={'type':1})
         msg = JSON.stringify(msg_1)
       }
-      console.log(msg)
       var that = $(this)
       var str = '<div class="layui-field-box" data-msg=\''+msg+'\'>'+
                   '<p class="details_1"style="cursor: pointer;">查看详情</p>'+
@@ -393,7 +389,6 @@ window.func=function () {
                   '<p style="cursor: pointer;">查看详情</p>'+
                 '</div>'
       layer.tips(str,that,{tips:[2,'#333'],time:0,area: 'auto',maxWidth:500,offset: 'rt',anim: 1,success: function(layero, index){that.parent().parent().append(layero)}});
-      console.log($(this));
       // layer.open({
       //   type: 1 //此处以iframe举例
       //   ,title: '访问详情'
