@@ -126,32 +126,34 @@
 	          ,end:function(){
 	          	// $('#user_info'),hide();
 	          }
+						,success: function(layero, index){
+              //  console.log(layero, index);
+							 $(layero).on('click','#talkedit', function(){
+
+                $.ajax({
+                url: layui.setter.websocket.server+layui.setter.websocket.upUserInfo,
+                type:'post',
+                data:{pid: obj.data.id,
+                	 admin_id: admin_id,
+                	 talk_user_name: $('#talk_user_name').val(),
+                	 talk_user_phone: $('#talk_user_phone').val(),
+                	 talk_user_email: $('#talk_user_email').val(),
+                	},
+                datatype:'json',
+                success:function(msg){
+                	var msg = JSON.parse(msg)
+                	if(msg.status === 0){
+                		layer.msg('修改成功',{zIndex: layer.zIndex})
+                		layer.close(indexop)
+                	}else{
+                		layer.msg('修改失败',{zIndex: layer.zIndex})
+                	}
+                	
+                }})
+                
+              })
+            }
 					});
-					
-					$(document).on('click','#talkedit', function(){
-
-						$.ajax({
-            url: layui.setter.websocket.server+layui.setter.websocket.upUserInfo,
-            type:'post',
-						data:{pid: obj.data.id,
-							 admin_id: admin_id,
-							 talk_user_name: $('#talk_user_name').val(),
-							 talk_user_phone: $('#talk_user_phone').val(),
-							 talk_user_email: $('#talk_user_email').val(),
-							},
-            datatype:'json',
-            success:function(msg){
-							var msg = JSON.parse(msg)
-							if(msg.status === 0){
-								layer.msg('修改成功',{zIndex: layer.zIndex})
-								layer.close(indexop)
-							}else{
-								layer.msg('修改失败',{zIndex: layer.zIndex})
-							}
-					  	
-					  }})
-
-					})
 					}else(
 							layer.msg('数据错误',{zIndex: layer.zIndex})
 					)
