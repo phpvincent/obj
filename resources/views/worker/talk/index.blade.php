@@ -127,7 +127,7 @@
 	          	// $('#user_info'),hide();
 	          }
 					});
-					
+					$('#talkedit').unbind();
 					$(document).on('click','#talkedit', function(){
 
 						$.ajax({
@@ -142,7 +142,7 @@
             datatype:'json',
             success:function(msg){
 							var msg = JSON.parse(msg)
-							if(msg.status === 0){
+							if(msg.status === 1){
 								layer.msg('修改成功',{zIndex: layer.zIndex})
 								layer.close(indexop)
 							}else{
@@ -166,10 +166,30 @@
 		    insert('[pre class=layui-code]' + text + '[/pre]'); //将内容插入到编辑器，主要由insert完成
 		    //send(); //自动发送
 		  });*/
-	
+		
+		
 		  console.log(this); //获取当前工具的DOM对象
 			console.log(obj); //获得当前会话窗口的DOM对象、基础信息
-	});   
+	}); 
+	  layim.on('sign', function(value){
+			  $.ajax({
+            url: layui.setter.websocket.server+layui.setter.websocket.upAdminInfo,
+            type:'post',
+						data:{admin_id: admin_id,
+							 admin_talk_sign:value
+							},
+            datatype:'json',
+            success:function(msg){
+							var msg = JSON.parse(msg)
+							if(msg.status === 1){
+								layer.msg('修改成功',{zIndex: layer.zIndex})
+								layer.close(indexop)
+							}else{
+								layer.msg('修改失败',{zIndex: layer.zIndex})
+							}
+					  	
+					  }})
+			});    
   });
   </script>
 </body>
