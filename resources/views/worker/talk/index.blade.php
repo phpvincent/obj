@@ -116,7 +116,13 @@
 									+'<td><input id="talk_user_name" class="layui-input" value="'+(msg.msg.talk_user_name||'')+'"></td>'
 									+'<td><input id="talk_user_phone" class="layui-input" value="'+(msg.msg.talk_user_phone||'')+'"></td>'
 									+'<td><input id="talk_user_email" class="layui-input" value="'+(msg.msg.talk_user_email||'')+'"></td>'
-									+'<td><a class="layui-btn layui-btn-xs" id="talkedit">确定修改</a></td>'
+									+'<td rowspan="3"><a class="layui-btn layui-btn-xs" id="talkedit">确定修改</a></td>'
+									+'</tr>'
+									+'<tr style="background-color: #f2f2f2;">'
+									+'<th colspan="10" style="text-align: center;">备注</th>'
+									+'</tr>'
+									+'<tr>'
+									+'<td colspan="10"><textarea id="talk_user_remark" style="width: 100%;">'+(msg.msg.talk_user_remark||'')+'</textarea></td>'
 									+'</tr>'
 									+'</tbody>'
 									+'</table>'
@@ -138,6 +144,7 @@
                 	 talk_user_name: $('#talk_user_name').val(),
                 	 talk_user_phone: $('#talk_user_phone').val(),
                 	 talk_user_email: $('#talk_user_email').val(),
+									 talk_user_remark: $('#talk_user_remark').val(),
                 	},
                 datatype:'json',
                 success:function(msg){
