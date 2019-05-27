@@ -1,20 +1,9 @@
- 
- 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>聊天记录</title>
-
-  <link rel="stylesheet" href="/admin/layuiadmin/layui/css/layui.css" media="all">
-  <link rel="stylesheet" href="/admin/layuiadmin/style/admin.css" media="all">
+@extends('worker.father.static')
 <style>
 body .layim-chat-main{height: auto;}
 </style>
-</head>
-<body>
-
+@section('content')
+<link rel="stylesheet" type="text/css" href="/admin/layuiadmin/layui/css/layui.css">
 <div class="layim-chat-main">
   <ul id="LAY_view"></ul>
 </div>
@@ -23,29 +12,33 @@ body .layim-chat-main{height: auto;}
 
 
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
-@{{# layui.each(d.data, function(index, item){
-  if(item.id == parent.layui.layim.cache().mine.id){ }}
-    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="{{ item.avatar }}"><cite><i>{{ layui.data.date(item.timestamp) }}</i>{{ item.username }}</cite></div><div class="layim-chat-text">{{ layui.layim.content(item.content) }}</div></li>
+@{{# layui.each(d.data, function(index, item){ }}
+  @{{# if(item.id == parent.layui.layim.cache().mine.id){ }}
+    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="@{{ item.avatar }}"><cite><i>@{{ layui.data.date(item.timestamp) }}</i>@{{ item.username }}</cite></div><div class="layim-chat-text">@{{ layui.layim.content(item.content) }}</div></li>
   @{{# } else { }}
-    <li><div class="layim-chat-user"><img src="{{ item.avatar }}"><cite>{{ item.username }}<i>{{ layui.data.date(item.timestamp) }}</i></cite></div><div class="layim-chat-text">{{ layui.layim.content(item.content) }}</div></li>
-  @{{# }
-}); }}
+    <li><div class="layim-chat-user"><img src="@{{ item.avatar }}"><cite>@{{ item.username }}<i>@{{ layui.data.date(item.timestamp) }}</i></cite></div><div class="layim-chat-text">@{{ layui.layim.content(item.content) }}</div></li>
+  @{{# } }}
+ @{{# }); }}
 </textarea>
-
+@endsection
+@section('js')
 <!-- 
 上述模版采用了 laytpl 语法，不了解的同学可以去看下文档：http://www.layui.com/doc/modules/laytpl.html
 
 -->
 
 
-  <script src="/admin/layuiadmin/layui/layui.js"></script>
-  <script src="/admin/layuiadmin/lib/index.js"></script>
+ <!--  <script src="/admin/layuiadmin/layui/layui.js"></script>
+  <script src="/admin/layuiadmin/lib/index.js"></script> -->
 <!--   <script src="/admin/layuiadmin/layui/layui.js?t=1"></script>  
- -->  <script src="/admin/layuiadmin/lib/admin.js"></script>  
-  <script src="/admin/layuiadmin/modules/common.js"></script>  
-<!--   <script src="/admin/layuiadmin/config.js"></script>  
- --><script>
-layui.use(['layim', 'laypage'], function(){
+  <script src="/admin/layuiadmin/lib/admin.js"></script>  
+  <script src="/admin/layuiadmin/modules/common.js"></script>   -->
+<script>
+layui.config({
+    base: '{{asset("/admin/layuiadmin/")}}/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['layim', 'laypage','index','view','admin'], function(){
   var layim = layui.layim
   ,layer = layui.layer
   ,laytpl = layui.laytpl
@@ -99,5 +92,4 @@ layui.use(['layim', 'laypage'], function(){
   
 });
 </script>
-</body>
-</html>
+@endsection

@@ -5,7 +5,7 @@
 <script src="/layer/layer.js"></script>
 <script language="javascript"type="text/javascript">  
     //var wsUri ="ws://echo.websocket.org/";
-     var wsUri ="ws://13.229.73.221:8282/";
+     var wsUri ="ws://192.168.10.166:8282/";
      var pid =false;
     var output;  
     

@@ -22,6 +22,7 @@
             Route::post('/monitor/push_message','admin\worker\MonitorController@push_message'); //推送普通消息
             //客服中心
             Route::any('/talk/index','admin\worker\TalkController@index'); 
+            Route::any('/talk/msg_log','admin\worker\TalkController@msg_log'); 
         });
 
 	Route::get('/notallow','admin\worker\WorkerController@notallow');

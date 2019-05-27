@@ -11,4 +11,9 @@ class TalkController extends Controller
     {
     	return view('worker.talk.index');
     }
+    public function msg_log(Request $request)
+    {
+    	$admin_id=$request->input('admin_id');
+    	return view('worker.talk.msg_log')->with(compact('admin_id'));
+    }
 }

@@ -69,7 +69,8 @@
 	    
 	    ,msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
 	    ,find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-	    ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
+	    ,chatLog: '{{url('/admin/worker/talk/msg_log')}}?admin_id='+admin_id //聊天记录页面地址，若不开启，剔除该项即可
+	    //,chatLog: layui.cache.dir + 'css/modules/layim/html/chatLog.html' //聊天记录页面地址，若不开启，剔除该项即可
 	  });
   	 layim.on('tool(code)', function(insert, send, obj){ //事件中的tool为固定字符，而code则为过滤器，对应的是工具别名（alias）
 			// $('#user_info').show();
@@ -116,7 +117,13 @@
 									+'<td><input id="talk_user_name" class="layui-input" value="'+(msg.msg.talk_user_name||'')+'"></td>'
 									+'<td><input id="talk_user_phone" class="layui-input" value="'+(msg.msg.talk_user_phone||'')+'"></td>'
 									+'<td><input id="talk_user_email" class="layui-input" value="'+(msg.msg.talk_user_email||'')+'"></td>'
-									+'<td><a class="layui-btn layui-btn-xs" id="talkedit">确定修改</a></td>'
+									+'<td rowspan="3"><a class="layui-btn layui-btn-xs" id="talkedit">确定修改</a></td>'
+									+'</tr>'
+									+'<tr style="background-color: #f2f2f2;">'
+									+'<th colspan="10" style="text-align: center;">备注</th>'
+									+'</tr>'
+									+'<tr>'
+									+'<td colspan="10"><textarea id="talk_user_remark" style="width: 100%;">'+(msg.msg.talk_user_remark||'')+'</textarea></td>'
 									+'</tr>'
 									+'</tbody>'
 									+'</table>'
@@ -126,32 +133,35 @@
 	          ,end:function(){
 	          	// $('#user_info'),hide();
 	          }
+			  ,success: function(layero, index){
+              //  console.log(layero, index);
+				$(layero).on('click','#talkedit', function(){
+
+                $.ajax({
+                url: layui.setter.websocket.server+layui.setter.websocket.upUserInfo,
+                type:'post',
+                data:{pid: obj.data.id,
+                	 admin_id: admin_id,
+                	 talk_user_name: $('#talk_user_name').val(),
+                	 talk_user_phone: $('#talk_user_phone').val(),
+                	 talk_user_email: $('#talk_user_email').val(),
+									 talk_user_remark: $('#talk_user_remark').val(),
+                	},
+                datatype:'json',
+                success:function(msg){
+                	var msg = JSON.parse(msg)
+                	if(msg.status === 1){
+                		layer.msg('修改成功',{zIndex: layer.zIndex})
+                		layer.close(indexop)
+                	}else{
+                		layer.msg('修改失败',{zIndex: layer.zIndex})
+                	}
+                	
+                }})
+                
+              })
+            }
 					});
-					$('#talkedit').unbind();
-					$(document).on('click','#talkedit', function(){
-
-						$.ajax({
-            url: layui.setter.websocket.server+layui.setter.websocket.upUserInfo,
-            type:'post',
-						data:{pid: obj.data.id,
-							 admin_id: admin_id,
-							 talk_user_name: $('#talk_user_name').val(),
-							 talk_user_phone: $('#talk_user_phone').val(),
-							 talk_user_email: $('#talk_user_email').val(),
-							},
-            datatype:'json',
-            success:function(msg){
-							var msg = JSON.parse(msg)
-							if(msg.status === 1){
-								layer.msg('修改成功',{zIndex: layer.zIndex})
-								layer.close(indexop)
-							}else{
-								layer.msg('修改失败',{zIndex: layer.zIndex})
-							}
-					  	
-					  }})
-
-					})
 					}else(
 							layer.msg('数据错误',{zIndex: layer.zIndex})
 					)
