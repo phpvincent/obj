@@ -85,7 +85,7 @@ layui.config({
   laypage.render({
     elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
     ,count: counts //数据总数，从服务端得到
-    ,limit:2
+    ,limit:10
     ,limits:[10,20,30,40,50]
     ,jump: function(obj, first){
     //obj包含了当前分页的所有参数，比如：
