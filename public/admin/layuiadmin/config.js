@@ -48,7 +48,9 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
       upUserInfo:'?type=upUserInfo',
       upAdminInfo:'?type=upAdminInfo',
       getTalkMsgCount:'?type=getTalkMsgCount',
-      getTalkMsg:'?type=getTalkMsg'
+      getTalkMsg:'?type=getTalkMsg',
+      file_upload:'?type=file_upload',
+      img_upload:'?type=img_upload'
     }
     //扩展的第三方模块
     ,extend: [

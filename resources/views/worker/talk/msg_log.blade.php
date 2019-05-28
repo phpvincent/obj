@@ -15,8 +15,8 @@ body .layim-chat-main{height: auto;}
 
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
 @{{# layui.each(d.data, function(index, item){ }}
-<!--   @{{# if(item.id == parent.layui.layim.cache().mine.id){ }} -->
-  @{{# if(!isNaN(item.id)){ }}
+
+  @{{# if(!isNaN(item.talk_msg_from_id)){  }}
     <li class="layim-chat-mine"><div class="layim-chat-user"><img src="@{{ item.avatar }}"><cite><i>@{{ layui.data.date(item.timestamp) }}</i>@{{ item.username }}</cite></div>
     	<div class="layim-chat-text">@{{ layui.layim.content(item.content) }}</div></li>
   @{{# } else { }}
@@ -78,39 +78,60 @@ layui.config({
 								
 							}else{
 								layer.msg('获取失败',{zIndex: layer.zIndex})
+								return;
 							}
 					  	
 					  }})
   laypage.render({
     elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
     ,count: counts //数据总数，从服务端得到
-    ,limit:10
+    ,limit:2
     ,limits:[10,20,30,40,50]
+    ,jump: function(obj, first){
+    //obj包含了当前分页的所有参数，比如：
+    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+    console.log(obj.limit); //得到每页显示的条数
+    	get_msg(obj.curr,obj.limit);
+    //首次不执行
+	    if(!first){
+	      
+	    }
+  	}
   });
-  
+  function get_msg(curr,limit)
+  {
+  	var msg_data=null;
+	  var param =  location.search //获得URL参数。该窗口url会携带会话id和type，他们是你请求聊天记录的重要凭据
+	  var url = layui.setter.websocket.server+layui.setter.websocket.getTalkMsg
+	   $.ajax({
+	            url: url,
+	            type:'get',
+							data:{
+								 admin_id: admin_id,
+								 id:id,
+								 page:curr,
+								 limit:limit
+								},
+				async:false,
+	            datatype:'json',
+	            success:function(msg){
+								var msg = JSON.parse(msg)
+								if(msg.status === 0){
+									msg_data=msg.msg;
+								}else{
+									layer.msg('获取失败',{zIndex: layer.zIndex})
+								}
+						  	
+						  }})
+	  console.log(msg_data);
+	  var html = laytpl(LAY_tpl.value).render({
+	    data: msg_data
+	  });
+	  $('#LAY_view').html(html);
+  }
+  //get_msg();
   //开始请求聊天记录
-  var msg=null;
-  var param =  location.search //获得URL参数。该窗口url会携带会话id和type，他们是你请求聊天记录的重要凭据
-  var url = layui.setter.websocket.server+layui.setter.websocket.getTalkMsg+'&admin_id='+admin_id+'&id='+id
-   $.ajax({
-            url: layui.setter.websocket.server+layui.setter.websocket.getTalkMsg,
-            type:'get',
-						data:{admin_id: admin_id,
-							 id:id
-							},
-			async:false,
-            datatype:'json',
-            success:function(msg){
-							var msg = JSON.parse(msg)
-							if(msg.status === 0){
-								msg=msg.msg;
-								
-							}else{
-								layer.msg('获取失败',{zIndex: layer.zIndex})
-							}
-					  	
-					  }})
-  console.log(msg);
+  
   //实际使用时，下述的res一般是通过Ajax获得，而此处仅仅只是演示数据格式
   res = {
     code: 0
@@ -144,10 +165,7 @@ layui.config({
   
   //console.log(param)
   
-  var html = laytpl(LAY_tpl.value).render({
-    data: res.data
-  });
-  $('#LAY_view').html(html);
+  
   
 });
 </script>
