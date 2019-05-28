@@ -46,7 +46,9 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
       getGroupUsers: '?type=getGroupUsers',
       getUserInfo:'?type=getUserInfo',
       upUserInfo:'?type=upUserInfo',
-      upAdminInfo:'?type=upAdminInfo'
+      upAdminInfo:'?type=upAdminInfo',
+      getTalkMsgCount:'?type=getTalkMsgCount',
+      getTalkMsg:'?type=getTalkMsg'
     }
     //扩展的第三方模块
     ,extend: [

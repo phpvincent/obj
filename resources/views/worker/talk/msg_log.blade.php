@@ -8,13 +8,17 @@ body .layim-chat-main{height: auto;}
   <ul id="LAY_view"></ul>
 </div>
 
-<div id="LAY_page" style="margin: 0 10px;"></div>
+<div id="LAY_page" style="margin: 0 10px;">
+	<div id="page"></div>
+</div>
 
 
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
 @{{# layui.each(d.data, function(index, item){ }}
-  @{{# if(item.id == parent.layui.layim.cache().mine.id){ }}
-    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="@{{ item.avatar }}"><cite><i>@{{ layui.data.date(item.timestamp) }}</i>@{{ item.username }}</cite></div><div class="layim-chat-text">@{{ layui.layim.content(item.content) }}</div></li>
+<!--   @{{# if(item.id == parent.layui.layim.cache().mine.id){ }} -->
+  @{{# if(!isNaN(item.id)){ }}
+    <li class="layim-chat-mine"><div class="layim-chat-user"><img src="@{{ item.avatar }}"><cite><i>@{{ layui.data.date(item.timestamp) }}</i>@{{ item.username }}</cite></div>
+    	<div class="layim-chat-text">@{{ layui.layim.content(item.content) }}</div></li>
   @{{# } else { }}
     <li><div class="layim-chat-user"><img src="@{{ item.avatar }}"><cite>@{{ item.username }}<i>@{{ layui.data.date(item.timestamp) }}</i></cite></div><div class="layim-chat-text">@{{ layui.layim.content(item.content) }}</div></li>
   @{{# } }}
@@ -44,14 +48,69 @@ layui.config({
   ,laytpl = layui.laytpl
   ,$ = layui.jquery
   ,laypage = layui.laypage;
+  var idArray = window.location.search.split("&");
+	layui.each(idArray,function(index, item){
+		if(item.indexOf('admin_id')>-1){
+			admin_id=item.split('=');
+			admin_id=admin_id[1];
+		}
+		if(item.indexOf('?id')>-1){
+			id=item.split('=');
+			id=id[1];
+		}
+	})	
   console.log(layui.setter.websocket.server)
+  console.log('???',parent.layui.layim.cache().mine.id)
   //聊天记录的分页此处不做演示，你可以采用laypage，不了解的同学见文档：http://www.layui.com/doc/modules/laypage.html
-  
+  var counts=null;
+   $.ajax({
+            url: layui.setter.websocket.server+layui.setter.websocket.getTalkMsgCount,
+            type:'get',
+						data:{admin_id: admin_id,
+							 id:id
+							},
+			async:false,
+            datatype:'json',
+            success:function(msg){
+							var msg = JSON.parse(msg)
+							if(msg.status === 0){
+								counts=msg.msg;
+								
+							}else{
+								layer.msg('获取失败',{zIndex: layer.zIndex})
+							}
+					  	
+					  }})
+  laypage.render({
+    elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
+    ,count: counts //数据总数，从服务端得到
+    ,limit:10
+    ,limits:[10,20,30,40,50]
+  });
   
   //开始请求聊天记录
+  var msg=null;
   var param =  location.search //获得URL参数。该窗口url会携带会话id和type，他们是你请求聊天记录的重要凭据
-  var url = layui.setter.websocket.server+param
-  console.log(param);
+  var url = layui.setter.websocket.server+layui.setter.websocket.getTalkMsg+'&admin_id='+admin_id+'&id='+id
+   $.ajax({
+            url: layui.setter.websocket.server+layui.setter.websocket.getTalkMsg,
+            type:'get',
+						data:{admin_id: admin_id,
+							 id:id
+							},
+			async:false,
+            datatype:'json',
+            success:function(msg){
+							var msg = JSON.parse(msg)
+							if(msg.status === 0){
+								msg=msg.msg;
+								
+							}else{
+								layer.msg('获取失败',{zIndex: layer.zIndex})
+							}
+					  	
+					  }})
+  console.log(msg);
   //实际使用时，下述的res一般是通过Ajax获得，而此处仅仅只是演示数据格式
   res = {
     code: 0

@@ -69,7 +69,7 @@
 	    
 	    ,msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
 	    ,find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-	    ,chatLog: '{{url('/admin/worker/talk/msg_log')}}?admin_id='+admin_id //聊天记录页面地址，若不开启，剔除该项即可
+	    ,chatLog: '{{url('/admin/worker/talk/msg_log')}}?admin_id='+admin_id+'&' //聊天记录页面地址，若不开启，剔除该项即可
 	    //,chatLog: layui.cache.dir + 'css/modules/layim/html/chatLog.html' //聊天记录页面地址，若不开启，剔除该项即可
 	  });
   	 layim.on('tool(code)', function(insert, send, obj){ //事件中的tool为固定字符，而code则为过滤器，对应的是工具别名（alias）
