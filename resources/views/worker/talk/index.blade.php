@@ -201,6 +201,7 @@
 					  }})
 			});  
 	   setTimeout(function () {
+                //var socket = new WebSocket('ws://192.168.10.166:8282');
                 var socket = new WebSocket('ws://13.229.73.221:8282');
 
                 //发送一个消息
