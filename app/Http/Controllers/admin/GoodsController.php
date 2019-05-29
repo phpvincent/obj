@@ -743,7 +743,7 @@ class GoodsController extends Controller
     //修改单品模板
    	 	$id=$request->input('id');
    	 	$goods=goods::where('goods_id',$id)->first();
-   	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()->admin_name;
+   	 	$goods['admin_name']=\App\admin::where('admin_id',$goods['goods_admin_id'])->first()['admin_name'];
         $goods['goods_pay_type'] = explode(',',$goods['goods_pay_type']);
          $type=\App\goods_type::get();
      

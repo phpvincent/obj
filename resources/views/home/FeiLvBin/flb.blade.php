@@ -184,12 +184,19 @@
         jQuery(function(){setFrom();});
         </script>
         <script type="text/javascript">
-            (function(){
+             window.addEventListener('load',  function (){
                 window.chatUrl='http://13.229.73.221/chat';
-                window.chatConfig=JSON.parse({
-                    'goods_id':{{$goods->goods_id}}
-                });
+                var a='{"goods_id":{{$goods->goods_id}}}'
+                window.chatConfig=JSON.parse(a);
                 window.chatUrl+="?goods_id="+window.chatConfig.goods_id;
+                var div=document.createElement('div');
+                div.id='elementToDrag';
+                div.style='position:fixed;right:0px;bottom:70px;width:70px;height:70px;border-style: 1px solid black;background:url("https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=921106c5855494ee8722081f15ce87c3/29381f30e924b899c8cefe4267061d950b7bf6de.jpg");background-size: 100%;z-index:99999999999';
+
+                document.body.append(div);
+                div.onclick=function(){
+                    location.href=window.chatUrl
+                }
                 var px = 0;
                 var py = 0;
                 var begin = false;
@@ -200,7 +207,6 @@
                 var DivId = "elementToDrag"//这里是要拖拽div的id
                 var divWidth = parseInt(document.getElementById(DivId).style.width.split('p')[0]);
                 var divheigth = parseInt(document.getElementById(DivId).style.height.split('p')[0]);
-
                 //要移动的div加上onmousedown="down(this)"即可
                 //鼠标按下时获取相对坐标
                 function down(oDiv) {
@@ -235,15 +241,7 @@
                     }
                 }
                 //鼠标点击时
-                document.onclick = function () {
-                    if (myDragDiv != null && typeof (myDragDiv) != "undefined") {alert("?");
-                        /*begin = false;
-                        if (enableOpacity) { myDragDiv.style.filter = "Alpha(opacity=100)"; } // 滤镜 
-                        myDragDiv.style.cursor = "default";
-                        event.srcElement.releaseCapture();
-                        myDragDiv = null;*/
-                    }
-                }
+                
                 //-------------------------------------------定位部分------------------------------------------------------
                 //定位采用滚动条滚动事件
                 //原理是先判断滚动条的动作，如果向下，则div也向下，向上同理
@@ -267,8 +265,12 @@
                     divTopBar.style.pixelTop = y;
                 }
 
-                window.onload = MoveFloatLayer;
-            })();
+                //window.onload = MoveFloatLayer;
+                MoveFloatLayer();
+            },false);
+          
+                
+               
         </script>
 	</head>
     <body style="position:relative">
@@ -852,6 +854,7 @@ var nav=$2(".detail-bars");var win=$2(window);var sc=$2(document);win.scroll(fun
 </div>
 <div style="position: fixed; z-index: 9999; max-width: 640px; width: 100%; height: 100%; background: black; padding: 0px; bottom: 0px; margin: 0px; opacity: 0.7;  display: none;" id="taorbg">
 </div>
+
 <script language="javascript">
     function captureImage(a) {
     a.pause(); 
