@@ -200,6 +200,7 @@
 					  	
 					  }})
 			});  
+	   var admin_info = {!! \App\admin::where('admin_id',\Auth::user()->admin_id)->first() !!};
 	   setTimeout(function () {
                 //var socket = new WebSocket('ws://192.168.10.166:8282');
                 var socket = new WebSocket('ws://13.229.73.221:8282');
@@ -221,23 +222,7 @@
                             'type': 'send'
                         }));
                     },1000 * 25);
-                    // socket.send('XXX连接成功');
-                    socket.send(JSON.stringify({'user':'admin','admin_name':'root','admin_password':'123456','type':"auth",'language':'CHI'}));
-
-                    //   var data = {
-                    //       avatar: null,
-                    //       cid: 0,
-                    //       content: "来了，大哥",
-                    //       fromid: 1,
-                    //       id: 1,
-                    //       mine: true,
-                    //       timestamp: 1559024978000,
-                    //       type: "friend",
-                    //       username: "admin",
-                    // };
-                    // layim.getMessage(data);
-
-
+                    socket.send(JSON.stringify({'user':'admin','admin_name': admin_info.admin_name,'admin_password': admin_info.password,'type':"auth",'language': admin_info.languages}));
                 };
                 //监听收到的消息
   				socket.onmessage = function(res){
