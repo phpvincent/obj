@@ -31,6 +31,9 @@ use App\channel\mailControl;
 	Route::any('/web',function(Request $request){
 		return view('admin.websocket3');
 	});
+	Route::any('/chat',function(Request $request){
+		return view('admin.chat');
+	});
 	Route::middleware(['checkbus','checkurl'])->group(function(){
 	Route::get('/footer/{type?}','home\SiteController@get_footer');
 	Route::get('/index/get_site_goods','home\SiteController@get_site_goods');

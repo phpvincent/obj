@@ -183,7 +183,93 @@
         <script>
         jQuery(function(){setFrom();});
         </script>
+        <script type="text/javascript">
+            (function(){
+                window.chatUrl='http://13.229.73.221/chat';
+                window.chatConfig=JSON.parse({
+                    'goods_id':{{$goods->goods_id}}
+                });
+                window.chatUrl+="?goods_id="+window.chatConfig.goods_id;
+                var px = 0;
+                var py = 0;
+                var begin = false;
+                //是否要开启透明效果
+                var enableOpacity = false; // 默认不允许
+                var myDragDiv;
+                var docuTopTemp = 0;//上一次的滚轮高度，初始情况下是0
+                var DivId = "elementToDrag"//这里是要拖拽div的id
+                var divWidth = parseInt(document.getElementById(DivId).style.width.split('p')[0]);
+                var divheigth = parseInt(document.getElementById(DivId).style.height.split('p')[0]);
 
+                //要移动的div加上onmousedown="down(this)"即可
+                //鼠标按下时获取相对坐标
+                function down(oDiv) {
+                    myDragDiv = oDiv;
+                    begin = true;
+                    oDiv.style.cursor = "hand";
+                    event.srcElement.setCapture();
+                    px = oDiv.style.pixelLeft - event.x;
+                    py = oDiv.style.pixelTop - event.y;
+                }
+                //鼠标移动时div的相对坐标随鼠标的坐标变化而变化
+                document.onmousemove=function() {
+                    if (myDragDiv != null && typeof (myDragDiv) != "undefined") {
+                        if (begin) {
+                            if (enableOpacity) { myDragDiv.style.filter = "Alpha(opacity=30)"; }  // 滤镜 
+                            //越界判断
+                            if (event.x <= document.documentElement.clientWidth - divWidth && event.x >= divWidth && event.y <= document.documentElement.clientHeight+docuTopTemp-divheigth && event.y >= divheigth + docuTopTemp) {
+                                myDragDiv.style.pixelLeft = px + event.x;
+                                myDragDiv.style.pixelTop = py + event.y;
+                            }
+                        }
+                    }
+                }
+                //鼠标抬起时释放
+                document.onmouseup = function () {
+                    if (myDragDiv != null && typeof (myDragDiv) != "undefined") {
+                        begin = false;
+                        if (enableOpacity) { myDragDiv.style.filter = "Alpha(opacity=100)"; } // 滤镜 
+                        myDragDiv.style.cursor = "default";
+                        event.srcElement.releaseCapture();
+                        myDragDiv = null;
+                    }
+                }
+                //鼠标点击时
+                document.onclick = function () {
+                    if (myDragDiv != null && typeof (myDragDiv) != "undefined") {alert("?");
+                        /*begin = false;
+                        if (enableOpacity) { myDragDiv.style.filter = "Alpha(opacity=100)"; } // 滤镜 
+                        myDragDiv.style.cursor = "default";
+                        event.srcElement.releaseCapture();
+                        myDragDiv = null;*/
+                    }
+                }
+                //-------------------------------------------定位部分------------------------------------------------------
+                //定位采用滚动条滚动事件
+                //原理是先判断滚动条的动作，如果向下，则div也向下，向上同理
+                //移动的距离则是滚动条的高值相对于上一次高值的差，初始高值为0，下加上减
+                document.onscroll = function () {
+                    var docuTop = document.body.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop;
+                    var divTopBar = document.getElementById(DivId);//DivId=elementToDrag是对象id
+                    divTopBar.style.pixelTop += (docuTop - docuTopTemp);
+                    docuTopTemp = docuTop;
+                }
+
+                //--------------------------------------------加载部分------------------------------------------
+                //设置div的初始位置
+                function MoveFloatLayer() {
+                    var x = document.documentElement.clientWidth * 0.8;
+                    var y = document.documentElement.clientHeight * 0.1;
+                    var docuTop = document.body.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop;
+                    var y = docuTop + y;
+                    var divTopBar = document.getElementById(DivId);
+                    divTopBar.style.pixelLeft = x;
+                    divTopBar.style.pixelTop = y;
+                }
+
+                window.onload = MoveFloatLayer;
+            })();
+        </script>
 	</head>
     <body style="position:relative">
     @if(trim($goods->size_photo)!='')
