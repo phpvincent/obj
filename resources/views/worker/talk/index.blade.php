@@ -239,9 +239,29 @@
 
 
                 };
-
                 //监听收到的消息
-                socket.onmessage = function(res){
+  				socket.onmessage = function(res){
+                    var data = JSON.parse(res.data);
+                    switch (data.msg.type) {
+						case 'status':
+                            layim.setFriendStatus(data.msg.uid, data.msg.status);
+                            break;
+						case 'auth':
+                            break;
+						case 'add':
+							data.msg.type = 'friend';
+							console.log(data.msg);
+                            layim.addList(data.msg);
+						    break;
+						case 'friend':
+                                layim.getMessage(data.msg);
+                            break;
+						default:
+						    break;
+                    }
+                };
+                
+                /*socket.onmessage = function(res){
                     var data = JSON.parse(res.data);
                     if(data.msg.sendUser != "auth" && data.msg.sendUser != undefined){
                         if(data.msg.sendUser == "new_user"){
@@ -264,7 +284,7 @@
                             layim.getMessage(data.msg);
                         }
                     }
-                };
+                };*/
                 socket.onclose = function(){
                     console.log("websocket is closed");
                     clearInterval(ping)

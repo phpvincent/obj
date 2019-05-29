@@ -191,7 +191,7 @@
                 window.chatUrl+="?goods_id="+window.chatConfig.goods_id;
                 var div=document.createElement('div');
                 div.id='elementToDrag';
-                div.style='position:fixed;right:0px;bottom:70px;width:70px;height:70px;border-style: 1px solid black;background:url("https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=921106c5855494ee8722081f15ce87c3/29381f30e924b899c8cefe4267061d950b7bf6de.jpg");background-size: 100%;z-index:99999999999';
+                div.style='position:fixed;right:0px;bottom:13%;width:70px;height:70px;border-style: 1px solid black;background:url("https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=921106c5855494ee8722081f15ce87c3/29381f30e924b899c8cefe4267061d950b7bf6de.jpg");background-size: 100%;z-index:99999999999';
 
                 document.body.append(div);
                 div.onclick=function(){
