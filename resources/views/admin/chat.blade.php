@@ -19,13 +19,20 @@
 var mobile = layui.mobile,
 layim=mobile.layim;
   		layim.config({
-  			brief:true
+  			init:{
+  				mine:{
+  					 "username": "visiter" //我的昵称
+				      ,"status": "online" //在线状态 online：在线、hide：隐身
+				      ,"avatar": "http://13.229.73.221/images/online.gif" //我的头像
+  				}
+  			}
+  			,brief:true
   			,uploadImage: {
-		      url:'' //接口地址
+		      url:'http://13.229.73.221:7273?type=img_upload' //接口地址
 		      ,type: 'post' //默认post
 		    }
 		    ,uploadFile: {
-		      url: '' //接口地址
+		      url: 'http://13.229.73.221:7273?type=file_upload' //接口地址
 		      ,type: 'post' //默认post
 		    }
   		});
