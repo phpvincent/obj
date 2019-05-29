@@ -2,13 +2,22 @@
 <html>
 <head>
 	<title>chat</title>
+    <style>
+    .layui-layer.layui-layer-page.layui-box.layui-layim-chat{
+        width: 100%!important;
+    left: 0!important;
+    }
+    </style>
 </head>
 <body>
-  <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.css')}}" media="all">
-  <link rel="stylesheet" href="{{asset('/admin/layuiadmin/style/admin.css')}}" media="all">
+  <!-- <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.css')}}" media="all"> -->
+  <!-- <link rel="stylesheet" href="{{asset('/admin/layuiadmin/style/admin.css')}}" media="all"> -->
+  <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.mobile.css')}}" media="all">
   <script src="{{asset('/admin/layuiadmin/layui/layui.js')}}"></script>
   <script type="text/javascript">
-  	layui.use('layim', function(layim){
+  	layui.use('mobile', function(){
+var mobile = layui.mobile,
+layim=mobile.layim;
   		layim.config({
   			brief:true
   			,uploadImage: {
@@ -19,7 +28,8 @@
 		      url: '' //接口地址
 		      ,type: 'post' //默认post
 		    }
-  		}).chat({
+  		});
+          layim.chat({
 		  name: 'Customer service' //名称
 		  ,type: 'friend' //聊天类型
 		  ,avatar: 'http://13.229.73.221/images/online.gif' //头像
