@@ -22,7 +22,7 @@
 // layim=mobile.layim;
   		layim.config({
   			init:{
-  				mine:{
+  				'mine':{
   					 "username": "visiter" //我的昵称
 				      ,"status": "online" //在线状态 online：在线、hide：隐身
 				      ,"avatar": "http://13.229.73.221/images/online.gif" //我的头像
@@ -39,7 +39,7 @@
 		    }
           }).chat({
 		  name: 'Customer service' //名称
-		  ,type: 'friend' //聊天类型
+		  ,type: 'kefu' //聊天类型
 		  ,avatar: 'http://13.229.73.221/images/online.gif' //头像
 		  ,id: 1 //好友id
 		})
