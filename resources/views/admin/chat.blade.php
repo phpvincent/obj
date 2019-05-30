@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport"   content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>chat</title>
     <style>
     .layui-layer.layui-layer-page.layui-box.layui-layim-chat{
         width: 100%!important;
     left: 0!important;
+    min-width: 0px!important;
     }
     </style>
 </head>
 <body>
-  <!-- <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.css')}}" media="all"> -->
-  <!-- <link rel="stylesheet" href="{{asset('/admin/layuiadmin/style/admin.css')}}" media="all"> -->
-  <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.mobile.css')}}" media="all">
+  <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.css')}}" media="all">
+  <link rel="stylesheet" href="{{asset('/admin/layuiadmin/style/admin.css')}}" media="all">
+  <!-- <link rel="stylesheet" href="{{asset('/admin/layuiadmin/layui/css/layui.mobile.css')}}" media="all"> -->
   <script src="{{asset('/admin/layuiadmin/layui/layui.js')}}"></script>
   <script type="text/javascript">
-  	layui.use('mobile', function(){
-var mobile = layui.mobile,
-layim=mobile.layim;
+  	layui.use('layim', function(layim){
+// var mobile = layui.mobile,
+// layim=mobile.layim;
   		layim.config({
   			init:{
   				mine:{
@@ -35,8 +37,7 @@ layim=mobile.layim;
 		      url: 'http://13.229.73.221:7273?type=file_upload' //接口地址
 		      ,type: 'post' //默认post
 		    }
-  		});
-          layim.chat({
+          }).chat({
 		  name: 'Customer service' //名称
 		  ,type: 'friend' //聊天类型
 		  ,avatar: 'http://13.229.73.221/images/online.gif' //头像
@@ -188,7 +189,6 @@ layim=mobile.layim;
                 });
             },150);  
   	})
-  	
   </script>
 </body>
 </html>
