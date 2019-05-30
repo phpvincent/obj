@@ -186,7 +186,7 @@
         <script type="text/javascript">
              window.addEventListener('load',  function (){
                 window.chatUrl='http://13.229.73.221/chat';
-                var a='{"goods_id":{{$goods->goods_id}}}'
+                var a='{"goods_id":{{$goods->goods_id}},"lan":"{{\App\goods::get_talk_lan($goods->goods_id)}}"}'
                 window.chatConfig=JSON.parse(a);
                 window.chatUrl+="?goods_id="+window.chatConfig.goods_id;
                 var div=document.createElement('div');

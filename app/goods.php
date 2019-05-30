@@ -220,6 +220,73 @@ class goods extends Model
         }
         return $blade_name;
     }
+    public static function get_talk_lan($goods_id)
+    {
+        $blade_type=\App\goods::where('goods_id',$goods_id)->first(['goods_blade_type'])['goods_blade_type'];
+        switch ($blade_type) {
+            case 0:
+                $lan='CHI';
+                break;
+            case 1:
+                $lan='CHI';
+                break;
+            case 2:
+                $lan='ENG';
+                break;
+            case 3:
+                $lan='ENG';
+                break;
+            case 4:
+                $lan='THA';
+                $lan='ENG';
+                break;
+            case 5:
+                $lan='JAP';
+                $lan='ENG';
+                break;
+            case 6:
+                $lan='IND';
+                break;
+            case 7:
+                $lan='ENG';
+                break;
+            case 8:
+                $lan='ENG';
+                break;
+            case 9:
+                $lan='ENG';
+                break;
+            case 10:
+                $lan='ENG';
+                break;
+            case 11:
+                $lan='VIE';
+                $lan='ENG';
+                break;
+            case 12:
+                $lan='ARB';
+                break;
+            case 13:
+                $lan='ENG';
+                break;
+            case 14:
+                $lan='ARB';
+                break;
+            case 15:
+                $lan='ENG';
+                break;
+            case 16:
+                $lan='ARB';
+                break;
+            case 17:
+                $lan='ENG';
+                break;
+            default:
+                 $lan='ENG';
+                break;
+        }
+      return $lan;
+    }
     public static function get_language($blade_type)
     {
         switch ($blade_type) {
