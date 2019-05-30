@@ -44,11 +44,16 @@
 		  ,id: 1 //好友id
 		})
 		 var goods_id=0;
+		 var lan=0;
          var idArray = window.location.search.split("&");
 			layui.each(idArray,function(index, item){
 				if(item.indexOf('goods_id')>-1){
 					goods_id=item.split('=');
 					goods_id=goods_id[1];
+				}
+				if(item.indexOf('lan')>-1){
+					lan=item.split('=');
+					lan=lan[1];
 				}
 			})	
 		 function getCookie(Name) {
@@ -106,8 +111,12 @@
                     },1000 * 25);
                     var user_id=getCookie('user_id');
                    
-                    if(user_id==""){
-                    	socket.send(JSON.stringify({'type':"firstClient",'goods_id':goods_id,'user':'client'}));
+                    if(user_id==""&&lan!=0){
+                    	socket.send(JSON.stringify({'type':"firstClient",'goods_id':goods_id,'user':'client','lan':lan}));
+                    }else if(user_id==""&&lan==0){
+                    	socket.send(JSON.stringify({'type':"firstClient",'pid':user_id,'goods_id':goods_id,'user':'client'}));
+                    }else if(user_id!=""&&lan!=0){
+                    	socket.send(JSON.stringify({'type':"reClient",'pid':user_id,'goods_id':goods_id,'user':'client','lan':lan}));
                     }else{
                     	socket.send(JSON.stringify({'type':"reClient",'pid':user_id,'goods_id':goods_id,'user':'client'}));
                     }
