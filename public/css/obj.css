@@ -866,3 +866,9 @@ button.bunble{ margin-top:10px;}
 	display:inline-block !important;
 	float:none !important;
 }
+#imgbg{
+	display: flex;
+}
+#imgbg #bigimg{
+	margin:auto!important;
+}
