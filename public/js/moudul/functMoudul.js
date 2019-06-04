@@ -717,7 +717,7 @@ if(cheapInternum===1){
   },1000);
 }
 //优惠券提示
-$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #fac900;z-index: 21;line-height: 44px;text-align: center;height: 44px; width: 111%;"><span style="position: absolute;left: 0;"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><span>'+cheapMsg+'</span></div>')
+$('#coupondiv').append('<div id="heademsg" style="position: absolute;right: 0;color: #fff;background-color: #fac900;z-index: 21;line-height: 44px;text-align: right;height: 44px; width: 111%;"><span style="position: absolute;left: 0;"><img src="/images/youhuiquan.png" style="height: 44px;width: 55px;"></span><span>'+cheapMsg+'</span></div>')
 
 setTimeout(function(){$("#heademsg").animate({right:"-1300px"},'slow')},3000);
 //优惠券提示点击也可以打开优惠券
